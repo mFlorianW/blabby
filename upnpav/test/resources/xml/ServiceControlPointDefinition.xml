@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ ** This file is part of the Blabby project.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 2 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
+-->
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+   <specVersion>
+      <major>1</major>
+      <minor>0</minor>
+   </specVersion>
+   <actionList>
+      <!-- Begin Action in: one Argument -->
+      <action>
+         <name>SetValue</name>
+         <argumentList>
+            <argument>
+               <name>NewValue</name>
+               <relatedStateVariable>Value1</relatedStateVariable>
+               <direction>in</direction>
+            </argument>
+         </argumentList>
+      </action>
+      <!-- End Action in: one Argument -->
+      <!-- Begin Action in: two arguments -->
+      <action>
+         <name>SetValue2</name>
+         <argumentList>
+            <argument>
+               <name>NewValue</name>
+               <relatedStateVariable>Value1</relatedStateVariable>
+               <direction>in</direction>
+            </argument>
+            <argument>
+               <name>NewValue2</name>
+               <relatedStateVariable>Value2</relatedStateVariable>
+               <direction>in</direction>
+            </argument>
+         </argumentList>
+      </action>
+      <!-- End Action in: two arguments -->
+      <!-- Begin Action out: one Argument -->
+      <action>
+         <name>GetValue</name>
+         <argumentList>
+            <argument>
+               <name>Value</name>
+               <relatedStateVariable>Value1</relatedStateVariable>
+               <direction>out</direction>
+            </argument>
+         </argumentList>
+      </action>
+      <!-- End Action in: one Argument -->
+      <!-- Begin Action in: two arguments -->
+      <action>
+         <name>GetValue2</name>
+         <argumentList>
+            <argument>
+               <name>Value</name>
+               <relatedStateVariable>Value1</relatedStateVariable>
+               <direction>out</direction>
+            </argument>
+            <argument>
+               <name>Value2</name>
+               <relatedStateVariable>Value2</relatedStateVariable>
+               <direction>out</direction>
+            </argument>
+         </argumentList>
+      </action>
+      <!-- End Action out: two arguments -->
+   </actionList>
+   <serviceStateTable>
+      <stateVariable sendEvents="no">
+         <name>Value1</name>
+         <dataType>ui1</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value2</name>
+         <dataType>ui2</dataType>
+         <defaultValue>1</defaultValue>
+         <allowedValueList>
+            <allowedValue>2</allowedValue>
+            <allowedValue>3</allowedValue>
+         </allowedValueList>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value3</name>
+         <dataType>ui4</dataType>
+         <defaultValue>2</defaultValue>
+         <allowedValueRange>
+            <minimum>0</minimum>
+            <maximum>2</maximum>
+            <step>1</step>
+         </allowedValueRange>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value4</name>
+         <dataType>i1</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value5</name>
+         <dataType>i2</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value6</name>
+         <dataType>i4</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value7</name>
+         <dataType>r4</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value8</name>
+         <dataType>r8</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value9</name>
+         <dataType>char</dataType>
+         <defaultValue>a</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value10</name>
+         <dataType>string</dataType>
+         <defaultValue>hallowelt</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value11</name>
+         <dataType>date</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value12</name>
+         <dataType>dateTime</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value13</name>
+         <dataType>dateTime.tz</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value14</name>
+         <dataType>time</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="no">
+         <name>Value15</name>
+         <dataType>time.tz</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="yes">
+         <name>Value16</name>
+         <dataType>boolean</dataType>
+         <defaultValue>0</defaultValue>
+      </stateVariable>
+      <stateVariable sendEvents="yes">
+         <name>Value17</name>
+         <dataType>uri</dataType>
+      </stateVariable>
+      <stateVariable sendEvents="yes">
+         <name>Value18</name>
+         <dataType>uuid</dataType>
+      </stateVariable>
+   </serviceStateTable>
+</scpd>

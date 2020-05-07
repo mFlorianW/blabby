@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ ** This file is part of the Blabby project.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 2 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
+-->
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+   <specVersion>
+      <major>1</major>
+      <minor>0</minor>
+   </specVersion>
+   <URLBase></URLBase>
+   <device>
+      <deviceType>urn:schemas-upnp-org:device:MediaServer:1</deviceType>
+      <friendlyName>Test Device</friendlyName>
+      <manufacturer>Blabby</manufacturer>
+      <manufacturerURL>www.blabby.com</manufacturerURL>
+      <modelDescription>Test Description</modelDescription>
+      <modelName>Test Device</modelName>
+      <modelNumber>1</modelNumber>
+      <modelURL>URL to model site</modelURL>
+      <serialNumber>0002323301</serialNumber>
+      <UDN>uuid:4d696e69-444c-164e-9d41-b827eb54e939</UDN>
+      <UPC>0123456789123</UPC>
+      <iconList>
+         <icon>
+            <mimetype>img/png</mimetype>
+            <width>64</width>
+            <height>64</height>
+            <depth>24</depth>
+            <url>img/icon_64_64.png</url>
+         </icon>
+         <icon>
+            <mimetype>img/png</mimetype>
+            <width>32</width>
+            <height>32</height>
+            <depth>24</depth>
+            <url>img/icon_32_32.png</url>
+         </icon>
+      </iconList>
+   </device>
+</root>

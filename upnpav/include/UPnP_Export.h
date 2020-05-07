@@ -1,0 +1,11 @@
+#ifndef FREEDLNACONTROL_EXPORT_H
+#define FREEDLNACONTROL_EXPORT_H
+#include <QtGlobal>
+
+#if defined(BUILDING_UPNP)
+#  define UPNP_EXPORT Q_DECL_EXPORT
+#else
+#  define UPnP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // FREEDLNACONTROL_EXPORT_H

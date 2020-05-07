@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>xml/DeviceWithoutEmbeddedDevicesAndServices.xml</file>
+        <file>xml/DeviceWithEmbeddedDevicesAndWithoutServices.xml</file>
+        <file>xml/DeviceEmptyBaseUrl.xml</file>
+        <file>xml/DeviceBaseUrlAfterDeviceDescription.xml</file>
+        <file>xml/DeviceWithServicesAndEmbeddedDevicesWithServices.xml</file>
+        <file>xml/DeviceXmlNotWellFormed.xml</file>
+        <file>xml/OneDeviceOneService.xml</file>
+        <file>xml/ServiceControlPointDefinition.xml</file>
+    </qresource>
+</RCC>
