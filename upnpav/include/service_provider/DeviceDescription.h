@@ -18,6 +18,7 @@
 #ifndef DEVICEDESCRIPTION_H
 #define DEVICEDESCRIPTION_H
 
+#include "UPnP_Export.h"
 #include "IconDescription.h"
 #include "ServiceDescription.h"
 #include "ServiceControlPointDefinition.h"
@@ -27,7 +28,7 @@
 
 namespace UPnPAV
 {
-class DeviceDescription final
+class UPNP_EXPORT DeviceDescription final
 {
 public:
     /**

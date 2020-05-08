@@ -18,12 +18,14 @@
 #ifndef ICONDESCRIPTION_H
 #define ICONDESCRIPTION_H
 
+#include "UPnP_Export.h"
+
 #include <QString>
 
 namespace UPnPAV
 {
 
-class IconDescription final
+class UPNP_EXPORT IconDescription final
 {
 public:
     IconDescription();

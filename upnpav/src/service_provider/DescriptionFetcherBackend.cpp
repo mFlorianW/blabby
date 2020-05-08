@@ -17,6 +17,9 @@
  **/
 #include "DescriptionFetcherBackend.h"
 
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
 namespace UPnPAV
 {
 
@@ -32,6 +35,42 @@ DescriptionFetcherBackend::~DescriptionFetcherBackend()
 void DescriptionFetcherBackend::fetchDescriptionFrom(const QUrl &url)
 {
     fetchDescription(url);
+}
+
+HttpDescriptionFetcherBackend::HttpDescriptionFetcherBackend()
+{
+    (void)connect(&m_sender,
+                  &QNetworkAccessManager::finished,
+                  this,
+                  &HttpDescriptionFetcherBackend::replyFinished);
+}
+
+void HttpDescriptionFetcherBackend::fetchDescription(const QUrl &url)
+{
+    auto reply = m_sender.get(QNetworkRequest{url});
+    if(reply == nullptr)
+    {
+        return;
+    }
+
+    m_pendingReplies.append(reply);
+}
+
+void HttpDescriptionFetcherBackend::replyFinished(QNetworkReply *reply)
+{
+    if(!reply->isFinished() && (reply->error() != QNetworkReply::NoError))
+    {
+        m_pendingReplies.removeAll(reply);
+        reply->deleteLater();
+        return;
+    }
+
+    auto description = QString{reply->readAll()};
+    auto url = reply->url();
+
+    reply->deleteLater();
+    m_pendingReplies.removeAll(reply);
+    Q_EMIT descriptionFetched(description, url);
 }
 
 } // namespace UPnPAV

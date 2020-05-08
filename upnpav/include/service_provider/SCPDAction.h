@@ -26,7 +26,7 @@
 namespace UPnPAV
 {
 
-class SCPDAction
+class UPNP_EXPORT SCPDAction
 {
 public:
     SCPDAction();

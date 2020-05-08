@@ -18,13 +18,15 @@
 #ifndef SCPDSTATEVARIABLE_H
 #define SCPDSTATEVARIABLE_H
 
+#include "UPnP_Export.h"
+
 #include <QString>
 #include <QVector>
 
 namespace UPnPAV
 {
 
-class SCPDStateVariable
+class UPNP_EXPORT SCPDStateVariable
 {
 public:
     enum DataType

@@ -18,7 +18,10 @@
 #ifndef SERVICEDISCOVERYBACKEND_H
 #define SERVICEDISCOVERYBACKEND_H
 
+#include "UPnP_Export.h"
+
 #include <QObject>
+#include <QUdpSocket>
 
 class QNetworkDatagram;
 
@@ -28,7 +31,7 @@ namespace UPnPAV
 /**
  *
  */
-class ServiceDiscoveryBackend : public QObject
+class UPNP_EXPORT ServiceDiscoveryBackend : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceDiscoveryBackend)
@@ -43,6 +46,23 @@ Q_SIGNALS:
 
 protected:
     virtual void sendDiscoveryRequest(const QNetworkDatagram &datagram) = 0;
+};
+
+class UPNP_EXPORT UdpServiceDiscoveryBackend : public ServiceDiscoveryBackend
+{
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(UdpServiceDiscoveryBackend)
+public:
+    UdpServiceDiscoveryBackend();
+    ~UdpServiceDiscoveryBackend() = default;
+
+    void sendDiscoveryRequest(const QNetworkDatagram &datagram) override;
+
+private Q_SLOTS:
+    void handleReceivedData();
+
+private:
+    QUdpSocket m_udpSocket;
 };
 
 } //namespace UPnPAV

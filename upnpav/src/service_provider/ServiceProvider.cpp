@@ -20,9 +20,10 @@
 #include "DescriptionFetcher.h"
 #include "DeviceDescriptionParser.h"
 #include "ServiceDiscoveryPackage.h"
-#include "RootDeviceDescription.h"
 #include "ParsingError.h"
 #include "ServiceControlPointDefinitionParser.h"
+#include "ServiceDiscoveryBackend.h"
+#include "DescriptionFetcherBackend.h"
 
 #include <QNetworkDatagram>
 #include <QUrl>
@@ -281,9 +282,14 @@ ServiceProviderFactory::~ServiceProviderFactory()
 {
 }
 
-QSharedPointer<ServiceProvider> ServiceProviderFactory::createServiceProvider()
+QSharedPointer<ServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    return QSharedPointer<ServiceProvider>(nullptr);
+    auto serviceDiscoveryBackend = QSharedPointer<UdpServiceDiscoveryBackend>{new UdpServiceDiscoveryBackend{}};
+    auto descriptionFetcherBackend = QSharedPointer<HttpDescriptionFetcherBackend>{new HttpDescriptionFetcherBackend{}};
+
+    return QSharedPointer<ServiceProvider>{new ServiceProvider{searchTarget,
+                                                               serviceDiscoveryBackend,
+                                                               descriptionFetcherBackend}};
 }
 
 } //namespace UPnPAV

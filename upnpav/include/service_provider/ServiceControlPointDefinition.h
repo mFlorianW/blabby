@@ -18,13 +18,14 @@
 #ifndef SERVICECONTROLPOINTDEFINITION_H
 #define SERVICECONTROLPOINTDEFINITION_H
 
+#include "UPnP_Export.h"
 #include "SCPDStateVariable.h"
 #include "SCPDAction.h"
 
 namespace UPnPAV
 {
 
-class ServiceControlPointDefinition
+class UPNP_EXPORT ServiceControlPointDefinition
 {
 public:
     ServiceControlPointDefinition();

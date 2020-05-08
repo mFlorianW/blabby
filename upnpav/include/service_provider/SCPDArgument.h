@@ -18,12 +18,14 @@
 #ifndef SCPDARGUMENT_H
 #define SCPDARGUMENT_H
 
+#include "UPnP_Export.h"
+
 #include <QString>
 
 namespace UPnPAV
 {
 
-class SCPDArgument final
+class UPNP_EXPORT SCPDArgument final
 {
 public:
     enum Direction : quint8

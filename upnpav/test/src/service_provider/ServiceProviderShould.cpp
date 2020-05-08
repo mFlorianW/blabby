@@ -20,7 +20,6 @@
 #include "doubles/TestableMediaServerProviderFactory.h"
 #include "doubles/ServiceDiscoveryBackendDouble.h"
 #include "doubles/DescriptionFetcherBackendDouble.h"
-#include "RootDeviceDescription.h"
 
 #include <QTest>
 #include <QSignalSpy>
@@ -89,7 +88,8 @@ QNetworkDatagram ServiceProviderShould::createServiceDiscoveryReceiveMessage(con
 void ServiceProviderShould::init()
 {
     m_providerFactory = QSharedPointer<TestableMediaServerProviderFactory>(new TestableMediaServerProviderFactory{});
-    m_mediaServerProvider = m_providerFactory->createServiceProvider();
+    m_mediaServerProvider = m_providerFactory->createServiceProvider(
+                QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1"));
 }
 
 void ServiceProviderShould::send_out_correct_discovery_message()

@@ -18,6 +18,8 @@
 #ifndef SERVICEDESCRIPTION_H
 #define SERVICEDESCRIPTION_H
 
+#include "UPnP_Export.h"
+
 #include <QString>
 
 namespace UPnPAV

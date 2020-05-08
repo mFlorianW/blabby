@@ -5,7 +5,7 @@
 #if defined(BUILDING_UPNP)
 #  define UPNP_EXPORT Q_DECL_EXPORT
 #else
-#  define UPnP_EXPORT Q_DECL_IMPORT
+#  define UPNP_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // FREEDLNACONTROL_EXPORT_H

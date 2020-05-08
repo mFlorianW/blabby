@@ -18,7 +18,8 @@
 #ifndef SERVICEPROVIDER_H
 #define SERVICEPROVIDER_H
 
-#include "RootDeviceDescription.h"
+#include "UPnP_Export.h"
+#include "DeviceDescription.h"
 
 #include <QSharedPointer>
 #include <QObject>
@@ -38,7 +39,7 @@ class ServiceProviderError;
 /**
  *
  */
-class ServiceProvider : public QObject
+class UPNP_EXPORT ServiceProvider : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceProvider)
@@ -92,14 +93,15 @@ private:
     QHash<QString, DeviceDescription> m_deviceDescriptions;
 };
 
-class ServiceProviderFactory
+class UPNP_EXPORT ServiceProviderFactory
 {
 public:
+    ServiceProviderFactory() = default;
     virtual ~ServiceProviderFactory();
-    virtual QSharedPointer<ServiceProvider> createServiceProvider();
+    virtual QSharedPointer<ServiceProvider> createServiceProvider(const QString &searchTarget);
 };
 
-class ServiceProviderError
+class UPNP_EXPORT ServiceProviderError
 {
 public:
     enum class ErrorCode : quint8

@@ -22,7 +22,7 @@
 namespace UPnPAV
 {
 
-QSharedPointer<ServiceProvider> TestableMediaServerProviderFactory::createServiceProvider()
+QSharedPointer<ServiceProvider> TestableMediaServerProviderFactory::createServiceProvider(const QString &searchTarget)
 {
     serviceDiscoveryBackendDouble = QSharedPointer<ServiceDiscoveryBackendDouble>{
         new ServiceDiscoveryBackendDouble{}};
@@ -30,11 +30,9 @@ QSharedPointer<ServiceProvider> TestableMediaServerProviderFactory::createServic
     descriptionFetcherBackendDouble = QSharedPointer<DescriptionFetcherBackendDouble>{
         new DescriptionFetcherBackendDouble{}};
 
-    return QSharedPointer<ServiceProvider>{new ServiceProvider{
-        QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1"),
-        QSharedPointer<ServiceDiscoveryBackendDouble>{serviceDiscoveryBackendDouble},
-        QSharedPointer<DescriptionFetcherBackendDouble>{descriptionFetcherBackendDouble}}
-    };
+    return QSharedPointer<ServiceProvider>{new ServiceProvider{searchTarget,
+                                                               serviceDiscoveryBackendDouble,
+                                                               descriptionFetcherBackendDouble}};
 }
 
 } // namespace UPnPAV

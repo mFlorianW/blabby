@@ -17,6 +17,8 @@
  **/
 #include "ServiceDiscoveryBackend.h"
 
+#include <QNetworkDatagram>
+
 namespace UPnPAV
 {
 
@@ -26,6 +28,36 @@ ServiceDiscoveryBackend::~ServiceDiscoveryBackend() = default;
 void ServiceDiscoveryBackend::sendSearchRequest(const QNetworkDatagram &requestMessage)
 {
     sendDiscoveryRequest(requestMessage);
+}
+
+UdpServiceDiscoveryBackend::UdpServiceDiscoveryBackend()
+    : ServiceDiscoveryBackend()
+{
+    connect(&m_udpSocket,
+            &QUdpSocket::readyRead,
+            this,
+            &UdpServiceDiscoveryBackend::handleReceivedData);
+
+    if(!m_udpSocket.bind(QHostAddress::AnyIPv4,
+                         0,
+                         QUdpSocket::ShareAddress))
+    {
+        qWarning() << "Failed to bound UPD discovery socket.";
+    }
+
+    m_udpSocket.joinMulticastGroup(QHostAddress{"239.255.255.250"});
+}
+
+void UdpServiceDiscoveryBackend::sendDiscoveryRequest(const QNetworkDatagram &datagram)
+{
+    m_udpSocket.writeDatagram(datagram);
+}
+
+void UdpServiceDiscoveryBackend::handleReceivedData()
+{
+    auto datagram = m_udpSocket.receiveDatagram();
+
+    Q_EMIT receivedNetworkDatagram(datagram);
 }
 
 } //namespace UPnPAV

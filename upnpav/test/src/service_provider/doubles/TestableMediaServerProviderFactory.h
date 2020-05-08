@@ -30,7 +30,7 @@ class DescriptionFetcherBackendDouble;
 class TestableMediaServerProviderFactory final : public ServiceProviderFactory
 {
 public:
-    QSharedPointer<ServiceProvider> createServiceProvider() override;
+    QSharedPointer<ServiceProvider> createServiceProvider(const QString &searchTarget) override;
 
     QSharedPointer<ServiceDiscoveryBackendDouble> serviceDiscoveryBackendDouble;
     QSharedPointer<DescriptionFetcherBackendDouble> descriptionFetcherBackendDouble;
