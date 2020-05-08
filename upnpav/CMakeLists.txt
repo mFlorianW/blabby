@@ -52,7 +52,6 @@ target_sources(BlabbyUPnPAVObject
     PRIVATE
         #Service Provider
         src/service_provider/ServiceProvider.cpp
-        src/service_provider/RootDeviceDescription.cpp
         src/service_provider/DeviceDescription.cpp
         src/service_provider/IconDescription.cpp
         src/service_provider/ServiceDescription.cpp
@@ -71,8 +70,8 @@ target_sources(BlabbyUPnPAVObject
 
         #Public Header must be add manualy otherwise vtable
         #errors occure.
+        include/UPnP_Export.h
         include/service_provider/ServiceProvider.h
-        include/service_provider/RootDeviceDescription.h
         include/service_provider/DeviceDescription.h
         include/service_provider/IconDescription.h
         include/service_provider/ServiceDescription.h
