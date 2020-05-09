@@ -16,10 +16,8 @@ jobs:
         version: '5.13.2'
     - name: checkout
       uses: actions/checkout@v2
-    - name: create build dir
-      run: mkdir -p build && cd build
     - name: configure
-      run: cmake -DENABLE_TEST=ON ..
+      run: cmake -DENABLE_TEST=ON .
     - name: make
       run: make -j8
     - name: tests
