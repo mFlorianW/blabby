@@ -42,6 +42,8 @@ target_sources(test_upnpav
         src/service_provider/doubles/DescriptionFetcherBackendDouble.cpp
         src/service_provider/doubles/TestableMediaServerProviderFactory.cpp
 
+        src/device/MediaServerShould.cpp
+
 )
 
 target_link_libraries(test_upnpav
@@ -49,11 +51,6 @@ target_link_libraries(test_upnpav
     Qt5::Test
 )
 
-target_include_directories(test_upnpav
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider>
-)
-
 set_property(TARGET test_upnpav PROPERTY UPnPAV_PRIVATE 1)
 
-add_test(test_shell ${PROJECT_BINARY_DIR}/test_upnpav)
+add_test(test_upnpav ${PROJECT_BINARY_DIR}/test_upnpav)

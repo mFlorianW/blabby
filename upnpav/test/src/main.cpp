@@ -15,10 +15,10 @@
  ** You should have received a copy of the GNU General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "ServiceProviderShould.h"
+#include "service_provider/ServiceProviderShould.h"
+#include "device/MediaServerShould.h"
 
 #include <QTest>
-#include <QDirIterator>
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +30,13 @@ int main(int argc, char *argv[])
         return testResult;
     }
 
-    //add here further tests
+    UPnPAV::MediaServerShould mediaServerShould;
+    testResult = QTest::qExec(&mediaServerShould, argc, argv);
+
+    if(testResult != 0)
+    {
+        return testResult;
+    }
 
     return 0;
 }

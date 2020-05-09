@@ -58,6 +58,8 @@ public:
 
     const QString &udn() const noexcept;
 
+    bool hasServiceType(const QString &serviceType) const noexcept;
+
     const QVector<ServiceDescription> &services() const noexcept;
 
     const QVector<ServiceControlPointDefinition> &scpds() const noexcept;

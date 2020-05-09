@@ -68,9 +68,14 @@ target_sources(BlabbyUPnPAVObject
         src/service_provider/ParsingError.cpp
         src/service_provider/ServiceControlPointDefinitionParser.cpp
 
+        #device
+        src/device/InvalidDeviceDescription.cpp
+        src/device/MediaServer.cpp
+
         #Public Header must be add manualy otherwise vtable
         #errors occure.
         include/UPnP_Export.h
+        #service provider
         include/service_provider/ServiceProvider.h
         include/service_provider/DeviceDescription.h
         include/service_provider/IconDescription.h
@@ -81,6 +86,9 @@ target_sources(BlabbyUPnPAVObject
         include/service_provider/SCPDStateVariable.h
         include/service_provider/DescriptionFetcherBackend.h
         include/service_provider/ServiceDiscoveryBackend.h
+
+        #device
+        include/device/MediaServer.h
 )
 
 target_link_libraries(BlabbyUPnPAVObject
@@ -96,6 +104,7 @@ target_include_directories(BlabbyUPnPAVObject
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/service_provider>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/device>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider

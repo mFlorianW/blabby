@@ -75,6 +75,19 @@ const QString &DeviceDescription::udn() const noexcept
     return m_udn;
 }
 
+bool DeviceDescription::hasServiceType(const QString &serviceType) const noexcept
+{
+    for(const auto &serviceDesc : m_services)
+    {
+        if(serviceDesc.serviceType().contains(serviceType))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const QVector<ServiceDescription> &DeviceDescription::services() const noexcept
 {
     return m_services;
