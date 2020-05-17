@@ -25,6 +25,7 @@
 
 #include <QString>
 #include <QVector>
+#include <optional>
 
 namespace UPnPAV
 {
@@ -58,8 +59,7 @@ public:
 
     const QString &udn() const noexcept;
 
-    bool hasServiceType(const QString &serviceType) const noexcept;
-
+    std::optional<ServiceDescription> service(const QString &serviceName) const noexcept;
     const QVector<ServiceDescription> &services() const noexcept;
 
     const QVector<ServiceControlPointDefinition> &scpds() const noexcept;

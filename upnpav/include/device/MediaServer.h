@@ -28,11 +28,6 @@ class UPNP_EXPORT MediaServer final
 {
 public:
     MediaServer(const DeviceDescription &deviceDescription);
-
-private:
-    bool hasContentDirectoryServiceDescription(const DeviceDescription &deviceDescription) const noexcept;
-
-    bool hasConnectionServiceDescription(const DeviceDescription &deviceDescription) const noexcept;
 };
 
 } //namespace UPnPAV

@@ -7,35 +7,22 @@ namespace UPnPAV
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription)
 {
-    if(!hasConnectionServiceDescription(deviceDescription))
+    auto contentDirectoryDescription = deviceDescription.service("urn:schemas-upnp-org:service:ContentDirectory");
+    if(!contentDirectoryDescription)
     {
-        throw InvalidDeviceDescription{};
+        throw InvalidDeviceDescription{"ContentDirectory description not found."};
     }
 
-    if(!hasContentDirectoryServiceDescription(deviceDescription))
+    if(contentDirectoryDescription.value().eventUrl().isEmpty())
     {
-        throw InvalidDeviceDescription{};
-    }
-}
-
-bool MediaServer::hasContentDirectoryServiceDescription(const DeviceDescription &deviceDescription) const noexcept
-{
-    if(deviceDescription.hasServiceType(QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory")))
-    {
-        return true;
+        throw InvalidDeviceDescription("ContentDirectory event URL is not set");
     }
 
-    return false;
-}
-
-bool MediaServer::hasConnectionServiceDescription(const DeviceDescription &deviceDescription) const noexcept
-{
-    if(deviceDescription.hasServiceType(QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager")))
+    auto connectionManagerDescription = deviceDescription.service("urn:schemas-upnp-org:service:ConnectionManager");
+    if(!connectionManagerDescription)
     {
-        return true;
+        throw InvalidDeviceDescription{"ConnectionManager description not found."};
     }
-
-    return false;
 }
 
 } //namespace UPnPAV

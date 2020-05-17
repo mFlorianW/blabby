@@ -20,13 +20,24 @@
 
 #include "UPnP_Export.h"
 
+#include <QException>
+
 namespace UPnPAV
 {
 
-class UPNP_EXPORT InvalidDeviceDescription
+class UPNP_EXPORT InvalidDeviceDescription : public QException
 {
 public:
-    InvalidDeviceDescription();
+    InvalidDeviceDescription(const QString &errorMessage);
+
+    const char *what() const noexcept override;
+
+    void raise() const override;
+
+    InvalidDeviceDescription *clone() const override;
+
+private:
+    QString m_errorMessage;
 };
 
 } //namespace UPnPAV

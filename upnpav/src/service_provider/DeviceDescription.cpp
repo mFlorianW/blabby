@@ -75,17 +75,17 @@ const QString &DeviceDescription::udn() const noexcept
     return m_udn;
 }
 
-bool DeviceDescription::hasServiceType(const QString &serviceType) const noexcept
+std::optional<ServiceDescription> DeviceDescription::service(const QString &serviceName) const noexcept
 {
     for(const auto &serviceDesc : m_services)
     {
-        if(serviceDesc.serviceType().contains(serviceType))
+        if(serviceDesc.serviceType().contains(serviceName))
         {
-            return true;
+            return std::optional<ServiceDescription>{serviceDesc};
         }
     }
 
-    return false;
+    return std::nullopt;
 }
 
 const QVector<ServiceDescription> &DeviceDescription::services() const noexcept
