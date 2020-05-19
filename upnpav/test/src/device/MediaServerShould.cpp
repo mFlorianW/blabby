@@ -22,10 +22,10 @@ static const ServiceDescription basicContentDirectoryDescription
 static const ServiceDescription basicConnectionManagerDescription
 {
     QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
+    "urn:upnp-org:serviceId:ConnectionManager",
     "",
-    "",
-    "",
-    ""
+    "http://127.0.0.1/connectionManager/controlUrl",
+    "http://127.0.0.1/connectionManager/eventUrl"
 };
 
 static const DeviceDescription basicMediaServerDeviceDescription
@@ -64,8 +64,6 @@ void MediaServerShould::be_Creatable_Only_With_ServiceDescription_ContentDirecto
         {
             QFAIL("The service description for the ContentDirectory is missing.");
         }
-
-        QFAIL("Passed invalid device description.");
     }
 }
 
@@ -81,8 +79,6 @@ void MediaServerShould::be_Creatable_Only_With_ServiceDescription_ConnectionMana
         {
             QFAIL("The service description for the ConnectionManager is missing.");
         }
-
-        QFAIL("Passed invalid device description.");
     }
 }
 
@@ -98,8 +94,6 @@ void MediaServerShould::be_Creatable_Only_With_A_Non_Empty_EventUrl_In_ContentDi
         {
             QFAIL("ContentDirectory event url is not set");
         }
-
-        QFAIL("Passed invalid device description.");
     }
 }
 
@@ -115,8 +109,6 @@ void MediaServerShould::be_Creatable_Only_With_A_Non_Empty_ContrlUrl_In_ContentD
         {
             QFAIL("ContentDirectory control url is not set");
         }
-
-        QFAIL("Passed invalid device description.");
     }
 }
 
@@ -132,8 +124,51 @@ void MediaServerShould::be_Creatable_Only_With_A_Non_Empty_ServiceId_In_ContentD
         {
             QFAIL("ContentDirectory service ID is not set.");
         }
+    }
+}
 
-        QFAIL("Passed invalid device description.");
+void MediaServerShould::be_Creatable_Only_With_A_Non_Empty_EventUrl_In_ConnectionManager_Description()
+{
+    try
+    {
+        MediaServer mediaServer{basicMediaServerDeviceDescription};
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        if(QString{e.what()} == "ConntectionManager event URL is not set.")
+        {
+            QFAIL("ConnectionManager event URL is not set.");
+        }
+    }
+}
+
+void MediaServerShould::be_Creatable_Only_With_A_Non_Empty_ControlUrl_In_ConnectionManager_Description()
+{
+    try
+    {
+        MediaServer mediaServer{basicMediaServerDeviceDescription};
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        if(QString{e.what()} == "ConnectionManager control URL is not set.")
+        {
+            QFAIL("ConnectionManager control URL is not set.");
+        }
+    }
+}
+
+void MediaServerShould::be_Creatabe_Only_With_A_Non_Empty_ServiceId_In_ConnectionManager_Description()
+{
+    try
+    {
+        MediaServer mediaServer{basicMediaServerDeviceDescription};
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        if(QString{e.what()} == "ConnectionManager service ID is not set.")
+        {
+            QFAIL("ConnectionManager service ID is not set.");
+        }
     }
 }
 

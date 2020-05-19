@@ -28,10 +28,34 @@ class DeviceDescription;
 class UPNP_EXPORT MediaServer final
 {
 public:
+    /**
+     * Creates a MediaService instance.
+     *
+     *
+     * @param deviceDescription The parsed XML description of
+     *        the device which is used to check for the minimum required
+     *        values and functions.
+     *
+     * @throws InvalidDeviceDescription if the given
+     *         description contain the minimum requried
+     *         functions and values.
+     */
     MediaServer(const DeviceDescription &deviceDescription);
 
 private:
+    /**
+     * Validates the ConnectionManager service description.
+     */
+    void validateConnectionManagerDescription();
+
+    /**
+     * Validates the ContentDirectory service description.
+     */
+    void validateContentDirectoryDescription();
+
+private:
     ServiceDescription m_contentDirectoryDescription;
+    ServiceDescription m_ConnectionServiceDescription;
 };
 
 } //namespace UPnPAV
