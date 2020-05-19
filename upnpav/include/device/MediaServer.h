@@ -18,6 +18,7 @@
 #ifndef MEDIASERVER_H
 #define MEDIASERVER_H
 
+#include "ServiceDescription.h"
 #include "UPnP_Export.h"
 
 namespace UPnPAV
@@ -28,6 +29,9 @@ class UPNP_EXPORT MediaServer final
 {
 public:
     MediaServer(const DeviceDescription &deviceDescription);
+
+private:
+    ServiceDescription m_contentDirectoryDescription;
 };
 
 } //namespace UPnPAV

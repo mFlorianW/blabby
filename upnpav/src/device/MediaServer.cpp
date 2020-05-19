@@ -13,9 +13,20 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription)
         throw InvalidDeviceDescription{"ContentDirectory description not found."};
     }
 
-    if(contentDirectoryDescription.value().eventUrl().isEmpty())
+    m_contentDirectoryDescription = contentDirectoryDescription.value();
+    if(m_contentDirectoryDescription.eventUrl().isEmpty())
     {
         throw InvalidDeviceDescription("ContentDirectory event URL is not set");
+    }
+
+    if(m_contentDirectoryDescription.controlUrl().isEmpty())
+    {
+        throw InvalidDeviceDescription("ContentDirectory control URL is not set.");
+    }
+
+    if(m_contentDirectoryDescription.id().isEmpty())
+    {
+        throw InvalidDeviceDescription("ContentDirectory service ID is not set.");
     }
 
     auto connectionManagerDescription = deviceDescription.service("urn:schemas-upnp-org:service:ConnectionManager");

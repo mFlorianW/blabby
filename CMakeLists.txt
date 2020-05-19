@@ -41,9 +41,9 @@ option(ENABLE_TEST "Enable/Disable tests build. Default: false" OFF)
 ################################################################################
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(BASE_SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(QML_IMPORT_PATH
-    ${CMAKE_SOURCE_DIR}/controls ${CMAKE_BINARY_DIR} CACHE STRING "" FORCE)
+set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/controls ${CMAKE_BINARY_DIR} CACHE STRING "" FORCE)
 
 #Install folder
 set(DEFAULT_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME})
