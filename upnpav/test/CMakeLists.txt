@@ -43,7 +43,11 @@ target_sources(test_upnpav
         src/service_provider/doubles/TestableMediaServerProviderFactory.cpp
 
         src/device/MediaServerShould.cpp
+)
 
+target_include_directories(test_upnpav
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/device/data>
 )
 
 target_link_libraries(test_upnpav

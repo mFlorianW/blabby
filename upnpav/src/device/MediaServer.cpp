@@ -14,7 +14,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription)
     }
 
     m_contentDirectoryDescription = contentDirectoryDescription.value();
-    validateContentDirectoryDescription();
+    validateServiceDescription(m_contentDirectoryDescription, "ContentDirectory");
 
     auto connectionManagerDescription = deviceDescription.service("urn:schemas-upnp-org:service:ConnectionManager");
     if(!connectionManagerDescription)
@@ -23,42 +23,24 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription)
     }
 
     m_ConnectionServiceDescription = connectionManagerDescription.value();
-    validateConnectionManagerDescription();
+    validateServiceDescription(m_ConnectionServiceDescription, "ConnectionManager");
 }
 
-void MediaServer::validateConnectionManagerDescription()
+void MediaServer::validateServiceDescription(const ServiceDescription &serviceDesc, const QString &serviceName)
 {
-    if(m_ConnectionServiceDescription.eventUrl().isEmpty())
+    if(serviceDesc.eventUrl().isEmpty())
     {
-        throw InvalidDeviceDescription{"ConnectionManager event URL is not set."};
+        throw InvalidDeviceDescription{serviceName + " event URL is not set."};
     }
 
-    if(m_ConnectionServiceDescription.controlUrl().isEmpty())
+    if(serviceDesc.controlUrl().isEmpty())
     {
-        throw InvalidDeviceDescription{"ConnectionManager control URL is not set."};
+        throw InvalidDeviceDescription{serviceName + " control URL is not set."};
     }
 
-    if(m_ConnectionServiceDescription.id().isEmpty())
+    if(serviceDesc.id().isEmpty())
     {
-        throw InvalidDeviceDescription{"ConnectionManager service ID is not set."};
-    }
-}
-
-void MediaServer::validateContentDirectoryDescription()
-{
-    if(m_contentDirectoryDescription.eventUrl().isEmpty())
-    {
-        throw InvalidDeviceDescription("ContentDirectory event URL is not set");
-    }
-
-    if(m_contentDirectoryDescription.controlUrl().isEmpty())
-    {
-        throw InvalidDeviceDescription("ContentDirectory control URL is not set.");
-    }
-
-    if(m_contentDirectoryDescription.id().isEmpty())
-    {
-        throw InvalidDeviceDescription("ContentDirectory service ID is not set.");
+        throw InvalidDeviceDescription{serviceName + " service ID is not set."};
     }
 }
 

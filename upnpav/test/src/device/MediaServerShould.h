@@ -14,48 +14,52 @@ public:
 
 private Q_SLOTS:
     /**
-     * @test The media server shall be only creatable when the device description contains
-     * the required service content directory.
+     * @test The media server shall throw an exception when the ContentDirectory Service description
+     * is missing.
      */
-    void be_Creatable_Only_With_ServiceDescription_ContentDirectory();
+    void throw_An_Exception_When_DeviceDescription_Has_No_ContentDirectory_Service_Description();
 
     /**
-     * @test The media server shall be only creatable when the device description contains
-     * the required service content directory.
+     * @test The media server shall throw an exception when the ContentDirectory service has
+     * no event URL set.
      */
-    void be_Creatable_Only_With_ServiceDescription_ConnectionManager();
+    void throw_An_Exception_When_ContentDirectory_Description_Has_No_Url();
 
     /**
-     * @test The media server shall be only creatable when the passed content directory
-     * description contains an not empty event url.
+     * @test The media server shall throw an exception when the ContentDirectory service has
+     * no control URL set.
      */
-    void be_Creatable_Only_With_A_Non_Empty_EventUrl_In_ContentDirectory_Description();
+    void throw_An_Exception_When_ContentDirectory_Description_Has_No_Control_Url();
 
     /**
-     * @test The media server shall be only creatable when the content directory description
-     * has a control url set.
+     * @test The media server shall throw an exception when the ContentDirectory service
+     * has no service ID set.
      */
-    void be_Creatable_Only_With_A_Non_Empty_ContrlUrl_In_ContentDirectory_Description();
+    void throw_An_Exception_When_ContentDirectory_Description_Has_No_ServiceId();
 
     /**
-     * @test The media server shall be only creatable when the content directory description
-     * has a service id set.
+     * @test The media sever shall throw an exception when the ConnectionManager Service description
+     * is missing.
      */
-    void be_Creatable_Only_With_A_Non_Empty_ServiceId_In_ContentDirectory_Description();
+    void throw_An_Exception_When_DeviceDescription_Has_No_ConnectionManagerDescription();
 
     /**
-     * @test The media server shall be only creatable when the connection manager description
-     * has a event URL set.
+     * @test The media server shall throw an exception when the ConnectionManager service
+     * has no event URL set.
      */
-    void be_Creatable_Only_With_A_Non_Empty_EventUrl_In_ConnectionManager_Description();
+    void throw_An_Exception_When_ConnectionManager_Description_Has_No_Event_Url();
 
     /**
-     * @test The media server shall be only creatable when the connection manager description
-     * has a control URL set.
+     * @test The media server shall throw an exception when the ConnectionMangager service
+     * has no control URL set.
      */
-    void be_Creatable_Only_With_A_Non_Empty_ControlUrl_In_ConnectionManager_Description();
+    void throw_An_Exception_When_ConnectionManager_Description_Has_No_Control_Url();
 
-    void be_Creatabe_Only_With_A_Non_Empty_ServiceId_In_ConnectionManager_Description();
+    /**
+     * @test The media server shall throw an exception when the ConnectionManager service
+     * has no service ID set.
+     */
+    void throw_An_Exception_When_ConnectionManager_Description_Has_ServiceId();
 };
 
 } //namespace UPnPAV

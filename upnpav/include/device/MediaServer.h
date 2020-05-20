@@ -44,14 +44,12 @@ public:
 
 private:
     /**
-     * Validates the ConnectionManager service description.
+     * Validates a service description if the event URL, control URL and serivce ID is set.
+     *
+     * @param serviceDesc The description that shall be validate.
+     * @param serviceName The name of the service is used for error messages if occurs.
      */
-    void validateConnectionManagerDescription();
-
-    /**
-     * Validates the ContentDirectory service description.
-     */
-    void validateContentDirectoryDescription();
+    static void validateServiceDescription(const ServiceDescription &serviceDesc, const QString &serviceName);
 
 private:
     ServiceDescription m_contentDirectoryDescription;
