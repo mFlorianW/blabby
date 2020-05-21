@@ -42,6 +42,11 @@ void MediaServer::validateServiceDescription(const ServiceDescription &serviceDe
     {
         throw InvalidDeviceDescription{serviceName + " service ID is not set."};
     }
+
+    if(serviceDesc.scpdUrl().isEmpty())
+    {
+        throw InvalidDeviceDescription{serviceName + " SCPD URL is not set."};
+    }
 }
 
 } //namespace UPnPAV

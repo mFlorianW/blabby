@@ -38,6 +38,12 @@ private Q_SLOTS:
     void throw_An_Exception_When_ContentDirectory_Description_Has_No_ServiceId();
 
     /**
+     * @test The media server shall throw an exception when the ContentDirectory service
+     * has no SCPD URL set.
+     */
+    void throw_An_Exception_When_ContentDirectory_Description_Has_No_SCPD_Url();
+
+    /**
      * @test The media sever shall throw an exception when the ConnectionManager Service description
      * is missing.
      */
@@ -60,6 +66,8 @@ private Q_SLOTS:
      * has no service ID set.
      */
     void throw_An_Exception_When_ConnectionManager_Description_Has_ServiceId();
+
+    void throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url();
 };
 
 } //namespace UPnPAV

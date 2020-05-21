@@ -48,7 +48,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
 
             QVector<ServiceDescription>
             {
-                eventUrlMissingContentDirectoryDescription,
+                eventUrlMissingInContentDirectoryDescription,
                 validConnectionManagerDescription
             }
         };
@@ -73,7 +73,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
 
             QVector<ServiceDescription>
             {
-                controlUrlMissingContentDirectoryDescription,
+                controlUrlMissingInContentDirectoryDescription,
                 validConnectionManagerDescription
             }
         };
@@ -98,7 +98,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
 
             QVector<ServiceDescription>
             {
-                serviceIdMissingContentDirectoryDescription,
+                serviceIdMissingInContentDirectoryDescription,
                 validConnectionManagerDescription
             }
         };
@@ -109,6 +109,31 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
     catch(InvalidDeviceDescription &e)
     {
         QVERIFY(QString{e.what()}.contains("ContentDirectory service ID"));
+    }
+}
+
+void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has_No_SCPD_Url()
+{
+    try
+    {
+        DeviceDescription deviceDescription
+        {
+            "", "", "", "", "",
+            QVector<IconDescription>{},
+
+            QVector<ServiceDescription>
+            {
+                scpdUrlMissingInContentDirectoryDescription,
+                validConnectionManagerDescription
+            }
+        };
+
+        MediaServer mediaServer{deviceDescription};
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch(InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains("ContentDirectory SCPD URL"));
     }
 }
 
@@ -148,7 +173,7 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
             QVector<ServiceDescription>
             {
                 validContentDirectoryDescription,
-                eventUrlMissingConnectionManagerDescription
+                eventUrlMissingInConnectionManagerDescription
             }
         };
 
@@ -173,7 +198,7 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
             QVector<ServiceDescription>
             {
                 validContentDirectoryDescription,
-                controlUrlMissingConnectionManagerDescription
+                controlUrlMissingInConnectionManagerDescription
             }
         };
 
@@ -208,6 +233,31 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
     catch(InvalidDeviceDescription &e)
     {
         QVERIFY(QString{e.what()}.contains("ConnectionManager service ID is not set"));
+    }
+}
+
+void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url()
+{
+    try
+    {
+        DeviceDescription deviceDescription
+        {
+            "", "", "", "", "",
+            QVector<IconDescription>{},
+
+            QVector<ServiceDescription>
+            {
+                validContentDirectoryDescription,
+                scpdUrlMissingInConnectionManagerDescription
+            }
+        };
+
+        MediaServer mediaServer{deviceDescription};
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch(InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD URL is not set"));
     }
 }
 
