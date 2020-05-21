@@ -20,6 +20,6 @@ jobs:
       run: cmake -DENABLE_TEST=ON .
     - name: make
       run: make -j8
-#    - name: tests
-#      run: ctest
+    - name: tests
+      run: ctest
 
