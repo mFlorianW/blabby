@@ -5,12 +5,17 @@
 
 namespace UPnPAV
 {
+class ServiceDescription;
+class MediaServer;
 
 class MediaServerShould : public QObject
 {
     Q_OBJECT
 public:
     explicit MediaServerShould();
+
+private:
+    MediaServer createMediaServer(const QVector<ServiceDescription> &services);
 
 private Q_SLOTS:
     /**
@@ -68,6 +73,8 @@ private Q_SLOTS:
     void throw_An_Exception_When_ConnectionManager_Description_Has_ServiceId();
 
     void throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url();
+
+    void throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ContentDirectory();
 };
 
 } //namespace UPnPAV

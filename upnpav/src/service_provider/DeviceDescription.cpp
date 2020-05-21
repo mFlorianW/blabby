@@ -98,6 +98,19 @@ const QVector<ServiceControlPointDefinition> &DeviceDescription::scpds() const n
     return m_scpds;
 }
 
+std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QString &scpdUrl) const noexcept
+{
+    for(const auto &scpd : m_scpds)
+    {
+        if(scpd.scpdUrl() == scpdUrl)
+        {
+            return std::optional<ServiceControlPointDefinition>(scpd);
+        }
+    }
+
+    return std::nullopt;
+}
+
 bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs)
 {
     if(&lhs == &rhs)

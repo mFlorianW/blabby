@@ -64,6 +64,8 @@ public:
 
     const QVector<ServiceControlPointDefinition> &scpds() const noexcept;
 
+    std::optional<ServiceControlPointDefinition> scpd(const QString &scpdUrl) const noexcept;
+
     friend bool operator==(const DeviceDescription &lhs, const DeviceDescription & rhs);
     friend bool operator!=(const DeviceDescription &lhs, const DeviceDescription & rhs);
 

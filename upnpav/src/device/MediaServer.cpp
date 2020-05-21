@@ -24,6 +24,12 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription)
 
     m_ConnectionServiceDescription = connectionManagerDescription.value();
     validateServiceDescription(m_ConnectionServiceDescription, "ConnectionManager");
+
+    auto scpdContentDirectory = deviceDescription.scpd(m_contentDirectoryDescription.scpdUrl());
+    if(!scpdContentDirectory)
+    {
+        throw InvalidDeviceDescription{"ContentDirectory SCPD not found."};
+    }
 }
 
 void MediaServer::validateServiceDescription(const ServiceDescription &serviceDesc, const QString &serviceName)
