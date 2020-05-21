@@ -39,6 +39,19 @@ const QString &ServiceControlPointDefinition::scpdUrl() const
     return m_scpdUrl;
 }
 
+bool ServiceControlPointDefinition::hasStateVariable(const QString &stateVariableName) const noexcept
+{
+    for(const auto &variable : m_stateVariables)
+    {
+        if(variable.name() == stateVariableName)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const QVector<SCPDStateVariable> &ServiceControlPointDefinition::serviceStateTable() const
 {
     return m_stateVariables;

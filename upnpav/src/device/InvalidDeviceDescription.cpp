@@ -1,16 +1,17 @@
 #include "InvalidDeviceDescription.h"
+#include <QDebug>
 
 namespace UPnPAV
 {
 
 InvalidDeviceDescription::InvalidDeviceDescription(const QString &errorMessage)
-    : m_errorMessage(errorMessage)
+    : m_errorMessage(errorMessage.toLocal8Bit())
 {
 }
 
 const char *InvalidDeviceDescription::what() const noexcept
 {
-    return m_errorMessage.toUtf8().data();
+    return m_errorMessage;
 }
 
 void InvalidDeviceDescription::raise() const

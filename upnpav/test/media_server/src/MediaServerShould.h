@@ -7,6 +7,7 @@ namespace UPnPAV
 {
 class ServiceDescription;
 class MediaServer;
+class ServiceControlPointDefinition;
 
 class MediaServerShould : public QObject
 {
@@ -15,7 +16,8 @@ public:
     explicit MediaServerShould();
 
 private:
-    MediaServer createMediaServer(const QVector<ServiceDescription> &services);
+    MediaServer createMediaServer(const QVector<ServiceDescription> &services,
+                                  const QVector<ServiceControlPointDefinition> &scpds);
 
 private Q_SLOTS:
     /**
@@ -74,7 +76,14 @@ private Q_SLOTS:
 
     void throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url();
 
-    void throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ContentDirectory();
+    void throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ConnectionManager();
+
+    void throw_An_Exception_When_StateVariable_SourceProtocolInfo_Misses_in_ConnectionManager_SCPD();
+
+    void throw_An_Exception_When_StateVariable_SinkProtocolInfo_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_StateVar_CurrentConnectionConnectionIDs_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionStatus_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionManager_Misses_in_ConnectionManager_SCPD();
 };
 
 } //namespace UPnPAV

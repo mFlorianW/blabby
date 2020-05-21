@@ -1,6 +1,7 @@
 #include "MediaServer.h"
 #include "DeviceDescription.h"
 #include "InvalidDeviceDescription.h"
+#include "ScpdStateVariableValidator.h"
 
 namespace UPnPAV
 {
@@ -25,10 +26,28 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription)
     m_ConnectionServiceDescription = connectionManagerDescription.value();
     validateServiceDescription(m_ConnectionServiceDescription, "ConnectionManager");
 
-    auto scpdContentDirectory = deviceDescription.scpd(m_contentDirectoryDescription.scpdUrl());
-    if(!scpdContentDirectory)
+    auto scpdConnectionManager = deviceDescription.scpd(m_ConnectionServiceDescription.scpdUrl());
+    if(!scpdConnectionManager)
     {
-        throw InvalidDeviceDescription{"ContentDirectory SCPD not found."};
+        throw InvalidDeviceDescription{"ConnectionManager SCPD not found."};
+    }
+
+    ScpdStateVariableValidator connectionStateVariableValidator
+    {
+        "ConnectionManager",
+        scpdConnectionManager.value(),
+        {
+            "SourceProtocolInfo",
+            "SinkProtocolInfo",
+            "CurrentConnectionConnectionIDs",
+            "A_ARG_TYPE_ConnectionStatus",
+            "A_ARG_TYPE_ConnectionManager"
+        }
+    };
+
+    if(!connectionStateVariableValidator.validate())
+    {
+        throw InvalidDeviceDescription(connectionStateVariableValidator.errorMessage());
     }
 }
 

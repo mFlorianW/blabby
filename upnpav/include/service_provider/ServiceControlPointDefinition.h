@@ -35,6 +35,7 @@ public:
 
     const QString &scpdUrl() const;
 
+    bool hasStateVariable(const QString &stateVariableName) const noexcept;
     const QVector<SCPDStateVariable> &serviceStateTable() const;
 
     const QVector<SCPDAction> &actionList() const;

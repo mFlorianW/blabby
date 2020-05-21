@@ -2,8 +2,10 @@
 #include "MediaServer.h"
 #include "InvalidDeviceDescription.h"
 #include "Descriptions.h"
+#include "DeviceDescription.h"
 
 #include <QTest>
+#include <QDebug>
 
 namespace UPnPAV
 {
@@ -13,7 +15,8 @@ MediaServerShould::MediaServerShould()
 {
 }
 
-MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescription> &services)
+MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescription> &services,
+                                                 const QVector<ServiceControlPointDefinition> &scpds)
 {
     return MediaServer
     {
@@ -22,8 +25,9 @@ MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescriptio
             "", "", "", "", "",
             QVector<IconDescription>{},
 
-            services
-         }
+            services,
+            scpds
+        }
     };
 }
 
@@ -34,6 +38,9 @@ void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_Content
         MediaServer mediaServer = createMediaServer(
         {
             validConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -52,6 +59,9 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
         {
             eventUrlMissingInContentDirectoryDescription,
             validConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -70,6 +80,9 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
         {
             controlUrlMissingInContentDirectoryDescription,
             validConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -88,6 +101,9 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
         {
             serviceIdMissingInContentDirectoryDescription,
             validConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -106,6 +122,9 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
         {
             scpdUrlMissingInContentDirectoryDescription,
             validConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -123,6 +142,9 @@ void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_Connect
         MediaServer mediaServer = createMediaServer(
         {
             validContentDirectoryDescription,
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -141,6 +163,9 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
         {
             validContentDirectoryDescription,
             eventUrlMissingInConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -159,6 +184,9 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
         {
             validContentDirectoryDescription,
             controlUrlMissingInConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -177,6 +205,9 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
         {
             validContentDirectoryDescription,
             serviceIdMissingInConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -195,6 +226,9 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
         {
             validContentDirectoryDescription,
             scpdUrlMissingInConnectionManagerDescription
+        },
+        {
+            validConnectionManagerSCPD
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
@@ -205,7 +239,7 @@ void MediaServerShould::throw_An_Exception_When_ConnectionManager_Description_Ha
     }
 }
 
-void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ContentDirectory()
+void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ConnectionManager()
 {
     try
     {
@@ -213,14 +247,124 @@ void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_Fo
         {
             validContentDirectoryDescription,
             validConnectionManagerDescription
+        },
+        {
         });
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{e.what()}.contains("ContentDirectory SCPD not found."));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD not found."));
+    }
+}
+
+void MediaServerShould::throw_An_Exception_When_StateVariable_SourceProtocolInfo_Misses_in_ConnectionManager_SCPD()
+{
+    try
+    {
+        MediaServer mediaServer = createMediaServer(
+        {
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+        },
+        {
+            sourceProtocolInfoMissingInConnectionManagerSCPD
+        });
+
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains(QRegExp("ConnectionManager.*SourceProtocolInfo")));
+    }
+}
+
+void MediaServerShould::throw_An_Exception_When_StateVariable_SinkProtocolInfo_Misses_in_ConnectionManager_SCPD()
+{
+    try
+    {
+        MediaServer mediaServer = createMediaServer(
+        {
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+        },
+        {
+            sinkProtocolInfoMissingInConnectionManagerSCPD
+        });
+
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains(QRegExp("ConnectionManager|SinkProtocolInfo")));
+    }
+}
+
+void MediaServerShould::throw_Exception_When_StateVar_CurrentConnectionConnectionIDs_Misses_in_ConnectionManager_SCPD()
+{
+    try
+    {
+        MediaServer mediaServer = createMediaServer(
+        {
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+        },
+        {
+            currentConnectionConnectionIDsMissingInConnectionManagerSCPD
+        });
+
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains(QRegExp("ConnectionManager|CurrentConnectionConnectionIDs")));
+    }
+}
+
+void MediaServerShould::throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionStatus_Misses_in_ConnectionManager_SCPD()
+{
+    try
+    {
+        MediaServer mediaServer = createMediaServer(
+        {
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+        },
+        {
+            a_ARG_TYPE_ConnectionStatusMissingInConnectionManagerSCPD
+        });
+
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains(QRegExp("ConnectionManager|CurrentConnectionConnectionIDs")));
+    }
+}
+
+void MediaServerShould::throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionManager_Misses_in_ConnectionManager_SCPD()
+{
+    try
+    {
+        MediaServer mediaServer = createMediaServer(
+        {
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+        },
+        {
+            a_ARG_TYPE_ConnectionManagerMissingInConnectionManagerSCPD
+        });
+
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY(QString{e.what()}.contains(QRegExp("ConnectionManager|A_ARG_TYPE_ConnectionManager")));
     }
 }
 
 } // namespace UPnPAV
+
+QTEST_MAIN(UPnPAV::MediaServerShould);
+#include <MediaServerShould.moc>

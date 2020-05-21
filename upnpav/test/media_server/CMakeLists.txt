@@ -15,13 +15,25 @@
 ## You should have received a copy of the GNU Lesser General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-###############################################################################
-# Dependencies
-###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+################################################################################
+# Build
+################################################################################
+add_executable(test_upnpav_media_server)
 
-###############################################################################
-# Test Projects
-###############################################################################
-add_subdirectory(service_provider)
-add_subdirectory(media_server)
+target_sources(test_upnpav_media_server
+    PRIVATE
+        src/MediaServerShould.cpp
+)
+
+target_include_directories(test_upnpav_media_server
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
+)
+
+target_link_libraries(test_upnpav_media_server
+    Blabby::UPnPAVObject
+    Qt5::Test
+)
+
+add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server)
+

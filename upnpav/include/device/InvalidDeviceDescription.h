@@ -37,7 +37,7 @@ public:
     InvalidDeviceDescription *clone() const override;
 
 private:
-    QString m_errorMessage;
+    QByteArray m_errorMessage;
 };
 
 } //namespace UPnPAV

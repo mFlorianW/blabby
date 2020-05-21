@@ -808,3 +808,6 @@ void ServiceProviderShould::parse_service_control_point_definition()
 }
 
 } //namespace UPnP
+
+QTEST_MAIN(UPnPAV::ServiceProviderShould)
+#include <ServiceProviderShould.moc>
