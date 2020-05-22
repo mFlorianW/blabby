@@ -20,7 +20,7 @@ SCPDStateVariable SinkProtocolInfo
     SCPDStateVariable::DataType::String
 };
 
-SCPDStateVariable CurrentConnectionConnectionIDs
+SCPDStateVariable CurrentConnectionIDs
 {
     true,
     "CurrentConnectionConnectionIDs",
@@ -62,7 +62,7 @@ SCPDStateVariable A_ARG_TYPE_ProtocolInfo
 SCPDStateVariable A_ARG_TYPE_ConnectionID
 {
     false,
-    "A_ARG_TYPE_ProtocolInfo",
+    "A_ARG_TYPE_ConnectionID",
     SCPDStateVariable::DataType::I4,
 };
 

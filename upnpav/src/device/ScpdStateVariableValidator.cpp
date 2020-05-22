@@ -12,7 +12,11 @@ ScpdStateVariableValidator::ScpdStateVariableValidator(const QString &scpdName,
 {
 }
 
-bool ScpdStateVariableValidator::validate()
+ScpdStateVariableValidator::~ScpdStateVariableValidator()
+{
+}
+
+bool ScpdStateVariableValidator::validate() noexcept
 {
     for(auto &variableName : m_stateVariableNames)
     {
@@ -29,17 +33,12 @@ bool ScpdStateVariableValidator::validate()
                                  });
         if(iter == m_scpd.serviceStateTable().end())
         {
-            m_errorMsg = QString{"%1 SCPD has no %2 variable"}.arg(m_scpdName).arg(variableName);
+            m_errorMessage = QString{"%1 SCPD has no %2 variable"}.arg(m_scpdName).arg(variableName);
             return false;
         }
     }
 
     return true;
-}
-
-const QString &ScpdStateVariableValidator::errorMessage() const noexcept
-{
-    return m_errorMsg;
 }
 
 } //namespace UPnPAV

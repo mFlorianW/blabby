@@ -1,16 +1,17 @@
 #ifndef SCPDSTATEVARIAABLEVALIDATOR_H
 #define SCPDSTATEVARIAABLEVALIDATOR_H
 
+#include "BaseValidator.h"
 #include "ServiceControlPointDefinition.h"
 
 namespace UPnPAV
 {
 
-class ScpdStateVariableValidator final
+class ScpdStateVariableValidator final : public BaseValidator
 {
 public:
     /**
-     * Construst the SCPDSateVariableValidator. After constraction call
+     * Construst the SCPDSateVariableValidator. After construction call
      * validate to check for all variables.
      *
      * @param scpdName The name of the SCPD.
@@ -20,25 +21,17 @@ public:
     ScpdStateVariableValidator(const QString &scpdName,
                                const ServiceControlPointDefinition &scpd,
                                const QVector<QString> &stateVariableNames);
+    ~ScpdStateVariableValidator() override;
 
     /**
      * Checks if the SCPD contains all the variables given in the variable name vector.
      *
      * @return True all variable names are found.
      */
-    bool validate();
-
-    /**
-     * Gives the error message when a variable wasn't found. The string will
-     * be empty if validate returns true.
-     *
-     * @return The error message or empty string if validate return true.
-     */
-    const QString &errorMessage() const noexcept;
+    bool validate() noexcept override;
 
 private:
     QString m_scpdName;
-    QString m_errorMsg;
     ServiceControlPointDefinition m_scpd;
     QVector<QString> m_stateVariableNames;
 };

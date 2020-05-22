@@ -72,6 +72,10 @@ target_sources(BlabbyUPnPAVObject
         src/device/InvalidDeviceDescription.cpp
         src/device/MediaServer.cpp
         src/device/ScpdStateVariableValidator.cpp
+        src/device/ConnectionManagerServiceValidator.cpp
+        src/device/ServiceDescriptionValidator.cpp
+        src/device/BaseValidator.cpp
+        src/device/ScpdActionListValidator.cpp
 
         #Public Header must be add manualy otherwise vtable
         #errors occure.

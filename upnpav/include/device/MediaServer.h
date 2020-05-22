@@ -53,7 +53,6 @@ private:
 
 private:
     ServiceDescription m_contentDirectoryDescription;
-    ServiceDescription m_ConnectionServiceDescription;
 };
 
 } //namespace UPnPAV
