@@ -5,6 +5,8 @@
 #include "ServiceControlPointDefinition.h"
 #include "ConnectionManagerStateVariables.h"
 #include "ConnectionManagerActions.h"
+#include "ContentDirectoryActions.h"
+#include "ContentDirectoryStateVariables.h"
 
 namespace UPnPAV
 {
@@ -99,30 +101,61 @@ static const ServiceDescription scpdUrlMissingInConnectionManagerDescription
     "http://127.0.0.1/connectionManager/eventUrl"
 };
 
+QVector<SCPDStateVariable> validConnectionManagerStateVariables
+{
+    SourceProtocolInfo,
+    SinkProtocolInfo,
+    CurrentConnectionIDs,
+    A_ARG_TYPE_ConnectionStatus,
+    A_ARG_TYPE_ConnectionManager,
+    A_ARG_TYPE_Direction,
+    A_ARG_TYPE_ProtocolInfo,
+    A_ARG_TYPE_ConnectionID,
+    A_ARG_TYPE_AVTransportID,
+    A_ARG_TYPE_RcsID
+};
+
+QVector<SCPDAction> validConnectionManagerActions
+{
+    GetProtocolInfo,
+    GetCurrentConnectionIDs,
+    GetCurrentConnectionInfo
+};
+
 static const ServiceControlPointDefinition validConnectionManagerSCPD
 {
     "http://127.0.0.1/ConnectionManager.xml",
+    validConnectionManagerStateVariables,
+    validConnectionManagerActions
+};
 
-    //StateVariables
-    {
-        SourceProtocolInfo,
-        SinkProtocolInfo,
-        CurrentConnectionIDs,
-        A_ARG_TYPE_ConnectionStatus,
-        A_ARG_TYPE_ConnectionManager,
-        A_ARG_TYPE_Direction,
-        A_ARG_TYPE_ProtocolInfo,
-        A_ARG_TYPE_ConnectionID,
-        A_ARG_TYPE_AVTransportID,
-        A_ARG_TYPE_RcsID
-    },
+QVector<SCPDStateVariable> validContentDirectoryStateVariables
+{
+    A_ARG_TYPE_ObjectID,
+    A_ARG_TYPE_Result,
+    A_ARG_TYPE_BrowseFlag,
+    A_ARG_TYPE_Filter,
+    A_ARG_TYPE_SortCriteria,
+    A_ARG_TYPE_Index,
+    A_ARG_TYPE_Count,
+    A_ARG_TYPE_UpdateID,
+    SearchCapabilities,
+    SortCapabilities,
+    SystemUpdateID
+};
 
-    //ActionList
-    {
-        GetProtocolInfo,
-        GetCurrentConnectionIDs,
-        GetCurrentConnectionInfo
-    }
+QVector<SCPDAction> validContentDirectoryActions
+{
+    GetSearchCapabilities,
+    GetSortCapabilities,
+    GetSystemUpdateID
+};
+
+ServiceControlPointDefinition validContentDirectorySCPD
+{
+    "http://127.0.0.1/ContentDirectory.xml",
+    validContentDirectoryStateVariables,
+    validContentDirectoryActions
 };
 
 } //namespace UPnPAV

@@ -3,32 +3,15 @@
 
 #include "BaseValidator.h"
 #include "DeviceDescription.h"
+#include "ServiceValidatorBase.h"
 
 namespace UPnPAV
 {
 
-class ConnectionManagerServiceValidator : public BaseValidator
+class ConnectionManagerServiceValidator : public ServiceValidatorBase
 {
 public:
     ConnectionManagerServiceValidator(const DeviceDescription &deviceDescription);
-
-    bool validate() noexcept override;
-
-private:
-    bool hasConnectionManagerService();
-
-    bool validateServiceDescription();
-
-    bool hasSCPD();
-
-    bool validateStateVariables();
-
-    bool validateActions();
-
-private:
-    DeviceDescription m_deviceDescription;
-    ServiceDescription m_serviceDescription;
-    ServiceControlPointDefinition m_serviceControlPointDefinition;
 };
 
 } //namespace UPnPAV

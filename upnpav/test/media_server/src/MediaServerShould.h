@@ -25,6 +25,11 @@ private:
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(const SCPDStateVariable &variable);
 
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutAction(const SCPDAction &action);
+
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(const SCPDStateVariable &variable);
+
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(const SCPDAction &action);
+
 private Q_SLOTS:
     /**
      * @test The media server shall throw an exception when the ContentDirectory Service description
@@ -92,77 +97,33 @@ private Q_SLOTS:
      */
     void throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ConnectionManager();
 
+    void throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD_data();
     /**
-     * @test The media server shall throw an exception when the SCPD has no SourceProtocolInfo
-     * state variable.
+     * @test The media server shall throw an exception on construction when the ConnectionManager SCPD misses one
+     * of the minimum required state variables in the device description.
      */
-    void throw_An_Exception_When_StateVariable_SourceProtocolInfo_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD();
 
+    void Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD_data();
     /**
-     * @test The media server shall throw an exception when the SCPD has no SinkProtocolInfo
-     * state variable.
+     * @test The media server shall throw an exception on constructuion when the ConnectionManager SCPD misses one
+     * of the minimum required actions in the device description.
      */
-    void throw_An_Exception_When_StateVariable_SinkProtocolInfo_Misses_in_ConnectionManager_SCPD();
+    void Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD();
 
+    void throw_Exception_When_StateVariable_Misses_In_ContentDirectory_SCPD_data();
     /**
-     * @test The media server shall throw an exception when the SCPD has no _CurrentConnectionConnectionIDs
-     * state variable.
+     * @test The media server shall throw an exception on construction when the ContentDirectory SCPD misses one
+     * of the minimum required state variables in the device description.
      */
-    void throw_Exception_When_StateVar_CurrentConnectionConnectionIDs_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_StateVariable_Misses_In_ContentDirectory_SCPD();
 
+    void throw_Exception_When_Action_Misses_in_ContentDirectory_SCPD_data();
     /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_ConnectionStatus
-     * state variable.
+     * @test The media server shall throw an exception on constructuion when the ContentDirectory SCPD misses one
+     * of the minimum required actions in the device description.
      */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionStatus_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_ConnectionManager
-     * state variable.
-     */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionManager_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_Direction
-     * state variable.
-     */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_Direction_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_ProtocolInfo
-     * state variable.
-     */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_ProtocolInfo_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_ConnectionID
-     * state variable.
-     */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_ConnectionID_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no A_ARG_TYPE_RcsID
-     * state variable.
-     */
-    void throw_Exception_When_StateVar_A_ARG_TYPE_RcsID_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no GetProtocolInfo
-     * action.
-     */
-    void throw_Exception_When_Action_GetProtocolInfo_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no GetCurrentConnectionIDs
-     * action.
-     */
-    void throw_Exception_When_Action_GetCurrentConnectionIDs_Misses_in_ConnectionManager_SCPD();
-
-    /**
-     * @test The media server shall throw an exception when the SCPD has no GetCurrentConnectionInfo
-     * action.
-     */
-    void throw_Exception_When_Action_GetCurrentConnectionInfo_Misses_in_ConnectionManager_SCPD();
+    void throw_Exception_When_Action_Misses_in_ContentDirectory_SCPD();
 };
 
 } //namespace UPnPAV

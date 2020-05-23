@@ -25,6 +25,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QMetaType>
 #include <optional>
 
 namespace UPnPAV
@@ -81,6 +82,8 @@ private:
     QVector<ServiceControlPointDefinition> m_scpds;
 };
 
-}
+} //namespace UPnPAV
+
+Q_DECLARE_METATYPE(UPnPAV::DeviceDescription)
 
 #endif // DEVICEDESCRIPTION_H

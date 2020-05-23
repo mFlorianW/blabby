@@ -43,15 +43,6 @@ public:
     MediaServer(const DeviceDescription &deviceDescription);
 
 private:
-    /**
-     * Validates a service description if the event URL, control URL and serivce ID is set.
-     *
-     * @param serviceDesc The description that shall be validate.
-     * @param serviceName The name of the service is used for error messages if occurs.
-     */
-    static void validateServiceDescription(const ServiceDescription &serviceDesc, const QString &serviceName);
-
-private:
     ServiceDescription m_contentDirectoryDescription;
 };
 

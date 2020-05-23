@@ -23,7 +23,7 @@ SCPDStateVariable SinkProtocolInfo
 SCPDStateVariable CurrentConnectionIDs
 {
     true,
-    "CurrentConnectionConnectionIDs",
+    "CurrentConnectionIDs",
     SCPDStateVariable::DataType::String
 };
 
