@@ -21,5 +21,5 @@ jobs:
     - name: make
       run: make -j8
     - name: tests
-      run: ctest
+      run: ctest -V
 
