@@ -41,6 +41,8 @@ public:
      */
     bool validate() noexcept override;
 
+    ServiceDescription serviceDescription() const noexcept;
+
 protected:
     DeviceDescription m_deviceDescription;
 

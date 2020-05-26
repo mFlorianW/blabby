@@ -1,3 +1,20 @@
+/**
+ ** This file is part of the Blabby project.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 2 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
 #include "MediaServerShould.h"
 #include "MediaServer.h"
 #include "InvalidDeviceDescription.h"
@@ -5,6 +22,7 @@
 #include "DeviceDescription.h"
 #include "ContentDirectoryStateVariables.h"
 #include "ContentDirectoryActions.h"
+#include "SoapMessageTransmitterDouble.h"
 
 #include <QTest>
 #include <QDebug>
@@ -15,6 +33,23 @@ namespace UPnPAV
 MediaServerShould::MediaServerShould()
     : QObject()
 {
+}
+
+MediaServer MediaServerShould::createMediaServer(DeviceDescription &deviceDescription)
+{
+    return MediaServer
+    {
+        deviceDescription,
+        m_soapMessageTransmitter
+    };
+}
+
+void MediaServerShould::init()
+{
+    m_soapMessageTransmitter = QSharedPointer<SoapMessageTransmitterDouble>
+    {
+        new SoapMessageTransmitterDouble()
+    };
 }
 
 MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescription> &services,
@@ -29,7 +64,9 @@ MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescriptio
 
             services,
             scpds
-        }
+        },
+
+        m_soapMessageTransmitter
     };
 }
 
@@ -449,7 +486,7 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
 
     try
     {
-        MediaServer mediaServer{DeviceDescription};
+        MediaServer mediaServer = createMediaServer(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -508,7 +545,7 @@ void MediaServerShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
 
     try
     {
-        MediaServer mediaServer{DeviceDescription};
+        MediaServer mediaServer = createMediaServer(DeviceDescription);
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
@@ -664,7 +701,7 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
 
     try
     {
-        MediaServer mediaServer{DeviceDescription};
+        MediaServer mediaServer = createMediaServer(DeviceDescription);
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
@@ -736,8 +773,7 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
 
     try
     {
-        MediaServer mediaServer{DeviceDescription};
-
+        MediaServer mediaServer = createMediaServer(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -745,6 +781,76 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
         QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
+}
+
+void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_GetSortCapabilities()
+{
+    MediaServer mediaServer = createMediaServer(
+    {
+        validContentDirectoryDescription,
+        validConnectionManagerDescription
+    },
+    {
+        validContentDirectorySCPD,
+        validConnectionManagerSCPD
+    });
+
+    QString expectedSoapMessage
+    {
+        "<?xml version=\"1.0\"?>"
+        "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+           "<s:Body>"
+              "<u:GetSortCapabilities xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\"/>"
+           "</s:Body>"
+        "</s:Envelope>"
+    };
+
+    mediaServer.getSortCapabilities();
+
+    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}
+                .arg(expectedSoapMessage)
+                .arg(m_soapMessageTransmitter->xmlMessageBody()).toLocal8Bit());
+}
+
+void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
+{
+    MediaServer mediaServer = createMediaServer(
+    {
+        validContentDirectoryDescription,
+        validConnectionManagerDescription
+    },
+    {
+        validContentDirectorySCPD,
+        validConnectionManagerSCPD
+    });
+
+    QString expectedSoapMessage
+    {
+        "<?xml version=\"1.0\"?>"
+        "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+           "<s:Body>"
+              "<u:Browse xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\">"
+                "<u:BrowseFlag>BrowseMetadata</u:BrowseFlag>"
+                "<u:Filter>*</u:Filter>"
+                "<u:ObjectID>0</u:ObjectID>"
+                "<u:RequestedCount>0</u:RequestedCount>"
+                "<u:SortCriteria></u:SortCriteria>"
+                "<u:StartingIndex>0</u:StartingIndex>"
+              "</u:Browse>"
+           "</s:Body>"
+        "</s:Envelope>"
+    };
+
+    mediaServer.browse("0",
+                       MediaServer::BrowseFlag::MetaData,
+                       "*",
+                       "");
+
+    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}
+                .arg(expectedSoapMessage)
+                .arg(m_soapMessageTransmitter->xmlMessageBody()).toLocal8Bit());
 }
 
 } // namespace UPnPAV

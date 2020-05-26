@@ -1,6 +1,6 @@
 /**
  ** This file is part of the Blabby project.
- ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ ** Copyright 2019 Florian Weßel <florianwessel@gmx.net>.
  **
  ** This program is free software: you can redistribute it and/or modify
  ** it under the terms of the GNU Lesser General Public License as
@@ -15,21 +15,27 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef CONTENTDIRECTORYSERVICEVALIDATOR_H
-#define CONTENTDIRECTORYSERVICEVALIDATOR_H
+#ifndef SOAPMESSAGETRANSMITTER_H
+#define SOAPMESSAGETRANSMITTER_H
 
-#include "ServiceValidatorBase.h"
-#include "DeviceDescription.h"
+#include "UPnP_Export.h"
+#include "SoapCall.h"
+
+class QString;
 
 namespace UPnPAV
 {
 
-class ContentDirectoryServiceValidator final : public ServiceValidatorBase
+class UPNP_EXPORT SoapMessageTransmitter
 {
 public:
-    ContentDirectoryServiceValidator(const DeviceDescription &deviceDescription);
+    virtual ~SoapMessageTransmitter();
+
+    virtual QSharedPointer<SoapCall> sendSoapMessage(const QString &actionName,
+                                                     const QString &serviceType,
+                                                     const QString &xmlBody) noexcept = 0;
 };
 
 } //namespace UPnPAV
 
-#endif // CONTENTDIRECTORYVALIDATOR_H
+#endif // SOAPTRANSMITTER_H

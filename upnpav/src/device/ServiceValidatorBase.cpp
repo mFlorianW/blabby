@@ -33,7 +33,12 @@ bool ServiceValidatorBase::validate() noexcept
            validateServiceDescription() &&
            hasSCPD() &&
            validateStateVariables() &&
-           validateActions();
+            validateActions();
+}
+
+ServiceDescription ServiceValidatorBase::serviceDescription() const noexcept
+{
+    return m_serviceDescription;
 }
 
 bool ServiceValidatorBase::hasService()

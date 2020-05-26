@@ -18,32 +18,55 @@
 #ifndef MEDIASERVER_H
 #define MEDIASERVER_H
 
-#include "ServiceDescription.h"
 #include "UPnP_Export.h"
+#include "ServiceDescription.h"
+#include "PendingReply.h"
+
+#include <QSharedPointer>
 
 namespace UPnPAV
 {
 class DeviceDescription;
+class SoapMessageTransmitter;
 
 class UPNP_EXPORT MediaServer final
 {
 public:
+    enum BrowseFlag
+    {
+        MetaData,
+        DirectChildren
+    };
+
     /**
      * Creates a MediaService instance.
-     *
      *
      * @param deviceDescription The parsed XML description of
      *        the device which is used to check for the minimum required
      *        values and functions.
+     * @param soapMessageTransmitter Transmitter to send out soap messages
+     *        to a Media Server.
      *
      * @throws InvalidDeviceDescription if the given
      *         description contain the minimum requried
      *         functions and values.
      */
-    MediaServer(const DeviceDescription &deviceDescription);
+    MediaServer(const DeviceDescription &deviceDescription,
+                const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
+
+    PendingReply getSortCapabilities();
+
+    PendingReply browse(const QString &objectId,
+                        BrowseFlag browseFlag,
+                        const QString &filter,
+                        const QString &sortCriteria);
 
 private:
-    ServiceDescription m_contentDirectoryDescription;
+    static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
+
+private:
+    ServiceDescription m_contentDirectoryServiceDescription;
+    QSharedPointer<SoapMessageTransmitter> m_soapMessageTransmitter;
 };
 
 } //namespace UPnPAV

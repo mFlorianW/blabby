@@ -1,7 +1,25 @@
+/**
+ ** This file is part of the Blabby project.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 2 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
 #ifndef MEDIASERVERSHOULD_H
 #define MEDIASERVERSHOULD_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 namespace UPnPAV
 {
@@ -10,7 +28,8 @@ class MediaServer;
 class ServiceControlPointDefinition;
 class SCPDStateVariable;
 class SCPDAction;
-
+class DeviceDescription;
+class SoapMessageTransmitterDouble;
 
 class MediaServerShould : public QObject
 {
@@ -30,7 +49,14 @@ private:
 
     ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(const SCPDAction &action);
 
+    MediaServer createMediaServer(DeviceDescription &deviceDescription);
+
+    QSharedPointer<SoapMessageTransmitterDouble> m_soapMessageTransmitter;
+
 private Q_SLOTS:
+
+    void init();
+
     /**
      * @test The media server shall throw an exception when the ContentDirectory Service description
      * is missing.
@@ -124,6 +150,10 @@ private Q_SLOTS:
      * of the minimum required actions in the device description.
      */
     void throw_Exception_When_Action_Misses_in_ContentDirectory_SCPD();
+
+    void shall_Send_The_SOAP_Message_When_Calling_GetSortCapabilities();
+
+    void shall_Send_The_SOAP_Message_When_Calling_Browse();
 };
 
 } //namespace UPnPAV

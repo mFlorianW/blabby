@@ -15,21 +15,29 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef CONTENTDIRECTORYSERVICEVALIDATOR_H
-#define CONTENTDIRECTORYSERVICEVALIDATOR_H
-
-#include "ServiceValidatorBase.h"
-#include "DeviceDescription.h"
+#include "SoapMessageTransmitterDouble.h"
 
 namespace UPnPAV
 {
 
-class ContentDirectoryServiceValidator final : public ServiceValidatorBase
+SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
 {
-public:
-    ContentDirectoryServiceValidator(const DeviceDescription &deviceDescription);
-};
+}
+
+bool SoapMessageTransmitterDouble::sendSoapMessage(const QString &actionName,
+                                                   const QString &serviceType,
+                                                   const QString &xmlBody) noexcept
+{
+    Q_UNUSED(actionName)
+    Q_UNUSED(serviceType)
+    m_xmlMessageBody = xmlBody;
+
+    return true;
+}
+
+QString SoapMessageTransmitterDouble::xmlMessageBody() const
+{
+    return m_xmlMessageBody;
+}
 
 } //namespace UPnPAV
-
-#endif // CONTENTDIRECTORYVALIDATOR_H
