@@ -15,35 +15,28 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#ifndef ERRORRESULT_H
+#define ERRORRESULT_H
+
+#include <QString>
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+class ErrorResult
 {
-}
+public:
+    ErrorResult(const QString &rawMessage);
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
-{
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
+    qint32 errorCode() const noexcept;
 
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
-}
+    QString errorDescription() const noexcept;
 
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
-{
-    return m_xmlMessageBody;
-}
+private:
+    qint32 m_errorCode{0};
+    QString m_errorDescription;
+};
 
 } //namespace UPnPAV
+
+#endif // ERRORRESULT_H

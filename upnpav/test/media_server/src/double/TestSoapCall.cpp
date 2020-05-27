@@ -15,35 +15,19 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
 #include "TestSoapCall.h"
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+bool TestSoapCall::hasFinishedSuccesful() const noexcept
 {
+    return true;
 }
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
+QString TestSoapCall::rawMessage() const noexcept
 {
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
-
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
-}
-
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
-{
-    return m_xmlMessageBody;
+    return "";
 }
 
 } //namespace UPnPAV

@@ -1,6 +1,6 @@
 /**
  ** This file is part of the Blabby project.
- ** Copyright 2019 Florian Weßel <florianwessel@gmx.net>.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
  **
  ** This program is free software: you can redistribute it and/or modify
  ** it under the terms of the GNU Lesser General Public License as
@@ -15,17 +15,22 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef PENDINGREPLY_H
-#define PENDINGREPLY_H
+#ifndef TESTSOAPCALL_H
+#define TESTSOAPCALL_H
 
-#include "UPnP_Export.h"
+#include "SoapCall.h"
 
 namespace UPnPAV
 {
-class UPNP_EXPORT PendingReply
+
+class TestSoapCall : public SoapCall
 {
+    Q_OBJECT
+public:
+    bool hasFinishedSuccesful() const noexcept override;
+    QString rawMessage() const noexcept override;
 };
 
 } //namespace UPnPAV
 
-#endif // PENDINGREPLY_H
+#endif // TESTSOAPCALL_H

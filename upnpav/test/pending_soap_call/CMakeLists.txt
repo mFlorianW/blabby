@@ -18,25 +18,24 @@
 ################################################################################
 # Build
 ################################################################################
-add_executable(test_upnpav_media_server)
+add_executable(test_upnpav_pending_soap_call)
 
-target_sources(test_upnpav_media_server
+target_sources(test_upnpav_pending_soap_call
     PRIVATE
-        src/MediaServerShould.cpp
-        src/double/SoapMessageTransmitterDouble.cpp
-        src/double/TestSoapCall.cpp
+        src/PendingSoapCallShould.cpp
+        src/double/SoapCallDouble.cpp
 )
 
-target_include_directories(test_upnpav_media_server
+target_include_directories(test_upnpav_pending_soap_call
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/double>
 )
 
-target_link_libraries(test_upnpav_media_server
+target_link_libraries(test_upnpav_pending_soap_call
     Blabby::UPnPAVObject
     Qt5::Test
 )
 
-add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server)
+add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_pending_soap_call)
 

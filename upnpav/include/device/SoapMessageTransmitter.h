@@ -21,6 +21,8 @@
 #include "UPnP_Export.h"
 #include "SoapCall.h"
 
+#include <QSharedPointer>
+
 class QString;
 
 namespace UPnPAV
@@ -31,7 +33,8 @@ class UPNP_EXPORT SoapMessageTransmitter
 public:
     virtual ~SoapMessageTransmitter();
 
-    virtual QSharedPointer<SoapCall> sendSoapMessage(const QString &actionName,
+    virtual QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
+                                                     const QString &actionName,
                                                      const QString &serviceType,
                                                      const QString &xmlBody) noexcept = 0;
 };

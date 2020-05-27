@@ -15,35 +15,32 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#include "HttpSoapCall.h"
+
+#include <QNetworkReply>
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply)
+    : SoapCall()
+    , m_reply(reply)
 {
+    (void)connect(m_reply.get(),
+                  &QNetworkReply::finished,
+                  this,
+                  &HttpSoapCall::finished);
 }
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
+bool HttpSoapCall::hasFinishedSuccesful() const noexcept
 {
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
-
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
+    return (m_reply->error() == QNetworkReply::NoError) ? true
+                                                        : false;
 }
 
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
+QString HttpSoapCall::rawMessage() const noexcept
 {
-    return m_xmlMessageBody;
+    return QString{m_reply->readAll()};
 }
 
 } //namespace UPnPAV

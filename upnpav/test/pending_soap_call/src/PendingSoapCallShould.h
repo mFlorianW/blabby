@@ -15,35 +15,33 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#ifndef PENDINGREPLYSHOULD_H
+#define PENDINGREPLYSHOULD_H
+
+#include <QObject>
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+class PendingSoapCallShould : public QObject
 {
-}
+    Q_OBJECT
+public:
+    PendingSoapCallShould();
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
-{
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
+private Q_SLOTS:
+    void emit_Finished_Signal_When_DataReceived();
 
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
-}
+    void set_Error_To_True_When_Soap_Call_Finished_With_Error();
 
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
-{
-    return m_xmlMessageBody;
-}
+    void map_Soap_Error_Codes_To_Enum_When_Call_Finished_data();
+    void map_Soap_Error_Codes_To_Enum_When_Call_Finished();
+
+    void give_Error_Description_When_Call_Finished_With_Error();
+
+    void return_An_Object_That_is_Constructable_With_QString_That_Returns_The_Message_When_Call_Finished();
+};
 
 } //namespace UPnPAV
+
+#endif // PENDINGREPLYSHOULD_H

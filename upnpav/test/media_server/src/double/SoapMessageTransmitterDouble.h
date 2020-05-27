@@ -30,9 +30,10 @@ class SoapMessageTransmitterDouble : public SoapMessageTransmitter
 public:
     SoapMessageTransmitterDouble();
 
-    bool sendSoapMessage(const QString &actionName,
-                         const QString &serviceType,
-                         const QString &xmlBody) noexcept override;
+    QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
+                                             const QString &actionName,
+                                             const QString &serviceType,
+                                             const QString &xmlBody) noexcept override;
 
     QString xmlMessageBody() const;
 

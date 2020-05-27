@@ -25,3 +25,4 @@ find_package(Qt5Test 5.13 REQUIRED)
 ###############################################################################
 add_subdirectory(service_provider)
 add_subdirectory(media_server)
+add_subdirectory(pending_soap_call)

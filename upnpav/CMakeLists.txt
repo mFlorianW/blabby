@@ -81,6 +81,10 @@ target_sources(BlabbyUPnPAVObject
         src/device/SoapMessageTransmitter.cpp
         src/device/SoapMessageGenerator.cpp
         src/device/SoapCall.cpp
+        src/device/PendingSoapCall.cpp
+        src/device/HttpSoapMessageTransmitter.cpp
+        src/device/HttpSoapCall.cpp
+        src/device/ErrorResult.cpp
 
         #Public Header must be add manualy otherwise vtable
         #errors occure.
@@ -99,6 +103,11 @@ target_sources(BlabbyUPnPAVObject
 
         #device
         include/device/MediaServer.h
+        include/device/SoapCall.h
+        include/device/PendingSoapCall.h
+        include/device/InvalidDeviceDescription.h
+        include/device/SoapMessageTransmitter.h
+        include/device/HttpSoapMessageTransmitter.h
 )
 
 target_link_libraries(BlabbyUPnPAVObject

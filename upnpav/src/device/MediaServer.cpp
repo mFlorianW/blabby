@@ -45,7 +45,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
     m_contentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
 }
 
-PendingReply MediaServer::getSortCapabilities()
+QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities()
 {
     static const QString actionName{"GetSortCapabilities"};
     SoapMessageGenerator msgGen;
@@ -53,14 +53,21 @@ PendingReply MediaServer::getSortCapabilities()
     auto xmlMessage = msgGen.generateXmlMessageBody(actionName,
                                                     m_contentDirectoryServiceDescription.serviceType());
 
-    m_soapMessageTransmitter->sendSoapMessage(actionName,
-                                              m_contentDirectoryServiceDescription.serviceType(),
-                                              xmlMessage);
+    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
+                                                              actionName,
+                                                              m_contentDirectoryServiceDescription.serviceType(),
+                                                              xmlMessage);
 
-    return PendingReply{};
+    return QSharedPointer<PendingSoapCall>
+    {
+        new PendingSoapCall
+        {
+            soapCall
+        }
+    };
 }
 
-PendingReply MediaServer::browse(const QString &objectId,
+QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
                                  MediaServer::BrowseFlag browseFlag,
                                  const QString &filter,
                                  const QString &sortCriteria)
@@ -82,11 +89,18 @@ PendingReply MediaServer::browse(const QString &objectId,
                                                     m_contentDirectoryServiceDescription.serviceType(),
                                                     browseArgs);
 
-    m_soapMessageTransmitter->sendSoapMessage(actionName,
-                                              m_contentDirectoryServiceDescription.serviceType(),
-                                              xmlMessage);
+    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
+                                                              actionName,
+                                                              m_contentDirectoryServiceDescription.serviceType(),
+                                                              xmlMessage);
 
-    return PendingReply{};
+    return QSharedPointer<PendingSoapCall>
+    {
+        new PendingSoapCall
+        {
+            soapCall
+        }
+    };
 }
 
 QString MediaServer::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept

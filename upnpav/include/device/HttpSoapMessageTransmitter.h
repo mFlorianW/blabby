@@ -15,35 +15,31 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#ifndef HTTPSOAPMESSAGETRANSMITTER_H
+#define HTTPSOAPMESSAGETRANSMITTER_H
+
+#include "UPnP_Export.h"
+#include "SoapMessageTransmitter.h"
+
+#include <QNetworkAccessManager>
 
 namespace UPnPAV
 {
-
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+class UPNP_EXPORT HttpSoapMessageTransmitter final : public SoapMessageTransmitter
 {
-}
+public:
+    HttpSoapMessageTransmitter();
+    ~HttpSoapMessageTransmitter() override;
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
-{
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
+    QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
+                                             const QString &actionName,
+                                             const QString &serviceType,
+                                             const QString &xmlBody) noexcept override;
 
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
-}
-
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
-{
-    return m_xmlMessageBody;
-}
+private:
+    QNetworkAccessManager m_accessManager;
+};
 
 } //namespace UPnPAV
+
+#endif // HTTPSOAPMESSAGETRANSMITTER_H

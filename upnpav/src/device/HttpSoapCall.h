@@ -15,4 +15,32 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "PendingReply.h"
+#ifndef HTTPSOAPCALL_H
+#define HTTPSOAPCALL_H
+
+#include "UPnP_Export.h"
+#include "SoapCall.h"
+
+#include <QSharedPointer>
+
+class QNetworkReply;
+
+namespace UPnPAV
+{
+
+class UPNP_EXPORT HttpSoapCall final : public SoapCall
+{
+public:
+    HttpSoapCall(const QSharedPointer<QNetworkReply> &reply);
+
+    bool hasFinishedSuccesful() const noexcept override;
+
+    QString rawMessage() const noexcept override;
+
+private:
+    QSharedPointer<QNetworkReply> m_reply;
+};
+
+} //namespace UPnPAV
+
+#endif // HTTPSOAPCALL_H

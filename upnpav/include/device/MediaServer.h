@@ -20,7 +20,7 @@
 
 #include "UPnP_Export.h"
 #include "ServiceDescription.h"
-#include "PendingReply.h"
+#include "PendingSoapCall.h"
 
 #include <QSharedPointer>
 
@@ -54,12 +54,12 @@ public:
     MediaServer(const DeviceDescription &deviceDescription,
                 const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
 
-    PendingReply getSortCapabilities();
+    QSharedPointer<PendingSoapCall> getSortCapabilities();
 
-    PendingReply browse(const QString &objectId,
-                        BrowseFlag browseFlag,
-                        const QString &filter,
-                        const QString &sortCriteria);
+    QSharedPointer<PendingSoapCall> browse(const QString &objectId,
+                                           BrowseFlag browseFlag,
+                                           const QString &filter,
+                                           const QString &sortCriteria);
 
 private:
     static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;

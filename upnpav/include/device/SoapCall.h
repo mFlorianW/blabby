@@ -15,35 +15,44 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#ifndef SOAPCALL_H
+#define SOAPCALL_H
+
+#include <QObject>
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
+class SoapCall : public QObject
 {
-}
+    Q_OBJECT
+public:
+    virtual ~SoapCall();
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
-                                                                       const QString &actionName,
-                                                                       const QString &serviceType,
-                                                                       const QString &xmlBody) noexcept
-{
-    Q_UNUSED(url)
-    Q_UNUSED(actionName)
-    Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
+    /**
+     * Status of the SOAP call. True means call finished successful otherwise false.
+     *
+     * @note The return value is only valid when finished signal was emitted.
+     *
+     * @return True call finished successful, otherwise false.
+     */
+    virtual bool hasFinishedSuccesful() const noexcept = 0;
 
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
-}
+    /**
+     * Raw answer of the error code.
+     *
+     * @return The raw response of the Soap call.
+     */
+    virtual QString rawMessage() const noexcept = 0;
 
-QString SoapMessageTransmitterDouble::xmlMessageBody() const
-{
-    return m_xmlMessageBody;
-}
+Q_SIGNALS:
+    /**
+     * This signal shall be emitted when the Soap call
+     * is finished.
+     */
+    void finished();
+};
 
 } //namespace UPnPAV
+
+#endif // SOAPCALL_H
