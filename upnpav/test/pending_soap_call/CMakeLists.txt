@@ -37,5 +37,5 @@ target_link_libraries(test_upnpav_pending_soap_call
     Qt5::Test
 )
 
-add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_pending_soap_call)
+add_test(test_upnpav_pending_soap_call ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_pending_soap_call)
 
