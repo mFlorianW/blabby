@@ -14,7 +14,6 @@ HttpSoapMessageTransmitter::HttpSoapMessageTransmitter()
 
 HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter()
 {
-    qDebug() << "destroyed.";
 }
 
 QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QString &url,
