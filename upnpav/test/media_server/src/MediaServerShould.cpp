@@ -825,18 +825,19 @@ void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
         validConnectionManagerSCPD
     });
 
+    //Important the order of the args must have the order of the SCPD description.
     QString expectedSoapMessage
     {
         "<?xml version=\"1.0\"?>"
         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
            "<s:Body>"
               "<u:Browse xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\">"
+                "<u:ObjectID>0</u:ObjectID>"
                 "<u:BrowseFlag>BrowseMetadata</u:BrowseFlag>"
                 "<u:Filter>*</u:Filter>"
-                "<u:ObjectID>0</u:ObjectID>"
+                "<u:StartingIndex>0</u:StartingIndex>"
                 "<u:RequestedCount>0</u:RequestedCount>"
                 "<u:SortCriteria></u:SortCriteria>"
-                "<u:StartingIndex>0</u:StartingIndex>"
               "</u:Browse>"
            "</s:Body>"
         "</s:Envelope>"

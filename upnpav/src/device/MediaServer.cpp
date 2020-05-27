@@ -43,18 +43,19 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
     }
 
     m_contentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
+    m_contentDirectorySCPD = conDirectoryServiceValidator.scpd();
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities()
 {
-    static const QString actionName{"GetSortCapabilities"};
+    auto action = m_contentDirectorySCPD.action("GetSortCapabilities");
     SoapMessageGenerator msgGen;
 
-    auto xmlMessage = msgGen.generateXmlMessageBody(actionName,
+    auto xmlMessage = msgGen.generateXmlMessageBody(action,
                                                     m_contentDirectoryServiceDescription.serviceType());
 
     auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
-                                                              actionName,
+                                                              action.name(),
                                                               m_contentDirectoryServiceDescription.serviceType(),
                                                               xmlMessage);
 
@@ -68,29 +69,27 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities()
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
-                                 MediaServer::BrowseFlag browseFlag,
-                                 const QString &filter,
-                                 const QString &sortCriteria)
+                                                    MediaServer::BrowseFlag browseFlag,
+                                                    const QString &filter,
+                                                    const QString &sortCriteria)
 {
-    static const QString actionName{"Browse"};
+    auto action = m_contentDirectorySCPD.action("Browse");
+
+    ArgumentList browseArgs{6};
+    browseArgs << Argument{"BrowseFlag", convertBrowseFlagToString(browseFlag)}
+               << Argument{"RequestedCount", "0"}
+               << Argument{"ObjectID", objectId}
+               << Argument{"Filter", filter}
+               << Argument{"StartingIndex", "0"}
+               << Argument{"SortCriteria", sortCriteria};
+
     SoapMessageGenerator msgGen;
-
-    ArgumentMap browseArgs
-    {
-        std::make_pair("BrowseFlag", convertBrowseFlagToString(browseFlag)),
-        std::make_pair("ObjectID", objectId),
-        std::make_pair("Filter", filter),
-        std::make_pair("RequestedCount", "0"),
-        std::make_pair("SortCriteria", sortCriteria),
-        std::make_pair("StartingIndex", "0")
-    };
-
-    auto xmlMessage = msgGen.generateXmlMessageBody(actionName,
+    auto xmlMessage = msgGen.generateXmlMessageBody(action,
                                                     m_contentDirectoryServiceDescription.serviceType(),
                                                     browseArgs);
 
     auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
-                                                              actionName,
+                                                              action.name(),
                                                               m_contentDirectoryServiceDescription.serviceType(),
                                                               xmlMessage);
 

@@ -39,6 +39,7 @@ public:
     const QVector<SCPDStateVariable> &serviceStateTable() const;
 
     const QVector<SCPDAction> &actionList() const;
+    SCPDAction action(const QString &actionName) const noexcept;
 
     friend bool operator==(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition& rhs);
 

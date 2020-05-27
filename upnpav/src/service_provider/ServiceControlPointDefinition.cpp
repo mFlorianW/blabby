@@ -62,6 +62,19 @@ const QVector<SCPDAction> &ServiceControlPointDefinition::actionList() const
     return m_actions;
 }
 
+SCPDAction ServiceControlPointDefinition::action(const QString &actionName) const noexcept
+{
+    for(const auto &action : m_actions)
+    {
+        if(action.name() == actionName)
+        {
+            return action;
+        }
+    }
+
+    return {};
+}
+
 bool operator==(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition &rhs)
 {
     if(&lhs == &rhs)

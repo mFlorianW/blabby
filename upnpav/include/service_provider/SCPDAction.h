@@ -37,6 +37,8 @@ public:
 
     const QVector<SCPDArgument> &arguments() const;
 
+    QVector<SCPDArgument> inArguments() const noexcept;
+
     friend bool operator==(const SCPDAction &lhs, const SCPDAction &rhs);
     friend bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs);
 

@@ -23,16 +23,25 @@
 
 namespace UPnPAV
 {
-using ArgumentMap = QMap<QString, QString>;
+class SCPDAction;
+struct Argument
+{
+    QString name;
+    QString value;
+};
+
+using ArgumentList = QVector<Argument>;
 
 class SoapMessageGenerator
 {
 public:
     SoapMessageGenerator();
 
-    QString generateXmlMessageBody(const QString &actionName,
+    QString generateXmlMessageBody(const SCPDAction &action,
                                    const QString &serviceType,
-                                   ArgumentMap args = {}) noexcept;
+                                   ArgumentList args = {}) noexcept;
+private:
+    static QVector<Argument> putArgumentsInOrderAsInDefiniton(const QVector<Argument> &args, const SCPDAction &action);
 };
 
 } //namespace UPnPAV

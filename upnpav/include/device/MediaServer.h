@@ -21,13 +21,14 @@
 #include "UPnP_Export.h"
 #include "ServiceDescription.h"
 #include "PendingSoapCall.h"
+#include "ServiceControlPointDefinition.h"
 
 #include <QSharedPointer>
 
 namespace UPnPAV
 {
-class DeviceDescription;
 class SoapMessageTransmitter;
+class DeviceDescription;
 
 class UPNP_EXPORT MediaServer final
 {
@@ -66,6 +67,7 @@ private:
 
 private:
     ServiceDescription m_contentDirectoryServiceDescription;
+    ServiceControlPointDefinition m_contentDirectorySCPD;
     QSharedPointer<SoapMessageTransmitter> m_soapMessageTransmitter;
 };
 

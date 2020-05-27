@@ -41,6 +41,20 @@ const QVector<SCPDArgument> &SCPDAction::arguments() const
     return m_arguments;
 }
 
+QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
+{
+    QVector<SCPDArgument> result;
+    for(const auto &arg : m_arguments)
+    {
+        if(arg.direction() == SCPDArgument::In)
+        {
+            result.append(arg);
+        }
+    }
+
+    return result;
+}
+
 bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
 {
     if(&lhs == &rhs)

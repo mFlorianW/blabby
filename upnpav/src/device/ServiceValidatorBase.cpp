@@ -41,6 +41,11 @@ ServiceDescription ServiceValidatorBase::serviceDescription() const noexcept
     return m_serviceDescription;
 }
 
+ServiceControlPointDefinition ServiceValidatorBase::scpd() const noexcept
+{
+    return m_serviceControlPointDefinition;
+}
+
 bool ServiceValidatorBase::hasService()
 {
     auto serviceDescription = m_deviceDescription.service(m_serviceType);

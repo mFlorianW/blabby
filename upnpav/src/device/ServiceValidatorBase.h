@@ -43,6 +43,8 @@ public:
 
     ServiceDescription serviceDescription() const noexcept;
 
+    ServiceControlPointDefinition scpd() const noexcept;
+
 protected:
     DeviceDescription m_deviceDescription;
 
