@@ -46,8 +46,8 @@ set(BASE_SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/controls ${CMAKE_BINARY_DIR} CACHE STRING "" FORCE)
 
 #Install folder
-set(DEFAULT_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME})
-set(DEFAULT_LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME})
+set(DEFAULT_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
+set(DEFAULT_LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/multimedia)
 set(DEFAULT_QML_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/qml)
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -82,3 +82,5 @@ add_definitions("-DINSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 # Subdirectories
 ################################################################################
 add_subdirectory(upnpav)
+add_subdirectory(plugincore)
+add_subdirectory(shell)
