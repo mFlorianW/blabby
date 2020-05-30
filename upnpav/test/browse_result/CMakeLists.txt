@@ -15,16 +15,25 @@
 ## You should have received a copy of the GNU Lesser General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-###############################################################################
-# Dependencies
-###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+################################################################################
+# Build
+################################################################################
+add_executable(test_upnpav_browse_result)
 
-###############################################################################
-# Test Projects
-###############################################################################
-add_subdirectory(service_provider)
-add_subdirectory(media_server)
-add_subdirectory(pending_soap_call)
-add_subdirectory(browse_result)
-add_subdirectory(media_server_object)
+target_sources(test_upnpav_browse_result
+    PRIVATE
+        src/BrowseResultShould.cpp
+)
+
+target_include_directories(test_upnpav_browse_result
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
+)
+
+target_link_libraries(test_upnpav_browse_result
+    Blabby::UPnPAVObject
+    Qt5::Test
+)
+
+add_test(test_upnpav_browse_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_browse_result)
+

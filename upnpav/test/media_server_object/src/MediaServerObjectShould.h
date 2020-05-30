@@ -15,14 +15,25 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "SoapCall.h"
+#ifndef MEDIASERVEROBJECTSHOULD_H
+#define MEDIASERVEROBJECTSHOULD_H
+
+#include <QObject>
 
 namespace UPnPAV
 {
 
-SoapCall::~SoapCall()
+class MediaServerObjectShould : public QObject
 {
-}
+    Q_OBJECT
+
+private Q_SLOTS:
+    void return_The_ID_Set_In_The_Constructor();
+    void return_The_ParentId_Set_Passed_In_The_Constructor();
+    void return_the_Title_Passed_In_The_Constructor();
+    void return_The_TypeClass_Passed_In_The_Constructor();
+};
 
 } //namespace UPnPAV
 
+#endif // MEDIASERVEROBJECTSHOULD_H
