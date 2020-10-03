@@ -46,7 +46,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
     m_contentDirectorySCPD = conDirectoryServiceValidator.scpd();
 }
 
-QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities()
+QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
     auto action = m_contentDirectorySCPD.action("GetSortCapabilities");
     SoapMessageGenerator msgGen;
@@ -71,7 +71,7 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities()
 QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
                                                     MediaServer::BrowseFlag browseFlag,
                                                     const QString &filter,
-                                                    const QString &sortCriteria)
+                                                    const QString &sortCriteria) noexcept
 {
     auto action = m_contentDirectorySCPD.action("Browse");
 

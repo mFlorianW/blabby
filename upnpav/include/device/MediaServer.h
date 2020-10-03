@@ -22,6 +22,7 @@
 #include "ServiceDescription.h"
 #include "PendingSoapCall.h"
 #include "ServiceControlPointDefinition.h"
+#include "IMediaServer.h"
 
 #include <QSharedPointer>
 
@@ -30,15 +31,9 @@ namespace UPnPAV
 class SoapMessageTransmitter;
 class DeviceDescription;
 
-class UPNP_EXPORT MediaServer final
+class UPNP_EXPORT MediaServer final : public IMediaServer
 {
 public:
-    enum BrowseFlag
-    {
-        MetaData,
-        DirectChildren
-    };
-
     /**
      * Creates a MediaService instance.
      *
@@ -55,12 +50,26 @@ public:
     MediaServer(const DeviceDescription &deviceDescription,
                 const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
 
-    QSharedPointer<PendingSoapCall> getSortCapabilities();
+    /**
+     * Request the supported sort capabilities of the media server.
+     *
+     * @return PendingSoapCall with the result or error.
+     */
+    QSharedPointer<PendingSoapCall> getSortCapabilities() noexcept override;
 
+    /**
+     * Browse the media server.
+     *
+     * @param objectId The object that shall be browsed.
+     * @param browseFlag What shall be browsed, e.g. MetaData.
+     * @param filter Comma seperated list of properties that shall appear in the result
+     * @param sortCriteria Comma seperated list of in which order the result shall be returned
+     * @return PendingSoapCall with the result or error.
+     */
     QSharedPointer<PendingSoapCall> browse(const QString &objectId,
                                            BrowseFlag browseFlag,
                                            const QString &filter,
-                                           const QString &sortCriteria);
+                                           const QString &sortCriteria) noexcept override;
 
 private:
     static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
