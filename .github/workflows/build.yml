@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS=true
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.6.2
       with:
