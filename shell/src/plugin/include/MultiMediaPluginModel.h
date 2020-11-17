@@ -15,25 +15,44 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef PLUGINVERSION_H
-#define PLUGINVERSION_H
+#ifndef MULTIMEDIAPLUGINMODEL_H
+#define MULTIMEDIAPLUGINMODEL_H
 
-#include <PluginCore_Export.h>
-#include <QtGlobal>
+#include <QAbstractListModel>
+#include <memory>
+#include <qqml.h>
 
 namespace PluginCore
 {
+class MultiMediaPlugin;
+}
 
-/**
- * Struct which handles the version of the plugin
- */
-struct PLUGINCORE_EXPORT PluginVersion
+namespace Shell
 {
-    quint32 major = 0;
-    quint32 minor = 0;
-    quint32 patch = 0;
+class MultiMediaPluginModelPrivate;
+
+class MultiMediaPluginModel final : public QAbstractListModel
+{
+    Q_OBJECT
+    QML_ELEMENT
+public:
+    enum Roles
+    {
+        PluginName = Qt::UserRole + 1
+    };
+    Q_ENUM(Roles)
+
+    MultiMediaPluginModel(const QVector<PluginCore::MultiMediaPlugin *> &plugins);
+    ~MultiMediaPluginModel();
+
+    qint32 rowCount(const QModelIndex &parent) const override;
+
+    QVariant data(const QModelIndex &index, int role) const override;
+
+private:
+    std::unique_ptr<MultiMediaPluginModelPrivate> d;
 };
 
-} // namespace PluginCore
+} // namespace Shell
 
-#endif // PLUGINVERSION_H
+#endif // MULTIMEDIAPLUGINMODEL_H

@@ -41,6 +41,12 @@ add_library(Blabby::Object ALIAS BlabbyObject)
 target_sources(BlabbyObject
     PRIVATE
         ${RESOURCE_FILES}
+
+        # Plugin
+        src/plugin/include/MultiMediaPluginSource.h
+        src/plugin/include/MultiMediaPluginModel.h
+        src/plugin/src/MultiMediaPluginModel.cpp
+        src/plugin/src/MultiMediaPluginModel_p.cpp
 )
 
 target_link_libraries(BlabbyObject
@@ -53,6 +59,7 @@ target_link_libraries(BlabbyObject
 target_include_directories(BlabbyObject
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/plugin/include>
 )
 
 add_executable(blabby)
@@ -64,6 +71,13 @@ target_sources(blabby
 target_link_libraries(blabby
     BlabbyObject
 )
+
+################################################################################
+# Test
+################################################################################
+if(ENABLE_TEST)
+    add_subdirectory(test)
+endif()
 
 ################################################################################
 # Install FreeDLNAControl

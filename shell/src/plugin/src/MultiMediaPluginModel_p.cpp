@@ -15,25 +15,15 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef PLUGINVERSION_H
-#define PLUGINVERSION_H
+#include "MultiMediaPluginModel_p.h"
+#include "MultiMediaPlugin.h"
 
-#include <PluginCore_Export.h>
-#include <QtGlobal>
-
-namespace PluginCore
+namespace Shell
 {
 
-/**
- * Struct which handles the version of the plugin
- */
-struct PLUGINCORE_EXPORT PluginVersion
+MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<PluginCore::MultiMediaPlugin *> &plugins)
+    : mPlugins{ plugins }
 {
-    quint32 major = 0;
-    quint32 minor = 0;
-    quint32 patch = 0;
-};
+}
 
-} // namespace PluginCore
-
-#endif // PLUGINVERSION_H
+} // namespace Shell
