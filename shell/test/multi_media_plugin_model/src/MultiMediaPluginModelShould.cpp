@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MultiMediaPluginModelShould.h"
+#include "MultiMediaPlugin.h"
 #include "MultiMediaPluginModel.h"
-#include "MultiMediaPluginSourceDouble.h"
 #include <QtTest>
 #include <memory>
 
