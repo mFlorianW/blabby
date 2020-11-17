@@ -20,7 +20,6 @@ add_executable(test_shell_multimedia_plugin_model)
 target_sources(test_shell_multimedia_plugin_model
     PRIVATE
         src/MultiMediaPluginModelShould.cpp
-        src/double/MultiMediaPluginSourceDouble.cpp
 )
 
 target_include_directories(test_shell_multimedia_plugin_model
