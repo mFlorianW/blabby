@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    env:
+        QT_QPA_PLATFORM: offscreen
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.9.0
       with:
