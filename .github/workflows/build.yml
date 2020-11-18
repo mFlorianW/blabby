@@ -23,5 +23,5 @@ jobs:
     - name: tests
       run: ctest -V
       env:
-        QT_QPA_PLATFORM:offscreen
+        QT_QPA_PLATFORM: offscreen
 
