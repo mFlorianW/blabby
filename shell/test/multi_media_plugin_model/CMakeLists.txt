@@ -32,4 +32,7 @@ target_link_libraries(test_shell_multimedia_plugin_model
     Qt5::Test
 )
 
-add_test(test_shell_multimedia_plugin_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_multimedia_plugin_model)
+add_test(NAME test_shell_multimedia_plugin_model
+    COMMAND test_shell_multimedia_plugin_model -platform eglfs
+    WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
+)
