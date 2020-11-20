@@ -22,10 +22,22 @@
 namespace Shell
 {
 
-MultiMediaPluginModel::MultiMediaPluginModel(const QVector<PluginCore::MultiMediaPlugin *> &plugins)
+MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins)
+    : mPlugins{ plugins }
+{
+}
+
+MultiMediaPluginModel::MultiMediaPluginModel(const QVector<const PluginCore::MultiMediaPlugin *> &plugins)
     : QAbstractListModel{}
     , d{ std::make_unique<MultiMediaPluginModelPrivate>(plugins) }
 {
+}
+
+void MultiMediaPluginModel::setPlugins(QVector<const PluginCore::MultiMediaPlugin *> plugins) noexcept
+{
+    beginResetModel();
+    d->mPlugins = plugins;
+    endResetModel();
 }
 
 MultiMediaPluginModel::~MultiMediaPluginModel() = default;
@@ -49,6 +61,11 @@ QVariant MultiMediaPluginModel::data(const QModelIndex &index, int role) const
     }
 
     return {};
+}
+
+QHash<int, QByteArray> MultiMediaPluginModel::roleNames() const
+{
+    return { std::make_pair(PluginName, "pluginName") };
 }
 
 } // namespace Shell

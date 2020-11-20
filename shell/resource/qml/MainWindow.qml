@@ -16,9 +16,80 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 import QtQuick 2.0
+import de.blabby.shell 1.0
+import "qrc:/shell/qml/controls"
 
-Rectangle {
+MainController {
     id: shell
     anchors.fill: parent
-    color: "#fafcfb"
+    model: mediaPluginModel
+    pluginSource: fileSystemSource
+
+    Row{
+        id: mainWindow
+        anchors.fill: parent
+
+        Rectangle{
+            id: leftPanel
+            height: parent.height
+            width: 250
+            color: "#243242"
+
+            Text{
+                id: clockDisplay
+                anchors.top: parent.top
+                anchors.topMargin: 40
+                text: Qt.formatTime(clock.currentTime , "hh:mm")
+                font.pixelSize: 28
+                color: "#dae1e7"
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Clock{
+                    id:clock
+                }
+            }
+
+            ListView{
+                id: multimediaPluginsList
+                anchors.top: clockDisplay.bottom
+                anchors.topMargin: 40
+                width: parent.width
+                height: parent.height - clockDisplay.height
+                model: mediaPluginModel
+                delegate: MultiMediaPluginButton{
+                    width: parent.width
+                    height: 29
+                    buttonText: pluginName
+                }
+            }
+        }
+
+        Column{
+            id: contentColumn
+            height: parent.height
+            width: parent.width - leftPanel.width
+
+            Rectangle{
+                id: contentHeader
+                color: "#00909e"
+                height: 125
+                width: parent.width
+            }
+
+            Rectangle{
+                id: content
+                color: "#dae1e7"
+                height: parent.height
+                width: parent.width
+            }
+        }
+    }
+
+    MultimediaPluginModel{
+        id: mediaPluginModel
+    }
+
+    FileSystemSource{
+        id: fileSystemSource
+    }
 }

@@ -15,15 +15,34 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
+#include "Clock.h"
+#include "FileSystemPluginSource.h"
+#include "MainController.h"
+#include "MultiMediaPluginModel.h"
 #include <QGuiApplication>
 #include <QQuickView>
+#include <qqml.h>
 
-int main(int argc, char* argv[])
+namespace
+{
+void registerQmlTypes()
+{
+    qmlRegisterType<Shell::MainController>("de.blabby.shell", 1, 0, "MainController");
+    qmlRegisterType<Shell::MultiMediaPluginModel>("de.blabby.shell", 1, 0, "MultimediaPluginModel");
+    qmlRegisterType<Shell::Clock>("de.blabby.shell", 1, 0, "Clock");
+    qmlRegisterUncreatableType<Shell::MultiMediaPluginSource>("de.blabby.shell", 1, 0, "MultiMediaPluginSource", "");
+    qmlRegisterType<Shell::FileSystemPluginSource>("de.blabby.shell", 1, 0, "FileSystemSource");
+}
+
+} // namespace
+
+int main(int argc, char *argv[])
 {
     QGuiApplication blabby(argc, argv);
+    registerQmlTypes();
 
     QQuickView mainView;
-    mainView.setMinimumSize(QSize{1280, 800});
+    mainView.setMinimumSize(QSize{ 1280, 800 });
     mainView.setSource(QUrl("qrc:/shell/qml/MainWindow.qml"));
 
     mainView.show();

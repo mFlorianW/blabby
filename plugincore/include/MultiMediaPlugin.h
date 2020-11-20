@@ -18,9 +18,8 @@
 #ifndef MULTIMEDIAPLUGIN_H
 #define MULTIMEDIAPLUGIN_H
 
-#include "PluginVersion.h"
 #include "PluginCore_Export.h"
-
+#include "PluginVersion.h"
 #include <QObject>
 #include <QUuid>
 
@@ -34,7 +33,6 @@ namespace PluginCore
 class PLUGINCORE_EXPORT MultiMediaPlugin
 {
 public:
-    //Generic
     virtual ~MultiMediaPlugin()
     {
     }
@@ -85,9 +83,9 @@ public:
     virtual QUrl getMainQML() const = 0;
 };
 
-} /* end namespace */
+} // namespace PluginCore
 
-Q_DECLARE_INTERFACE(PluginCore::MultiMediaPlugin, "org.free-webradio.MultiMediaPlugin")
+Q_DECLARE_INTERFACE(PluginCore::MultiMediaPlugin, "de.blabby.MultiMediaPlugin")
 
 
 #endif // FREESMARTTVPLUGIN_H

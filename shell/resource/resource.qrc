@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/shell">
         <file>qml/MainWindow.qml</file>
+        <file>qml/controls/MultiMediaPluginButton.qml</file>
     </qresource>
 </RCC>

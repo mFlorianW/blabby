@@ -15,27 +15,30 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MULTIMEDIAPLUGINMODELPRIVATE_H
-#define MULTIMEDIAPLUGINMODELPRIVATE_H
+#ifndef MEDIASERVERPLUGIN_H
+#define MEDIASERVERPLUGIN_H
 
-#include <QVector>
+#include "MultiMediaPlugin.h"
 
-namespace PluginCore
+class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
 {
-class MultiMediaPlugin;
-}
-
-namespace Shell
-{
-
-class MultiMediaPluginModelPrivate
-{
+    Q_OBJECT
+    Q_INTERFACES(PluginCore::MultiMediaPlugin)
+    Q_PLUGIN_METADATA(IID "de.blabby.MultiMediaPlugin")
 public:
-    MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins);
+    MediaServerPlugin();
 
-    QVector<const PluginCore::MultiMediaPlugin *> mPlugins;
+    QString getPluginName() const override;
+
+    PluginCore::PluginVersion getPluginVersion() const override;
+
+    QUuid getPluginIdentifier() const override;
+
+    bool load() override;
+
+    bool unload() override;
+
+    QUrl getMainQML() const override;
 };
 
-} // namespace Shell
-
-#endif // MULTIMEDIAPLUGINMODELPRIVATE_H
+#endif // MEDIASERVERPLUGIN_H

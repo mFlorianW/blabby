@@ -15,47 +15,26 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MULTIMEDIAPLUGINMODEL_H
-#define MULTIMEDIAPLUGINMODEL_H
+#ifndef FILESYSTEMPLUGINSOURCE_P_H
+#define FILESYSTEMPLUGINSOURCE_P_H
 
-#include <QAbstractListModel>
+#include "MultiMediaPlugin.h"
+#include <QVector>
 #include <memory>
-#include <qqml.h>
 
-namespace PluginCore
-{
-class MultiMediaPlugin;
-}
+class QFileInfo;
 
 namespace Shell
 {
-class MultiMediaPluginModelPrivate;
-
-class MultiMediaPluginModel : public QAbstractListModel
+class FileSystemPluginSourcePrivate
 {
-    Q_OBJECT
 public:
-    enum Roles
-    {
-        PluginName = Qt::UserRole + 1
-    };
-    Q_ENUM(Roles)
+    FileSystemPluginSourcePrivate();
+    ~FileSystemPluginSourcePrivate();
 
-    MultiMediaPluginModel(const QVector<const PluginCore::MultiMediaPlugin *> &plugins = {});
-    ~MultiMediaPluginModel();
+    void loadPlugins(const QFileInfo &fileInfo);
 
-    void setPlugins(QVector<const PluginCore::MultiMediaPlugin *> plugins) noexcept;
-
-    qint32 rowCount(const QModelIndex &parent) const override;
-
-    QVariant data(const QModelIndex &index, int role) const override;
-
-    QHash<int, QByteArray> roleNames() const override;
-
-private:
-    std::unique_ptr<MultiMediaPluginModelPrivate> d;
+    QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> mLoadedPlugins;
 };
-
 } // namespace Shell
-
-#endif // MULTIMEDIAPLUGINMODEL_H
+#endif // FILESYSTEMPLUGINSOURCE_P_H

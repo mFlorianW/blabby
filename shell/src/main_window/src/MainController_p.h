@@ -15,27 +15,24 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MULTIMEDIAPLUGINMODELPRIVATE_H
-#define MULTIMEDIAPLUGINMODELPRIVATE_H
+#ifndef MAINCONTROLLERPRIVATE_H
+#define MAINCONTROLLERPRIVATE_H
+#include "MultiMediaPluginModel.h"
+#include "MultiMediaPluginSource.h"
 
-#include <QVector>
-
-namespace PluginCore
-{
-class MultiMediaPlugin;
-}
 
 namespace Shell
 {
 
-class MultiMediaPluginModelPrivate
+class MainControllerPrivate
 {
 public:
-    MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins);
+    void loadPlugins();
 
-    QVector<const PluginCore::MultiMediaPlugin *> mPlugins;
+    MultiMediaPluginSource *mSource{ nullptr };
+    MultiMediaPluginModel *mModel{ nullptr };
 };
 
 } // namespace Shell
 
-#endif // MULTIMEDIAPLUGINMODELPRIVATE_H
+#endif // MAINCONTROLLERPRIVATE_H

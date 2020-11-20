@@ -16,6 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ################################################################################
+# Configure header files
+################################################################################
+configure_file(src/main_window/src/PluginDirs.h.in ${CMAKE_CURRENT_BINARY_DIR}/PluginDirs.h)
+
+################################################################################
 # Resource files
 ################################################################################
 qt5_add_resources(RESOURCE_FILES
@@ -41,12 +46,26 @@ add_library(Blabby::Object ALIAS BlabbyObject)
 target_sources(BlabbyObject
     PRIVATE
         ${RESOURCE_FILES}
+        # Logging
+        src/LoggingCategories.cpp
 
+        # Plugin
+        src/plugin/src/MultiMediaPluginModel.cpp
+        src/plugin/src/FileSystemPluginSource.cpp
+
+        # MainWindow
+        src/main_window/src/MainController.cpp
+        src/main_window/src/Clock.cpp
+
+        #Public Includes
         # Plugin
         src/plugin/include/MultiMediaPluginSource.h
         src/plugin/include/MultiMediaPluginModel.h
-        src/plugin/src/MultiMediaPluginModel.cpp
-        src/plugin/src/MultiMediaPluginModel_p.cpp
+        src/plugin/include/FileSystemPluginSource.h
+
+        # MainWindow
+        src/main_window/include/MainController.h
+        src/main_window/include/Clock.h
 )
 
 target_link_libraries(BlabbyObject
@@ -60,6 +79,9 @@ target_include_directories(BlabbyObject
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/plugin/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/main_window/include>
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
 
 add_executable(blabby)

@@ -15,15 +15,11 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "MultiMediaPluginModel_p.h"
-#include "MultiMediaPlugin.h"
+#ifndef LOGGINGCATEGORIES_H
+#define LOGGINGCATEGORIES_H
 
-namespace Shell
-{
+#include <QLoggingCategory>
 
-MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<PluginCore::MultiMediaPlugin *> &plugins)
-    : mPlugins{ plugins }
-{
-}
+Q_DECLARE_LOGGING_CATEGORY(shell)
 
-} // namespace Shell
+#endif // LOGGINGCATEGORIES_H

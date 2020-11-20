@@ -78,7 +78,8 @@ void MultiMediaPluginModelShould::give_the_number_of_loaded_multimedia_plugins()
 void MultiMediaPluginModelShould::give_the_plugin_the_name()
 {
     TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    Shell::MultiMediaPluginModel mediaPluginModel{};
+    mediaPluginModel.setPlugins({ &testPlugin });
 
     auto pluginName = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginName);
 
