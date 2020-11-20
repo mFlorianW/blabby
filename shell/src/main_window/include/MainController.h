@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QQuickItem>
+#include <memory>
 
 namespace Shell
 {
