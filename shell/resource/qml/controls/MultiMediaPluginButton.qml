@@ -15,7 +15,7 @@ Item {
         Rectangle{
             id: activeIndicator
             height: 29
-            width: 8
+            width: 4
             color: root.active ? "#dae1e7" : "#243242"
         }
 
