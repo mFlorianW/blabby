@@ -21,6 +21,9 @@
 #include <QtTest>
 #include <memory>
 
+namespace Shell
+{
+
 class TestPlugin : public PluginCore::MultiMediaPlugin
 {
     Q_DISABLE_COPY_MOVE(TestPlugin);
@@ -153,4 +156,6 @@ void MultiMediaPluginModelShould::give_a_icon_url_for_a_plugin()
     QCOMPARE(pluginIconUrl, "qrc:/icon/pluginIcon.png");
 }
 
-QTEST_MAIN(MultiMediaPluginModelShould)
+} // namespace Shell
+
+QTEST_MAIN(Shell::MultiMediaPluginModelShould)
