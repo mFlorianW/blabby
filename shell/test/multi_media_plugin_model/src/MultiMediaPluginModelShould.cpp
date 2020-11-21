@@ -28,7 +28,7 @@ class TestPlugin : public PluginCore::MultiMediaPlugin
 public:
     TestPlugin(){};
 
-    QString getPluginName() const override
+    QString pluginName() const override
     {
         return "TestPlugin";
     }
@@ -53,15 +53,36 @@ public:
         return true;
     }
 
-    QUrl getMainQML() const override
+    QUrl mainQMLUrl() const override
     {
         return QUrl{ "qrc:/qml/main.qml" };
+    }
+
+    QUrl pluginIconUrl() const override
+    {
+        return QUrl{ "qrc:/icon/pluginIcon.png" };
     }
 };
 
 MultiMediaPluginModelShould::MultiMediaPluginModelShould()
     : QObject()
 {
+}
+
+void MultiMediaPluginModelShould::give_the_correct_role_names()
+{
+    QHash<qint32, QByteArray> expectedResult{
+        std::make_pair(Shell::MultiMediaPluginModel::PluginName, "pluginName"),
+        std::make_pair(Shell::MultiMediaPluginModel::PluginQmlUrl, "qmlUrl"),
+        std::make_pair(Shell::MultiMediaPluginModel::PluginActive, "pluginActive"),
+        std::make_pair(Shell::MultiMediaPluginModel::PluginIcoUrl, "pluginIconUrl")
+    };
+
+    Shell::MultiMediaPluginModel mediaPluginModel{};
+
+    auto result = mediaPluginModel.roleNames();
+
+    QCOMPARE(result, expectedResult);
 }
 
 void MultiMediaPluginModelShould::give_the_number_of_loaded_multimedia_plugins()
@@ -94,6 +115,42 @@ void MultiMediaPluginModelShould::give_empty_variant_for_invalid_index()
     auto pluginName = mediaPluginModel.data(mediaPluginModel.index(-1), Shell::MultiMediaPluginModel::PluginName);
 
     QCOMPARE(pluginName, QVariant{});
+}
+
+void MultiMediaPluginModelShould::give_qml_url_for_valid_index()
+{
+    TestPlugin testPlugin;
+    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+
+    auto qmlUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginQmlUrl);
+
+    QCOMPARE(qmlUrl, "qrc:/qml/main.qml");
+}
+
+void MultiMediaPluginModelShould::give_status_if_a_plugin_is_active()
+{
+    TestPlugin testPlugin;
+    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    QSignalSpy dataChangedSpy(&mediaPluginModel, &QAbstractItemModel::dataChanged);
+
+    mediaPluginModel.setActivePlugin(0);
+    auto activePlugin = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginActive);
+
+    QVERIFY(dataChangedSpy.size() == 1);
+    QCOMPARE(activePlugin, true);
+}
+
+void MultiMediaPluginModelShould::give_a_icon_url_for_a_plugin()
+{
+    TestPlugin testPlugin;
+    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    QSignalSpy dataChangedSpy(&mediaPluginModel, &QAbstractItemModel::dataChanged);
+
+    mediaPluginModel.setActivePlugin(0);
+    auto pluginIconUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginIcoUrl);
+
+    QVERIFY(dataChangedSpy.size() == 1);
+    QCOMPARE(pluginIconUrl, "qrc:/icon/pluginIcon.png");
 }
 
 QTEST_MAIN(MultiMediaPluginModelShould)

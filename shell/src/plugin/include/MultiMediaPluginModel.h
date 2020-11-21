@@ -37,7 +37,10 @@ class MultiMediaPluginModel : public QAbstractListModel
 public:
     enum Roles
     {
-        PluginName = Qt::UserRole + 1
+        PluginName = Qt::UserRole + 1,
+        PluginQmlUrl,
+        PluginActive,
+        PluginIcoUrl,
     };
     Q_ENUM(Roles)
 
@@ -51,6 +54,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     QHash<int, QByteArray> roleNames() const override;
+
+    void setActivePlugin(qint32 activeIndex) noexcept;
 
 private:
     std::unique_ptr<MultiMediaPluginModelPrivate> d;

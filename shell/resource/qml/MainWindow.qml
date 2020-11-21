@@ -60,6 +60,15 @@ MainController {
                     width: parent.width
                     height: 29
                     buttonText: pluginName
+                    active: pluginActive
+                    iconSource: pluginIconUrl
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            shell.activatePlugin(index)
+                        }
+                    }
                 }
             }
         }
@@ -74,6 +83,14 @@ MainController {
                 color: "#00909e"
                 height: 125
                 width: parent.width
+
+                Text {
+                    id: pluginHeaderText
+                    text: shell.activePluginName
+                    anchors.centerIn: parent
+                    font.pixelSize: 32
+                    color: "#dae1e7"
+                }
             }
 
             Rectangle{
@@ -81,7 +98,14 @@ MainController {
                 color: "#dae1e7"
                 height: parent.height
                 width: parent.width
+
+                Loader{
+                    id: contentLoader
+                    anchors.fill: parent
+                    source: shell.activePluginUrl
+                }
             }
+
         }
     }
 

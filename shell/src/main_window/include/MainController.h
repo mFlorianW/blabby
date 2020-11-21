@@ -37,6 +37,9 @@ class MainController : public QQuickItem
 
     Q_PROPERTY(Shell::MultiMediaPluginSource *pluginSource READ multiMediaPluginSource WRITE setMultiMediaPluginSource NOTIFY multiMediaPluginSourceChanged)
 
+    Q_PROPERTY(QUrl activePluginUrl READ activePluginUrl WRITE setActivePluginUrl NOTIFY activePluginUrlChanged)
+    Q_PROPERTY(QString activePluginName READ activePluginName WRITE setActivePluginName NOTIFY activePluginNameChanged)
+
 public:
     MainController();
     ~MainController() override;
@@ -47,9 +50,19 @@ public:
     MultiMediaPluginSource *multiMediaPluginSource() const noexcept;
     void setMultiMediaPluginSource(MultiMediaPluginSource *source) noexcept;
 
+    QUrl activePluginUrl() const noexcept;
+    void setActivePluginUrl(const QUrl &activePluginUrl) noexcept;
+
+    QString activePluginName() const noexcept;
+    void setActivePluginName(const QString &activePluginName) noexcept;
+
+    Q_INVOKABLE void activatePlugin(qint32 index) noexcept;
+
 Q_SIGNALS:
     void modelChanged();
     void multiMediaPluginSourceChanged();
+    void activePluginUrlChanged();
+    void activePluginNameChanged();
 
 private:
     std::unique_ptr<MainControllerPrivate> d;

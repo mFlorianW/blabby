@@ -75,4 +75,50 @@ void MainController::setMultiMediaPluginSource(MultiMediaPluginSource *source) n
     Q_EMIT multiMediaPluginSourceChanged();
 }
 
+QUrl MainController::activePluginUrl() const noexcept
+{
+    return d->mActivePluginUrl;
+}
+
+void MainController::setActivePluginUrl(const QUrl &activePluginUrl) noexcept
+{
+    if(d->mActivePluginUrl == activePluginUrl)
+    {
+        return;
+    }
+
+    d->mActivePluginUrl = activePluginUrl;
+    Q_EMIT activePluginUrlChanged();
+}
+
+QString MainController::activePluginName() const noexcept
+{
+    return d->mActivePluginName;
+}
+
+void MainController::setActivePluginName(const QString &activePluginName) noexcept
+{
+    if(d->mActivePluginName == activePluginName)
+    {
+        return;
+    }
+
+    d->mActivePluginName = activePluginName;
+    Q_EMIT activePluginNameChanged();
+}
+
+void MainController::activatePlugin(qint32 index) noexcept
+{
+    if(d->mModel == nullptr)
+    {
+        return;
+    }
+
+    auto pluginName = d->mModel->data(d->mModel->index(index), MultiMediaPluginModel::PluginName).value<QString>();
+    auto mainQml = d->mModel->data(d->mModel->index(index), MultiMediaPluginModel::PluginQmlUrl).value<QUrl>();
+    d->mModel->setActivePlugin(index);
+    setActivePluginUrl(mainQml);
+    setActivePluginName(pluginName);
+}
+
 } // namespace Shell

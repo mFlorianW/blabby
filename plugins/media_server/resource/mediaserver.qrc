@@ -1,3 +1,6 @@
 <RCC>
-    <qresource prefix="/mediaserver"/>
+    <qresource prefix="/mediaserver">
+        <file>qml/MainWindow.qml</file>
+        <file>icon/MediaServerPlugin.png</file>
+    </qresource>
 </RCC>

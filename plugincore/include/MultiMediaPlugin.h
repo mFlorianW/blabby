@@ -42,7 +42,7 @@ public:
      *
      * @return The name of the plugin.
      */
-    virtual QString getPluginName() const = 0;
+    virtual QString pluginName() const = 0;
 
     /**
      * Gives the actual version of the plugin
@@ -80,7 +80,14 @@ public:
      *
      * @return The url to main qml.
      */
-    virtual QUrl getMainQML() const = 0;
+    virtual QUrl mainQMLUrl() const = 0;
+
+    /**
+     * Gives the url to the icon of the plugin.
+     *
+     * @return The url to main qml.
+     */
+    virtual QUrl pluginIconUrl() const = 0;
 };
 
 } // namespace PluginCore

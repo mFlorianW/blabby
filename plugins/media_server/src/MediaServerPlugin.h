@@ -28,7 +28,7 @@ class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
 public:
     MediaServerPlugin();
 
-    QString getPluginName() const override;
+    QString pluginName() const override;
 
     PluginCore::PluginVersion getPluginVersion() const override;
 
@@ -38,7 +38,9 @@ public:
 
     bool unload() override;
 
-    QUrl getMainQML() const override;
+    QUrl mainQMLUrl() const override;
+
+    QUrl pluginIconUrl() const override;
 };
 
 #endif // MEDIASERVERPLUGIN_H

@@ -34,6 +34,7 @@ public:
     MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins);
 
     QVector<const PluginCore::MultiMediaPlugin *> mPlugins;
+    qint32 mActiveIndex{ -1 };
 };
 
 } // namespace Shell

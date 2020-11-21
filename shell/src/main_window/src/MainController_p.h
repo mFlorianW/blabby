@@ -31,6 +31,8 @@ public:
 
     MultiMediaPluginSource *mSource{ nullptr };
     MultiMediaPluginModel *mModel{ nullptr };
+    QUrl mActivePluginUrl{ "" };
+    QString mActivePluginName{ "" };
 };
 
 } // namespace Shell

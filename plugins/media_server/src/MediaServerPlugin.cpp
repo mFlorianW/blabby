@@ -5,7 +5,7 @@ MediaServerPlugin::MediaServerPlugin()
 {
 }
 
-QString MediaServerPlugin::getPluginName() const
+QString MediaServerPlugin::pluginName() const
 {
     return QStringLiteral("MediaServer");
 }
@@ -30,7 +30,12 @@ bool MediaServerPlugin::unload()
     return true;
 }
 
-QUrl MediaServerPlugin::getMainQML() const
+QUrl MediaServerPlugin::mainQMLUrl() const
 {
     return QUrl{ "qrc:/mediaserver/qml/MainWindow.qml" };
+}
+
+QUrl MediaServerPlugin::pluginIconUrl() const
+{
+    return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
 }
