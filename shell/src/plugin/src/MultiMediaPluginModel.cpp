@@ -22,18 +22,18 @@
 namespace Shell
 {
 
-MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins)
+MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins)
     : mPlugins{ plugins }
 {
 }
 
-MultiMediaPluginModel::MultiMediaPluginModel(const QVector<const PluginCore::MultiMediaPlugin *> &plugins)
+MultiMediaPluginModel::MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins)
     : QAbstractListModel{}
     , d{ std::make_unique<MultiMediaPluginModelPrivate>(plugins) }
 {
 }
 
-void MultiMediaPluginModel::setPlugins(QVector<const PluginCore::MultiMediaPlugin *> plugins) noexcept
+void MultiMediaPluginModel::setPlugins(QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins) noexcept
 {
     beginResetModel();
     d->mPlugins = plugins;

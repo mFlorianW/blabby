@@ -81,15 +81,9 @@ void FileSystemPluginSource::loadPlugins() const
     }
 }
 
-QVector<const PluginCore::MultiMediaPlugin *> FileSystemPluginSource::plugins() const
+QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> FileSystemPluginSource::plugins() const
 {
-    QVector<const PluginCore::MultiMediaPlugin *> result;
-    for(const auto &plugin : d->mLoadedPlugins)
-    {
-        result << plugin.get();
-    }
-
-    return result;
+    return d->mLoadedPlugins;
 }
 
 } // namespace Shell

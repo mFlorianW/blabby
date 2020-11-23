@@ -19,6 +19,7 @@
 #define MULTIMEDIAPLUGINMODELPRIVATE_H
 
 #include <QVector>
+#include <memory>
 
 namespace PluginCore
 {
@@ -31,9 +32,9 @@ namespace Shell
 class MultiMediaPluginModelPrivate
 {
 public:
-    MultiMediaPluginModelPrivate(const QVector<const PluginCore::MultiMediaPlugin *> &plugins);
+    MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins);
 
-    QVector<const PluginCore::MultiMediaPlugin *> mPlugins;
+    QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> mPlugins;
     qint32 mActiveIndex{ -1 };
 };
 

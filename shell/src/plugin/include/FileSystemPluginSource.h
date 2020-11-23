@@ -36,11 +36,12 @@ public:
 
     void loadPlugins() const override;
 
-    QVector<const PluginCore::MultiMediaPlugin *> plugins() const override;
+    QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins() const override;
 
 private:
     std::unique_ptr<FileSystemPluginSourcePrivate> d;
 };
+
 } // namespace Shell
 
 #endif // FILESYSTEMPLUGINSOURCE_H

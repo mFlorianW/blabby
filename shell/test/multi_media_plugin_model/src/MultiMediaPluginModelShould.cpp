@@ -91,7 +91,7 @@ void MultiMediaPluginModelShould::give_the_correct_role_names()
 void MultiMediaPluginModelShould::give_the_number_of_loaded_multimedia_plugins()
 {
     TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };
     qint32 numberOfLoadedPluginsInSource = 1;
 
     qint32 numberLoadedPlugins = mediaPluginModel.rowCount({});
@@ -103,7 +103,7 @@ void MultiMediaPluginModelShould::give_the_plugin_the_name()
 {
     TestPlugin testPlugin;
     Shell::MultiMediaPluginModel mediaPluginModel{};
-    mediaPluginModel.setPlugins({ &testPlugin });
+    mediaPluginModel.setPlugins({ std::make_shared<TestPlugin>() });
 
     auto pluginName = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginName);
 
@@ -112,8 +112,8 @@ void MultiMediaPluginModelShould::give_the_plugin_the_name()
 
 void MultiMediaPluginModelShould::give_empty_variant_for_invalid_index()
 {
-    TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    Shell::MultiMediaPluginModel mediaPluginModel{};
+    mediaPluginModel.setPlugins({ std::make_shared<TestPlugin>() });
 
     auto pluginName = mediaPluginModel.data(mediaPluginModel.index(-1), Shell::MultiMediaPluginModel::PluginName);
 
@@ -123,7 +123,7 @@ void MultiMediaPluginModelShould::give_empty_variant_for_invalid_index()
 void MultiMediaPluginModelShould::give_qml_url_for_valid_index()
 {
     TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };
 
     auto qmlUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginQmlUrl);
 
@@ -132,8 +132,7 @@ void MultiMediaPluginModelShould::give_qml_url_for_valid_index()
 
 void MultiMediaPluginModelShould::give_status_if_a_plugin_is_active()
 {
-    TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
+    Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };
     QSignalSpy dataChangedSpy(&mediaPluginModel, &QAbstractItemModel::dataChanged);
 
     mediaPluginModel.setActivePlugin(0);
@@ -145,14 +144,10 @@ void MultiMediaPluginModelShould::give_status_if_a_plugin_is_active()
 
 void MultiMediaPluginModelShould::give_a_icon_url_for_a_plugin()
 {
-    TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { &testPlugin } };
-    QSignalSpy dataChangedSpy(&mediaPluginModel, &QAbstractItemModel::dataChanged);
+    Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };
 
-    mediaPluginModel.setActivePlugin(0);
     auto pluginIconUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginIcoUrl);
 
-    QVERIFY(dataChangedSpy.size() == 1);
     QCOMPARE(pluginIconUrl, "qrc:/icon/pluginIcon.png");
 }
 

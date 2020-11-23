@@ -20,6 +20,7 @@
 
 #include <MultiMediaPlugin.h>
 #include <QVector>
+#include <memory>
 
 namespace Shell
 {
@@ -35,7 +36,7 @@ public:
 
     virtual void loadPlugins() const = 0;
 
-    virtual QVector<const PluginCore::MultiMediaPlugin *> plugins() const = 0;
+    virtual QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins() const = 0;
 };
 
 } // namespace Shell

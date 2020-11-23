@@ -44,10 +44,10 @@ public:
     };
     Q_ENUM(Roles)
 
-    MultiMediaPluginModel(const QVector<const PluginCore::MultiMediaPlugin *> &plugins = {});
+    MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins = {});
     ~MultiMediaPluginModel();
 
-    void setPlugins(QVector<const PluginCore::MultiMediaPlugin *> plugins) noexcept;
+    void setPlugins(QVector<std::shared_ptr<PluginCore::MultiMediaPlugin> > plugins) noexcept;
 
     qint32 rowCount(const QModelIndex &parent) const override;
 
