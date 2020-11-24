@@ -15,37 +15,29 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MEDIASERVERPLUGIN_H
-#define MEDIASERVERPLUGIN_H
+#ifndef MEDIASERVERMODELSHOULD_H
+#define MEDIASERVERMODELSHOULD_H
 
-#include "MultiMediaPlugin.h"
+#include <QObject>
 
 namespace MediaServerPlugin
 {
 
-class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
+class MediaServerModelShould : public QObject
 {
     Q_OBJECT
-    Q_INTERFACES(PluginCore::MultiMediaPlugin)
-    Q_PLUGIN_METADATA(IID "de.blabby.MultiMediaPlugin")
+    Q_DISABLE_COPY_MOVE(MediaServerModelShould)
 public:
-    MediaServerPlugin();
+    MediaServerModelShould();
 
-    QString pluginName() const override;
-
-    PluginCore::PluginVersion getPluginVersion() const override;
-
-    QUuid getPluginIdentifier() const override;
-
-    bool load() override;
-
-    bool unload() override;
-
-    QUrl mainQMLUrl() const override;
-
-    QUrl pluginIconUrl() const override;
+private Q_SLOTS:
+    void give_correct_rolename();
+    void give_mediaserver_name_on_request_with_valid_index();
+    void give_mediaserver_icon_url_on_request_with_valid_index();
+    void give_default_qvariant_for_a_to_small_index();
+    void give_default_qvariant_for_a_to_big_index();
 };
 
 } // namespace MediaServerPlugin
 
-#endif // MEDIASERVERPLUGIN_H
+#endif // MEDIASERVERMODELSHOULD_H

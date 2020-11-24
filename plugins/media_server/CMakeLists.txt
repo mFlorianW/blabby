@@ -26,7 +26,7 @@ qt5_add_resources(RESOURCE_FILES
 # Build
 ################################################################################
 add_library(BlabbyMediaServerObject OBJECT)
-add_library(Blabby::MediaServer ALIAS BlabbyMediaServerObject)
+add_library(Blabby::MediaServerObject ALIAS BlabbyMediaServerObject)
 
 target_sources(BlabbyMediaServerObject
     PRIVATE
@@ -34,18 +34,32 @@ target_sources(BlabbyMediaServerObject
         ${RESOURCE_FILES}
 
         src/MediaServerPlugin.cpp
+        src/MediaServerModel.cpp
 )
 
 target_link_libraries(BlabbyMediaServerObject
     Qt5::Core
     Blabby::PluginCore
+    Blabby::UPnPAV
+)
+
+target_include_directories(BlabbyMediaServerObject
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
 add_library(MediaServer SHARED)
 
 target_link_libraries(MediaServer
-    BlabbyMediaServerObject
+    Blabby::MediaServerObject
 )
+
+################################################################################
+# Test
+################################################################################
+if(ENABLE_TEST)
+    add_subdirectory(test)
+endif()
 
 ################################################################################
 # Install

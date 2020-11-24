@@ -1,6 +1,9 @@
 #include "MediaServerPlugin.h"
 #include <QUrl>
 
+namespace MediaServerPlugin
+{
+
 MediaServerPlugin::MediaServerPlugin()
 {
 }
@@ -39,3 +42,5 @@ QUrl MediaServerPlugin::pluginIconUrl() const
 {
     return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
 }
+
+} // namespace MediaServerPlugin

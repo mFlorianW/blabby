@@ -15,37 +15,38 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MEDIASERVERPLUGIN_H
-#define MEDIASERVERPLUGIN_H
+#ifndef MEDIASERVERMODEL_H
+#define MEDIASERVERMODEL_H
 
-#include "MultiMediaPlugin.h"
+#include <QAbstractListModel>
 
-namespace MediaServerPlugin
+namespace UPnPAV
 {
+class IMediaServer;
+}
 
-class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
+class MediaServerModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_INTERFACES(PluginCore::MultiMediaPlugin)
-    Q_PLUGIN_METADATA(IID "de.blabby.MultiMediaPlugin")
+    Q_DISABLE_COPY_MOVE(MediaServerModel)
 public:
-    MediaServerPlugin();
+    enum RoleName
+    {
+        MediaServerName = Qt::UserRole + 1,
+        MediaServerIconUrl,
+    };
+    Q_ENUM(RoleName)
 
-    QString pluginName() const override;
+    MediaServerModel();
 
-    PluginCore::PluginVersion getPluginVersion() const override;
+    void insert(UPnPAV::IMediaServer *mediaServer);
 
-    QUuid getPluginIdentifier() const override;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
-    bool load() override;
-
-    bool unload() override;
-
-    QUrl mainQMLUrl() const override;
-
-    QUrl pluginIconUrl() const override;
+private:
+    QHash<qint32, UPnPAV::IMediaServer *> mMediaServer;
 };
 
-} // namespace MediaServerPlugin
-
-#endif // MEDIASERVERPLUGIN_H
+#endif // MEDIASERVERMODEL_H
