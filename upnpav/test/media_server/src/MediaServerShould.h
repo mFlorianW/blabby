@@ -155,6 +155,8 @@ private Q_SLOTS:
     void shall_Send_The_SOAP_Message_When_Calling_Browse();
 
     void give_a_name();
+
+    void give_a_icon_url();
 };
 
 } // namespace UPnPAV

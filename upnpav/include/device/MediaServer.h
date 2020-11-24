@@ -23,8 +23,8 @@
 #include "ServiceControlPointDefinition.h"
 #include "ServiceDescription.h"
 #include "UPnP_Export.h"
-
 #include <QSharedPointer>
+#include <QUrl>
 
 namespace UPnPAV
 {
@@ -57,6 +57,13 @@ public:
     QString name() const noexcept override;
 
     /**
+     * Gives a icon url of the media server.
+     *
+     * @return The icon url of the media server.
+     */
+    QUrl iconUrl() const noexcept override;
+
+    /**
      * Request the supported sort capabilities of the media server.
      *
      * @return PendingSoapCall with the result or error.
@@ -83,6 +90,7 @@ private:
     ServiceControlPointDefinition m_contentDirectorySCPD;
     QSharedPointer<SoapMessageTransmitter> m_soapMessageTransmitter;
     QString mName;
+    QUrl mIconUrl;
 };
 
 } // namespace UPnPAV

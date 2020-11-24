@@ -748,6 +748,17 @@ void MediaServerShould::give_a_name()
     QCOMPARE(mediaServerName, expectedMediaServerName);
 }
 
+void MediaServerShould::give_a_icon_url()
+{
+    MediaServer mediaServer = createMediaServer({ validContentDirectoryDescription, validConnectionManagerDescription },
+                                                { validContentDirectorySCPD, validConnectionManagerSCPD });
+    const QUrl expectedMediaServerIconUrl{ "http://localhost:8200/icons/sm.png" };
+
+    auto mediaServerIconUrl = mediaServer.iconUrl();
+
+    QCOMPARE(mediaServerIconUrl, expectedMediaServerIconUrl);
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaServerShould);

@@ -44,11 +44,20 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QShar
     m_contentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
     m_contentDirectorySCPD = conDirectoryServiceValidator.scpd();
     mName = deviceDescription.friendlyName();
+    if(!deviceDescription.icons().isEmpty())
+    {
+        mIconUrl = deviceDescription.icons().first().url();
+    }
 }
 
 QString MediaServer::name() const noexcept
 {
     return mName;
+}
+
+QUrl MediaServer::iconUrl() const noexcept
+{
+    return mIconUrl;
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept

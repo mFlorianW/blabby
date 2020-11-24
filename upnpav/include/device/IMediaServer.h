@@ -52,6 +52,13 @@ public:
     virtual QString name() const noexcept = 0;
 
     /**
+     * Gives a icon url of the media server.
+     *
+     * @return The icon url of the media server.
+     */
+    virtual QUrl iconUrl() const noexcept = 0;
+
+    /**
      * Request the supported sort capabilities of the media server.
      *
      * @return PendingSoapCall with the result or error.
