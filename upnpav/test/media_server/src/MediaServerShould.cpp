@@ -47,8 +47,10 @@ void MediaServerShould::init()
 
 MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescription> &services,
                                                  const QVector<ServiceControlPointDefinition> &scpds)
+
 {
-    return MediaServer{ DeviceDescription{ "", "MediaServerName", "", "", "", QVector<IconDescription>{}, services, scpds },
+    IconDescription iconDes{ "", 0, 0, 24, "http://localhost:8200/icons/sm.png" };
+    return MediaServer{ DeviceDescription{ "", "MediaServerName", "", "", "", QVector<IconDescription>{ iconDes }, services, scpds },
                         m_soapMessageTransmitter };
 }
 
