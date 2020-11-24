@@ -16,34 +16,39 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServer.h"
-#include "DeviceDescription.h"
-#include "InvalidDeviceDescription.h"
 #include "ConnectionManagerServiceValidator.h"
 #include "ContentDirectoryServiceValidator.h"
-#include "SoapMessageTransmitter.h"
+#include "DeviceDescription.h"
+#include "InvalidDeviceDescription.h"
 #include "SoapMessageGenerator.h"
+#include "SoapMessageTransmitter.h"
 
 namespace UPnPAV
 {
 
-MediaServer::MediaServer(const DeviceDescription &deviceDescription,
-                         const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
+MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
     : m_soapMessageTransmitter(soapMessageTransmitter)
 {
-    ConnectionManagerServiceValidator conManagerServiceValidator{deviceDescription};
+    ConnectionManagerServiceValidator conManagerServiceValidator{ deviceDescription };
     if(!conManagerServiceValidator.validate())
     {
-        throw InvalidDeviceDescription{conManagerServiceValidator.errorMessage()};
+        throw InvalidDeviceDescription{ conManagerServiceValidator.errorMessage() };
     }
 
-    ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};
+    ContentDirectoryServiceValidator conDirectoryServiceValidator{ deviceDescription };
     if(!conDirectoryServiceValidator.validate())
     {
-        throw InvalidDeviceDescription{conDirectoryServiceValidator.errorMessage()};
+        throw InvalidDeviceDescription{ conDirectoryServiceValidator.errorMessage() };
     }
 
     m_contentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
     m_contentDirectorySCPD = conDirectoryServiceValidator.scpd();
+    mName = deviceDescription.friendlyName();
+}
+
+QString MediaServer::name() const noexcept
+{
+    return mName;
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
@@ -51,61 +56,36 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
     auto action = m_contentDirectorySCPD.action("GetSortCapabilities");
     SoapMessageGenerator msgGen;
 
-    auto xmlMessage = msgGen.generateXmlMessageBody(action,
-                                                    m_contentDirectoryServiceDescription.serviceType());
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, m_contentDirectoryServiceDescription.serviceType());
 
-    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
-                                                              action.name(),
-                                                              m_contentDirectoryServiceDescription.serviceType(),
-                                                              xmlMessage);
+    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(), action.name(),
+                                                              m_contentDirectoryServiceDescription.serviceType(), xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>
-    {
-        new PendingSoapCall
-        {
-            soapCall
-        }
-    };
+    return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
 }
 
-QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
-                                                    MediaServer::BrowseFlag browseFlag,
-                                                    const QString &filter,
-                                                    const QString &sortCriteria) noexcept
+QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, MediaServer::BrowseFlag browseFlag,
+                                                    const QString &filter, const QString &sortCriteria) noexcept
 {
     auto action = m_contentDirectorySCPD.action("Browse");
 
-    ArgumentList browseArgs{6};
-    browseArgs << Argument{"BrowseFlag", convertBrowseFlagToString(browseFlag)}
-               << Argument{"RequestedCount", "0"}
-               << Argument{"ObjectID", objectId}
-               << Argument{"Filter", filter}
-               << Argument{"StartingIndex", "0"}
-               << Argument{"SortCriteria", sortCriteria};
+    ArgumentList browseArgs{ 6 };
+    browseArgs << Argument{ "BrowseFlag", convertBrowseFlagToString(browseFlag) } << Argument{ "RequestedCount", "0" }
+               << Argument{ "ObjectID", objectId } << Argument{ "Filter", filter } << Argument{ "StartingIndex", "0" }
+               << Argument{ "SortCriteria", sortCriteria };
 
     SoapMessageGenerator msgGen;
-    auto xmlMessage = msgGen.generateXmlMessageBody(action,
-                                                    m_contentDirectoryServiceDescription.serviceType(),
-                                                    browseArgs);
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, m_contentDirectoryServiceDescription.serviceType(), browseArgs);
 
-    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(),
-                                                              action.name(),
-                                                              m_contentDirectoryServiceDescription.serviceType(),
-                                                              xmlMessage);
+    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(), action.name(),
+                                                              m_contentDirectoryServiceDescription.serviceType(), xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>
-    {
-        new PendingSoapCall
-        {
-            soapCall
-        }
-    };
+    return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
 }
 
 QString MediaServer::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
 {
-    return BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata")
-                                              : QStringLiteral("BrowseDirectChildren");
+    return BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata") : QStringLiteral("BrowseDirectChildren");
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

@@ -45,6 +45,13 @@ public:
     virtual ~IMediaServer() = default;
 
     /**
+     * Gives the name of the media server.
+     *
+     * @return The name of the media server.
+     */
+    virtual QString name() const noexcept = 0;
+
+    /**
      * Request the supported sort capabilities of the media server.
      *
      * @return PendingSoapCall with the result or error.
@@ -60,10 +67,8 @@ public:
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
      * @return PendingSoapCall with the result or error.
      */
-    virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId,
-                                                   BrowseFlag browseFlag,
-                                                   const QString &filter,
-                                                   const QString &sortCriteria) noexcept = 0;
+    virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag,
+                                                   const QString &filter, const QString &sortCriteria) noexcept = 0;
 };
 
 } // namespace UPnPAV

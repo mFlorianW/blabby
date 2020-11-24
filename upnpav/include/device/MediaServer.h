@@ -18,11 +18,11 @@
 #ifndef MEDIASERVER_H
 #define MEDIASERVER_H
 
-#include "UPnP_Export.h"
-#include "ServiceDescription.h"
+#include "IMediaServer.h"
 #include "PendingSoapCall.h"
 #include "ServiceControlPointDefinition.h"
-#include "IMediaServer.h"
+#include "ServiceDescription.h"
+#include "UPnP_Export.h"
 
 #include <QSharedPointer>
 
@@ -47,8 +47,14 @@ public:
      *         description contain the minimum requried
      *         functions and values.
      */
-    MediaServer(const DeviceDescription &deviceDescription,
-                const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
+    MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
+
+    /**
+     * Gives the name of the media server.
+     *
+     * @return The name of the media server.
+     */
+    QString name() const noexcept override;
 
     /**
      * Request the supported sort capabilities of the media server.
@@ -66,9 +72,7 @@ public:
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
      * @return PendingSoapCall with the result or error.
      */
-    QSharedPointer<PendingSoapCall> browse(const QString &objectId,
-                                           BrowseFlag browseFlag,
-                                           const QString &filter,
+    QSharedPointer<PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag, const QString &filter,
                                            const QString &sortCriteria) noexcept override;
 
 private:
@@ -78,8 +82,9 @@ private:
     ServiceDescription m_contentDirectoryServiceDescription;
     ServiceControlPointDefinition m_contentDirectorySCPD;
     QSharedPointer<SoapMessageTransmitter> m_soapMessageTransmitter;
+    QString mName;
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // MEDIASERVER_H

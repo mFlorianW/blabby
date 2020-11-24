@@ -38,8 +38,7 @@ public:
     explicit MediaServerShould();
 
 private:
-    MediaServer createMediaServer(const QVector<ServiceDescription> &services,
-                                  const QVector<ServiceControlPointDefinition> &scpds);
+    MediaServer createMediaServer(const QVector<ServiceDescription> &services, const QVector<ServiceControlPointDefinition> &scpds);
 
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(const SCPDStateVariable &variable);
 
@@ -154,8 +153,10 @@ private Q_SLOTS:
     void shall_Send_The_SOAP_Message_When_Calling_GetSortCapabilities();
 
     void shall_Send_The_SOAP_Message_When_Calling_Browse();
+
+    void give_a_name();
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // MEDIASERVERSHOULD_H
