@@ -33,4 +33,4 @@ target_link_libraries(test_media_server_plugin_media_server_model
     Qt5::Test
 )
 
-add_test(test_media_server_plugin_media_server_model ${EXECUTABLE_OUTPUT_PATH}/test_media_server_model)
+add_test(test_media_server_plugin_media_server_model ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_media_server_model)
