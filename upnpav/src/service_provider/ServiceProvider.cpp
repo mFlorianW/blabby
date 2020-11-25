@@ -16,14 +16,14 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "ServiceProvider.h"
-#include "ServiceDiscovery.h"
 #include "DescriptionFetcher.h"
+#include "DescriptionFetcherBackend.h"
 #include "DeviceDescriptionParser.h"
-#include "ServiceDiscoveryPackage.h"
 #include "ParsingError.h"
 #include "ServiceControlPointDefinitionParser.h"
+#include "ServiceDiscovery.h"
 #include "ServiceDiscoveryBackend.h"
-#include "DescriptionFetcherBackend.h"
+#include "ServiceDiscoveryPackage.h"
 
 #include <QNetworkDatagram>
 #include <QUrl>
@@ -36,8 +36,8 @@ auto registerMediaServerProviderError = qRegisterMetaType<UPnPAV::ServiceProvide
 namespace UPnPAV
 {
 
-ServiceProviderError& ServiceProviderError::operator=(const ServiceProviderError &other) = default;
-ServiceProviderError::ServiceProviderError(const ServiceProviderError &other) =  default;
+ServiceProviderError &ServiceProviderError::operator=(const ServiceProviderError &other) = default;
+ServiceProviderError::ServiceProviderError(const ServiceProviderError &other) = default;
 
 ServiceProviderError::ErrorCode ServiceProviderError::errorCode() const
 {
@@ -49,43 +49,37 @@ QString ServiceProviderError::errorDescription() const
     return m_errorDescription;
 }
 
-ServiceProvider::ServiceProvider(const QString searchTarget,
-                                 const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoveryBackend,
+ServiceProvider::ServiceProvider(const QString searchTarget, const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoveryBackend,
                                  const QSharedPointer<DescriptionFetcherBackend> &descriptionFetcherBackend)
-    : QObject(nullptr)
+    : IServiceProvider()
     , m_searchTarget(searchTarget)
-    , m_serviceDiscovery(new ServiceDiscovery{serviceDiscoveryBackend})
-    , m_descriptionFetcher(new DescriptionFetcher{descriptionFetcherBackend})
+    , m_serviceDiscovery(new ServiceDiscovery{ serviceDiscoveryBackend })
+    , m_descriptionFetcher(new DescriptionFetcher{ descriptionFetcherBackend })
 {
-    (void)connect(m_serviceDiscovery.get(),
-                  &ServiceDiscovery::dataReceived,
-                  this,
-                  &ServiceProvider::handleServiceDiscoveryMessage);
-
-    (void)connect(m_descriptionFetcher.get(),
-                  &DescriptionFetcher::descriptionFetched,
-                  this,
-                  &ServiceProvider::handleFetchedDescription);
+    (void)connect(m_serviceDiscovery.get(), &ServiceDiscovery::dataReceived, this, &ServiceProvider::handleServiceDiscoveryMessage);
+    (void)connect(m_descriptionFetcher.get(), &DescriptionFetcher::descriptionFetched, this, &ServiceProvider::handleFetchedDescription);
 }
 
-ServiceProvider::~ServiceProvider()
+ServiceProvider::~ServiceProvider() = default;
+
+void ServiceProvider::setSearchTarget(const QString &searchTarget) noexcept
 {
+    m_searchTarget = searchTarget;
 }
 
-void ServiceProvider::startSearch()
+void ServiceProvider::startSearch() const noexcept
 {
     m_serviceDiscovery->sendSearchRequest(m_searchTarget);
 }
 
-DeviceDescription ServiceProvider::rootDeviceDescription(const QString &usn)
+DeviceDescription ServiceProvider::rootDeviceDescription(const QString &usn) const noexcept
 {
     return m_deviceDescriptions.value(usn);
 }
 
 bool ServiceProvider::validateDestination(const QNetworkDatagram &datagram)
 {
-    return (datagram.destinationAddress() == QHostAddress{"239.255.255.250"}) &&
-           (datagram.destinationPort() == 1900);
+    return (datagram.destinationAddress() == QHostAddress{ "239.255.255.250" }) && (datagram.destinationPort() == 1900);
 }
 
 void ServiceProvider::handleByeByePackage(const ServiceDiscoveryPackage &package)
@@ -96,7 +90,7 @@ void ServiceProvider::handleByeByePackage(const ServiceDiscoveryPackage &package
 
 void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
 {
-    //We already know the device we can ignore the message.
+    // We already know the device we can ignore the message.
     if(m_knownDevices.contains(package.deviceId()))
     {
         return;
@@ -107,25 +101,22 @@ void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
     m_pendingDeviceDescription.append(package.locationUrl());
 }
 
-void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram& datagram)
+void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &datagram)
 {
     if(datagram.data().isEmpty())
     {
-        QString errorMessage = QString{"Received empty ssdp message from %1:%2"}
-                .arg(datagram.senderAddress().toString())
-                .arg(datagram.senderPort());
+        QString errorMessage =
+            QString{ "Received empty ssdp message from %1:%2" }.arg(datagram.senderAddress().toString()).arg(datagram.senderPort());
 
-        Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::EmtpySSDPMessage,
-                                          errorMessage});
+        Q_EMIT error(ServiceProviderError{ ServiceProviderError::ErrorCode::EmtpySSDPMessage, errorMessage });
         return;
     }
 
     try
     {
-        ServiceDiscoveryPackage package{datagram.data()};
+        ServiceDiscoveryPackage package{ datagram.data() };
 
-        if((package.notificationSubType() == ServiceDiscoveryPackage::ByeBye) &&
-            m_knownDevices.contains(package.deviceId()))
+        if((package.notificationSubType() == ServiceDiscoveryPackage::ByeBye) && m_knownDevices.contains(package.deviceId()))
         {
             handleByeByePackage(package);
             return;
@@ -133,22 +124,20 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram& data
 
         if((package.notificationSubType() == ServiceDiscoveryPackage::Notify) && (!validateDestination(datagram)))
         {
-            Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::WrongDestination,
-                                              "Received package with wrong destination."});
+            Q_EMIT error(ServiceProviderError{ ServiceProviderError::ErrorCode::WrongDestination,
+                                               "Received package with wrong destination." });
             return;
         }
 
         handlePackage(package);
     }
-    catch (const PackageParseError &e)
+    catch(const PackageParseError &e)
     {
-        //TODO: Use category logging for details
-        QString errorMessage = QString{"Received malformd SSDP message from %1:%2"}
-                .arg(datagram.senderAddress().toString())
-                .arg(datagram.senderPort());
+        // TODO: Use category logging for details
+        QString errorMessage =
+            QString{ "Received malformd SSDP message from %1:%2" }.arg(datagram.senderAddress().toString()).arg(datagram.senderPort());
 
-        Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::MalformedSsdpMessage,
-                                                     errorMessage});
+        Q_EMIT error(ServiceProviderError{ ServiceProviderError::ErrorCode::MalformedSsdpMessage, errorMessage });
     }
 }
 
@@ -173,9 +162,9 @@ void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &dev
     }
     else
     {
-        //request all scpds
+        // request all scpds
         auto tempDeviceDescription = TempDeviceDescription{};
-        for(const auto& serviceDescription : deviceDescription.services())
+        for(const auto &serviceDescription : deviceDescription.services())
         {
             tempDeviceDescription.udn = deviceDescription.udn();
             tempDeviceDescription.deviceDescriptions = deviceDescription;
@@ -184,7 +173,6 @@ void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &dev
 
             m_descriptionFetcher->fetchDescription(serviceDescription.scpdUrl());
         }
-
     }
 }
 
@@ -197,10 +185,10 @@ void ServiceProvider::handleFetchedDeviceDescription(const QString &deviceDescri
     {
         deviceReader.readDeviceDescription(deviceDescription);
     }
-    catch (const ParsingError &e)
+    catch(const ParsingError &e)
     {
-        Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
-                                          QString("Received XML from %1 is not well formed").arg(url.toString())});
+        Q_EMIT error(ServiceProviderError{ ServiceProviderError::ErrorCode::XmlNotWellFormed,
+                                           QString("Received XML from %1 is not well formed").arg(url.toString()) });
         return;
     }
 
@@ -216,7 +204,7 @@ void ServiceProvider::handleFetchedDeviceDescription(const QString &deviceDescri
 
 void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription, const QUrl &url)
 {
-    //TODO: Maybe replace with std::find_if
+    // TODO: Maybe replace with std::find_if
     auto foundIter = m_tempDeviceDescriptions.end();
     for(auto iter = m_tempDeviceDescriptions.begin(); iter != m_tempDeviceDescriptions.end(); ++iter)
     {
@@ -232,15 +220,15 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
         return;
     }
 
-    ServiceControlPointDefinitionParser scpdParser{url.toString()};
+    ServiceControlPointDefinitionParser scpdParser{ url.toString() };
     try
     {
         scpdParser.parseServiceControlPointDefinition(scpdDescription);
     }
-    catch (const ParsingError &e)
+    catch(const ParsingError &e)
     {
-        Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
-                                          QString("Received XML from %1 is not well formed").arg(url.toString())});
+        Q_EMIT error(ServiceProviderError{ ServiceProviderError::ErrorCode::XmlNotWellFormed,
+                                           QString("Received XML from %1 is not well formed").arg(url.toString()) });
         return;
     }
 
@@ -248,14 +236,12 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
     foundIter.value().scpds.append(scpdParser.serviceControlPointDefinition());
     if(foundIter.value().pendingSCPDS.isEmpty())
     {
-        DeviceDescription deviceDescription{foundIter.value().deviceDescriptions.deviceType(),
-                foundIter.value().deviceDescriptions.friendlyName(),
-                foundIter.value().deviceDescriptions.manufacturer(),
-                foundIter.value().deviceDescriptions.modelName(),
-                foundIter.value().deviceDescriptions.udn(),
-                foundIter.value().deviceDescriptions.icons(),
-                foundIter.value().deviceDescriptions.services(),
-                foundIter.value().scpds};
+        DeviceDescription deviceDescription{
+            foundIter.value().deviceDescriptions.deviceType(),   foundIter.value().deviceDescriptions.friendlyName(),
+            foundIter.value().deviceDescriptions.manufacturer(), foundIter.value().deviceDescriptions.modelName(),
+            foundIter.value().deviceDescriptions.udn(),          foundIter.value().deviceDescriptions.icons(),
+            foundIter.value().deviceDescriptions.services(),     foundIter.value().scpds
+        };
 
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
         Q_EMIT serviceConnected(deviceDescription.udn());
@@ -266,8 +252,7 @@ ServiceProviderError::ServiceProviderError()
 {
 }
 
-ServiceProviderError::ServiceProviderError(ErrorCode errorCode,
-                                                   const QString &errorDescription) noexcept
+ServiceProviderError::ServiceProviderError(ErrorCode errorCode, const QString &errorDescription) noexcept
     : m_errorCode(errorCode)
     , m_errorDescription(errorDescription)
 {
@@ -284,12 +269,10 @@ ServiceProviderFactory::~ServiceProviderFactory()
 
 QSharedPointer<ServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    auto serviceDiscoveryBackend = QSharedPointer<UdpServiceDiscoveryBackend>{new UdpServiceDiscoveryBackend{}};
-    auto descriptionFetcherBackend = QSharedPointer<HttpDescriptionFetcherBackend>{new HttpDescriptionFetcherBackend{}};
+    auto serviceDiscoveryBackend = QSharedPointer<UdpServiceDiscoveryBackend>{ new UdpServiceDiscoveryBackend{} };
+    auto descriptionFetcherBackend = QSharedPointer<HttpDescriptionFetcherBackend>{ new HttpDescriptionFetcherBackend{} };
 
-    return QSharedPointer<ServiceProvider>{new ServiceProvider{searchTarget,
-                                                               serviceDiscoveryBackend,
-                                                               descriptionFetcherBackend}};
+    return QSharedPointer<ServiceProvider>{ new ServiceProvider{ searchTarget, serviceDiscoveryBackend, descriptionFetcherBackend } };
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

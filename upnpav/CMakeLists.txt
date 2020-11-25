@@ -102,6 +102,7 @@ target_sources(BlabbyUPnPAVObject
         include/service_provider/SCPDStateVariable.h
         include/service_provider/DescriptionFetcherBackend.h
         include/service_provider/ServiceDiscoveryBackend.h
+        include/service_provider/IServiceProvider.h
 
         #device
         include/device/MediaServer.h

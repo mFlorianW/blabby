@@ -18,11 +18,11 @@
 #ifndef SERVICEPROVIDER_H
 #define SERVICEPROVIDER_H
 
-#include "UPnP_Export.h"
 #include "DeviceDescription.h"
-
-#include <QSharedPointer>
+#include "IServiceProvider.h"
+#include "UPnP_Export.h"
 #include <QObject>
+#include <QSharedPointer>
 
 class QNetworkDatagram;
 
@@ -36,22 +36,20 @@ class DeviceDescriptionParser;
 class ServiceDiscoveryPackage;
 class ServiceProviderError;
 
-/**
- *
- */
-class UPNP_EXPORT ServiceProvider : public QObject
+class UPNP_EXPORT ServiceProvider : public IServiceProvider
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceProvider)
 public:
-    ServiceProvider(const QString searchTarget,
-                    const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoverybackend,
+    ServiceProvider(const QString searchTarget, const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoverybackend,
                     const QSharedPointer<DescriptionFetcherBackend> &descriptionFetcherBackend);
     ~ServiceProvider() override;
 
-    void startSearch();
+    void setSearchTarget(const QString &searchTarget) noexcept override;
 
-    DeviceDescription rootDeviceDescription(const QString &usn);
+    void startSearch() const noexcept override;
+
+    DeviceDescription rootDeviceDescription(const QString &usn) const noexcept;
 
 Q_SIGNALS:
     void serviceConnected(const QString &uniqueServiceName);
@@ -81,7 +79,7 @@ private:
         QVector<QString> pendingSCPDS;
     };
 
-    QString m_searchTarget{""};
+    QString m_searchTarget{ "" };
 
     QSharedPointer<ServiceDiscovery> m_serviceDiscovery;
     QSharedPointer<DescriptionFetcher> m_descriptionFetcher;
@@ -113,13 +111,12 @@ public:
     };
 
     ServiceProviderError();
-    ServiceProviderError(ErrorCode errorCode,
-                         const QString &errorDescription) noexcept;
+    ServiceProviderError(ErrorCode errorCode, const QString &errorDescription) noexcept;
 
     ~ServiceProviderError() noexcept;
 
     ServiceProviderError(const ServiceProviderError &other);
-    ServiceProviderError& operator=(const ServiceProviderError &other);
+    ServiceProviderError &operator=(const ServiceProviderError &other);
 
     ErrorCode errorCode() const;
 
@@ -130,7 +127,7 @@ private:
     QString m_errorDescription;
 };
 
-} //UPnPAV
+} // namespace UPnPAV
 
 Q_DECLARE_METATYPE(UPnPAV::ServiceProviderError)
 
