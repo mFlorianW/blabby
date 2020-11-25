@@ -24,6 +24,7 @@
 #include "ServiceDiscovery.h"
 #include "ServiceDiscoveryBackend.h"
 #include "ServiceDiscoveryPackage.h"
+#include "ServiceProviderError.h"
 
 #include <QNetworkDatagram>
 #include <QUrl>
@@ -35,19 +36,6 @@ auto registerMediaServerProviderError = qRegisterMetaType<UPnPAV::ServiceProvide
 
 namespace UPnPAV
 {
-
-ServiceProviderError &ServiceProviderError::operator=(const ServiceProviderError &other) = default;
-ServiceProviderError::ServiceProviderError(const ServiceProviderError &other) = default;
-
-ServiceProviderError::ErrorCode ServiceProviderError::errorCode() const
-{
-    return m_errorCode;
-}
-
-QString ServiceProviderError::errorDescription() const
-{
-    return m_errorDescription;
-}
 
 ServiceProvider::ServiceProvider(const QString searchTarget, const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoveryBackend,
                                  const QSharedPointer<DescriptionFetcherBackend> &descriptionFetcherBackend)

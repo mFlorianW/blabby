@@ -67,6 +67,7 @@ target_sources(BlabbyUPnPAVObject
         src/service_provider/ServiceDiscoveryPackage.cpp
         src/service_provider/ParsingError.cpp
         src/service_provider/ServiceControlPointDefinitionParser.cpp
+        src/service_provider/ServiceProviderError.cpp
 
         #device
         src/device/InvalidDeviceDescription.cpp
@@ -103,6 +104,7 @@ target_sources(BlabbyUPnPAVObject
         include/service_provider/DescriptionFetcherBackend.h
         include/service_provider/ServiceDiscoveryBackend.h
         include/service_provider/IServiceProvider.h
+        include/service_provider/ServiceProviderError.h
 
         #device
         include/device/MediaServer.h

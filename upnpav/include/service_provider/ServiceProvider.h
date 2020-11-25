@@ -18,7 +18,6 @@
 #ifndef SERVICEPROVIDER_H
 #define SERVICEPROVIDER_H
 
-#include "DeviceDescription.h"
 #include "IServiceProvider.h"
 #include "UPnP_Export.h"
 #include <QObject>
@@ -34,7 +33,6 @@ class DescriptionFetcher;
 class DescriptionFetcherBackend;
 class DeviceDescriptionParser;
 class ServiceDiscoveryPackage;
-class ServiceProviderError;
 
 class UPNP_EXPORT ServiceProvider : public IServiceProvider
 {
@@ -99,36 +97,6 @@ public:
     virtual QSharedPointer<ServiceProvider> createServiceProvider(const QString &searchTarget);
 };
 
-class UPNP_EXPORT ServiceProviderError
-{
-public:
-    enum class ErrorCode : quint8
-    {
-        WrongDestination = 0, //!< The SSDP message
-        EmtpySSDPMessage,
-        MalformedSsdpMessage,
-        XmlNotWellFormed
-    };
-
-    ServiceProviderError();
-    ServiceProviderError(ErrorCode errorCode, const QString &errorDescription) noexcept;
-
-    ~ServiceProviderError() noexcept;
-
-    ServiceProviderError(const ServiceProviderError &other);
-    ServiceProviderError &operator=(const ServiceProviderError &other);
-
-    ErrorCode errorCode() const;
-
-    QString errorDescription() const;
-
-private:
-    ErrorCode m_errorCode;
-    QString m_errorDescription;
-};
-
 } // namespace UPnPAV
-
-Q_DECLARE_METATYPE(UPnPAV::ServiceProviderError)
 
 #endif // SERVICEPROVIDER_H
