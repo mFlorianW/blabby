@@ -85,8 +85,6 @@ void MediaServerModelShould::give_default_qvariant_for_a_to_small_index()
     auto emptyVariant = mediaServerModel.data(mediaServerModel.index(-1), MediaServerModel::MediaServerName);
 
     QCOMPARE(emptyVariant, QVariant{});
-
-    emptyVariant = mediaServerModel.data(mediaServerModel.index(-1), MediaServerModel::MediaServerName);
 }
 
 void MediaServerModelShould::give_default_qvariant_for_a_to_big_index()
@@ -96,8 +94,6 @@ void MediaServerModelShould::give_default_qvariant_for_a_to_big_index()
     auto emptyVariant = mediaServerModel.data(mediaServerModel.index(19), MediaServerModel::MediaServerName);
 
     QCOMPARE(emptyVariant, QVariant{});
-
-    emptyVariant = mediaServerModel.data(mediaServerModel.index(-1), MediaServerModel::MediaServerName);
 }
 
 } // namespace MediaServerPlugin

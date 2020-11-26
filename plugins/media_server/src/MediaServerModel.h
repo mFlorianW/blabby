@@ -24,6 +24,8 @@ namespace UPnPAV
 {
 class IMediaServer;
 }
+namespace MediaServerPlugin
+{
 
 class MediaServerModel : public QAbstractListModel
 {
@@ -48,5 +50,7 @@ public:
 private:
     QHash<qint32, UPnPAV::IMediaServer *> mMediaServer;
 };
+
+} // namespace MediaServerPlugin
 
 #endif // MEDIASERVERMODEL_H

@@ -19,6 +19,9 @@
 #include "IMediaServer.h"
 #include <QUrl>
 
+namespace MediaServerPlugin
+{
+
 MediaServerModel::MediaServerModel()
     : QAbstractListModel()
 {
@@ -65,3 +68,5 @@ QHash<int, QByteArray> MediaServerModel::roleNames() const
     return { std::make_pair(MediaServerModel::MediaServerName, "mediaServerName"),
              std::make_pair(MediaServerModel::MediaServerIconUrl, "mediaServerIconUrl") };
 }
+
+} // namespace MediaServerPlugin
