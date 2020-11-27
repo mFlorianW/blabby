@@ -37,12 +37,16 @@ auto registerMediaServerProviderError = qRegisterMetaType<UPnPAV::ServiceProvide
 namespace UPnPAV
 {
 
-ServiceProvider::ServiceProvider(const QString searchTarget, const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoveryBackend,
-                                 const QSharedPointer<DescriptionFetcherBackend> &descriptionFetcherBackend)
+ServiceProvider::ServiceProvider() = default;
+
+ServiceProvider::ServiceProvider(const QString searchTarget, std::unique_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
+                                 std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend)
     : IServiceProvider()
     , m_searchTarget(searchTarget)
-    , m_serviceDiscovery(new ServiceDiscovery{ serviceDiscoveryBackend })
-    , m_descriptionFetcher(new DescriptionFetcher{ descriptionFetcherBackend })
+    , mServiceDiscoveryBackend(std::move(serviceDiscoverybackend))
+    , m_serviceDiscovery(std::make_unique<ServiceDiscovery>(mServiceDiscoveryBackend.get()))
+    , mDescriptionFetcherBackend(std::move(descriptionFetcherBackend))
+    , m_descriptionFetcher(std::make_unique<DescriptionFetcher>(mDescriptionFetcherBackend.get()))
 {
     (void)connect(m_serviceDiscovery.get(), &ServiceDiscovery::dataReceived, this, &ServiceProvider::handleServiceDiscoveryMessage);
     (void)connect(m_descriptionFetcher.get(), &DescriptionFetcher::descriptionFetched, this, &ServiceProvider::handleFetchedDescription);
@@ -255,12 +259,12 @@ ServiceProviderFactory::~ServiceProviderFactory()
 {
 }
 
-QSharedPointer<ServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
+std::unique_ptr<IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    auto serviceDiscoveryBackend = QSharedPointer<UdpServiceDiscoveryBackend>{ new UdpServiceDiscoveryBackend{} };
-    auto descriptionFetcherBackend = QSharedPointer<HttpDescriptionFetcherBackend>{ new HttpDescriptionFetcherBackend{} };
+    auto serviceDiscoveryBackend = std::make_unique<UdpServiceDiscoveryBackend>();
+    auto descriptionFetcherBackend = std::make_unique<HttpDescriptionFetcherBackend>();
 
-    return QSharedPointer<ServiceProvider>{ new ServiceProvider{ searchTarget, serviceDiscoveryBackend, descriptionFetcherBackend } };
+    return std::make_unique<ServiceProvider>(searchTarget, std::move(serviceDiscoveryBackend), std::move(descriptionFetcherBackend));
 }
 
 } // namespace UPnPAV

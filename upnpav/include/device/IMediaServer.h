@@ -18,16 +18,20 @@
 #ifndef IMEDIASERVER_H
 #define IMEDIASERVER_H
 
+#include "UPnP_Export.h"
 #include <QSharedPointer>
+#include <memory>
 
 namespace UPnPAV
 {
 class PendingSoapCall;
+class DeviceDescription;
+class SoapMessageTransmitter;
 
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class IMediaServer
+class UPNP_EXPORT IMediaServer
 {
 public:
     /**
@@ -76,6 +80,27 @@ public:
      */
     virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag,
                                                    const QString &filter, const QString &sortCriteria) noexcept = 0;
+};
+
+class UPNP_EXPORT IMediaServerFactory : public QObject
+{
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(IMediaServerFactory)
+public:
+    virtual ~IMediaServerFactory() = default;
+
+    /**
+     * Creates a MediaServer instance.
+     *
+     * @param deviceDescription The device description of which the media server should use.
+     * @return std::unique_ptr<IMediaServer>
+     *
+     * @Throws InvalidDeviceDescription when the MediaServer can't parse the description.
+     */
+    virtual std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) = 0;
+
+protected:
+    IMediaServerFactory() = default;
 };
 
 } // namespace UPnPAV

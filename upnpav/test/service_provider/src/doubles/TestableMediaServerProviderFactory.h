@@ -20,8 +20,6 @@
 
 #include "ServiceProvider.h"
 
-#include <QSharedPointer>
-
 namespace UPnPAV
 {
 class ServiceDiscoveryBackendDouble;
@@ -30,12 +28,12 @@ class DescriptionFetcherBackendDouble;
 class TestableMediaServerProviderFactory final : public ServiceProviderFactory
 {
 public:
-    QSharedPointer<ServiceProvider> createServiceProvider(const QString &searchTarget) override;
+    std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget) override;
 
-    QSharedPointer<ServiceDiscoveryBackendDouble> serviceDiscoveryBackendDouble;
-    QSharedPointer<DescriptionFetcherBackendDouble> descriptionFetcherBackendDouble;
+    ServiceDiscoveryBackendDouble *serviceDiscoveryBackendDouble;
+    DescriptionFetcherBackendDouble *descriptionFetcherBackendDouble;
 };
 
-}
+} // namespace UPnPAV
 
-#endif //TESTABLEMEDIASERVERPROVIDERFACTORY_h
+#endif // TESTABLEMEDIASERVERPROVIDERFACTORY_h

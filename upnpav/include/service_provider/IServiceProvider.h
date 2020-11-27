@@ -22,6 +22,7 @@
 #include "ServiceProviderError.h"
 #include "UPnP_Export.h"
 #include <QObject>
+#include <memory>
 
 namespace UPnPAV
 {
@@ -79,6 +80,18 @@ Q_SIGNALS:
 
 protected:
     IServiceProvider() = default;
+};
+
+class UPNP_EXPORT IServiceProviderFactory : public QObject
+{
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(IServiceProviderFactory)
+public:
+    virtual ~IServiceProviderFactory() = default;
+    virtual std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget) = 0;
+
+protected:
+    IServiceProviderFactory() = default;
 };
 
 } // namespace UPnPAV

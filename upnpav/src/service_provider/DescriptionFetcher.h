@@ -19,7 +19,6 @@
 #define DESCRIPTIONFETCHER_H
 
 #include <QObject>
-#include <QSharedPointer>
 
 namespace UPnPAV
 {
@@ -30,7 +29,7 @@ class DescriptionFetcher : public QObject
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(DescriptionFetcher)
 public:
-    DescriptionFetcher(const QSharedPointer<DescriptionFetcherBackend> backend);
+    DescriptionFetcher(DescriptionFetcherBackend *backend);
     ~DescriptionFetcher() override;
 
     void fetchDescription(const QUrl &url);
@@ -39,9 +38,9 @@ Q_SIGNALS:
     void descriptionFetched(const QString &description, const QUrl &url);
 
 private:
-    QSharedPointer<DescriptionFetcherBackend> m_backend;
+    DescriptionFetcherBackend *m_backend;
 };
 
-}
+} // namespace UPnPAV
 
 #endif // DESCRIPTIONFETCHER_H

@@ -15,14 +15,23 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-###############################################################################
-# Dependencies
-###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+################################################################################
+# Build
+################################################################################
+add_library(test_media_server_doubles)
+add_library(Blabby::MediaServerPluginDoubles ALIAS test_media_server_doubles)
 
-###############################################################################
-# Subdirectories
-###############################################################################
-add_subdirectory(doubles)
-add_subdirectory(media_server_model)
-add_subdirectory(main_controller)
+target_sources(test_media_server_doubles
+    PRIVATE
+        src/MediaServerDouble.cpp
+        src/ServiceProviderDouble.cpp
+)
+
+target_include_directories(test_media_server_doubles
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+)
+
+target_link_libraries(test_media_server_doubles
+    Blabby::UPnPAV
+)

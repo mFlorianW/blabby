@@ -32,7 +32,7 @@ class ServiceDiscovery final : public QObject
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceDiscovery)
 public:
-    ServiceDiscovery(const QSharedPointer<ServiceDiscoveryBackend> &discoveryBackend);
+    ServiceDiscovery(ServiceDiscoveryBackend *discoveryBackend);
     ~ServiceDiscovery() override;
 
     void sendSearchRequest(const QString &searchTarget);
@@ -41,8 +41,8 @@ Q_SIGNALS:
     void dataReceived(const QNetworkDatagram &response);
 
 private:
-    QSharedPointer<ServiceDiscoveryBackend> m_discoveryBackend;
+    ServiceDiscoveryBackend *m_discoveryBackend;
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 #endif // SERVICEDISCOVERY_H

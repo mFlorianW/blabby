@@ -16,7 +16,12 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServerPlugin.h"
+#include "MainController.h"
+#include "MediaServer.h"
+#include "MediaServerModel.h"
+#include "ServiceProvider.h"
 #include <QUrl>
+#include <qqml.h>
 
 namespace MediaServerPlugin
 {
@@ -42,6 +47,15 @@ QUuid MediaServerPlugin::getPluginIdentifier() const
 
 bool MediaServerPlugin::load()
 {
+    qmlRegisterType<UPnPAV::ServiceProviderFactory>("de.blabby.mediaserverplugin", 1, 0, "ServiceProviderFactory");
+    qmlRegisterType<UPnPAV::MediaServerFactory>("de.blabby.mediaserverplugin", 1, 0, "MediaServerFactory");
+    qmlRegisterType<MainController>("de.blabby.mediaserverplugin", 1, 0, "MainController");
+    qmlRegisterType<MediaServerModel>("de.blabby.mediaserverplugin", 1, 0, "MediaServerModel");
+    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>("de.blabby.mediaserverplugin", 1, 0, "IServiceProviderFactory",
+                                                                "Interface ServiceProviderFactory");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>("de.blabby.mediaserverplugin", 1, 0, "IMediaServerFactory",
+                                                            "Interface MediaServerFactory");
+
     return true;
 }
 

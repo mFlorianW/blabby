@@ -18,14 +18,14 @@
 #ifndef MEDIASERVERPROVIDERSHOULD_H
 #define MEDIASERVERPROVIDERSHOULD_H
 
-#include <QSharedPointer>
 #include <QObject>
+#include <QSharedPointer>
 
 class QNetworkDatagram;
 
 namespace UPnPAV
 {
-class ServiceProvider;
+class IServiceProvider;
 class TestableMediaServerProviderFactory;
 
 class ServiceProviderShould final : public QObject
@@ -145,10 +145,10 @@ private Q_SLOTS:
     void parse_service_control_point_definition();
 
 private:
-    QSharedPointer<ServiceProvider> m_mediaServerProvider;
+    std::unique_ptr<IServiceProvider> m_mediaServerProvider;
     QSharedPointer<TestableMediaServerProviderFactory> m_providerFactory;
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // MEDIASERVERPROVIDERSHOULD_H

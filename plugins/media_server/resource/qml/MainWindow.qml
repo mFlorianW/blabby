@@ -1,11 +1,27 @@
 import QtQuick 2.13
+import de.blabby.mediaserverplugin 1.0
 
-Text {
-    id: welcomeText
-    color: "#7f8c8d"
-    font.pixelSize: 72
-    horizontalAlignment: Text.AlignHCenter
-    verticalAlignment: parent.verticalCenter
-    text: qsTr("Welcome to \nMediaServer")
+MainController{
+    id: root
+    mediaServerModel: mediaServerModel
+    mediaServerFactory: mediaServerFab
+    serviceProviderFactory: serviceProviderFab
+
+    GridView{
+        id: mediaServerOverview
+        model: mediaServerModel
+    }
+    
+    MediaServerModel{
+        id: mediaServerModel
+    }
+
+    ServiceProviderFactory{
+        id: serviceProviderFab
+    }
+
+    MediaServerFactory{
+        id: mediaServerFab
+    }
 }
 

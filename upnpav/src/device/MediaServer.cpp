@@ -19,12 +19,26 @@
 #include "ConnectionManagerServiceValidator.h"
 #include "ContentDirectoryServiceValidator.h"
 #include "DeviceDescription.h"
+#include "HttpSoapMessageTransmitter.h"
 #include "InvalidDeviceDescription.h"
 #include "SoapMessageGenerator.h"
 #include "SoapMessageTransmitter.h"
 
 namespace UPnPAV
 {
+
+MediaServerFactory::MediaServerFactory()
+    : IMediaServerFactory()
+{
+}
+
+MediaServerFactory::~MediaServerFactory() = default;
+
+std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const DeviceDescription &deviceDescription)
+{
+    return std::make_unique<MediaServer>(deviceDescription,
+                                         QSharedPointer<HttpSoapMessageTransmitter>{ new HttpSoapMessageTransmitter() });
+}
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
     : m_soapMessageTransmitter(soapMessageTransmitter)

@@ -15,25 +15,19 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "DescriptionFetcher.h"
-#include "DescriptionFetcherBackend.h"
+#include <QObject>
 
-namespace UPnPAV
+namespace MediaServerPlugin
 {
-
-
-DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
-    : QObject()
-    , m_backend(backend)
+class MainControllerShould : public QObject
 {
-    (void)connect(m_backend, &DescriptionFetcherBackend::descriptionFetched, this, &DescriptionFetcher::descriptionFetched);
-}
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MainControllerShould)
+public:
+    MainControllerShould();
+    ~MainControllerShould();
+private Q_SLOTS:
+    void on_mediaserver_connected_create_media_server_and_put_in_the_model();
+};
 
-DescriptionFetcher::~DescriptionFetcher() = default;
-
-void DescriptionFetcher::fetchDescription(const QUrl &url)
-{
-    m_backend->fetchDescriptionFrom(url);
-}
-
-} // namespace UPnPAV
+} // namespace MediaServerPlugin

@@ -16,23 +16,21 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "TestableMediaServerProviderFactory.h"
-#include "ServiceDiscoveryBackendDouble.h"
 #include "DescriptionFetcherBackendDouble.h"
+#include "ServiceDiscoveryBackendDouble.h"
 
 namespace UPnPAV
 {
 
-QSharedPointer<ServiceProvider> TestableMediaServerProviderFactory::createServiceProvider(const QString &searchTarget)
+std::unique_ptr<IServiceProvider> TestableMediaServerProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    serviceDiscoveryBackendDouble = QSharedPointer<ServiceDiscoveryBackendDouble>{
-        new ServiceDiscoveryBackendDouble{}};
+    auto serviceDiscoveryBackendDouble = std::make_unique<ServiceDiscoveryBackendDouble>();
+    this->serviceDiscoveryBackendDouble = serviceDiscoveryBackendDouble.get();
+    auto descriptionFetcherBackendDouble = std::make_unique<DescriptionFetcherBackendDouble>();
+    this->descriptionFetcherBackendDouble = descriptionFetcherBackendDouble.get();
 
-    descriptionFetcherBackendDouble = QSharedPointer<DescriptionFetcherBackendDouble>{
-        new DescriptionFetcherBackendDouble{}};
-
-    return QSharedPointer<ServiceProvider>{new ServiceProvider{searchTarget,
-                                                               serviceDiscoveryBackendDouble,
-                                                               descriptionFetcherBackendDouble}};
+    return std::make_unique<ServiceProvider>(searchTarget, std::move(serviceDiscoveryBackendDouble),
+                                             std::move(descriptionFetcherBackendDouble));
 }
 
 } // namespace UPnPAV

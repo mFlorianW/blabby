@@ -30,6 +30,7 @@ target_sources(test_media_server_plugin_media_server_model
 
 target_link_libraries(test_media_server_plugin_media_server_model
     Blabby::MediaServerObject
+    Blabby::MediaServerPluginDoubles
     Qt5::Test
 )
 

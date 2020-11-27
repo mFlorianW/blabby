@@ -105,6 +105,7 @@ target_sources(BlabbyUPnPAVObject
         include/service_provider/ServiceDiscoveryBackend.h
         include/service_provider/IServiceProvider.h
         include/service_provider/ServiceProviderError.h
+        include/service_provider/IServiceProvider.h
 
         #device
         include/device/MediaServer.h
@@ -115,6 +116,7 @@ target_sources(BlabbyUPnPAVObject
         include/device/HttpSoapMessageTransmitter.h
         include/device/BrowseResult.h
         include/device/MediaServerObject.h
+        include/device/IMediaServer.h
 )
 
 target_link_libraries(BlabbyUPnPAVObject

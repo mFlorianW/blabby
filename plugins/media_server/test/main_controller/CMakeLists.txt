@@ -15,14 +15,23 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-###############################################################################
-# Dependencies
-###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+################################################################################
+# Build
+################################################################################
+add_executable(test_media_server_plugin_main_controller)
 
-###############################################################################
-# Subdirectories
-###############################################################################
-add_subdirectory(doubles)
-add_subdirectory(media_server_model)
-add_subdirectory(main_controller)
+target_sources(test_media_server_plugin_main_controller
+    PRIVATE
+        src/MainControllerShould.cpp
+)
+
+#target_include_directories(test_media_server_plugin_media_server_model
+#)
+
+target_link_libraries(test_media_server_plugin_main_controller
+    Blabby::MediaServerObject
+    Blabby::MediaServerPluginDoubles
+    Qt5::Test
+)
+
+add_test(test_media_server_plugin_main_controller ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_main_controller)

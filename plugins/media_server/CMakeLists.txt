@@ -35,10 +35,12 @@ target_sources(BlabbyMediaServerObject
 
         src/MediaServerPlugin.cpp
         src/MediaServerModel.cpp
+        src/MainController.cpp
 )
 
 target_link_libraries(BlabbyMediaServerObject
     Qt5::Core
+    Qt5::Quick
     Blabby::PluginCore
     Blabby::UPnPAV
 )

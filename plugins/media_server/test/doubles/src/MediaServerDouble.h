@@ -15,25 +15,32 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "DescriptionFetcher.h"
-#include "DescriptionFetcherBackend.h"
 
-namespace UPnPAV
+#include "IMediaServer.h"
+
+namespace MediaServerPlugin
+{
+namespace Doubles
 {
 
-
-DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
-    : QObject()
-    , m_backend(backend)
+class MediaServerFactory final : public UPnPAV::IMediaServerFactory
 {
-    (void)connect(m_backend, &DescriptionFetcherBackend::descriptionFetched, this, &DescriptionFetcher::descriptionFetched);
-}
+public:
+    std::unique_ptr<UPnPAV::IMediaServer> createMediaServer(const UPnPAV::DeviceDescription &deviceDescription) override;
+};
 
-DescriptionFetcher::~DescriptionFetcher() = default;
-
-void DescriptionFetcher::fetchDescription(const QUrl &url)
+class MediaServer : public UPnPAV::IMediaServer
 {
-    m_backend->fetchDescriptionFrom(url);
-}
+public:
+    QString name() const noexcept override;
 
-} // namespace UPnPAV
+    QUrl iconUrl() const noexcept override;
+
+    QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
+
+    QSharedPointer<UPnPAV::PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag,
+                                                   const QString &filter, const QString &sortCriteria) noexcept override;
+};
+
+} // namespace Doubles
+} // namespace MediaServerPlugin

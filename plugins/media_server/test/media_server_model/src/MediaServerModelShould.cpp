@@ -1,5 +1,23 @@
+/**
+ ** This file is part of the Blabby project.
+ ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 2 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
 #include "MediaServerModelShould.h"
 #include "IMediaServer.h"
+#include "MediaServerDouble.h"
 #include "MediaServerModel.h"
 #include "PendingSoapCall.h"
 #include <QtTest>
@@ -7,35 +25,7 @@
 namespace MediaServerPlugin
 {
 
-class MediaServer : public UPnPAV::IMediaServer
-{
-public:
-    QString name() const noexcept override
-    {
-        return "MediaServer";
-    }
-
-    QUrl iconUrl() const noexcept override
-    {
-        return QUrl{ "http://localhost:8200/icons/sm.png" };
-    }
-
-    QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override
-    {
-        return {};
-    }
-
-    QSharedPointer<UPnPAV::PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag,
-                                                   const QString &filter, const QString &sortCriteria) noexcept override
-    {
-        Q_UNUSED(objectId)
-        Q_UNUSED(browseFlag)
-        Q_UNUSED(filter)
-        Q_UNUSED(sortCriteria)
-
-        return {};
-    }
-};
+namespace Doubles = MediaServerPlugin::Doubles;
 
 MediaServerModelShould::MediaServerModelShould()
     : QObject()
@@ -56,7 +46,7 @@ void MediaServerModelShould::give_correct_rolename()
 
 void MediaServerModelShould::give_mediaserver_name_on_request_with_valid_index()
 {
-    MediaServer mediaServer;
+    Doubles::MediaServer mediaServer;
     MediaServerModel mediaServerModel;
     mediaServerModel.insert(&mediaServer);
     const QString expected{ "MediaServer" };
@@ -68,7 +58,7 @@ void MediaServerModelShould::give_mediaserver_name_on_request_with_valid_index()
 
 void MediaServerModelShould::give_mediaserver_icon_url_on_request_with_valid_index()
 {
-    MediaServer mediaServer;
+    Doubles::MediaServer mediaServer;
     MediaServerModel mediaServerModel;
     mediaServerModel.insert(&mediaServer);
     const QUrl expected{ "http://localhost:8200/icons/sm.png" };

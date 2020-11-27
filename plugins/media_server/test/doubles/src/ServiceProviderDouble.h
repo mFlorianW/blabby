@@ -15,25 +15,36 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "DescriptionFetcher.h"
-#include "DescriptionFetcherBackend.h"
+#include "IServiceProvider.h"
 
-namespace UPnPAV
+namespace MediaServerPlugin
+{
+namespace Doubles
 {
 
-
-DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
-    : QObject()
-    , m_backend(backend)
+class ServiceProviderDouble final : public UPnPAV::IServiceProvider
 {
-    (void)connect(m_backend, &DescriptionFetcherBackend::descriptionFetched, this, &DescriptionFetcher::descriptionFetched);
-}
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ServiceProviderDouble)
+public:
+    ServiceProviderDouble() = default;
+    ~ServiceProviderDouble() noexcept override = default;
 
-DescriptionFetcher::~DescriptionFetcher() = default;
+    void setSearchTarget(const QString &searchTarget) noexcept override;
 
-void DescriptionFetcher::fetchDescription(const QUrl &url)
+    void startSearch() const noexcept override;
+
+    UPnPAV::DeviceDescription rootDeviceDescription(const QString &usn) const noexcept;
+
+private:
+    QString mSearchTarget;
+};
+
+class ServiceProviderFactory : public UPnPAV::IServiceProviderFactory
 {
-    m_backend->fetchDescriptionFrom(url);
-}
+public:
+    std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(const QString &searchTarget) override;
+};
 
-} // namespace UPnPAV
+} // namespace Doubles
+} // namespace MediaServerPlugin

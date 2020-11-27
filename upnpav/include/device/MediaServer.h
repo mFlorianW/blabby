@@ -31,6 +31,16 @@ namespace UPnPAV
 class SoapMessageTransmitter;
 class DeviceDescription;
 
+class UPNP_EXPORT MediaServerFactory : public IMediaServerFactory
+{
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MediaServerFactory)
+public:
+    MediaServerFactory();
+    ~MediaServerFactory();
+    std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) override;
+};
+
 class UPNP_EXPORT MediaServer final : public IMediaServer
 {
 public:

@@ -20,8 +20,9 @@
 
 #include "IServiceProvider.h"
 #include "UPnP_Export.h"
+#include <QHash>
 #include <QObject>
-#include <QSharedPointer>
+#include <memory>
 
 class QNetworkDatagram;
 
@@ -34,13 +35,15 @@ class DescriptionFetcherBackend;
 class DeviceDescriptionParser;
 class ServiceDiscoveryPackage;
 
+
 class UPNP_EXPORT ServiceProvider : public IServiceProvider
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceProvider)
 public:
-    ServiceProvider(const QString searchTarget, const QSharedPointer<ServiceDiscoveryBackend> &serviceDiscoverybackend,
-                    const QSharedPointer<DescriptionFetcherBackend> &descriptionFetcherBackend);
+    ServiceProvider();
+    ServiceProvider(const QString searchTarget, std::unique_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
+                    std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend);
     ~ServiceProvider() override;
 
     void setSearchTarget(const QString &searchTarget) noexcept override;
@@ -48,11 +51,6 @@ public:
     void startSearch() const noexcept override;
 
     DeviceDescription rootDeviceDescription(const QString &usn) const noexcept;
-
-Q_SIGNALS:
-    void serviceConnected(const QString &uniqueServiceName);
-    void serviceDisconnected(const QString &uniqueServiceName);
-    void error(const UPnPAV::ServiceProviderError &errorObject);
 
 private Q_SLOTS:
     void handleServiceDiscoveryMessage(const QNetworkDatagram &datagram);
@@ -79,8 +77,10 @@ private:
 
     QString m_searchTarget{ "" };
 
-    QSharedPointer<ServiceDiscovery> m_serviceDiscovery;
-    QSharedPointer<DescriptionFetcher> m_descriptionFetcher;
+    std::unique_ptr<ServiceDiscoveryBackend> mServiceDiscoveryBackend;
+    std::unique_ptr<ServiceDiscovery> m_serviceDiscovery;
+    std::unique_ptr<DescriptionFetcherBackend> mDescriptionFetcherBackend;
+    std::unique_ptr<DescriptionFetcher> m_descriptionFetcher;
 
     QVector<QString> m_knownDevices;
     QVector<QUrl> m_pendingDeviceDescription;
@@ -89,12 +89,14 @@ private:
     QHash<QString, DeviceDescription> m_deviceDescriptions;
 };
 
-class UPNP_EXPORT ServiceProviderFactory
+class UPNP_EXPORT ServiceProviderFactory : public IServiceProviderFactory
 {
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ServiceProviderFactory)
 public:
     ServiceProviderFactory() = default;
     virtual ~ServiceProviderFactory();
-    virtual QSharedPointer<ServiceProvider> createServiceProvider(const QString &searchTarget);
+    virtual std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget);
 };
 
 } // namespace UPnPAV

@@ -31,10 +31,11 @@ void FileSystemPluginSourcePrivate::loadPlugins(const QFileInfo &fileInfo)
     // Load the plugin, if the library doesn't implements the MultiMediaPlugin
     // interface then we can ignore this file and it can be unloaded.
     auto plugin =
-    std::shared_ptr<PluginCore::MultiMediaPlugin>(qobject_cast<PluginCore::MultiMediaPlugin *>(pluginLoader.instance()));
+        std::shared_ptr<PluginCore::MultiMediaPlugin>(qobject_cast<PluginCore::MultiMediaPlugin *>(pluginLoader.instance()));
 
     if(plugin != nullptr)
     {
+        plugin->load();
         mLoadedPlugins.append(std::move(plugin));
     }
     else
