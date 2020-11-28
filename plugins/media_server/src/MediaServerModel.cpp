@@ -34,7 +34,9 @@ void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer)
         return;
     }
 
+    beginInsertRows(index(mMediaServer.size()), mMediaServer.size(), mMediaServer.size());
     mMediaServer.insert(mMediaServer.size(), mediaServer);
+    endInsertRows();
 }
 
 int MediaServerModel::rowCount(const QModelIndex &parent) const

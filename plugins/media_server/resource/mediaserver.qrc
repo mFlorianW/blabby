@@ -2,5 +2,6 @@
     <qresource prefix="/mediaserver">
         <file>qml/MainWindow.qml</file>
         <file>icon/MediaServerPlugin.png</file>
+        <file>qml/controls/MediaServerButton.qml</file>
     </qresource>
 </RCC>

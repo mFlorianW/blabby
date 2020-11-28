@@ -45,7 +45,7 @@ void MainController::setServiceProviderFactory(UPnPAV::IServiceProviderFactory *
     }
 
     mServiceProviderFactory = serviceProviderFactory;
-    mServiceProvider = mServiceProviderFactory->createServiceProvider("");
+    mServiceProvider = mServiceProviderFactory->createServiceProvider("urn:schemas-upnp-org:device:MediaServer:1");
     connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MainController::onServiceConnected);
     Q_EMIT serviceProviderChanged();
 }
