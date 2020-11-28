@@ -19,8 +19,8 @@
 #define MAINCONTROLLER__H
 
 #include <QQuickItem>
+#include <map>
 #include <memory>
-#include <unordered_map>
 
 namespace UPnPAV
 {
@@ -69,7 +69,7 @@ private:
     UPnPAV::IMediaServerFactory *mMediaServerFactory;
     MediaServerModel *mMediaServerModel;
     std::unique_ptr<UPnPAV::IServiceProvider> mServiceProvider;
-    std::unordered_map<QString, std::unique_ptr<UPnPAV::IMediaServer>> mMediaServers;
+    std::map<QString, std::unique_ptr<UPnPAV::IMediaServer>> mMediaServers;
 };
 
 } // namespace MediaServerPlugin
