@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <memory>
 
 class QNetworkDatagram;
 
