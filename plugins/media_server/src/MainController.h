@@ -69,7 +69,7 @@ private:
     UPnPAV::IMediaServerFactory *mMediaServerFactory;
     MediaServerModel *mMediaServerModel;
     std::unique_ptr<UPnPAV::IServiceProvider> mServiceProvider;
-    std::map<QString, std::unique_ptr<UPnPAV::IMediaServer>> mMediaServers;
+    std::unordered_map<QString, std::unique_ptr<UPnPAV::IMediaServer>> mMediaServers;
 };
 
 } // namespace MediaServerPlugin

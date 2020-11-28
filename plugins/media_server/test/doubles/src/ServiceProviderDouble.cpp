@@ -42,7 +42,9 @@ UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QSt
 std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
     Q_UNUSED(searchTarget);
-    return std::make_unique<ServiceProviderDouble>();
+    auto sp = std::make_unique<ServiceProviderDouble>();
+    serviceProvider = sp.get();
+    return sp;
 }
 
 } // namespace Doubles

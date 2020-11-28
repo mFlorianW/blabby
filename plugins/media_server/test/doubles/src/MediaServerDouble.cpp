@@ -26,6 +26,7 @@ namespace Doubles
 std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(const UPnPAV::DeviceDescription &deviceDescription)
 {
     Q_UNUSED(deviceDescription)
+    ++howOftenCalled;
     return std::make_unique<MediaServer>();
 }
 

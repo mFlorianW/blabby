@@ -43,6 +43,7 @@ private:
 class ServiceProviderFactory : public UPnPAV::IServiceProviderFactory
 {
 public:
+    ServiceProviderDouble *serviceProvider{ nullptr };
     std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(const QString &searchTarget) override;
 };
 

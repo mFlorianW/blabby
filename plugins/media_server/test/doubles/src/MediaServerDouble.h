@@ -26,6 +26,7 @@ namespace Doubles
 class MediaServerFactory final : public UPnPAV::IMediaServerFactory
 {
 public:
+    quint32 howOftenCalled{ 0 };
     std::unique_ptr<UPnPAV::IMediaServer> createMediaServer(const UPnPAV::DeviceDescription &deviceDescription) override;
 };
 

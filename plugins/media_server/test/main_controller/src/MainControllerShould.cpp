@@ -46,6 +46,26 @@ void MainControllerShould::on_mediaserver_connected_create_media_server_and_put_
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 1);
 }
 
+void MainControllerShould::handle_every_connected_signal_of_media_server_once()
+{
+    Doubles::ServiceProviderFactory serviceProviderFactory;
+    MediaServerModel mediaServerModel;
+    MainController mainController;
+    Doubles::MediaServerFactory mediaServerFactory;
+
+    mainController.setMediaServerModel(&mediaServerModel);
+    mainController.setServiceProviderFactory(&serviceProviderFactory);
+    mainController.setMediaServerFactory(&mediaServerFactory);
+
+    serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
+
+    QCOMPARE(mediaServerFactory.howOftenCalled, 1);
+
+    serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
+
+    QCOMPARE(mediaServerFactory.howOftenCalled, 1);
+}
+
 } // namespace MediaServerPlugin
 
 QTEST_MAIN(MediaServerPlugin::MainControllerShould)

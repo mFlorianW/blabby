@@ -93,7 +93,8 @@ void MainController::searchMediaServer() const noexcept
 
 void MainController::onServiceConnected(const QString &usn)
 {
-    if(mMediaServerModel == nullptr || mServiceProvider == nullptr || mMediaServerFactory == nullptr || mServiceProviderFactory == nullptr)
+    if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
+       (mServiceProviderFactory == nullptr) || (mMediaServers.find(usn) != mMediaServers.end()))
     {
         return;
     }
