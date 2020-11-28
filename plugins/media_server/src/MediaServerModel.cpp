@@ -27,16 +27,30 @@ MediaServerModel::MediaServerModel()
 {
 }
 
-void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer)
+void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
+{
+    if((mediaServer == nullptr) || mIndexLookup.contains(mediaServer->name()))
+    {
+        return;
+    }
+
+    beginInsertRows(index(mMediaServer.size()), mMediaServer.size(), mMediaServer.size());
+    mIndexLookup.insert(mediaServer->name(), mMediaServer.size());
+    mMediaServer.insert(mMediaServer.size(), mediaServer);
+    endInsertRows();
+}
+
+void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
     if(mediaServer == nullptr)
     {
         return;
     }
 
-    beginInsertRows(index(mMediaServer.size()), mMediaServer.size(), mMediaServer.size());
-    mMediaServer.insert(mMediaServer.size(), mediaServer);
-    endInsertRows();
+    auto mediaServerIndex = mIndexLookup.value(mediaServer->name());
+    beginRemoveRows(index(mediaServerIndex), mediaServerIndex, mediaServerIndex);
+    mMediaServer.remove(mediaServerIndex);
+    endRemoveRows();
 }
 
 int MediaServerModel::rowCount(const QModelIndex &parent) const

@@ -20,6 +20,7 @@
 #include "MediaServerDouble.h"
 #include "MediaServerModel.h"
 #include "PendingSoapCall.h"
+#include <QSignalSpy>
 #include <QtTest>
 
 namespace Doubles = MediaServerPlugin::Doubles;
@@ -84,6 +85,32 @@ void MediaServerModelShould::give_default_qvariant_for_a_to_big_index()
     auto emptyVariant = mediaServerModel.data(mediaServerModel.index(19), MediaServerModel::MediaServerName);
 
     QCOMPARE(emptyVariant, QVariant{});
+}
+
+void MediaServerModelShould::do_not_add_media_server_twice()
+{
+    Doubles::MediaServer mediaServer;
+    MediaServerModel mediaServerModel;
+    QSignalSpy rowsAboutToInsertSpy(&mediaServerModel, &MediaServerModel::rowsAboutToBeInserted);
+
+    mediaServerModel.insert(&mediaServer);
+    QCOMPARE(rowsAboutToInsertSpy.size(), 1);
+
+    mediaServerModel.insert(&mediaServer);
+    QCOMPARE(rowsAboutToInsertSpy.size(), 1);
+}
+
+void MediaServerModelShould::remove_inserted_media_server_from_model()
+{
+    Doubles::MediaServer mediaServer;
+    MediaServerModel mediaServerModel;
+    mediaServerModel.insert(&mediaServer);
+    QSignalSpy rowsAboutToBeRemovedSpy(&mediaServerModel, &MediaServerModel::rowsAboutToBeRemoved);
+
+    mediaServerModel.removeServer(&mediaServer);
+
+    QCOMPARE(rowsAboutToBeRemovedSpy.size(), 1);
+    QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
 }
 
 } // namespace MediaServerPlugin

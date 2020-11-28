@@ -36,6 +36,8 @@ private Q_SLOTS:
     void give_mediaserver_icon_url_on_request_with_valid_index();
     void give_default_qvariant_for_a_to_small_index();
     void give_default_qvariant_for_a_to_big_index();
+    void do_not_add_media_server_twice();
+    void remove_inserted_media_server_from_model();
 };
 
 } // namespace MediaServerPlugin

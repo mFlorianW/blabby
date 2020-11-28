@@ -41,13 +41,15 @@ public:
 
     MediaServerModel();
 
-    void insert(UPnPAV::IMediaServer *mediaServer);
+    void insert(UPnPAV::IMediaServer *mediaServer) noexcept;
+    void removeServer(UPnPAV::IMediaServer *mediaServer) noexcept;
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
 private:
+    QHash<QString, qint32> mIndexLookup;
     QHash<qint32, UPnPAV::IMediaServer *> mMediaServer;
 };
 
