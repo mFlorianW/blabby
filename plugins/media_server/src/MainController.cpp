@@ -47,6 +47,7 @@ void MainController::setServiceProviderFactory(UPnPAV::IServiceProviderFactory *
     mServiceProviderFactory = serviceProviderFactory;
     mServiceProvider = mServiceProviderFactory->createServiceProvider("urn:schemas-upnp-org:device:MediaServer:1");
     connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MainController::onServiceConnected);
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MainController::onServerDisconnected);
     Q_EMIT serviceProviderChanged();
 }
 
@@ -106,6 +107,25 @@ void MainController::onServiceConnected(const QString &usn)
         mMediaServers[usn] = std::move(mediaServer);
     }
     catch(const UPnPAV::InvalidDeviceDescription &e)
+    {
+        qCritical() << e.what();
+    }
+}
+
+void MainController::onServerDisconnected(const QString &usn)
+{
+    if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
+       (mServiceProviderFactory == nullptr))
+    {
+        return;
+    }
+
+    try
+    {
+        mMediaServerModel->removeServer(mMediaServers.at(usn).get());
+        mMediaServers.erase(usn);
+    }
+    catch(const std::out_of_range &e)
     {
         qCritical() << e.what();
     }

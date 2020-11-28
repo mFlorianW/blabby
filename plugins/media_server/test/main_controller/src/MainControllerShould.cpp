@@ -66,6 +66,26 @@ void MainControllerShould::handle_every_connected_signal_of_media_server_once()
     QCOMPARE(mediaServerFactory.howOftenCalled, 1);
 }
 
+void MainControllerShould::handle_disconnected_media_server()
+{
+    Doubles::ServiceProviderFactory serviceProviderFactory;
+    MediaServerModel mediaServerModel;
+    MainController mainController;
+    Doubles::MediaServerFactory mediaServerFactory;
+
+    mainController.setMediaServerModel(&mediaServerModel);
+    mainController.setServiceProviderFactory(&serviceProviderFactory);
+    mainController.setMediaServerFactory(&mediaServerFactory);
+
+    serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
+
+    QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 1);
+
+    serviceProviderFactory.serviceProvider->serviceDisconnected("mediaServer");
+
+    QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
+}
+
 } // namespace MediaServerPlugin
 
 QTEST_MAIN(MediaServerPlugin::MainControllerShould)

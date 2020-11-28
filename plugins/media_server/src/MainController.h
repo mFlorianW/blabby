@@ -63,6 +63,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onServiceConnected(const QString &usn);
+    void onServerDisconnected(const QString &usn);
 
 private:
     UPnPAV::IServiceProviderFactory *mServiceProviderFactory;

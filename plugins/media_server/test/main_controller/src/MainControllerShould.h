@@ -29,6 +29,7 @@ public:
 private Q_SLOTS:
     void on_mediaserver_connected_create_media_server_and_put_in_the_model();
     void handle_every_connected_signal_of_media_server_once();
+    void handle_disconnected_media_server();
 };
 
 } // namespace MediaServerPlugin
