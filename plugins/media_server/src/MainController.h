@@ -20,7 +20,7 @@
 
 #include <QQuickItem>
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 namespace UPnPAV
 {
