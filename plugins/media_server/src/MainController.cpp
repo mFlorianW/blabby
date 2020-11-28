@@ -102,7 +102,7 @@ void MainController::onServiceConnected(const QString &usn)
     {
         auto mediaServer = mMediaServerFactory->createMediaServer(mServiceProvider->rootDeviceDescription(usn));
         mMediaServerModel->insert(mediaServer.get());
-        mMediaServers.emplace(usn, std::move(mediaServer));
+        mMediaServers[usn] = std::move(mediaServer);
     }
     catch(const UPnPAV::InvalidDeviceDescription &e)
     {
