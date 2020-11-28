@@ -22,10 +22,10 @@
 #include "PendingSoapCall.h"
 #include <QtTest>
 
+namespace Doubles = MediaServerPlugin::Doubles;
+
 namespace MediaServerPlugin
 {
-
-namespace Doubles = MediaServerPlugin::Doubles;
 
 MediaServerModelShould::MediaServerModelShould()
     : QObject()
