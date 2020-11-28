@@ -52,7 +52,7 @@ MainController {
             ListView{
                 id: multimediaPluginsList
                 anchors.top: clockDisplay.bottom
-                anchors.topMargin: 40
+                anchors.topMargin: 80
                 width: parent.width
                 height: parent.height - clockDisplay.height
                 model: mediaPluginModel
