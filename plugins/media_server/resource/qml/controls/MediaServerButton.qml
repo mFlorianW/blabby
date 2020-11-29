@@ -8,6 +8,7 @@ Rectangle{
 
     property alias name: serverName.text
     property alias iconSource : mediaServerIcon.source
+    signal clicked
 
     Item{
         id: iconContainer
@@ -40,5 +41,11 @@ Rectangle{
             font.pixelSize: 24
             elide: Text.ElideRight
         }
+    }
+
+    MouseArea{
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: root.clicked
     }
 }

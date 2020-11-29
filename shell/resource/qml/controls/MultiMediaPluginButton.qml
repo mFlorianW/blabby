@@ -27,7 +27,7 @@ Item {
 
         Text {
             id: buttonText
-            font.pixelSize: 26
+            font.pixelSize: 18
             color: "#dae1e7"
             anchors.verticalCenter: parent.verticalCenter
         }

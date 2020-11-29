@@ -32,7 +32,7 @@ MediaServerPlugin::MediaServerPlugin()
 
 QString MediaServerPlugin::pluginName() const
 {
-    return QStringLiteral("MediaServer");
+    return QStringLiteral("Media Server");
 }
 
 PluginCore::PluginVersion MediaServerPlugin::getPluginVersion() const
