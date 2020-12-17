@@ -1,6 +1,7 @@
 import QtQuick 2.13
+import QtQuick.Controls 2.15
 import de.blabby.mediaserverplugin 1.0
-import "controls"
+import "views"
 
 MainController{
     id: mediaServerPlugin
@@ -8,25 +9,44 @@ MainController{
     mediaServerFactory: mediaServerFab
     serviceProviderFactory: serviceProviderFab
 
-    GridView{
-        id: mediaServerOverview
-        model: mediaServerModel
-
+    StackView {
+        id: stack
+        initialItem: mediaServerViewComp
         anchors.fill: parent
 
-        cellWidth: parent.width / 2
-        cellHeight: 360
+        pushEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
 
-        delegate: Item {
-            id: cellContainer
-            width: mediaServerOverview.cellWidth
-            height: mediaServerOverview.cellHeight
-            MediaServerButton{
-                name: mediaServerName
-                iconSource: mediaServerIconUrl
-                width: 284
-                height: 284
-                anchors.centerIn: parent
+        pushExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+
+        popEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+
+        popExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
             }
         }
     }
@@ -46,5 +66,15 @@ MainController{
     Component.onCompleted:{
         mediaServerPlugin.searchMediaServer()
     }
-}
 
+    Component{
+        id: mediaServerViewComp
+
+        MediaServerView{
+            id: mediaServerView
+            onMediaServerActivated: {
+                console.info("ffff:" + index)
+            }
+        }
+    }
+}

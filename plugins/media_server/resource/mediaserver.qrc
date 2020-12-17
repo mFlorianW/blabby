@@ -3,5 +3,6 @@
         <file>qml/MainWindow.qml</file>
         <file>icon/MediaServerPlugin.png</file>
         <file>qml/controls/MediaServerButton.qml</file>
+        <file>qml/views/MediaServerView.qml</file>
     </qresource>
 </RCC>
