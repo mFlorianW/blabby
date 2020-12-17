@@ -5,24 +5,28 @@ Item {
 
     property alias buttonText: buttonText.text
     property alias iconSource: pluginIcon.source
-    property bool active: false
+    signal clicked
+
+    Rectangle{
+        id: hover
+        anchors.fill: parent
+        color: "#00909e"
+        visible: false
+    }
 
     Row{
         id: buttonRow
         anchors.fill: parent
+        anchors.leftMargin: 20
         spacing: 10
 
-        Rectangle{
-            id: activeIndicator
-            height: 29
-            width: 4
-            color: root.active ? "#dae1e7" : "#243242"
-        }
 
         Image {
             id: pluginIcon
             width: 29
             height: 29
+            opacity: root.opacity
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
@@ -30,6 +34,17 @@ Item {
             font.pixelSize: 18
             color: "#dae1e7"
             anchors.verticalCenter: parent.verticalCenter
+        }
+    }
+
+
+    MouseArea{
+        id: buttonClicked
+        anchors.fill: parent
+        onClicked: root.clicked()
+
+        onHoveredChanged: {
+            hover.visible = hover.visible === false ? true : false
         }
     }
 }

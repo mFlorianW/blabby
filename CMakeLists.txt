@@ -51,6 +51,7 @@ set(DEFAULT_LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/multimedia)
 set(DEFAULT_QML_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/qml)
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "QtCreator QML import paths" FORCE)
 
 ################################################################################
 # Required Packages
@@ -85,3 +86,5 @@ add_subdirectory(upnpav)
 add_subdirectory(plugincore)
 add_subdirectory(shell)
 add_subdirectory(plugins)
+
+list(REMOVE_DUPLICATES QML_IMPORT_PATH)

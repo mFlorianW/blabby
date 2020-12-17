@@ -21,6 +21,7 @@
 qt5_add_resources(RESOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/resource/mediaserver.qrc
 )
+list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/resource/qml)
 
 ################################################################################
 # Build

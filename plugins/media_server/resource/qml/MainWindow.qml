@@ -1,6 +1,6 @@
 import QtQuick 2.13
 import de.blabby.mediaserverplugin 1.0
-import "qrc:/mediaserver/qml/controls"
+import "controls"
 
 MainController{
     id: mediaServerPlugin
@@ -13,10 +13,10 @@ MainController{
         model: mediaServerModel
 
         anchors.fill: parent
-        
+
         cellWidth: parent.width / 2
         cellHeight: 360
-        
+
         delegate: Item {
             id: cellContainer
             width: mediaServerOverview.cellWidth
@@ -30,7 +30,7 @@ MainController{
             }
         }
     }
-    
+
     MediaServerModel{
         id: mediaServerModel
     }

@@ -58,16 +58,13 @@ MainController {
                 model: mediaPluginModel
                 delegate: MultiMediaPluginButton{
                     width: parent.width
-                    height: 29
+                    height: 80
                     buttonText: pluginName
-                    active: pluginActive
+                    opacity: pluginActive === true ? 1 : 0.6
                     iconSource: pluginIconUrl
 
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            shell.activatePlugin(index)
-                        }
+                    onClicked: {
+                        shell.activatePlugin(index)
                     }
                 }
             }
