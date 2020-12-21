@@ -18,8 +18,8 @@
 #ifndef BROWSERESULT_H
 #define BROWSERESULT_H
 
-#include "UPnP_Export.h"
 #include "MediaServerObject.h"
+#include "UPnP_Export.h"
 
 #include <QVector>
 
@@ -46,13 +46,13 @@ private:
     MediaServerObject readDidlObjectDescription(QXmlStreamReader &streamReader);
 
 private:
-    quint32 m_numberReturned{0};
-    quint32 m_totalMatches{0};
-    quint32 m_updateId{0};
+    quint32 m_numberReturned{ 0 };
+    quint32 m_totalMatches{ 0 };
+    quint32 m_updateId{ 0 };
 
     QVector<MediaServerObject> m_objects;
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // BROWSERESULT_H

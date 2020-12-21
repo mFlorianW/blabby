@@ -25,13 +25,11 @@
 namespace UPnPAV
 {
 
-class MediaServerObject
+class UPNP_EXPORT MediaServerObject
 {
 public:
-    MediaServerObject(const QString &id,
-                      const QString &parentId,
-                      const QString &title,
-                      const QString &typeClass);
+    MediaServerObject();
+    MediaServerObject(const QString &id, const QString &parentId, const QString &title, const QString &typeClass);
 
     QString id() const noexcept;
     QString parentId() const noexcept;
@@ -40,6 +38,7 @@ public:
 
     friend bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
     friend bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
+
 private:
     QString m_id;
     QString m_parentId;
@@ -47,9 +46,9 @@ private:
     QString m_class;
 };
 
-UPNP_EXPORT QDebug operator<< (QDebug d, const UPnPAV::MediaServerObject &serverObject);
+UPNP_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 
 #endif // MEDIASERVEROBJECT_H

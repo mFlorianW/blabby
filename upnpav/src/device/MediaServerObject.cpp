@@ -22,10 +22,9 @@
 namespace UPnPAV
 {
 
-MediaServerObject::MediaServerObject(const QString &id,
-                                     const QString &parentId,
-                                     const QString &title,
-                                     const QString &typeClass)
+MediaServerObject::MediaServerObject() = default;
+
+MediaServerObject::MediaServerObject(const QString &id, const QString &parentId, const QString &title, const QString &typeClass)
     : m_id(id)
     , m_parentId(parentId)
     , m_title(title)
@@ -55,9 +54,7 @@ QString MediaServerObject::typeClass() const noexcept
 
 bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
 {
-    return ((lhs.m_id == rhs.m_id) &&
-            (lhs.m_parentId == rhs.m_parentId) &&
-            (lhs.m_title == rhs.m_title) &&
+    return ((lhs.m_id == rhs.m_id) && (lhs.m_parentId == rhs.m_parentId) && (lhs.m_title == rhs.m_title) &&
             (lhs.m_class == rhs.m_class));
 }
 
@@ -78,5 +75,4 @@ QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
     return d;
 }
 
-}//namespace UPnPAV
-
+} // namespace UPnPAV
