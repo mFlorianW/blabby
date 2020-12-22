@@ -16,6 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServerDouble.h"
+#include "PendingSoapCall.h"
 #include <QUrl>
 
 namespace MediaServerPlugin
@@ -48,12 +49,13 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexc
 QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId, BrowseFlag browseFlag,
                                                             const QString &filter, const QString &sortCriteria) noexcept
 {
-    Q_UNUSED(objectId)
-    Q_UNUSED(browseFlag)
     Q_UNUSED(filter)
     Q_UNUSED(sortCriteria)
 
-    return {};
+    lastBrowseRequest.objectId = objectId;
+    lastBrowseRequest.browseFlag = browseFlag;
+
+    return QSharedPointer<UPnPAV::PendingSoapCall>{ new UPnPAV::PendingSoapCall{ soapCall } };
 }
 
 } // namespace Doubles

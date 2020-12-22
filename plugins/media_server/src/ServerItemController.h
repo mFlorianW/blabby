@@ -15,45 +15,40 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef SOAPCALL_H
-#define SOAPCALL_H
+#ifndef SERVERITEMCONTROLLER_H
+#define SERVERITEMCONTROLLER_H
 
-#include "UPnP_Export.h"
 #include <QObject>
+#include <QSharedPointer>
 
 namespace UPnPAV
 {
+class IMediaServer;
+class PendingSoapCall;
+} // namespace UPnPAV
 
-class UPNP_EXPORT SoapCall : public QObject
+namespace MediaServerPlugin
+{
+class ServerItemModel;
+
+class ServerItemController : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~SoapCall();
+    ServerItemController();
 
-    /**
-     * Status of the SOAP call. True means call finished successful otherwise false.
-     *
-     * @note The return value is only valid when finished signal was emitted.
-     *
-     * @return True call finished successful, otherwise false.
-     */
-    virtual bool hasFinishedSuccesful() const noexcept = 0;
+    void setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept;
+    void setServerItemModel(ServerItemModel *serverItemModel) noexcept;
 
-    /**
-     * Raw answer of the error code.
-     *
-     * @return The raw response of the Soap call.
-     */
-    virtual QString rawMessage() const noexcept = 0;
+private Q_SLOTS:
+    void onBrowsRequestFinished();
 
-Q_SIGNALS:
-    /**
-     * This signal shall be emitted when the Soap call
-     * is finished.
-     */
-    void finished();
+private:
+    UPnPAV::IMediaServer *mMediaServer{ nullptr };
+    QSharedPointer<UPnPAV::PendingSoapCall> mPendingSoapCall{ nullptr };
+    ServerItemModel *mServerItemModel{ nullptr };
 };
 
-} // namespace UPnPAV
+} // namespace MediaServerPlugin
 
-#endif // SOAPCALL_H
+#endif // SERVERITEMCONTROLLER_H

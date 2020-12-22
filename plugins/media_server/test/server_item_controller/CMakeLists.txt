@@ -18,21 +18,22 @@
 ################################################################################
 # Build
 ################################################################################
-add_library(test_media_server_doubles)
-add_library(Blabby::MediaServerPluginDoubles ALIAS test_media_server_doubles)
+add_executable(test_media_server_plugin_server_item_controller)
 
-target_sources(test_media_server_doubles
+target_sources(test_media_server_plugin_server_item_controller
     PRIVATE
-        src/MediaServerDouble.cpp
-        src/ServiceProviderDouble.cpp
-        src/SoapCallDouble.cpp
+        src/ServerItemControllerShould.cpp
 )
 
-target_include_directories(test_media_server_doubles
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+target_include_directories(test_media_server_plugin_server_item_controller
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
 )
 
-target_link_libraries(test_media_server_doubles
-    Blabby::UPnPAV
+target_link_libraries(test_media_server_plugin_server_item_controller
+    Blabby::MediaServerObject
+    Blabby::MediaServerPluginDoubles
+    Qt5::Test
 )
+
+add_test(test_media_server_plugin_server_item_controller ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_server_item_controller)

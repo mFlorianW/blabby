@@ -21,11 +21,6 @@
 #include "MediaServerObject.h"
 #include <QAbstractListModel>
 
-namespace UPnPAV
-{
-class MediaServerObject;
-}
-
 namespace MediaServerPlugin
 {
 

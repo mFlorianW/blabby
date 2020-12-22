@@ -15,45 +15,25 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef SOAPCALL_H
-#define SOAPCALL_H
+#ifndef SERVERITEMCONTROLLERSHOULD_H
+#define SERVERITEMCONTROLLERSHOULD_H
 
-#include "UPnP_Export.h"
 #include <QObject>
 
-namespace UPnPAV
+namespace MediaServerPlugin
 {
 
-class UPNP_EXPORT SoapCall : public QObject
+class ServerItemControllerShould : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~SoapCall();
+    ServerItemControllerShould();
 
-    /**
-     * Status of the SOAP call. True means call finished successful otherwise false.
-     *
-     * @note The return value is only valid when finished signal was emitted.
-     *
-     * @return True call finished successful, otherwise false.
-     */
-    virtual bool hasFinishedSuccesful() const noexcept = 0;
-
-    /**
-     * Raw answer of the error code.
-     *
-     * @return The raw response of the Soap call.
-     */
-    virtual QString rawMessage() const noexcept = 0;
-
-Q_SIGNALS:
-    /**
-     * This signal shall be emitted when the Soap call
-     * is finished.
-     */
-    void finished();
+private Q_SLOTS:
+    void on_inserted_media_server_request_root_folder();
+    void on_valid_result_received_insert_media_objects_into_server_item_model();
 };
 
-} // namespace UPnPAV
+} // namespace MediaServerPlugin
 
-#endif // SOAPCALL_H
+#endif // SERVERITEMCONTROLLERSHOULD_H
