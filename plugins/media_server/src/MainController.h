@@ -30,7 +30,7 @@ class IMediaServer;
 class IMediaServerFactory;
 } // namespace UPnPAV
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 class MediaServerModel;
 
@@ -40,7 +40,8 @@ class MainController : public QQuickItem
     Q_DISABLE_COPY_MOVE(MainController)
     Q_PROPERTY(UPnPAV::IServiceProviderFactory *serviceProviderFactory READ serviceProviderFactory WRITE setServiceProviderFactory NOTIFY serviceProviderChanged)
     Q_PROPERTY(UPnPAV::IMediaServerFactory *mediaServerFactory READ mediaServerFactory WRITE setMediaServerFactory NOTIFY mediaServerFactoryChanged)
-    Q_PROPERTY(MediaServerPlugin::MediaServerModel *mediaServerModel READ mediaServerModel WRITE setMediaServerModel NOTIFY mediaServerModelChanged)
+    Q_PROPERTY(MediaServer::Plugin::MediaServerModel *mediaServerModel READ mediaServerModel WRITE setMediaServerModel NOTIFY mediaServerModelChanged)
+    Q_PROPERTY(UPnPAV::IMediaServer *activeMediaServer READ activeMediaServer NOTIFY activeMediaServerChanged)
 public:
     MainController();
     ~MainController() override;
@@ -56,10 +57,14 @@ public:
 
     Q_INVOKABLE void searchMediaServer() const noexcept;
 
+    Q_INVOKABLE void setActiveMediaServer(qint32 index) noexcept;
+    UPnPAV::IMediaServer *activeMediaServer() const noexcept;
+
 Q_SIGNALS:
     void serviceProviderChanged();
     void mediaServerFactoryChanged();
     void mediaServerModelChanged();
+    void activeMediaServerChanged();
 
 private Q_SLOTS:
     void onServiceConnected(const QString &usn);
@@ -71,8 +76,9 @@ private:
     MediaServerModel *mMediaServerModel;
     std::unique_ptr<UPnPAV::IServiceProvider> mServiceProvider;
     std::map<QString, std::unique_ptr<UPnPAV::IMediaServer>> mMediaServers;
+    qint32 mActiveIndex{ -1 };
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // MAINCONTROLLER__H

@@ -20,7 +20,7 @@
 
 #include <QObject>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class ServerItemControllerShould : public QObject
@@ -34,6 +34,6 @@ private Q_SLOTS:
     void on_valid_result_received_insert_media_objects_into_server_item_model();
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // SERVERITEMCONTROLLERSHOULD_H

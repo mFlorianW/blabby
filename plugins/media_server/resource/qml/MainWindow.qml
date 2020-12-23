@@ -11,8 +11,8 @@ MainController{
 
     StackView {
         id: stack
-        initialItem: mediaServerViewComp
         anchors.fill: parent
+        initialItem: mediaServerViewComp
 
         pushEnter: Transition {
             PropertyAnimation {
@@ -63,18 +63,29 @@ MainController{
         id: mediaServerFab
     }
 
-    Component.onCompleted:{
-        mediaServerPlugin.searchMediaServer()
-    }
-
     Component{
         id: mediaServerViewComp
 
         MediaServerView{
             id: mediaServerView
+
             onMediaServerActivated: {
-                console.info("ffff:" + index)
+                mediaServerPlugin.setActiveMediaServer(index)
+                stack.push(serverItemViewComp)
             }
         }
+    }
+
+    Component{
+        id: serverItemViewComp
+
+        ServerItemView{
+            id: serverItemView
+            mediaServer: mediaServerPlugin.activeMediaServer
+        }
+    }
+
+    Component.onCompleted:{
+        mediaServerPlugin.searchMediaServer()
     }
 }

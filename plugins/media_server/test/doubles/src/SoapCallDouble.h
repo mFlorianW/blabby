@@ -20,9 +20,7 @@
 
 #include "SoapCall.h"
 
-namespace MediaServerPlugin
-{
-namespace Doubles
+namespace MediaServer::Plugin::Doubles
 {
 
 class SoapCallDouble : public UPnPAV::SoapCall
@@ -41,7 +39,6 @@ private:
     QString m_rawMessage;
 };
 
-} //namespace Doubles
-} //namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles
 
 #endif // SOAPCALLDOUBLE_H

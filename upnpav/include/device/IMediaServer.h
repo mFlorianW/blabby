@@ -31,8 +31,9 @@ class SoapMessageTransmitter;
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class UPNP_EXPORT IMediaServer
+class UPNP_EXPORT IMediaServer : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * Flags for browse request.

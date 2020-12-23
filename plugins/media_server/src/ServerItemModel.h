@@ -21,7 +21,7 @@
 #include "MediaServerObject.h"
 #include <QAbstractListModel>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class ServerItemModel : public QAbstractListModel
@@ -44,6 +44,7 @@ public:
     Q_ENUM(ItemType)
 
     ServerItemModel();
+    ~ServerItemModel() override;
 
     void insertMediaServerObject(const UPnPAV::MediaServerObject &object);
     int rowCount(const QModelIndex &parent) const override;
@@ -54,6 +55,6 @@ private:
     QVector<UPnPAV::MediaServerObject> mMediaServerObjects;
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // SERVERITEMMODEL_H

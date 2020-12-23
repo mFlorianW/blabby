@@ -22,9 +22,9 @@
 #include "ServiceProviderDouble.h"
 #include <QTest>
 
-namespace Doubles = MediaServerPlugin::Doubles;
+namespace Doubles = MediaServer::Plugin::Doubles;
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 MainControllerShould::MainControllerShould() = default;
@@ -86,6 +86,22 @@ void MainControllerShould::handle_disconnected_media_server()
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
 }
 
-} // namespace MediaServerPlugin
+void MainControllerShould::set_active_media_server()
+{
+    Doubles::ServiceProviderFactory serviceProviderFactory;
+    MediaServerModel mediaServerModel;
+    MainController mainController;
+    Doubles::MediaServerFactory mediaServerFactory;
+    mainController.setMediaServerModel(&mediaServerModel);
+    mainController.setServiceProviderFactory(&serviceProviderFactory);
+    mainController.setMediaServerFactory(&mediaServerFactory);
+    serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
-QTEST_MAIN(MediaServerPlugin::MainControllerShould)
+    mainController.setActiveMediaServer(0);
+
+    QVERIFY(mainController.activeMediaServer() != nullptr);
+}
+
+} // namespace MediaServer::Plugin
+
+QTEST_MAIN(MediaServer::Plugin::MainControllerShould)

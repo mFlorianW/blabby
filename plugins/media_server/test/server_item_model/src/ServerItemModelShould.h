@@ -20,7 +20,7 @@
 
 #include <QObject>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class ServerItemModelShould : public QObject
@@ -41,5 +41,5 @@ private Q_SLOTS:
     void emit_rowsAboutToInsert_and_rowsInserted_when_a_media_object_added();
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 #endif // SERVERITEMMODELSHOULD_H

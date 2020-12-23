@@ -17,10 +17,9 @@
  **/
 #include "IServiceProvider.h"
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin::Doubles
 {
-namespace Doubles
-{
+
 
 class ServiceProviderDouble final : public UPnPAV::IServiceProvider
 {
@@ -47,5 +46,4 @@ public:
     std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(const QString &searchTarget) override;
 };
 
-} // namespace Doubles
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles

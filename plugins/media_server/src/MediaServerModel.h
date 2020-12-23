@@ -24,7 +24,7 @@ namespace UPnPAV
 {
 class IMediaServer;
 }
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class MediaServerModel : public QAbstractListModel
@@ -40,6 +40,7 @@ public:
     Q_ENUM(RoleName)
 
     MediaServerModel();
+    ~MediaServerModel() override;
 
     void insert(UPnPAV::IMediaServer *mediaServer) noexcept;
     void removeServer(UPnPAV::IMediaServer *mediaServer) noexcept;
@@ -53,6 +54,6 @@ private:
     QHash<qint32, UPnPAV::IMediaServer *> mMediaServer;
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // MEDIASERVERMODEL_H

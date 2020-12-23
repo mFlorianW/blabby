@@ -43,6 +43,7 @@ public:
 
 class UPNP_EXPORT MediaServer final : public IMediaServer
 {
+    Q_OBJECT
 public:
     /**
      * Creates a MediaService instance.

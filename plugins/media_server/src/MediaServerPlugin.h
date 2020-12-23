@@ -20,7 +20,7 @@
 
 #include "MultiMediaPlugin.h"
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
@@ -46,6 +46,6 @@ public:
     QUrl pluginIconUrl() const override;
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // MEDIASERVERPLUGIN_H

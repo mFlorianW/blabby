@@ -22,10 +22,10 @@
 #include "ServerItemModel.h"
 #include <QTest>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
-using namespace Doubles;
+using namespace MediaServer::Plugin::Doubles;
 
 ServerItemControllerShould::ServerItemControllerShould()
     : QObject()
@@ -62,6 +62,6 @@ void ServerItemControllerShould::on_valid_result_received_insert_media_objects_i
     QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 1);
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
-QTEST_MAIN(MediaServerPlugin::ServerItemControllerShould);
+QTEST_MAIN(MediaServer::Plugin::ServerItemControllerShould);

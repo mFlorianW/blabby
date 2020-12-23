@@ -4,14 +4,22 @@
 #include "PendingSoapCall.h"
 #include "ServerItemModel.h"
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 ServerItemController::ServerItemController()
+    : QQuickItem()
 {
 }
 
-void MediaServerPlugin::ServerItemController::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
+ServerItemController::~ServerItemController() = default;
+
+UPnPAV::IMediaServer *ServerItemController::mediaServer() const noexcept
+{
+    return mMediaServer;
+}
+
+void ServerItemController::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
     mMediaServer = mediaServer;
 
@@ -20,11 +28,19 @@ void MediaServerPlugin::ServerItemController::setMediaServer(UPnPAV::IMediaServe
         mPendingSoapCall = mediaServer->browse("0", UPnPAV::IMediaServer::DirectChildren, "", "");
         connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemController::onBrowsRequestFinished);
     }
+
+    Q_EMIT mediaServerChanged();
+}
+
+ServerItemModel *ServerItemController::serverItemModel() const noexcept
+{
+    return mServerItemModel;
 }
 
 void ServerItemController::setServerItemModel(ServerItemModel *serverItemModel) noexcept
 {
     mServerItemModel = serverItemModel;
+    Q_EMIT serverItemModelChanged();
 }
 
 void ServerItemController::onBrowsRequestFinished()
@@ -42,7 +58,10 @@ void ServerItemController::onBrowsRequestFinished()
     }
 
     const auto result = mPendingSoapCall->resultAs<UPnPAV::BrowseResult>();
-    mServerItemModel->insertMediaServerObject(result->objects().first());
+    for(const auto &mediaServerObject : std::as_const(result->objects()))
+    {
+        mServerItemModel->insertMediaServerObject(mediaServerObject);
+    }
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin

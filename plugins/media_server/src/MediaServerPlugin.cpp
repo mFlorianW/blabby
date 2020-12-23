@@ -19,11 +19,13 @@
 #include "MainController.h"
 #include "MediaServer.h"
 #include "MediaServerModel.h"
+#include "ServerItemController.h"
+#include "ServerItemModel.h"
 #include "ServiceProvider.h"
 #include <QUrl>
 #include <qqml.h>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 MediaServerPlugin::MediaServerPlugin()
@@ -47,14 +49,19 @@ QUuid MediaServerPlugin::getPluginIdentifier() const
 
 bool MediaServerPlugin::load()
 {
-    qmlRegisterType<UPnPAV::ServiceProviderFactory>("de.blabby.mediaserverplugin", 1, 0, "ServiceProviderFactory");
-    qmlRegisterType<UPnPAV::MediaServerFactory>("de.blabby.mediaserverplugin", 1, 0, "MediaServerFactory");
-    qmlRegisterType<MainController>("de.blabby.mediaserverplugin", 1, 0, "MainController");
-    qmlRegisterType<MediaServerModel>("de.blabby.mediaserverplugin", 1, 0, "MediaServerModel");
-    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>("de.blabby.mediaserverplugin", 1, 0, "IServiceProviderFactory",
+    const char pluginUrl[] = "de.blabby.mediaserverplugin";
+
+    qmlRegisterType<UPnPAV::ServiceProviderFactory>(pluginUrl, 1, 0, "ServiceProviderFactory");
+    qmlRegisterType<UPnPAV::MediaServerFactory>(pluginUrl, 1, 0, "MediaServerFactory");
+    qmlRegisterType<MainController>(pluginUrl, 1, 0, "MainController");
+    qmlRegisterType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel");
+    qmlRegisterType<ServerItemController>(pluginUrl, 1, 0, "ServerItemController");
+    qmlRegisterType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel");
+
+    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>(pluginUrl, 1, 0, "IServiceProviderFactory",
                                                                 "Interface ServiceProviderFactory");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>("de.blabby.mediaserverplugin", 1, 0, "IMediaServerFactory",
-                                                            "Interface MediaServerFactory");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>(pluginUrl, 1, 0, "IMediaServerFactory", "Interface MediaServerFactory");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "Interface MediaServer");
 
     return true;
 }
@@ -74,4 +81,4 @@ QUrl MediaServerPlugin::pluginIconUrl() const
     return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin

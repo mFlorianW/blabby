@@ -18,7 +18,7 @@
 #ifndef SERVERITEMCONTROLLER_H
 #define SERVERITEMCONTROLLER_H
 
-#include <QObject>
+#include <QQuickItem>
 #include <QSharedPointer>
 
 namespace UPnPAV
@@ -27,18 +27,28 @@ class IMediaServer;
 class PendingSoapCall;
 } // namespace UPnPAV
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 class ServerItemModel;
 
-class ServerItemController : public QObject
+class ServerItemController : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(UPnPAV::IMediaServer *mediaServer READ mediaServer WRITE setMediaServer NOTIFY mediaServerChanged)
+    Q_PROPERTY(MediaServer::Plugin::ServerItemModel *itemModel READ serverItemModel WRITE setServerItemModel NOTIFY serverItemModelChanged)
 public:
     ServerItemController();
+    ~ServerItemController();
 
+    UPnPAV::IMediaServer *mediaServer() const noexcept;
     void setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept;
+
+    MediaServer::Plugin::ServerItemModel *serverItemModel() const noexcept;
     void setServerItemModel(ServerItemModel *serverItemModel) noexcept;
+
+Q_SIGNALS:
+    void mediaServerChanged();
+    void serverItemModelChanged();
 
 private Q_SLOTS:
     void onBrowsRequestFinished();
@@ -49,6 +59,6 @@ private:
     ServerItemModel *mServerItemModel{ nullptr };
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // SERVERITEMCONTROLLER_H

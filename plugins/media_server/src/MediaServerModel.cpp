@@ -19,13 +19,15 @@
 #include "IMediaServer.h"
 #include <QUrl>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 MediaServerModel::MediaServerModel()
     : QAbstractListModel()
 {
 }
+
+MediaServerModel::~MediaServerModel() = default;
 
 void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
 {
@@ -85,4 +87,4 @@ QHash<int, QByteArray> MediaServerModel::roleNames() const
              std::make_pair(MediaServerModel::MediaServerIconUrl, "mediaServerIconUrl") };
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin

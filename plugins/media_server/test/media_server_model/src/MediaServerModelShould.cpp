@@ -23,9 +23,9 @@
 #include <QSignalSpy>
 #include <QtTest>
 
-namespace Doubles = MediaServerPlugin::Doubles;
+namespace Doubles = MediaServer::Plugin::Doubles;
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 MediaServerModelShould::MediaServerModelShould()
@@ -113,6 +113,6 @@ void MediaServerModelShould::remove_inserted_media_server_from_model()
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
-QTEST_MAIN(MediaServerPlugin::MediaServerModelShould)
+QTEST_MAIN(MediaServer::Plugin::MediaServerModelShould)

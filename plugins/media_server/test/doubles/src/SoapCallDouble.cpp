@@ -1,8 +1,6 @@
 #include "SoapCallDouble.h"
 
-namespace MediaServerPlugin
-{
-namespace Doubles
+namespace MediaServer::Plugin::Doubles
 {
 
 SoapCallDouble::SoapCallDouble()
@@ -29,5 +27,4 @@ void SoapCallDouble::setErrorState(bool error)
     m_errorState = error;
 }
 
-} // namespace Doubles
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles

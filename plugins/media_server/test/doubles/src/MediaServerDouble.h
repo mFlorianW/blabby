@@ -19,9 +19,7 @@
 #include "IMediaServer.h"
 #include "SoapCallDouble.h"
 
-namespace MediaServerPlugin
-{
-namespace Doubles
+namespace MediaServer::Plugin::Doubles
 {
 
 class MediaServerFactory final : public UPnPAV::IMediaServerFactory
@@ -49,6 +47,7 @@ struct LastBrowseRequest
 
 class MediaServer : public UPnPAV::IMediaServer
 {
+    Q_OBJECT
 public:
     QString name() const noexcept override;
 
@@ -64,5 +63,4 @@ public:
     QSharedPointer<Doubles::SoapCallDouble> soapCall{ nullptr };
 };
 
-} // namespace Doubles
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles

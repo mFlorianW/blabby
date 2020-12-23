@@ -20,7 +20,7 @@
 
 #include <QObject>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 class MediaServerModelShould : public QObject
@@ -40,6 +40,6 @@ private Q_SLOTS:
     void remove_inserted_media_server_from_model();
 };
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
 #endif // MEDIASERVERMODELSHOULD_H

@@ -21,7 +21,7 @@
 #include <QSignalSpy>
 #include <QTest>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 ServerItemModelShould::ServerItemModelShould(QObject *parent)
@@ -151,6 +151,6 @@ void ServerItemModelShould::emit_rowsAboutToInsert_and_rowsInserted_when_a_media
     QCOMPARE(argsInserted.at(2).value<int>(), 0);
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
 
-QTEST_MAIN(MediaServerPlugin::ServerItemModelShould);
+QTEST_MAIN(MediaServer::Plugin::ServerItemModelShould);

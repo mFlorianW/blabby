@@ -19,9 +19,7 @@
 #include "PendingSoapCall.h"
 #include <QUrl>
 
-namespace MediaServerPlugin
-{
-namespace Doubles
+namespace MediaServer::Plugin::Doubles
 {
 
 std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(const UPnPAV::DeviceDescription &deviceDescription)
@@ -58,5 +56,4 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objec
     return QSharedPointer<UPnPAV::PendingSoapCall>{ new UPnPAV::PendingSoapCall{ soapCall } };
 }
 
-} // namespace Doubles
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles

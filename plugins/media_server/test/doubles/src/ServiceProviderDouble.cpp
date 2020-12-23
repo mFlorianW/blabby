@@ -18,9 +18,7 @@
 #include "ServiceProviderDouble.h"
 #include <QString>
 
-namespace MediaServerPlugin
-{
-namespace Doubles
+namespace MediaServer::Plugin::Doubles
 {
 
 void ServiceProviderDouble::setSearchTarget(const QString &searchTarget) noexcept
@@ -47,5 +45,4 @@ std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceP
     return sp;
 }
 
-} // namespace Doubles
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin::Doubles

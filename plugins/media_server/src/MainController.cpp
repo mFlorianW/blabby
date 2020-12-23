@@ -22,7 +22,7 @@
 #include "MediaServerModel.h"
 #include <QDebug>
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 MainController::MainController()
@@ -92,6 +92,18 @@ void MainController::searchMediaServer() const noexcept
     mServiceProvider->startSearch();
 }
 
+void MainController::setActiveMediaServer(qint32 index) noexcept
+{
+    mActiveIndex = index;
+    Q_EMIT activeMediaServerChanged();
+}
+
+UPnPAV::IMediaServer *MainController::activeMediaServer() const noexcept
+{
+    auto mediaServerIter = std::next(mMediaServers.begin(), mActiveIndex);
+    return mediaServerIter->second.get();
+}
+
 void MainController::onServiceConnected(const QString &usn)
 {
     if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
@@ -131,4 +143,4 @@ void MainController::onServerDisconnected(const QString &usn)
     }
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin

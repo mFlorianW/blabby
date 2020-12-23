@@ -17,13 +17,15 @@
  **/
 #include "ServerItemModel.h"
 
-namespace MediaServerPlugin
+namespace MediaServer::Plugin
 {
 
 ServerItemModel::ServerItemModel()
     : QAbstractListModel()
 {
 }
+
+ServerItemModel::~ServerItemModel() = default;
 
 void ServerItemModel::insertMediaServerObject(const UPnPAV::MediaServerObject &object)
 {
@@ -71,4 +73,4 @@ QHash<int, QByteArray> ServerItemModel::roleNames() const
                                       std::make_pair(ServerItemModel::ItemName, "itemName") };
 }
 
-} // namespace MediaServerPlugin
+} // namespace MediaServer::Plugin
