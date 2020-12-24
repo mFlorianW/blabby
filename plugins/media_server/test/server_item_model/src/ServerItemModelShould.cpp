@@ -164,6 +164,23 @@ void ServerItemModelShould::give_the_item_id_for_inserted_media_object()
     QCOMPARE(result.value<QString>(), expectedResult);
 }
 
+void ServerItemModelShould::clear_all_objects()
+{
+    ServerItemModel model;
+    const auto mediaObject = UPnPAV::MediaServerObject{ "0", "", "testFolder", "audioItem" };
+    model.insertMediaServerObject(mediaObject);
+    QSignalSpy modelAboutToResetSpy{ &model, &ServerItemModel::modelAboutToBeReset };
+    QSignalSpy modelResetSpy{ &model, &ServerItemModel::modelReset };
+
+    QCOMPARE(model.rowCount(QModelIndex{}), 1);
+
+    model.clearMediaServerObjects();
+
+    QCOMPARE(modelAboutToResetSpy.count(), 1);
+    QCOMPARE(modelResetSpy.count(), 1);
+    QCOMPARE(model.rowCount(QModelIndex{}), 0);
+}
+
 } // namespace MediaServer::Plugin
 
 QTEST_MAIN(MediaServer::Plugin::ServerItemModelShould);

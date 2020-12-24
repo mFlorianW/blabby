@@ -78,4 +78,11 @@ QHash<int, QByteArray> ServerItemModel::roleNames() const
                                       std::make_pair(ServerItemModel::ItemId, "itemId") };
 }
 
+void ServerItemModel::clearMediaServerObjects()
+{
+    beginResetModel();
+    mMediaServerObjects.clear();
+    endResetModel();
+}
+
 } // namespace MediaServer::Plugin
