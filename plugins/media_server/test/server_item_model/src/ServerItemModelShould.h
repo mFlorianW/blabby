@@ -39,6 +39,7 @@ private Q_SLOTS:
     void give_empty_variant_for_to_small_index();
     void give_empty_variant_for_to_big_index();
     void emit_rowsAboutToInsert_and_rowsInserted_when_a_media_object_added();
+    void give_the_item_id_for_inserted_media_object();
 };
 
 } // namespace MediaServer::Plugin

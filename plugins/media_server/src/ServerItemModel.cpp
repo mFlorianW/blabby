@@ -50,7 +50,7 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
     const auto mediaServerObject = mMediaServerObjects.at(index.row());
     if(role == RoleName::ItemName)
     {
-        return mMediaServerObjects.at(index.row()).title();
+        return QVariant::fromValue<QString>(mediaServerObject.title());
     }
     else if(role == RoleName::ItemClass)
     {
@@ -63,6 +63,10 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
             return QVariant::fromValue<ServerItemModel::ItemType>(ItemType::ItemFile);
         }
     }
+    else if(role == RoleName::ItemId)
+    {
+        return QVariant::fromValue<QString>(mediaServerObject.id());
+    }
 
     return QVariant{};
 }
@@ -70,7 +74,8 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> ServerItemModel::roleNames() const
 {
     return QHash<qint32, QByteArray>{ std::make_pair(ServerItemModel::ItemClass, "itemClass"),
-                                      std::make_pair(ServerItemModel::ItemName, "itemName") };
+                                      std::make_pair(ServerItemModel::ItemName, "itemName"),
+                                      std::make_pair(ServerItemModel::ItemId, "itemId") };
 }
 
 } // namespace MediaServer::Plugin

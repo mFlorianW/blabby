@@ -33,7 +33,8 @@ void ServerItemModelShould::give_correct_role_name()
 {
     ServerItemModel model;
     const auto expectedRoles = QHash<qint32, QByteArray>{ std::make_pair(Qt::UserRole + 1, "itemClass"),
-                                                          std::make_pair(Qt::UserRole + 2, "itemName") };
+                                                          std::make_pair(Qt::UserRole + 2, "itemName"),
+                                                          std::make_pair(Qt::UserRole + 3, "itemId") };
 
     const auto roles = model.roleNames();
 
@@ -149,6 +150,18 @@ void ServerItemModelShould::emit_rowsAboutToInsert_and_rowsInserted_when_a_media
     QCOMPARE(argsInserted.at(0).value<QModelIndex>(), model.index(-1));
     QCOMPARE(argsInserted.at(1).value<int>(), 0);
     QCOMPARE(argsInserted.at(2).value<int>(), 0);
+}
+
+void ServerItemModelShould::give_the_item_id_for_inserted_media_object()
+{
+    ServerItemModel model;
+    const auto expectedResult = "0";
+    const auto mediaObject = UPnPAV::MediaServerObject{ "0", "", "testFolder", "audioItem" };
+    model.insertMediaServerObject(mediaObject);
+
+    const auto result = model.data(model.index(0), ServerItemModel::ItemId);
+
+    QCOMPARE(result.value<QString>(), expectedResult);
 }
 
 } // namespace MediaServer::Plugin

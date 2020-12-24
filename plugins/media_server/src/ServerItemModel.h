@@ -32,7 +32,8 @@ public:
     enum RoleName
     {
         ItemClass = Qt::UserRole + 1,
-        ItemName
+        ItemName,
+        ItemId
     };
     Q_ENUM(RoleName)
 
