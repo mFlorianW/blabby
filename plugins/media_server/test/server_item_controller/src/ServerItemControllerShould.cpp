@@ -62,6 +62,20 @@ void ServerItemControllerShould::on_valid_result_received_insert_media_objects_i
     QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 1);
 }
 
+void ServerItemControllerShould::request_specific_folder_on_media_server()
+{
+    auto controller = ServerItemController{};
+    auto mediaServer = MediaServer();
+    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    const auto expectedBrowseRequest = LastBrowseRequest{ .objectId = "1", .browseFlag = MediaServer::DirectChildren };
+    mediaServer.soapCall = soapCall;
+    controller.setMediaServer(&mediaServer);
+
+    controller.requestStorageFolder("1");
+
+    QCOMPARE(mediaServer.lastBrowseRequest, expectedBrowseRequest);
+}
+
 } // namespace MediaServer::Plugin
 
 QTEST_MAIN(MediaServer::Plugin::ServerItemControllerShould);

@@ -43,6 +43,17 @@ void ServerItemController::setServerItemModel(ServerItemModel *serverItemModel) 
     Q_EMIT serverItemModelChanged();
 }
 
+void ServerItemController::requestStorageFolder(const QString &id)
+{
+    if(mMediaServer == nullptr)
+    {
+        // TODO: add qcwarning
+        return;
+    }
+
+    mPendingSoapCall = mMediaServer->browse(id, UPnPAV::IMediaServer::DirectChildren, "", "");
+}
+
 void ServerItemController::onBrowsRequestFinished()
 {
     if(mPendingSoapCall == nullptr)
