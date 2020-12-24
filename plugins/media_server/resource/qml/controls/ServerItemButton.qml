@@ -5,14 +5,36 @@ Rectangle {
     color: "#87949f"
 
     property alias text : itemText.text
+    property alias iconSource : itemIcon.source
+    signal clicked
 
-    Text {
-        id: itemText
+    Row {
+        id: contentRow
         anchors.left: parent.left
-        anchors.leftMargin: 90
+        anchors.leftMargin: 18
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        font.pixelSize: 30
-        color: "#dae1e7"
+        spacing: 25
+
+        Image {
+            id: itemIcon
+            width: 45
+            height: 35
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Text {
+            id: itemText
+            font.pixelSize: 30
+            color: "#dae1e7"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+    }
+
+    MouseArea{
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: root.clicked()
     }
 }

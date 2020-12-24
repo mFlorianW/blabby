@@ -7,7 +7,8 @@ ServerItemController{
     itemModel: serverItemModel
 
     ListView {
-        id:root
+        id:serverItemView
+
         model: serverItemModel
         anchors.fill: parent
         anchors.topMargin: 55
@@ -18,16 +19,29 @@ ServerItemController{
             anchors.left: parent.left
             anchors.right: parent.right
             height: 82
+
             ServerItemButton {
                 id: serverItemButton
                 anchors.fill: parent
                 anchors.topMargin: 12
                 text: itemName
+                iconSource: itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
+
+                onClicked: {
+                    console.info("Request folder:" + index)
+                }
             }
         }
     }
 
     ServerItemModel{
         id: serverItemModel
+    }
+
+    QtObject {
+        id: p
+
+        readonly property string folderIconSource : "qrc:/mediaserver/icon/MediaServerFolder.png"
+        readonly property string fileIconSource : ""
     }
 }

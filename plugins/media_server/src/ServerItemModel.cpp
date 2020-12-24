@@ -54,7 +54,7 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
     }
     else if(role == RoleName::ItemClass)
     {
-        if(mediaServerObject.typeClass() == "storageFolder")
+        if(mediaServerObject.typeClass().contains("storageFolder"))
         {
             return QVariant::fromValue<ServerItemModel::ItemType>(ItemType::ItemFolder);
         }
