@@ -25,8 +25,7 @@ void ServerItemController::setMediaServer(UPnPAV::IMediaServer *mediaServer) noe
 
     if(mediaServer != nullptr)
     {
-        mPendingSoapCall = mediaServer->browse("0", UPnPAV::IMediaServer::DirectChildren, "", "");
-        connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemController::onBrowsRequestFinished);
+        requestFolder("0");
     }
 
     Q_EMIT mediaServerChanged();
@@ -43,6 +42,12 @@ void ServerItemController::setServerItemModel(ServerItemModel *serverItemModel) 
     Q_EMIT serverItemModelChanged();
 }
 
+void MediaServer::Plugin::ServerItemController::requestFolder(const QString &id)
+{
+    mPendingSoapCall = mMediaServer->browse(id, UPnPAV::IMediaServer::DirectChildren, "", "");
+    connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemController::onBrowsRequestFinished);
+}
+
 void ServerItemController::requestStorageFolder(const QString &id)
 {
     if(mMediaServer == nullptr)
@@ -51,21 +56,20 @@ void ServerItemController::requestStorageFolder(const QString &id)
         return;
     }
 
-    mPendingSoapCall = mMediaServer->browse(id, UPnPAV::IMediaServer::DirectChildren, "", "");
+    requestFolder(id);
 }
 
 void ServerItemController::onBrowsRequestFinished()
 {
-    if(mPendingSoapCall == nullptr)
+    if(mPendingSoapCall == nullptr || mServerItemModel == nullptr)
     {
         // TODO: add qcwarning.
         return;
     }
 
-    if(mServerItemModel == nullptr)
+    if(mServerItemModel->rowCount(QModelIndex{}) > 0)
     {
-        // TODO: add qcwarning;
-        return;
+        mServerItemModel->clearMediaServerObjects();
     }
 
     const auto result = mPendingSoapCall->resultAs<UPnPAV::BrowseResult>();

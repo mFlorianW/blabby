@@ -76,6 +76,27 @@ void ServerItemControllerShould::request_specific_folder_on_media_server()
     QCOMPARE(mediaServer.lastBrowseRequest, expectedBrowseRequest);
 }
 
+void ServerItemControllerShould::on_valid_response_of_specific_request_fill_objects_into_server_item_model()
+{
+    auto controller = ServerItemController{};
+    auto serverItemModel = ServerItemModel{};
+    auto mediaServer = MediaServer{};
+    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    soapCall->setRawMessage(QString{ xmlResponse }.arg(didlOnlyOneContainer, "", "", ""));
+    mediaServer.soapCall = soapCall;
+    controller.setMediaServer(&mediaServer);
+    controller.setServerItemModel(&serverItemModel);
+
+    Q_EMIT soapCall->finished();
+    QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 1);
+
+    soapCall->setRawMessage(QString{ xmlResponse }.arg(didlOnlyTwoContainer, "", "", ""));
+    controller.requestStorageFolder("1");
+
+    Q_EMIT soapCall->finished();
+    QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 2);
+}
+
 } // namespace MediaServer::Plugin
 
 QTEST_MAIN(MediaServer::Plugin::ServerItemControllerShould);

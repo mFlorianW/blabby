@@ -56,6 +56,9 @@ private Q_SLOTS:
     void onBrowsRequestFinished();
 
 private:
+    void requestFolder(const QString &id);
+
+private:
     UPnPAV::IMediaServer *mMediaServer{ nullptr };
     QSharedPointer<UPnPAV::PendingSoapCall> mPendingSoapCall{ nullptr };
     ServerItemModel *mServerItemModel{ nullptr };

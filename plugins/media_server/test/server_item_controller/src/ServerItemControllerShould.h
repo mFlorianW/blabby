@@ -33,6 +33,7 @@ private Q_SLOTS:
     void on_inserted_media_server_request_root_folder();
     void on_valid_result_received_insert_media_objects_into_server_item_model();
     void request_specific_folder_on_media_server();
+    void on_valid_response_of_specific_request_fill_objects_into_server_item_model();
 };
 
 } // namespace MediaServer::Plugin
