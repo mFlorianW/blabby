@@ -2,5 +2,6 @@
     <qresource prefix="/shell">
         <file>qml/MainWindow.qml</file>
         <file>qml/controls/MultiMediaPluginButton.qml</file>
+        <file>icon/BackButton.png</file>
     </qresource>
 </RCC>

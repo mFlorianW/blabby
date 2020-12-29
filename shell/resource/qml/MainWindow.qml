@@ -17,7 +17,7 @@
  **/
 import QtQuick 2.0
 import de.blabby.shell 1.0
-import "qrc:/shell/qml/controls"
+import "controls"
 
 MainController {
     id: shell
@@ -80,6 +80,26 @@ MainController {
                 color: "#00909e"
                 height: 125
                 width: parent.width
+
+                Rectangle{
+                    id: backButtonBackground
+                    height: 58
+                    width: 58
+                    color: "#dae1e7"
+                    anchors.left: parent.left
+                    anchors.leftMargin: 30
+                    anchors.top: parent.top
+                    anchors.topMargin: 35
+                    radius: 100
+                    opacity: 0.2
+
+                    Image {
+                        id: backbuttonArrow
+                        source: "qrc:/shell/icon/BackButton.png"
+                        anchors.centerIn: parent
+                    }
+                }
+
 
                 Text {
                     id: pluginHeaderText
