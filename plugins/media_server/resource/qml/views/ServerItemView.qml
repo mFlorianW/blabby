@@ -15,6 +15,7 @@ ServerItemController{
         anchors.leftMargin: 35
         anchors.rightMargin: 55
 
+
         delegate: Item{
             anchors.left: parent.left
             anchors.right: parent.right
@@ -25,7 +26,7 @@ ServerItemController{
                 anchors.fill: parent
                 anchors.topMargin: 12
                 text: itemName
-                iconSource: itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
+                iconSource:  itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
 
                 onClicked: {
                     serverItemController.requestStorageFolder(itemId)
@@ -42,6 +43,6 @@ ServerItemController{
         id: p
 
         readonly property string folderIconSource : "qrc:/mediaserver/icon/MediaServerFolder.png"
-        readonly property string fileIconSource : ""
+        readonly property string fileIconSource : "qrc:/mediaserver/icon/MediaServerItem.png"
     }
 }

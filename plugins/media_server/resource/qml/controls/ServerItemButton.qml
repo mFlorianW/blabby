@@ -18,8 +18,6 @@ Rectangle {
 
         Image {
             id: itemIcon
-            width: 45
-            height: 35
             anchors.verticalCenter: parent.verticalCenter
         }
 
