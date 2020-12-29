@@ -28,7 +28,7 @@ ServerItemController{
                 iconSource: itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
 
                 onClicked: {
-                    console.info("Request folder:" + index)
+                    serverItemController.requestStorageFolder(itemId)
                 }
             }
         }

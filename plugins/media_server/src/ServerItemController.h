@@ -46,7 +46,7 @@ public:
     MediaServer::Plugin::ServerItemModel *serverItemModel() const noexcept;
     void setServerItemModel(ServerItemModel *serverItemModel) noexcept;
 
-    void requestStorageFolder(const QString &id);
+    Q_INVOKABLE void requestStorageFolder(const QString &id);
 
 Q_SIGNALS:
     void mediaServerChanged();
