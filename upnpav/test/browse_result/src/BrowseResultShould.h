@@ -33,9 +33,11 @@ private Q_SLOTS:
     void give_The_NumberReturned_Value_Of_The_Response_When_Call_Finished();
     void give_The_TotalMatches_Value_Of_The_Response_When_Call_Finished();
     void give_The_UpdateID_Value_Of_The_Response_When_Call_Finished();
+    void give_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished();
     void give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished();
+    void give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished();
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // BROWSERESULTSHOULD_H

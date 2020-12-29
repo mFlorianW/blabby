@@ -65,11 +65,35 @@ void BrowseResultShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finis
     QVERIFY2(expectedNumber == updateId, QString{ "Expected: %1 \nActual: %2" }.arg(expectedNumber).arg(updateId).toLocal8Bit());
 }
 
-void BrowseResultShould::give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
+void BrowseResultShould::give_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{ xmlResponse }.arg(didlOnlyOneContainer).arg("").arg("").arg("");
     BrowseResult browseResult{ response };
     QVector<MediaServerObject> expectedObjects{ MediaServerObject{ "1", "0", "MyMusic", "object.container.storageFolder" } };
+
+    auto objects = browseResult.objects();
+
+    QVERIFY(expectedObjects == objects);
+}
+
+void BrowseResultShould::give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
+{
+    QString response = QString{ xmlResponse }.arg(didlOnlyTwoContainer, (""), (""), (""));
+    BrowseResult browseResult{ response };
+    QVector<MediaServerObject> expectedObjects{ MediaServerObject{ "1", "0", "MyMusic0", "object.container.storageFolder" },
+                                                MediaServerObject{ "2", "0", "MyMusic1", "object.container.storageFolder" } };
+
+    auto objects = browseResult.objects();
+
+    QVERIFY(expectedObjects == objects);
+}
+
+void BrowseResultShould::give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
+{
+    QString response = QString{ xmlResponse }.arg(didlOnlyOneItem, "1", "1", "33");
+    BrowseResult browseResult{ response };
+    QVector<MediaServerObject> expectedObjects{ MediaServerObject{ "64$0$0", "64$0", "Dekmantel Boiler Room 2016 -",
+                                                                   "object.item.audioItem.musicTrack" } };
 
     auto objects = browseResult.objects();
 
