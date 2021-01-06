@@ -15,11 +15,11 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "ServerItemControllerShould.h"
+#include "ServerItemViewShould.h"
 #include "MediaServerDouble.h"
 #include "Response.h"
-#include "ServerItemController.h"
 #include "ServerItemModel.h"
+#include "ServerItemView.h"
 #include <QTest>
 
 namespace MediaServer::Plugin
@@ -27,14 +27,15 @@ namespace MediaServer::Plugin
 
 using namespace MediaServer::Plugin::Doubles;
 
-ServerItemControllerShould::ServerItemControllerShould()
+ServerItemViewShould::ServerItemViewShould()
     : QObject()
 {
 }
 
-void ServerItemControllerShould::on_inserted_media_server_request_root_folder()
+void ServerItemViewShould::on_inserted_media_server_request_root_folder()
 {
-    auto controller = ServerItemController{};
+    auto serverItemModel = ServerItemModel{};
+    auto controller = ServerItemView{ &serverItemModel };
     auto mediaServer = MediaServer();
     auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
     const auto expectedBrowseRequest = LastBrowseRequest{ .objectId = "0", .browseFlag = MediaServer::DirectChildren };
@@ -46,25 +47,25 @@ void ServerItemControllerShould::on_inserted_media_server_request_root_folder()
     QCOMPARE(mediaServer.lastBrowseRequest, expectedBrowseRequest);
 }
 
-void ServerItemControllerShould::on_valid_result_received_insert_media_objects_into_server_item_model()
+void ServerItemViewShould::on_valid_result_received_insert_media_objects_into_server_item_model()
 {
-    auto controller = ServerItemController{};
     auto serverItemModel = ServerItemModel{};
+    auto controller = ServerItemView{ &serverItemModel };
     auto mediaServer = MediaServer{};
     auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
     soapCall->setRawMessage(QString{ xmlResponse }.arg(didlOnlyOneContainer, "", "", ""));
     mediaServer.soapCall = soapCall;
 
     controller.setMediaServer(&mediaServer);
-    controller.setServerItemModel(&serverItemModel);
 
     Q_EMIT soapCall->finished();
     QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 1);
 }
 
-void ServerItemControllerShould::request_specific_folder_on_media_server()
+void ServerItemViewShould::request_specific_folder_on_media_server()
 {
-    auto controller = ServerItemController{};
+    auto serverItemModel = ServerItemModel{};
+    auto controller = ServerItemView{ &serverItemModel };
     auto mediaServer = MediaServer();
     auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
     const auto expectedBrowseRequest = LastBrowseRequest{ .objectId = "1", .browseFlag = MediaServer::DirectChildren };
@@ -76,16 +77,15 @@ void ServerItemControllerShould::request_specific_folder_on_media_server()
     QCOMPARE(mediaServer.lastBrowseRequest, expectedBrowseRequest);
 }
 
-void ServerItemControllerShould::on_valid_response_of_specific_request_fill_objects_into_server_item_model()
+void ServerItemViewShould::on_valid_response_of_specific_request_fill_objects_into_server_item_model()
 {
-    auto controller = ServerItemController{};
     auto serverItemModel = ServerItemModel{};
+    auto controller = ServerItemView{ &serverItemModel };
     auto mediaServer = MediaServer{};
     auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
     soapCall->setRawMessage(QString{ xmlResponse }.arg(didlOnlyOneContainer, "", "", ""));
     mediaServer.soapCall = soapCall;
     controller.setMediaServer(&mediaServer);
-    controller.setServerItemModel(&serverItemModel);
 
     Q_EMIT soapCall->finished();
     QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 1);
@@ -99,4 +99,4 @@ void ServerItemControllerShould::on_valid_response_of_specific_request_fill_obje
 
 } // namespace MediaServer::Plugin
 
-QTEST_MAIN(MediaServer::Plugin::ServerItemControllerShould);
+QTEST_MAIN(MediaServer::Plugin::ServerItemViewShould);

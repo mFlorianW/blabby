@@ -19,8 +19,8 @@
 #include "MainWindow.h"
 #include "MediaServer.h"
 #include "MediaServerModel.h"
-#include "ServerItemController.h"
 #include "ServerItemModel.h"
+#include "ServerItemView.h"
 #include "ServiceProvider.h"
 #include <QQmlContext>
 #include <QUrl>
@@ -54,21 +54,20 @@ bool MediaServerPlugin::load(QQmlContext *context)
 {
     const char pluginUrl[] = "de.blabby.mediaserverplugin";
 
+    qmlRegisterUncreatableType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel", "");
+    qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "");
+
     mServiceProviderFactory = std::make_unique<UPnPAV::ServiceProviderFactory>();
     mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
     mMediaServerModel = std::make_unique<MediaServerModel>();
     mMainController =
         std::make_unique<MainWindow>(mMediaServerModel.get(), mMediaServerFactory.get(), mServiceProviderFactory.get());
+    mServerItemModel = std::make_unique<ServerItemModel>();
+    mServerItemView = std::make_unique<ServerItemView>(mServerItemModel.get());
 
-    context->setContextProperty("g_MainWindow", mMainController.get());
-
-    qmlRegisterType<ServerItemController>(pluginUrl, 1, 0, "ServerItemController");
-    qmlRegisterType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel");
-
-    qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");
-    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>(pluginUrl, 1, 0, "IServiceProviderFactory", "");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>(pluginUrl, 1, 0, "IMediaServerFactory", "");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "");
+    context->setContextProperty("g_MediaServerMinWindow", mMainController.get());
+    context->setContextProperty("g_ServerItemView", mServerItemView.get());
 
     return true;
 }

@@ -15,19 +15,19 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef SERVERITEMCONTROLLERSHOULD_H
-#define SERVERITEMCONTROLLERSHOULD_H
+#ifndef SERVERITEMVIEWSHOULD_H
+#define SERVERITEMVIEWSHOULD_H
 
 #include <QObject>
 
 namespace MediaServer::Plugin
 {
 
-class ServerItemControllerShould : public QObject
+class ServerItemViewShould : public QObject
 {
     Q_OBJECT
 public:
-    ServerItemControllerShould();
+    ServerItemViewShould();
 
 private Q_SLOTS:
     void on_inserted_media_server_request_root_folder();

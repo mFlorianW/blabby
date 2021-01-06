@@ -18,22 +18,22 @@
 ################################################################################
 # Build
 ################################################################################
-add_executable(test_media_server_plugin_server_item_controller)
+add_executable(test_media_server_plugin_server_item_view)
 
-target_sources(test_media_server_plugin_server_item_controller
+target_sources(test_media_server_plugin_server_item_view
     PRIVATE
-        src/ServerItemControllerShould.cpp
+        src/ServerItemViewShould.cpp
 )
 
-target_include_directories(test_media_server_plugin_server_item_controller
+target_include_directories(test_media_server_plugin_server_item_view
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
 )
 
-target_link_libraries(test_media_server_plugin_server_item_controller
+target_link_libraries(test_media_server_plugin_server_item_view
     Blabby::MediaServerObject
     Blabby::MediaServerPluginDoubles
     Qt5::Test
 )
 
-add_test(test_media_server_plugin_server_item_controller ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_server_item_controller)
+add_test(test_media_server_plugin_server_item_view ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_server_item_view)

@@ -14,6 +14,7 @@ Item {
 
         cellWidth: parent.width / 2
         cellHeight: 360
+        model: g_MainWindow.mediaServerModel
 
         delegate: Item {
             id: cellContainer
@@ -31,5 +32,9 @@ Item {
                 }
             }
         }
+    }
+
+    Component.onCompleted:{
+        g_MainWindow.searchMediaServer()
     }
 }

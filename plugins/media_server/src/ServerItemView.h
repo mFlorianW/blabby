@@ -15,8 +15,8 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef SERVERITEMCONTROLLER_H
-#define SERVERITEMCONTROLLER_H
+#ifndef SERVERITEMVIEW_H
+#define SERVERITEMVIEW_H
 
 #include <QQuickItem>
 #include <QSharedPointer>
@@ -31,26 +31,24 @@ namespace MediaServer::Plugin
 {
 class ServerItemModel;
 
-class ServerItemController : public QQuickItem
+class ServerItemView : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(UPnPAV::IMediaServer *mediaServer READ mediaServer WRITE setMediaServer NOTIFY mediaServerChanged)
-    Q_PROPERTY(MediaServer::Plugin::ServerItemModel *itemModel READ serverItemModel WRITE setServerItemModel NOTIFY serverItemModelChanged)
+    Q_PROPERTY(MediaServer::Plugin::ServerItemModel *itemModel READ serverItemModel CONSTANT)
 public:
-    ServerItemController();
-    ~ServerItemController();
+    ServerItemView(ServerItemModel *model);
+    ~ServerItemView();
 
     UPnPAV::IMediaServer *mediaServer() const noexcept;
     void setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept;
 
     MediaServer::Plugin::ServerItemModel *serverItemModel() const noexcept;
-    void setServerItemModel(ServerItemModel *serverItemModel) noexcept;
 
     Q_INVOKABLE void requestStorageFolder(const QString &id);
 
 Q_SIGNALS:
     void mediaServerChanged();
-    void serverItemModelChanged();
 
 private Q_SLOTS:
     void onBrowsRequestFinished();

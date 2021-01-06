@@ -38,7 +38,7 @@ target_sources(BlabbyMediaServerObject
         src/MediaServerModel.cpp
         src/MainWindow.cpp
         src/ServerItemModel.cpp
-        src/ServerItemController.cpp
+        src/ServerItemView.cpp
 )
 
 target_link_libraries(BlabbyMediaServerObject

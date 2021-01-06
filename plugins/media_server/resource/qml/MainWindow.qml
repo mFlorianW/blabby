@@ -52,10 +52,10 @@ Item{
 
         MediaServerView{
             id: mediaServerView
-            model: g_MainWindow.mediaServerModel
+            model: g_MediaServerMinWindow.mediaServerModel
 
             onMediaServerActivated: {
-                g_MainWindow.setActiveMediaServer(index)
+                g_MediaServerMinWindow.setActiveMediaServer(index)
                 stack.push(serverItemViewComp)
             }
         }
@@ -66,11 +66,14 @@ Item{
 
         ServerItemView{
             id: serverItemView
-            mediaServer: g_MainWindow.activeMediaServer
+
+            Component.onCompleted: {
+                g_ServerItemView.mediaServer = g_MediaServerMinWindow.activeMediaServer
+            }
         }
     }
 
     Component.onCompleted:{
-        g_MainWindow.searchMediaServer()
+        g_MediaServerMinWindow.searchMediaServer()
     }
 }

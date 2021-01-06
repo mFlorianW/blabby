@@ -1,4 +1,4 @@
-#include "ServerItemController.h"
+#include "ServerItemView.h"
 #include "BrowseResult.h"
 #include "IMediaServer.h"
 #include "PendingSoapCall.h"
@@ -7,19 +7,20 @@
 namespace MediaServer::Plugin
 {
 
-ServerItemController::ServerItemController()
-    : QQuickItem()
+ServerItemView::ServerItemView(ServerItemModel *model)
+    : QObject()
+    , mServerItemModel{ model }
 {
 }
 
-ServerItemController::~ServerItemController() = default;
+ServerItemView::~ServerItemView() = default;
 
-UPnPAV::IMediaServer *ServerItemController::mediaServer() const noexcept
+UPnPAV::IMediaServer *ServerItemView::mediaServer() const noexcept
 {
     return mMediaServer;
 }
 
-void ServerItemController::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
+void ServerItemView::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
     mMediaServer = mediaServer;
 
@@ -31,24 +32,18 @@ void ServerItemController::setMediaServer(UPnPAV::IMediaServer *mediaServer) noe
     Q_EMIT mediaServerChanged();
 }
 
-ServerItemModel *ServerItemController::serverItemModel() const noexcept
+ServerItemModel *ServerItemView::serverItemModel() const noexcept
 {
     return mServerItemModel;
 }
 
-void ServerItemController::setServerItemModel(ServerItemModel *serverItemModel) noexcept
-{
-    mServerItemModel = serverItemModel;
-    Q_EMIT serverItemModelChanged();
-}
-
-void MediaServer::Plugin::ServerItemController::requestFolder(const QString &id)
+void MediaServer::Plugin::ServerItemView::requestFolder(const QString &id)
 {
     mPendingSoapCall = mMediaServer->browse(id, UPnPAV::IMediaServer::DirectChildren, "", "");
-    connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemController::onBrowsRequestFinished);
+    connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemView::onBrowsRequestFinished);
 }
 
-void ServerItemController::requestStorageFolder(const QString &id)
+void ServerItemView::requestStorageFolder(const QString &id)
 {
     if(mMediaServer == nullptr)
     {
@@ -59,7 +54,7 @@ void ServerItemController::requestStorageFolder(const QString &id)
     requestFolder(id);
 }
 
-void ServerItemController::onBrowsRequestFinished()
+void ServerItemView::onBrowsRequestFinished()
 {
     if(mPendingSoapCall == nullptr || mServerItemModel == nullptr)
     {

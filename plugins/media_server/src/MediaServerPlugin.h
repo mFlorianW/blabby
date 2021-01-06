@@ -30,6 +30,8 @@ namespace MediaServer::Plugin
 {
 class MediaServerModel;
 class MainWindow;
+class ServerItemView;
+class ServerItemModel;
 
 class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
 {
@@ -59,6 +61,8 @@ private:
     std::unique_ptr<UPnPAV::MediaServerFactory> mMediaServerFactory;
     std::unique_ptr<MediaServerModel> mMediaServerModel;
     std::unique_ptr<MainWindow> mMainController;
+    std::unique_ptr<ServerItemView> mServerItemView;
+    std::unique_ptr<ServerItemModel> mServerItemModel;
 };
 
 } // namespace MediaServer::Plugin
