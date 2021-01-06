@@ -94,7 +94,7 @@ class UPNP_EXPORT ServiceProviderFactory : public IServiceProviderFactory
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceProviderFactory)
 public:
-    ServiceProviderFactory() = default;
+    ServiceProviderFactory();
     virtual ~ServiceProviderFactory();
     virtual std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget);
 };

@@ -22,7 +22,7 @@ add_executable(test_media_server_plugin_main_controller)
 
 target_sources(test_media_server_plugin_main_controller
     PRIVATE
-        src/MainControllerShould.cpp
+        src/MainWindowShould.cpp
 )
 
 #target_include_directories(test_media_server_plugin_media_server_model

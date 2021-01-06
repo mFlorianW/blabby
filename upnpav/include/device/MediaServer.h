@@ -37,7 +37,7 @@ class UPNP_EXPORT MediaServerFactory : public IMediaServerFactory
     Q_DISABLE_COPY_MOVE(MediaServerFactory)
 public:
     MediaServerFactory();
-    ~MediaServerFactory();
+    ~MediaServerFactory() override;
     std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) override;
 };
 

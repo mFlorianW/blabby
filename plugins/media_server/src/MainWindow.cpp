@@ -15,7 +15,7 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "MainController.h"
+#include "MainWindow.h"
 #include "IMediaServer.h"
 #include "IServiceProvider.h"
 #include "InvalidDeviceDescription.h"
@@ -25,64 +25,26 @@
 namespace MediaServer::Plugin
 {
 
-MainController::MainController()
-    : QQuickItem()
+MainWindow::MainWindow(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
+                               UPnPAV::IServiceProviderFactory *serviceProviderFab)
+    : QObject()
+    , mServiceProviderFactory{ serviceProviderFab }
+    , mMediaServerFactory{ mediaServerFab }
+    , mMediaServerModel{ model }
 {
-}
-
-MainController::~MainController() = default;
-
-UPnPAV::IServiceProviderFactory *MainController::serviceProviderFactory() const noexcept
-{
-    return mServiceProviderFactory;
-}
-
-void MainController::setServiceProviderFactory(UPnPAV::IServiceProviderFactory *serviceProviderFactory) noexcept
-{
-    if((mServiceProviderFactory == serviceProviderFactory) || (serviceProviderFactory == nullptr))
-    {
-        return;
-    }
-
-    mServiceProviderFactory = serviceProviderFactory;
     mServiceProvider = mServiceProviderFactory->createServiceProvider("urn:schemas-upnp-org:device:MediaServer:1");
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MainController::onServiceConnected);
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MainController::onServerDisconnected);
-    Q_EMIT serviceProviderChanged();
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MainWindow::onServiceConnected);
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MainWindow::onServerDisconnected);
 }
 
-UPnPAV::IMediaServerFactory *MainController::mediaServerFactory() const noexcept
-{
-    return mMediaServerFactory;
-}
-void MainController::setMediaServerFactory(UPnPAV::IMediaServerFactory *mediaServerFactory) noexcept
-{
-    if(mMediaServerFactory == mediaServerFactory)
-    {
-        return;
-    }
+MainWindow::~MainWindow() = default;
 
-    mMediaServerFactory = mediaServerFactory;
-    Q_EMIT mediaServerFactoryChanged();
-}
-
-MediaServerModel *MainController::mediaServerModel() const noexcept
+MediaServerModel *MainWindow::mediaServerModel() const noexcept
 {
     return mMediaServerModel;
 }
 
-void MainController::setMediaServerModel(MediaServerModel *mediaServerModel) noexcept
-{
-    if(mMediaServerModel == mediaServerModel)
-    {
-        return;
-    }
-
-    mMediaServerModel = mediaServerModel;
-    Q_EMIT mediaServerModelChanged();
-}
-
-void MainController::searchMediaServer() const noexcept
+void MainWindow::searchMediaServer() const noexcept
 {
     if(mServiceProvider == nullptr)
     {
@@ -92,19 +54,19 @@ void MainController::searchMediaServer() const noexcept
     mServiceProvider->startSearch();
 }
 
-void MainController::setActiveMediaServer(qint32 index) noexcept
+void MainWindow::setActiveMediaServer(qint32 index) noexcept
 {
     mActiveIndex = index;
     Q_EMIT activeMediaServerChanged();
 }
 
-UPnPAV::IMediaServer *MainController::activeMediaServer() const noexcept
+UPnPAV::IMediaServer *MainWindow::activeMediaServer() const noexcept
 {
     auto mediaServerIter = std::next(mMediaServers.begin(), mActiveIndex);
     return mediaServerIter->second.get();
 }
 
-void MainController::onServiceConnected(const QString &usn)
+void MainWindow::onServiceConnected(const QString &usn)
 {
     if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
        (mServiceProviderFactory == nullptr) || (mMediaServers.find(usn) != mMediaServers.end()))
@@ -124,7 +86,7 @@ void MainController::onServiceConnected(const QString &usn)
     }
 }
 
-void MainController::onServerDisconnected(const QString &usn)
+void MainWindow::onServerDisconnected(const QString &usn)
 {
     if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
        (mServiceProviderFactory == nullptr))

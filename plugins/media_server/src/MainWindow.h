@@ -15,8 +15,8 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MAINCONTROLLER__H
-#define MAINCONTROLLER__H
+#ifndef MAINWINDOW__H
+#define MAINWINDOW__H
 
 #include <QQuickItem>
 #include <map>
@@ -34,26 +34,18 @@ namespace MediaServer::Plugin
 {
 class MediaServerModel;
 
-class MainController : public QQuickItem
+class MainWindow : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MainController)
-    Q_PROPERTY(UPnPAV::IServiceProviderFactory *serviceProviderFactory READ serviceProviderFactory WRITE setServiceProviderFactory NOTIFY serviceProviderChanged)
-    Q_PROPERTY(UPnPAV::IMediaServerFactory *mediaServerFactory READ mediaServerFactory WRITE setMediaServerFactory NOTIFY mediaServerFactoryChanged)
-    Q_PROPERTY(MediaServer::Plugin::MediaServerModel *mediaServerModel READ mediaServerModel WRITE setMediaServerModel NOTIFY mediaServerModelChanged)
+    Q_DISABLE_COPY_MOVE(MainWindow)
+    Q_PROPERTY(MediaServer::Plugin::MediaServerModel *mediaServerModel READ mediaServerModel CONSTANT)
     Q_PROPERTY(UPnPAV::IMediaServer *activeMediaServer READ activeMediaServer NOTIFY activeMediaServerChanged)
 public:
-    MainController();
-    ~MainController() override;
-
-    UPnPAV::IServiceProviderFactory *serviceProviderFactory() const noexcept;
-    void setServiceProviderFactory(UPnPAV::IServiceProviderFactory *serviceProviderFactory) noexcept;
-
-    UPnPAV::IMediaServerFactory *mediaServerFactory() const noexcept;
-    void setMediaServerFactory(UPnPAV::IMediaServerFactory *mediaServerFactory) noexcept;
+    MainWindow(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
+                   UPnPAV::IServiceProviderFactory *serviceProviderFab);
+    ~MainWindow() override;
 
     MediaServerModel *mediaServerModel() const noexcept;
-    void setMediaServerModel(MediaServerModel *mediaServerModel) noexcept;
 
     Q_INVOKABLE void searchMediaServer() const noexcept;
 
@@ -61,9 +53,6 @@ public:
     UPnPAV::IMediaServer *activeMediaServer() const noexcept;
 
 Q_SIGNALS:
-    void serviceProviderChanged();
-    void mediaServerFactoryChanged();
-    void mediaServerModelChanged();
     void activeMediaServerChanged();
 
 private Q_SLOTS:
@@ -81,4 +70,4 @@ private:
 
 } // namespace MediaServer::Plugin
 
-#endif // MAINCONTROLLER__H
+#endif // MAINWINDOW__H

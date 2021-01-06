@@ -1,13 +1,9 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.15
-import de.blabby.mediaserverplugin 1.0
 import "views"
 
-MainController{
+Item{
     id: mediaServerPlugin
-    mediaServerModel: mediaServerModel
-    mediaServerFactory: mediaServerFab
-    serviceProviderFactory: serviceProviderFab
 
     StackView {
         id: stack
@@ -51,26 +47,15 @@ MainController{
         }
     }
 
-    MediaServerModel{
-        id: mediaServerModel
-    }
-
-    ServiceProviderFactory{
-        id: serviceProviderFab
-    }
-
-    MediaServerFactory{
-        id: mediaServerFab
-    }
-
     Component{
         id: mediaServerViewComp
 
         MediaServerView{
             id: mediaServerView
+            model: g_MainWindow.mediaServerModel
 
             onMediaServerActivated: {
-                mediaServerPlugin.setActiveMediaServer(index)
+                g_MainWindow.setActiveMediaServer(index)
                 stack.push(serverItemViewComp)
             }
         }
@@ -81,11 +66,11 @@ MainController{
 
         ServerItemView{
             id: serverItemView
-            mediaServer: mediaServerPlugin.activeMediaServer
+            mediaServer: g_MainWindow.activeMediaServer
         }
     }
 
     Component.onCompleted:{
-        mediaServerPlugin.searchMediaServer()
+        g_MainWindow.searchMediaServer()
     }
 }

@@ -16,12 +16,13 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServerPlugin.h"
-#include "MainController.h"
+#include "MainWindow.h"
 #include "MediaServer.h"
 #include "MediaServerModel.h"
 #include "ServerItemController.h"
 #include "ServerItemModel.h"
 #include "ServiceProvider.h"
+#include <QQmlContext>
 #include <QUrl>
 #include <qqml.h>
 
@@ -31,6 +32,8 @@ namespace MediaServer::Plugin
 MediaServerPlugin::MediaServerPlugin()
 {
 }
+
+MediaServerPlugin::~MediaServerPlugin() = default;
 
 QString MediaServerPlugin::pluginName() const
 {
@@ -51,17 +54,21 @@ bool MediaServerPlugin::load(QQmlContext *context)
 {
     const char pluginUrl[] = "de.blabby.mediaserverplugin";
 
-    qmlRegisterType<UPnPAV::ServiceProviderFactory>(pluginUrl, 1, 0, "ServiceProviderFactory");
-    qmlRegisterType<UPnPAV::MediaServerFactory>(pluginUrl, 1, 0, "MediaServerFactory");
-    qmlRegisterType<MainController>(pluginUrl, 1, 0, "MainController");
-    qmlRegisterType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel");
+    mServiceProviderFactory = std::make_unique<UPnPAV::ServiceProviderFactory>();
+    mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
+    mMediaServerModel = std::make_unique<MediaServerModel>();
+    mMainController =
+        std::make_unique<MainWindow>(mMediaServerModel.get(), mMediaServerFactory.get(), mServiceProviderFactory.get());
+
+    context->setContextProperty("g_MainWindow", mMainController.get());
+
     qmlRegisterType<ServerItemController>(pluginUrl, 1, 0, "ServerItemController");
     qmlRegisterType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel");
 
-    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>(pluginUrl, 1, 0, "IServiceProviderFactory",
-                                                                "Interface ServiceProviderFactory");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>(pluginUrl, 1, 0, "IMediaServerFactory", "Interface MediaServerFactory");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "Interface MediaServer");
+    qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");
+    qmlRegisterUncreatableType<UPnPAV::IServiceProviderFactory>(pluginUrl, 1, 0, "IServiceProviderFactory", "");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServerFactory>(pluginUrl, 1, 0, "IMediaServerFactory", "");
+    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "");
 
     return true;
 }

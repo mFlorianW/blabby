@@ -255,9 +255,8 @@ ServiceProviderError::~ServiceProviderError() noexcept
 }
 
 
-ServiceProviderFactory::~ServiceProviderFactory()
-{
-}
+ServiceProviderFactory::ServiceProviderFactory() = default;
+ServiceProviderFactory::~ServiceProviderFactory() = default;
 
 std::unique_ptr<IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {

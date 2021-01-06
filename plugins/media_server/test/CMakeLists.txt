@@ -25,6 +25,6 @@ find_package(Qt5Test 5.13 REQUIRED)
 ###############################################################################
 add_subdirectory(doubles)
 add_subdirectory(media_server_model)
-add_subdirectory(main_controller)
+add_subdirectory(main_window)
 add_subdirectory(server_item_model)
 add_subdirectory(server_item_controller)

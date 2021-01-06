@@ -19,9 +19,17 @@
 #define MEDIASERVERPLUGIN_H
 
 #include "MultiMediaPlugin.h"
+#include <memory>
+namespace UPnPAV
+{
+class ServiceProviderFactory;
+class MediaServerFactory;
+} // namespace UPnPAV
 
 namespace MediaServer::Plugin
 {
+class MediaServerModel;
+class MainWindow;
 
 class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
 {
@@ -30,6 +38,7 @@ class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
     Q_PLUGIN_METADATA(IID "de.blabby.MultiMediaPlugin")
 public:
     MediaServerPlugin();
+    ~MediaServerPlugin() override;
 
     QString pluginName() const override;
 
@@ -44,6 +53,12 @@ public:
     QUrl mainQMLUrl() const override;
 
     QUrl pluginIconUrl() const override;
+
+private:
+    std::unique_ptr<UPnPAV::ServiceProviderFactory> mServiceProviderFactory;
+    std::unique_ptr<UPnPAV::MediaServerFactory> mMediaServerFactory;
+    std::unique_ptr<MediaServerModel> mMediaServerModel;
+    std::unique_ptr<MainWindow> mMainController;
 };
 
 } // namespace MediaServer::Plugin

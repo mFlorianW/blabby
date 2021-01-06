@@ -19,13 +19,14 @@
 
 namespace MediaServer::Plugin
 {
-class MainControllerShould : public QObject
+class MainWindowShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MainControllerShould)
+    Q_DISABLE_COPY_MOVE(MainWindowShould)
 public:
-    MainControllerShould();
-    ~MainControllerShould();
+    MainWindowShould();
+    ~MainWindowShould();
+
 private Q_SLOTS:
     void on_mediaserver_connected_create_media_server_and_put_in_the_model();
     void handle_every_connected_signal_of_media_server_once();

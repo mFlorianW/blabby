@@ -5,10 +5,10 @@ Item {
     id: mediaServerView
 
     signal mediaServerActivated(int index)
+    property alias model: mediaServerOverview.model
 
     GridView{
         id: mediaServerOverview
-        model: mediaServerModel
 
         anchors.fill: parent
 
