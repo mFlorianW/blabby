@@ -40,11 +40,12 @@ int main(int argc, char *argv[])
     QGuiApplication blabby(argc, argv);
     registerQmlTypes();
 
+    QQuickView mainView;
     Shell::MultiMediaPluginModel pluginModel;
     Shell::FileSystemPluginSource fileSource;
+    fileSource.setPluginQQmlContext(mainView.rootContext());
     Shell::MainWindow mainWindow{ &pluginModel, &fileSource };
 
-    QQuickView mainView;
     mainView.setMinimumSize(QSize{ 1280, 800 });
     mainView.rootContext()->setContextProperty("g_mainWindow", &mainWindow);
     mainView.setSource(QUrl("qrc:/shell/qml/MainWindow.qml"));

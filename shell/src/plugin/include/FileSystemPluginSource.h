@@ -34,6 +34,7 @@ public:
     FileSystemPluginSource();
     ~FileSystemPluginSource() override;
 
+    void setPluginQQmlContext(QQmlContext *context) noexcept override;
     void loadPlugins() const override;
 
     QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins() const override;

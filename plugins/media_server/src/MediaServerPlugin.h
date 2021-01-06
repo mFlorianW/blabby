@@ -37,7 +37,7 @@ public:
 
     QUuid getPluginIdentifier() const override;
 
-    bool load() override;
+    bool load(QQmlContext *context) override;
 
     bool unload() override;
 

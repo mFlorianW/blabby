@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QUuid>
 
+class QQmlContext;
+
 namespace PluginCore
 {
 
@@ -62,9 +64,10 @@ public:
      * Load is called when ever a plugin is loaded by the shell. Load shall
      * be used to initialize all long living variables in the plugin.
      *
+     * @param context The QML context that can be used to set context properties that are needed for the plugin.
      * @return True when the plugin is initialized, otherwise false.
      */
-    virtual bool load() = 0;
+    virtual bool load(QQmlContext *conntext) = 0;
 
     /**
      * Unload is called when a ever the plugin is unloaded by the shell.

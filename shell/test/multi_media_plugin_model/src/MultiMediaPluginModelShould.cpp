@@ -46,8 +46,9 @@ public:
         return { "d6d02a93-b6f0-4581-ba0a-b70397c1200a" };
     }
 
-    bool load() override
+    bool load(QQmlContext *context) override
     {
+        Q_UNUSED(context);
         return true;
     }
 

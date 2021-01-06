@@ -34,6 +34,7 @@ public:
 
     virtual ~MultiMediaPluginSource() = default;
 
+    virtual void setPluginQQmlContext(QQmlContext *context) noexcept = 0;
     virtual void loadPlugins() const = 0;
 
     virtual QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins() const = 0;

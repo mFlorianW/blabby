@@ -35,7 +35,7 @@ void FileSystemPluginSourcePrivate::loadPlugins(const QFileInfo &fileInfo)
 
     if(plugin != nullptr)
     {
-        plugin->load();
+        plugin->load(mContext);
         mLoadedPlugins.append(std::move(plugin));
     }
     else
@@ -80,6 +80,11 @@ void FileSystemPluginSource::loadPlugins() const
             dirIter.next();
         }
     }
+}
+
+void Shell::FileSystemPluginSource::setPluginQQmlContext(QQmlContext *context) noexcept
+{
+    d->mContext = context;
 }
 
 QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> FileSystemPluginSource::plugins() const

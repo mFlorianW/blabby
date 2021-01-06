@@ -35,6 +35,7 @@ public:
     void loadPlugins(const QFileInfo &fileInfo);
 
     QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> mLoadedPlugins;
+    QQmlContext *mContext;
 };
 } // namespace Shell
 #endif // FILESYSTEMPLUGINSOURCE_P_H
