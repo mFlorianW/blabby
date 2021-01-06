@@ -89,7 +89,7 @@ MainController {
                     anchors.left: parent.left
                     anchors.leftMargin: 30
                     anchors.top: parent.top
-                    anchors.topMargin: 35
+                    anchors.topMargin: 30
                     radius: 100
                     opacity: 0.2
 
