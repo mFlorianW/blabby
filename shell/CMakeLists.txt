@@ -54,7 +54,7 @@ target_sources(BlabbyObject
         src/plugin/src/FileSystemPluginSource.cpp
 
         # MainWindow
-        src/main_window/src/MainController.cpp
+        src/main_window/src/MainWindow.cpp
         src/main_window/src/Clock.cpp
 
         #Public Includes
@@ -64,7 +64,7 @@ target_sources(BlabbyObject
         src/plugin/include/FileSystemPluginSource.h
 
         # MainWindow
-        src/main_window/include/MainController.h
+        src/main_window/include/MainWindow.h
         src/main_window/include/Clock.h
 )
 

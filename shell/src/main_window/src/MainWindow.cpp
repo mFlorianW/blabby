@@ -15,14 +15,22 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "MainController.h"
-#include "MainController_p.h"
+#include "MainWindow.h"
+#include "MainWindow_p.h"
 #include <memory>
 
 namespace Shell
 {
 
-void MainControllerPrivate::loadPlugins()
+MainWindowPrivate::MainWindowPrivate(MultiMediaPluginModel *model, MultiMediaPluginSource *pluginSource)
+    : mSource{ pluginSource }
+    , mModel{ model }
+{
+}
+
+MainWindowPrivate::~MainWindowPrivate() = default;
+
+void MainWindowPrivate::loadPlugins()
 {
     if((mModel == nullptr) || (mSource == nullptr))
     {
@@ -33,54 +41,35 @@ void MainControllerPrivate::loadPlugins()
     mModel->setPlugins(mSource->plugins());
 }
 
-MainController::MainController()
-    : QQuickItem()
-    , d(std::make_unique<MainControllerPrivate>())
+MainWindow::MainWindow(MultiMediaPluginModel *model, MultiMediaPluginSource *pluginSource)
+    : QObject()
+    , d(std::make_unique<MainWindowPrivate>(model, pluginSource))
 {
+    Q_ASSERT_X(d->mModel != nullptr, "model", "model parameter shouldn't be nullptr!");
+    Q_ASSERT_X(d->mSource != nullptr, "pluginSource", "pluginSource parameter shouldn't be nullptr!");
+
+    d->mSource->loadPlugins();
+    d->mModel->setPlugins(pluginSource->plugins());
 }
 
-MainController::~MainController() = default;
+MainWindow::~MainWindow() = default;
 
-MultiMediaPluginModel *MainController::model() const noexcept
+MultiMediaPluginModel *MainWindow::model() const noexcept
 {
     return d->mModel;
 }
 
-void MainController::setModel(MultiMediaPluginModel *model) noexcept
-{
-    if(d->mModel == model)
-    {
-        return;
-    }
-
-    d->mModel = model;
-    d->loadPlugins();
-    Q_EMIT modelChanged();
-}
-
-MultiMediaPluginSource *MainController::multiMediaPluginSource() const noexcept
+MultiMediaPluginSource *MainWindow::multiMediaPluginSource() const noexcept
 {
     return d->mSource;
 }
 
-void MainController::setMultiMediaPluginSource(MultiMediaPluginSource *source) noexcept
-{
-    if(d->mSource == source)
-    {
-        return;
-    }
-
-    d->mSource = source;
-    d->loadPlugins();
-    Q_EMIT multiMediaPluginSourceChanged();
-}
-
-QUrl MainController::activePluginUrl() const noexcept
+QUrl MainWindow::activePluginUrl() const noexcept
 {
     return d->mActivePluginUrl;
 }
 
-void MainController::setActivePluginUrl(const QUrl &activePluginUrl) noexcept
+void MainWindow::setActivePluginUrl(const QUrl &activePluginUrl) noexcept
 {
     if(d->mActivePluginUrl == activePluginUrl)
     {
@@ -91,12 +80,12 @@ void MainController::setActivePluginUrl(const QUrl &activePluginUrl) noexcept
     Q_EMIT activePluginUrlChanged();
 }
 
-QString MainController::activePluginName() const noexcept
+QString MainWindow::activePluginName() const noexcept
 {
     return d->mActivePluginName;
 }
 
-void MainController::setActivePluginName(const QString &activePluginName) noexcept
+void MainWindow::setActivePluginName(const QString &activePluginName) noexcept
 {
     if(d->mActivePluginName == activePluginName)
     {
@@ -107,7 +96,7 @@ void MainController::setActivePluginName(const QString &activePluginName) noexce
     Q_EMIT activePluginNameChanged();
 }
 
-void MainController::activatePlugin(qint32 index) noexcept
+void MainWindow::activatePlugin(qint32 index) noexcept
 {
     if(d->mModel == nullptr)
     {

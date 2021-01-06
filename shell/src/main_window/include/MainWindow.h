@@ -15,8 +15,8 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MAINCONTROLLER_H
-#define MAINCONTROLLER_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QObject>
 #include <QQuickItem>
@@ -26,29 +26,24 @@ namespace Shell
 {
 class MultiMediaPluginModel;
 class MultiMediaPluginSource;
-class MainControllerPrivate;
+class MainWindowPrivate;
 
-class MainController : public QQuickItem
+class MainWindow : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MainController)
+    Q_DISABLE_COPY_MOVE(MainWindow)
 
-    Q_PROPERTY(Shell::MultiMediaPluginModel *model READ model WRITE setModel NOTIFY modelChanged)
-
-    Q_PROPERTY(Shell::MultiMediaPluginSource *pluginSource READ multiMediaPluginSource WRITE setMultiMediaPluginSource NOTIFY multiMediaPluginSourceChanged)
+    Q_PROPERTY(Shell::MultiMediaPluginModel *model READ model CONSTANT)
 
     Q_PROPERTY(QUrl activePluginUrl READ activePluginUrl WRITE setActivePluginUrl NOTIFY activePluginUrlChanged)
     Q_PROPERTY(QString activePluginName READ activePluginName WRITE setActivePluginName NOTIFY activePluginNameChanged)
 
 public:
-    MainController();
-    ~MainController() override;
+    MainWindow(MultiMediaPluginModel *model, MultiMediaPluginSource *pluginSource);
+    ~MainWindow() override;
 
     MultiMediaPluginModel *model() const noexcept;
-    void setModel(MultiMediaPluginModel *model) noexcept;
-
     MultiMediaPluginSource *multiMediaPluginSource() const noexcept;
-    void setMultiMediaPluginSource(MultiMediaPluginSource *source) noexcept;
 
     QUrl activePluginUrl() const noexcept;
     void setActivePluginUrl(const QUrl &activePluginUrl) noexcept;
@@ -59,15 +54,13 @@ public:
     Q_INVOKABLE void activatePlugin(qint32 index) noexcept;
 
 Q_SIGNALS:
-    void modelChanged();
-    void multiMediaPluginSourceChanged();
     void activePluginUrlChanged();
     void activePluginNameChanged();
 
 private:
-    std::unique_ptr<MainControllerPrivate> d;
+    std::unique_ptr<MainWindowPrivate> d;
 };
 
 } // namespace Shell
 
-#endif // MAINCONTROLLER_H
+#endif // MAINWINDOW_H

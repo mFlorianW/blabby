@@ -17,21 +17,20 @@
  **/
 #include "Clock.h"
 #include "FileSystemPluginSource.h"
-#include "MainController.h"
+#include "MainWindow.h"
 #include "MultiMediaPluginModel.h"
 #include <QGuiApplication>
+#include <QQmlContext>
 #include <QQuickView>
 #include <qqml.h>
 
 namespace
 {
+
 void registerQmlTypes()
 {
-    qmlRegisterType<Shell::MainController>("de.blabby.shell", 1, 0, "MainController");
-    qmlRegisterType<Shell::MultiMediaPluginModel>("de.blabby.shell", 1, 0, "MultimediaPluginModel");
+    qmlRegisterUncreatableType<Shell::MultiMediaPluginModel>("de.blabby.shell", 1, 0, "MultimediaPluginModel", "");
     qmlRegisterType<Shell::Clock>("de.blabby.shell", 1, 0, "Clock");
-    qmlRegisterUncreatableType<Shell::MultiMediaPluginSource>("de.blabby.shell", 1, 0, "MultiMediaPluginSource", "");
-    qmlRegisterType<Shell::FileSystemPluginSource>("de.blabby.shell", 1, 0, "FileSystemSource");
 }
 
 } // namespace
@@ -41,8 +40,13 @@ int main(int argc, char *argv[])
     QGuiApplication blabby(argc, argv);
     registerQmlTypes();
 
+    Shell::MultiMediaPluginModel pluginModel;
+    Shell::FileSystemPluginSource fileSource;
+    Shell::MainWindow mainWindow{ &pluginModel, &fileSource };
+
     QQuickView mainView;
     mainView.setMinimumSize(QSize{ 1280, 800 });
+    mainView.rootContext()->setContextProperty("g_mainWindow", &mainWindow);
     mainView.setSource(QUrl("qrc:/shell/qml/MainWindow.qml"));
 
     mainView.show();

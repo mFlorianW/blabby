@@ -19,11 +19,9 @@ import QtQuick 2.0
 import de.blabby.shell 1.0
 import "controls"
 
-MainController {
+Item {
     id: shell
     anchors.fill: parent
-    model: mediaPluginModel
-    pluginSource: fileSystemSource
 
     Row{
         id: mainWindow
@@ -55,7 +53,7 @@ MainController {
                 anchors.topMargin: 80
                 width: parent.width
                 height: parent.height - clockDisplay.height
-                model: mediaPluginModel
+                model: g_mainWindow.model
                 delegate: MultiMediaPluginButton{
                     width: parent.width
                     height: 80
@@ -64,7 +62,7 @@ MainController {
                     iconSource: pluginIconUrl
 
                     onClicked: {
-                        shell.activatePlugin(index)
+                        g_mainWindow.activatePlugin(index)
                     }
                 }
             }
@@ -100,10 +98,9 @@ MainController {
                     }
                 }
 
-
                 Text {
                     id: pluginHeaderText
-                    text: shell.activePluginName
+                    text: g_mainWindow.activePluginName
                     anchors.centerIn: parent
                     font.pixelSize: 32
                     color: "#dae1e7"
@@ -119,18 +116,9 @@ MainController {
                 Loader{
                     id: contentLoader
                     anchors.fill: parent
-                    source: shell.activePluginUrl
+                    source: g_mainWindow.activePluginUrl
                 }
             }
-
         }
-    }
-
-    MultimediaPluginModel{
-        id: mediaPluginModel
-    }
-
-    FileSystemSource{
-        id: fileSystemSource
     }
 }

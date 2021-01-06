@@ -15,8 +15,8 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MAINCONTROLLERPRIVATE_H
-#define MAINCONTROLLERPRIVATE_H
+#ifndef MAINWINDOWPRIVATE_H
+#define MAINWINDOWPRIVATE_H
 #include "MultiMediaPluginModel.h"
 #include "MultiMediaPluginSource.h"
 
@@ -24,9 +24,13 @@
 namespace Shell
 {
 
-class MainControllerPrivate
+class MainWindowPrivate
 {
+    Q_DISABLE_COPY_MOVE(MainWindowPrivate)
 public:
+    MainWindowPrivate(Shell::MultiMediaPluginModel *model, Shell::MultiMediaPluginSource *pluginSource);
+    ~MainWindowPrivate();
+
     void loadPlugins();
 
     MultiMediaPluginSource *mSource{ nullptr };
@@ -37,4 +41,4 @@ public:
 
 } // namespace Shell
 
-#endif // MAINCONTROLLERPRIVATE_H
+#endif // MAINWINDOWPRIVATE_H
