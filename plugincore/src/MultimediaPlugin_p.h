@@ -1,6 +1,6 @@
 /**
  ** This file is part of the Blabby project.
- ** Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+ ** Copyright 2021 Florian Weßel <florianwessel@gmx.net>.
  **
  ** This program is free software: you can redistribute it and/or modify
  ** it under the terms of the GNU Lesser General Public License as
@@ -15,29 +15,20 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MULTIMEDIAPLUGINMODELPRIVATE_H
-#define MULTIMEDIAPLUGINMODELPRIVATE_H
+#ifndef MULTIMEDIAPLUGIN_P_H
+#define MULTIMEDIAPLUGIN_P_H
 
-#include <QVector>
-#include <memory>
+#include <QUrl>
 
 namespace PluginCore
 {
-class MultimediaPlugin;
-}
 
-namespace Shell
-{
-
-class MultiMediaPluginModelPrivate
+class MultimediaPluginPrivate
 {
 public:
-    MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins);
-
-    QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> mPlugins;
-    qint32 mActiveIndex{ -1 };
+    QUrl mActiveView;
 };
 
-} // namespace Shell
+} // namespace PluginCore
 
-#endif // MULTIMEDIAPLUGINMODELPRIVATE_H
+#endif // MULTIMEDIAPLUGIN_P_H

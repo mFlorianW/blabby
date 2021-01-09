@@ -18,7 +18,7 @@
 #ifndef MULTIMEDIAPLUGINSOURCE_H
 #define MULTIMEDIAPLUGINSOURCE_H
 
-#include <MultiMediaPlugin.h>
+#include <MultimediaPlugin.h>
 #include <QVector>
 #include <memory>
 
@@ -37,7 +37,7 @@ public:
     virtual void setPluginQQmlContext(QQmlContext *context) noexcept = 0;
     virtual void loadPlugins() const = 0;
 
-    virtual QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins() const = 0;
+    virtual QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> plugins() const = 0;
 };
 
 } // namespace Shell

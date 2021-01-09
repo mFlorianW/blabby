@@ -22,22 +22,25 @@
 #include "PluginVersion.h"
 #include <QObject>
 #include <QUuid>
+#include <memory>
 
 class QQmlContext;
 
 namespace PluginCore
 {
+class MultimediaPluginPrivate;
 
 /**
  * Generic defintion of plugin, which can be loaded by
  * Blabby shell
  */
-class PLUGINCORE_EXPORT MultiMediaPlugin
+class PLUGINCORE_EXPORT MultimediaPlugin : public QObject
 {
+    Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MultimediaPlugin)
+
 public:
-    virtual ~MultiMediaPlugin()
-    {
-    }
+    ~MultimediaPlugin() override;
 
     /**
      * Give a human readable name of the plugin.
@@ -91,11 +94,34 @@ public:
      * @return The url to main qml.
      */
     virtual QUrl pluginIconUrl() const = 0;
+
+    /**
+     * Activate view, which then is displayed.
+     * @param view The URL to the view.
+     */
+    void setActiveView(const QUrl &view) noexcept;
+
+    /**
+     * Gives the active of the multimedia plugin.
+     * @return The url to the active view of the plugin or empty when now view set.
+     */
+    QUrl activeView() const noexcept;
+
+Q_SIGNALS:
+    /**
+     * This signal is emitted when the active view is changed.
+     */
+    void activeViewChanged();
+
+protected:
+    MultimediaPlugin();
+
+private:
+    std::unique_ptr<MultimediaPluginPrivate> d;
 };
 
 } // namespace PluginCore
 
-Q_DECLARE_INTERFACE(PluginCore::MultiMediaPlugin, "de.blabby.MultiMediaPlugin")
+Q_DECLARE_INTERFACE(PluginCore::MultimediaPlugin, "de.blabby.MultiMediaPlugin")
 
-
-#endif // FREESMARTTVPLUGIN_H
+#endif // MULTIMEDIAPLUGIN_H

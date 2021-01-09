@@ -24,7 +24,7 @@
 
 namespace PluginCore
 {
-class MultiMediaPlugin;
+class MultimediaPlugin;
 }
 
 namespace Shell
@@ -44,10 +44,10 @@ public:
     };
     Q_ENUM(Roles)
 
-    MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins = {});
+    MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins = {});
     ~MultiMediaPluginModel();
 
-    void setPlugins(QVector<std::shared_ptr<PluginCore::MultiMediaPlugin> > plugins) noexcept;
+    void setPlugins(QVector<std::shared_ptr<PluginCore::MultimediaPlugin> > plugins) noexcept;
 
     qint32 rowCount(const QModelIndex &parent) const override;
 

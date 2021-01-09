@@ -18,7 +18,7 @@
 #ifndef FILESYSTEMPLUGINSOURCE_P_H
 #define FILESYSTEMPLUGINSOURCE_P_H
 
-#include "MultiMediaPlugin.h"
+#include "MultimediaPlugin.h"
 #include <QVector>
 #include <memory>
 
@@ -34,7 +34,7 @@ public:
 
     void loadPlugins(const QFileInfo &fileInfo);
 
-    QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> mLoadedPlugins;
+    QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> mLoadedPlugins;
     QQmlContext *mContext;
 };
 } // namespace Shell

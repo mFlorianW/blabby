@@ -1,7 +1,7 @@
 #include "FileSystemPluginSource.h"
 #include "FileSystemPluginSource_p.h"
 #include "LoggingCategories.h"
-#include "MultiMediaPlugin.h"
+#include "MultimediaPlugin.h"
 #include "PluginDirs.h"
 #include <QDir>
 #include <QDirIterator>
@@ -31,7 +31,7 @@ void FileSystemPluginSourcePrivate::loadPlugins(const QFileInfo &fileInfo)
     // Load the plugin, if the library doesn't implements the MultiMediaPlugin
     // interface then we can ignore this file and it can be unloaded.
     auto plugin =
-        std::shared_ptr<PluginCore::MultiMediaPlugin>(qobject_cast<PluginCore::MultiMediaPlugin *>(pluginLoader.instance()));
+        std::shared_ptr<PluginCore::MultimediaPlugin>(qobject_cast<PluginCore::MultimediaPlugin *>(pluginLoader.instance()));
 
     if(plugin != nullptr)
     {
@@ -87,7 +87,7 @@ void Shell::FileSystemPluginSource::setPluginQQmlContext(QQmlContext *context) n
     d->mContext = context;
 }
 
-QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> FileSystemPluginSource::plugins() const
+QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> FileSystemPluginSource::plugins() const
 {
     return d->mLoadedPlugins;
 }

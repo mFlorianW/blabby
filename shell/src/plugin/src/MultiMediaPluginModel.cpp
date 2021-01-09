@@ -16,24 +16,24 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MultiMediaPluginModel.h"
-#include "MultiMediaPlugin.h"
+#include "MultimediaPlugin.h"
 #include "MultiMediaPluginModel_p.h"
 
 namespace Shell
 {
 
-MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins)
+MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins)
     : mPlugins{ plugins }
 {
 }
 
-MultiMediaPluginModel::MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> &plugins)
+MultiMediaPluginModel::MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins)
     : QAbstractListModel{}
     , d{ std::make_unique<MultiMediaPluginModelPrivate>(plugins) }
 {
 }
 
-void MultiMediaPluginModel::setPlugins(QVector<std::shared_ptr<PluginCore::MultiMediaPlugin>> plugins) noexcept
+void MultiMediaPluginModel::setPlugins(QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> plugins) noexcept
 {
     beginResetModel();
     d->mPlugins = plugins;

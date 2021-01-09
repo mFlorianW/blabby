@@ -16,7 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MultiMediaPluginModelShould.h"
-#include "MultiMediaPlugin.h"
+#include "MultimediaPlugin.h"
 #include "MultiMediaPluginModel.h"
 #include <QtTest>
 #include <memory>
@@ -24,7 +24,7 @@
 namespace Shell
 {
 
-class TestPlugin : public PluginCore::MultiMediaPlugin
+class TestPlugin : public PluginCore::MultimediaPlugin
 {
     Q_DISABLE_COPY_MOVE(TestPlugin);
 

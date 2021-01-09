@@ -18,7 +18,7 @@
 #ifndef MEDIASERVERPLUGIN_H
 #define MEDIASERVERPLUGIN_H
 
-#include "MultiMediaPlugin.h"
+#include "MultimediaPlugin.h"
 #include <memory>
 namespace UPnPAV
 {
@@ -33,11 +33,11 @@ class MainWindow;
 class ServerItemView;
 class ServerItemModel;
 
-class MediaServerPlugin : public QObject, PluginCore::MultiMediaPlugin
+class MediaServerPlugin : public PluginCore::MultimediaPlugin
 {
     Q_OBJECT
-    Q_INTERFACES(PluginCore::MultiMediaPlugin)
-    Q_PLUGIN_METADATA(IID "de.blabby.MultiMediaPlugin")
+    Q_INTERFACES(PluginCore::MultimediaPlugin)
+    Q_PLUGIN_METADATA(IID "de.blabby.MultimediaPlugin")
 public:
     MediaServerPlugin();
     ~MediaServerPlugin() override;
