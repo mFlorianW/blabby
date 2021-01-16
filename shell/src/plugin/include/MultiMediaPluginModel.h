@@ -47,7 +47,7 @@ public:
     MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins = {});
     ~MultiMediaPluginModel();
 
-    void setPlugins(QVector<std::shared_ptr<PluginCore::MultimediaPlugin> > plugins) noexcept;
+    void setPlugins(QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> plugins) noexcept;
 
     qint32 rowCount(const QModelIndex &parent) const override;
 
@@ -56,6 +56,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void setActivePlugin(qint32 activeIndex) noexcept;
+
+    PluginCore::MultimediaPlugin *plugin(qint32 index) const noexcept;
 
 private:
     std::unique_ptr<MultiMediaPluginModelPrivate> d;

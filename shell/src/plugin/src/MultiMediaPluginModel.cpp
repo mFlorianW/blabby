@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MultiMediaPluginModel.h"
-#include "MultimediaPlugin.h"
 #include "MultiMediaPluginModel_p.h"
+#include "MultimediaPlugin.h"
 
 namespace Shell
 {
@@ -92,6 +92,16 @@ void MultiMediaPluginModel::setActivePlugin(qint32 activeIndex) noexcept
 
     d->mActiveIndex = activeIndex;
     Q_EMIT dataChanged(index(activeIndex), index(activeIndex), { PluginActive });
+}
+
+PluginCore::MultimediaPlugin *MultiMediaPluginModel::plugin(qint32 index) const noexcept
+{
+    if(index < 0 || index > d->mPlugins.size())
+    {
+        return nullptr;
+    }
+
+    return d->mPlugins.at(index).get();
 }
 
 } // namespace Shell

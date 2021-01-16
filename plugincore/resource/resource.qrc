@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/multimediaplugin">
-        <file>qml/Main.qml</file>
-    </qresource>
-</RCC>

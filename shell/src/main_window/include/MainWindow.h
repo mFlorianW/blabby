@@ -57,6 +57,9 @@ Q_SIGNALS:
     void activePluginUrlChanged();
     void activePluginNameChanged();
 
+private Q_SLOTS:
+    void onActiveViewChanged();
+
 private:
     std::unique_ptr<MainWindowPrivate> d;
 };

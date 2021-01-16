@@ -26,14 +26,6 @@ project(LibBlabbyPluginCore
 )
 
 ################################################################################
-# Resource files
-################################################################################
-qt5_add_resources(RESOURCE_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/resource/resource.qrc
-)
-list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/resource/qml)
-
-################################################################################
 # Definitions
 ################################################################################
 add_definitions(-DPLUGINCORE)
@@ -46,7 +38,6 @@ add_library(Blabby::PluginCore ALIAS BlabbyPluginCore)
 
 target_sources(BlabbyPluginCore
     PRIVATE
-        ${RESOURCE_FILES}
         src/MultimediaPlugin.cpp
 
     #Public header

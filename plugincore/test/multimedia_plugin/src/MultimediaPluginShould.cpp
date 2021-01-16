@@ -18,23 +18,28 @@ public:
 
     QString pluginName() const override
     {
+        return "";
     }
 
     PluginVersion getPluginVersion() const override
     {
+        return { .major = 0, .minor = 0, .patch = 0 };
     }
 
     QUuid getPluginIdentifier() const override
     {
+        return QUuid{};
     }
 
     bool load(QQmlContext *conntext) override
     {
-        Q_UNUSED(conntext)
+        Q_UNUSED(conntext);
+        return true;
     }
 
     bool unload() override
     {
+        return true;
     }
 
     QUrl mainQMLUrl() const override

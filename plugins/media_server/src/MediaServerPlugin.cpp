@@ -69,6 +69,8 @@ bool MediaServerPlugin::load(QQmlContext *context)
     context->setContextProperty("g_MediaServerMinWindow", mMainController.get());
     context->setContextProperty("g_ServerItemView", mServerItemView.get());
 
+    setActiveView(QUrl{ "qrc:/mediaserver/qml/MainWindow.qml" });
+
     return true;
 }
 
@@ -79,7 +81,7 @@ bool MediaServerPlugin::unload()
 
 QUrl MediaServerPlugin::mainQMLUrl() const
 {
-    return QUrl{ "qrc:/mediaserver/qml/MainWindow.qml" };
+    return QUrl{};
 }
 
 QUrl MediaServerPlugin::pluginIconUrl() const

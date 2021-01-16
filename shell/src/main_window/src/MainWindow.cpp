@@ -17,6 +17,7 @@
  **/
 #include "MainWindow.h"
 #include "MainWindow_p.h"
+#include "MultimediaPlugin.h"
 #include <memory>
 
 namespace Shell
@@ -103,11 +104,27 @@ void MainWindow::activatePlugin(qint32 index) noexcept
         return;
     }
 
-    auto pluginName = d->mModel->data(d->mModel->index(index), MultiMediaPluginModel::PluginName).value<QString>();
-    auto mainQml = d->mModel->data(d->mModel->index(index), MultiMediaPluginModel::PluginQmlUrl).value<QUrl>();
+    d->mActivePlugin = d->mModel->plugin(index);
+    if(d->mActivePlugin == nullptr)
+    {
+        return;
+    }
+
     d->mModel->setActivePlugin(index);
-    setActivePluginUrl(mainQml);
-    setActivePluginName(pluginName);
+    setActivePluginName(d->mActivePlugin->pluginName());
+    setActivePluginUrl(d->mActivePlugin->activeView());
+
+    connect(d->mActivePlugin, &PluginCore::MultimediaPlugin::activeViewChanged, this, &MainWindow::onActiveViewChanged);
+}
+
+void MainWindow::onActiveViewChanged()
+{
+    if(d->mActivePlugin == nullptr)
+    {
+        return;
+    }
+
+    setActivePluginUrl(d->mActivePlugin->activeView());
 }
 
 } // namespace Shell

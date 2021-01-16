@@ -19,7 +19,7 @@
 #define MAINWINDOWPRIVATE_H
 #include "MultiMediaPluginModel.h"
 #include "MultiMediaPluginSource.h"
-
+#include "MultimediaPlugin.h"
 
 namespace Shell
 {
@@ -37,6 +37,7 @@ public:
     MultiMediaPluginModel *mModel{ nullptr };
     QUrl mActivePluginUrl{ "" };
     QString mActivePluginName{ "" };
+    PluginCore::MultimediaPlugin *mActivePlugin{ nullptr };
 };
 
 } // namespace Shell

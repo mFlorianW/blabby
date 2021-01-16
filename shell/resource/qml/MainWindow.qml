@@ -16,6 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 import QtQuick 2.0
+import QtQuick.Controls 2.15
 import de.blabby.shell 1.0
 import "controls"
 
@@ -113,10 +114,56 @@ Item {
                 height: parent.height
                 width: parent.width
 
-                Loader{
-                    id: contentLoader
+                StackView {
+                    id: stack
                     anchors.fill: parent
-                    source: g_mainWindow.activePluginUrl
+                    initialItem: activeView
+
+                    pushEnter: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 0
+                            to:1
+                            duration: 200
+                        }
+                    }
+
+                    pushExit: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 1
+                            to:0
+                            duration: 200
+                        }
+                    }
+
+                    popEnter: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 0
+                            to:1
+                            duration: 200
+                        }
+                    }
+
+                    popExit: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 1
+                            to:0
+                            duration: 200
+                        }
+                    }
+
+                    Component{
+                        id: activeView
+
+                        Loader{
+                            id: contentLoader
+                            anchors.fill: parent
+                            source: g_mainWindow.activePluginUrl
+                        }
+                    }
                 }
             }
         }

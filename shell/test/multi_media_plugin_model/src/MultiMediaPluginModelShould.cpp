@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MultiMediaPluginModelShould.h"
-#include "MultimediaPlugin.h"
 #include "MultiMediaPluginModel.h"
+#include "MultimediaPlugin.h"
 #include <QtTest>
 #include <memory>
 
@@ -150,6 +150,17 @@ void MultiMediaPluginModelShould::give_a_icon_url_for_a_plugin()
     auto pluginIconUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginIcoUrl);
 
     QCOMPARE(pluginIconUrl, "qrc:/icon/pluginIcon.png");
+}
+
+void MultiMediaPluginModelShould::should_give_a_multimedia_plugin_object()
+{
+    auto object = std::make_shared<TestPlugin>();
+    Shell::MultiMediaPluginModel mediaPluginModel{ { object } };
+    auto expectedObject = object.get();
+
+    auto result = mediaPluginModel.plugin(0);
+
+    QCOMPARE(result, expectedObject);
 }
 
 } // namespace Shell
