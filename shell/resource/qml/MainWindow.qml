@@ -103,6 +103,7 @@ Item {
                         anchors.fill: parent
 
                         onClicked: {
+                            g_mainWindow.handleBackButtonPressed()
                         }
                     }
                 }
