@@ -113,6 +113,17 @@ void MediaServerModelShould::remove_inserted_media_server_from_model()
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
 }
 
+void MediaServerModelShould::give_media_server_for_name()
+{
+    Doubles::MediaServer mediaServer;
+    MediaServerModel mediaServerModel;
+    mediaServerModel.insert(&mediaServer);
+
+    auto mediaServerResult = mediaServerModel.mediaServer(0);
+
+    QCOMPARE(mediaServerResult, &mediaServer);
+}
+
 } // namespace MediaServer::Plugin
 
 QTEST_MAIN(MediaServer::Plugin::MediaServerModelShould)

@@ -22,13 +22,13 @@ UPnPAV::IMediaServer *ServerItemView::mediaServer() const noexcept
 
 void ServerItemView::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
-    mMediaServer = mediaServer;
-
-    if(mediaServer != nullptr)
+    if(mediaServer == nullptr)
     {
-        requestFolder("0");
+        return;
     }
 
+    mMediaServer = mediaServer;
+    requestFolder("0");
     Q_EMIT mediaServerChanged();
 }
 

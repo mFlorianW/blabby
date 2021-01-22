@@ -16,9 +16,9 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServerPlugin.h"
-#include "MediaServerView.h"
 #include "MediaServer.h"
 #include "MediaServerModel.h"
+#include "MediaServerView.h"
 #include "ServerItemModel.h"
 #include "ServerItemView.h"
 #include "ServiceProvider.h"
@@ -52,24 +52,15 @@ QUuid MediaServerPlugin::getPluginIdentifier() const
 
 bool MediaServerPlugin::load(QQmlContext *context)
 {
+    mQmlContext = context;
     const char pluginUrl[] = "de.blabby.mediaserverplugin";
 
     qmlRegisterUncreatableType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel", "");
     qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");
     qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "");
 
-    mServiceProviderFactory = std::make_unique<UPnPAV::ServiceProviderFactory>();
-    mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
-    mMediaServerModel = std::make_unique<MediaServerModel>();
-    mMainController =
-        std::make_unique<MediaServerView>(mMediaServerModel.get(), mMediaServerFactory.get(), mServiceProviderFactory.get());
-    mServerItemModel = std::make_unique<ServerItemModel>();
-    mServerItemView = std::make_unique<ServerItemView>(mServerItemModel.get());
-
-    context->setContextProperty("g_MediaServerMinWindow", mMainController.get());
-    context->setContextProperty("g_ServerItemView", mServerItemView.get());
-
-    setActiveView(QUrl{ "qrc:/mediaserver/qml/MainWindow.qml" });
+    mQmlContext->setContextProperty("g_MediaServerPlugin", this);
+    showMediaSeverView();
 
     return true;
 }
@@ -87,6 +78,36 @@ QUrl MediaServerPlugin::mainQMLUrl() const
 QUrl MediaServerPlugin::pluginIconUrl() const
 {
     return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
+}
+
+void MediaServerPlugin::showMediaSeverView()
+{
+    if(!mMediaServerView && mQmlContext != nullptr)
+    {
+        mServiceProviderFactory = std::make_unique<UPnPAV::ServiceProviderFactory>();
+        mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
+        mMediaServerModel = std::make_unique<MediaServerModel>();
+        mMediaServerView = std::make_unique<MediaServerView>(mMediaServerModel.get(), mMediaServerFactory.get(),
+                                                             mServiceProviderFactory.get());
+
+        mQmlContext->setContextProperty("g_MediaServerView", mMediaServerView.get());
+    }
+
+    setActiveView(QUrl{ "qrc:/mediaserver/qml/views/MediaServerView.qml" });
+}
+
+void MediaServerPlugin::showServerItemView(UPnPAV::IMediaServer *mediaServer)
+{
+    if(!mServerItemView && mQmlContext != nullptr)
+    {
+        mServerItemModel = std::make_unique<ServerItemModel>();
+        mServerItemView = std::make_unique<ServerItemView>(mServerItemModel.get());
+
+        mQmlContext->setContextProperty("g_ServerItemView", mServerItemView.get());
+    }
+
+    mServerItemView->setMediaServer(mediaServer);
+    setActiveView(QUrl{ "qrc:/mediaserver/qml/views/ServerItemView.qml" });
 }
 
 } // namespace MediaServer::Plugin

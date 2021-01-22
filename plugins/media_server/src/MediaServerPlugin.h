@@ -24,6 +24,7 @@ namespace UPnPAV
 {
 class ServiceProviderFactory;
 class MediaServerFactory;
+class IMediaServer;
 } // namespace UPnPAV
 
 namespace MediaServer::Plugin
@@ -56,13 +57,17 @@ public:
 
     QUrl pluginIconUrl() const override;
 
+    Q_INVOKABLE void showMediaSeverView();
+    Q_INVOKABLE void showServerItemView(UPnPAV::IMediaServer *mediaServer);
+
 private:
     std::unique_ptr<UPnPAV::ServiceProviderFactory> mServiceProviderFactory;
     std::unique_ptr<UPnPAV::MediaServerFactory> mMediaServerFactory;
     std::unique_ptr<MediaServerModel> mMediaServerModel;
-    std::unique_ptr<MediaServerView> mMainController;
+    std::unique_ptr<MediaServerView> mMediaServerView;
     std::unique_ptr<ServerItemView> mServerItemView;
     std::unique_ptr<ServerItemModel> mServerItemModel;
+    QQmlContext *mQmlContext{ nullptr };
 };
 
 } // namespace MediaServer::Plugin

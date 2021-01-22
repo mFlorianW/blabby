@@ -4,9 +4,6 @@ import "../controls"
 Item {
     id: mediaServerView
 
-    signal mediaServerActivated(int index)
-    property alias model: mediaServerOverview.model
-
     GridView{
         id: mediaServerOverview
 
@@ -14,12 +11,13 @@ Item {
 
         cellWidth: parent.width / 2
         cellHeight: 360
-        model: g_MainWindow.mediaServerModel
+        model: g_MediaServerView.mediaServerModel
 
         delegate: Item {
             id: cellContainer
             width: mediaServerOverview.cellWidth
             height: mediaServerOverview.cellHeight
+
             MediaServerButton{
                 name: mediaServerName
                 iconSource: mediaServerIconUrl
@@ -28,13 +26,13 @@ Item {
                 anchors.centerIn: parent
 
                 onClicked: {
-                    mediaServerActivated(index)
+                    g_MediaServerPlugin.showServerItemView(g_MediaServerView.mediaServerModel.mediaServer(index))
                 }
             }
         }
     }
 
     Component.onCompleted:{
-        g_MainWindow.searchMediaServer()
+        g_MediaServerView.searchMediaServer()
     }
 }

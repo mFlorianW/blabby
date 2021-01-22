@@ -55,6 +55,17 @@ void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
     endRemoveRows();
 }
 
+UPnPAV::IMediaServer *MediaServerModel::mediaServer(qint32 modelIndex) const noexcept
+{
+    auto itemIndex = index(modelIndex);
+    if(itemIndex.isValid())
+    {
+        return mMediaServer.value(itemIndex.row());
+    }
+
+    return nullptr;
+}
+
 int MediaServerModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
