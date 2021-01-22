@@ -26,4 +26,9 @@ QUrl MultimediaPlugin::activeView() const noexcept
     return d->mActiveView;
 }
 
+bool MultimediaPlugin::handleBackButton()
+{
+    return false;
+}
+
 } // namespace PluginCore

@@ -117,6 +117,16 @@ void MainWindow::activatePlugin(qint32 index) noexcept
     connect(d->mActivePlugin, &PluginCore::MultimediaPlugin::activeViewChanged, this, &MainWindow::onActiveViewChanged);
 }
 
+void MainWindow::handleBackButtonPressed()
+{
+    if(d->mActivePlugin == nullptr)
+    {
+        return;
+    }
+
+    d->mActivePlugin->handleBackButton();
+}
+
 void MainWindow::onActiveViewChanged()
 {
     if(d->mActivePlugin == nullptr)

@@ -97,6 +97,14 @@ Item {
                         source: "qrc:/shell/icon/BackButton.png"
                         anchors.centerIn: parent
                     }
+
+                    MouseArea{
+                        id: backButtonMouseArea
+                        anchors.fill: parent
+
+                        onClicked: {
+                        }
+                    }
                 }
 
                 Text {

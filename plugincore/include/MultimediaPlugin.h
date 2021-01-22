@@ -38,7 +38,6 @@ class PLUGINCORE_EXPORT MultimediaPlugin : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(MultimediaPlugin)
-
 public:
     ~MultimediaPlugin() override;
 
@@ -106,6 +105,15 @@ public:
      * @return The url to the active view of the plugin or empty when now view set.
      */
     QUrl activeView() const noexcept;
+
+    /**
+     * This function is called is by the shell when back button in the UI is pressed.
+     * A plugin should return true when the back button is handled in the plugin otherwise
+     * false. The default implementation returns false.
+     *
+     * @return True back button handled by plugin otherwise false.
+     */
+    virtual bool handleBackButton();
 
 Q_SIGNALS:
     /**

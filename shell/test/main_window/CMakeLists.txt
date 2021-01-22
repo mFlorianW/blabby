@@ -1,4 +1,3 @@
-#
 # This file is part of the Blabby project.
 # Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 #
@@ -15,14 +14,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-###############################################################################
-# Dependencies
-###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+add_executable(test_shell_main_window)
 
-###############################################################################
-# Test Projects
-###############################################################################
-add_subdirectory(doubles)
-add_subdirectory(multi_media_plugin_model)
-add_subdirectory(main_window)
+target_sources(test_shell_main_window
+    PRIVATE
+        src/MainWindowShould.cpp
+)
+
+#target_include_directories(test_shell_main_window
+#    PRIVATE
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/double>
+#)
+
+target_link_libraries(test_shell_main_window
+    Blabby::Object
+    Blabby::ShellDoubles
+    Qt5::Test
+)
+
+add_test(test_shell_main_window ${EXECUTABLE_OUTPUT_PATH}/test_shell_main_window)

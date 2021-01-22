@@ -7,6 +7,7 @@ add_library(Blabby::ShellDoubles ALIAS test_shell_doubles)
 target_sources(test_shell_doubles
     PRIVATE
         src/TestPlugin.cpp
+        src/MemoryPluginSource.cpp
 )
 
 target_include_directories(test_shell_doubles
@@ -16,4 +17,5 @@ target_include_directories(test_shell_doubles
 
 target_link_libraries(test_shell_doubles
     Blabby::PluginCore
+    Blabby::Object
 )

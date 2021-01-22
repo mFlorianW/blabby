@@ -53,6 +53,8 @@ public:
 
     Q_INVOKABLE void activatePlugin(qint32 index) noexcept;
 
+    Q_INVOKABLE void handleBackButtonPressed();
+
 Q_SIGNALS:
     void activePluginUrlChanged();
     void activePluginNameChanged();

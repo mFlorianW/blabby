@@ -15,59 +15,32 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "TestPlugin.h"
-#include <QUrl>
+#include "MainWindowShould.h"
+#include "MainWindow.h"
+#include "MemoryPluginSource.h"
+#include "MultiMediaPluginModel.h"
+#include <QTest>
 
 namespace Shell
 {
 
-TestPlugin::TestPlugin()
-    : PluginCore::MultimediaPlugin()
+MainWindowShould::MainWindowShould(QObject *parent)
+    : QObject(parent)
 {
 }
 
-TestPlugin::~TestPlugin() = default;
-
-QString TestPlugin::pluginName() const
+void MainWindowShould::forward_back_button_call_to_plugin_when_plugin_active()
 {
-    return "TestPlugin";
-}
+    MemoryPluginSource source;
+    MultiMediaPluginModel model;
+    MainWindow window{ &model, &source };
+    window.activatePlugin(0);
 
-PluginCore::PluginVersion TestPlugin::getPluginVersion() const
-{
-    return { .major = 1, .minor = 0, .patch = 0 };
-}
+    window.handleBackButtonPressed();
 
-QUuid TestPlugin::getPluginIdentifier() const
-{
-    return { "d6d02a93-b6f0-4581-ba0a-b70397c1200a" };
-}
-
-bool TestPlugin::load(QQmlContext *context)
-{
-    Q_UNUSED(context);
-    return true;
-}
-
-bool Shell::TestPlugin::unload()
-{
-    return true;
-}
-
-QUrl TestPlugin::mainQMLUrl() const
-{
-    return QUrl{ "qrc:/qml/main.qml" };
-}
-
-QUrl TestPlugin::pluginIconUrl() const
-{
-    return QUrl{ "qrc:/icon/pluginIcon.png" };
-}
-
-bool TestPlugin::handleBackButton()
-{
-    handleBackButtonCalled = true;
-    return true;
+    QCOMPARE(source.plugin->handleBackButtonCalled, true);
 }
 
 } // namespace Shell
+
+QTEST_MAIN(Shell::MainWindowShould)

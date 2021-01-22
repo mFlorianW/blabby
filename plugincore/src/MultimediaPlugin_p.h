@@ -27,6 +27,7 @@ class MultimediaPluginPrivate
 {
 public:
     QUrl mActiveView;
+    bool mBackButtonNeeded{ false };
 };
 
 } // namespace PluginCore

@@ -15,41 +15,24 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef TESTPLUGIN_H
-#define TESTPLUGIN_H
+#ifndef SHELLSHOULD_H
+#define SHELLSHOULD_H
 
-#include "MultimediaPlugin.h"
+#include <QObject>
 
 namespace Shell
 {
 
-class TestPlugin : public PluginCore::MultimediaPlugin
+class MainWindowShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(TestPlugin);
-
+    Q_DISABLE_COPY_MOVE(MainWindowShould)
 public:
-    TestPlugin();
-    ~TestPlugin() override;
+    explicit MainWindowShould(QObject *parent = nullptr);
 
-    QString pluginName() const override;
-
-    PluginCore::PluginVersion getPluginVersion() const override;
-
-    QUuid getPluginIdentifier() const override;
-
-    bool load(QQmlContext *context) override;
-
-    bool unload() override;
-
-    QUrl mainQMLUrl() const override;
-
-    QUrl pluginIconUrl() const override;
-
-    bool handleBackButton() override;
-
-    bool handleBackButtonCalled{ false };
+private Q_SLOTS:
+    void forward_back_button_call_to_plugin_when_plugin_active();
 };
 
 } // namespace Shell
-#endif // TESTPLUGIN_H
+#endif // SHELLSHOULD_H
