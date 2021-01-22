@@ -15,17 +15,19 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
+#ifndef MEDIASERVERVIEWSHOULD_H
+#define MEDIASERVERVIEWSHOULD_H
 #include <QObject>
 
 namespace MediaServer::Plugin
 {
-class MainWindowShould : public QObject
+class MediaServerViewShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MainWindowShould)
+    Q_DISABLE_COPY_MOVE(MediaServerViewShould)
 public:
-    MainWindowShould();
-    ~MainWindowShould();
+    MediaServerViewShould();
+    ~MediaServerViewShould();
 
 private Q_SLOTS:
     void on_mediaserver_connected_create_media_server_and_put_in_the_model();
@@ -35,3 +37,5 @@ private Q_SLOTS:
 };
 
 } // namespace MediaServer::Plugin
+
+#endif // MEDIASERVERVIEWSHOULD_H

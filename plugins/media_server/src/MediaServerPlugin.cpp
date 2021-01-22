@@ -16,7 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "MediaServerPlugin.h"
-#include "MainWindow.h"
+#include "MediaServerView.h"
 #include "MediaServer.h"
 #include "MediaServerModel.h"
 #include "ServerItemModel.h"
@@ -62,7 +62,7 @@ bool MediaServerPlugin::load(QQmlContext *context)
     mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
     mMediaServerModel = std::make_unique<MediaServerModel>();
     mMainController =
-        std::make_unique<MainWindow>(mMediaServerModel.get(), mMediaServerFactory.get(), mServiceProviderFactory.get());
+        std::make_unique<MediaServerView>(mMediaServerModel.get(), mMediaServerFactory.get(), mServiceProviderFactory.get());
     mServerItemModel = std::make_unique<ServerItemModel>();
     mServerItemView = std::make_unique<ServerItemView>(mServerItemModel.get());
 

@@ -29,7 +29,7 @@ class MediaServerFactory;
 namespace MediaServer::Plugin
 {
 class MediaServerModel;
-class MainWindow;
+class MediaServerView;
 class ServerItemView;
 class ServerItemModel;
 
@@ -60,7 +60,7 @@ private:
     std::unique_ptr<UPnPAV::ServiceProviderFactory> mServiceProviderFactory;
     std::unique_ptr<UPnPAV::MediaServerFactory> mMediaServerFactory;
     std::unique_ptr<MediaServerModel> mMediaServerModel;
-    std::unique_ptr<MainWindow> mMainController;
+    std::unique_ptr<MediaServerView> mMainController;
     std::unique_ptr<ServerItemView> mServerItemView;
     std::unique_ptr<ServerItemModel> mServerItemModel;
 };

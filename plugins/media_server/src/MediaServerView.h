@@ -15,8 +15,8 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef MAINWINDOW__H
-#define MAINWINDOW__H
+#ifndef MEDIASERVERVIEW_H
+#define MEDIASERVERVIEW_H
 
 #include <QQuickItem>
 #include <map>
@@ -34,16 +34,16 @@ namespace MediaServer::Plugin
 {
 class MediaServerModel;
 
-class MainWindow : public QObject
+class MediaServerView : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MainWindow)
+    Q_DISABLE_COPY_MOVE(MediaServerView)
     Q_PROPERTY(MediaServer::Plugin::MediaServerModel *mediaServerModel READ mediaServerModel CONSTANT)
     Q_PROPERTY(UPnPAV::IMediaServer *activeMediaServer READ activeMediaServer NOTIFY activeMediaServerChanged)
 public:
-    MainWindow(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
-                   UPnPAV::IServiceProviderFactory *serviceProviderFab);
-    ~MainWindow() override;
+    MediaServerView(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
+                    UPnPAV::IServiceProviderFactory *serviceProviderFab);
+    ~MediaServerView() override;
 
     MediaServerModel *mediaServerModel() const noexcept;
 
@@ -70,4 +70,4 @@ private:
 
 } // namespace MediaServer::Plugin
 
-#endif // MAINWINDOW__H
+#endif // MEDIASERVERVIEW_H

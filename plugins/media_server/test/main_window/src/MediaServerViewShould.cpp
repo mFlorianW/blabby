@@ -15,10 +15,10 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "MainWindowShould.h"
-#include "MainWindow.h"
+#include "MediaServerViewShould.h"
 #include "MediaServerDouble.h"
 #include "MediaServerModel.h"
+#include "MediaServerView.h"
 #include "ServiceProviderDouble.h"
 #include <QTest>
 
@@ -27,27 +27,27 @@ namespace Doubles = MediaServer::Plugin::Doubles;
 namespace MediaServer::Plugin
 {
 
-MainWindowShould::MainWindowShould() = default;
-MainWindowShould::~MainWindowShould() = default;
+MediaServerViewShould::MediaServerViewShould() = default;
+MediaServerViewShould::~MediaServerViewShould() = default;
 
-void MainWindowShould::on_mediaserver_connected_create_media_server_and_put_in_the_model()
+void MediaServerViewShould::on_mediaserver_connected_create_media_server_and_put_in_the_model()
 {
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MainWindow mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
 
     mainController.searchMediaServer();
 
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 1);
 }
 
-void MainWindowShould::handle_every_connected_signal_of_media_server_once()
+void MediaServerViewShould::handle_every_connected_signal_of_media_server_once()
 {
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MainWindow mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
@@ -58,12 +58,12 @@ void MainWindowShould::handle_every_connected_signal_of_media_server_once()
     QCOMPARE(mediaServerFactory.howOftenCalled, 1);
 }
 
-void MainWindowShould::handle_disconnected_media_server()
+void MediaServerViewShould::handle_disconnected_media_server()
 {
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MainWindow mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
@@ -74,12 +74,12 @@ void MainWindowShould::handle_disconnected_media_server()
     QCOMPARE(mediaServerModel.rowCount(mediaServerModel.index(0)), 0);
 }
 
-void MainWindowShould::set_active_media_server()
+void MediaServerViewShould::set_active_media_server()
 {
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MainWindow mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
@@ -90,4 +90,4 @@ void MainWindowShould::set_active_media_server()
 
 } // namespace MediaServer::Plugin
 
-QTEST_MAIN(MediaServer::Plugin::MainWindowShould)
+QTEST_MAIN(MediaServer::Plugin::MediaServerViewShould)

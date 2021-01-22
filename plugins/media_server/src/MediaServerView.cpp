@@ -15,7 +15,7 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include "MainWindow.h"
+#include "MediaServerView.h"
 #include "IMediaServer.h"
 #include "IServiceProvider.h"
 #include "InvalidDeviceDescription.h"
@@ -25,26 +25,26 @@
 namespace MediaServer::Plugin
 {
 
-MainWindow::MainWindow(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
-                               UPnPAV::IServiceProviderFactory *serviceProviderFab)
+MediaServerView::MediaServerView(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
+                                 UPnPAV::IServiceProviderFactory *serviceProviderFab)
     : QObject()
     , mServiceProviderFactory{ serviceProviderFab }
     , mMediaServerFactory{ mediaServerFab }
     , mMediaServerModel{ model }
 {
     mServiceProvider = mServiceProviderFactory->createServiceProvider("urn:schemas-upnp-org:device:MediaServer:1");
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MainWindow::onServiceConnected);
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MainWindow::onServerDisconnected);
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MediaServerView::onServiceConnected);
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MediaServerView::onServerDisconnected);
 }
 
-MainWindow::~MainWindow() = default;
+MediaServerView::~MediaServerView() = default;
 
-MediaServerModel *MainWindow::mediaServerModel() const noexcept
+MediaServerModel *MediaServerView::mediaServerModel() const noexcept
 {
     return mMediaServerModel;
 }
 
-void MainWindow::searchMediaServer() const noexcept
+void MediaServerView::searchMediaServer() const noexcept
 {
     if(mServiceProvider == nullptr)
     {
@@ -54,19 +54,19 @@ void MainWindow::searchMediaServer() const noexcept
     mServiceProvider->startSearch();
 }
 
-void MainWindow::setActiveMediaServer(qint32 index) noexcept
+void MediaServerView::setActiveMediaServer(qint32 index) noexcept
 {
     mActiveIndex = index;
     Q_EMIT activeMediaServerChanged();
 }
 
-UPnPAV::IMediaServer *MainWindow::activeMediaServer() const noexcept
+UPnPAV::IMediaServer *MediaServerView::activeMediaServer() const noexcept
 {
     auto mediaServerIter = std::next(mMediaServers.begin(), mActiveIndex);
     return mediaServerIter->second.get();
 }
 
-void MainWindow::onServiceConnected(const QString &usn)
+void MediaServerView::onServiceConnected(const QString &usn)
 {
     if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
        (mServiceProviderFactory == nullptr) || (mMediaServers.find(usn) != mMediaServers.end()))
@@ -86,7 +86,7 @@ void MainWindow::onServiceConnected(const QString &usn)
     }
 }
 
-void MainWindow::onServerDisconnected(const QString &usn)
+void MediaServerView::onServerDisconnected(const QString &usn)
 {
     if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
        (mServiceProviderFactory == nullptr))

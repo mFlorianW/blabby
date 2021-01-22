@@ -18,20 +18,20 @@
 ################################################################################
 # Build
 ################################################################################
-add_executable(test_media_server_plugin_main_window)
+add_executable(test_media_server_plugin_media_server_view)
 
-target_sources(test_media_server_plugin_main_window
+target_sources(test_media_server_plugin_media_server_view
     PRIVATE
-        src/MainWindowShould.cpp
+        src/MediaServerViewShould.cpp
 )
 
 #target_include_directories(test_media_server_plugin_media_server_model
 #)
 
-target_link_libraries(test_media_server_plugin_main_window
+target_link_libraries(test_media_server_plugin_media_server_view
     Blabby::MediaServerObject
     Blabby::MediaServerPluginDoubles
     Qt5::Test
 )
 
-add_test(test_media_server_plugin_main_controller ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_main_window)
+add_test(test_media_server_plugin_media_server_view ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_media_server_view)
