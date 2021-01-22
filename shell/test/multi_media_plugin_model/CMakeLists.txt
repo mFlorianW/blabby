@@ -29,6 +29,7 @@ target_include_directories(test_shell_multimedia_plugin_model
 
 target_link_libraries(test_shell_multimedia_plugin_model
     Blabby::Object
+    Blabby::ShellDoubles
     Qt5::Test
 )
 

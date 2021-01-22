@@ -18,55 +18,12 @@
 #include "MultiMediaPluginModelShould.h"
 #include "MultiMediaPluginModel.h"
 #include "MultimediaPlugin.h"
+#include "TestPlugin.h"
 #include <QtTest>
 #include <memory>
 
 namespace Shell
 {
-
-class TestPlugin : public PluginCore::MultimediaPlugin
-{
-    Q_DISABLE_COPY_MOVE(TestPlugin);
-
-public:
-    TestPlugin(){};
-
-    QString pluginName() const override
-    {
-        return "TestPlugin";
-    }
-
-    PluginCore::PluginVersion getPluginVersion() const override
-    {
-        return { .major = 1, .minor = 0, .patch = 0 };
-    }
-
-    QUuid getPluginIdentifier() const override
-    {
-        return { "d6d02a93-b6f0-4581-ba0a-b70397c1200a" };
-    }
-
-    bool load(QQmlContext *context) override
-    {
-        Q_UNUSED(context);
-        return true;
-    }
-
-    bool unload() override
-    {
-        return true;
-    }
-
-    QUrl mainQMLUrl() const override
-    {
-        return QUrl{ "qrc:/qml/main.qml" };
-    }
-
-    QUrl pluginIconUrl() const override
-    {
-        return QUrl{ "qrc:/icon/pluginIcon.png" };
-    }
-};
 
 MultiMediaPluginModelShould::MultiMediaPluginModelShould()
     : QObject()

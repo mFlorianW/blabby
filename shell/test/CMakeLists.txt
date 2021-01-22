@@ -24,3 +24,4 @@ find_package(Qt5Test 5.13 REQUIRED)
 # Test Projects
 ###############################################################################
 add_subdirectory(multi_media_plugin_model)
+add_subdirectory(doubles)
