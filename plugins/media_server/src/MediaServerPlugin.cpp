@@ -26,6 +26,12 @@
 #include <QUrl>
 #include <qqml.h>
 
+namespace
+{
+constexpr char mediaServerView[] = "qrc:/mediaserver/qml/views/MediaServerView.qml";
+constexpr char serverItemView[] = "qrc:/mediaserver/qml/views/ServerItemView.qml";
+} // namespace
+
 namespace MediaServer::Plugin
 {
 
@@ -80,6 +86,21 @@ QUrl MediaServerPlugin::pluginIconUrl() const
     return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
 }
 
+bool MediaServerPlugin::handleBackButton()
+{
+    if(activeView().toString() == serverItemView)
+    {
+        if(!mServerItemView->goPreviousFolder())
+        {
+            showMediaSeverView();
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 void MediaServerPlugin::showMediaSeverView()
 {
     if(!mMediaServerView && mQmlContext != nullptr)
@@ -93,7 +114,7 @@ void MediaServerPlugin::showMediaSeverView()
         mQmlContext->setContextProperty("g_MediaServerView", mMediaServerView.get());
     }
 
-    setActiveView(QUrl{ "qrc:/mediaserver/qml/views/MediaServerView.qml" });
+    setActiveView(QUrl{ mediaServerView });
 }
 
 void MediaServerPlugin::showServerItemView(UPnPAV::IMediaServer *mediaServer)
@@ -107,7 +128,7 @@ void MediaServerPlugin::showServerItemView(UPnPAV::IMediaServer *mediaServer)
     }
 
     mServerItemView->setMediaServer(mediaServer);
-    setActiveView(QUrl{ "qrc:/mediaserver/qml/views/ServerItemView.qml" });
+    setActiveView(QUrl{ serverItemView });
 }
 
 } // namespace MediaServer::Plugin

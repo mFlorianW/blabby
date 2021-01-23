@@ -57,6 +57,8 @@ public:
 
     QUrl pluginIconUrl() const override;
 
+    bool handleBackButton() override;
+
     Q_INVOKABLE void showMediaSeverView();
     Q_INVOKABLE void showServerItemView(UPnPAV::IMediaServer *mediaServer);
 

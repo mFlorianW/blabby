@@ -11,10 +11,8 @@ ListView {
     anchors.leftMargin: 35
     anchors.rightMargin: 55
 
-
     delegate: Item{
-        anchors.left: parent.left
-        anchors.right: parent.right
+        width: serverItemView.width
         height: 82
 
         ServerItemButton {
@@ -22,10 +20,12 @@ ListView {
             anchors.fill: parent
             anchors.topMargin: 12
             text: itemName
-            iconSource:  itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
+            iconSource: itemClass == ServerItemModel.ItemFolder ? p.folderIconSource : p.fileIconSource
 
             onClicked: {
-                g_ServerItemView.requestStorageFolder(itemId)
+                if(itemClass == ServerItemModel.ItemFolder){
+                    g_ServerItemView.requestStorageFolder(itemId)
+                }
             }
         }
     }

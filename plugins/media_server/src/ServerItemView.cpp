@@ -28,7 +28,7 @@ void ServerItemView::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
     }
 
     mMediaServer = mediaServer;
-    requestFolder("0");
+    requestStorageFolder("0");
     Q_EMIT mediaServerChanged();
 }
 
@@ -51,7 +51,25 @@ void ServerItemView::requestStorageFolder(const QString &id)
         return;
     }
 
-    requestFolder(id);
+    if(!mActiveId.isEmpty())
+    {
+        mIdStack.push(mActiveId);
+    }
+
+    mActiveId = id;
+    requestFolder(mActiveId);
+}
+
+bool ServerItemView::goPreviousFolder()
+{
+    if(mIdStack.isEmpty())
+    {
+        return false;
+    }
+
+    mActiveId = mIdStack.pop();
+    requestFolder(mActiveId);
+    return true;
 }
 
 void ServerItemView::onBrowsRequestFinished()

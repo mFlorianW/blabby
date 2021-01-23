@@ -20,6 +20,7 @@
 
 #include <QQuickItem>
 #include <QSharedPointer>
+#include <QStack>
 
 namespace UPnPAV
 {
@@ -47,6 +48,8 @@ public:
 
     Q_INVOKABLE void requestStorageFolder(const QString &id);
 
+    Q_INVOKABLE bool goPreviousFolder();
+
 Q_SIGNALS:
     void mediaServerChanged();
 
@@ -60,6 +63,8 @@ private:
     UPnPAV::IMediaServer *mMediaServer{ nullptr };
     QSharedPointer<UPnPAV::PendingSoapCall> mPendingSoapCall{ nullptr };
     ServerItemModel *mServerItemModel{ nullptr };
+    QString mActiveId;
+    QStack<QString> mIdStack;
 };
 
 } // namespace MediaServer::Plugin

@@ -97,6 +97,45 @@ void ServerItemViewShould::on_valid_response_of_specific_request_fill_objects_in
     QCOMPARE(serverItemModel.rowCount(QModelIndex{}), 2);
 }
 
+void ServerItemViewShould::go_to_previous_folder()
+{
+    auto serverItemModel = ServerItemModel{};
+    auto mediaServer = MediaServer{};
+    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto controller = ServerItemView{ &serverItemModel };
+    mediaServer.soapCall = soapCall;
+    controller.setMediaServer(&mediaServer);
+
+    controller.requestStorageFolder("1");
+
+    auto result = controller.goPreviousFolder();
+
+    QCOMPARE(result, true);
+    QCOMPARE(mediaServer.lastBrowseRequest.objectId, "0");
+}
+
+void ServerItemViewShould::go_to_back_to_root_folder()
+{
+    auto serverItemModel = ServerItemModel{};
+    auto mediaServer = MediaServer{};
+    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto controller = ServerItemView{ &serverItemModel };
+    mediaServer.soapCall = soapCall;
+    controller.setMediaServer(&mediaServer);
+
+    controller.requestStorageFolder("1");
+    controller.requestStorageFolder("2");
+
+    auto result = controller.goPreviousFolder();
+    QCOMPARE(result, true);
+    QCOMPARE(mediaServer.lastBrowseRequest.objectId, "1");
+
+    result = controller.goPreviousFolder();
+
+    QCOMPARE(result, true);
+    QCOMPARE(mediaServer.lastBrowseRequest.objectId, "0");
+}
+
 } // namespace MediaServer::Plugin
 
 QTEST_MAIN(MediaServer::Plugin::ServerItemViewShould);
