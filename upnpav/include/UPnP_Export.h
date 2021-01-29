@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #ifndef FREEDLNACONTROL_EXPORT_H
 #define FREEDLNACONTROL_EXPORT_H
 #include <QtGlobal>

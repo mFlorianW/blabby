@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include "ServerItemView.h"
 #include "BrowseResult.h"
 #include "IMediaServer.h"

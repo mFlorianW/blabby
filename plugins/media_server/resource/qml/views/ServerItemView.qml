@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 import QtQuick 2.12
 import de.blabby.mediaserverplugin 1.0
 import "../controls"
