@@ -38,7 +38,7 @@ class MediaServer : public UPnPAV::IMediaServer
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:
-    MediaServer(const UPnPAV::DeviceDescription &deviceDescription = UPnPAV::DeviceDescription{ "", "", "", "", "" });
+    MediaServer();
 
     QString name() const noexcept override;
 

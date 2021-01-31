@@ -20,7 +20,7 @@ class SoapMessageTransmitter;
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class UPNP_EXPORT IMediaServer : public MediaDevice
+class UPNP_EXPORT IMediaServer : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(IMediaServer)
@@ -73,8 +73,10 @@ public:
                                                    const QString &filter, const QString &sortCriteria) noexcept = 0;
 
 protected:
-    IMediaServer(const DeviceDescription &deviceDescription)
-        : MediaDevice(deviceDescription){};
+    IMediaServer()
+        : QObject()
+    {
+    }
 };
 
 class UPNP_EXPORT IMediaServerFactory : public QObject

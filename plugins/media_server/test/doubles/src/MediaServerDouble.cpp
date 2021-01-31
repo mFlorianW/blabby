@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerDouble.h"
+#include "InvalidDeviceDescription.h"
 #include "PendingSoapCall.h"
+#include <QDebug>
 #include <QUrl>
 
 namespace MediaServer::Plugin::Doubles
@@ -12,12 +14,14 @@ namespace MediaServer::Plugin::Doubles
 
 std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(const UPnPAV::DeviceDescription &deviceDescription)
 {
+    Q_UNUSED(deviceDescription)
     ++howOftenCalled;
-    return std::make_unique<MediaServer>(deviceDescription);
+
+    return std::make_unique<MediaServer>();
 }
 
-MediaServer::MediaServer(const UPnPAV::DeviceDescription &deviceDescription)
-    : UPnPAV::IMediaServer(deviceDescription)
+MediaServer::MediaServer()
+    : UPnPAV::IMediaServer()
 {
 }
 

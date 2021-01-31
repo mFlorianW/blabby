@@ -7,8 +7,7 @@ namespace UPnPAV
 {
 
 MediaDevice::MediaDevice(const DeviceDescription &deviceDescription)
-    : QObject()
-    , d(std::make_unique<MediaDevicePrivate>())
+    : d(std::make_unique<MediaDevicePrivate>())
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{ deviceDescription };
     if(!conManagerServiceValidator.validate())

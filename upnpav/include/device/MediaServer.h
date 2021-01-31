@@ -29,10 +29,11 @@ public:
     std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) override;
 };
 
-class UPNP_EXPORT MediaServer final : public IMediaServer
+class UPNP_EXPORT MediaServer final : public IMediaServer, public MediaDevice
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
+    Q_INTERFACES(UPnPAV::IMediaDevice)
 public:
     /**
      * Creates a MediaService instance.

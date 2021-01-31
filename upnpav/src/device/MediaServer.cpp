@@ -29,7 +29,8 @@ std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const Device
 }
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
-    : IMediaServer(deviceDescription)
+    : IMediaServer()
+    , MediaDevice(deviceDescription)
     , m_soapMessageTransmitter(soapMessageTransmitter)
 {
     ContentDirectoryServiceValidator conDirectoryServiceValidator{ deviceDescription };
