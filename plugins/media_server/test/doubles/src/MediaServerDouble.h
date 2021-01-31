@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "DeviceDescription.h"
 #include "IMediaServer.h"
 #include "SoapCallDouble.h"
 
@@ -35,7 +36,10 @@ struct LastBrowseRequest
 class MediaServer : public UPnPAV::IMediaServer
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MediaServer)
 public:
+    MediaServer(const UPnPAV::DeviceDescription &deviceDescription = UPnPAV::DeviceDescription{ "", "", "", "", "" });
+
     QString name() const noexcept override;
 
     QUrl iconUrl() const noexcept override;

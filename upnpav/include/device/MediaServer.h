@@ -32,6 +32,7 @@ public:
 class UPNP_EXPORT MediaServer final : public IMediaServer
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MediaServer)
 public:
     /**
      * Creates a MediaService instance.

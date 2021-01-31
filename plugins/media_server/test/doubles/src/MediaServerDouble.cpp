@@ -12,9 +12,13 @@ namespace MediaServer::Plugin::Doubles
 
 std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(const UPnPAV::DeviceDescription &deviceDescription)
 {
-    Q_UNUSED(deviceDescription)
     ++howOftenCalled;
-    return std::make_unique<MediaServer>();
+    return std::make_unique<MediaServer>(deviceDescription);
+}
+
+MediaServer::MediaServer(const UPnPAV::DeviceDescription &deviceDescription)
+    : UPnPAV::IMediaServer(deviceDescription)
+{
 }
 
 QString MediaServer::name() const noexcept

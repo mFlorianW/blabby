@@ -73,6 +73,7 @@ target_sources(BlabbyUPnPAVObject
         src/device/ErrorResult.cpp
         src/device/BrowseResult.cpp
         src/device/MediaServerObject.cpp
+        src/device/MediaDevice.cpp
 
         #Public Header must be add manualy otherwise vtable
         #errors occure.
@@ -102,6 +103,7 @@ target_sources(BlabbyUPnPAVObject
         include/device/BrowseResult.h
         include/device/MediaServerObject.h
         include/device/IMediaServer.h
+        include/device/MediaDevice.h
 )
 
 target_link_libraries(BlabbyUPnPAVObject

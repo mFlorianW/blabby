@@ -8,18 +8,11 @@ add_executable(test_upnpav_media_server)
 target_sources(test_upnpav_media_server
     PRIVATE
         src/MediaServerShould.cpp
-        src/double/SoapMessageTransmitterDouble.cpp
-        src/double/TestSoapCall.cpp
-)
-
-target_include_directories(test_upnpav_media_server
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/data>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/double>
 )
 
 target_link_libraries(test_upnpav_media_server
     Blabby::UPnPAVObject
+    Blabby::UPnPAVTestData
     Qt5::Test
 )
 

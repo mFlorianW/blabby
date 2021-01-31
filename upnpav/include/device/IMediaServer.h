@@ -6,6 +6,7 @@
 #ifndef IMEDIASERVER_H
 #define IMEDIASERVER_H
 
+#include "MediaDevice.h"
 #include "UPnP_Export.h"
 #include <QSharedPointer>
 #include <memory>
@@ -19,9 +20,10 @@ class SoapMessageTransmitter;
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class UPNP_EXPORT IMediaServer : public QObject
+class UPNP_EXPORT IMediaServer : public MediaDevice
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(IMediaServer)
 public:
     /**
      * Flags for browse request.
@@ -69,6 +71,10 @@ public:
      */
     virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId, BrowseFlag browseFlag,
                                                    const QString &filter, const QString &sortCriteria) noexcept = 0;
+
+protected:
+    IMediaServer(const DeviceDescription &deviceDescription)
+        : MediaDevice(deviceDescription){};
 };
 
 class UPNP_EXPORT IMediaServerFactory : public QObject
