@@ -18,6 +18,7 @@ namespace UPnPAV
 {
 class SoapMessageTransmitter;
 class DeviceDescription;
+class MediaServerPrivate;
 
 class UPNP_EXPORT MediaServerFactory : public IMediaServerFactory
 {
@@ -47,6 +48,7 @@ public:
      *         requried functions and values.
      */
     MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
+    ~MediaServer();
 
     /**
      * @copydoc IMediaDevice::name()
@@ -81,11 +83,7 @@ private:
     static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
 
 private:
-    ServiceDescription m_contentDirectoryServiceDescription;
-    ServiceControlPointDefinition m_contentDirectorySCPD;
-    QSharedPointer<SoapMessageTransmitter> m_soapMessageTransmitter;
-    QString mName;
-    QUrl mIconUrl;
+    std::unique_ptr<MediaServerPrivate> d;
 };
 
 } // namespace UPnPAV

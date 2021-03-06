@@ -9,6 +9,7 @@
 #include "DeviceDescription.h"
 #include "HttpSoapMessageTransmitter.h"
 #include "InvalidDeviceDescription.h"
+#include "MediaServer_p.h"
 #include "SoapMessageGenerator.h"
 #include "SoapMessageTransmitter.h"
 
@@ -30,7 +31,7 @@ std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const Device
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
     : IMediaServer()
-    , m_soapMessageTransmitter(soapMessageTransmitter)
+    , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{ deviceDescription };
     if(!conManagerServiceValidator.validate())
@@ -44,34 +45,37 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QShar
         throw InvalidDeviceDescription{ conDirectoryServiceValidator.errorMessage() };
     }
 
-    m_contentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
-    m_contentDirectorySCPD = conDirectoryServiceValidator.scpd();
-    mName = deviceDescription.friendlyName();
+    d->mContentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
+    d->mContentDirectorySCPD = conDirectoryServiceValidator.scpd();
+    d->mName = deviceDescription.friendlyName();
     if(!deviceDescription.icons().isEmpty())
     {
-        mIconUrl = deviceDescription.icons().first().url();
+        d->mIconUrl = deviceDescription.icons().first().url();
     }
 }
 
+MediaServer::~MediaServer() = default;
+
 const QString &MediaServer::name() const noexcept
 {
-    return mName;
+    return d->mName;
 }
 
 const QUrl &MediaServer::iconUrl() const noexcept
 {
-    return mIconUrl;
+    return d->mIconUrl;
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
-    auto action = m_contentDirectorySCPD.action("GetSortCapabilities");
+    auto action = d->mContentDirectorySCPD.action("GetSortCapabilities");
     SoapMessageGenerator msgGen;
 
-    auto xmlMessage = msgGen.generateXmlMessageBody(action, m_contentDirectoryServiceDescription.serviceType());
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType());
 
-    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(), action.name(),
-                                                              m_contentDirectoryServiceDescription.serviceType(), xmlMessage);
+    auto soapCall =
+        d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(), action.name(),
+                                                    d->mContentDirectoryServiceDescription.serviceType(), xmlMessage);
 
     return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
 }
@@ -79,7 +83,7 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, MediaServer::BrowseFlag browseFlag,
                                                     const QString &filter, const QString &sortCriteria) noexcept
 {
-    auto action = m_contentDirectorySCPD.action("Browse");
+    auto action = d->mContentDirectorySCPD.action("Browse");
 
     ArgumentList browseArgs{ 6 };
     browseArgs << Argument{ "BrowseFlag", convertBrowseFlagToString(browseFlag) } << Argument{ "RequestedCount", "0" }
@@ -87,10 +91,11 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, Med
                << Argument{ "SortCriteria", sortCriteria };
 
     SoapMessageGenerator msgGen;
-    auto xmlMessage = msgGen.generateXmlMessageBody(action, m_contentDirectoryServiceDescription.serviceType(), browseArgs);
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType(), browseArgs);
 
-    auto soapCall = m_soapMessageTransmitter->sendSoapMessage(m_contentDirectoryServiceDescription.controlUrl(), action.name(),
-                                                              m_contentDirectoryServiceDescription.serviceType(), xmlMessage);
+    auto soapCall =
+        d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(), action.name(),
+                                                    d->mContentDirectoryServiceDescription.serviceType(), xmlMessage);
 
     return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
 }
