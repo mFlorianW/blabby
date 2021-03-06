@@ -6,6 +6,7 @@
 #include "DeviceDescription.h"
 #include "IMediaServer.h"
 #include "SoapCallDouble.h"
+#include <QUrl>
 
 namespace MediaServer::Plugin::Doubles
 {
@@ -41,7 +42,7 @@ public:
 
     const QString &name() const noexcept override;
 
-    QUrl iconUrl() const noexcept override;
+    const QUrl &iconUrl() const noexcept override;
 
     QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
@@ -52,6 +53,7 @@ public:
     LastBrowseRequest lastBrowseRequest;
     QSharedPointer<Doubles::SoapCallDouble> soapCall{ nullptr };
     QString mName{ "MediaServer" };
+    QUrl mIconUrl{ "http://localhost:8200/icons/sm.png" };
 };
 
 } // namespace MediaServer::Plugin::Doubles

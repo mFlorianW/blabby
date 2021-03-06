@@ -30,9 +30,9 @@ const QString &MediaServer::name() const noexcept
     return mName;
 }
 
-QUrl MediaServer::iconUrl() const noexcept
+const QUrl &MediaServer::iconUrl() const noexcept
 {
-    return QUrl{ "http://localhost:8200/icons/sm.png" };
+    return mIconUrl;
 }
 
 QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexcept

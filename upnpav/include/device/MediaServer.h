@@ -48,14 +48,15 @@ public:
      */
     MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
 
+    /**
+     * @copydoc IMediaDevice::name()
+     */
     const QString &name() const noexcept override;
 
     /**
-     * Gives a icon url of the media server.
-     *
-     * @return The icon url of the media server.
+     * @copydoc IMediaDevice::iconUrl()
      */
-    QUrl iconUrl() const noexcept override;
+    const QUrl &iconUrl() const noexcept override;
 
     /**
      * Request the supported sort capabilities of the media server.

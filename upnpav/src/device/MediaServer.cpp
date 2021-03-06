@@ -58,7 +58,7 @@ const QString &MediaServer::name() const noexcept
     return mName;
 }
 
-QUrl MediaServer::iconUrl() const noexcept
+const QUrl &MediaServer::iconUrl() const noexcept
 {
     return mIconUrl;
 }
