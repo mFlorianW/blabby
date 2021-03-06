@@ -86,9 +86,9 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, Med
     auto action = d->mContentDirectorySCPD.action("Browse");
 
     ArgumentList browseArgs{ 6 };
-    browseArgs << Argument{ "BrowseFlag", convertBrowseFlagToString(browseFlag) } << Argument{ "RequestedCount", "0" }
-               << Argument{ "ObjectID", objectId } << Argument{ "Filter", filter } << Argument{ "StartingIndex", "0" }
-               << Argument{ "SortCriteria", sortCriteria };
+    browseArgs << Argument{ "BrowseFlag", d->convertBrowseFlagToString(browseFlag) }
+               << Argument{ "RequestedCount", "0" } << Argument{ "ObjectID", objectId } << Argument{ "Filter", filter }
+               << Argument{ "StartingIndex", "0" } << Argument{ "SortCriteria", sortCriteria };
 
     SoapMessageGenerator msgGen;
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType(), browseArgs);
@@ -100,9 +100,10 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, Med
     return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
 }
 
-QString MediaServer::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
+QString MediaServerPrivate::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
 {
-    return BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata") : QStringLiteral("BrowseDirectChildren");
+    return MediaServer::BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata") :
+                                                             QStringLiteral("BrowseDirectChildren");
 }
 
 } // namespace UPnPAV

@@ -80,9 +80,6 @@ public:
                                            const QString &sortCriteria) noexcept override;
 
 private:
-    static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
-
-private:
     std::unique_ptr<MediaServerPrivate> d;
 };
 

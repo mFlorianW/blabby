@@ -20,6 +20,8 @@ public:
     {
     }
 
+    static QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
+
     DeviceDescription mDeviceDescription;
     ServiceDescription mContentDirectoryServiceDescription;
     ServiceControlPointDefinition mContentDirectorySCPD;
