@@ -51,7 +51,6 @@ bool MediaServerPlugin::load(QQmlContext *context)
 
     qmlRegisterUncreatableType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel", "");
     qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");
-    qmlRegisterUncreatableType<UPnPAV::IMediaServer>(pluginUrl, 1, 0, "IMediaServer", "");
 
     mQmlContext->setContextProperty("g_MediaServerPlugin", this);
     showMediaSeverView();
@@ -105,7 +104,7 @@ void MediaServerPlugin::showMediaSeverView()
     setActiveView(QUrl{ mediaServerView });
 }
 
-void MediaServerPlugin::showServerItemView(UPnPAV::IMediaServer *mediaServer)
+void MediaServerPlugin::showServerItemView(qint32 mediaServerIndex)
 {
     if(!mServerItemView && mQmlContext != nullptr)
     {
@@ -115,6 +114,7 @@ void MediaServerPlugin::showServerItemView(UPnPAV::IMediaServer *mediaServer)
         mQmlContext->setContextProperty("g_ServerItemView", mServerItemView.get());
     }
 
+    auto mediaServer = mMediaServerModel->mediaServer(mediaServerIndex);
     mServerItemView->setMediaServer(mediaServer);
     setActiveView(QUrl{ serverItemView });
 }

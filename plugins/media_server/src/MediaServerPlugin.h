@@ -48,7 +48,7 @@ public:
     bool handleBackButton() override;
 
     Q_INVOKABLE void showMediaSeverView();
-    Q_INVOKABLE void showServerItemView(UPnPAV::IMediaServer *mediaServer);
+    Q_INVOKABLE void showServerItemView(qint32 mediaServerIndex);
 
 private:
     std::unique_ptr<UPnPAV::ServiceProviderFactory> mServiceProviderFactory;

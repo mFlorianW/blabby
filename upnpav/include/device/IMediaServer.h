@@ -22,7 +22,6 @@ class SoapMessageTransmitter;
  */
 class UPNP_EXPORT IMediaServer : public IMediaDevice
 {
-    Q_GADGET
     Q_DISABLE_COPY_MOVE(IMediaServer)
 public:
     /**

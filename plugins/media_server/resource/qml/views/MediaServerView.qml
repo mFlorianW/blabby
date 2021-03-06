@@ -30,7 +30,7 @@ Item {
                 anchors.centerIn: parent
 
                 onClicked: {
-                    g_MediaServerPlugin.showServerItemView(g_MediaServerView.mediaServerModel.mediaServer(index))
+                    g_MediaServerPlugin.showServerItemView(index)
                 }
             }
         }

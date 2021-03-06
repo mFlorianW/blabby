@@ -32,7 +32,7 @@ public:
 
     void insert(UPnPAV::IMediaServer *mediaServer) noexcept;
     void removeServer(UPnPAV::IMediaServer *mediaServer) noexcept;
-    Q_INVOKABLE UPnPAV::IMediaServer *mediaServer(qint32 modelIndex) const noexcept;
+    UPnPAV::IMediaServer *mediaServer(qint32 modelIndex) const noexcept;
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
