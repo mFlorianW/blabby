@@ -35,12 +35,11 @@ struct LastBrowseRequest
 
 class MediaServer : public UPnPAV::IMediaServer
 {
-    Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:
     MediaServer();
 
-    QString name() const noexcept override;
+    const QString &name() const noexcept override;
 
     QUrl iconUrl() const noexcept override;
 
@@ -52,6 +51,7 @@ public:
 public:
     LastBrowseRequest lastBrowseRequest;
     QSharedPointer<Doubles::SoapCallDouble> soapCall{ nullptr };
+    QString mName{ "MediaServer" };
 };
 
 } // namespace MediaServer::Plugin::Doubles

@@ -11,7 +11,6 @@
 #include "InvalidDeviceDescription.h"
 #include "MediaServer.h"
 #include "SoapMessageTransmitterDouble.h"
-
 #include <QDebug>
 #include <QTest>
 
@@ -19,8 +18,15 @@ namespace UPnPAV
 {
 
 MediaServerShould::MediaServerShould()
-    : QObject()
+    : MediaDeviceBaseTest()
 {
+}
+
+MediaServerShould::~MediaServerShould() = default;
+
+std::unique_ptr<IMediaDevice> MediaServerShould::mediaDevice(const DeviceDescription &deviceDesc)
+{
+    return std::make_unique<MediaServer>(deviceDesc, m_soapMessageTransmitter);
 }
 
 MediaServer MediaServerShould::createMediaServer(DeviceDescription &deviceDescription)

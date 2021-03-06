@@ -14,9 +14,10 @@ class IMediaDevice
 {
 public:
     virtual ~IMediaDevice() = default;
+    virtual const QString &name() const noexcept = 0;
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 Q_DECLARE_INTERFACE(UPnPAV::IMediaDevice, "IMediaDevice")
 

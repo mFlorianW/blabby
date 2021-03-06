@@ -29,11 +29,9 @@ public:
     std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) override;
 };
 
-class UPNP_EXPORT MediaServer final : public IMediaServer, public MediaDevice
+class UPNP_EXPORT MediaServer final : public IMediaServer
 {
-    Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
-    Q_INTERFACES(UPnPAV::IMediaDevice)
 public:
     /**
      * Creates a MediaService instance.
@@ -45,17 +43,12 @@ public:
      *        to a Media Server.
      *
      * @throws InvalidDeviceDescription if the given
-     *         description contain the minimum requried
-     *         functions and values.
+     *         description doesn't contain the minimum
+     *         requried functions and values.
      */
     MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
 
-    /**
-     * Gives the name of the media server.
-     *
-     * @return The name of the media server.
-     */
-    QString name() const noexcept override;
+    const QString &name() const noexcept override;
 
     /**
      * Gives a icon url of the media server.

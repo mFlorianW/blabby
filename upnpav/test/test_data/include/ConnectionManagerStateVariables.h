@@ -8,31 +8,32 @@
 
 #include "SCPDStateVariable.h"
 
+// clang-format off
 namespace UPnPAV
 {
 
-SCPDStateVariable SourceProtocolInfo
+static SCPDStateVariable SourceProtocolInfo
 {
     true,
     "SourceProtocolInfo",
     SCPDStateVariable::DataType::String
 };
 
-SCPDStateVariable SinkProtocolInfo
+static SCPDStateVariable SinkProtocolInfo
 {
     true,
     "SinkProtocolInfo",
     SCPDStateVariable::DataType::String
 };
 
-SCPDStateVariable CurrentConnectionIDs
+static SCPDStateVariable CurrentConnectionIDs
 {
     true,
     "CurrentConnectionIDs",
     SCPDStateVariable::DataType::String
 };
 
-SCPDStateVariable A_ARG_TYPE_ConnectionStatus
+static SCPDStateVariable A_ARG_TYPE_ConnectionStatus
 {
     false,
     "A_ARG_TYPE_ConnectionStatus",
@@ -41,14 +42,14 @@ SCPDStateVariable A_ARG_TYPE_ConnectionStatus
     {"OK", "ContentFormatMismatch", "InsufficientBandwidth", "UnreliableChannel", "Unknown"}
 };
 
-SCPDStateVariable A_ARG_TYPE_ConnectionManager
+static SCPDStateVariable A_ARG_TYPE_ConnectionManager
 {
     false,
     "A_ARG_TYPE_ConnectionManager",
     SCPDStateVariable::DataType::String,
 };
 
-SCPDStateVariable A_ARG_TYPE_Direction
+static SCPDStateVariable A_ARG_TYPE_Direction
 {
     false,
     "A_ARG_TYPE_Direction",
@@ -57,28 +58,28 @@ SCPDStateVariable A_ARG_TYPE_Direction
     {"Input","Output"}
 };
 
-SCPDStateVariable A_ARG_TYPE_ProtocolInfo
+static SCPDStateVariable A_ARG_TYPE_ProtocolInfo
 {
     false,
     "A_ARG_TYPE_ProtocolInfo",
     SCPDStateVariable::DataType::String,
 };
 
-SCPDStateVariable A_ARG_TYPE_ConnectionID
+static SCPDStateVariable A_ARG_TYPE_ConnectionID
 {
     false,
     "A_ARG_TYPE_ConnectionID",
     SCPDStateVariable::DataType::I4,
 };
 
-SCPDStateVariable A_ARG_TYPE_AVTransportID
+static SCPDStateVariable A_ARG_TYPE_AVTransportID
 {
     false,
     "A_ARG_TYPE_AVTransportID",
     SCPDStateVariable::DataType::I4,
 };
 
-SCPDStateVariable A_ARG_TYPE_RcsID
+static SCPDStateVariable A_ARG_TYPE_RcsID
 {
     false,
     "A_ARG_TYPE_RcsID",
@@ -86,5 +87,7 @@ SCPDStateVariable A_ARG_TYPE_RcsID
 };
 
 } //namespace UPnPAV
+
+// clang-format on
 
 #endif // CONNECTIONMANAGERSTATEVARIABLES_H

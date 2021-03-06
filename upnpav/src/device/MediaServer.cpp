@@ -30,9 +30,14 @@ std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const Device
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
     : IMediaServer()
-    , MediaDevice(deviceDescription)
     , m_soapMessageTransmitter(soapMessageTransmitter)
 {
+    ConnectionManagerServiceValidator conManagerServiceValidator{ deviceDescription };
+    if(!conManagerServiceValidator.validate())
+    {
+        throw InvalidDeviceDescription{ conManagerServiceValidator.errorMessage() };
+    }
+
     ContentDirectoryServiceValidator conDirectoryServiceValidator{ deviceDescription };
     if(!conDirectoryServiceValidator.validate())
     {
@@ -48,7 +53,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QShar
     }
 }
 
-QString MediaServer::name() const noexcept
+const QString &MediaServer::name() const noexcept
 {
     return mName;
 }

@@ -6,13 +6,14 @@
 #ifndef DESCRIPTIONS_H
 #define DESCRIPTIONS_H
 
-#include "ServiceDescription.h"
-#include "ServiceControlPointDefinition.h"
-#include "ConnectionManagerStateVariables.h"
 #include "ConnectionManagerActions.h"
+#include "ConnectionManagerStateVariables.h"
 #include "ContentDirectoryActions.h"
 #include "ContentDirectoryStateVariables.h"
+#include "ServiceControlPointDefinition.h"
+#include "ServiceDescription.h"
 
+// clang-format off
 namespace UPnPAV
 {
 
@@ -106,7 +107,7 @@ static const ServiceDescription scpdUrlMissingInConnectionManagerDescription
     "http://127.0.0.1/connectionManager/eventUrl"
 };
 
-QVector<SCPDStateVariable> validConnectionManagerStateVariables
+static QVector<SCPDStateVariable> validConnectionManagerStateVariables
 {
     SourceProtocolInfo,
     SinkProtocolInfo,
@@ -120,7 +121,7 @@ QVector<SCPDStateVariable> validConnectionManagerStateVariables
     A_ARG_TYPE_RcsID
 };
 
-QVector<SCPDAction> validConnectionManagerActions
+static QVector<SCPDAction> validConnectionManagerActions
 {
     GetProtocolInfo,
     GetCurrentConnectionIDs,
@@ -134,7 +135,7 @@ static const ServiceControlPointDefinition validConnectionManagerSCPD
     validConnectionManagerActions
 };
 
-QVector<SCPDStateVariable> validContentDirectoryStateVariables
+static QVector<SCPDStateVariable> validContentDirectoryStateVariables
 {
     A_ARG_TYPE_ObjectID,
     A_ARG_TYPE_Result,
@@ -149,7 +150,7 @@ QVector<SCPDStateVariable> validContentDirectoryStateVariables
     SystemUpdateID
 };
 
-QVector<SCPDAction> validContentDirectoryActions
+static QVector<SCPDAction> validContentDirectoryActions
 {
     GetSearchCapabilities,
     GetSortCapabilities,
@@ -157,7 +158,7 @@ QVector<SCPDAction> validContentDirectoryActions
     Browse
 };
 
-ServiceControlPointDefinition validContentDirectorySCPD
+static ServiceControlPointDefinition validContentDirectorySCPD
 {
     "http://127.0.0.1/ContentDirectory.xml",
     validContentDirectoryStateVariables,
@@ -165,5 +166,7 @@ ServiceControlPointDefinition validContentDirectorySCPD
 };
 
 } //namespace UPnPAV
+
+//clang-format on
 
 #endif // DESCRIPTIONS_H

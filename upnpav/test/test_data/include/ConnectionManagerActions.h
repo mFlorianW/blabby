@@ -8,10 +8,11 @@
 
 #include "SCPDAction.h"
 
+// clang-format off
 namespace UPnPAV
 {
 
-SCPDAction GetProtocolInfo
+static SCPDAction GetProtocolInfo
 {
     "GetProtocolInfo",
     {
@@ -31,7 +32,7 @@ SCPDAction GetProtocolInfo
     }
 };
 
-SCPDAction GetCurrentConnectionIDs
+static SCPDAction GetCurrentConnectionIDs
 {
     "GetCurrentConnectionIDs",
     {
@@ -44,7 +45,7 @@ SCPDAction GetCurrentConnectionIDs
     }
 };
 
-SCPDAction GetCurrentConnectionInfo
+static SCPDAction GetCurrentConnectionInfo
 {
     "GetCurrentConnectionInfo",
     {
@@ -65,5 +66,7 @@ SCPDAction GetCurrentConnectionInfo
 };
 
 } //namespace UPnPAV
+
+// clang-format on
 
 #endif // CONNECTIONMANAGERACTIONS_H

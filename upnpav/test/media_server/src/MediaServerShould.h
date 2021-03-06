@@ -6,6 +6,7 @@
 #ifndef MEDIASERVERSHOULD_H
 #define MEDIASERVERSHOULD_H
 
+#include "MediaDeviceBaseTest.h"
 #include <QObject>
 #include <QSharedPointer>
 
@@ -19,11 +20,16 @@ class SCPDAction;
 class DeviceDescription;
 class SoapMessageTransmitterDouble;
 
-class MediaServerShould : public QObject
+class MediaServerShould : public MediaDeviceBaseTest
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(MediaServerShould)
 public:
     explicit MediaServerShould();
+    ~MediaServerShould();
+
+protected:
+    std::unique_ptr<IMediaDevice> mediaDevice(const DeviceDescription &deviceDesc);
 
 private:
     MediaServer createMediaServer(const QVector<ServiceDescription> &services, const QVector<ServiceControlPointDefinition> &scpds);

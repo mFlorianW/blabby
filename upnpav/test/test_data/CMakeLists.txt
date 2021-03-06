@@ -10,8 +10,14 @@ target_sources(test_upnp_av_test_data
     PRIVATE
         src/SoapMessageTransmitterDouble.cpp
         src/TestSoapCall.cpp
+        src/MediaDeviceBaseTest.cpp
 
         include/TestSoapCall.h
+        include/MediaDeviceBaseTest.h
+)
+
+target_link_libraries(test_upnp_av_test_data
+    Qt5::Test
 )
 
 target_include_directories(test_upnp_av_test_data

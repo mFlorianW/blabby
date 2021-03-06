@@ -8,9 +8,11 @@
 
 #include "SCPDAction.h"
 
+// clang-format off
 namespace UPnPAV
 {
-SCPDAction GetSearchCapabilities
+
+static SCPDAction GetSearchCapabilities
 {
     "GetSearchCapabilities",
     {
@@ -23,7 +25,7 @@ SCPDAction GetSearchCapabilities
     }
 };
 
-SCPDAction GetSortCapabilities
+static SCPDAction GetSortCapabilities
 {
     "GetSortCapabilities",
     {
@@ -36,7 +38,7 @@ SCPDAction GetSortCapabilities
     }
 };
 
-SCPDAction GetSystemUpdateID
+static SCPDAction GetSystemUpdateID
 {
     "GetSystemUpdateID",
     {
@@ -49,7 +51,7 @@ SCPDAction GetSystemUpdateID
     }
 };
 
-SCPDAction Browse
+static SCPDAction Browse
 {
     "Browse",
     {
@@ -111,5 +113,7 @@ SCPDAction Browse
 };
 
 } //namespace UPnPAV
+
+// clang-format on
 
 #endif // CONTENTDIRECTORYACTIONS_H

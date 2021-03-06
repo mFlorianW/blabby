@@ -6,7 +6,7 @@
 #ifndef IMEDIASERVER_H
 #define IMEDIASERVER_H
 
-#include "MediaDevice.h"
+#include "IMediaDevice.h"
 #include "UPnP_Export.h"
 #include <QSharedPointer>
 #include <memory>
@@ -20,9 +20,9 @@ class SoapMessageTransmitter;
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class UPNP_EXPORT IMediaServer : public QObject
+class UPNP_EXPORT IMediaServer : public IMediaDevice
 {
-    Q_OBJECT
+    Q_GADGET
     Q_DISABLE_COPY_MOVE(IMediaServer)
 public:
     /**
@@ -38,13 +38,6 @@ public:
      * Default destructor
      */
     virtual ~IMediaServer() = default;
-
-    /**
-     * Gives the name of the media server.
-     *
-     * @return The name of the media server.
-     */
-    virtual QString name() const noexcept = 0;
 
     /**
      * Gives a icon url of the media server.
@@ -73,10 +66,7 @@ public:
                                                    const QString &filter, const QString &sortCriteria) noexcept = 0;
 
 protected:
-    IMediaServer()
-        : QObject()
-    {
-    }
+    IMediaServer() = default;
 };
 
 class UPNP_EXPORT IMediaServerFactory : public QObject
