@@ -69,13 +69,6 @@ public:
     virtual bool unload() = 0;
 
     /**
-     * Gives the url to the main qml that shall be loaded.
-     *
-     * @return The url to main qml.
-     */
-    virtual QUrl mainQMLUrl() const = 0;
-
-    /**
      * Gives the url to the icon of the plugin.
      *
      * @return The url to main qml.

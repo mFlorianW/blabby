@@ -47,10 +47,6 @@ QVariant MultiMediaPluginModel::data(const QModelIndex &index, int role) const
     {
         return QVariant{ d->mPlugins.at(index.row())->pluginName() };
     }
-    else if(role == Roles::PluginQmlUrl)
-    {
-        return QVariant{ d->mPlugins.at(index.row())->mainQMLUrl() };
-    }
     else if(role == Roles::PluginActive)
     {
         return QVariant{ d->mActiveIndex == index.row() };

@@ -63,11 +63,6 @@ bool MediaServerPlugin::unload()
     return true;
 }
 
-QUrl MediaServerPlugin::mainQMLUrl() const
-{
-    return QUrl{};
-}
-
 QUrl MediaServerPlugin::pluginIconUrl() const
 {
     return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
