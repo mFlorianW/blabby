@@ -42,11 +42,6 @@ bool Shell::TestPlugin::unload()
     return true;
 }
 
-QUrl TestPlugin::mainQMLUrl() const
-{
-    return QUrl{ "qrc:/qml/main.qml" };
-}
-
 QUrl TestPlugin::pluginIconUrl() const
 {
     return QUrl{ "qrc:/icon/pluginIcon.png" };

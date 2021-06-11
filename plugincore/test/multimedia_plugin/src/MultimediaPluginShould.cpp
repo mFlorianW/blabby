@@ -46,11 +46,6 @@ public:
         return true;
     }
 
-    QUrl mainQMLUrl() const override
-    {
-        return {};
-    }
-
     QUrl pluginIconUrl() const override
     {
         return {};

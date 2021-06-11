@@ -30,8 +30,6 @@ public:
 
     bool unload() override;
 
-    QUrl mainQMLUrl() const override;
-
     QUrl pluginIconUrl() const override;
 
     bool handleBackButton() override;

@@ -66,16 +66,6 @@ void MultiMediaPluginModelShould::give_empty_variant_for_invalid_index()
     QCOMPARE(pluginName, QVariant{});
 }
 
-void MultiMediaPluginModelShould::give_qml_url_for_valid_index()
-{
-    TestPlugin testPlugin;
-    Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };
-
-    auto qmlUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginQmlUrl);
-
-    QCOMPARE(qmlUrl, "qrc:/qml/main.qml");
-}
-
 void MultiMediaPluginModelShould::give_status_if_a_plugin_is_active()
 {
     Shell::MultiMediaPluginModel mediaPluginModel{ { std::make_shared<TestPlugin>() } };

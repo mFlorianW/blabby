@@ -59,7 +59,7 @@ FileSystemPluginSource::~FileSystemPluginSource() = default;
 
 void FileSystemPluginSource::loadPlugins() const
 {
-    for(const QString &path : { DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR, DEFAULT_QML_PLUGIN_DIR })
+    for(const QString &path : { QStringLiteral(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR), QStringLiteral(DEFAULT_QML_PLUGIN_DIR) })
     {
         QDir dir{ path };
         if(!dir.exists(path))
