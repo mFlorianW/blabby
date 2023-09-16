@@ -5,41 +5,41 @@
 
 #include "ErrorResult.h"
 
-#include <QXmlStreamReader>
 #include <QDebug>
+#include <QXmlStreamReader>
 
 namespace UPnPAV
 {
 
 ErrorResult::ErrorResult(const QString &rawMessage)
 {
-    if(rawMessage.isEmpty())
+    if (rawMessage.isEmpty())
     {
         return;
     }
 
     QXmlStreamReader errorReader{rawMessage};
 
-    while(errorReader.readNext() && !errorReader.hasError() && !errorReader.atEnd())
+    while (errorReader.readNext() && !errorReader.hasError() && !errorReader.atEnd())
     {
-        if(errorReader.isStartElement() && errorReader.name() == "errorCode")
+        if (errorReader.isStartElement() && errorReader.name() == "errorCode")
         {
             bool ok = false;
             m_errorCode = errorReader.readElementText().toInt(&ok);
 
-            if(!ok)
+            if (!ok)
             {
                 m_errorCode = 0;
             }
         }
 
-        if(errorReader.isStartElement() && errorReader.name() == "errorDescription")
+        if (errorReader.isStartElement() && errorReader.name() == "errorDescription")
         {
             m_errorDescription = errorReader.readElementText();
         }
     }
 
-    if(errorReader.hasError())
+    if (errorReader.hasError())
     {
         qInfo() << "Failed to parse error XML result:" << errorReader.errorString();
     }
@@ -55,4 +55,4 @@ QString ErrorResult::errorDescription() const noexcept
     return m_errorDescription;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

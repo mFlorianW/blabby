@@ -27,4 +27,4 @@ void ServiceDiscoveryBackendDouble::sendNotifyMessage(const QNetworkDatagram &da
     Q_EMIT receivedNetworkDatagram(datagram);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

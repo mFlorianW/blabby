@@ -65,9 +65,9 @@ const QString &DeviceDescription::udn() const noexcept
 
 std::optional<ServiceDescription> DeviceDescription::service(const QString &serviceName) const noexcept
 {
-    for(const auto &serviceDesc : m_services)
+    for (const auto &serviceDesc : m_services)
     {
-        if(serviceDesc.serviceType().contains(serviceName))
+        if (serviceDesc.serviceType().contains(serviceName))
         {
             return std::optional<ServiceDescription>{serviceDesc};
         }
@@ -88,9 +88,9 @@ const QVector<ServiceControlPointDefinition> &DeviceDescription::scpds() const n
 
 std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QString &scpdUrl) const noexcept
 {
-    for(const auto &scpd : m_scpds)
+    for (const auto &scpd : m_scpds)
     {
-        if(scpd.scpdUrl() == scpdUrl)
+        if (scpd.scpdUrl() == scpdUrl)
         {
             return std::optional<ServiceControlPointDefinition>(scpd);
         }
@@ -101,18 +101,14 @@ std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QStri
 
 bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_deviceType == rhs.m_deviceType) &&
-            (lhs.m_friendlyName == rhs.m_friendlyName) &&
-            (lhs.m_icons == rhs.m_icons) &&
-            (lhs.m_modelName == rhs.m_modelName) &&
-            (lhs.m_udn == rhs.m_udn) &&
-            (lhs.m_manufacturer == rhs.m_manufacturer) &&
-            (lhs.m_services == rhs.m_services));
+    return ((lhs.m_deviceType == rhs.m_deviceType) && (lhs.m_friendlyName == rhs.m_friendlyName) &&
+            (lhs.m_icons == rhs.m_icons) && (lhs.m_modelName == rhs.m_modelName) && (lhs.m_udn == rhs.m_udn) &&
+            (lhs.m_manufacturer == rhs.m_manufacturer) && (lhs.m_services == rhs.m_services));
 }
 
 bool operator!=(const DeviceDescription &lhs, const DeviceDescription &rhs)
@@ -120,4 +116,4 @@ bool operator!=(const DeviceDescription &lhs, const DeviceDescription &rhs)
     return !(lhs == rhs);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

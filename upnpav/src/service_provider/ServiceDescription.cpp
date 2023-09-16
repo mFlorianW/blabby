@@ -5,7 +5,8 @@
 
 #include "ServiceDescription.h"
 
-namespace UPnPAV {
+namespace UPnPAV
+{
 
 ServiceDescription::ServiceDescription()
 {
@@ -51,16 +52,13 @@ QString ServiceDescription::eventUrl() const
 
 bool operator==(const ServiceDescription &lhs, const ServiceDescription &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_serviceType == rhs.m_serviceType) &&
-            (lhs.m_id == rhs.m_id) &&
-            (lhs.m_scpdUrl == rhs.m_scpdUrl) &&
-            (lhs.m_controlUrl == rhs.m_controlUrl) &&
-            (lhs.m_eventUrl == rhs.m_eventUrl));
+    return ((lhs.m_serviceType == rhs.m_serviceType) && (lhs.m_id == rhs.m_id) && (lhs.m_scpdUrl == rhs.m_scpdUrl) &&
+            (lhs.m_controlUrl == rhs.m_controlUrl) && (lhs.m_eventUrl == rhs.m_eventUrl));
 }
 
 bool operator!=(const ServiceDescription &lhs, const ServiceDescription &rhs)
@@ -68,4 +66,4 @@ bool operator!=(const ServiceDescription &lhs, const ServiceDescription &rhs)
     return !(lhs == rhs);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

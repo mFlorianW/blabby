@@ -9,12 +9,14 @@
 namespace UPnPAV
 {
 
-
 DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
     : QObject()
     , m_backend(backend)
 {
-    (void)connect(m_backend, &DescriptionFetcherBackend::descriptionFetched, this, &DescriptionFetcher::descriptionFetched);
+    (void)connect(m_backend,
+                  &DescriptionFetcherBackend::descriptionFetched,
+                  this,
+                  &DescriptionFetcher::descriptionFetched);
 }
 
 DescriptionFetcher::~DescriptionFetcher() = default;

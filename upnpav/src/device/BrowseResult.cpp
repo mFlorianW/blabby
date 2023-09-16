@@ -12,22 +12,22 @@ namespace UPnPAV
 
 BrowseResult::BrowseResult(const QString xmlResponse)
 {
-    QXmlStreamReader responseReader{ xmlResponse };
-    while(responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
+    QXmlStreamReader responseReader{xmlResponse};
+    while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
     {
-        if(responseReader.isStartElement() && responseReader.name() == "NumberReturned")
+        if (responseReader.isStartElement() && responseReader.name() == "NumberReturned")
         {
             m_numberReturned = responseReader.readElementText().toUInt();
         }
-        else if(responseReader.isStartElement() && responseReader.name() == "TotalMatches")
+        else if (responseReader.isStartElement() && responseReader.name() == "TotalMatches")
         {
             m_totalMatches = responseReader.readElementText().toUInt();
         }
-        else if(responseReader.isStartElement() && responseReader.name() == "UpdateID")
+        else if (responseReader.isStartElement() && responseReader.name() == "UpdateID")
         {
             m_updateId = responseReader.readElementText().toUInt();
         }
-        else if(responseReader.isStartElement() && responseReader.name() == "Result")
+        else if (responseReader.isStartElement() && responseReader.name() == "Result")
         {
             auto unescapedResult =
                 responseReader.readElementText().replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
@@ -58,11 +58,11 @@ const QVector<MediaServerObject> &BrowseResult::objects() const noexcept
 
 void BrowseResult::readDidlDescription(const QString &didlDescription)
 {
-    QXmlStreamReader didlReader{ didlDescription };
+    QXmlStreamReader didlReader{didlDescription};
 
-    while(didlReader.readNext() && !didlReader.hasError() && !didlReader.atEnd())
+    while (didlReader.readNext() && !didlReader.hasError() && !didlReader.atEnd())
     {
-        if(didlReader.isStartElement() && (didlReader.name() == "container" || didlReader.name() == "item"))
+        if (didlReader.isStartElement() && (didlReader.name() == "container" || didlReader.name() == "item"))
         {
             auto mediaServerObject = readDidlObjectDescription(didlReader);
             m_objects.append(mediaServerObject);
@@ -79,33 +79,33 @@ MediaServerObject BrowseResult::readDidlObjectDescription(QXmlStreamReader &stre
 
     // read container attributes
     auto attributes = streamReader.attributes();
-    for(const auto &attribute : attributes)
+    for (const auto &attribute : attributes)
     {
-        if(attribute.name() == "id")
+        if (attribute.name() == "id")
         {
             id = attribute.value().toString();
         }
-        else if(attribute.name() == "parentID")
+        else if (attribute.name() == "parentID")
         {
             parenId = attribute.value().toString();
         }
     }
 
-    while(streamReader.readNext() && !streamReader.hasError() && !streamReader.atEnd() &&
-          !(streamReader.isEndElement() && ((streamReader.name() == "container") || (streamReader.name() == "item"))))
+    while (streamReader.readNext() && !streamReader.hasError() && !streamReader.atEnd() &&
+           !(streamReader.isEndElement() && ((streamReader.name() == "container") || (streamReader.name() == "item"))))
     {
-        if(streamReader.isStartElement() && streamReader.name() == "title")
+        if (streamReader.isStartElement() && streamReader.name() == "title")
         {
             title = streamReader.readElementText();
         }
 
-        if(streamReader.isStartElement() && streamReader.name() == "class")
+        if (streamReader.isStartElement() && streamReader.name() == "class")
         {
             typeClass = streamReader.readElementText();
         }
     }
 
-    return MediaServerObject{ id, parenId, title, typeClass };
+    return MediaServerObject{id, parenId, title, typeClass};
 }
 
 } // namespace UPnPAV

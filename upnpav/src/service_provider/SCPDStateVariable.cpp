@@ -68,19 +68,15 @@ const QString &SCPDStateVariable::stepSize() const
 
 bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_sendEvents == rhs.m_sendEvents) &&
-            (lhs.m_name == rhs.m_name) &&
-            (lhs.m_dataType == rhs.m_dataType) &&
-            (lhs.m_defaultValue == rhs.m_defaultValue) &&
-            (lhs.m_allowedValues == rhs.m_allowedValues) &&
-            (lhs.m_miniumValue == rhs.m_miniumValue) &&
-            (lhs.m_maximumValue == rhs.m_maximumValue) &&
-            (lhs.m_step == rhs.m_step));
+    return ((lhs.m_sendEvents == rhs.m_sendEvents) && (lhs.m_name == rhs.m_name) &&
+            (lhs.m_dataType == rhs.m_dataType) && (lhs.m_defaultValue == rhs.m_defaultValue) &&
+            (lhs.m_allowedValues == rhs.m_allowedValues) && (lhs.m_miniumValue == rhs.m_miniumValue) &&
+            (lhs.m_maximumValue == rhs.m_maximumValue) && (lhs.m_step == rhs.m_step));
 }
 
 bool operator!=(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
@@ -93,4 +89,4 @@ SCPDStateVariable::DataType SCPDStateVariable::dataType() const
     return m_dataType;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

@@ -28,4 +28,4 @@ InvalidDeviceDescription *InvalidDeviceDescription::clone() const
     return new InvalidDeviceDescription(*this);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

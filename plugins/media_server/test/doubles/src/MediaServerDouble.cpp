@@ -12,7 +12,8 @@
 namespace MediaServer::Plugin::Doubles
 {
 
-std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(const UPnPAV::DeviceDescription &deviceDescription)
+std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(
+    const UPnPAV::DeviceDescription &deviceDescription)
 {
     Q_UNUSED(deviceDescription)
     ++howOftenCalled;
@@ -40,8 +41,10 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexc
     return {};
 }
 
-QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId, BrowseFlag browseFlag,
-                                                            const QString &filter, const QString &sortCriteria) noexcept
+QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId,
+                                                            BrowseFlag browseFlag,
+                                                            const QString &filter,
+                                                            const QString &sortCriteria) noexcept
 {
     Q_UNUSED(filter)
     Q_UNUSED(sortCriteria)
@@ -49,7 +52,7 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objec
     lastBrowseRequest.objectId = objectId;
     lastBrowseRequest.browseFlag = browseFlag;
 
-    return QSharedPointer<UPnPAV::PendingSoapCall>{ new UPnPAV::PendingSoapCall{ soapCall } };
+    return QSharedPointer<UPnPAV::PendingSoapCall>{new UPnPAV::PendingSoapCall{soapCall}};
 }
 
 } // namespace MediaServer::Plugin::Doubles

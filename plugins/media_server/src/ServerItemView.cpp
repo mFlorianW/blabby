@@ -13,7 +13,7 @@ namespace MediaServer::Plugin
 
 ServerItemView::ServerItemView(ServerItemModel *model)
     : QObject()
-    , mServerItemModel{ model }
+    , mServerItemModel{model}
 {
 }
 
@@ -26,7 +26,7 @@ UPnPAV::IMediaServer *ServerItemView::mediaServer() const noexcept
 
 void ServerItemView::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
-    if(mediaServer == nullptr)
+    if (mediaServer == nullptr)
     {
         return;
     }
@@ -49,13 +49,13 @@ void MediaServer::Plugin::ServerItemView::requestFolder(const QString &id)
 
 void ServerItemView::requestStorageFolder(const QString &id)
 {
-    if(mMediaServer == nullptr)
+    if (mMediaServer == nullptr)
     {
         // TODO: add qcwarning
         return;
     }
 
-    if(!mActiveId.isEmpty())
+    if (!mActiveId.isEmpty())
     {
         mIdStack.push(mActiveId);
     }
@@ -66,7 +66,7 @@ void ServerItemView::requestStorageFolder(const QString &id)
 
 bool ServerItemView::goPreviousFolder()
 {
-    if(mIdStack.isEmpty())
+    if (mIdStack.isEmpty())
     {
         return false;
     }
@@ -78,19 +78,19 @@ bool ServerItemView::goPreviousFolder()
 
 void ServerItemView::onBrowsRequestFinished()
 {
-    if(mPendingSoapCall == nullptr || mServerItemModel == nullptr)
+    if (mPendingSoapCall == nullptr || mServerItemModel == nullptr)
     {
         // TODO: add qcwarning.
         return;
     }
 
-    if(mServerItemModel->rowCount(QModelIndex{}) > 0)
+    if (mServerItemModel->rowCount(QModelIndex{}) > 0)
     {
         mServerItemModel->clearMediaServerObjects();
     }
 
     const auto result = mPendingSoapCall->resultAs<UPnPAV::BrowseResult>();
-    for(const auto &mediaServerObject : std::as_const(result->objects()))
+    for (const auto &mediaServerObject : std::as_const(result->objects()))
     {
         mServerItemModel->insertMediaServerObject(mediaServerObject);
     }

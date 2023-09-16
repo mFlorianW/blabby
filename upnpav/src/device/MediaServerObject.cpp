@@ -12,7 +12,10 @@ namespace UPnPAV
 
 MediaServerObject::MediaServerObject() = default;
 
-MediaServerObject::MediaServerObject(const QString &id, const QString &parentId, const QString &title, const QString &typeClass)
+MediaServerObject::MediaServerObject(const QString &id,
+                                     const QString &parentId,
+                                     const QString &title,
+                                     const QString &typeClass)
     : m_id(id)
     , m_parentId(parentId)
     , m_title(title)

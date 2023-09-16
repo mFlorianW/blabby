@@ -14,16 +14,12 @@ HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply)
     : SoapCall()
     , m_reply(reply)
 {
-    (void)connect(m_reply.get(),
-                  &QNetworkReply::finished,
-                  this,
-                  &HttpSoapCall::finished);
+    (void)connect(m_reply.get(), &QNetworkReply::finished, this, &HttpSoapCall::finished);
 }
 
 bool HttpSoapCall::hasFinishedSuccesful() const noexcept
 {
-    return (m_reply->error() == QNetworkReply::NoError) ? true
-                                                        : false;
+    return (m_reply->error() == QNetworkReply::NoError) ? true : false;
 }
 
 QString HttpSoapCall::rawMessage() const noexcept
@@ -31,4 +27,4 @@ QString HttpSoapCall::rawMessage() const noexcept
     return QString{m_reply->readAll()};
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

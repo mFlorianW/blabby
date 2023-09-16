@@ -15,8 +15,7 @@ ContentDirectoryServiceValidator::ContentDirectoryServiceValidator(const DeviceD
     m_serviceType = "urn:schemas-upnp-org:service:ContentDirectory";
     m_deviceDescription = deviceDescription;
 
-    m_stateVariables = QVector<QString>
-    {
+    m_stateVariables = QVector<QString>{
         "A_ARG_TYPE_ObjectID",
         "A_ARG_TYPE_Result",
         "A_ARG_TYPE_BrowseFlag",
@@ -30,13 +29,7 @@ ContentDirectoryServiceValidator::ContentDirectoryServiceValidator(const DeviceD
         "SystemUpdateID",
     };
 
-    m_actions = QVector<QString>
-    {
-        "GetSearchCapabilities",
-        "GetSortCapabilities",
-        "GetSystemUpdateID",
-        "Browse"
-    };
+    m_actions = QVector<QString>{"GetSearchCapabilities", "GetSortCapabilities", "GetSystemUpdateID", "Browse"};
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

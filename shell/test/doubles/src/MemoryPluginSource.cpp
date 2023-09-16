@@ -25,7 +25,7 @@ void MemoryPluginSource::loadPlugins() const
 
 QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> MemoryPluginSource::plugins() const
 {
-    return { plugin };
+    return {plugin};
 }
 
 } // namespace Shell

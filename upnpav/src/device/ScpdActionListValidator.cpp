@@ -23,20 +23,17 @@ ScpdActionListValidator::~ScpdActionListValidator()
 
 bool ScpdActionListValidator::validate() noexcept
 {
-    for(auto &actionName : m_actionNames)
+    for (auto &actionName : m_actionNames)
     {
-        auto iter = std::find_if(m_scpd.actionList().begin(),
-                                 m_scpd.actionList().end(),
-                                 [=](const SCPDAction &action)
-                                 {
-                                    if(actionName == action.name())
-                                    {
-                                        return true;
-                                    }
+        auto iter = std::find_if(m_scpd.actionList().begin(), m_scpd.actionList().end(), [=](const SCPDAction &action) {
+            if (actionName == action.name())
+            {
+                return true;
+            }
 
-                                    return false;
-                                 });
-        if(iter == m_scpd.actionList().end())
+            return false;
+        });
+        if (iter == m_scpd.actionList().end())
         {
             m_errorMessage = QString{"%1 SCPD has no %2 action"}.arg(m_scpdName).arg(actionName);
             return false;
@@ -46,4 +43,4 @@ bool ScpdActionListValidator::validate() noexcept
     return true;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

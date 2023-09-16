@@ -21,7 +21,7 @@ void MainWindowShould::forward_back_button_call_to_plugin_when_plugin_active()
 {
     MemoryPluginSource source;
     MultiMediaPluginModel model;
-    MainWindow window{ &model, &source };
+    MainWindow window{&model, &source};
     window.activatePlugin(0);
 
     window.handleBackButtonPressed();

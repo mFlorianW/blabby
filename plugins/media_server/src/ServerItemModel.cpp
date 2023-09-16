@@ -30,19 +30,19 @@ int ServerItemModel::rowCount(const QModelIndex &parent) const
 
 QVariant ServerItemModel::data(const QModelIndex &index, int role) const
 {
-    if(mMediaServerObjects.isEmpty() || !index.isValid())
+    if (mMediaServerObjects.isEmpty() || !index.isValid())
     {
         return QVariant{};
     }
 
     const auto mediaServerObject = mMediaServerObjects.at(index.row());
-    if(role == RoleName::ItemName)
+    if (role == RoleName::ItemName)
     {
         return QVariant::fromValue<QString>(mediaServerObject.title());
     }
-    else if(role == RoleName::ItemClass)
+    else if (role == RoleName::ItemClass)
     {
-        if(mediaServerObject.typeClass().contains("storageFolder"))
+        if (mediaServerObject.typeClass().contains("storageFolder"))
         {
             return QVariant::fromValue<ServerItemModel::ItemType>(ItemType::ItemFolder);
         }
@@ -51,7 +51,7 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
             return QVariant::fromValue<ServerItemModel::ItemType>(ItemType::ItemFile);
         }
     }
-    else if(role == RoleName::ItemId)
+    else if (role == RoleName::ItemId)
     {
         return QVariant::fromValue<QString>(mediaServerObject.id());
     }
@@ -61,9 +61,9 @@ QVariant ServerItemModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> ServerItemModel::roleNames() const
 {
-    return QHash<qint32, QByteArray>{ std::make_pair(ServerItemModel::ItemClass, "itemClass"),
-                                      std::make_pair(ServerItemModel::ItemName, "itemName"),
-                                      std::make_pair(ServerItemModel::ItemId, "itemId") };
+    return QHash<qint32, QByteArray>{std::make_pair(ServerItemModel::ItemClass, "itemClass"),
+                                     std::make_pair(ServerItemModel::ItemName, "itemName"),
+                                     std::make_pair(ServerItemModel::ItemId, "itemId")};
 }
 
 void ServerItemModel::clearMediaServerObjects()

@@ -8,7 +8,6 @@
 namespace UPnPAV
 {
 
-
 SCPDAction::SCPDAction()
 {
 }
@@ -32,9 +31,9 @@ const QVector<SCPDArgument> &SCPDAction::arguments() const
 QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for(const auto &arg : m_arguments)
+    for (const auto &arg : m_arguments)
     {
-        if(arg.direction() == SCPDArgument::In)
+        if (arg.direction() == SCPDArgument::In)
         {
             result.append(arg);
         }
@@ -45,13 +44,12 @@ QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 
 bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_name == rhs.m_name) &&
-            (lhs.m_arguments == rhs.m_arguments));
+    return ((lhs.m_name == rhs.m_name) && (lhs.m_arguments == rhs.m_arguments));
 }
 
 bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs)

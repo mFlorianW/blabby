@@ -21,12 +21,15 @@ MediaDeviceBaseTest::MediaDeviceBaseTest()
 
 MediaDeviceBaseTest::~MediaDeviceBaseTest() = default;
 
-ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWithoutStateVariable(const SCPDStateVariable &variable)
+ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWithoutStateVariable(
+    const SCPDStateVariable &variable)
 {
     QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables;
     variables.removeAll(variable);
 
-    return ServiceControlPointDefinition{ "http://127.0.0.1/ConnectionManager.xml", variables, validConnectionManagerActions };
+    return ServiceControlPointDefinition{"http://127.0.0.1/ConnectionManager.xml",
+                                         variables,
+                                         validConnectionManagerActions};
 }
 
 ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
@@ -34,19 +37,21 @@ ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWi
     QVector<SCPDAction> actions = validConnectionManagerActions;
     actions.removeAll(action);
 
-    return ServiceControlPointDefinition{ "http://127.0.0.1/ConnectionManager.xml", validConnectionManagerStateVariables, actions };
+    return ServiceControlPointDefinition{"http://127.0.0.1/ConnectionManager.xml",
+                                         validConnectionManagerStateVariables,
+                                         actions};
 }
 
 void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_ConnectionManagerDescription()
 {
     try
     {
-        mediaDevice(DeviceDescription{ "", "", "", "", "", {} });
+        mediaDevice(DeviceDescription{"", "", "", "", "", {}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager description not found"));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager description not found"));
     }
 }
 
@@ -54,13 +59,19 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
 {
     try
     {
-        mediaDevice(DeviceDescription{
-            "", "", "", "", "", {}, { eventUrlMissingInConnectionManagerDescription }, { validConnectionManagerSCPD } });
+        mediaDevice(DeviceDescription{"",
+                                      "",
+                                      "",
+                                      "",
+                                      "",
+                                      {},
+                                      {eventUrlMissingInConnectionManagerDescription},
+                                      {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager event URL is not set"));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager event URL is not set"));
     }
 }
 
@@ -68,13 +79,19 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
 {
     try
     {
-        mediaDevice(DeviceDescription{
-            "", "", "", "", "", {}, { serviceIdMissingInConnectionManagerDescription }, { validConnectionManagerSCPD } });
+        mediaDevice(DeviceDescription{"",
+                                      "",
+                                      "",
+                                      "",
+                                      "",
+                                      {},
+                                      {serviceIdMissingInConnectionManagerDescription},
+                                      {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager service ID is not set"));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager service ID is not set"));
     }
 }
 
@@ -82,13 +99,19 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
 {
     try
     {
-        mediaDevice(DeviceDescription{
-            "", "", "", "", "", {}, { scpdUrlMissingInConnectionManagerDescription }, { validConnectionManagerSCPD } });
+        mediaDevice(DeviceDescription{"",
+                                      "",
+                                      "",
+                                      "",
+                                      "",
+                                      {},
+                                      {scpdUrlMissingInConnectionManagerDescription},
+                                      {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager SCPD URL is not set"));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD URL is not set"));
     }
 }
 
@@ -96,12 +119,12 @@ void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_
 {
     try
     {
-        mediaDevice(DeviceDescription{ "", "", "", "", "", {}, { validConnectionManagerDescription } });
+        mediaDevice(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(const InvalidDeviceDescription &e)
+    catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager SCPD not found."));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD not found."));
     }
 }
 
@@ -109,13 +132,19 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
 {
     try
     {
-        mediaDevice(DeviceDescription{
-            "", "", "", "", "", {}, { controlUrlMissingInConnectionManagerDescription }, { validConnectionManagerSCPD } });
+        mediaDevice(DeviceDescription{"",
+                                      "",
+                                      "",
+                                      "",
+                                      "",
+                                      {},
+                                      {controlUrlMissingInConnectionManagerDescription},
+                                      {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ConnectionManager control URL is not set"));
+        QVERIFY(QString{e.what()}.contains("ConnectionManager control URL is not set"));
     }
 }
 
@@ -124,66 +153,119 @@ void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_Connectio
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
 
-    DeviceDescription SourceProtocolInfo_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(SourceProtocolInfo) }
-    };
+    DeviceDescription SourceProtocolInfo_Missing{"",
+                                                 "",
+                                                 "",
+                                                 "",
+                                                 "",
+                                                 QVector<IconDescription>{},
+                                                 {validConnectionManagerDescription},
+                                                 {createConnectionManagerSCPDWithoutStateVariable(SourceProtocolInfo)}};
 
-    QTest::newRow("State variable SourceProtocolInfo missing") << SourceProtocolInfo_Missing << "ConnectionManager.*SourceProtocolInfo";
+    QTest::newRow("State variable SourceProtocolInfo missing")
+        << SourceProtocolInfo_Missing << "ConnectionManager.*SourceProtocolInfo";
 
-    DeviceDescription SinkProtocolInfo_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(SinkProtocolInfo) }
-    };
+    DeviceDescription SinkProtocolInfo_Missing{"",
+                                               "",
+                                               "",
+                                               "",
+                                               "",
+                                               QVector<IconDescription>{},
+                                               {validConnectionManagerDescription},
+                                               {createConnectionManagerSCPDWithoutStateVariable(SinkProtocolInfo)}};
 
-    QTest::newRow("State variable SinkProtocolInfo missing") << SinkProtocolInfo_Missing << "ConnectionManager.*SinkProtocolInfo";
+    QTest::newRow("State variable SinkProtocolInfo missing")
+        << SinkProtocolInfo_Missing << "ConnectionManager.*SinkProtocolInfo";
 
     DeviceDescription CurrentConnectionIDs_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(CurrentConnectionIDs) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(CurrentConnectionIDs)}};
 
     QTest::newRow("State variable CurrentConnectionIDs missing")
         << CurrentConnectionIDs_Missing << "ConnectionManager.*CurrentConnectionIDs";
 
     DeviceDescription A_ARG_TYPE_ConnectionStatus_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionStatus) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionStatus)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionStatus missing")
         << A_ARG_TYPE_ConnectionStatus_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionStatus";
 
-
     DeviceDescription A_ARG_TYPE_ConnectionManager_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionManager) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionManager)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionManager missing")
         << A_ARG_TYPE_ConnectionManager_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionManager";
 
     DeviceDescription A_ARG_TYPE_Direction_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_Direction) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_Direction)}};
 
     QTest::newRow("State variable A_ARG_TYPE_Direction missing")
         << A_ARG_TYPE_Direction_Missing << "ConnectionManager.*A_ARG_TYPE_Direction";
 
     DeviceDescription A_ARG_TYPE_ProtocolInfo_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ProtocolInfo) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ProtocolInfo)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ProtocolInfo missing")
         << A_ARG_TYPE_ProtocolInfo_Missing << "ConnectionManager.*A_ARG_TYPE_ProtocolInfo";
 
     DeviceDescription A_ARG_TYPE_ConnectionID_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionID) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionID)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionID missing")
         << A_ARG_TYPE_ConnectionID_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionID";
 
-    DeviceDescription A_ARG_TYPE_RcsID_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_RcsID) }
-    };
+    DeviceDescription A_ARG_TYPE_RcsID_Missing{"",
+                                               "",
+                                               "",
+                                               "",
+                                               "",
+                                               QVector<IconDescription>{},
+                                               {validConnectionManagerDescription},
+                                               {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_RcsID)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_RcsID missing") << A_ARG_TYPE_RcsID_Missing << "ConnectionManager.*A_ARG_TYPE_RcsID";
+    QTest::newRow("State variable A_ARG_TYPE_RcsID missing")
+        << A_ARG_TYPE_RcsID_Missing << "ConnectionManager.*A_ARG_TYPE_RcsID";
 }
 
 void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD()
@@ -196,9 +278,10 @@ void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_Connectio
         mediaDevice(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(const InvalidDeviceDescription &e)
+    catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{ e.what() }.contains(QRegExp(ExpectedException)), QString{ "Actual:" }.append(e.what()).toLocal8Bit());
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
 
@@ -207,22 +290,39 @@ void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManage
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
 
-    DeviceDescription GetProtocolInfo_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutAction(GetProtocolInfo) }
-    };
+    DeviceDescription GetProtocolInfo_Missing{"",
+                                              "",
+                                              "",
+                                              "",
+                                              "",
+                                              QVector<IconDescription>{},
+                                              {validConnectionManagerDescription},
+                                              {createConnectionManagerSCPDWithoutAction(GetProtocolInfo)}};
 
     QTest::newRow("Action GetProtocolInfo missing") << GetProtocolInfo_Missing << "ConnectionManager.*GetProtocolInfo";
 
     DeviceDescription GetCurrentConnectionIDs_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutAction(GetCurrentConnectionIDs) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionIDs)}};
 
     QTest::newRow("Action GetCurrentConnectionIDs missing")
         << GetCurrentConnectionIDs_Missing << "ConnectionManager.*GetCurrentConnectionIDs";
 
     DeviceDescription GetCurrentConnectionInfo_Missing{
-        "", "", "", "", "", QVector<IconDescription>{}, { validConnectionManagerDescription }, { createConnectionManagerSCPDWithoutAction(GetCurrentConnectionInfo) }
-    };
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription},
+        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionInfo)}};
 
     QTest::newRow("Action GetCurrentConnectionInfo missing")
         << GetCurrentConnectionInfo_Missing << "ConnectionManager.*GetCurrentConnectionInfo";
@@ -238,9 +338,10 @@ void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManage
         mediaDevice(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(const InvalidDeviceDescription &e)
+    catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{ e.what() }.contains(QRegExp(ExpectedException)), QString{ "Actual:" }.append(e.what()).toLocal8Bit());
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
 

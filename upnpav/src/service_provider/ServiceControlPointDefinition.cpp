@@ -10,7 +10,6 @@ namespace UPnPAV
 
 ServiceControlPointDefinition::ServiceControlPointDefinition()
 {
-
 }
 
 ServiceControlPointDefinition::ServiceControlPointDefinition(const QString &scpdUrl,
@@ -29,9 +28,9 @@ const QString &ServiceControlPointDefinition::scpdUrl() const
 
 bool ServiceControlPointDefinition::hasStateVariable(const QString &stateVariableName) const noexcept
 {
-    for(const auto &variable : m_stateVariables)
+    for (const auto &variable : m_stateVariables)
     {
-        if(variable.name() == stateVariableName)
+        if (variable.name() == stateVariableName)
         {
             return true;
         }
@@ -52,9 +51,9 @@ const QVector<SCPDAction> &ServiceControlPointDefinition::actionList() const
 
 SCPDAction ServiceControlPointDefinition::action(const QString &actionName) const noexcept
 {
-    for(const auto &action : m_actions)
+    for (const auto &action : m_actions)
     {
-        if(action.name() == actionName)
+        if (action.name() == actionName)
         {
             return action;
         }
@@ -65,13 +64,12 @@ SCPDAction ServiceControlPointDefinition::action(const QString &actionName) cons
 
 bool operator==(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_actions == rhs.m_actions) &&
-            (lhs.m_stateVariables == rhs.m_stateVariables));
+    return ((lhs.m_actions == rhs.m_actions) && (lhs.m_stateVariables == rhs.m_stateVariables));
 }
 
 bool operator!=(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition &rhs)
@@ -79,4 +77,4 @@ bool operator!=(const ServiceControlPointDefinition &lhs, const ServiceControlPo
     return !(lhs == rhs);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

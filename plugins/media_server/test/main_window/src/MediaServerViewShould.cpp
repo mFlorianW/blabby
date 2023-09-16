@@ -23,7 +23,7 @@ void MediaServerViewShould::on_mediaserver_connected_create_media_server_and_put
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{&mediaServerModel, &mediaServerFactory, &serviceProviderFactory};
 
     mainController.searchMediaServer();
 
@@ -35,7 +35,7 @@ void MediaServerViewShould::handle_every_connected_signal_of_media_server_once()
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{&mediaServerModel, &mediaServerFactory, &serviceProviderFactory};
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
@@ -51,7 +51,7 @@ void MediaServerViewShould::handle_disconnected_media_server()
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{&mediaServerModel, &mediaServerFactory, &serviceProviderFactory};
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 
@@ -67,7 +67,7 @@ void MediaServerViewShould::set_active_media_server()
     Doubles::ServiceProviderFactory serviceProviderFactory;
     Doubles::MediaServerFactory mediaServerFactory;
     MediaServerModel mediaServerModel;
-    MediaServerView mainController{ &mediaServerModel, &mediaServerFactory, &serviceProviderFactory };
+    MediaServerView mainController{&mediaServerModel, &mediaServerFactory, &serviceProviderFactory};
 
     Q_EMIT serviceProviderFactory.serviceProvider->serviceConnected("mediaServer");
 

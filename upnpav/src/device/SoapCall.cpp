@@ -12,5 +12,4 @@ SoapCall::~SoapCall()
 {
 }
 
-} //namespace UPnPAV
-
+} // namespace UPnPAV

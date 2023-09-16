@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "PendingSoapCall.h"
-#include "SoapCall.h"
 #include "ErrorResult.h"
+#include "SoapCall.h"
 
 #include <QVariant>
 
@@ -17,10 +17,7 @@ PendingSoapCall::PendingSoapCall(const QSharedPointer<SoapCall> &soapCall)
 {
     Q_ASSERT(soapCall != nullptr);
 
-    (void)connect(soapCall.get(),
-                  &SoapCall::finished,
-                  this,
-                  &PendingSoapCall::onSoapCallFinished);
+    (void)connect(soapCall.get(), &SoapCall::finished, this, &PendingSoapCall::onSoapCallFinished);
 }
 
 PendingSoapCall::ErrorCode PendingSoapCall::errorCode() const noexcept
@@ -42,7 +39,7 @@ void PendingSoapCall::onSoapCallFinished()
 {
     m_rawMessage = m_soapCall->rawMessage();
 
-    if(!m_soapCall->hasFinishedSuccesful())
+    if (!m_soapCall->hasFinishedSuccesful())
     {
         ErrorResult errorResult{m_rawMessage};
         m_errorState = true;
@@ -61,43 +58,43 @@ PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
 {
     switch (errorCode)
     {
-        case ErrorCode::NoError:
-            return ErrorCode::NoError;
-        case ErrorCode::InvalidAction:
-            return ErrorCode::InvalidAction;
-        case ErrorCode::InvalidArgs:
-            return ErrorCode::InvalidArgs;
-        case ErrorCode::ActionFailed:
-            return ErrorCode::ActionFailed;
-        case ErrorCode::ArgumentValueInvalid:
-            return ErrorCode::ArgumentValueInvalid;
-        case ErrorCode::ArgumentValueOutOfRange:
-            return ErrorCode::ArgumentValueOutOfRange;
-        case ErrorCode::OptionalActionNotImplemented:
-            return ErrorCode::OptionalActionNotImplemented;
-        case ErrorCode::OutOfMemory:
-            return ErrorCode::OutOfMemory;
-        case ErrorCode::HumanInterventionRequired:
-            return ErrorCode::HumanInterventionRequired;
-        case ErrorCode::StringArgumentTooLong:
-            return ErrorCode::StringArgumentTooLong;
-        case ErrorCode::ActionNotAuthorized:
-            return ErrorCode::ActionNotAuthorized;
-        case ErrorCode::SignatureFailure:
-            return ErrorCode::SignatureFailure;
-        case ErrorCode::SignatureMissing:
-            return ErrorCode::SignatureMissing;
-        case ErrorCode::NotEncrypted:
-            return ErrorCode::NotEncrypted;
-        case ErrorCode::InvalidSequence:
-            return ErrorCode::InvalidSequence;
-        case ErrorCode::InvalidControlUrl:
-            return ErrorCode::InvalidControlUrl;
-        case ErrorCode::NoSuchSession:
-            return ErrorCode::NoSuchSession;
-        default:
-            return ErrorCode::Unknown;
+    case ErrorCode::NoError:
+        return ErrorCode::NoError;
+    case ErrorCode::InvalidAction:
+        return ErrorCode::InvalidAction;
+    case ErrorCode::InvalidArgs:
+        return ErrorCode::InvalidArgs;
+    case ErrorCode::ActionFailed:
+        return ErrorCode::ActionFailed;
+    case ErrorCode::ArgumentValueInvalid:
+        return ErrorCode::ArgumentValueInvalid;
+    case ErrorCode::ArgumentValueOutOfRange:
+        return ErrorCode::ArgumentValueOutOfRange;
+    case ErrorCode::OptionalActionNotImplemented:
+        return ErrorCode::OptionalActionNotImplemented;
+    case ErrorCode::OutOfMemory:
+        return ErrorCode::OutOfMemory;
+    case ErrorCode::HumanInterventionRequired:
+        return ErrorCode::HumanInterventionRequired;
+    case ErrorCode::StringArgumentTooLong:
+        return ErrorCode::StringArgumentTooLong;
+    case ErrorCode::ActionNotAuthorized:
+        return ErrorCode::ActionNotAuthorized;
+    case ErrorCode::SignatureFailure:
+        return ErrorCode::SignatureFailure;
+    case ErrorCode::SignatureMissing:
+        return ErrorCode::SignatureMissing;
+    case ErrorCode::NotEncrypted:
+        return ErrorCode::NotEncrypted;
+    case ErrorCode::InvalidSequence:
+        return ErrorCode::InvalidSequence;
+    case ErrorCode::InvalidControlUrl:
+        return ErrorCode::InvalidControlUrl;
+    case ErrorCode::NoSuchSession:
+        return ErrorCode::NoSuchSession;
+    default:
+        return ErrorCode::Unknown;
     }
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

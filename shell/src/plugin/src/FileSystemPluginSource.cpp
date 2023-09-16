@@ -20,24 +20,24 @@ namespace Shell
 FileSystemPluginSourcePrivate::FileSystemPluginSourcePrivate() = default;
 FileSystemPluginSourcePrivate::~FileSystemPluginSourcePrivate() = default;
 
-
 void FileSystemPluginSourcePrivate::loadPlugins(const QFileInfo &fileInfo)
 {
-    QPluginLoader pluginLoader{ fileInfo.filePath() };
+    QPluginLoader pluginLoader{fileInfo.filePath()};
 
-    if(!pluginLoader.load())
+    if (!pluginLoader.load())
     {
-        qCWarning(shell) << "Failed to load plugin fileName:" << fileInfo.fileName() << "Error:" << pluginLoader.errorString();
+        qCWarning(shell) << "Failed to load plugin fileName:" << fileInfo.fileName()
+                         << "Error:" << pluginLoader.errorString();
         //        m_failedToLoadPlugins.append(fileInfo.fileName());
         return;
     }
 
     // Load the plugin, if the library doesn't implements the MultiMediaPlugin
     // interface then we can ignore this file and it can be unloaded.
-    auto plugin =
-        std::shared_ptr<PluginCore::MultimediaPlugin>(qobject_cast<PluginCore::MultimediaPlugin *>(pluginLoader.instance()));
+    auto plugin = std::shared_ptr<PluginCore::MultimediaPlugin>(
+        qobject_cast<PluginCore::MultimediaPlugin *>(pluginLoader.instance()));
 
-    if(plugin != nullptr)
+    if (plugin != nullptr)
     {
         plugin->load(mContext);
         mLoadedPlugins.append(std::move(plugin));
@@ -59,21 +59,22 @@ FileSystemPluginSource::~FileSystemPluginSource() = default;
 
 void FileSystemPluginSource::loadPlugins() const
 {
-    for(const QString &path : { QStringLiteral(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR), QStringLiteral(DEFAULT_QML_PLUGIN_DIR) })
+    for (const QString &path :
+         {QStringLiteral(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR), QStringLiteral(DEFAULT_QML_PLUGIN_DIR)})
     {
-        QDir dir{ path };
-        if(!dir.exists(path))
+        QDir dir{path};
+        if (!dir.exists(path))
         {
             qCWarning(shell) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";
             continue;
         }
 
         qCDebug(shell) << "Searching: " << path;
-        QDirIterator dirIter{ path, QDirIterator::Subdirectories };
-        while(dirIter.hasNext())
+        QDirIterator dirIter{path, QDirIterator::Subdirectories};
+        while (dirIter.hasNext())
         {
             QFileInfo fileInfo = dirIter.fileInfo();
-            if(fileInfo.isFile() && QLibrary::isLibrary(fileInfo.fileName()))
+            if (fileInfo.isFile() && QLibrary::isLibrary(fileInfo.fileName()))
             {
                 d->loadPlugins(fileInfo);
             }

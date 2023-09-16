@@ -38,13 +38,12 @@ QString SCPDArgument::relatedStateVariable() const
 
 bool operator==(const SCPDArgument &lhs, const SCPDArgument &rhs)
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.m_name == rhs.m_name) &&
-            (lhs.m_direction == rhs.m_direction) &&
+    return ((lhs.m_name == rhs.m_name) && (lhs.m_direction == rhs.m_direction) &&
             (lhs.m_relatedStateVariable == rhs.m_relatedStateVariable));
 }
 
@@ -53,5 +52,4 @@ bool operator!=(const SCPDArgument &lhs, const SCPDArgument &rhs)
     return !(lhs == rhs);
 }
 
-} //namespace UPnPAV
-
+} // namespace UPnPAV

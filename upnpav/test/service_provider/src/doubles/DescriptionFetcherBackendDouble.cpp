@@ -23,8 +23,8 @@ void DescriptionFetcherBackendDouble::fetchDescription(const QUrl &url)
     descriptionRequestCalls++;
     lastDescriptionRequest = url;
 
-    //The service provider requests the scpd, so we sent him.
-    if(url.toString() == "http://127.0.0.1/test/serviceId1.xml")
+    // The service provider requests the scpd, so we sent him.
+    if (url.toString() == "http://127.0.0.1/test/serviceId1.xml")
     {
         auto file = QFile{":/xml/ServiceControlPointDefinition.xml"};
         file.open(QIODevice::ReadOnly);
@@ -42,7 +42,6 @@ void DescriptionFetcherBackendDouble::sendDeviceDescription(const QString xmlFil
 
     Q_EMIT descriptionFetched(xml, QUrl{"http://127.0.0.1:8000/desc.xml"});
 }
-
 
 void DescriptionFetcherBackendDouble::sendDeviceWithoutServices()
 {
@@ -79,4 +78,4 @@ void DescriptionFetcherBackendDouble::sendOneDeviceOneService()
     sendDeviceDescription(":/xml/OneDeviceOneService.xml");
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

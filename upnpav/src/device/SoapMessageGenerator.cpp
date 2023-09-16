@@ -6,8 +6,8 @@
 #include "SoapMessageGenerator.h"
 #include "SCPDAction.h"
 
-#include <QXmlStreamWriter>
 #include <QDebug>
+#include <QXmlStreamWriter>
 
 namespace UPnPAV
 {
@@ -33,9 +33,9 @@ QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
     soapMessabeBody.writeNamespace(serviceType, "u");
 
     args = putArgumentsInOrderAsInDefiniton(args, action);
-    if(!args.isEmpty())
+    if (!args.isEmpty())
     {
-        for(const auto &arg : args)
+        for (const auto &arg : args)
         {
             soapMessabeBody.writeTextElement("u:" + arg.name, arg.value);
         }
@@ -54,7 +54,7 @@ QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const Q
                                                                          const SCPDAction &action)
 {
     auto inArgs = action.inArguments();
-    if(inArgs.size() > args.size())
+    if (inArgs.size() > args.size())
     {
         qCritical() << "Failed to order in arguments. Given argument size is less then required arguments.";
         qCritical() << "Given in argument size:" << args.size() << "Required in argument size:" << inArgs.size();
@@ -62,13 +62,11 @@ QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const Q
     }
 
     QVector<Argument> result{inArgs.size()};
-    for(auto index = 0; index < result.size(); ++index)
+    for (auto index = 0; index < result.size(); ++index)
     {
         auto actionName = inArgs.at(index).name();
-        auto actionIter = std::find_if(args.begin(), args.end(),
-        [=](const Argument &argument)
-        {
-            if(argument.name == actionName)
+        auto actionIter = std::find_if(args.begin(), args.end(), [=](const Argument &argument) {
+            if (argument.name == actionName)
             {
                 return true;
             }
@@ -76,7 +74,7 @@ QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const Q
             return false;
         });
 
-        if(actionIter == args.end())
+        if (actionIter == args.end())
         {
             qCritical() << "Argument " << actionName << "not found";
             return args;
@@ -88,4 +86,4 @@ QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const Q
     return result;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

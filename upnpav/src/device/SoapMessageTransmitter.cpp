@@ -12,4 +12,4 @@ SoapMessageTransmitter::~SoapMessageTransmitter()
 {
 }
 
-} //namespace
+} // namespace UPnPAV

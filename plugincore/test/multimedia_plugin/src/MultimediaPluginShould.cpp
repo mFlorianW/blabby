@@ -27,7 +27,7 @@ public:
 
     PluginVersion getPluginVersion() const override
     {
-        return { .major = 0, .minor = 0, .patch = 0 };
+        return {.major = 0, .minor = 0, .patch = 0};
     }
 
     QUuid getPluginIdentifier() const override
@@ -52,7 +52,6 @@ public:
     }
 };
 
-
 MultimediaPluginShould::MultimediaPluginShould(QObject *parent)
     : QObject(parent)
 {
@@ -61,17 +60,16 @@ MultimediaPluginShould::MultimediaPluginShould(QObject *parent)
 void MultimediaPluginShould::be_able_to_set_a_active_view()
 {
     TestableMultiMediaPlugin pl;
-    QSignalSpy activeViewSpy{ &pl, &TestableMultiMediaPlugin::activeViewChanged };
-    QUrl expectedUrl{ "qrc:/main.qml" };
+    QSignalSpy activeViewSpy{&pl, &TestableMultiMediaPlugin::activeViewChanged};
+    QUrl expectedUrl{"qrc:/main.qml"};
 
-    pl.setActiveView(QUrl{ "qrc:/main.qml" });
+    pl.setActiveView(QUrl{"qrc:/main.qml"});
 
     QVERIFY(activeViewSpy.size() == 1);
     QCOMPARE(pl.activeView(), expectedUrl);
 }
 
 } // namespace PluginCore
-
 
 QTEST_MAIN(PluginCore::MultimediaPluginShould);
 #include "MultimediaPluginShould.moc"

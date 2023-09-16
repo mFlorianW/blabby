@@ -32,9 +32,9 @@ int main(int argc, char *argv[])
     Shell::MultiMediaPluginModel pluginModel;
     Shell::FileSystemPluginSource fileSource;
     fileSource.setPluginQQmlContext(mainView.rootContext());
-    Shell::MainWindow mainWindow{ &pluginModel, &fileSource };
+    Shell::MainWindow mainWindow{&pluginModel, &fileSource};
 
-    mainView.setMinimumSize(QSize{ 1280, 800 });
+    mainView.setMinimumSize(QSize{1280, 800});
     mainView.rootContext()->setContextProperty("g_mainWindow", &mainWindow);
     mainView.setSource(QUrl("qrc:/shell/qml/MainWindow.qml"));
 

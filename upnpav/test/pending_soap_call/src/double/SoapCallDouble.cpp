@@ -31,4 +31,4 @@ void SoapCallDouble::setErrorState(bool error)
     m_errorState = error;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

@@ -17,7 +17,8 @@ std::unique_ptr<IServiceProvider> TestableMediaServerProviderFactory::createServ
     auto descriptionFetcherBackendDouble = std::make_unique<DescriptionFetcherBackendDouble>();
     this->descriptionFetcherBackendDouble = descriptionFetcherBackendDouble.get();
 
-    return std::make_unique<ServiceProvider>(searchTarget, std::move(serviceDiscoveryBackendDouble),
+    return std::make_unique<ServiceProvider>(searchTarget,
+                                             std::move(serviceDiscoveryBackendDouble),
                                              std::move(descriptionFetcherBackendDouble));
 }
 

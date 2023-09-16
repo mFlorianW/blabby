@@ -12,8 +12,8 @@ namespace Shell
 {
 
 MainWindowPrivate::MainWindowPrivate(MultiMediaPluginModel *model, MultiMediaPluginSource *pluginSource)
-    : mSource{ pluginSource }
-    , mModel{ model }
+    : mSource{pluginSource}
+    , mModel{model}
 {
 }
 
@@ -21,7 +21,7 @@ MainWindowPrivate::~MainWindowPrivate() = default;
 
 void MainWindowPrivate::loadPlugins()
 {
-    if((mModel == nullptr) || (mSource == nullptr))
+    if ((mModel == nullptr) || (mSource == nullptr))
     {
         return;
     }
@@ -60,7 +60,7 @@ QUrl MainWindow::activePluginUrl() const noexcept
 
 void MainWindow::setActivePluginUrl(const QUrl &activePluginUrl) noexcept
 {
-    if(d->mActivePluginUrl == activePluginUrl)
+    if (d->mActivePluginUrl == activePluginUrl)
     {
         return;
     }
@@ -76,7 +76,7 @@ QString MainWindow::activePluginName() const noexcept
 
 void MainWindow::setActivePluginName(const QString &activePluginName) noexcept
 {
-    if(d->mActivePluginName == activePluginName)
+    if (d->mActivePluginName == activePluginName)
     {
         return;
     }
@@ -87,13 +87,13 @@ void MainWindow::setActivePluginName(const QString &activePluginName) noexcept
 
 void MainWindow::activatePlugin(qint32 index) noexcept
 {
-    if(d->mModel == nullptr)
+    if (d->mModel == nullptr)
     {
         return;
     }
 
     d->mActivePlugin = d->mModel->plugin(index);
-    if(d->mActivePlugin == nullptr)
+    if (d->mActivePlugin == nullptr)
     {
         return;
     }
@@ -107,7 +107,7 @@ void MainWindow::activatePlugin(qint32 index) noexcept
 
 void MainWindow::handleBackButtonPressed()
 {
-    if(d->mActivePlugin == nullptr)
+    if (d->mActivePlugin == nullptr)
     {
         return;
     }
@@ -117,7 +117,7 @@ void MainWindow::handleBackButtonPressed()
 
 void MainWindow::onActiveViewChanged()
 {
-    if(d->mActivePlugin == nullptr)
+    if (d->mActivePlugin == nullptr)
     {
         return;
     }

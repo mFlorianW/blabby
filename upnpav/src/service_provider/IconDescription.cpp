@@ -27,9 +27,9 @@ IconDescription::IconDescription(const QString &mimeType,
 {
 }
 
-//void IconDescription::setBaseUrl(const QString &baseUrl)
+// void IconDescription::setBaseUrl(const QString &baseUrl)
 //{
-//    m_baseUrl = baseUrl;
+//     m_baseUrl = baseUrl;
 
 //    if(QUrl{m_url}.isRelative())
 //    {
@@ -65,16 +65,13 @@ quint32 IconDescription::depth() const noexcept
 
 bool operator==(const IconDescription &lhs, const IconDescription &rhs) noexcept
 {
-    if(&lhs == &rhs)
+    if (&lhs == &rhs)
     {
         return true;
     }
 
-    return ((lhs.mimeType() == rhs.mimeType()) &&
-            (lhs.m_url == rhs.m_url) &&
-            (lhs.m_width == rhs.m_width) &&
-            (lhs.m_height == rhs.m_height) &&
-            (lhs.m_depth == rhs.m_depth));
+    return ((lhs.mimeType() == rhs.mimeType()) && (lhs.m_url == rhs.m_url) && (lhs.m_width == rhs.m_width) &&
+            (lhs.m_height == rhs.m_height) && (lhs.m_depth == rhs.m_depth));
 }
 
 bool operator!=(const IconDescription &lhs, const IconDescription &rhs) noexcept
@@ -82,4 +79,4 @@ bool operator!=(const IconDescription &lhs, const IconDescription &rhs) noexcept
     return !(lhs == rhs);
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

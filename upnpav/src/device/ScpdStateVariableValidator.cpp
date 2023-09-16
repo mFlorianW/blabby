@@ -23,20 +23,19 @@ ScpdStateVariableValidator::~ScpdStateVariableValidator()
 
 bool ScpdStateVariableValidator::validate() noexcept
 {
-    for(auto &variableName : m_stateVariableNames)
+    for (auto &variableName : m_stateVariableNames)
     {
         auto iter = std::find_if(m_scpd.serviceStateTable().begin(),
                                  m_scpd.serviceStateTable().end(),
-                                 [=](const SCPDStateVariable &variable)
-                                 {
-                                    if(variableName == variable.name())
-                                    {
-                                        return true;
-                                    }
+                                 [=](const SCPDStateVariable &variable) {
+                                     if (variableName == variable.name())
+                                     {
+                                         return true;
+                                     }
 
-                                    return false;
+                                     return false;
                                  });
-        if(iter == m_scpd.serviceStateTable().end())
+        if (iter == m_scpd.serviceStateTable().end())
         {
             m_errorMessage = QString{"%1 SCPD has no %2 variable"}.arg(m_scpdName).arg(variableName);
             return false;
@@ -46,5 +45,4 @@ bool ScpdStateVariableValidator::validate() noexcept
     return true;
 }
 
-} //namespace UPnPAV
-
+} // namespace UPnPAV

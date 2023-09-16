@@ -13,16 +13,23 @@
 namespace MediaServer::Plugin
 {
 
-MediaServerView::MediaServerView(MediaServerModel *model, UPnPAV::IMediaServerFactory *mediaServerFab,
+MediaServerView::MediaServerView(MediaServerModel *model,
+                                 UPnPAV::IMediaServerFactory *mediaServerFab,
                                  UPnPAV::IServiceProviderFactory *serviceProviderFab)
     : QObject()
-    , mServiceProviderFactory{ serviceProviderFab }
-    , mMediaServerFactory{ mediaServerFab }
-    , mMediaServerModel{ model }
+    , mServiceProviderFactory{serviceProviderFab}
+    , mMediaServerFactory{mediaServerFab}
+    , mMediaServerModel{model}
 {
     mServiceProvider = mServiceProviderFactory->createServiceProvider("urn:schemas-upnp-org:device:MediaServer:1");
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &MediaServerView::onServiceConnected);
-    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &MediaServerView::onServerDisconnected);
+    connect(mServiceProvider.get(),
+            &UPnPAV::IServiceProvider::serviceConnected,
+            this,
+            &MediaServerView::onServiceConnected);
+    connect(mServiceProvider.get(),
+            &UPnPAV::IServiceProvider::serviceDisconnected,
+            this,
+            &MediaServerView::onServerDisconnected);
 }
 
 MediaServerView::~MediaServerView() = default;
@@ -34,7 +41,7 @@ MediaServerModel *MediaServerView::mediaServerModel() const noexcept
 
 void MediaServerView::searchMediaServer() const noexcept
 {
-    if(mServiceProvider == nullptr)
+    if (mServiceProvider == nullptr)
     {
         return;
     }
@@ -56,8 +63,8 @@ UPnPAV::IMediaServer *MediaServerView::activeMediaServer() const noexcept
 
 void MediaServerView::onServiceConnected(const QString &usn)
 {
-    if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
-       (mServiceProviderFactory == nullptr) || (mMediaServers.find(usn) != mMediaServers.end()))
+    if ((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
+        (mServiceProviderFactory == nullptr) || (mMediaServers.find(usn) != mMediaServers.end()))
     {
         return;
     }
@@ -68,7 +75,7 @@ void MediaServerView::onServiceConnected(const QString &usn)
         mMediaServerModel->insert(mediaServer.get());
         mMediaServers[usn] = std::move(mediaServer);
     }
-    catch(const UPnPAV::InvalidDeviceDescription &e)
+    catch (const UPnPAV::InvalidDeviceDescription &e)
     {
         qCritical() << e.what();
     }
@@ -76,8 +83,8 @@ void MediaServerView::onServiceConnected(const QString &usn)
 
 void MediaServerView::onServerDisconnected(const QString &usn)
 {
-    if((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
-       (mServiceProviderFactory == nullptr))
+    if ((mMediaServerModel == nullptr) || (mServiceProvider == nullptr) || (mMediaServerFactory == nullptr) ||
+        (mServiceProviderFactory == nullptr))
     {
         return;
     }
@@ -87,7 +94,7 @@ void MediaServerView::onServerDisconnected(const QString &usn)
         mMediaServerModel->removeServer(mMediaServers.at(usn).get());
         mMediaServers.erase(usn);
     }
-    catch(const std::out_of_range &e)
+    catch (const std::out_of_range &e)
     {
         qCritical() << e.what();
     }

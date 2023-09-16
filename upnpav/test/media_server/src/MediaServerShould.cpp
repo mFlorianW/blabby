@@ -31,29 +31,33 @@ std::unique_ptr<IMediaDevice> MediaServerShould::mediaDevice(const DeviceDescrip
 
 MediaServer MediaServerShould::createMediaServer(DeviceDescription &deviceDescription)
 {
-    return MediaServer{ deviceDescription, m_soapMessageTransmitter };
+    return MediaServer{deviceDescription, m_soapMessageTransmitter};
 }
 
 void MediaServerShould::init()
 {
-    m_soapMessageTransmitter = QSharedPointer<SoapMessageTransmitterDouble>{ new SoapMessageTransmitterDouble() };
+    m_soapMessageTransmitter = QSharedPointer<SoapMessageTransmitterDouble>{new SoapMessageTransmitterDouble()};
 }
 
 MediaServer MediaServerShould::createMediaServer(const QVector<ServiceDescription> &services,
                                                  const QVector<ServiceControlPointDefinition> &scpds)
 
 {
-    IconDescription iconDes{ "", 0, 0, 24, "http://localhost:8200/icons/sm.png" };
-    return MediaServer{ DeviceDescription{ "", "MediaServerName", "", "", "", QVector<IconDescription>{ iconDes }, services, scpds },
-                        m_soapMessageTransmitter };
+    IconDescription iconDes{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"};
+    return MediaServer{
+        DeviceDescription{"", "MediaServerName", "", "", "", QVector<IconDescription>{iconDes}, services, scpds},
+        m_soapMessageTransmitter};
 }
 
-ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutStateVariable(const SCPDStateVariable &variable)
+ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutStateVariable(
+    const SCPDStateVariable &variable)
 {
     QVector<SCPDStateVariable> variables = validContentDirectoryStateVariables;
     variables.removeAll(variable);
 
-    return ServiceControlPointDefinition{ "http://127.0.0.1/ContentDirectory.xml", variables, validContentDirectoryActions };
+    return ServiceControlPointDefinition{"http://127.0.0.1/ContentDirectory.xml",
+                                         variables,
+                                         validContentDirectoryActions};
 }
 
 ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutAction(const SCPDAction &action)
@@ -61,21 +65,23 @@ ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWitho
     QVector<SCPDAction> actions = validContentDirectoryActions;
     actions.removeAll(action);
 
-    return ServiceControlPointDefinition{ "http://127.0.0.1/ContentDirectory.xml", validContentDirectoryStateVariables, actions };
+    return ServiceControlPointDefinition{"http://127.0.0.1/ContentDirectory.xml",
+                                         validContentDirectoryStateVariables,
+                                         actions};
 }
 
 void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_ContentDirectory_Service_Description()
 {
     try
     {
-        MediaServer mediaServer = createMediaServer({ validConnectionManagerDescription },
-                                                    { validConnectionManagerSCPD, validContentDirectorySCPD });
+        MediaServer mediaServer = createMediaServer({validConnectionManagerDescription},
+                                                    {validConnectionManagerSCPD, validContentDirectorySCPD});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ContentDirectory description not found"));
+        QVERIFY(QString{e.what()}.contains("ContentDirectory description not found"));
     }
 }
 
@@ -84,14 +90,14 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
     try
     {
         MediaServer mediaServer =
-            createMediaServer({ eventUrlMissingInContentDirectoryDescription, validConnectionManagerDescription },
-                              { validConnectionManagerSCPD, validContentDirectorySCPD });
+            createMediaServer({eventUrlMissingInContentDirectoryDescription, validConnectionManagerDescription},
+                              {validConnectionManagerSCPD, validContentDirectorySCPD});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ContentDirectory event URL"));
+        QVERIFY(QString{e.what()}.contains("ContentDirectory event URL"));
     }
 }
 
@@ -100,14 +106,14 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
     try
     {
         MediaServer mediaServer =
-            createMediaServer({ controlUrlMissingInContentDirectoryDescription, validConnectionManagerDescription },
-                              { validConnectionManagerSCPD, validContentDirectorySCPD });
+            createMediaServer({controlUrlMissingInContentDirectoryDescription, validConnectionManagerDescription},
+                              {validConnectionManagerSCPD, validContentDirectorySCPD});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ContentDirectory control URL"));
+        QVERIFY(QString{e.what()}.contains("ContentDirectory control URL"));
     }
 }
 
@@ -116,14 +122,14 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
     try
     {
         MediaServer mediaServer =
-            createMediaServer({ serviceIdMissingInContentDirectoryDescription, validConnectionManagerDescription },
-                              { validConnectionManagerSCPD, validContentDirectorySCPD });
+            createMediaServer({serviceIdMissingInContentDirectoryDescription, validConnectionManagerDescription},
+                              {validConnectionManagerSCPD, validContentDirectorySCPD});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ContentDirectory service ID"));
+        QVERIFY(QString{e.what()}.contains("ContentDirectory service ID"));
     }
 }
 
@@ -132,14 +138,14 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
     try
     {
         MediaServer mediaServer =
-            createMediaServer({ scpdUrlMissingInContentDirectoryDescription, validConnectionManagerDescription },
-                              { validConnectionManagerSCPD, validContentDirectorySCPD });
+            createMediaServer({scpdUrlMissingInContentDirectoryDescription, validConnectionManagerDescription},
+                              {validConnectionManagerSCPD, validContentDirectorySCPD});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(InvalidDeviceDescription &e)
+    catch (InvalidDeviceDescription &e)
     {
-        QVERIFY(QString{ e.what() }.contains("ContentDirectory SCPD URL"));
+        QVERIFY(QString{e.what()}.contains("ContentDirectory SCPD URL"));
     }
 }
 
@@ -148,29 +154,31 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
 
-    DeviceDescription A_ARG_TYPE_ObjectID_Missing{ "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   QVector<IconDescription>{},
-                                                   { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                   { validConnectionManagerSCPD,
-                                                     createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_ObjectID) } };
+    DeviceDescription A_ARG_TYPE_ObjectID_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_ObjectID)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_ObjectID missing") << A_ARG_TYPE_ObjectID_Missing << "ContentDirectory.*A_ARG_TYPE_ObjectID";
+    QTest::newRow("State variable A_ARG_TYPE_ObjectID missing")
+        << A_ARG_TYPE_ObjectID_Missing << "ContentDirectory.*A_ARG_TYPE_ObjectID";
 
-    DeviceDescription A_ARG_TYPE_Result_Missing{ "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 QVector<IconDescription>{},
-                                                 { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                 { validConnectionManagerSCPD,
-                                                   createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Result) } };
+    DeviceDescription A_ARG_TYPE_Result_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Result)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_Result missing") << A_ARG_TYPE_Result_Missing << "ContentDirectory.*A_ARG_TYPE_Result";
+    QTest::newRow("State variable A_ARG_TYPE_Result missing")
+        << A_ARG_TYPE_Result_Missing << "ContentDirectory.*A_ARG_TYPE_Result";
 
     DeviceDescription A_ARG_TYPE_BrowseFlag_Missing{
         "",
@@ -179,24 +187,24 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
         "",
         "",
         QVector<IconDescription>{},
-        { validContentDirectoryDescription, validConnectionManagerDescription },
-        { validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_BrowseFlag) }
-    };
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_BrowseFlag)}};
 
     QTest::newRow("State variable A_ARG_TYPE_BrowseFlag missing")
         << A_ARG_TYPE_BrowseFlag_Missing << "ContentDirectory.*A_ARG_TYPE_BrowseFlag";
 
-    DeviceDescription A_ARG_TYPE_Filter_Missing{ "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 QVector<IconDescription>{},
-                                                 { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                 { validConnectionManagerSCPD,
-                                                   createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Filter) } };
+    DeviceDescription A_ARG_TYPE_Filter_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Filter)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_Filter missing") << A_ARG_TYPE_Filter_Missing << "ContentDirectory.*A_ARG_TYPE_Filter";
+    QTest::newRow("State variable A_ARG_TYPE_Filter missing")
+        << A_ARG_TYPE_Filter_Missing << "ContentDirectory.*A_ARG_TYPE_Filter";
 
     DeviceDescription A_ARG_TYPE_SortCriteria_Missing{
         "",
@@ -205,81 +213,86 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
         "",
         "",
         QVector<IconDescription>{},
-        { validContentDirectoryDescription, validConnectionManagerDescription },
-        { validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_SortCriteria) }
-    };
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_SortCriteria)}};
 
     QTest::newRow("State variable A_ARG_TYPE_SortCriteria missing")
         << A_ARG_TYPE_SortCriteria_Missing << "ContentDirectory.*A_ARG_TYPE_SortCriteria";
 
-    DeviceDescription A_ARG_TYPE_Index_Missing{ "",
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                                QVector<IconDescription>{},
-                                                { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validConnectionManagerSCPD,
-                                                  createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Index) } };
+    DeviceDescription A_ARG_TYPE_Index_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Index)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_Index missing") << A_ARG_TYPE_Index_Missing << "ContentDirectory.*A_ARG_TYPE_Index";
+    QTest::newRow("State variable A_ARG_TYPE_Index missing")
+        << A_ARG_TYPE_Index_Missing << "ContentDirectory.*A_ARG_TYPE_Index";
 
-    DeviceDescription A_ARG_TYPE_Count_Missing{ "",
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                                QVector<IconDescription>{},
-                                                { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validConnectionManagerSCPD,
-                                                  createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Count) } };
+    DeviceDescription A_ARG_TYPE_Count_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_Count)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_Count missing") << A_ARG_TYPE_Count_Missing << "ContentDirectory.*A_ARG_TYPE_Count";
+    QTest::newRow("State variable A_ARG_TYPE_Count missing")
+        << A_ARG_TYPE_Count_Missing << "ContentDirectory.*A_ARG_TYPE_Count";
 
-    DeviceDescription A_ARG_TYPE_UpdateID_Missing{ "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   QVector<IconDescription>{},
-                                                   { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                   { validConnectionManagerSCPD,
-                                                     createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_UpdateID) } };
+    DeviceDescription A_ARG_TYPE_UpdateID_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(A_ARG_TYPE_UpdateID)}};
 
-    QTest::newRow("State variable A_ARG_TYPE_Count missing") << A_ARG_TYPE_UpdateID_Missing << "ContentDirectory.*A_ARG_TYPE_UpdateID";
+    QTest::newRow("State variable A_ARG_TYPE_Count missing")
+        << A_ARG_TYPE_UpdateID_Missing << "ContentDirectory.*A_ARG_TYPE_UpdateID";
 
-    DeviceDescription SearchCapabilities_Missing{ "",
-                                                  "",
-                                                  "",
-                                                  "",
-                                                  "",
-                                                  QVector<IconDescription>{},
-                                                  { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                  { validConnectionManagerSCPD,
-                                                    createContentDirectorySCPDWithoutStateVariable(SearchCapabilities) } };
+    DeviceDescription SearchCapabilities_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(SearchCapabilities)}};
 
-    QTest::newRow("State variable SearchCapabilities missing") << SearchCapabilities_Missing << "ContentDirectory.*SearchCapabilities";
+    QTest::newRow("State variable SearchCapabilities missing")
+        << SearchCapabilities_Missing << "ContentDirectory.*SearchCapabilities";
 
-    DeviceDescription SortCapabilities_Missing{ "",
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                                QVector<IconDescription>{},
-                                                { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validConnectionManagerSCPD,
-                                                  createContentDirectorySCPDWithoutStateVariable(SortCapabilities) } };
+    DeviceDescription SortCapabilities_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(SortCapabilities)}};
 
-    QTest::newRow("State variable SortCapabilities missing") << SortCapabilities_Missing << "ContentDirectory.*SortCapabilities";
+    QTest::newRow("State variable SortCapabilities missing")
+        << SortCapabilities_Missing << "ContentDirectory.*SortCapabilities";
 
-    DeviceDescription UpdateID_Missing{ "",
-                                        "",
-                                        "",
-                                        "",
-                                        "",
-                                        QVector<IconDescription>{},
-                                        { validContentDirectoryDescription, validConnectionManagerDescription },
-                                        { validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(SystemUpdateID) } };
+    DeviceDescription UpdateID_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutStateVariable(SystemUpdateID)}};
 
     QTest::newRow("State variable SystemUpdateID missing") << UpdateID_Missing << "ContentDirectory.*SystemUpdateID";
 }
@@ -295,9 +308,10 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
 
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(const InvalidDeviceDescription &e)
+    catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{ e.what() }.contains(QRegExp(ExpectedException)), QString{ "Actual:" }.append(e.what()).toLocal8Bit());
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
 
@@ -306,50 +320,53 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
 
-    DeviceDescription GetSearchCapabilities_Missing{ "",
-                                                     "",
-                                                     "",
-                                                     "",
-                                                     "",
-                                                     QVector<IconDescription>{},
-                                                     { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                     { validConnectionManagerSCPD,
-                                                       createContentDirectorySCPDWithoutAction(GetSearchCapabilities) } };
+    DeviceDescription GetSearchCapabilities_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutAction(GetSearchCapabilities)}};
 
-    QTest::newRow("Action GetSearchCapabilities missing") << GetSearchCapabilities_Missing << "ContentDirectory.*GetSearchCapabilities";
+    QTest::newRow("Action GetSearchCapabilities missing")
+        << GetSearchCapabilities_Missing << "ContentDirectory.*GetSearchCapabilities";
 
-    DeviceDescription GetSortCapabilities_Missing{ "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   "",
-                                                   QVector<IconDescription>{},
-                                                   { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                   { validConnectionManagerSCPD,
-                                                     createContentDirectorySCPDWithoutAction(GetSortCapabilities) } };
+    DeviceDescription GetSortCapabilities_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutAction(GetSortCapabilities)}};
 
-    QTest::newRow("Action GetSortCapabilities missing") << GetSortCapabilities_Missing << "ContentDirectory.*GetSortCapabilities";
+    QTest::newRow("Action GetSortCapabilities missing")
+        << GetSortCapabilities_Missing << "ContentDirectory.*GetSortCapabilities";
 
-    DeviceDescription GetSystemUpdateID_Missing{ "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 QVector<IconDescription>{},
-                                                 { validContentDirectoryDescription, validConnectionManagerDescription },
-                                                 { validConnectionManagerSCPD,
-                                                   createContentDirectorySCPDWithoutAction(GetSystemUpdateID) } };
+    DeviceDescription GetSystemUpdateID_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription, validConnectionManagerDescription},
+        {validConnectionManagerSCPD, createContentDirectorySCPDWithoutAction(GetSystemUpdateID)}};
 
-    QTest::newRow("Action GetSystemUpdateID missing") << GetSystemUpdateID_Missing << "ContentDirectory.*GetSystemUpdateID";
+    QTest::newRow("Action GetSystemUpdateID missing")
+        << GetSystemUpdateID_Missing << "ContentDirectory.*GetSystemUpdateID";
 
-    DeviceDescription Browse_Missing{ "",
-                                      "",
-                                      "",
-                                      "",
-                                      "",
-                                      QVector<IconDescription>{},
-                                      { validContentDirectoryDescription, validConnectionManagerDescription },
-                                      { validConnectionManagerSCPD, createContentDirectorySCPDWithoutAction(Browse) } };
+    DeviceDescription Browse_Missing{"",
+                                     "",
+                                     "",
+                                     "",
+                                     "",
+                                     QVector<IconDescription>{},
+                                     {validContentDirectoryDescription, validConnectionManagerDescription},
+                                     {validConnectionManagerSCPD, createContentDirectorySCPDWithoutAction(Browse)}};
 
     QTest::newRow("Action Browse missing") << Browse_Missing << "ContentDirectory.*Browse";
 }
@@ -364,65 +381,70 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
         MediaServer mediaServer = createMediaServer(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
-    catch(const InvalidDeviceDescription &e)
+    catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{ e.what() }.contains(QRegExp(ExpectedException)), QString{ "Actual:" }.append(e.what()).toLocal8Bit());
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
 
 void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_GetSortCapabilities()
 {
-    MediaServer mediaServer = createMediaServer({ validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validContentDirectorySCPD, validConnectionManagerSCPD });
+    MediaServer mediaServer = createMediaServer({validContentDirectoryDescription, validConnectionManagerDescription},
+                                                {validContentDirectorySCPD, validConnectionManagerSCPD});
 
-    QString expectedSoapMessage{ "<?xml version=\"1.0\"?>"
-                                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-                                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-                                 "<s:Body>"
-                                 "<u:GetSortCapabilities xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\"/>"
-                                 "</s:Body>"
-                                 "</s:Envelope>" };
+    QString expectedSoapMessage{"<?xml version=\"1.0\"?>"
+                                "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                "<s:Body>"
+                                "<u:GetSortCapabilities xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\"/>"
+                                "</s:Body>"
+                                "</s:Envelope>"};
 
     mediaServer.getSortCapabilities();
 
-    QVERIFY2(
-        expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
-        QString{ "Expected: %1 Actual: %2" }.arg(expectedSoapMessage).arg(m_soapMessageTransmitter->xmlMessageBody()).toLocal8Bit());
+    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}
+                 .arg(expectedSoapMessage)
+                 .arg(m_soapMessageTransmitter->xmlMessageBody())
+                 .toLocal8Bit());
 }
 
 void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
 {
-    MediaServer mediaServer = createMediaServer({ validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validContentDirectorySCPD, validConnectionManagerSCPD });
+    MediaServer mediaServer = createMediaServer({validContentDirectoryDescription, validConnectionManagerDescription},
+                                                {validContentDirectorySCPD, validConnectionManagerSCPD});
 
     // Important the order of the args must have the order of the SCPD description.
-    QString expectedSoapMessage{ "<?xml version=\"1.0\"?>"
-                                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-                                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-                                 "<s:Body>"
-                                 "<u:Browse xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\">"
-                                 "<u:ObjectID>0</u:ObjectID>"
-                                 "<u:BrowseFlag>BrowseMetadata</u:BrowseFlag>"
-                                 "<u:Filter>*</u:Filter>"
-                                 "<u:StartingIndex>0</u:StartingIndex>"
-                                 "<u:RequestedCount>0</u:RequestedCount>"
-                                 "<u:SortCriteria></u:SortCriteria>"
-                                 "</u:Browse>"
-                                 "</s:Body>"
-                                 "</s:Envelope>" };
+    QString expectedSoapMessage{"<?xml version=\"1.0\"?>"
+                                "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                "<s:Body>"
+                                "<u:Browse xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\">"
+                                "<u:ObjectID>0</u:ObjectID>"
+                                "<u:BrowseFlag>BrowseMetadata</u:BrowseFlag>"
+                                "<u:Filter>*</u:Filter>"
+                                "<u:StartingIndex>0</u:StartingIndex>"
+                                "<u:RequestedCount>0</u:RequestedCount>"
+                                "<u:SortCriteria></u:SortCriteria>"
+                                "</u:Browse>"
+                                "</s:Body>"
+                                "</s:Envelope>"};
 
     mediaServer.browse("0", MediaServer::BrowseFlag::MetaData, "*", "");
 
-    QVERIFY2(
-        expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
-        QString{ "Expected: %1 Actual: %2" }.arg(expectedSoapMessage).arg(m_soapMessageTransmitter->xmlMessageBody()).toLocal8Bit());
+    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}
+                 .arg(expectedSoapMessage)
+                 .arg(m_soapMessageTransmitter->xmlMessageBody())
+                 .toLocal8Bit());
 }
 
 void MediaServerShould::give_a_name()
 {
-    MediaServer mediaServer = createMediaServer({ validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validContentDirectorySCPD, validConnectionManagerSCPD });
-    const QString expectedMediaServerName{ "MediaServerName" };
+    MediaServer mediaServer = createMediaServer({validContentDirectoryDescription, validConnectionManagerDescription},
+                                                {validContentDirectorySCPD, validConnectionManagerSCPD});
+    const QString expectedMediaServerName{"MediaServerName"};
 
     auto mediaServerName = mediaServer.name();
 
@@ -431,9 +453,9 @@ void MediaServerShould::give_a_name()
 
 void MediaServerShould::give_a_icon_url()
 {
-    MediaServer mediaServer = createMediaServer({ validContentDirectoryDescription, validConnectionManagerDescription },
-                                                { validContentDirectorySCPD, validConnectionManagerSCPD });
-    const QUrl expectedMediaServerIconUrl{ "http://localhost:8200/icons/sm.png" };
+    MediaServer mediaServer = createMediaServer({validContentDirectoryDescription, validConnectionManagerDescription},
+                                                {validContentDirectorySCPD, validConnectionManagerSCPD});
+    const QUrl expectedMediaServerIconUrl{"http://localhost:8200/icons/sm.png"};
 
     auto mediaServerIconUrl = mediaServer.iconUrl();
 

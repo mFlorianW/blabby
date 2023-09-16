@@ -10,14 +10,15 @@
 namespace Shell
 {
 
-MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins)
-    : mPlugins{ plugins }
+MultiMediaPluginModelPrivate::MultiMediaPluginModelPrivate(
+    const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins)
+    : mPlugins{plugins}
 {
 }
 
 MultiMediaPluginModel::MultiMediaPluginModel(const QVector<std::shared_ptr<PluginCore::MultimediaPlugin>> &plugins)
     : QAbstractListModel{}
-    , d{ std::make_unique<MultiMediaPluginModelPrivate>(plugins) }
+    , d{std::make_unique<MultiMediaPluginModelPrivate>(plugins)}
 {
 }
 
@@ -38,22 +39,22 @@ qint32 MultiMediaPluginModel::rowCount(const QModelIndex &parent) const
 
 QVariant MultiMediaPluginModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || (index.row() < 0) || (index.row() >= d->mPlugins.size()))
+    if (!index.isValid() || (index.row() < 0) || (index.row() >= d->mPlugins.size()))
     {
         return {};
     }
 
-    if(role == Roles::PluginName)
+    if (role == Roles::PluginName)
     {
-        return QVariant{ d->mPlugins.at(index.row())->pluginName() };
+        return QVariant{d->mPlugins.at(index.row())->pluginName()};
     }
-    else if(role == Roles::PluginActive)
+    else if (role == Roles::PluginActive)
     {
-        return QVariant{ d->mActiveIndex == index.row() };
+        return QVariant{d->mActiveIndex == index.row()};
     }
-    else if(role == Roles::PluginIcoUrl)
+    else if (role == Roles::PluginIcoUrl)
     {
-        return QVariant{ d->mPlugins.at(index.row())->pluginIconUrl() };
+        return QVariant{d->mPlugins.at(index.row())->pluginIconUrl()};
     }
 
     return {};
@@ -61,26 +62,26 @@ QVariant MultiMediaPluginModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> MultiMediaPluginModel::roleNames() const
 {
-    return { { std::make_pair(MultiMediaPluginModel::PluginName, "pluginName"),
-               std::make_pair(MultiMediaPluginModel::PluginQmlUrl, "qmlUrl"),
-               std::make_pair(MultiMediaPluginModel::PluginActive, "pluginActive"),
-               std::make_pair(MultiMediaPluginModel::PluginIcoUrl, "pluginIconUrl") } };
+    return {{std::make_pair(MultiMediaPluginModel::PluginName, "pluginName"),
+             std::make_pair(MultiMediaPluginModel::PluginQmlUrl, "qmlUrl"),
+             std::make_pair(MultiMediaPluginModel::PluginActive, "pluginActive"),
+             std::make_pair(MultiMediaPluginModel::PluginIcoUrl, "pluginIconUrl")}};
 }
 
 void MultiMediaPluginModel::setActivePlugin(qint32 activeIndex) noexcept
 {
-    if(d->mActiveIndex == activeIndex)
+    if (d->mActiveIndex == activeIndex)
     {
         return;
     }
 
     d->mActiveIndex = activeIndex;
-    Q_EMIT dataChanged(index(activeIndex), index(activeIndex), { PluginActive });
+    Q_EMIT dataChanged(index(activeIndex), index(activeIndex), {PluginActive});
 }
 
 PluginCore::MultimediaPlugin *MultiMediaPluginModel::plugin(qint32 index) const noexcept
 {
-    if(index < 0 || index > d->mPlugins.size())
+    if (index < 0 || index > d->mPlugins.size())
     {
         return nullptr;
     }

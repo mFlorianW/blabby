@@ -17,4 +17,4 @@ const QString &UPnPAV::BaseValidator::errorMessage() const noexcept
     return m_errorMessage;
 }
 
-} //namespace
+} // namespace UPnPAV

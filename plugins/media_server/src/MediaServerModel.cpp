@@ -19,7 +19,7 @@ MediaServerModel::~MediaServerModel() = default;
 
 void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
 {
-    if((mediaServer == nullptr) || mIndexLookup.contains(mediaServer->name()))
+    if ((mediaServer == nullptr) || mIndexLookup.contains(mediaServer->name()))
     {
         return;
     }
@@ -32,7 +32,7 @@ void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
 
 void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
 {
-    if(mediaServer == nullptr)
+    if (mediaServer == nullptr)
     {
         return;
     }
@@ -46,7 +46,7 @@ void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
 UPnPAV::IMediaServer *MediaServerModel::mediaServer(qint32 modelIndex) const noexcept
 {
     auto itemIndex = index(modelIndex);
-    if(itemIndex.isValid())
+    if (itemIndex.isValid())
     {
         return mMediaServer.value(itemIndex.row());
     }
@@ -63,18 +63,18 @@ int MediaServerModel::rowCount(const QModelIndex &parent) const
 
 QVariant MediaServerModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid())
     {
         return QVariant{};
     }
 
-    if(role == MediaServerModel::MediaServerName)
+    if (role == MediaServerModel::MediaServerName)
     {
-        return QVariant{ mMediaServer.value(index.row())->name() };
+        return QVariant{mMediaServer.value(index.row())->name()};
     }
-    else if(role == MediaServerModel::MediaServerIconUrl)
+    else if (role == MediaServerModel::MediaServerIconUrl)
     {
-        return QVariant{ mMediaServer.value(index.row())->iconUrl() };
+        return QVariant{mMediaServer.value(index.row())->iconUrl()};
     }
 
     return QVariant{};
@@ -82,8 +82,8 @@ QVariant MediaServerModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> MediaServerModel::roleNames() const
 {
-    return { std::make_pair(MediaServerModel::MediaServerName, "mediaServerName"),
-             std::make_pair(MediaServerModel::MediaServerIconUrl, "mediaServerIconUrl") };
+    return {std::make_pair(MediaServerModel::MediaServerName, "mediaServerName"),
+            std::make_pair(MediaServerModel::MediaServerIconUrl, "mediaServerIconUrl")};
 }
 
 } // namespace MediaServer::Plugin

@@ -18,4 +18,4 @@ QString TestSoapCall::rawMessage() const noexcept
     return "";
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

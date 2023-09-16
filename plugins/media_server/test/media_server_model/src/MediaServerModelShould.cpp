@@ -23,9 +23,9 @@ MediaServerModelShould::MediaServerModelShould()
 
 void MediaServerModelShould::give_correct_rolename()
 {
-    QHash<int, QByteArray> expectedRoleNames{ std::make_pair(MediaServerModel::MediaServerName, "mediaServerName"),
-                                              std::make_pair(MediaServerModel::MediaServerIconUrl,
-                                                             "mediaServerIconUrl") };
+    QHash<int, QByteArray> expectedRoleNames{
+        std::make_pair(MediaServerModel::MediaServerName, "mediaServerName"),
+        std::make_pair(MediaServerModel::MediaServerIconUrl, "mediaServerIconUrl")};
     MediaServerModel mediaServerModel;
 
     auto roleNames = mediaServerModel.roleNames();
@@ -38,9 +38,10 @@ void MediaServerModelShould::give_mediaserver_name_on_request_with_valid_index()
     Doubles::MediaServer mediaServer;
     MediaServerModel mediaServerModel;
     mediaServerModel.insert(&mediaServer);
-    const QString expected{ "MediaServer" };
+    const QString expected{"MediaServer"};
 
-    auto mediaServerName = mediaServerModel.data(mediaServerModel.index(0), MediaServerModel::MediaServerName).toString();
+    auto mediaServerName =
+        mediaServerModel.data(mediaServerModel.index(0), MediaServerModel::MediaServerName).toString();
 
     QCOMPARE(mediaServerName, expected);
 }
@@ -50,9 +51,10 @@ void MediaServerModelShould::give_mediaserver_icon_url_on_request_with_valid_ind
     Doubles::MediaServer mediaServer;
     MediaServerModel mediaServerModel;
     mediaServerModel.insert(&mediaServer);
-    const QUrl expected{ "http://localhost:8200/icons/sm.png" };
+    const QUrl expected{"http://localhost:8200/icons/sm.png"};
 
-    auto mediaServerName = mediaServerModel.data(mediaServerModel.index(0), MediaServerModel::MediaServerIconUrl).toUrl();
+    auto mediaServerName =
+        mediaServerModel.data(mediaServerModel.index(0), MediaServerModel::MediaServerIconUrl).toUrl();
 
     QCOMPARE(mediaServerName, expected);
 }

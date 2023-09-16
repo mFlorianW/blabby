@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "ServiceValidatorBase.h"
-#include "ScpdStateVariableValidator.h"
 #include "ScpdActionListValidator.h"
+#include "ScpdStateVariableValidator.h"
 #include "ServiceDescriptionValidator.h"
 
 namespace UPnPAV
@@ -17,11 +17,7 @@ ServiceValidatorBase::~ServiceValidatorBase()
 
 bool ServiceValidatorBase::validate() noexcept
 {
-    return hasService() &&
-           validateServiceDescription() &&
-           hasSCPD() &&
-           validateStateVariables() &&
-            validateActions();
+    return hasService() && validateServiceDescription() && hasSCPD() && validateStateVariables() && validateActions();
 }
 
 ServiceDescription ServiceValidatorBase::serviceDescription() const noexcept
@@ -37,7 +33,7 @@ ServiceControlPointDefinition ServiceValidatorBase::scpd() const noexcept
 bool ServiceValidatorBase::hasService()
 {
     auto serviceDescription = m_deviceDescription.service(m_serviceType);
-    if(!serviceDescription)
+    if (!serviceDescription)
     {
         m_errorMessage = QString{m_serviceName + " description not found."};
         return false;
@@ -49,13 +45,9 @@ bool ServiceValidatorBase::hasService()
 
 bool ServiceValidatorBase::validateServiceDescription()
 {
-    ServiceDescriptionValidator serviceDescriptionValidator
-    {
-        m_serviceName,
-        m_serviceDescription
-    };
+    ServiceDescriptionValidator serviceDescriptionValidator{m_serviceName, m_serviceDescription};
 
-    if(!serviceDescriptionValidator.validate())
+    if (!serviceDescriptionValidator.validate())
     {
         m_errorMessage = serviceDescriptionValidator.errorMessage();
         return false;
@@ -67,7 +59,7 @@ bool ServiceValidatorBase::validateServiceDescription()
 bool ServiceValidatorBase::hasSCPD()
 {
     auto scpdConnectionManager = m_deviceDescription.scpd(m_serviceDescription.scpdUrl());
-    if(!scpdConnectionManager)
+    if (!scpdConnectionManager)
     {
         m_errorMessage = QString{"ConnectionManager SCPD not found."};
         return false;
@@ -79,14 +71,9 @@ bool ServiceValidatorBase::hasSCPD()
 
 bool ServiceValidatorBase::validateStateVariables()
 {
-    ScpdStateVariableValidator stateVariableValidator
-    {
-        m_serviceName,
-        m_serviceControlPointDefinition,
-        m_stateVariables
-    };
+    ScpdStateVariableValidator stateVariableValidator{m_serviceName, m_serviceControlPointDefinition, m_stateVariables};
 
-    if(!stateVariableValidator.validate())
+    if (!stateVariableValidator.validate())
     {
         m_errorMessage = stateVariableValidator.errorMessage();
         return false;
@@ -97,14 +84,9 @@ bool ServiceValidatorBase::validateStateVariables()
 
 bool ServiceValidatorBase::validateActions()
 {
-    ScpdActionListValidator actionVariableValidator
-    {
-        m_serviceName,
-        m_serviceControlPointDefinition,
-        m_actions
-    };
+    ScpdActionListValidator actionVariableValidator{m_serviceName, m_serviceControlPointDefinition, m_actions};
 
-    if(!actionVariableValidator.validate())
+    if (!actionVariableValidator.validate())
     {
         m_errorMessage = actionVariableValidator.errorMessage();
         return false;
@@ -113,4 +95,4 @@ bool ServiceValidatorBase::validateActions()
     return true;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

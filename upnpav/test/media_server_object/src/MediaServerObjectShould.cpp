@@ -53,6 +53,6 @@ void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
              QString{"Expected: %1 \nActual: %2"}.arg(expectedTypeClass).arg(typeClass).toLocal8Bit());
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaServerObjectShould);

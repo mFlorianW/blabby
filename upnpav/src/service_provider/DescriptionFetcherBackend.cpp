@@ -27,16 +27,13 @@ void DescriptionFetcherBackend::fetchDescriptionFrom(const QUrl &url)
 
 HttpDescriptionFetcherBackend::HttpDescriptionFetcherBackend()
 {
-    (void)connect(&m_sender,
-                  &QNetworkAccessManager::finished,
-                  this,
-                  &HttpDescriptionFetcherBackend::replyFinished);
+    (void)connect(&m_sender, &QNetworkAccessManager::finished, this, &HttpDescriptionFetcherBackend::replyFinished);
 }
 
 void HttpDescriptionFetcherBackend::fetchDescription(const QUrl &url)
 {
     auto reply = m_sender.get(QNetworkRequest{url});
-    if(reply == nullptr)
+    if (reply == nullptr)
     {
         return;
     }
@@ -46,7 +43,7 @@ void HttpDescriptionFetcherBackend::fetchDescription(const QUrl &url)
 
 void HttpDescriptionFetcherBackend::replyFinished(QNetworkReply *reply)
 {
-    if(!reply->isFinished() && (reply->error() != QNetworkReply::NoError))
+    if (!reply->isFinished() && (reply->error() != QNetworkReply::NoError))
     {
         m_pendingReplies.removeAll(reply);
         reply->deleteLater();

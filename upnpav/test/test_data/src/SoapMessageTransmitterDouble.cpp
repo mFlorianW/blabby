@@ -23,10 +23,7 @@ QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QSt
     Q_UNUSED(serviceType)
     m_xmlMessageBody = xmlBody;
 
-    return QSharedPointer<TestSoapCall>
-    {
-        new TestSoapCall()
-    };
+    return QSharedPointer<TestSoapCall>{new TestSoapCall()};
 }
 
 QString SoapMessageTransmitterDouble::xmlMessageBody() const
@@ -34,4 +31,4 @@ QString SoapMessageTransmitterDouble::xmlMessageBody() const
     return m_xmlMessageBody;
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV

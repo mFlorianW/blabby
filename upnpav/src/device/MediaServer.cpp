@@ -26,29 +26,30 @@ MediaServerFactory::~MediaServerFactory() = default;
 std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const DeviceDescription &deviceDescription)
 {
     return std::make_unique<MediaServer>(deviceDescription,
-                                         QSharedPointer<HttpSoapMessageTransmitter>{ new HttpSoapMessageTransmitter() });
+                                         QSharedPointer<HttpSoapMessageTransmitter>{new HttpSoapMessageTransmitter()});
 }
 
-MediaServer::MediaServer(const DeviceDescription &deviceDescription, const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
+MediaServer::MediaServer(const DeviceDescription &deviceDescription,
+                         const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
     : IMediaServer()
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
-    ConnectionManagerServiceValidator conManagerServiceValidator{ deviceDescription };
-    if(!conManagerServiceValidator.validate())
+    ConnectionManagerServiceValidator conManagerServiceValidator{deviceDescription};
+    if (!conManagerServiceValidator.validate())
     {
-        throw InvalidDeviceDescription{ conManagerServiceValidator.errorMessage() };
+        throw InvalidDeviceDescription{conManagerServiceValidator.errorMessage()};
     }
 
-    ContentDirectoryServiceValidator conDirectoryServiceValidator{ deviceDescription };
-    if(!conDirectoryServiceValidator.validate())
+    ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};
+    if (!conDirectoryServiceValidator.validate())
     {
-        throw InvalidDeviceDescription{ conDirectoryServiceValidator.errorMessage() };
+        throw InvalidDeviceDescription{conDirectoryServiceValidator.errorMessage()};
     }
 
     d->mContentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
     d->mContentDirectorySCPD = conDirectoryServiceValidator.scpd();
     d->mName = deviceDescription.friendlyName();
-    if(!deviceDescription.icons().isEmpty())
+    if (!deviceDescription.icons().isEmpty())
     {
         d->mIconUrl = deviceDescription.icons().first().url();
     }
@@ -73,37 +74,42 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType());
 
-    auto soapCall =
-        d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(), action.name(),
-                                                    d->mContentDirectoryServiceDescription.serviceType(), xmlMessage);
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mContentDirectoryServiceDescription.serviceType(),
+                                                                xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
+    return QSharedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
 }
 
-QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId, MediaServer::BrowseFlag browseFlag,
-                                                    const QString &filter, const QString &sortCriteria) noexcept
+QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
+                                                    MediaServer::BrowseFlag browseFlag,
+                                                    const QString &filter,
+                                                    const QString &sortCriteria) noexcept
 {
     auto action = d->mContentDirectorySCPD.action("Browse");
 
-    ArgumentList browseArgs{ 6 };
-    browseArgs << Argument{ "BrowseFlag", d->convertBrowseFlagToString(browseFlag) }
-               << Argument{ "RequestedCount", "0" } << Argument{ "ObjectID", objectId } << Argument{ "Filter", filter }
-               << Argument{ "StartingIndex", "0" } << Argument{ "SortCriteria", sortCriteria };
+    ArgumentList browseArgs{6};
+    browseArgs << Argument{"BrowseFlag", d->convertBrowseFlagToString(browseFlag)} << Argument{"RequestedCount", "0"}
+               << Argument{"ObjectID", objectId} << Argument{"Filter", filter} << Argument{"StartingIndex", "0"}
+               << Argument{"SortCriteria", sortCriteria};
 
     SoapMessageGenerator msgGen;
-    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType(), browseArgs);
+    auto xmlMessage =
+        msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType(), browseArgs);
 
-    auto soapCall =
-        d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(), action.name(),
-                                                    d->mContentDirectoryServiceDescription.serviceType(), xmlMessage);
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mContentDirectoryServiceDescription.serviceType(),
+                                                                xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{ new PendingSoapCall{ soapCall } };
+    return QSharedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
 }
 
 QString MediaServerPrivate::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
 {
-    return MediaServer::BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata") :
-                                                             QStringLiteral("BrowseDirectChildren");
+    return MediaServer::BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata")
+                                                           : QStringLiteral("BrowseDirectChildren");
 }
 
 } // namespace UPnPAV

@@ -23,12 +23,12 @@ QString TestPlugin::pluginName() const
 
 PluginCore::PluginVersion TestPlugin::getPluginVersion() const
 {
-    return { .major = 1, .minor = 0, .patch = 0 };
+    return {.major = 1, .minor = 0, .patch = 0};
 }
 
 QUuid TestPlugin::getPluginIdentifier() const
 {
-    return { "d6d02a93-b6f0-4581-ba0a-b70397c1200a" };
+    return {"d6d02a93-b6f0-4581-ba0a-b70397c1200a"};
 }
 
 bool TestPlugin::load(QQmlContext *context)
@@ -44,7 +44,7 @@ bool Shell::TestPlugin::unload()
 
 QUrl TestPlugin::pluginIconUrl() const
 {
-    return QUrl{ "qrc:/icon/pluginIcon.png" };
+    return QUrl{"qrc:/icon/pluginIcon.png"};
 }
 
 bool TestPlugin::handleBackButton()

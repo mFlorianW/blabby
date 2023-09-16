@@ -36,12 +36,12 @@ QString MediaServerPlugin::pluginName() const
 
 PluginCore::PluginVersion MediaServerPlugin::getPluginVersion() const
 {
-    return PluginCore::PluginVersion{ .major = 0, .minor = 1, .patch = 0 };
+    return PluginCore::PluginVersion{.major = 0, .minor = 1, .patch = 0};
 }
 
 QUuid MediaServerPlugin::getPluginIdentifier() const
 {
-    return QUuid{ "b53b2ffe-4f00-4d4d-b2a4-7b769a0744ea" };
+    return QUuid{"b53b2ffe-4f00-4d4d-b2a4-7b769a0744ea"};
 }
 
 bool MediaServerPlugin::load(QQmlContext *context)
@@ -65,14 +65,14 @@ bool MediaServerPlugin::unload()
 
 QUrl MediaServerPlugin::pluginIconUrl() const
 {
-    return QUrl{ "qrc:/mediaserver/icon/MediaServerPlugin.png" };
+    return QUrl{"qrc:/mediaserver/icon/MediaServerPlugin.png"};
 }
 
 bool MediaServerPlugin::handleBackButton()
 {
-    if(activeView().toString() == serverItemView)
+    if (activeView().toString() == serverItemView)
     {
-        if(!mServerItemView->goPreviousFolder())
+        if (!mServerItemView->goPreviousFolder())
         {
             showMediaSeverView();
         }
@@ -85,23 +85,24 @@ bool MediaServerPlugin::handleBackButton()
 
 void MediaServerPlugin::showMediaSeverView()
 {
-    if(!mMediaServerView && mQmlContext != nullptr)
+    if (!mMediaServerView && mQmlContext != nullptr)
     {
         mServiceProviderFactory = std::make_unique<UPnPAV::ServiceProviderFactory>();
         mMediaServerFactory = std::make_unique<UPnPAV::MediaServerFactory>();
         mMediaServerModel = std::make_unique<MediaServerModel>();
-        mMediaServerView = std::make_unique<MediaServerView>(mMediaServerModel.get(), mMediaServerFactory.get(),
+        mMediaServerView = std::make_unique<MediaServerView>(mMediaServerModel.get(),
+                                                             mMediaServerFactory.get(),
                                                              mServiceProviderFactory.get());
 
         mQmlContext->setContextProperty("g_MediaServerView", mMediaServerView.get());
     }
 
-    setActiveView(QUrl{ mediaServerView });
+    setActiveView(QUrl{mediaServerView});
 }
 
 void MediaServerPlugin::showServerItemView(qint32 mediaServerIndex)
 {
-    if(!mServerItemView && mQmlContext != nullptr)
+    if (!mServerItemView && mQmlContext != nullptr)
     {
         mServerItemModel = std::make_unique<ServerItemModel>();
         mServerItemView = std::make_unique<ServerItemView>(mServerItemModel.get());
@@ -111,7 +112,7 @@ void MediaServerPlugin::showServerItemView(qint32 mediaServerIndex)
 
     auto mediaServer = mMediaServerModel->mediaServer(mediaServerIndex);
     mServerItemView->setMediaServer(mediaServer);
-    setActiveView(QUrl{ serverItemView });
+    setActiveView(QUrl{serverItemView});
 }
 
 } // namespace MediaServer::Plugin

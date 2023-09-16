@@ -6,8 +6,8 @@
 #include "HttpSoapMessageTransmitter.h"
 #include "HttpSoapCall.h"
 
-#include <QNetworkReply>
 #include <QDebug>
+#include <QNetworkReply>
 
 namespace UPnPAV
 {
@@ -36,15 +36,9 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QStri
     qDebug() << networkRequest.header(QNetworkRequest::ContentTypeHeader).toString();
     qDebug() << networkRequest.rawHeader("SOAPACTION");
 
-    QSharedPointer<QNetworkReply> reply
-    {
-        m_accessManager.post(networkRequest, xmlBody.toUtf8())
-    };
+    QSharedPointer<QNetworkReply> reply{m_accessManager.post(networkRequest, xmlBody.toUtf8())};
 
-    return QSharedPointer<HttpSoapCall>
-    {
-        new HttpSoapCall(reply)
-    };
+    return QSharedPointer<HttpSoapCall>{new HttpSoapCall(reply)};
 }
 
-} //namespace UPnPAV
+} // namespace UPnPAV
