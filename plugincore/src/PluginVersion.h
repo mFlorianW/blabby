@@ -6,7 +6,7 @@
 #ifndef PLUGINVERSION_H
 #define PLUGINVERSION_H
 
-#include <PluginCore_Export.h>
+#include "blabbyplugincore_export.h"
 #include <QtGlobal>
 
 namespace PluginCore
@@ -15,7 +15,7 @@ namespace PluginCore
 /**
  * Struct which handles the version of the plugin
  */
-struct PLUGINCORE_EXPORT PluginVersion
+struct BLABBYPLUGINCORE_EXPORT PluginVersion
 {
     quint32 major = 0;
     quint32 minor = 0;

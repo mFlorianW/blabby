@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MultimediaPlugin.h"
-#include "MultimediaPlugin_p.h"
+#include "private/MultimediaPlugin_p.h"
 #include <QUrl>
 
 namespace PluginCore
