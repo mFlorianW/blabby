@@ -16,6 +16,12 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_CXX_STANDARD 17)
 
 ################################################################################
+# Modules
+################################################################################
+include(GenerateExportHeader)
+include(FeatureSummary)
+
+################################################################################
 # Options
 ################################################################################
 enable_testing()
@@ -26,9 +32,7 @@ option(ENABLE_TEST "Enable/Disable tests build. Default: false" OFF)
 ################################################################################
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(BASE_SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/controls ${CMAKE_BINARY_DIR} CACHE STRING "" FORCE)
 
 #Install folder
 set(DEFAULT_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
@@ -73,3 +77,4 @@ add_subdirectory(shell)
 add_subdirectory(plugins)
 
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)
+feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES PACKAGES_FOUND)

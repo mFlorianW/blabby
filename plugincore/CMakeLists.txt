@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
 
 project(LibBlabbyPluginCore
     DESCRIPTION "Plugin Core of the Blabby project"
@@ -11,24 +11,18 @@ project(LibBlabbyPluginCore
 )
 
 ################################################################################
-# Definitions
-################################################################################
-add_definitions(-DPLUGINCORE)
-
-################################################################################
 # Build PluginCore
 ################################################################################
 add_library(BlabbyPluginCore SHARED)
 add_library(Blabby::PluginCore ALIAS BlabbyPluginCore)
+generate_export_header(BlabbyPluginCore)
 
 target_sources(BlabbyPluginCore
-    PRIVATE
-        src/MultimediaPlugin.cpp
-
-    #Public header
-        include/PluginCore_Export.h
-        include/MultimediaPlugin.h
-        include/PluginVersion.h
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MultimediaPlugin.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/MultimediaPlugin_p.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MultimediaPlugin.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/PluginVersion.h
 )
 
 target_link_libraries(BlabbyPluginCore
@@ -37,8 +31,8 @@ target_link_libraries(BlabbyPluginCore
 
 target_include_directories(BlabbyPluginCore
     PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
 
 set_target_properties(BlabbyPluginCore PROPERTIES
@@ -57,4 +51,3 @@ endif()
 # Install plugin
 ################################################################################
 install(TARGETS BlabbyPluginCore DESTINATION ${DEFAULT_LIBRARY_INSTALL_DIR})
-install(DIRECTORY include/ DESTINATION ${DEFAULT_INCLUDE_INSTALL_DIR}/BlabbyPluginCore)
