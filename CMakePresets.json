@@ -1,0 +1,69 @@
+{
+    "version": 2,
+    "configurePresets": [
+        {
+            "name": "debug",
+            "displayName": "debug configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/$env{BUILD_DIR}/install",
+                "ENABLE_TEST": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "1"
+            },
+            "environment": {
+                "BUILD_DIR": "build"
+            }
+        },
+        {
+            "name": "github-ci-debug",
+            "displayName": "Github CI configure preset",
+            "description": "Sets Make generator, build and install directory",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build-${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+                "ENABLE_TEST": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "1"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Relase configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "github-ci-debug",
+            "configurePreset": "github-ci-debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "test",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "github-test",
+            "configurePreset": "github-ci-debug"
+        }
+    ]
+}

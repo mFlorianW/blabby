@@ -23,7 +23,7 @@ IF("${isSystemDir}" STREQUAL "-1")
 ENDIF("${isSystemDir}" STREQUAL "-1")
 
 ################################################################################
-# Build opendvb
+# Build blabby
 ################################################################################
 add_library(BlabbyObject OBJECT)
 add_library(Blabby::Object ALIAS BlabbyObject)
@@ -76,7 +76,8 @@ target_sources(blabby
 )
 
 target_link_libraries(blabby
-    BlabbyObject
+    PRIVATE
+        BlabbyObject
 )
 
 ################################################################################

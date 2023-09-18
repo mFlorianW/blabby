@@ -6,8 +6,8 @@
 #ifndef MULTIMEDIAPLUGIN_H
 #define MULTIMEDIAPLUGIN_H
 
-#include "PluginCore_Export.h"
 #include "PluginVersion.h"
+#include "blabbyplugincore_export.h"
 #include <QObject>
 #include <QUuid>
 #include <memory>
@@ -22,7 +22,7 @@ class MultimediaPluginPrivate;
  * Generic defintion of plugin, which can be loaded by
  * Blabby shell
  */
-class PLUGINCORE_EXPORT MultimediaPlugin : public QObject
+class BLABBYPLUGINCORE_EXPORT MultimediaPlugin : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(MultimediaPlugin)
