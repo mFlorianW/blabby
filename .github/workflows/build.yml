@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.9.0
+      uses: jurplel/install-qt-action@v3
       with:
-        version: '5.13.2'
+        version: '5.15.2'
     - name: checkout
       uses: actions/checkout@v2
     - name: configure
