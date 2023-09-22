@@ -4,8 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "HttpSoapMessageTransmitter.h"
-#include "HttpSoapCall.h"
-
+#include "private/HttpSoapCall.h"
 #include <QDebug>
 #include <QNetworkReply>
 
