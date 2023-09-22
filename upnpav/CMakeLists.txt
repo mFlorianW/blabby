@@ -2,13 +2,18 @@
 # SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
 #
 # SPDX-License-Identifier: LGPL-2.1-or-later
+cmake_minimum_required(VERSION 3.15)
 
-cmake_minimum_required(VERSION 3.11)
-
-project(LibBlabbyUPnPAV
+project(BlabbyUPnPAV
     DESCRIPTION "UPnP/AV implementation for Blabby"
     VERSION 0.2.0
 )
+
+###############################################################################
+# Modules 
+###############################################################################
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 ###############################################################################
 # Dependencies
@@ -23,88 +28,123 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # the RPATH to be used when installing, but only if it's not a system directory
 list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
 if("${isSystemDir}" STREQUAL "-1")
-   SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}")
+    SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}")
 endif("${isSystemDir}" STREQUAL "-1")
 
 ################################################################################
 # Build
 ################################################################################
-add_definitions(-DBUILDING_UPNP)
+add_library(${PROJECT_NAME} OBJECT)
+add_library(Blabby::UPnPAV ALIAS ${PROJECT_NAME})
+generate_export_header(BlabbyUPnPAV)
 
-add_library(BlabbyUPnPAVObject OBJECT)
-add_library(Blabby::UPnPAVObject ALIAS BlabbyUPnPAVObject)
-target_sources(BlabbyUPnPAVObject
-    PRIVATE
-        #Service Provider
-        src/service_provider/ServiceProvider.cpp
-        src/service_provider/DeviceDescription.cpp
-        src/service_provider/IconDescription.cpp
-        src/service_provider/ServiceDescription.cpp
-        src/service_provider/ServiceControlPointDefinition.cpp
-        src/service_provider/SCPDAction.cpp
-        src/service_provider/SCPDArgument.cpp
-        src/service_provider/SCPDStateVariable.cpp
-        src/service_provider/ServiceDiscoveryBackend.cpp
-        src/service_provider/ServiceDiscovery.cpp
-        src/service_provider/DescriptionFetcher.cpp
-        src/service_provider/DescriptionFetcherBackend.cpp
-        src/service_provider/DeviceDescriptionParser.cpp
-        src/service_provider/ServiceDiscoveryPackage.cpp
-        src/service_provider/ParsingError.cpp
-        src/service_provider/ServiceControlPointDefinitionParser.cpp
-        src/service_provider/ServiceProviderError.cpp
-
-        #device
-        src/device/InvalidDeviceDescription.cpp
-        src/device/MediaServer.cpp
-        src/device/ScpdStateVariableValidator.cpp
-        src/device/ConnectionManagerServiceValidator.cpp
-        src/device/ServiceDescriptionValidator.cpp
-        src/device/BaseValidator.cpp
-        src/device/ScpdActionListValidator.cpp
-        src/device/ContentDirectoryServiceValidator.cpp
-        src/device/ServiceValidatorBase.cpp
-        src/device/SoapMessageTransmitter.cpp
-        src/device/SoapMessageGenerator.cpp
-        src/device/SoapCall.cpp
-        src/device/PendingSoapCall.cpp
-        src/device/HttpSoapMessageTransmitter.cpp
-        src/device/HttpSoapCall.cpp
-        src/device/ErrorResult.cpp
-        src/device/BrowseResult.cpp
-        src/device/MediaServerObject.cpp
-
-        #Public Header must be add manualy otherwise vtable
-        #errors occure.
-        include/UPnP_Export.h
-        #service provider
-        include/service_provider/ServiceProvider.h
-        include/service_provider/DeviceDescription.h
-        include/service_provider/IconDescription.h
-        include/service_provider/ServiceDescription.h
-        include/service_provider/ServiceControlPointDefinition.h
-        include/service_provider/SCPDAction.h
-        include/service_provider/SCPDArgument.h
-        include/service_provider/SCPDStateVariable.h
-        include/service_provider/DescriptionFetcherBackend.h
-        include/service_provider/ServiceDiscoveryBackend.h
-        include/service_provider/IServiceProvider.h
-        include/service_provider/ServiceProviderError.h
-        include/service_provider/IServiceProvider.h
-
-        #device
-        include/device/MediaServer.h
-        include/device/SoapCall.h
-        include/device/PendingSoapCall.h
-        include/device/InvalidDeviceDescription.h
-        include/device/SoapMessageTransmitter.h
-        include/device/HttpSoapMessageTransmitter.h
-        include/device/BrowseResult.h
-        include/device/MediaServerObject.h
-        include/device/IMediaServer.h
+set(PRIVATE_SRCS
+    #Service Provider 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DeviceDescriptionParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscoveryPackage.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ParsingError.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceControlPointDefinitionParser.cpp
+    
+    #Device
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdStateVariableValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ConnectionManagerServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceDescriptionValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/BaseValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/BaseValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdActionListValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ContentDirectoryServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceValidatorBase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.cpp
 )
 
-target_link_libraries(BlabbyUPnPAVObject
+set(PRIVATE_HEADERS
+    #Service Provider
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DeviceDescriptionParser.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscoveryPackage.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ParsingError.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceControlPointDefinitionParser.h
+
+    #Device
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/MediaServer_p.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdStateVariableValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ConnectionManagerServiceValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceDescriptionValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdActionListValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ContentDirectoryServiceValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceValidatorBase.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.h
+)
+
+set(PUBLIC_SRCS
+    #Service Provider
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProvider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DeviceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IconDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceControlPointDefinition.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDAction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDArgument.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDStateVariable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DescriptionFetcherBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDiscoveryBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProviderError.cpp
+
+    #Device
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/PendingSoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/InvalidDeviceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.cpp
+)
+
+set(PUBLIC_HEADERS
+    #Service Provider
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProvider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DeviceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IconDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceControlPointDefinition.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDArgument.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDStateVariable.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DescriptionFetcherBackend.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDiscoveryBackend.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IServiceProvider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProviderError.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IServiceProvider.h
+
+    #Device
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/IMediaServer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapMessageTransmitter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/InvalidDeviceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/PendingSoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.h
+)
+
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${PRIVATE_SRCS}
+        ${PRIVATE_HEADERS}
+        ${PUBLIC_SRCS}
+        ${PUBLIC_HEADERS}
+)
+
+target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Qt5::Core
         Qt5::Network
@@ -112,28 +152,59 @@ target_link_libraries(BlabbyUPnPAVObject
         Qt5::XmlPatterns
 )
 
-target_include_directories(BlabbyUPnPAVObject
+target_include_directories(${PROJECT_NAME}
     PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/service_provider>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/device>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/device>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider>
 )
 
-add_library(BlabbyUPnPAV SHARED)
-add_library(Blabby::UPnPAV ALIAS BlabbyUPnPAV)
-
-target_link_libraries(BlabbyUPnPAV
-    BlabbyUPnPAVObject
-)
-
-set_target_properties(BlabbyUPnPAV PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
+
+################################################################################
+# CMakePackageConfig
+################################################################################
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+    CACHE PATH "Location of header blabby UPNPAV files" )
+
+configure_package_config_file(
+    ${PROJECT_NAME}Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/BlabbyUPnPAVConfig.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BlabbyUPnPAV
+    PATH_VARS INCLUDE_INSTALL_DIR
+)
+
+write_basic_package_version_file(
+    ${PROJECT_NAME}Version.cmake
+    VERSION "${PROJECT_VERSION}"
+    COMPATIBILITY SameMinorVersion
+)
+
+################################################################################
+# Install
+################################################################################
+install(TARGETS BlabbyUPnPAV EXPORT ${PROJECT_NAME}Targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT BlabbyUPnPAV_Runtime
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT BlabbyUPnPAV_Development
+    NAMELINK_COMPONENT BlabbyUPnPAV_Development
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(FILES ${PUBLIC_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}")
+install(FILES ${PRIVATE_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}/private")
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Version.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+)
+install(EXPORT ${PROJECT_NAME}Targets
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
 
 ################################################################################
 # Test
@@ -141,12 +212,3 @@ set_target_properties(BlabbyUPnPAV PROPERTIES
 if(ENABLE_TEST)
     add_subdirectory(test)
 endif()
-
-################################################################################
-# Install
-################################################################################
-INSTALL(TARGETS BlabbyUPnPAV
-    DESTINATION ${DEFAULT_LIBRARY_INSTALL_DIR})
-
-INSTALL(DIRECTORY include/
-    DESTINATION ${DEFAULT_INCLUDE_INSTALL_DIR}/BlabbyUPnPAV)
