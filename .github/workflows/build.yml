@@ -20,12 +20,21 @@ jobs:
         version: '5.15.2'
     - name: checkout
       uses: actions/checkout@v2
-    - name: configure
-      run: cmake -DENABLE_TEST=ON .
-    - name: make
-      run: make -j8
-    - name: tests
-      run: ctest -V
+      with:
+          fetch-depth: 0
+    - name: build and test
+      run: |
+        for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
+          echo "###############################################################"
+          echo "# Start Build Commit $commit"
+          echo "###############################################################"
+          git checkout $commit
+          cmake --preset github-ci-debug
+          cmake --build --preset github-ci-debug -- -j
+          ctest --preset github-test
+          echo "###############################################################"
+          echo "# Finished Build Commit $commit"
+          echo "###############################################################"
+        done
       env:
         QT_QPA_PLATFORM: offscreen
-
