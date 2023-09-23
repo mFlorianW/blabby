@@ -102,7 +102,7 @@ target_link_libraries(test_upnpav_service_provider
 add_test(test_upnpav_service_provider ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_service_provider)
 
 ################################################################################
-# Test Service Provider
+# Test Protocol Info Result
 ################################################################################
 add_executable(test_upnpav_protocol_info_result)
 target_sources(test_upnpav_protocol_info_result
@@ -118,3 +118,21 @@ target_link_libraries(test_upnpav_protocol_info_result
         Qt5::Test
 )
 add_test(test_upnpav_protocol_info_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_protocol_info_result)
+
+################################################################################
+# Test Current Connections Ids Reult
+################################################################################
+add_executable(test_upnpav_current_connection_ids_result)
+target_sources(test_upnpav_current_connection_ids_result
+    PRIVATE
+        ${TEST_RESOURCE_FILE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionIdsResultShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionIdsResultShould.h
+)
+target_link_libraries(test_upnpav_current_connection_ids_result
+    PRIVATE
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt5::Test
+)
+add_test(test_upnpav_current_connection_ids_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_current_connection_ids_result)
