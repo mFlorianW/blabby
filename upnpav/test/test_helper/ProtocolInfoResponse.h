@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Florian Weßel <florianwessel@gmx.net>
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #pragma once
 // clang-format off
 constexpr auto ValidProtoclInfoResponse = R"(<?xml version="1.0" encoding="UTF-8"?>
