@@ -100,3 +100,21 @@ target_link_libraries(test_upnpav_service_provider
         Blabby::UPnPAVTestHelper
 )
 add_test(test_upnpav_service_provider ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_service_provider)
+
+################################################################################
+# Test Service Provider
+################################################################################
+add_executable(test_upnpav_protocol_info_result)
+target_sources(test_upnpav_protocol_info_result
+    PRIVATE
+        ${TEST_RESOURCE_FILE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResultShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResultShould.h
+)
+target_link_libraries(test_upnpav_protocol_info_result
+    PRIVATE
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt5::Test
+)
+add_test(test_upnpav_protocol_info_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_protocol_info_result)

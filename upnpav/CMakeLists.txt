@@ -10,10 +10,17 @@ project(BlabbyUPnPAV
 )
 
 ###############################################################################
+# Options
+###############################################################################
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN yes)
+
+###############################################################################
 # Modules 
 ###############################################################################
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+include(GenerateExportHeader)
 
 ###############################################################################
 # Dependencies
@@ -106,6 +113,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -134,6 +142,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/PendingSoapCall.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapCall.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.h
 )
 
 target_sources(${PROJECT_NAME}
