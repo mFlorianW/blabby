@@ -36,8 +36,8 @@ class BLABBYUPNPAV_EXPORT ProtocolInfoResult
 public:
     ProtocolInfoResult(const QString &xmlResponse);
 
-    const QVector<Protocol> &getSourceProtocols() const noexcept;
-    const QVector<Protocol> &getSinkProtocols() const noexcept;
+    const QVector<Protocol> &sourceProtocols() const noexcept;
+    const QVector<Protocol> &sinkProtocols() const noexcept;
 
 private:
     static std::optional<QVector<Protocol>> parseProtocolResponse(const QString &rawResult) noexcept;
