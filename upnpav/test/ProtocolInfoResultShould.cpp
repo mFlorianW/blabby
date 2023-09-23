@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Florian Weßel <florianwessel@gmx.net>
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "ProtocolInfoResultShould.h"
 #include "ProtocolInfoResponse.h"
 #include "ProtocolInfoResult.h"
