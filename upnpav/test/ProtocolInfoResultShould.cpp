@@ -25,9 +25,9 @@ void ProtocolInfoResultShould::give_the_protocol_lists()
         Protocol{.protocol = "x-rincon-stream", .network = "*", .contentFormat = "*", .additionalInfo = "*"},
     };
 
-    QVERIFY2(pInfo.getSourceProtocols() == expectedResult,
+    QVERIFY2(pInfo.sourceProtocols() == expectedResult,
              "The returned result doesn't match expected source protocol result");
-    QVERIFY2(pInfo.getSinkProtocols() == expectedResult,
+    QVERIFY2(pInfo.sinkProtocols() == expectedResult,
              "The returned result doesn't match expected sink protocol result");
 }
 

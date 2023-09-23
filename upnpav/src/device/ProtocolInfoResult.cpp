@@ -49,11 +49,11 @@ ProtocolInfoResult::ProtocolInfoResult(const QString &xmlResponse)
     }
 }
 
-const QVector<Protocol> &ProtocolInfoResult::getSourceProtocols() const noexcept
+const QVector<Protocol> &ProtocolInfoResult::sourceProtocols() const noexcept
 {
     return mSourceProtocols;
 }
-const QVector<Protocol> &ProtocolInfoResult::getSinkProtocols() const noexcept
+const QVector<Protocol> &ProtocolInfoResult::sinkProtocols() const noexcept
 {
     return mSinkProtocols;
 }

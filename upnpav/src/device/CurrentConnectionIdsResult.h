@@ -18,7 +18,7 @@ class CurrentConnectionIdsResult
 public:
     CurrentConnectionIdsResult(const QString &xmlResponse);
 
-    QVector<quint32> getCurrentConnectionIds() const noexcept;
+    QVector<quint32> currentConnectionIds() const noexcept;
 
 private:
     QVector<quint32> mConnectionIds;

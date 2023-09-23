@@ -41,7 +41,7 @@ CurrentConnectionIdsResult::CurrentConnectionIdsResult(const QString &xmlRespons
     }
 }
 
-QVector<quint32> CurrentConnectionIdsResult::getCurrentConnectionIds() const noexcept
+QVector<quint32> CurrentConnectionIdsResult::currentConnectionIds() const noexcept
 {
     return mConnectionIds;
 }
