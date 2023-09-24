@@ -116,6 +116,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionIdsResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionInfoResult.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -146,6 +147,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionIdsResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionInfoResult.h
 )
 
 target_sources(${PROJECT_NAME}
