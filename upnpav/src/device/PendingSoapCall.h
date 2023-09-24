@@ -63,7 +63,9 @@ public:
         InvalidControlUrl = 611,
         ///< The session key reference is to a non-existent session. This could be because the device has expired a
         /// session, in which case the control point needs to open a new one.
-        NoSuchSession = 612
+        NoSuchSession = 612,
+        ///< The connection reference argument does not refer to a valid connection established by this service.
+        InvalidConnectionReference = 706
     };
     Q_ENUM(ErrorCode)
 

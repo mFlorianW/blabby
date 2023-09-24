@@ -92,6 +92,8 @@ PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
         return ErrorCode::InvalidControlUrl;
     case ErrorCode::NoSuchSession:
         return ErrorCode::NoSuchSession;
+    case ErrorCode::InvalidConnectionReference:
+        return ErrorCode::InvalidConnectionReference;
     default:
         return ErrorCode::Unknown;
     }
