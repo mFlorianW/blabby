@@ -76,5 +76,9 @@ add_subdirectory(plugincore)
 add_subdirectory(shell)
 add_subdirectory(plugins)
 
+if (ENABLE_TEST)
+    add_subdirectory(upnpav_test_helper)
+endif()
+
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES PACKAGES_FOUND)
