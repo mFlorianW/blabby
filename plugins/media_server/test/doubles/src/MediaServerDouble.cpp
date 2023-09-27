@@ -36,6 +36,11 @@ const QUrl &MediaServer::iconUrl() const noexcept
     return mIconUrl;
 }
 
+QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::protocolInfo() noexcept
+{
+    return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
+}
+
 QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
     return {};

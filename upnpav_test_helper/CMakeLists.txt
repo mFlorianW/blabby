@@ -27,8 +27,6 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapMessageTransmitterDouble.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/TestSoapCall.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/TestSoapCall.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDeviceBaseTest.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDeviceBaseTest.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ConnectionManagerActions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ConnectionManagerStateVariables.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ContentDirectoryActions.h

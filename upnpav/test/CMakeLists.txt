@@ -30,6 +30,8 @@ add_executable(test_upnpav_media_server)
 target_sources(test_upnpav_media_server
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceBaseTest.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceBaseTest.h
 )
 target_link_libraries(test_upnpav_media_server
     PUBLIC 

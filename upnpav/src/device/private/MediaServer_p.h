@@ -30,6 +30,8 @@ public:
     DeviceDescription mDeviceDescription;
     ServiceDescription mContentDirectoryServiceDescription;
     ServiceControlPointDefinition mContentDirectorySCPD;
+    ServiceDescription mConnectionManagerDescription;
+    ServiceControlPointDefinition mConnectionManagerSCPD;
     QSharedPointer<SoapMessageTransmitter> mSoapMessageTransmitter;
     QString mName{""};
     QUrl mIconUrl{""};
