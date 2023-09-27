@@ -26,13 +26,16 @@ class MediaServerShould : public MediaDeviceBaseTest
     Q_DISABLE_COPY_MOVE(MediaServerShould)
 public:
     explicit MediaServerShould();
-    ~MediaServerShould();
+    ~MediaServerShould() override;
 
 protected:
-    std::unique_ptr<IMediaDevice> mediaDevice(const DeviceDescription &deviceDesc);
+    std::unique_ptr<IMediaDevice> mediaDevice(const DeviceDescription &deviceDesc) override;
+    std::unique_ptr<IMediaDevice> mediaDevice() override;
+    QString lastSoapCall() const noexcept override;
 
 private:
-    MediaServer createMediaServer(const QVector<ServiceDescription> &services, const QVector<ServiceControlPointDefinition> &scpds);
+    MediaServer createMediaServer(const QVector<ServiceDescription> &services,
+                                  const QVector<ServiceControlPointDefinition> &scpds);
 
     ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(const SCPDStateVariable &variable);
 

@@ -7,6 +7,7 @@
 #include "DeviceDescription.h"
 #include "HttpSoapMessageTransmitter.h"
 #include "InvalidDeviceDescription.h"
+#include "PendingSoapCall.h"
 #include "SoapMessageTransmitter.h"
 #include "private/ConnectionManagerServiceValidator.h"
 #include "private/ContentDirectoryServiceValidator.h"
@@ -48,6 +49,8 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
 
     d->mContentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
     d->mContentDirectorySCPD = conDirectoryServiceValidator.scpd();
+    d->mConnectionManagerDescription = conManagerServiceValidator.serviceDescription();
+    d->mConnectionManagerSCPD = conManagerServiceValidator.scpd();
     d->mName = deviceDescription.friendlyName();
     if (!deviceDescription.icons().isEmpty())
     {
@@ -65,6 +68,18 @@ const QString &MediaServer::name() const noexcept
 const QUrl &MediaServer::iconUrl() const noexcept
 {
     return d->mIconUrl;
+}
+
+QScopedPointer<PendingSoapCall> MediaServer::protocolInfo() noexcept
+{
+    const auto action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
+    auto msgGen = SoapMessageGenerator{};
+    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mConnectionManagerDescription.serviceType(),
+                                                                xmlMessage);
+    return QScopedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept

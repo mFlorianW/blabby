@@ -8,8 +8,6 @@
 
 #include "IMediaServer.h"
 #include "PendingSoapCall.h"
-#include "ServiceControlPointDefinition.h"
-#include "ServiceDescription.h"
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
 #include <QUrl>
@@ -49,7 +47,7 @@ public:
      */
     MediaServer(const DeviceDescription &deviceDescription,
                 const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter);
-    ~MediaServer();
+    ~MediaServer() override;
 
     /**
      * @copydoc IMediaDevice::name()
@@ -60,6 +58,11 @@ public:
      * @copydoc IMediaDevice::iconUrl()
      */
     const QUrl &iconUrl() const noexcept override;
+
+    /**
+     * @copydoc IMediaDevice::protocolInfo()
+     */
+    QScopedPointer<PendingSoapCall> protocolInfo() noexcept override;
 
     /**
      * Request the supported sort capabilities of the media server.
