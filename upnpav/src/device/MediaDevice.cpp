@@ -13,8 +13,7 @@ namespace UPnPAV
 
 MediaDevice::MediaDevice(DeviceDescription const &deviceDescription,
                          QSharedPointer<SoapMessageTransmitter> msgTransmitter)
-    : IMediaDevice()
-    , d{QScopedPointer<MediaDevicePrivate>(new MediaDevicePrivate{deviceDescription, msgTransmitter})}
+    : d{QScopedPointer<MediaDevicePrivate>(new MediaDevicePrivate{deviceDescription, msgTransmitter})}
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{deviceDescription};
     if (!conManagerServiceValidator.validate())

@@ -4,14 +4,23 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
-#include "IMediaDevice.h"
+#include "PendingSoapCall.h"
+#include <QScopedPointer>
+#include <QSharedPointer>
+#include <QUrl>
 
 namespace UPnPAV
 {
+
 class MediaDevicePrivate;
 class DeviceDescription;
 class SoapMessageTransmitter;
-class MediaDevice : public IMediaDevice
+
+/**
+ * This interface defines functions that every upnp media device
+ * should support.
+ */
+class MediaDevice
 {
 public:
     Q_DISABLE_COPY_MOVE(MediaDevice)
@@ -19,32 +28,41 @@ public:
     /**
      * Default destructor
      */
-    ~MediaDevice() override;
+    virtual ~MediaDevice();
 
     /**
-     * @copydoc IMediaDevice::name()
+     * Gives the human friendly name of the device.
+     *
+     * @return The human friendly name of the device.
      */
-    const QString &name() const noexcept override;
+    virtual const QString &name() const noexcept;
 
     /**
-     * @copydoc IMediaDevice::iconUrl()
+     * Gives the Url of an icon for the device. The string
+     * can be empty when the device doesn't have an icon.
+     *
+     * @return The a Url to an icon of the device.
      */
-    const QUrl &iconUrl() const noexcept override;
+    virtual const QUrl &iconUrl() const noexcept;
 
     /**
-     * @copydoc IMediaDevice::protocolInfo()
+     * Calls the GetProtocolInfo on the ConnectionManager Interface of the UPnPAV device.
+     *
+     * @return PendingSoapCall with the result or an error.
      */
-    QScopedPointer<PendingSoapCall> protocolInfo() noexcept override;
+    virtual QScopedPointer<PendingSoapCall> protocolInfo() noexcept;
 
     /**
-     * @copydoc IMediaDevice::currentConnectionIds()
+     * Calls the GetCurrentConnectionIds on the ConnectionManager of the UPnPAV device.
+     * @return PendingSoapCall with the result or an error.
      */
-    QScopedPointer<PendingSoapCall> currentConnectionIds() noexcept override;
+    virtual QScopedPointer<PendingSoapCall> currentConnectionIds() noexcept;
 
     /**
-     * @copydoc IMediaDevice::currentConnectionIds()
+     * Calls the GetCurrentConnectionInfo on the ConnectionManager of the UPnPAV device.
+     * @return PendingSoapCall with the result or an error.
      */
-    QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept override;
+    virtual QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept;
 
 protected:
     MediaDevice(DeviceDescription const &deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
