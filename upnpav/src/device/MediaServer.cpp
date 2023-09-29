@@ -22,14 +22,10 @@ namespace
 QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
 }
 
-MediaServerFactory::MediaServerFactory()
-    : IMediaServerFactory()
-{
-}
-
+MediaServerFactory::MediaServerFactory() = default;
 MediaServerFactory::~MediaServerFactory() = default;
 
-std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const DeviceDescription &deviceDescription)
+std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(const DeviceDescription &deviceDescription)
 {
     return std::make_unique<MediaServer>(deviceDescription,
                                          QSharedPointer<HttpSoapMessageTransmitter>{new HttpSoapMessageTransmitter()});
@@ -37,7 +33,7 @@ std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const Device
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription,
                          const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
-    : IMediaServer{deviceDescription, soapMessageTransmitter}
+    : MediaDevice{deviceDescription, soapMessageTransmitter}
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
     ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};

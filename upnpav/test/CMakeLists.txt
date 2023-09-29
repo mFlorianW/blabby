@@ -30,8 +30,6 @@ add_executable(test_upnpav_media_server)
 target_sources(test_upnpav_media_server
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceBaseTest.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceBaseTest.h
 )
 target_link_libraries(test_upnpav_media_server
     PUBLIC 
@@ -151,3 +149,20 @@ target_link_libraries(test_upnpav_current_connection_info_result
         Qt5::Test
 )
 add_test(test_upnpav_current_connection_info_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_current_connection_info_result)
+
+###############################################################################
+# Test Media Device
+###############################################################################
+add_executable(test_upnpav_media_device)
+target_sources(test_upnpav_media_device
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceShould.h
+)
+target_link_libraries(test_upnpav_media_device
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt5::Test
+)
+add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server)

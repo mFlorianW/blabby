@@ -6,7 +6,7 @@
 #ifndef MEDIASERVER_H
 #define MEDIASERVER_H
 
-#include "IMediaServer.h"
+#include "MediaDevice.h"
 #include "PendingSoapCall.h"
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
@@ -18,20 +18,19 @@ class SoapMessageTransmitter;
 class DeviceDescription;
 class MediaServerPrivate;
 
-class BLABBYUPNPAV_EXPORT MediaServerFactory : public IMediaServerFactory
-{
-    Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MediaServerFactory)
-public:
-    MediaServerFactory();
-    ~MediaServerFactory() override;
-    std::unique_ptr<IMediaServer> createMediaServer(const DeviceDescription &deviceDescription) override;
-};
-
-class BLABBYUPNPAV_EXPORT MediaServer final : public IMediaServer
+class BLABBYUPNPAV_EXPORT MediaServer : public MediaDevice
 {
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:
+    /**
+     * Flags for browse request.
+     */
+    enum BrowseFlag
+    {
+        MetaData,
+        DirectChildren
+    };
+
     /**
      * Creates a MediaService instance.
      *
@@ -54,7 +53,7 @@ public:
      *
      * @return PendingSoapCall with the result or error.
      */
-    QSharedPointer<PendingSoapCall> getSortCapabilities() noexcept override;
+    virtual QSharedPointer<PendingSoapCall> getSortCapabilities() noexcept;
 
     /**
      * Browse the media server.
@@ -65,13 +64,22 @@ public:
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
      * @return PendingSoapCall with the result or error.
      */
-    QSharedPointer<PendingSoapCall> browse(const QString &objectId,
-                                           BrowseFlag browseFlag,
-                                           const QString &filter,
-                                           const QString &sortCriteria) noexcept override;
+    virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId,
+                                                   BrowseFlag browseFlag,
+                                                   const QString &filter,
+                                                   const QString &sortCriteria) noexcept;
 
 private:
     std::unique_ptr<MediaServerPrivate> d;
+};
+
+class BLABBYUPNPAV_EXPORT MediaServerFactory
+{
+    Q_DISABLE_COPY_MOVE(MediaServerFactory)
+public:
+    MediaServerFactory();
+    ~MediaServerFactory();
+    virtual std::unique_ptr<MediaServer> createMediaServer(const DeviceDescription &deviceDescription);
 };
 
 } // namespace UPnPAV

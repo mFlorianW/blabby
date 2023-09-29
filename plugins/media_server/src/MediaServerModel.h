@@ -10,7 +10,7 @@
 
 namespace UPnPAV
 {
-class IMediaServer;
+class MediaServer;
 }
 namespace MediaServer::Plugin
 {
@@ -30,9 +30,9 @@ public:
     MediaServerModel();
     ~MediaServerModel() override;
 
-    void insert(UPnPAV::IMediaServer *mediaServer) noexcept;
-    void removeServer(UPnPAV::IMediaServer *mediaServer) noexcept;
-    UPnPAV::IMediaServer *mediaServer(qint32 modelIndex) const noexcept;
+    void insert(UPnPAV::MediaServer *mediaServer) noexcept;
+    void removeServer(UPnPAV::MediaServer *mediaServer) noexcept;
+    UPnPAV::MediaServer *mediaServer(qint32 modelIndex) const noexcept;
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -40,7 +40,7 @@ public:
 
 private:
     QHash<QString, qint32> mIndexLookup;
-    QHash<qint32, UPnPAV::IMediaServer *> mMediaServer;
+    QHash<qint32, UPnPAV::MediaServer *> mMediaServer;
 };
 
 } // namespace MediaServer::Plugin

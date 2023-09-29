@@ -137,7 +137,6 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IServiceProvider.h
 
     #Device
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/IMediaServer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.h

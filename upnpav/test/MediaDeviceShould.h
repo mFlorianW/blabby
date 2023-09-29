@@ -18,32 +18,14 @@ class DeviceDescription;
 
 /**
  * This class defines some tests for requirements that must be fullfilled by any MediaDevice implementation.
- * Derive a test from this class when implementing the IMediaDevice interface.
  */
-class MediaDeviceBaseTest : public QObject
+class MediaDeviceShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(MediaDeviceBaseTest)
+    Q_DISABLE_COPY_MOVE(MediaDeviceShould)
 public:
-    MediaDeviceBaseTest();
-    ~MediaDeviceBaseTest() override;
-
-protected:
-    /**
-     * This function must be implemented by the concret implementation.
-     */
-    virtual std::unique_ptr<IMediaDevice> mediaDevice(const DeviceDescription &deviceDesc) = 0;
-
-    /**
-     * This function must be implemented by concret implementations and shall always return a valid media device.
-     */
-    virtual std::unique_ptr<IMediaDevice> mediaDevice() = 0;
-
-    /**
-     * This function must be implemented by implementation tests and shall always return the last soap message call
-     * payload data.
-     */
-    virtual QString lastSoapCall() const noexcept = 0;
+    MediaDeviceShould();
+    ~MediaDeviceShould() override;
 
 private:
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(const SCPDStateVariable &variable);

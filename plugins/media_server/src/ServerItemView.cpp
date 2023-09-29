@@ -4,7 +4,7 @@
 
 #include "ServerItemView.h"
 #include "BrowseResult.h"
-#include "IMediaServer.h"
+#include "MediaServer.h"
 #include "PendingSoapCall.h"
 #include "ServerItemModel.h"
 
@@ -19,12 +19,12 @@ ServerItemView::ServerItemView(ServerItemModel *model)
 
 ServerItemView::~ServerItemView() = default;
 
-UPnPAV::IMediaServer *ServerItemView::mediaServer() const noexcept
+UPnPAV::MediaServer *ServerItemView::mediaServer() const noexcept
 {
     return mMediaServer;
 }
 
-void ServerItemView::setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept
+void ServerItemView::setMediaServer(UPnPAV::MediaServer *mediaServer) noexcept
 {
     if (mediaServer == nullptr)
     {
@@ -43,7 +43,7 @@ ServerItemModel *ServerItemView::serverItemModel() const noexcept
 
 void MediaServer::Plugin::ServerItemView::requestFolder(const QString &id)
 {
-    mPendingSoapCall = mMediaServer->browse(id, UPnPAV::IMediaServer::DirectChildren, "", "");
+    mPendingSoapCall = mMediaServer->browse(id, UPnPAV::MediaServer::DirectChildren, "", "");
     connect(mPendingSoapCall.get(), &UPnPAV::PendingSoapCall::finished, this, &ServerItemView::onBrowsRequestFinished);
 }
 

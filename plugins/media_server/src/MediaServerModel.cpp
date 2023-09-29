@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerModel.h"
-#include "IMediaServer.h"
+#include "MediaServer.h"
 #include <QUrl>
 
 namespace MediaServer::Plugin
@@ -17,7 +17,7 @@ MediaServerModel::MediaServerModel()
 
 MediaServerModel::~MediaServerModel() = default;
 
-void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
+void MediaServerModel::insert(UPnPAV::MediaServer *mediaServer) noexcept
 {
     if ((mediaServer == nullptr) || mIndexLookup.contains(mediaServer->name()))
     {
@@ -30,7 +30,7 @@ void MediaServerModel::insert(UPnPAV::IMediaServer *mediaServer) noexcept
     endInsertRows();
 }
 
-void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
+void MediaServerModel::removeServer(UPnPAV::MediaServer *mediaServer) noexcept
 {
     if (mediaServer == nullptr)
     {
@@ -43,7 +43,7 @@ void MediaServerModel::removeServer(UPnPAV::IMediaServer *mediaServer) noexcept
     endRemoveRows();
 }
 
-UPnPAV::IMediaServer *MediaServerModel::mediaServer(qint32 modelIndex) const noexcept
+UPnPAV::MediaServer *MediaServerModel::mediaServer(qint32 modelIndex) const noexcept
 {
     auto itemIndex = index(modelIndex);
     if (itemIndex.isValid())

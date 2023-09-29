@@ -4,9 +4,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerView.h"
-#include "IMediaServer.h"
 #include "IServiceProvider.h"
 #include "InvalidDeviceDescription.h"
+#include "MediaServer.h"
 #include "MediaServerModel.h"
 #include <QDebug>
 
@@ -14,7 +14,7 @@ namespace MediaServer::Plugin
 {
 
 MediaServerView::MediaServerView(MediaServerModel *model,
-                                 UPnPAV::IMediaServerFactory *mediaServerFab,
+                                 UPnPAV::MediaServerFactory *mediaServerFab,
                                  UPnPAV::IServiceProviderFactory *serviceProviderFab)
     : QObject()
     , mServiceProviderFactory{serviceProviderFab}
@@ -55,7 +55,7 @@ void MediaServerView::setActiveMediaServer(qint32 index) noexcept
     Q_EMIT activeMediaServerChanged();
 }
 
-UPnPAV::IMediaServer *MediaServerView::activeMediaServer() const noexcept
+UPnPAV::MediaServer *MediaServerView::activeMediaServer() const noexcept
 {
     auto mediaServerIter = std::next(mMediaServers.begin(), mActiveIndex);
     return mediaServerIter->second.get();
