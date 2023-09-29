@@ -17,6 +17,11 @@
 namespace UPnPAV
 {
 
+namespace
+{
+QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
+}
+
 MediaServerFactory::MediaServerFactory()
     : IMediaServerFactory()
 {
@@ -32,15 +37,9 @@ std::unique_ptr<IMediaServer> MediaServerFactory::createMediaServer(const Device
 
 MediaServer::MediaServer(const DeviceDescription &deviceDescription,
                          const QSharedPointer<SoapMessageTransmitter> &soapMessageTransmitter)
-    : IMediaServer()
+    : IMediaServer{deviceDescription, soapMessageTransmitter}
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
-    ConnectionManagerServiceValidator conManagerServiceValidator{deviceDescription};
-    if (!conManagerServiceValidator.validate())
-    {
-        throw InvalidDeviceDescription{conManagerServiceValidator.errorMessage()};
-    }
-
     ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};
     if (!conDirectoryServiceValidator.validate())
     {
@@ -49,65 +48,9 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
 
     d->mContentDirectoryServiceDescription = conDirectoryServiceValidator.serviceDescription();
     d->mContentDirectorySCPD = conDirectoryServiceValidator.scpd();
-    d->mConnectionManagerDescription = conManagerServiceValidator.serviceDescription();
-    d->mConnectionManagerSCPD = conManagerServiceValidator.scpd();
-    d->mName = deviceDescription.friendlyName();
-    if (!deviceDescription.icons().isEmpty())
-    {
-        d->mIconUrl = deviceDescription.icons().first().url();
-    }
 }
 
 MediaServer::~MediaServer() = default;
-
-const QString &MediaServer::name() const noexcept
-{
-    return d->mName;
-}
-
-const QUrl &MediaServer::iconUrl() const noexcept
-{
-    return d->mIconUrl;
-}
-
-QScopedPointer<PendingSoapCall> MediaServer::protocolInfo() noexcept
-{
-    const auto action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
-    auto msgGen = SoapMessageGenerator{};
-    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
-                                                                xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
-}
-
-QScopedPointer<PendingSoapCall> MediaServer::currentConnectionIds() noexcept
-{
-    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
-    auto msgGen = SoapMessageGenerator{};
-    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
-                                                                xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
-}
-
-QScopedPointer<PendingSoapCall> MediaServer::currentConnectionInfo(quint32 connectionId) noexcept
-{
-    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionInfo");
-    auto msgGen = SoapMessageGenerator{};
-
-    const auto arg = Argument{.name = "ConnectionID", .value = QString::number(connectionId)};
-    const auto xmlMessage =
-        msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
-                                                                xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
-}
 
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
@@ -132,7 +75,7 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
     auto action = d->mContentDirectorySCPD.action("Browse");
 
     ArgumentList browseArgs{6};
-    browseArgs << Argument{"BrowseFlag", d->convertBrowseFlagToString(browseFlag)} << Argument{"RequestedCount", "0"}
+    browseArgs << Argument{"BrowseFlag", convertBrowseFlagToString(browseFlag)} << Argument{"RequestedCount", "0"}
                << Argument{"ObjectID", objectId} << Argument{"Filter", filter} << Argument{"StartingIndex", "0"}
                << Argument{"SortCriteria", sortCriteria};
 
@@ -148,10 +91,15 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
     return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
 }
 
-QString MediaServerPrivate::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
+namespace
+{
+
+QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept
 {
     return MediaServer::BrowseFlag::MetaData == browseFlag ? QStringLiteral("BrowseMetadata")
                                                            : QStringLiteral("BrowseDirectChildren");
 }
+
+} // namespace
 
 } // namespace UPnPAV
