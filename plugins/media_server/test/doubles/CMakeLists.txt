@@ -20,4 +20,5 @@ target_include_directories(test_media_server_doubles
 
 target_link_libraries(test_media_server_doubles
     Blabby::UPnPAV
+    Blabby::UPnPAVTestHelper
 )

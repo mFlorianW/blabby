@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerDouble.h"
+#include "Descriptions.h"
 #include "InvalidDeviceDescription.h"
 #include "PendingSoapCall.h"
 #include <QDebug>
@@ -22,7 +23,17 @@ std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(
 }
 
 MediaServer::MediaServer()
-    : UPnPAV::IMediaServer()
+    : UPnPAV::IMediaServer(
+          UPnPAV::DeviceDescription{
+              "",
+              "MediaServerName",
+              "",
+              "",
+              "",
+              QVector<UPnPAV::IconDescription>{},
+              {UPnPAV::validContentDirectoryDescription, UPnPAV::validConnectionManagerDescription},
+              {UPnPAV::validContentDirectorySCPD, UPnPAV::validConnectionManagerSCPD}},
+          QSharedPointer<UPnPAV::SoapMessageTransmitter>(nullptr))
 {
 }
 

@@ -6,7 +6,8 @@
 #ifndef IMEDIASERVER_H
 #define IMEDIASERVER_H
 
-#include "IMediaDevice.h"
+#include "DeviceDescription.h"
+#include "MediaDevice.h"
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
 #include <memory>
@@ -15,12 +16,11 @@ namespace UPnPAV
 {
 class PendingSoapCall;
 class DeviceDescription;
-class SoapMessageTransmitter;
 
 /**
  * Interface definition for an UPnP MediaServer.
  */
-class BLABBYUPNPAV_EXPORT IMediaServer : public IMediaDevice
+class BLABBYUPNPAV_EXPORT IMediaServer : public MediaDevice
 {
     Q_DISABLE_COPY_MOVE(IMediaServer)
 public:
@@ -36,7 +36,7 @@ public:
     /**
      * Default destructor
      */
-    virtual ~IMediaServer() = default;
+    ~IMediaServer() override = default;
 
     /**
      * Request the supported sort capabilities of the media server.
@@ -60,7 +60,10 @@ public:
                                                    const QString &sortCriteria) noexcept = 0;
 
 protected:
-    IMediaServer() = default;
+    IMediaServer(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter)
+        : MediaDevice{deviceDescription, msgTransmitter}
+    {
+    }
 };
 
 class BLABBYUPNPAV_EXPORT IMediaServerFactory : public QObject
