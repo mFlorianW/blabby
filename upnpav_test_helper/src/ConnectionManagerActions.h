@@ -39,8 +39,8 @@ static SCPDAction GetCurrentConnectionIDs
         SCPDArgument
         {
             "ConnectionID",
-            SCPDArgument::Direction::In,
-            "A_ARG_TYPE_ConnectionID"
+            SCPDArgument::Direction::Out,
+            "GetCurrentConnectionIDs"
         }
     }
 };

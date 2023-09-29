@@ -101,9 +101,14 @@ private Q_SLOTS:
     void Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD();
 
     /**
-     * @test The media shall send the correct message when the protocol info is requested.
+     * @test The media device shall send the correct request for the GetProtocolInfo.
      */
     void shall_Send_The_Correct_SOAP_Message_When_Calling_GetProtocolInfo();
+
+    /**
+     * @test The media device shall send the correct request for GetCurrentConnectionIds.
+     */
+    void shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds();
 };
 
 } // namespace UPnPAV

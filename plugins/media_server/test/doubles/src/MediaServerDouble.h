@@ -48,6 +48,8 @@ public:
 
     QScopedPointer<UPnPAV::PendingSoapCall> protocolInfo() noexcept override;
 
+    QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionIds() noexcept override;
+
     QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
     QSharedPointer<UPnPAV::PendingSoapCall> browse(const QString &objectId,
