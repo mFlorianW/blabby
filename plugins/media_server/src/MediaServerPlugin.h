@@ -12,7 +12,6 @@ namespace UPnPAV
 {
 class ServiceProviderFactory;
 class MediaServerFactory;
-class IMediaServer;
 } // namespace UPnPAV
 
 namespace MediaServer::Plugin
@@ -55,7 +54,7 @@ private:
     std::unique_ptr<MediaServerView> mMediaServerView;
     std::unique_ptr<ServerItemView> mServerItemView;
     std::unique_ptr<ServerItemModel> mServerItemModel;
-    QQmlContext *mQmlContext{ nullptr };
+    QQmlContext *mQmlContext{nullptr};
 };
 
 } // namespace MediaServer::Plugin

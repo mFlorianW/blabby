@@ -13,7 +13,6 @@ namespace UPnPAV
 class ServiceControlPointDefinition;
 class SCPDStateVariable;
 class SCPDAction;
-class IMediaDevice;
 class DeviceDescription;
 
 /**
