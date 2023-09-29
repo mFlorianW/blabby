@@ -109,6 +109,11 @@ private Q_SLOTS:
      * @test The media device shall send the correct request for GetCurrentConnectionIds.
      */
     void shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds();
+
+    /**
+     * @test The media device shall send the correct request for GetCurrentConnectionInfo.
+     */
+    void shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo();
 };
 
 } // namespace UPnPAV
