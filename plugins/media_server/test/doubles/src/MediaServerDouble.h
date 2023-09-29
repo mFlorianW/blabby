@@ -4,25 +4,24 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "DeviceDescription.h"
-#include "IMediaServer.h"
+#include "MediaServer.h"
 #include "SoapCallDouble.h"
 #include <QUrl>
 
 namespace MediaServer::Plugin::Doubles
 {
 
-class MediaServerFactory final : public UPnPAV::IMediaServerFactory
+class MediaServerFactory final : public UPnPAV::MediaServerFactory
 {
 public:
     quint32 howOftenCalled{0};
-    std::unique_ptr<UPnPAV::IMediaServer> createMediaServer(
-        const UPnPAV::DeviceDescription &deviceDescription) override;
+    std::unique_ptr<UPnPAV::MediaServer> createMediaServer(const UPnPAV::DeviceDescription &deviceDescription) override;
 };
 
 struct LastBrowseRequest
 {
     QString objectId;
-    UPnPAV::IMediaServer::BrowseFlag browseFlag;
+    UPnPAV::MediaServer::BrowseFlag browseFlag;
 
     bool operator==(const LastBrowseRequest &rhs) const noexcept
     {
@@ -35,7 +34,7 @@ struct LastBrowseRequest
     }
 };
 
-class MediaServer final : public UPnPAV::IMediaServer
+class MediaServer final : public UPnPAV::MediaServer
 {
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:

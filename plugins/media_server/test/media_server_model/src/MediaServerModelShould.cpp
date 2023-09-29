@@ -4,10 +4,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerModelShould.h"
-#include "IMediaServer.h"
+#include "MediaServer.h"
 #include "MediaServerDouble.h"
 #include "MediaServerModel.h"
-#include "PendingSoapCall.h"
 #include <QSignalSpy>
 #include <QtTest>
 

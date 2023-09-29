@@ -13,7 +13,7 @@
 namespace MediaServer::Plugin::Doubles
 {
 
-std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(
+std::unique_ptr<UPnPAV::MediaServer> MediaServerFactory::createMediaServer(
     const UPnPAV::DeviceDescription &deviceDescription)
 {
     Q_UNUSED(deviceDescription)
@@ -23,7 +23,7 @@ std::unique_ptr<UPnPAV::IMediaServer> MediaServerFactory::createMediaServer(
 }
 
 MediaServer::MediaServer()
-    : UPnPAV::IMediaServer(
+    : UPnPAV::MediaServer(
           UPnPAV::DeviceDescription{
               "",
               "MediaServerName",

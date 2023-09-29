@@ -2,26 +2,58 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "MediaDeviceBaseTest.h"
+#include "MediaDeviceShould.h"
 #include "Descriptions.h"
 #include "DeviceDescription.h"
-#include "IMediaDevice.h"
 #include "InvalidDeviceDescription.h"
+#include "MediaDevice.h"
 #include "SCPDAction.h"
 #include "SCPDStateVariable.h"
+#include "SoapMessageTransmitterDouble.h"
 #include <QTest>
 
 namespace UPnPAV
 {
 
-MediaDeviceBaseTest::MediaDeviceBaseTest()
+class TestMediaDevice : public MediaDevice
+{
+public:
+    TestMediaDevice()
+        : MediaDevice{DeviceDescription{"",
+                                        "MediaServerName",
+                                        "",
+                                        "",
+                                        "",
+                                        QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
+                                        {validContentDirectoryDescription, validConnectionManagerDescription},
+                                        {validContentDirectorySCPD, validConnectionManagerSCPD}},
+                      mMsgTransmitter}
+    {
+    }
+
+    TestMediaDevice(DeviceDescription devDesc)
+        : MediaDevice{devDesc, mMsgTransmitter}
+    {
+    }
+
+    QString lastSoapCall() const noexcept
+    {
+        return mMsgTransmitter->xmlMessageBody();
+    }
+
+private:
+    QSharedPointer<SoapMessageTransmitterDouble> mMsgTransmitter{
+        QSharedPointer<SoapMessageTransmitterDouble>{new SoapMessageTransmitterDouble()}};
+};
+
+MediaDeviceShould::MediaDeviceShould()
     : QObject()
 {
 }
 
-MediaDeviceBaseTest::~MediaDeviceBaseTest() = default;
+MediaDeviceShould::~MediaDeviceShould() = default;
 
-ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWithoutStateVariable(
+ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutStateVariable(
     const SCPDStateVariable &variable)
 {
     QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables;
@@ -32,7 +64,7 @@ ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWi
                                          validConnectionManagerActions};
 }
 
-ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
+ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
 {
     QVector<SCPDAction> actions = validConnectionManagerActions;
     actions.removeAll(action);
@@ -42,11 +74,11 @@ ServiceControlPointDefinition MediaDeviceBaseTest::createConnectionManagerSCPDWi
                                          actions};
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_ConnectionManagerDescription()
+void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_ConnectionManagerDescription()
 {
     try
     {
-        mediaDevice(DeviceDescription{"", "", "", "", "", {}});
+        auto const dev = TestMediaDevice(DeviceDescription{"", "", "", "", "", {}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -55,18 +87,18 @@ void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_Conne
     }
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_Has_No_Event_Url()
+void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Has_No_Event_Url()
 {
     try
     {
-        mediaDevice(DeviceDescription{"",
-                                      "",
-                                      "",
-                                      "",
-                                      "",
-                                      {},
-                                      {eventUrlMissingInConnectionManagerDescription},
-                                      {validConnectionManagerSCPD}});
+        auto const dev = TestMediaDevice(DeviceDescription{"",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           {},
+                                                           {eventUrlMissingInConnectionManagerDescription},
+                                                           {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -75,18 +107,18 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
     }
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_Has_No_ServiceId()
+void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Has_No_ServiceId()
 {
     try
     {
-        mediaDevice(DeviceDescription{"",
-                                      "",
-                                      "",
-                                      "",
-                                      "",
-                                      {},
-                                      {serviceIdMissingInConnectionManagerDescription},
-                                      {validConnectionManagerSCPD}});
+        auto const dev = TestMediaDevice(DeviceDescription{"",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           {},
+                                                           {serviceIdMissingInConnectionManagerDescription},
+                                                           {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -95,18 +127,18 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
     }
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url()
+void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Has_No_SCPD_Url()
 {
     try
     {
-        mediaDevice(DeviceDescription{"",
-                                      "",
-                                      "",
-                                      "",
-                                      "",
-                                      {},
-                                      {scpdUrlMissingInConnectionManagerDescription},
-                                      {validConnectionManagerSCPD}});
+        auto const dev = TestMediaDevice(DeviceDescription{"",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           {},
+                                                           {scpdUrlMissingInConnectionManagerDescription},
+                                                           {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -115,11 +147,12 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
     }
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ConnectionManager()
+void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_For_ConnectionManager()
 {
     try
     {
-        mediaDevice(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription}});
+        auto const dev =
+            TestMediaDevice(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -128,18 +161,18 @@ void MediaDeviceBaseTest::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_
     }
 }
 
-void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_Has_No_Control_Url()
+void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Has_No_Control_Url()
 {
     try
     {
-        mediaDevice(DeviceDescription{"",
-                                      "",
-                                      "",
-                                      "",
-                                      "",
-                                      {},
-                                      {controlUrlMissingInConnectionManagerDescription},
-                                      {validConnectionManagerSCPD}});
+        auto const dev = TestMediaDevice(DeviceDescription{"",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           "",
+                                                           {},
+                                                           {controlUrlMissingInConnectionManagerDescription},
+                                                           {validConnectionManagerSCPD}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -148,7 +181,7 @@ void MediaDeviceBaseTest::throw_An_Exception_When_ConnectionManager_Description_
     }
 }
 
-void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD_data()
+void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD_data()
 {
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
@@ -268,14 +301,14 @@ void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_Connectio
         << A_ARG_TYPE_RcsID_Missing << "ConnectionManager.*A_ARG_TYPE_RcsID";
 }
 
-void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD()
+void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionManager_SCPD()
 {
     QFETCH(class DeviceDescription, DeviceDescription);
     QFETCH(QString, ExpectedException);
 
     try
     {
-        mediaDevice(DeviceDescription);
+        auto const dev = TestMediaDevice(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -285,7 +318,7 @@ void MediaDeviceBaseTest::throw_Exception_When_StateVariable_Misses_In_Connectio
     }
 }
 
-void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD_data()
+void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD_data()
 {
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
@@ -328,14 +361,14 @@ void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManage
         << GetCurrentConnectionInfo_Missing << "ConnectionManager.*GetCurrentConnectionInfo";
 }
 
-void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD()
+void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_SCPD()
 {
     QFETCH(class DeviceDescription, DeviceDescription);
     QFETCH(QString, ExpectedException);
 
     try
     {
-        mediaDevice(DeviceDescription);
+        auto const dev = (DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -345,9 +378,9 @@ void MediaDeviceBaseTest::Throw_Exception_When_Action_Misses_in_ConnectionManage
     }
 }
 
-void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProtocolInfo()
+void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProtocolInfo()
 {
-    auto device = mediaDevice();
+    auto device = TestMediaDevice{{}};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -357,17 +390,17 @@ void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetPr
                 "</s:Body>"
                 "</s:Envelope>"};
 
-    device->protocolInfo();
+    device.protocolInfo();
 
-    QVERIFY2(lastSoapCall() == QString{expectedMessage},
+    QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
-                 .arg(lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
                  .toLocal8Bit());
 }
 
-void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds()
+void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds()
 {
-    auto device = mediaDevice();
+    auto device = TestMediaDevice{{}};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -376,16 +409,16 @@ void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCu
                 "<u:GetCurrentConnectionIDs xmlns:u=\"urn:schemas-upnp-org:service:ConnectionManager:1\"/>"
                 "</s:Body>"
                 "</s:Envelope>"};
-    device->currentConnectionIds();
-    QVERIFY2(lastSoapCall() == QString{expectedMessage},
+    device.currentConnectionIds();
+    QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
-                 .arg(lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
                  .toLocal8Bit());
 }
 
-void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo()
+void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo()
 {
-    auto device = mediaDevice();
+    auto device = TestMediaDevice{{}};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -397,11 +430,13 @@ void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCu
                 "</s:Body>"
                 "</s:Envelope>"};
 
-    device->currentConnectionInfo(2);
-    QVERIFY2(lastSoapCall() == QString{expectedMessage},
+    device.currentConnectionInfo(2);
+    QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
-                 .arg(lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
                  .toLocal8Bit());
 }
 
 } // namespace UPnPAV
+
+QTEST_MAIN(UPnPAV::MediaDeviceShould)

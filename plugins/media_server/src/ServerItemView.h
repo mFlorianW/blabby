@@ -12,7 +12,7 @@
 
 namespace UPnPAV
 {
-class IMediaServer;
+class MediaServer;
 class PendingSoapCall;
 } // namespace UPnPAV
 
@@ -23,14 +23,14 @@ class ServerItemModel;
 class ServerItemView : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(UPnPAV::IMediaServer *mediaServer READ mediaServer WRITE setMediaServer NOTIFY mediaServerChanged)
+    Q_PROPERTY(UPnPAV::MediaServer *mediaServer READ mediaServer WRITE setMediaServer NOTIFY mediaServerChanged)
     Q_PROPERTY(MediaServer::Plugin::ServerItemModel *itemModel READ serverItemModel CONSTANT)
 public:
     ServerItemView(ServerItemModel *model);
     ~ServerItemView();
 
-    UPnPAV::IMediaServer *mediaServer() const noexcept;
-    void setMediaServer(UPnPAV::IMediaServer *mediaServer) noexcept;
+    UPnPAV::MediaServer *mediaServer() const noexcept;
+    void setMediaServer(UPnPAV::MediaServer *mediaServer) noexcept;
 
     MediaServer::Plugin::ServerItemModel *serverItemModel() const noexcept;
 
@@ -48,9 +48,9 @@ private:
     void requestFolder(const QString &id);
 
 private:
-    UPnPAV::IMediaServer *mMediaServer{ nullptr };
-    QSharedPointer<UPnPAV::PendingSoapCall> mPendingSoapCall{ nullptr };
-    ServerItemModel *mServerItemModel{ nullptr };
+    UPnPAV::MediaServer *mMediaServer{nullptr};
+    QSharedPointer<UPnPAV::PendingSoapCall> mPendingSoapCall{nullptr};
+    ServerItemModel *mServerItemModel{nullptr};
     QString mActiveId;
     QStack<QString> mIdStack;
 };

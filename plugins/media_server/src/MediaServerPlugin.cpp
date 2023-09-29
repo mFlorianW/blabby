@@ -23,10 +23,7 @@ constexpr char serverItemView[] = "qrc:/mediaserver/qml/views/ServerItemView.qml
 namespace MediaServer::Plugin
 {
 
-MediaServerPlugin::MediaServerPlugin()
-{
-}
-
+MediaServerPlugin::MediaServerPlugin() = default;
 MediaServerPlugin::~MediaServerPlugin() = default;
 
 QString MediaServerPlugin::pluginName() const
@@ -47,7 +44,7 @@ QUuid MediaServerPlugin::getPluginIdentifier() const
 bool MediaServerPlugin::load(QQmlContext *context)
 {
     mQmlContext = context;
-    const char pluginUrl[] = "de.blabby.mediaserverplugin";
+    constexpr char pluginUrl[] = "de.blabby.mediaserverplugin";
 
     qmlRegisterUncreatableType<ServerItemModel>(pluginUrl, 1, 0, "ServerItemModel", "");
     qmlRegisterUncreatableType<MediaServerModel>(pluginUrl, 1, 0, "MediaServerModel", "");

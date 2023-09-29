@@ -18,36 +18,11 @@ namespace UPnPAV
 {
 
 MediaServerShould::MediaServerShould()
-    : MediaDeviceBaseTest()
+    : QObject{}
 {
 }
 
 MediaServerShould::~MediaServerShould() = default;
-
-std::unique_ptr<IMediaDevice> MediaServerShould::mediaDevice(const DeviceDescription &deviceDesc)
-{
-    return std::make_unique<MediaServer>(deviceDesc, m_soapMessageTransmitter);
-}
-
-std::unique_ptr<IMediaDevice> MediaServerShould::mediaDevice()
-{
-    IconDescription iconDes{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"};
-    return std::make_unique<MediaServer>(
-        DeviceDescription{"",
-                          "MediaServerName",
-                          "",
-                          "",
-                          "",
-                          QVector<IconDescription>{iconDes},
-                          {validContentDirectoryDescription, validConnectionManagerDescription},
-                          {validContentDirectorySCPD, validConnectionManagerSCPD}},
-        m_soapMessageTransmitter);
-}
-
-QString MediaServerShould::lastSoapCall() const noexcept
-{
-    return m_soapMessageTransmitter->xmlMessageBody();
-}
 
 MediaServer MediaServerShould::createMediaServer(DeviceDescription &deviceDescription)
 {
