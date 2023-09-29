@@ -82,6 +82,18 @@ QScopedPointer<PendingSoapCall> MediaServer::protocolInfo() noexcept
     return QScopedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
 }
 
+QScopedPointer<PendingSoapCall> MediaServer::currentConnectionIds() noexcept
+{
+    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
+    auto msgGen = SoapMessageGenerator{};
+    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mConnectionManagerDescription.serviceType(),
+                                                                xmlMessage);
+    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+}
+
 QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
     auto action = d->mContentDirectorySCPD.action("GetSortCapabilities");

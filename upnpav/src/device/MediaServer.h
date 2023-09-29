@@ -65,6 +65,11 @@ public:
     QScopedPointer<PendingSoapCall> protocolInfo() noexcept override;
 
     /**
+     * @copydoc IMediaDevice::currentConnectionIds()
+     */
+    QScopedPointer<PendingSoapCall> currentConnectionIds() noexcept override;
+
+    /**
      * Request the supported sort capabilities of the media server.
      *
      * @return PendingSoapCall with the result or error.

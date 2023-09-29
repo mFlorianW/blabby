@@ -41,6 +41,11 @@ QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::protocolInfo() noexcept
     return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
 }
 
+QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::currentConnectionIds() noexcept
+{
+    return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
+}
+
 QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
     return {};
