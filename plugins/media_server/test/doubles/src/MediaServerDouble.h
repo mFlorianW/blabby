@@ -50,6 +50,8 @@ public:
 
     QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionIds() noexcept override;
 
+    QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept override;
+
     QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
     QSharedPointer<UPnPAV::PendingSoapCall> browse(const QString &objectId,

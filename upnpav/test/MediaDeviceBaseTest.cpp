@@ -383,4 +383,25 @@ void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCu
                  .toLocal8Bit());
 }
 
+void MediaDeviceBaseTest::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo()
+{
+    auto device = mediaDevice();
+    const auto expectedMessage =
+        QString{"<?xml version=\"1.0\"?>"
+                "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                "<s:Body>"
+                "<u:GetCurrentConnectionInfo xmlns:u=\"urn:schemas-upnp-org:service:ConnectionManager:1\">"
+                "<u:ConnectionID>2</u:ConnectionID>"
+                "</u:GetCurrentConnectionInfo>"
+                "</s:Body>"
+                "</s:Envelope>"};
+
+    device->currentConnectionInfo(2);
+    QVERIFY2(lastSoapCall() == QString{expectedMessage},
+             QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
+                 .arg(lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .toLocal8Bit());
+}
+
 } // namespace UPnPAV

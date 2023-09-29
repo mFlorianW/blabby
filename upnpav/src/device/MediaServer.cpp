@@ -79,7 +79,7 @@ QScopedPointer<PendingSoapCall> MediaServer::protocolInfo() noexcept
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
                                                                 xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
+    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
 }
 
 QScopedPointer<PendingSoapCall> MediaServer::currentConnectionIds() noexcept
@@ -87,6 +87,21 @@ QScopedPointer<PendingSoapCall> MediaServer::currentConnectionIds() noexcept
     const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
     auto msgGen = SoapMessageGenerator{};
     const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mConnectionManagerDescription.serviceType(),
+                                                                xmlMessage);
+    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+}
+
+QScopedPointer<PendingSoapCall> MediaServer::currentConnectionInfo(quint32 connectionId) noexcept
+{
+    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionInfo");
+    auto msgGen = SoapMessageGenerator{};
+
+    const auto arg = Argument{.name = "ConnectionID", .value = QString::number(connectionId)};
+    const auto xmlMessage =
+        msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
@@ -106,7 +121,7 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
                                                                 d->mContentDirectoryServiceDescription.serviceType(),
                                                                 xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
+    return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
 }
 
 QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
@@ -130,7 +145,7 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
                                                                 d->mContentDirectoryServiceDescription.serviceType(),
                                                                 xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{new PendingSoapCall{soapCall}};
+    return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
 }
 
 QString MediaServerPrivate::convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept

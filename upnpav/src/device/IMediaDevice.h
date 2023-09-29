@@ -55,6 +55,12 @@ public:
      */
     virtual QScopedPointer<PendingSoapCall> currentConnectionIds() noexcept = 0;
 
+    /**
+     * Calls the GetCurrentConnectionInfo on the ConnectionManager of the UPnPAV device.
+     * @return PendingSoapCall with the result or an error.
+     */
+    virtual QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept = 0;
+
 protected:
     IMediaDevice() = default;
 };
