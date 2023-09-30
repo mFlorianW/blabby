@@ -56,6 +56,36 @@ public:
     }
 };
 
+class MediaDeviceWithAV : public TestMediaDevice
+{
+public:
+    MediaDeviceWithAV()
+        : TestMediaDevice{
+              DeviceDescription{"",
+                                "MediaServerName",
+                                "",
+                                "",
+                                "",
+                                QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
+                                {validContentDirectoryDescription,
+                                 validConnectionManagerDescription,
+                                 validAvTransportServiceDescription()},
+                                {validContentDirectorySCPD, validConnectionManagerSCPD, validAvTranportServiceSCPD()}},
+              QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+    {
+    }
+
+    MediaDeviceWithAV(DeviceDescription devDesc)
+        : TestMediaDevice{devDesc, QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+    {
+    }
+
+    QString lastSoapCall() const noexcept
+    {
+        return mMsgTransmitter->xmlMessageBody();
+    }
+};
+
 MediaDeviceShould::MediaDeviceShould()
     : QObject()
 {
