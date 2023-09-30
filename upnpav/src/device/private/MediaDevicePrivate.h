@@ -18,8 +18,8 @@ class BLABBYUPNPAV_EXPORT MediaDevicePrivate
 {
 public:
     MediaDevicePrivate(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> transmitter)
-        : mDeviceDescription(std::move(deviceDescription))
-        , mSoapMessageTransmitter(std::move(transmitter))
+        : mDeviceDescription{std::move(deviceDescription)}
+        , mSoapMessageTransmitter{std::move(transmitter)}
     {
     }
 

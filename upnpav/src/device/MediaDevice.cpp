@@ -11,24 +11,24 @@
 namespace UPnPAV
 {
 
-MediaDevice::MediaDevice(DeviceDescription const &deviceDescription,
-                         QSharedPointer<SoapMessageTransmitter> msgTransmitter)
-    : d{QScopedPointer<MediaDevicePrivate>(new MediaDevicePrivate{deviceDescription, msgTransmitter})}
+MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter)
+    : d{QScopedPointer<MediaDevicePrivate>(
+          new MediaDevicePrivate{std::move(deviceDescription), std::move(msgTransmitter)})}
 {
-    ConnectionManagerServiceValidator conManagerServiceValidator{deviceDescription};
+    ConnectionManagerServiceValidator conManagerServiceValidator{d->mDeviceDescription};
     if (!conManagerServiceValidator.validate())
     {
         throw InvalidDeviceDescription{conManagerServiceValidator.errorMessage()};
     }
 
-    if (!deviceDescription.icons().isEmpty())
+    if (!d->mDeviceDescription.icons().isEmpty())
     {
-        d->mIconUrl = deviceDescription.icons().first().url();
+        d->mIconUrl = d->mDeviceDescription.icons().first().url();
     }
 
     d->mConnectionManagerDescription = conManagerServiceValidator.serviceDescription();
     d->mConnectionManagerSCPD = conManagerServiceValidator.scpd();
-    d->mName = deviceDescription.friendlyName();
+    d->mName = d->mDeviceDescription.friendlyName();
 }
 
 MediaDevice::~MediaDevice() = default;

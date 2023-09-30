@@ -15,24 +15,38 @@
 namespace UPnPAV
 {
 
-class MediaDeviceWithoutAV : public MediaDevice
+class TestMediaDevice : public MediaDevice
+{
+public:
+    TestMediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitterDouble> msgTransmitter)
+        : MediaDevice{deviceDescription, msgTransmitter}
+        , mMsgTransmitter{msgTransmitter}
+    {
+    }
+
+protected:
+    QSharedPointer<SoapMessageTransmitterDouble> mMsgTransmitter;
+};
+
+class MediaDeviceWithoutAV : public TestMediaDevice
 {
 public:
     MediaDeviceWithoutAV()
-        : MediaDevice{DeviceDescription{"",
-                                        "MediaServerName",
-                                        "",
-                                        "",
-                                        "",
-                                        QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
-                                        {validContentDirectoryDescription, validConnectionManagerDescription},
-                                        {validContentDirectorySCPD, validConnectionManagerSCPD}},
-                      mMsgTransmitter}
+        : TestMediaDevice{
+              DeviceDescription{"",
+                                "MediaServerName",
+                                "",
+                                "",
+                                "",
+                                QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
+                                {validContentDirectoryDescription, validConnectionManagerDescription},
+                                {validContentDirectorySCPD, validConnectionManagerSCPD}},
+              QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
     {
     }
 
     MediaDeviceWithoutAV(DeviceDescription devDesc)
-        : MediaDevice{devDesc, mMsgTransmitter}
+        : TestMediaDevice{devDesc, QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
     {
     }
 
@@ -40,10 +54,6 @@ public:
     {
         return mMsgTransmitter->xmlMessageBody();
     }
-
-private:
-    QSharedPointer<SoapMessageTransmitterDouble> mMsgTransmitter{
-        QSharedPointer<SoapMessageTransmitterDouble>{new SoapMessageTransmitterDouble()}};
 };
 
 MediaDeviceShould::MediaDeviceShould()
@@ -368,7 +378,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
 
     try
     {
-        auto const dev = (DeviceDescription);
+        auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -380,7 +390,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
 
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProtocolInfo()
 {
-    auto device = MediaDeviceWithoutAV{{}};
+    auto device = MediaDeviceWithoutAV{};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -400,7 +410,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProt
 
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds()
 {
-    auto device = MediaDeviceWithoutAV{{}};
+    auto device = MediaDeviceWithoutAV{};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -418,7 +428,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
 
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo()
 {
-    auto device = MediaDeviceWithoutAV{{}};
+    auto device = MediaDeviceWithoutAV{};
     const auto expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "

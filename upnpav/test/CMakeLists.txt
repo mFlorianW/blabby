@@ -165,4 +165,4 @@ target_link_libraries(test_upnpav_media_device
         Blabby::UPnPAVTestHelper
         Qt5::Test
 )
-add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server)
+add_test(test_upnpav_media_device ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_device)
