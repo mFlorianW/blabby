@@ -95,6 +95,11 @@ private Q_SLOTS:
      * @test The media device shall send the correct request for GetCurrentConnectionInfo.
      */
     void shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo();
+
+    /**
+     * @test The media device shall have a check for the existence of a AVTransport service.
+     */
+    void Have_A_Check_For_The_Existence_Of_A_AVTransportService();
 };
 
 } // namespace UPnPAV

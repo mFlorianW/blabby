@@ -34,6 +34,7 @@ public:
     QSharedPointer<SoapMessageTransmitter> mSoapMessageTransmitter;
     QString mName{""};
     QUrl mIconUrl{""};
+    bool mHasAvTransportService{false};
 };
 
 } // namespace UPnPAV

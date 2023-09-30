@@ -29,6 +29,12 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
     d->mConnectionManagerDescription = conManagerServiceValidator.serviceDescription();
     d->mConnectionManagerSCPD = conManagerServiceValidator.scpd();
     d->mName = d->mDeviceDescription.friendlyName();
+
+    const auto hasAvTransportService = d->mDeviceDescription.service("AVTransport").has_value();
+    if (hasAvTransportService)
+    {
+        d->mHasAvTransportService = true;
+    }
 }
 
 MediaDevice::~MediaDevice() = default;
@@ -80,6 +86,11 @@ QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 conne
                                                                 d->mConnectionManagerDescription.serviceType(),
                                                                 xmlMessage);
     return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+}
+
+bool MediaDevice::hasAvTransportService() const noexcept
+{
+    return d->mHasAvTransportService;
 }
 
 } // namespace UPnPAV

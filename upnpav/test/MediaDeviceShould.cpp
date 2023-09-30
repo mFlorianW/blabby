@@ -477,6 +477,19 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
                  .toLocal8Bit());
 }
 
+void MediaDeviceShould::Have_A_Check_For_The_Existence_Of_A_AVTransportService()
+{
+    auto deviceWithoutAV = MediaDeviceWithoutAV{};
+
+    QVERIFY2(deviceWithoutAV.hasAvTransportService() == false,
+             QString("The device should not have a AVTransport service.").toLocal8Bit());
+
+    auto deviceWithAV = MediaDeviceWithAV{};
+
+    QVERIFY2(deviceWithAV.hasAvTransportService() == true,
+             QString("The device should have a AVTransport service.").toLocal8Bit());
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaDeviceShould)
