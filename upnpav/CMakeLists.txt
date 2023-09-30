@@ -67,6 +67,7 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/AvTransportServiceValidator.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -89,6 +90,7 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/AvTransportServiceValidator.h
 )
 
 set(PUBLIC_SRCS

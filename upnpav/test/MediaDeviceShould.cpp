@@ -490,6 +490,111 @@ void MediaDeviceShould::Have_A_Check_For_The_Existence_Of_A_AVTransportService()
              QString("The device should have a AVTransport service.").toLocal8Bit());
 }
 
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Is_Not_Correct_data()
+{
+    QTest::addColumn<DeviceDescription>("DeviceDescription");
+    QTest::addColumn<QString>("ExpectedException");
+
+    // clang-format off
+    DeviceDescription eventUrl_Missing
+    {
+        "", "", "", "", "",
+        QVector<IconDescription>{},
+        QVector<ServiceDescription>{
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+            eventUrlMissingInAvTransportDescription()
+        },
+        QVector<ServiceControlPointDefinition>{
+            validContentDirectorySCPD,
+            validConnectionManagerSCPD,
+            validAvTranportServiceSCPD()
+        }
+    };
+
+    QTest::newRow("Event Url missing in AVTransport service description")
+        << eventUrl_Missing 
+        << "AVTransport event URL is not set";
+
+    DeviceDescription controlUrl_Missing
+    {
+        "", "", "", "", "",
+        QVector<IconDescription>{},
+        QVector<ServiceDescription>{
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+            controlUrlMissingInAvTransportDescription()
+        },
+        QVector<ServiceControlPointDefinition>{
+            validContentDirectorySCPD,
+            validConnectionManagerSCPD,
+            validAvTranportServiceSCPD()
+        }
+    };
+
+    QTest::newRow("Control Url missing in AVTransport service description")
+        << controlUrl_Missing 
+        << "AVTransport control URL is not set";
+
+    DeviceDescription serviceUrl_Missing
+    {
+        "", "", "", "", "",
+        QVector<IconDescription>{},
+        QVector<ServiceDescription>{
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+            serviceUrlMissingInAvTransportDescription()
+        },
+        QVector<ServiceControlPointDefinition>{
+            validContentDirectorySCPD,
+            validConnectionManagerSCPD,
+            validAvTranportServiceSCPD()
+        }
+    };
+
+    QTest::newRow("Service Url missing in AVTransport service description")
+        << serviceUrl_Missing 
+        << "AVTransport service ID is not set";
+
+    DeviceDescription scpdUrl_Missing
+    {
+        "", "", "", "", "",
+        QVector<IconDescription>{},
+        QVector<ServiceDescription>{
+            validContentDirectoryDescription,
+            validConnectionManagerDescription,
+            scpdUrlMissingInAvTransportDescription()
+        },
+        QVector<ServiceControlPointDefinition>{
+            validContentDirectorySCPD,
+            validConnectionManagerSCPD,
+            validAvTranportServiceSCPD()
+        }
+    };
+
+    QTest::newRow("SCPD Url missing in AVTransport service description")
+        << scpdUrl_Missing
+        << "AVTransport SCPD URL is not set";
+    // clang-format on
+}
+
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Is_Not_Correct()
+{
+    QFETCH(class DeviceDescription, DeviceDescription);
+    QFETCH(QString, ExpectedException);
+
+    try
+    {
+        auto const device = MediaDeviceWithAV{DeviceDescription};
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (InvalidDeviceDescription const &e)
+    {
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
+    }
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaDeviceShould)

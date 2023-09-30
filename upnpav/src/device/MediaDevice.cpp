@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "MediaDevice.h"
 #include "InvalidDeviceDescription.h"
+#include "private/AvTransportServiceValidator.h"
 #include "private/ConnectionManagerServiceValidator.h"
 #include "private/MediaDevicePrivate.h"
 #include "private/SoapMessageGenerator.h"
@@ -33,6 +34,11 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
     const auto hasAvTransportService = d->mDeviceDescription.service("AVTransport").has_value();
     if (hasAvTransportService)
     {
+        auto avSerVali = AvTransportServiceValidator{d->mDeviceDescription};
+        if (!avSerVali.validate())
+        {
+            throw InvalidDeviceDescription{avSerVali.errorMessage()};
+        }
         d->mHasAvTransportService = true;
     }
 }

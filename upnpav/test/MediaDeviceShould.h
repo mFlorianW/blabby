@@ -100,6 +100,12 @@ private Q_SLOTS:
      * @test The media device shall have a check for the existence of a AVTransport service.
      */
     void Have_A_Check_For_The_Existence_Of_A_AVTransportService();
+
+    void Throw_An_Exception_When_The_AVTransport_Service_Description_Is_Not_Correct_data();
+    /**
+     * @test The media should throw an exception when the Service Description is not correct.
+     */
+    void Throw_An_Exception_When_The_AVTransport_Service_Description_Is_Not_Correct();
 };
 
 } // namespace UPnPAV
