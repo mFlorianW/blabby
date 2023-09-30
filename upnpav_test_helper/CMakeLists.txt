@@ -31,6 +31,7 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ConnectionManagerStateVariables.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ContentDirectoryActions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ContentDirectoryStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Descriptions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Descriptions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDiscoveryBackendDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDiscoveryBackendDouble.h
@@ -41,6 +42,10 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapCallDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapCallDouble.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtocolInfoResponse.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/AvTransportActions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/AvTransportActions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/AvTransportStateVariables.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/AvTransportStateVariables.h
 )
 
 target_link_libraries(test_upnp_av_test_helper

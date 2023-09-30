@@ -165,6 +165,19 @@ static ServiceControlPointDefinition validContentDirectorySCPD
     validContentDirectoryActions
 };
 
+ServiceControlPointDefinition validAvTranportServiceSCPD() noexcept;
+
+ServiceDescription validAvTransportServiceDescription() noexcept;
+
+ServiceDescription eventUrlMissingInAvTransportDescription() noexcept;
+
+ServiceDescription serviceUrlMissingInAvTransportDescription() noexcept;
+
+ServiceDescription scpdUrlMissingInAvTransportDescription() noexcept;
+
+ServiceDescription controlUrlMissingInAvTransportDescription() noexcept;
+
+
 } //namespace UPnPAV
 
 //clang-format on
