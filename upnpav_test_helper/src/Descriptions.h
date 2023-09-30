@@ -19,95 +19,95 @@ namespace UPnPAV
 
 static const ServiceDescription validContentDirectoryDescription
 {
-    QString{"urn:schemas-upnp-org:service:ContentDirectory:1"},
-    "urn:upnp-org:serviceId:ContentDirectory",
-    "http://127.0.0.1/ContentDirectory.xml",
-    "http://127.0.0.1/test/controlUrl",
-    "http://127.0.0.1/test/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ContentDirectory"),
+    QStringLiteral("http://127.0.0.1/ContentDirectory.xml"),
+    QStringLiteral("http://127.0.0.1/test/controlUrl"),
+    QStringLiteral("http://127.0.0.1/test/eventUrl")
 };
 
 static const ServiceDescription eventUrlMissingInContentDirectoryDescription
 {
-    QString{"urn:schemas-upnp-org:service:ContentDirectory:1"},
-    "urn:upnp-org:serviceId:ContentDirectory",
-    "http://127.0.0.1/ContentDirectory.xml",
-    "http://127.0.0.1/test/controlUrl",
-    ""
+    QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ContentDirectory"),
+    QStringLiteral("http://127.0.0.1/ContentDirectory.xml"),
+    QStringLiteral("http://127.0.0.1/test/controlUrl"),
+    QString("")
 };
 
 static const ServiceDescription controlUrlMissingInContentDirectoryDescription
 {
-    QString{"urn:schemas-upnp-org:service:ContentDirectory:1"},
-    "urn:upnp-org:serviceId:ContentDirectory",
-    "http://127.0.0.1/ContentDirectory.xml",
-    "",
-    "http://127.0.0.1/test/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ContentDirectory"),
+    QStringLiteral("http://127.0.0.1/ContentDirectory.xml"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/test/eventUrl")
 };
 
 static const ServiceDescription serviceIdMissingInContentDirectoryDescription
 {
-    QString{"urn:schemas-upnp-org:service:ContentDirectory:1"},
-    "",
-    "http://127.0.0.1/ContentDirectory.xml",
-    "http://127.0.0.1/test/controlUrl",
-    "http://127.0.0.1/test/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory:1"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/ContentDirectory.xml"),
+    QStringLiteral("http://127.0.0.1/test/controlUrl"),
+    QStringLiteral("http://127.0.0.1/test/eventUrl")
 };
 
 static const ServiceDescription scpdUrlMissingInContentDirectoryDescription
 {
-    QString{"urn:schemas-upnp-org:service:ContentDirectory:1"},
-    "urn:upnp-org:serviceId:ContentDirectory",
-    "",
-    "http://127.0.0.1/test/controlUrl",
-    "http://127.0.0.1/test/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ContentDirectory:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ContentDirectory"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/test/controlUrl"),
+    QStringLiteral("http://127.0.0.1/test/eventUrl")
 };
 
 static const ServiceDescription validConnectionManagerDescription
 {
-    QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
-    "urn:upnp-org:serviceId:ConnectionManager",
-    "http://127.0.0.1/ConnectionManager.xml",
-    "http://127.0.0.1/connectionManager/controlUrl",
-    "http://127.0.0.1/connectionManager/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ConnectionManager"),
+    QStringLiteral("http://127.0.0.1/ConnectionManager.xml"),
+    QStringLiteral("http://127.0.0.1/connectionManager/controlUrl"),
+    QStringLiteral("http://127.0.0.1/connectionManager/eventUrl")
 };
 
 static const ServiceDescription eventUrlMissingInConnectionManagerDescription
 {
-    QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
-    "urn:upnp-org:serviceId:ConnectionManager",
-    "http://127.0.0.1/ConnectionManager.xml",
-    "http://127.0.0.1/connectionManager/controlUrl",
-    ""
+    QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ConnectionManager"),
+    QStringLiteral("http://127.0.0.1/ConnectionManager.xml"),
+    QStringLiteral("http://127.0.0.1/connectionManager/controlUrl"),
+    QString("")
 };
 
 static const ServiceDescription controlUrlMissingInConnectionManagerDescription
 {
-    QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
-    "urn:upnp-org:serviceId:ConnectionManager",
-    "http://127.0.0.1/ConnectionManager.xml",
-    "",
-    "http://127.0.0.1/connectionManager/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ConnectionManager"),
+    QStringLiteral("http://127.0.0.1/ConnectionManager.xml"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/connectionManager/eventUrl")
 };
 
 static const ServiceDescription serviceIdMissingInConnectionManagerDescription
 {
-    QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
-    "",
-    "http://127.0.0.1/ConnectionManager.xml",
-    "http://127.0.0.1/connectionManager/controlUrl",
-    "http://127.0.0.1/connectionManager/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager:1"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/ConnectionManager.xml"),
+    QStringLiteral("http://127.0.0.1/connectionManager/controlUrl"),
+    QStringLiteral("http://127.0.0.1/connectionManager/eventUrl")
 };
 
 static const ServiceDescription scpdUrlMissingInConnectionManagerDescription
 {
-    QString{"urn:schemas-upnp-org:service:ConnectionManager:1"},
-    "urn:upnp-org:serviceId:ConnectionManager",
-    "",
-    "http://127.0.0.1/connectionManager/controlUrl",
-    "http://127.0.0.1/connectionManager/eventUrl"
+    QStringLiteral("urn:schemas-upnp-org:service:ConnectionManager:1"),
+    QStringLiteral("urn:upnp-org:serviceId:ConnectionManager"),
+    QString(""),
+    QStringLiteral("http://127.0.0.1/connectionManager/controlUrl"),
+    QStringLiteral("http://127.0.0.1/connectionManager/eventUrl")
 };
 
-static QVector<SCPDStateVariable> validConnectionManagerStateVariables
+static QVector<SCPDStateVariable> const validConnectionManagerStateVariables
 {
     SourceProtocolInfo,
     SinkProtocolInfo,
@@ -121,7 +121,7 @@ static QVector<SCPDStateVariable> validConnectionManagerStateVariables
     A_ARG_TYPE_RcsID
 };
 
-static QVector<SCPDAction> validConnectionManagerActions
+static QVector<SCPDAction> const validConnectionManagerActions
 {
     GetProtocolInfo,
     GetCurrentConnectionIDs,
@@ -130,12 +130,12 @@ static QVector<SCPDAction> validConnectionManagerActions
 
 static const ServiceControlPointDefinition validConnectionManagerSCPD
 {
-    "http://127.0.0.1/ConnectionManager.xml",
+    QStringLiteral("http://127.0.0.1/ConnectionManager.xml"),
     validConnectionManagerStateVariables,
     validConnectionManagerActions
 };
 
-static QVector<SCPDStateVariable> validContentDirectoryStateVariables
+static QVector<SCPDStateVariable> const validContentDirectoryStateVariables
 {
     A_ARG_TYPE_ObjectID,
     A_ARG_TYPE_Result,
@@ -150,7 +150,7 @@ static QVector<SCPDStateVariable> validContentDirectoryStateVariables
     SystemUpdateID
 };
 
-static QVector<SCPDAction> validContentDirectoryActions
+static QVector<SCPDAction> const validContentDirectoryActions
 {
     GetSearchCapabilities,
     GetSortCapabilities,
@@ -158,9 +158,9 @@ static QVector<SCPDAction> validContentDirectoryActions
     Browse
 };
 
-static ServiceControlPointDefinition validContentDirectorySCPD
+static ServiceControlPointDefinition const validContentDirectorySCPD
 {
-    "http://127.0.0.1/ContentDirectory.xml",
+    QStringLiteral("http://127.0.0.1/ContentDirectory.xml"),
     validContentDirectoryStateVariables,
     validContentDirectoryActions
 };

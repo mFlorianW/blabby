@@ -64,6 +64,12 @@ public:
      */
     virtual QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept;
 
+    /**
+     * Checks if the media device implements the AVTransport service.
+     * @return true The device supports AVTransport service otherwise false.
+     */
+    bool hasAvTransportService() const noexcept;
+
 protected:
     MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
 
