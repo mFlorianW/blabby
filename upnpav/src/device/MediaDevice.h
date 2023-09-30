@@ -65,7 +65,7 @@ public:
     virtual QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept;
 
 protected:
-    MediaDevice(DeviceDescription const &deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
+    MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
 
 private:
     QScopedPointer<MediaDevicePrivate> d;
