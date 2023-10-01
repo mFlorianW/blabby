@@ -72,6 +72,78 @@ SCPDAction createSetNextAVTransportURIAction() noexcept
     return action;
 }
 
+SCPDAction createGetMediaInfoAction() noexcept
+{
+
+    // clang-format off
+    static auto const action = SCPDAction
+    {
+        QStringLiteral("GetMediaInfo"),
+        {
+            SCPDArgument
+            {
+                QStringLiteral("InstanceID"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_INSTANCE_ID")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("NrTracks"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("NumberOfTracks")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("MediaDuration"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("CurrentMediaDuration")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("CurrentURI"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("AVTransportURI")
+            },
+            {
+                QStringLiteral("CurrentURIMetaData"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("AVTransportURIMetaData")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("NextURI"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("NextAVTransportURI")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("NextURIMetaData"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("NextAVTransportURIMetaData")
+            },
+            {
+                QStringLiteral("PlayMedium"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("PlaybackStorageMedium")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("RecordStorage"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("RecordStorageMedium")
+            },
+            SCPDArgument
+            {
+                QStringLiteral("WriteStatus"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("RecordMediumWriteStatus")
+            },
+        }
+    };
+    // clang-format on
+    return action;
+}
+
 SCPDAction createGetTransportInfoAction() noexcept
 {
     // clang-format off
@@ -115,7 +187,7 @@ SCPDAction createGetPositionInfoAction() noexcept
     // clang-format off
     static auto const action = SCPDAction
     {
-        QStringLiteral("GetPositionInfoAction"),
+        QStringLiteral("GetPositionInfo"),
         {
             SCPDArgument
             {
@@ -183,7 +255,7 @@ SCPDAction createGetDeviceCapabilitiesAction() noexcept
     // clang-format off
     static auto const action = SCPDAction
     {
-        QStringLiteral("GetDeviceCapabilitiesAction"),
+        QStringLiteral("GetDeviceCapabilities"),
         {
             SCPDArgument
             {
@@ -221,7 +293,7 @@ SCPDAction createGetTransportSettingsAction() noexcept
     // clang-format off
     static auto const action = SCPDAction
     {
-        QStringLiteral("GetTransportSettingsAction"),
+        QStringLiteral("GetTransportSettings"),
         {
             SCPDArgument
             {

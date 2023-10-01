@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-
 #include "MediaDeviceShould.h"
+#include "AvTransportActions.h"
 #include "AvTransportStateVariables.h"
 #include "Descriptions.h"
 #include "DeviceDescription.h"
@@ -110,7 +110,14 @@ ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutSta
 {
     QVector<SCPDStateVariable> variables = validAvTransportStateVariables();
     variables.removeAll(variable);
-    return ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validConnectionManagerActions};
+    return ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validAvTranportActions()};
+}
+
+ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutAction(SCPDAction const &action)
+{
+    auto actions = validAvTranportActions();
+    actions.removeAll(action);
+    return ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", validAvTransportStateVariables(), actions};
 }
 
 DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutStateVariable(
@@ -129,6 +136,23 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutSt
         QVector<ServiceControlPointDefinition>{validContentDirectorySCPD,
                                                validConnectionManagerSCPD,
                                                createAvTransportSCPDWithoutStateVariable(variable)}};
+    return devDesc;
+}
+
+DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAction(SCPDAction const &action)
+{
+    DeviceDescription devDesc{"",
+                              "",
+                              "",
+                              "",
+                              "",
+                              QVector<IconDescription>{},
+                              QVector<ServiceDescription>{validContentDirectoryDescription,
+                                                          validConnectionManagerDescription,
+                                                          validAvTransportServiceDescription()},
+                              QVector<ServiceControlPointDefinition>{validContentDirectorySCPD,
+                                                                     validConnectionManagerSCPD,
+                                                                     createAvTransportSCPDWithoutAction(action)}};
     return devDesc;
 }
 
@@ -764,6 +788,67 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
 }
 
 void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Variable_Is_Not_Correct()
+{
+    QFETCH(class DeviceDescription, DeviceDescription);
+    QFETCH(QString, ExpectedException);
+
+    try
+    {
+        auto const dev = MediaDeviceWithoutAV(DeviceDescription);
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
+    {
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
+    }
+}
+
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Action_Is_Not_Correct_data()
+{
+    QTest::addColumn<DeviceDescription>("DeviceDescription");
+    QTest::addColumn<QString>("ExpectedException");
+
+    auto avTransportUri = createAvTransportDeviceDescriptionWithoutAction(createSetAVTransportURIAction());
+    QTest::newRow("AVTransport service state variable SetAVTransportURI missing")
+        << avTransportUri << ".*SetAVTransportURI.*";
+
+    auto getMediaInfo = createAvTransportDeviceDescriptionWithoutAction(createGetMediaInfoAction());
+    QTest::newRow("AVTransport service state variable GetMediaInfo missing") << getMediaInfo << ".*GetMediaInfo.*";
+
+    auto getTransportInfo = createAvTransportDeviceDescriptionWithoutAction(createGetTransportInfoAction());
+    QTest::newRow("AVTransport service state variable GetTransportInfo missing")
+        << getTransportInfo << ".*GetTransportInfo.*";
+
+    auto getPositionInfo = createAvTransportDeviceDescriptionWithoutAction(createGetPositionInfoAction());
+    QTest::newRow("AVTransport service state variable GetPositionInfo missing")
+        << getPositionInfo << ".*GetPositionInfo.*";
+
+    auto getDeviceCapabilities = createAvTransportDeviceDescriptionWithoutAction(createGetDeviceCapabilitiesAction());
+    QTest::newRow("AVTransport service state variable GetDeviceCapabilities missing")
+        << getDeviceCapabilities << ".*GetDeviceCapabilities.*";
+
+    auto getTransportSettings = createAvTransportDeviceDescriptionWithoutAction(createGetTransportSettingsAction());
+    QTest::newRow("AVTransport service state variable GetTransportSettings missing")
+        << getTransportSettings << ".*GetTransportSettings.*";
+
+    auto stop = createAvTransportDeviceDescriptionWithoutAction(createStopAction());
+    QTest::newRow("AVTransport service state variable Stop missing") << stop << ".*Stop.*";
+
+    auto play = createAvTransportDeviceDescriptionWithoutAction(createPlayAction());
+    QTest::newRow("AVTransport service state variable Play missing") << play << ".*Play.*";
+
+    auto seek = createAvTransportDeviceDescriptionWithoutAction(createSeekAction());
+    QTest::newRow("AVTransport service state variable Seek missing") << seek << ".*Seek.*";
+
+    auto next = createAvTransportDeviceDescriptionWithoutAction(createNextAction());
+    QTest::newRow("AVTransport service state variable Next missing") << next << ".*Next.*";
+
+    auto previous = createAvTransportDeviceDescriptionWithoutAction(createPreviousAction());
+    QTest::newRow("AVTransport service state variable Previous missing") << previous << ".*Previous.*";
+}
+
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Action_Is_Not_Correct()
 {
     QFETCH(class DeviceDescription, DeviceDescription);
     QFETCH(QString, ExpectedException);

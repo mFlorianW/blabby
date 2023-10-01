@@ -11,6 +11,8 @@ SCPDAction createSetAVTransportURIAction() noexcept;
 
 SCPDAction createSetNextAVTransportURIAction() noexcept;
 
+SCPDAction createGetMediaInfoAction() noexcept;
+
 SCPDAction createGetTransportInfoAction() noexcept;
 
 SCPDAction createGetPositionInfoAction() noexcept;

@@ -50,12 +50,13 @@ QVector<SCPDStateVariable> validAvTransportStateVariables() noexcept
     return validAvTransportStateVariables;
 };
 
-QVector<SCPDAction> validAvTranportServiceActions()
+QVector<SCPDAction> validAvTranportActions() noexcept
 {
     // clang-format off
     static const auto validAvTransportActions = QVector<SCPDAction>
     {
         createSetAVTransportURIAction(),
+        createGetMediaInfoAction(),
         createGetTransportInfoAction(),
         createGetPositionInfoAction(),
         createGetDeviceCapabilitiesAction(),
@@ -78,7 +79,7 @@ ServiceControlPointDefinition validAvTranportServiceSCPD() noexcept
     {
         QStringLiteral("http://127.0.0.1/AVTransport.xml"),
         validAvTransportStateVariables(),
-        validAvTranportServiceActions(),
+        validAvTranportActions(),
     };
     // clang-format on
 
