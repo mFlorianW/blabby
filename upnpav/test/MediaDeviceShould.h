@@ -28,10 +28,12 @@ public:
 
 private:
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(const SCPDStateVariable &variable);
-    ServiceControlPointDefinition createAvTransportSCPDWithoutStateVariable(const SCPDStateVariable &variable);
     ServiceControlPointDefinition createConnectionManagerSCPDWithoutAction(const SCPDAction &action);
 
+    ServiceControlPointDefinition createAvTransportSCPDWithoutStateVariable(const SCPDStateVariable &variable);
+    ServiceControlPointDefinition createAvTransportSCPDWithoutAction(SCPDAction const &action);
     DeviceDescription createAvTransportDeviceDescriptionWithoutStateVariable(SCPDStateVariable const &variable);
+    DeviceDescription createAvTransportDeviceDescriptionWithoutAction(SCPDAction const &action);
 
 private Q_SLOTS:
     /**
@@ -115,6 +117,12 @@ private Q_SLOTS:
      * @test The media should throw an execption when the AVTransport state variable is missing
      */
     void Throw_An_Exception_When_The_AVTransport_Service_Description_Variable_Is_Not_Correct();
+
+    void Throw_An_Exception_When_The_AVTransport_Service_Description_Action_Is_Not_Correct_data();
+    /**
+     * @test The media should throw an execption when the AVTransport action is missing
+     */
+    void Throw_An_Exception_When_The_AVTransport_Service_Description_Action_Is_Not_Correct();
 };
 
 } // namespace UPnPAV

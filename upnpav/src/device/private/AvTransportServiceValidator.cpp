@@ -40,6 +40,18 @@ AvTransportServiceValidator::AvTransportServiceValidator(DeviceDescription &devi
         QStringLiteral("A_ARG_TYPE_InstanceID"),
     };
 
-    m_actions = QVector<QString>{};
+    m_actions = QVector<QString>{
+        QStringLiteral("SetAVTransportURI"),
+        QStringLiteral("GetMediaInfo"),
+        QStringLiteral("GetTransportInfo"),
+        QStringLiteral("GetPositionInfo"),
+        QStringLiteral("GetDeviceCapabilities"),
+        QStringLiteral("GetTransportSettings"),
+        QStringLiteral("Stop"),
+        QStringLiteral("Play"),
+        QStringLiteral("Seek"),
+        QStringLiteral("Next"),
+        QStringLiteral("Previous"),
+    };
 }
 } // namespace UPnPAV
