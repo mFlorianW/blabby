@@ -10,16 +10,16 @@
 namespace UPnPAV
 {
 
-QVector<SCPDStateVariable> validAvTransportStateVariables()
+QVector<SCPDStateVariable> validAvTransportStateVariables() noexcept
 {
     // clang-format off
     static const auto validAvTransportStateVariables = QVector<SCPDStateVariable>
     {
         createTransportStateVariable(),
-        createTransportStausVariable(),
+        createTransportStatusVariable(),
         createPlaybackStorageMediumVariable(),
         createRecordStorageMediumVariable(),
-        createPossiblePlaybackStorageMediumVariable(),
+        createPossiblePlaybackStorageMediaVariable(),
         createPossibleRecordStorageMediumVariable(),
         createCurrentPlayModeVariable(),
         createTransportPlaySpeedVariable() ,

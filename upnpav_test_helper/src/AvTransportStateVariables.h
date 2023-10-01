@@ -11,13 +11,13 @@ namespace UPnPAV
 
 SCPDStateVariable createTransportStateVariable() noexcept;
 
-SCPDStateVariable createTransportStausVariable() noexcept;
+SCPDStateVariable createTransportStatusVariable() noexcept;
 
 SCPDStateVariable createPlaybackStorageMediumVariable() noexcept;
 
 SCPDStateVariable createRecordStorageMediumVariable() noexcept;
 
-SCPDStateVariable createPossiblePlaybackStorageMediumVariable() noexcept;
+SCPDStateVariable createPossiblePlaybackStorageMediaVariable() noexcept;
 
 SCPDStateVariable createPossibleRecordStorageMediumVariable() noexcept;
 
