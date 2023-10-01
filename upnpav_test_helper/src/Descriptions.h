@@ -165,6 +165,8 @@ static ServiceControlPointDefinition const validContentDirectorySCPD
     validContentDirectoryActions
 };
 
+QVector<SCPDStateVariable> validAvTransportStateVariables() noexcept;
+
 ServiceControlPointDefinition validAvTranportServiceSCPD() noexcept;
 
 ServiceDescription validAvTransportServiceDescription() noexcept;

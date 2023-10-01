@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MediaDeviceShould.h"
+#include "AvTransportStateVariables.h"
 #include "Descriptions.h"
 #include "DeviceDescription.h"
 #include "InvalidDeviceDescription.h"
@@ -102,6 +103,33 @@ ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWith
     return ServiceControlPointDefinition{"http://127.0.0.1/ConnectionManager.xml",
                                          variables,
                                          validConnectionManagerActions};
+}
+
+ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutStateVariable(
+    const SCPDStateVariable &variable)
+{
+    QVector<SCPDStateVariable> variables = validAvTransportStateVariables();
+    variables.removeAll(variable);
+    return ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validConnectionManagerActions};
+}
+
+DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutStateVariable(
+    SCPDStateVariable const &variable)
+{
+    DeviceDescription devDesc{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        QVector<ServiceDescription>{validContentDirectoryDescription,
+                                    validConnectionManagerDescription,
+                                    validAvTransportServiceDescription()},
+        QVector<ServiceControlPointDefinition>{validContentDirectorySCPD,
+                                               validConnectionManagerSCPD,
+                                               createAvTransportSCPDWithoutStateVariable(variable)}};
+    return devDesc;
 }
 
 ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
@@ -589,6 +617,163 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription const &e)
+    {
+        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+                 QString{"Actual:"}.append(e.what()).toLocal8Bit());
+    }
+}
+
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Variable_Is_Not_Correct_data()
+{
+    QTest::addColumn<DeviceDescription>("DeviceDescription");
+    QTest::addColumn<QString>("ExpectedException");
+
+    DeviceDescription transportStateMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createTransportStateVariable());
+    QTest::newRow("AVTransport service state variable TransportState missing")
+        << transportStateMissing << ".*TransportState.*";
+
+    DeviceDescription transportStatusMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createTransportStatusVariable());
+    QTest::newRow("AVTransport service state variable TransportStatus missing")
+        << transportStatusMissing << ".*TransportStatus.*";
+
+    DeviceDescription playbackStorageMediumMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createPlaybackStorageMediumVariable());
+    QTest::newRow("AVTransport service state variable PlaybackStorageMedium missing")
+        << playbackStorageMediumMissing << ".*PlaybackStorageMedium.*";
+
+    DeviceDescription recordStorageMediumMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createRecordStorageMediumVariable());
+    QTest::newRow("AVTransport service state variable RecordStorageMedium missing")
+        << recordStorageMediumMissing << ".*RecordStorageMedium.*";
+
+    DeviceDescription possiblePlaybackStorageMedium =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createPossiblePlaybackStorageMediaVariable());
+    QTest::newRow("AVTransport service state variable PossiblePlaybackStorageMedia missing")
+        << possiblePlaybackStorageMedium << ".*PossiblePlaybackStorageMedia.*";
+
+    DeviceDescription currentPlayModeMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentPlayModeVariable());
+    QTest::newRow("AVTransport service state variable CurrentPlayMode missing")
+        << currentPlayModeMissing << ".*CurrentPlayMode.*";
+
+    DeviceDescription transportPlaySpeedMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createTransportPlaySpeedVariable());
+    QTest::newRow("AVTransport service state variable TransportPlaySpeed missing")
+        << transportPlaySpeedMissing << ".*TransportPlaySpeed.*";
+
+    DeviceDescription recordMediumWriteStatusMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createRecordMediumWriteStatusVariable());
+    QTest::newRow("AVTransport service state variable RecordMediumWriteStatus missing")
+        << recordMediumWriteStatusMissing << ".*RecordMediumWriteStatus.*";
+
+    DeviceDescription currentRecordQualityModeMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentRecordQualityModeVariable());
+    QTest::newRow("AVTransport service state variable CurrentRecordQualityMode missing")
+        << currentRecordQualityModeMissing << ".*CurrentRecordQualityMode.*";
+
+    DeviceDescription possibleRecordQualityModesMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createPossibleRecordQualityModesVariable());
+    QTest::newRow("AVTransport service state variable PossibileRecordQualityModes missing")
+        << possibleRecordQualityModesMissing << ".*PossibleRecordQualityModes.*";
+
+    DeviceDescription numberOfTracksMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createNumberOfTracksVariable());
+    QTest::newRow("AVTransport service state variable NumberOfTracks missing")
+        << numberOfTracksMissing << ".*NumberOfTracks.*";
+
+    DeviceDescription currentTrackMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentTrackVariable());
+    QTest::newRow("AVTransport service state variable CurrentTrack missing")
+        << currentTrackMissing << ".*CurrentTrack.*";
+
+    DeviceDescription currentTrackDurationMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentTrackDurationVariable());
+    QTest::newRow("AVTransport service state variable CurrentTrackDuration missing")
+        << currentTrackDurationMissing << ".*CurrentTrackDuration.*";
+
+    DeviceDescription currentMediaDurationMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentMediaDurationVariable());
+    QTest::newRow("AVTransport service state variable CurrentMediaDuration missing")
+        << currentMediaDurationMissing << ".*CurrentMediaDuration.*";
+
+    DeviceDescription currentTrackMetaDataMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createCurrentTrackMetaDataVariable());
+    QTest::newRow("AVTransport service state variable CurrentTrackMetaData missing")
+        << currentTrackMetaDataMissing << ".*CurrentTrackMetaData.*";
+
+    DeviceDescription avTransportUriMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createAVTransportURIVariable());
+    QTest::newRow("AVTransport service state variable AVTransportURI missing")
+        << avTransportUriMissing << ".*AVTransportURI.*";
+
+    DeviceDescription avTransportUriMetaDataMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createAVTransportURIMetaDataVariable());
+    QTest::newRow("AVTransport service state variable AVTransportURIMetaData missing")
+        << avTransportUriMetaDataMissing << ".*AVTransportURIMetaData.*";
+
+    DeviceDescription nextAvTransportUriMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createNextAVTransportURIVariable());
+    QTest::newRow("AVTransport service state variable NextAVTransportURI missing")
+        << nextAvTransportUriMissing << ".* NextAVTransportURI.*";
+
+    DeviceDescription nextAvTransportUriMetaDataMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createNextAVTransportURIMetaDataVariable());
+    QTest::newRow("AVTransport service state variable NextAVTransportURIMetaData missing")
+        << nextAvTransportUriMetaDataMissing << ".* NextAVTransportURIMetaData.*";
+
+    DeviceDescription relativeTimePositionMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createRelativeTimePositionVariable());
+    QTest::newRow("AVTransport service state variable RelativeTimePosition missing")
+        << relativeTimePositionMissing << ".*RelativeTimePosition.*";
+
+    DeviceDescription absoluteTimePositionMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createAbsoluteTimePositionVariable());
+    QTest::newRow("AVTransport service state variable AbsoluteTimePosition missing")
+        << absoluteTimePositionMissing << ".*AbsoluteTimePosition.*";
+
+    DeviceDescription relativeCounterPositionMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createRelativeCounterPositionVariable());
+    QTest::newRow("AVTransport service state variable RelativeCounterPosition missing")
+        << relativeCounterPositionMissing << ".*RelativeCounterPosition.*";
+
+    DeviceDescription absoluteCounterPositionMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createAbsoluteCounterPositionVariable());
+    QTest::newRow("AVTransport service state variable AbsoluteCounterPosition missing")
+        << absoluteCounterPositionMissing << ".*AbsoluteCounterPosition.*";
+
+    DeviceDescription lastChangeMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createLastChangeVariable());
+    QTest::newRow("AVTransport service state variable LastChange missing") << lastChangeMissing << ".*LastChange.*";
+
+    DeviceDescription seekModeMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createA_ARG_TYPE_SeekModeVariable());
+    QTest::newRow("AVTransport service state variable A_ARG_TYPE_SeekMode missing")
+        << seekModeMissing << ".*A_ARG_TYPE_SeekMode.*";
+
+    DeviceDescription seekTargetMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createA_ARG_TYPE_SeekTargetVariable());
+    QTest::newRow("AVTransport service state variable A_ARG_TYPE_SeekTarget missing")
+        << seekTargetMissing << ".*A_ARG_TYPE_SeekTarget.*";
+
+    DeviceDescription instanceIdMissing =
+        createAvTransportDeviceDescriptionWithoutStateVariable(createA_ARG_TYPE_InstanceIDVariable());
+    QTest::newRow("AVTransport service state variable A_ARG_TYPE_InstanceID missing")
+        << instanceIdMissing << ".*A_ARG_TYPE_InstanceID.*";
+}
+
+void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Description_Variable_Is_Not_Correct()
+{
+    QFETCH(class DeviceDescription, DeviceDescription);
+    QFETCH(QString, ExpectedException);
+
+    try
+    {
+        auto const dev = MediaDeviceWithoutAV(DeviceDescription);
+        QFAIL("The consturctor should throw Invalid Device Description.");
+    }
+    catch (const InvalidDeviceDescription &e)
     {
         QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());

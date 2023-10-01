@@ -23,7 +23,7 @@ SCPDStateVariable createTransportStateVariable() noexcept
     return variable;
 }
 
-SCPDStateVariable createTransportStausVariable() noexcept
+SCPDStateVariable createTransportStatusVariable() noexcept
 {
     // clang-format off
     static auto const variable = SCPDStateVariable
@@ -67,7 +67,7 @@ SCPDStateVariable createRecordStorageMediumVariable() noexcept
     return variable;
 }
 
-SCPDStateVariable createPossiblePlaybackStorageMediumVariable() noexcept
+SCPDStateVariable createPossiblePlaybackStorageMediaVariable() noexcept
 {
     // clang-format off
     static auto const variable = SCPDStateVariable
