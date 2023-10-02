@@ -865,6 +865,29 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
 }
 
+void MediaDeviceShould::Send_The_Correct_SOAP_Message_When_Calling_SetAVTransportUri()
+{
+    auto device = MediaDeviceWithAV{};
+    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:SetAVTransportURI xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
+                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<u:CurrentURI>http://someUri.com/file.mp3</u:CurrentURI>"
+                                         "<u:CurrentURIMetaData>audio/mp3</u:CurrentURIMetaData>"
+                                         "</u:SetAVTransportURI>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    device.setAvTransportUri(2, QStringLiteral("http://someUri.com/file.mp3"), QStringLiteral("audio/mp3"));
+
+    QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
+             QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
+                 .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .toLocal8Bit());
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaDeviceShould)

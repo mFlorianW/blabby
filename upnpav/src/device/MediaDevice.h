@@ -8,6 +8,7 @@
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QUrl>
+#include <optional>
 
 namespace UPnPAV
 {
@@ -69,6 +70,22 @@ public:
      * @return true The device supports AVTransport service otherwise false.
      */
     bool hasAvTransportService() const noexcept;
+
+    /**
+     * Calls the AVTransportURI on the AVTransport service of the device.
+     *
+     * @return PendingSoapCall with the result or an error.
+     * The optional will be null if the device doesn't have support for the AVTransport service.
+     *
+     * @note
+     * The function can only be called if the device has an AVTransport service.
+     * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
+     *
+     */
+    virtual std::optional<QScopedPointer<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
+                                                                             QString const &uri,
+                                                                             QString const &uriMetaData = QString{
+                                                                                 ""}) noexcept;
 
 protected:
     MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);

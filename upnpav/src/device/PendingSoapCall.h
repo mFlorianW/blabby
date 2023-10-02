@@ -65,7 +65,22 @@ public:
         /// session, in which case the control point needs to open a new one.
         NoSuchSession = 612,
         ///< The connection reference argument does not refer to a valid connection established by this service.
-        InvalidConnectionReference = 706
+        InvalidConnectionReference = 706,
+        ///< The specified resource has a MIME-type which is not supported by the AVTransport service
+        IllegalMimeType = 714,
+        ///< This indicates the resource is already being played by other means. The actual implementation might detect
+        /// through HTTP Busy, and returns this error code.
+        ContentBusy = 715,
+        ///< The specified resource cannot be found in the network
+        ResourceNotFound = 716,
+        ///< The specified instanceID is invalid for this AVTransport
+        InvalidInstanceId = 718,
+        ///< The DNS Server is not available (HTTP error 503)
+        NoDNSServer = 737,
+        ///< Unable to resolve the Fully Qualified Domain Name. (HTTP error502)
+        BadDomainName = 738,
+        ///< The server that hosts the resource is unreachable or unresponsive (HTTP error 404/410).
+        ServerError = 739,
     };
     Q_ENUM(ErrorCode)
 
