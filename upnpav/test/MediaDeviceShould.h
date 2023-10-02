@@ -123,6 +123,11 @@ private Q_SLOTS:
      * @test The media should throw an execption when the AVTransport action is missing
      */
     void Throw_An_Exception_When_The_AVTransport_Service_Description_Action_Is_Not_Correct();
+
+    /**
+     * @test The media device should send the correct SOAP for the SetAVTransportURI call;
+     */
+    void Send_The_Correct_SOAP_Message_When_Calling_SetAVTransportUri();
 };
 
 } // namespace UPnPAV

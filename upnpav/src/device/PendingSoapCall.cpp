@@ -94,6 +94,20 @@ PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
         return ErrorCode::NoSuchSession;
     case ErrorCode::InvalidConnectionReference:
         return ErrorCode::InvalidConnectionReference;
+    case ErrorCode::IllegalMimeType:
+        return ErrorCode::IllegalMimeType;
+    case ErrorCode::ContentBusy:
+        return ErrorCode::ContentBusy;
+    case ErrorCode::ResourceNotFound:
+        return ErrorCode::ResourceNotFound;
+    case ErrorCode::InvalidInstanceId:
+        return ErrorCode::InvalidInstanceId;
+    case ErrorCode::NoDNSServer:
+        return ErrorCode::NoDNSServer;
+    case ErrorCode::BadDomainName:
+        return ErrorCode::BadDomainName;
+    case ErrorCode::ServerError:
+        return ErrorCode::ServerError;
     default:
         return ErrorCode::Unknown;
     }

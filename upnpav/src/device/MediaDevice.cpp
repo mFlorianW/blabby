@@ -40,6 +40,8 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
             throw InvalidDeviceDescription{avSerVali.errorMessage()};
         }
         d->mHasAvTransportService = true;
+        d->mAvTransportDescription = avSerVali.serviceDescription();
+        d->mAvTransportDescriptionSCPD = avSerVali.scpd();
     }
 }
 
@@ -97,6 +99,30 @@ QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 conne
 bool MediaDevice::hasAvTransportService() const noexcept
 {
     return d->mHasAvTransportService;
+}
+
+std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(quint32 instanceId,
+                                                                              QString const &uri,
+                                                                              QString const &uriMetaData) noexcept
+{
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto args = QVector<Argument>{
+        {.name = "InstanceID", .value = QString::number(instanceId)},
+        {.name = "CurrentURI", .value = uri},
+        {.name = "CurrentURIMetaData", .value = uriMetaData},
+    };
+    const auto action = d->mAvTransportDescriptionSCPD.action("SetAVTransportURI");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::optional<QScopedPointer<PendingSoapCall>>(new (std::nothrow) PendingSoapCall{soapCall});
 }
 
 } // namespace UPnPAV
