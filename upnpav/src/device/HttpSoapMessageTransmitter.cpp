@@ -16,9 +16,7 @@ HttpSoapMessageTransmitter::HttpSoapMessageTransmitter()
 {
 }
 
-HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter()
-{
-}
+HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter() = default;
 
 QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QString &url,
                                                                      const QString &actionName,
@@ -37,7 +35,27 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QStri
 
     QSharedPointer<QNetworkReply> reply{m_accessManager.post(networkRequest, xmlBody.toUtf8())};
 
-    return QSharedPointer<HttpSoapCall>{new HttpSoapCall(reply)};
+    return QSharedPointer<HttpSoapCall>{new (std::nothrow) HttpSoapCall(reply)};
+}
+
+QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(ServiceDescription const &desc,
+                                                                     ServiceControlPointDefinition &scpd,
+                                                                     SCPDAction const &action,
+                                                                     QString &xmlBody) noexcept
+{
+    QByteArray soapHeader = QString{desc.serviceType() + "#" + action.name()}.toUtf8();
+    QNetworkRequest networkRequest{desc.controlUrl()};
+    networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=\"utf-8\"");
+    networkRequest.setRawHeader("SOAPACTION", soapHeader);
+
+    qDebug() << networkRequest.url();
+    qDebug() << networkRequest.rawHeaderList();
+    qDebug() << networkRequest.header(QNetworkRequest::ContentTypeHeader).toString();
+    qDebug() << networkRequest.rawHeader("SOAPACTION");
+
+    QSharedPointer<QNetworkReply> reply{m_accessManager.post(networkRequest, xmlBody.toUtf8())};
+
+    return QSharedPointer<HttpSoapCall>{new (std::nothrow) HttpSoapCall(reply, scpd, action)};
 }
 
 } // namespace UPnPAV

@@ -19,13 +19,15 @@ class BLABBYUPNPAV_EXPORT SCPDAction
 public:
     SCPDAction();
 
-    SCPDAction(const QString &name, const QVector<SCPDArgument> &arguments);
+    SCPDAction(QString name, QVector<SCPDArgument> arguments);
 
     const QString &name() const;
 
     const QVector<SCPDArgument> &arguments() const;
 
     QVector<SCPDArgument> inArguments() const noexcept;
+
+    QVector<SCPDArgument> outArguments() const noexcept;
 
     BLABBYUPNPAV_EXPORT friend bool operator==(const SCPDAction &lhs, const SCPDAction &rhs);
     BLABBYUPNPAV_EXPORT friend bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs);

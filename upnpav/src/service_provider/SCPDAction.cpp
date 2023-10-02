@@ -5,16 +5,16 @@
 
 #include "SCPDAction.h"
 
+#include <utility>
+
 namespace UPnPAV
 {
 
-SCPDAction::SCPDAction()
-{
-}
+SCPDAction::SCPDAction() = default;
 
-SCPDAction::SCPDAction(const QString &name, const QVector<SCPDArgument> &arguments)
-    : m_name(name)
-    , m_arguments(arguments)
+SCPDAction::SCPDAction(QString name, QVector<SCPDArgument> arguments)
+    : m_name(std::move(name))
+    , m_arguments(std::move(arguments))
 {
 }
 
@@ -39,6 +39,19 @@ QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
         }
     }
 
+    return result;
+}
+
+QVector<SCPDArgument> SCPDAction::outArguments() const noexcept
+{
+    QVector<SCPDArgument> result;
+    for (auto const &arg : m_arguments)
+    {
+        if (arg.direction() == SCPDArgument::Out)
+        {
+            result.append(arg);
+        }
+    }
     return result;
 }
 

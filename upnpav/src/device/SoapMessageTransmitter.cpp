@@ -8,8 +8,18 @@
 namespace UPnPAV
 {
 
-SoapMessageTransmitter::~SoapMessageTransmitter()
+SoapMessageTransmitter::~SoapMessageTransmitter() = default;
+
+QSharedPointer<SoapCall> SoapMessageTransmitter::sendSoapMessage(ServiceDescription const &desc,
+                                                                 ServiceControlPointDefinition &scpd,
+                                                                 SCPDAction const &action,
+                                                                 QString &xmlBody) noexcept
 {
+    Q_UNUSED(desc)
+    Q_UNUSED(scpd)
+    Q_UNUSED(action)
+    Q_UNUSED(xmlBody)
+    return QSharedPointer<SoapCall>{nullptr};
 }
 
 } // namespace UPnPAV

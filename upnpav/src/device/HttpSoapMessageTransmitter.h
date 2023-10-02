@@ -8,7 +8,6 @@
 
 #include "SoapMessageTransmitter.h"
 #include "blabbyupnpav_export.h"
-
 #include <QNetworkAccessManager>
 
 namespace UPnPAV
@@ -19,10 +18,17 @@ public:
     HttpSoapMessageTransmitter();
     ~HttpSoapMessageTransmitter() override;
 
+    Q_DISABLE_COPY_MOVE(HttpSoapMessageTransmitter)
+
     QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
                                              const QString &actionName,
                                              const QString &serviceType,
                                              const QString &xmlBody) noexcept override;
+
+    QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const &desc,
+                                             ServiceControlPointDefinition &scpd,
+                                             SCPDAction const &action,
+                                             QString &xmlBody) noexcept override;
 
 private:
     QNetworkAccessManager m_accessManager;
