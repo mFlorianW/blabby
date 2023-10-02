@@ -16,6 +16,7 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         version: '5.15.2'
+        cache: 'true'
     - name: checkout
       uses: actions/checkout@v2
     - name: build and test
