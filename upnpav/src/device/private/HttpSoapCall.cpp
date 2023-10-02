@@ -17,6 +17,15 @@ HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply)
     (void)connect(m_reply.get(), &QNetworkReply::finished, this, &HttpSoapCall::finished);
 }
 
+HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply,
+                           ServiceControlPointDefinition scpd,
+                           SCPDAction action)
+    : SoapCall(std::move(scpd), std::move(action))
+    , m_reply(reply)
+{
+    (void)connect(m_reply.get(), &QNetworkReply::finished, this, &HttpSoapCall::finished);
+}
+
 bool HttpSoapCall::hasFinishedSuccesful() const noexcept
 {
     return (m_reply->error() == QNetworkReply::NoError) ? true : false;

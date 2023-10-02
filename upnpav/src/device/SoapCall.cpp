@@ -5,11 +5,28 @@
 
 #include "SoapCall.h"
 
+#include <utility>
+
 namespace UPnPAV
 {
 
-SoapCall::~SoapCall()
+SoapCall::SoapCall() = default;
+SoapCall::SoapCall(ServiceControlPointDefinition scpd, SCPDAction action)
+    : mScpd{std::move(scpd)}
+    , mAction(std::move(action))
 {
+}
+
+SoapCall::~SoapCall() = default;
+
+SCPDAction const &SoapCall::action() const noexcept
+{
+    return mAction;
+}
+
+ServiceControlPointDefinition const &SoapCall::scpd() const noexcept
+{
+    return mScpd;
 }
 
 } // namespace UPnPAV

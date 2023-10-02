@@ -6,6 +6,8 @@
 #ifndef SOAPCALL_H
 #define SOAPCALL_H
 
+#include "SCPDAction.h"
+#include "ServiceControlPointDefinition.h"
 #include "blabbyupnpav_export.h"
 #include <QObject>
 
@@ -16,7 +18,9 @@ class BLABBYUPNPAV_EXPORT SoapCall : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~SoapCall();
+    Q_DISABLE_COPY_MOVE(SoapCall)
+
+    ~SoapCall() override;
 
     /**
      * Status of the SOAP call. True means call finished successful otherwise false.
@@ -34,12 +38,30 @@ public:
      */
     virtual QString rawMessage() const noexcept = 0;
 
+    /**
+     * Gives the action that belongs to the call.
+     * @return The SCPD action of the call
+     */
+    SCPDAction const &action() const noexcept;
+
+    /**
+     * Gives the scpd that belongs to the call.
+     */
+    ServiceControlPointDefinition const &scpd() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal shall be emitted when the Soap call
      * is finished.
      */
     void finished();
+
+protected:
+    SoapCall();
+    SoapCall(ServiceControlPointDefinition scpd, SCPDAction action);
+
+    ServiceControlPointDefinition mScpd;
+    SCPDAction mAction;
 };
 
 } // namespace UPnPAV
