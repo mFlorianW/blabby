@@ -1,0 +1,23 @@
+﻿---
+BasedOnStyle: Microsoft
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: 'false'
+AlignConsecutiveAssignments: 'false'
+AlignConsecutiveDeclarations: 'false'
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: 'false'
+AllowAllArgumentsOnNextLine: 'false'
+AllowAllParametersOfDeclarationOnNextLine: 'false'
+AllowShortBlocksOnASingleLine: 'false'
+BinPackArguments: 'false'
+BinPackParameters: 'false'
+ColumnLimit: '120'
+Cpp11BracedListStyle: 'true'
+Language: Cpp
+PointerAlignment: Right
+AccessModifierOffset: '-4'
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerIndentWidth: '4'
+AlwaysBreakTemplateDeclarations: 'true'
+
+...
