@@ -8,12 +8,14 @@
 
 #include "SCPDArgument.h"
 #include "blabbyupnpav_export.h"
+#include <QExplicitlySharedDataPointer>
 #include <QString>
 #include <QVector>
 
 namespace UPnPAV
 {
 
+struct SCPDActionData;
 class BLABBYUPNPAV_EXPORT SCPDAction
 {
 public:
@@ -33,10 +35,23 @@ public:
     BLABBYUPNPAV_EXPORT friend bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs);
 
 private:
-    QString m_name;
-    QVector<SCPDArgument> m_arguments;
+    QExplicitlySharedDataPointer<SCPDActionData> d;
+};
+
+struct SCPDActionData : public QSharedData
+{
+    QString mName;
+    QVector<SCPDArgument> mArguments;
+
+    SCPDActionData(QString name, QVector<SCPDArgument> arguments)
+        : mName(std::move(name))
+        , mArguments(std::move(arguments))
+    {
+    }
 };
 
 } // namespace UPnPAV
+
+Q_DECLARE_TYPEINFO(UPnPAV::SCPDActionData, Q_RELOCATABLE_TYPE);
 
 #endif // SCPDACTION_H
