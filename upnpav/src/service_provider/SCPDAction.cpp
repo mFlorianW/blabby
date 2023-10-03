@@ -13,25 +13,24 @@ namespace UPnPAV
 SCPDAction::SCPDAction() = default;
 
 SCPDAction::SCPDAction(QString name, QVector<SCPDArgument> arguments)
-    : m_name(std::move(name))
-    , m_arguments(std::move(arguments))
+    : d{new SCPDActionData{std::move(name), std::move(arguments)}}
 {
 }
 
 const QString &SCPDAction::name() const
 {
-    return m_name;
+    return d->mName;
 }
 
 const QVector<SCPDArgument> &SCPDAction::arguments() const
 {
-    return m_arguments;
+    return d->mArguments;
 }
 
 QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for (const auto &arg : m_arguments)
+    for (const auto &arg : std::as_const(d->mArguments))
     {
         if (arg.direction() == SCPDArgument::In)
         {
@@ -45,7 +44,7 @@ QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 QVector<SCPDArgument> SCPDAction::outArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for (auto const &arg : m_arguments)
+    for (auto const &arg : std::as_const(d->mArguments))
     {
         if (arg.direction() == SCPDArgument::Out)
         {
@@ -62,7 +61,7 @@ bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
         return true;
     }
 
-    return ((lhs.m_name == rhs.m_name) && (lhs.m_arguments == rhs.m_arguments));
+    return ((lhs.d->mName == rhs.d->mName) && (lhs.d->mArguments == rhs.d->mArguments));
 }
 
 bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs)
