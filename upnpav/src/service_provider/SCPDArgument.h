@@ -7,11 +7,13 @@
 #define SCPDARGUMENT_H
 
 #include "blabbyupnpav_export.h"
+#include <QExplicitlySharedDataPointer>
 #include <QString>
 
 namespace UPnPAV
 {
 
+struct SCPDArgumentData;
 class BLABBYUPNPAV_EXPORT SCPDArgument final
 {
 public:
@@ -22,7 +24,7 @@ public:
     };
 
     SCPDArgument();
-    SCPDArgument(const QString &name, Direction direction, const QString &relatedStateVariable);
+    SCPDArgument(QString name, Direction direction, QString relatedStateVariable);
 
     QString name() const;
 
@@ -34,11 +36,25 @@ public:
     friend bool operator!=(const SCPDArgument &lhs, const SCPDArgument &rhs);
 
 private:
-    QString m_name;
-    Direction m_direction;
-    QString m_relatedStateVariable;
+    QExplicitlySharedDataPointer<SCPDArgumentData> d;
+};
+
+struct SCPDArgumentData : public QSharedData
+{
+    QString mName;
+    SCPDArgument::Direction mDirection;
+    QString mRelatedStateVariable;
+
+    SCPDArgumentData(QString name, SCPDArgument::Direction direction, QString relatedStateVariable)
+        : mName{std::move(name)}
+        , mDirection{std::move(direction)}
+        , mRelatedStateVariable{std::move(relatedStateVariable)}
+    {
+    }
 };
 
 } // namespace UPnPAV
+
+Q_DECLARE_TYPEINFO(UPnPAV::SCPDArgument, Q_RELOCATABLE_TYPE);
 
 #endif // SCPDARGUMENT_H

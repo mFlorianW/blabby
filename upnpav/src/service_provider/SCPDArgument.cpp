@@ -8,32 +8,26 @@
 namespace UPnPAV
 {
 
-SCPDArgument::SCPDArgument()
-{
-}
+SCPDArgument::SCPDArgument() = default;
 
-SCPDArgument::SCPDArgument(const QString &name,
-                           UPnPAV::SCPDArgument::Direction direction,
-                           const QString &relatedStateVariable)
-    : m_name(name)
-    , m_direction(direction)
-    , m_relatedStateVariable(relatedStateVariable)
+SCPDArgument::SCPDArgument(QString name, Direction direction, QString relatedStateVariable)
+    : d{new SCPDArgumentData{std::move(name), std::move(direction), std::move(relatedStateVariable)}}
 {
 }
 
 QString SCPDArgument::name() const
 {
-    return m_name;
+    return d->mName;
 }
 
 SCPDArgument::Direction SCPDArgument::direction() const
 {
-    return m_direction;
+    return d->mDirection;
 }
 
 QString SCPDArgument::relatedStateVariable() const
 {
-    return m_relatedStateVariable;
+    return d->mRelatedStateVariable;
 }
 
 bool operator==(const SCPDArgument &lhs, const SCPDArgument &rhs)
@@ -43,8 +37,8 @@ bool operator==(const SCPDArgument &lhs, const SCPDArgument &rhs)
         return true;
     }
 
-    return ((lhs.m_name == rhs.m_name) && (lhs.m_direction == rhs.m_direction) &&
-            (lhs.m_relatedStateVariable == rhs.m_relatedStateVariable));
+    return ((lhs.d->mName == rhs.d->mName) && (lhs.d->mDirection == rhs.d->mDirection) &&
+            (lhs.d->mRelatedStateVariable == rhs.d->mRelatedStateVariable));
 }
 
 bool operator!=(const SCPDArgument &lhs, const SCPDArgument &rhs)
