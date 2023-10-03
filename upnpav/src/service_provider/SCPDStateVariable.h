@@ -7,12 +7,14 @@
 #define SCPDSTATEVARIABLE_H
 
 #include "blabbyupnpav_export.h"
+#include <QExplicitlySharedDataPointer>
 #include <QString>
 #include <QVector>
 
 namespace UPnPAV
 {
 
+struct SCPDStateVariableData;
 class BLABBYUPNPAV_EXPORT SCPDStateVariable
 {
 public:
@@ -55,14 +57,14 @@ public:
 
     SCPDStateVariable();
 
-    SCPDStateVariable(bool m_sendEvents,
-                      const QString &name,
+    SCPDStateVariable(bool sendEvents,
+                      QString name,
                       DataType dataType,
-                      const QString &defaultValue = {},
-                      const QVector<QString> &allowedValues = {},
-                      const QString &miniumValue = {},
-                      const QString &maximumValue = {},
-                      const QString &step = {});
+                      QString defaultValue = {},
+                      QVector<QString> allowedValues = {},
+                      QString miniumValue = {},
+                      QString maximumValue = {},
+                      QString step = {});
 
     bool sendEvents() const;
 
@@ -84,16 +86,42 @@ public:
     BLABBYUPNPAV_EXPORT friend bool operator!=(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs);
 
 private:
-    bool m_sendEvents{false};
-    QString m_name;
-    DataType m_dataType;
-    QString m_defaultValue;
-    QVector<QString> m_allowedValues;
-    QString m_miniumValue;
-    QString m_maximumValue;
-    QString m_step;
+    QExplicitlySharedDataPointer<SCPDStateVariableData> d;
+};
+
+struct SCPDStateVariableData : public QSharedData
+{
+    bool mSendEvents{false};
+    QString mName;
+    SCPDStateVariable::DataType mDataType;
+    QString mDefaultValue;
+    QVector<QString> mAllowedValues;
+    QString mMiniumValue;
+    QString mMaximumValue;
+    QString mStep;
+
+    SCPDStateVariableData(bool sendEvents,
+                          QString name,
+                          SCPDStateVariable::DataType dataType,
+                          QString defaultValue,
+                          QVector<QString> allowedValues,
+                          QString miniumValue,
+                          QString maximumValue,
+                          QString step)
+        : mSendEvents{std::move(sendEvents)}
+        , mName{std::move(name)}
+        , mDataType{std::move(dataType)}
+        , mDefaultValue{std::move(defaultValue)}
+        , mAllowedValues{std::move(allowedValues)}
+        , mMiniumValue{std::move(miniumValue)}
+        , mMaximumValue{std::move(maximumValue)}
+        , mStep{std::move(step)}
+    {
+    }
 };
 
 } // namespace UPnPAV
+
+Q_DECLARE_TYPEINFO(UPnPAV::SCPDStateVariable, Q_RELOCATABLE_TYPE);
 
 #endif // SCPDSTATEVARIABLE_H
