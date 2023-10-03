@@ -8,27 +8,23 @@
 namespace UPnPAV
 {
 
-ServiceControlPointDefinition::ServiceControlPointDefinition()
-{
-}
+ServiceControlPointDefinition::ServiceControlPointDefinition() = default;
 
-ServiceControlPointDefinition::ServiceControlPointDefinition(const QString &scpdUrl,
-                                                             const QVector<SCPDStateVariable> &stateVariables,
-                                                             const QVector<SCPDAction> &actions)
-    : m_scpdUrl(scpdUrl)
-    , m_stateVariables(stateVariables)
-    , m_actions(actions)
+ServiceControlPointDefinition::ServiceControlPointDefinition(QString scpdUrl,
+                                                             QVector<SCPDStateVariable> stateVariables,
+                                                             QVector<SCPDAction> actions)
+    : d{new ServiceControlPointDefinitionData{std::move(scpdUrl), std::move(stateVariables), std::move(actions)}}
 {
 }
 
 const QString &ServiceControlPointDefinition::scpdUrl() const
 {
-    return m_scpdUrl;
+    return d->mScpdUrl;
 }
 
 bool ServiceControlPointDefinition::hasStateVariable(const QString &stateVariableName) const noexcept
 {
-    for (const auto &variable : m_stateVariables)
+    for (const auto &variable : std::as_const(d->mStateVariables))
     {
         if (variable.name() == stateVariableName)
         {
@@ -41,17 +37,17 @@ bool ServiceControlPointDefinition::hasStateVariable(const QString &stateVariabl
 
 const QVector<SCPDStateVariable> &ServiceControlPointDefinition::serviceStateTable() const
 {
-    return m_stateVariables;
+    return d->mStateVariables;
 }
 
 const QVector<SCPDAction> &ServiceControlPointDefinition::actionList() const
 {
-    return m_actions;
+    return d->mActions;
 }
 
 SCPDAction ServiceControlPointDefinition::action(const QString &actionName) const noexcept
 {
-    for (const auto &action : m_actions)
+    for (const auto &action : std::as_const(d->mActions))
     {
         if (action.name() == actionName)
         {
@@ -69,7 +65,7 @@ bool operator==(const ServiceControlPointDefinition &lhs, const ServiceControlPo
         return true;
     }
 
-    return ((lhs.m_actions == rhs.m_actions) && (lhs.m_stateVariables == rhs.m_stateVariables));
+    return ((lhs.d->mActions == rhs.d->mActions) && (lhs.d->mStateVariables == rhs.d->mStateVariables));
 }
 
 bool operator!=(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition &rhs)
