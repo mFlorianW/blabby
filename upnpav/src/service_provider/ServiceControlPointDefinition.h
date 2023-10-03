@@ -9,17 +9,19 @@
 #include "SCPDAction.h"
 #include "SCPDStateVariable.h"
 #include "blabbyupnpav_export.h"
+#include <QExplicitlySharedDataPointer>
 
 namespace UPnPAV
 {
 
+struct ServiceControlPointDefinitionData;
 class BLABBYUPNPAV_EXPORT ServiceControlPointDefinition
 {
 public:
     ServiceControlPointDefinition();
-    ServiceControlPointDefinition(const QString &scpdUrl,
-                                  const QVector<SCPDStateVariable> &serviceStateTable,
-                                  const QVector<SCPDAction> &actionList = {});
+    ServiceControlPointDefinition(QString scpdUrl,
+                                  QVector<SCPDStateVariable> serviceStateTable,
+                                  QVector<SCPDAction> actions = {});
 
     const QString &scpdUrl() const;
 
@@ -35,11 +37,28 @@ public:
                                                const ServiceControlPointDefinition &rhs);
 
 private:
-    QString m_scpdUrl;
-    QVector<SCPDStateVariable> m_stateVariables;
-    QVector<SCPDAction> m_actions;
+    QExplicitlySharedDataPointer<ServiceControlPointDefinitionData> d;
+};
+
+struct ServiceControlPointDefinitionData : public QSharedData
+{
+    QString mScpdUrl;
+    QVector<SCPDStateVariable> mStateVariables;
+    QVector<SCPDAction> mActions;
+
+    ServiceControlPointDefinitionData(QString scpdUrl,
+                                      QVector<SCPDStateVariable> serviceStateTable,
+                                      QVector<SCPDAction> actions)
+        : mScpdUrl{std::move(scpdUrl)}
+        , mStateVariables{std::move(serviceStateTable)}
+        , mActions{std::move(actions)}
+
+    {
+    }
 };
 
 } // namespace UPnPAV
+
+Q_DECLARE_TYPEINFO(UPnPAV::ServiceControlPointDefinition, Q_RELOCATABLE_TYPE);
 
 #endif // SERVICECONTROLPOINTDEFINITION_H
