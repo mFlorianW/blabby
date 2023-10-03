@@ -8,62 +8,60 @@
 namespace UPnPAV
 {
 
-SCPDStateVariable::SCPDStateVariable()
-{
-}
+SCPDStateVariable::SCPDStateVariable() = default;
 
 SCPDStateVariable::SCPDStateVariable(bool sendEvents,
-                                     const QString &name,
+                                     QString name,
                                      DataType dataType,
-                                     const QString &defaultValue,
-                                     const QVector<QString> &allowedValues,
-                                     const QString &miniumValue,
-                                     const QString &maximumValue,
-                                     const QString &step)
-    : m_sendEvents(sendEvents)
-    , m_name(name)
-    , m_dataType(dataType)
-    , m_defaultValue(defaultValue)
-    , m_allowedValues(allowedValues)
-    , m_miniumValue(miniumValue)
-    , m_maximumValue(maximumValue)
-    , m_step(step)
+                                     QString defaultValue,
+                                     QVector<QString> allowedValues,
+                                     QString miniumValue,
+                                     QString maximumValue,
+                                     QString step)
+    : d{new SCPDStateVariableData{std::move(sendEvents),
+                                  std::move(name),
+                                  std::move(dataType),
+                                  std::move(defaultValue),
+                                  std::move(allowedValues),
+                                  std::move(miniumValue),
+                                  std::move(maximumValue),
+                                  std::move(step)}}
 {
 }
 
 bool SCPDStateVariable::sendEvents() const
 {
-    return m_sendEvents;
+    return d->mSendEvents;
 }
 
 const QString &SCPDStateVariable::name() const
 {
-    return m_name;
+    return d->mName;
 }
 
 const QString &SCPDStateVariable::defaultValue() const
 {
-    return m_defaultValue;
+    return d->mDefaultValue;
 }
 
 const QVector<QString> &SCPDStateVariable::allowedValues() const
 {
-    return m_allowedValues;
+    return d->mAllowedValues;
 }
 
 const QString &SCPDStateVariable::miniumValue() const
 {
-    return m_miniumValue;
+    return d->mMiniumValue;
 }
 
 const QString &SCPDStateVariable::maximumValue() const
 {
-    return m_maximumValue;
+    return d->mMaximumValue;
 }
 
 const QString &SCPDStateVariable::stepSize() const
 {
-    return m_step;
+    return d->mStep;
 }
 
 bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
@@ -73,10 +71,10 @@ bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
         return true;
     }
 
-    return ((lhs.m_sendEvents == rhs.m_sendEvents) && (lhs.m_name == rhs.m_name) &&
-            (lhs.m_dataType == rhs.m_dataType) && (lhs.m_defaultValue == rhs.m_defaultValue) &&
-            (lhs.m_allowedValues == rhs.m_allowedValues) && (lhs.m_miniumValue == rhs.m_miniumValue) &&
-            (lhs.m_maximumValue == rhs.m_maximumValue) && (lhs.m_step == rhs.m_step));
+    return ((lhs.d->mSendEvents == rhs.d->mSendEvents) && (lhs.d->mName == rhs.d->mName) &&
+            (lhs.d->mDataType == rhs.d->mDataType) && (lhs.d->mDefaultValue == rhs.d->mDefaultValue) &&
+            (lhs.d->mAllowedValues == rhs.d->mAllowedValues) && (lhs.d->mMiniumValue == rhs.d->mMiniumValue) &&
+            (lhs.d->mMaximumValue == rhs.d->mMaximumValue) && (lhs.d->mStep == rhs.d->mStep));
 }
 
 bool operator!=(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
@@ -86,7 +84,7 @@ bool operator!=(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
 
 SCPDStateVariable::DataType SCPDStateVariable::dataType() const
 {
-    return m_dataType;
+    return d->mDataType;
 }
 
 } // namespace UPnPAV
