@@ -4,50 +4,50 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "ServiceDescription.h"
+#include <QSharedData>
+#include <utility>
 
 namespace UPnPAV
 {
 
-ServiceDescription::ServiceDescription()
-{
-}
+ServiceDescription::ServiceDescription() = default;
 
-ServiceDescription::ServiceDescription(const QString &serviceType,
-                                       const QString &id,
-                                       const QString &scpdUrl,
-                                       const QString &controlUrl,
-                                       const QString &eventUrl)
-    : m_serviceType(serviceType)
-    , m_id(id)
-    , m_scpdUrl(scpdUrl)
-    , m_controlUrl(controlUrl)
-    , m_eventUrl(eventUrl)
+ServiceDescription::ServiceDescription(QString serviceType,
+                                       QString id,
+                                       QString scpdUrl,
+                                       QString controlUrl,
+                                       QString eventUrl)
+    : d{new ServiceDescriptionData{std::move(serviceType),
+                                   std::move(id),
+                                   std::move(scpdUrl),
+                                   std::move(controlUrl),
+                                   std::move(eventUrl)}}
 {
 }
 
 QString ServiceDescription::serviceType() const
 {
-    return m_serviceType;
+    return d->mServiceType;
 }
 
 QString ServiceDescription::id() const
 {
-    return m_id;
+    return d->mId;
 }
 
 QString ServiceDescription::scpdUrl() const
 {
-    return m_scpdUrl;
+    return d->mScpdUrl;
 }
 
 QString ServiceDescription::controlUrl() const
 {
-    return m_controlUrl;
+    return d->mControlUrl;
 }
 
 QString ServiceDescription::eventUrl() const
 {
-    return m_eventUrl;
+    return d->mEventUrl;
 }
 
 bool operator==(const ServiceDescription &lhs, const ServiceDescription &rhs)
@@ -57,8 +57,9 @@ bool operator==(const ServiceDescription &lhs, const ServiceDescription &rhs)
         return true;
     }
 
-    return ((lhs.m_serviceType == rhs.m_serviceType) && (lhs.m_id == rhs.m_id) && (lhs.m_scpdUrl == rhs.m_scpdUrl) &&
-            (lhs.m_controlUrl == rhs.m_controlUrl) && (lhs.m_eventUrl == rhs.m_eventUrl));
+    return ((lhs.d->mServiceType == rhs.d->mServiceType) && (lhs.d->mId == rhs.d->mId) &&
+            (lhs.d->mScpdUrl == rhs.d->mScpdUrl) && (lhs.d->mControlUrl == rhs.d->mControlUrl) &&
+            (lhs.d->mEventUrl == rhs.d->mEventUrl));
 }
 
 bool operator!=(const ServiceDescription &lhs, const ServiceDescription &rhs)
