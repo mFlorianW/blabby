@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2023 Florian Weßel <florianwessel@gmx.net>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+name: Clang-Tidy
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Clang-Tidy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '5.15.2'
+        cache: 'true'
+    - name: Install Clang-Tidy
+      run: |
+        sudo apt update && sudo apt install clang-tidy-14
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Static Code Analysis
+      run: |
+        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ print $2}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true
+        if [[ ! -z ${files} ]]; then
+          clang-tidy -p build-github-ci-debug --export-fixes=clang-tidy-fixes.yml ${files}
+        else
+          echo "No file for checking create empty fix file."
+          touch clang-tidy-fixes.yml
+        fi
+    - name: Publish Static Code Results
+      uses: platisd/clang-tidy-pr-comments@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        clang_tidy_fixes: clang-tidy-fixes.yml
+    - name: Publish Static Code Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: clang-tidy-results@${{ github.sha }}.yml
+        path: clang-tidy-fixes.yml
+    - name: Check Clang-Tidy Warnings
+      run: |
+        if [ -e clang-tidy-fixes.yml ]; then
+          filesize=$(stat -c '%s' clang-tidy-fixes.yml)
+          if [ $filesize -gt 0 ]; then
+            echo "clang-tidy warnings found."
+            exit 1
+          else
+            exit 0
+          fi
+        fi
