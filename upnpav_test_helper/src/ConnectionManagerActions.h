@@ -12,7 +12,7 @@
 namespace UPnPAV
 {
 
-static SCPDAction GetProtocolInfo
+static const SCPDAction GetProtocolInfo
 {
     "GetProtocolInfo",
     {
@@ -32,7 +32,7 @@ static SCPDAction GetProtocolInfo
     }
 };
 
-static SCPDAction GetCurrentConnectionIDs
+static const SCPDAction GetCurrentConnectionIDs
 {
     "GetCurrentConnectionIDs",
     {
@@ -45,7 +45,7 @@ static SCPDAction GetCurrentConnectionIDs
     }
 };
 
-static SCPDAction GetCurrentConnectionInfo
+static const SCPDAction GetCurrentConnectionInfo
 {
     "GetCurrentConnectionInfo",
     {
