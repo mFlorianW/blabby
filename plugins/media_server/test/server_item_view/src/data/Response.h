@@ -2,12 +2,11 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-
-#ifndef RESPONSE_H
-#define RESPONSE_H
+#pragma once
 
 // clang-format off
-constexpr char xmlResponse[] =
+
+constexpr char const* xmlResponse =
 {
     "<?xml version=\"1.0\"?>"
     "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -23,7 +22,7 @@ constexpr char xmlResponse[] =
     "</s:Envelope>"
 };
 
-constexpr char didlOnlyOneContainer[] =
+constexpr char const* didlOnlyOneContainer =
 {
     "&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;"
         "&lt;container id=&quot;1&quot; parentID=&quot;0&quot; restricted=&quot;false&quot;&gt;"
@@ -33,7 +32,7 @@ constexpr char didlOnlyOneContainer[] =
     "&lt;/DIDLE-Lite&gt;"
 };
 
-constexpr char didlOnlyTwoContainer[] =
+constexpr char const* didlOnlyTwoContainer =
 {
     "&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;"
         "&lt;container id=&quot;1&quot; parentID=&quot;0&quot; restricted=&quot;false&quot;&gt;"
@@ -48,4 +47,3 @@ constexpr char didlOnlyTwoContainer[] =
 };
 
 // clang-format on
-#endif // RESPONSE_H

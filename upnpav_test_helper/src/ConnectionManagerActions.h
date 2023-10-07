@@ -38,9 +38,9 @@ static SCPDAction GetCurrentConnectionIDs
     {
         SCPDArgument
         {
-            "ConnectionID",
+            "ConnectionIDs",
             SCPDArgument::Direction::Out,
-            "GetCurrentConnectionIDs"
+            "CurrentConnectionIDs"
         }
     }
 };
@@ -53,13 +53,49 @@ static SCPDAction GetCurrentConnectionInfo
         {
             "ConnectionID",
             SCPDArgument::Direction::In,
-            "A_ARG_TYPE_ ConnectionID"
+            "A_ARG_TYPE_ConnectionID"
         },
         SCPDArgument
         {
-            "ConnectionID",
+            "RcsID",
             SCPDArgument::Direction::Out,
-            "A_ARG_TYPE_ ConnectionID"
+            "A_ARG_TYPE_RcsID"
+        },
+        SCPDArgument
+        {
+            "AVTransportID",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_AVTransportID"
+        },
+        SCPDArgument
+        {
+            "ProtocolInfo",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_ProtocolInfo"
+        },
+        SCPDArgument
+        {
+            "PeerConnectionManager",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_ConnectionManager"
+        },
+        SCPDArgument
+        {
+            "PeerConnectionID",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_ConnectionID"
+        },
+        SCPDArgument
+        {
+            "Direction",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_Direction"
+        },
+        SCPDArgument
+        {
+            "Status",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_ConnectionStatus"
         },
     }
 };

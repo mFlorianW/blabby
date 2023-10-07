@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
+#include "ServiceControlPointDefinition.h"
 #include "blabbyupnpav_export.h"
+#include <QObject>
 #include <QString>
 #include <optional>
 
@@ -14,7 +16,8 @@ namespace UPnPAV
 enum class BLABBYUPNPAV_EXPORT ConnectionInfoDirection
 {
     Output,
-    Input
+    Input,
+    Unknown
 };
 
 enum class BLABBYUPNPAV_EXPORT ConnectionInfoStatus
@@ -28,13 +31,13 @@ enum class BLABBYUPNPAV_EXPORT ConnectionInfoStatus
 
 struct BLABBYUPNPAV_EXPORT ConnectionInfo
 {
-    quint32 rcsId;
-    quint32 avTransportId;
-    QString protoclInfo;
-    QString peerConnectionManager;
-    quint32 peerConnectionId;
-    ConnectionInfoDirection direction;
-    ConnectionInfoStatus status;
+    quint32 rcsId{0};
+    quint32 avTransportId{0};
+    QString protoclInfo{""};
+    QString peerConnectionManager{""};
+    quint32 peerConnectionId{0};
+    ConnectionInfoDirection direction{ConnectionInfoDirection::Unknown};
+    ConnectionInfoStatus status{ConnectionInfoStatus::Unknown};
 
     BLABBYUPNPAV_EXPORT friend bool operator==(ConnectionInfo const &lhs, ConnectionInfo const &rhs);
     BLABBYUPNPAV_EXPORT friend bool operator!=(ConnectionInfo const &lhs, ConnectionInfo const &rhs);
@@ -46,7 +49,11 @@ struct BLABBYUPNPAV_EXPORT ConnectionInfo
 class BLABBYUPNPAV_EXPORT CurrentConnectionInfoResult final
 {
 public:
-    CurrentConnectionInfoResult(const QString &xmlResponse);
+    CurrentConnectionInfoResult(QString const &xmlResponse,
+                                ServiceControlPointDefinition const &scpd,
+                                SCPDAction action);
+    Q_DISABLE_COPY_MOVE(CurrentConnectionInfoResult)
+    ~CurrentConnectionInfoResult();
 
     const ConnectionInfo &connectionInfo() const noexcept;
 

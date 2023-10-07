@@ -20,6 +20,7 @@ target_include_directories(test_upnpav_browse_result
 target_link_libraries(test_upnpav_browse_result
     Qt5::Test
     Blabby::UPnPAV
+    Blabby::UPnPAVTestHelper
 )
 add_test(test_upnpav_browse_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_browse_result)
 

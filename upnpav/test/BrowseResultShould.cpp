@@ -5,6 +5,8 @@
 
 #include "BrowseResultShould.h"
 #include "BrowseResult.h"
+#include "ContentDirectoryActions.h"
+#include "Descriptions.h"
 #include "MediaServerObject.h"
 #include "Response.h"
 
@@ -12,6 +14,14 @@
 
 namespace UPnPAV
 {
+
+namespace
+{
+BrowseResult createBrowseResult(QString const &response)
+{
+    return BrowseResult{response, validContentDirectorySCPD, Browse};
+}
+} // namespace
 
 BrowseResultShould::BrowseResultShould()
     : QObject()
@@ -21,7 +31,7 @@ BrowseResultShould::BrowseResultShould()
 void BrowseResultShould::give_The_NumberReturned_Value_Of_The_Response_When_Call_Finished()
 {
     QString response = QString{xmlResponse}.arg("").arg("1").arg("").arg("");
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
     auto numberReturned = browseResult.numberReturned();
@@ -33,7 +43,7 @@ void BrowseResultShould::give_The_NumberReturned_Value_Of_The_Response_When_Call
 void BrowseResultShould::give_The_TotalMatches_Value_Of_The_Response_When_Call_Finished()
 {
     QString response = QString{xmlResponse}.arg("").arg("").arg("1").arg("");
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
     auto totalMatches = browseResult.totalMatches();
@@ -45,7 +55,7 @@ void BrowseResultShould::give_The_TotalMatches_Value_Of_The_Response_When_Call_F
 void BrowseResultShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finished()
 {
     QString response = QString{xmlResponse}.arg("").arg("").arg("").arg("1");
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
     auto updateId = browseResult.updateId();
@@ -57,7 +67,7 @@ void BrowseResultShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finis
 void BrowseResultShould::give_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{xmlResponse}.arg(didlOnlyOneContainer).arg("").arg("").arg("");
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     QVector<MediaServerObject> expectedObjects{
         MediaServerObject{"1", "0", "MyMusic", "object.container.storageFolder"}};
 
@@ -70,7 +80,7 @@ void BrowseResultShould::
     give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{xmlResponse}.arg(didlOnlyTwoContainer, (""), (""), (""));
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     QVector<MediaServerObject> expectedObjects{
         MediaServerObject{"1", "0", "MyMusic0", "object.container.storageFolder"},
         MediaServerObject{"2", "0", "MyMusic1", "object.container.storageFolder"}};
@@ -83,7 +93,7 @@ void BrowseResultShould::
 void BrowseResultShould::give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{xmlResponse}.arg(didlOnlyOneItem, "1", "1", "33");
-    BrowseResult browseResult{response};
+    auto browseResult = createBrowseResult(response);
     QVector<MediaServerObject> expectedObjects{
         MediaServerObject{"64$0$0", "64$0", "Dekmantel Boiler Room 2016 -", "object.item.audioItem.musicTrack"}};
 

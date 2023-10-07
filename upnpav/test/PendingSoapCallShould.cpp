@@ -8,6 +8,7 @@
 
 #include <QSignalSpy>
 #include <QTest>
+#include <utility>
 
 namespace
 {
@@ -15,45 +16,48 @@ namespace
 class TestObject
 {
 public:
-    TestObject(const QString &rawMessage)
-        : m_rawMessage(rawMessage)
+    TestObject(QString rawMessage)
+        : mRawMessage(std::move(rawMessage))
+    {
+    }
+
+    TestObject(QString rawMessage, UPnPAV::ServiceControlPointDefinition, UPnPAV::SCPDAction)
+        : mRawMessage{std::move(rawMessage)}
     {
     }
 
     QString rawMessage() const noexcept
     {
-        return m_rawMessage;
+        return mRawMessage;
     }
 
 private:
-    QString m_rawMessage;
+    QString mRawMessage;
 };
 
-static constexpr char errorXML[] = {"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                                    "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-                                    "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-                                    "<s:Body>"
-                                    "<s:Fault>"
-                                    "<faultcode>s:Client</faultcode>"
-                                    "<faultstring>UPnPError</faultstring>"
-                                    "<detail>"
-                                    "<UPnPError xmlns=\"urn:schemas-upnp-org:control-1-0\">"
-                                    "<errorCode>%1</errorCode>"
-                                    "<errorDescription>%2</errorDescription>"
-                                    "</UPnPError>"
-                                    "</detail>"
-                                    "</s:Fault>"
-                                    "</s:Body>"
-                                    "</s:Envelope>"};
+static constexpr char const *errorXML = {"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<s:Fault>"
+                                         "<faultcode>s:Client</faultcode>"
+                                         "<faultstring>UPnPError</faultstring>"
+                                         "<detail>"
+                                         "<UPnPError xmlns=\"urn:schemas-upnp-org:control-1-0\">"
+                                         "<errorCode>%1</errorCode>"
+                                         "<errorDescription>%2</errorDescription>"
+                                         "</UPnPError>"
+                                         "</detail>"
+                                         "</s:Fault>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
 
 } // namespace
 
 namespace UPnPAV
 {
 
-PendingSoapCallShould::PendingSoapCallShould()
-{
-}
+PendingSoapCallShould::PendingSoapCallShould() = default;
 
 void PendingSoapCallShould::emit_Finished_Signal_When_DataReceived()
 {
@@ -63,7 +67,7 @@ void PendingSoapCallShould::emit_Finished_Signal_When_DataReceived()
 
     QSignalSpy signalSpy{&pendingSoapCall, &PendingSoapCall::finished};
 
-    soapCallDouble->finished();
+    Q_EMIT soapCallDouble->finished();
 
     QVERIFY2(signalSpy.count() == 1,
              QString{"Expected: %1 \n Actual: %2"}.arg("1").arg(signalSpy.count()).toLocal8Bit());
@@ -76,7 +80,7 @@ void PendingSoapCallShould::set_Error_To_True_When_Soap_Call_Finished_With_Error
 
     PendingSoapCall pendingSoapCall{soapCallDouble};
 
-    soapCallDouble->finished();
+    Q_EMIT soapCallDouble->finished();
     auto hasError = pendingSoapCall.hasError();
 
     QVERIFY2(true == hasError, QString{"Expected %1 Actual %2"}.arg(true).arg(hasError).toLocal8Bit());
@@ -225,12 +229,12 @@ void PendingSoapCallShould::map_Soap_Error_Codes_To_Enum_When_Call_Finished()
 
     PendingSoapCall pendingSoapCall{SoapCallWithError};
 
-    SoapCallWithError->finished();
+    Q_EMIT SoapCallWithError->finished();
 
     QVERIFY2(ExpectedErrorCode == pendingSoapCall.errorCode(),
              QString{"Expected: %1\n Actual: %2"}
-                 .arg(QVariant::fromValue(ExpectedErrorCode).toString())
-                 .arg(QVariant::fromValue(pendingSoapCall.errorCode()).toString())
+                 .arg(QVariant::fromValue(ExpectedErrorCode).toString(),
+                      QVariant::fromValue(pendingSoapCall.errorCode()).toString())
                  .toLocal8Bit());
 }
 
@@ -244,11 +248,11 @@ void PendingSoapCallShould::give_Error_Description_When_Call_Finished_With_Error
 
     PendingSoapCall pendingSoapCall{soapCallDouble};
 
-    soapCallDouble->finished();
+    Q_EMIT soapCallDouble->finished();
     auto errorDesc = pendingSoapCall.errorDescription();
 
     QVERIFY2(expectedErrorDescription == errorDesc,
-             QString{"Expected %1 Actual %2"}.arg(expectedErrorDescription).arg(errorDesc).toLocal8Bit());
+             QString{"Expected %1 Actual %2"}.arg(expectedErrorDescription, errorDesc).toLocal8Bit());
 }
 
 void PendingSoapCallShould::
@@ -260,11 +264,12 @@ void PendingSoapCallShould::
     QString expectedString{"Hello from SOAP call."};
     PendingSoapCall pendingSoapCall{soapCallDouble};
 
-    soapCallDouble->finished();
+    Q_EMIT soapCallDouble->finished();
     auto testObject = pendingSoapCall.resultAs<TestObject>();
 
-    QVERIFY2(expectedString == testObject->rawMessage(),
-             QString{"Expected: %1 \nActual: %2"}.arg(expectedString).arg(testObject->rawMessage()).toLocal8Bit());
+    QVERIFY2(
+        expectedString == testObject->rawMessage(),
+        QString{"Expected: %1 \nActual: %2"}.arg(expectedString, testObject->rawMessage().toLocal8Bit()).toLocal8Bit());
 }
 
 } // namespace UPnPAV

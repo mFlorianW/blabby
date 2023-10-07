@@ -9,15 +9,15 @@
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
 #include <QString>
+#include <SoapCall.h>
+#include <concepts>
 
 namespace UPnPAV
 {
-class SoapCall;
 
 class BLABBYUPNPAV_EXPORT PendingSoapCall : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(PendingSoapCall)
 public:
     enum ErrorCode
     {
@@ -92,6 +92,16 @@ public:
     PendingSoapCall(const QSharedPointer<SoapCall> &soapCall);
 
     /**
+     * Default desctructor
+     */
+    ~PendingSoapCall() noexcept override;
+
+    /**
+     * Disable the copy move.
+     */
+    Q_DISABLE_COPY_MOVE(PendingSoapCall)
+
+    /**
      * Gives the return of the pending soap call. Is only valid after the finished signal
      * is emitted.
      *
@@ -129,6 +139,7 @@ public:
      * @return Returns an instance of T.
      */
     template <typename T>
+        requires std::constructible_from<T, QString, ServiceControlPointDefinition, SCPDAction>
     QSharedPointer<T> resultAs() const;
 
 Q_SIGNALS:
@@ -155,9 +166,10 @@ private:
 };
 
 template <typename T>
+    requires std::constructible_from<T, QString, ServiceControlPointDefinition, SCPDAction>
 QSharedPointer<T> PendingSoapCall::resultAs() const
 {
-    return QSharedPointer<T>{new T(m_rawMessage)};
+    return QSharedPointer<T>::create(m_rawMessage, m_soapCall->scpd(), m_soapCall->action());
 }
 
 } // namespace UPnPAV

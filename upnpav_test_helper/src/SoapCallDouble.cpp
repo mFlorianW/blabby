@@ -8,6 +8,12 @@ namespace UPnPAV
 {
 
 SoapCallDouble::SoapCallDouble()
+    : SoapCallDouble(ServiceControlPointDefinition{}, SCPDAction{})
+{
+}
+
+SoapCallDouble::SoapCallDouble(ServiceControlPointDefinition scpd, SCPDAction action)
+    : SoapCall{std::move(scpd), std::move(action)}
 {
 }
 
