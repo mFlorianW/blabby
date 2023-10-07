@@ -60,7 +60,7 @@ public:
 
 public:
     LastBrowseRequest lastBrowseRequest;
-    QSharedPointer<Doubles::SoapCallDouble> soapCall{nullptr};
+    QSharedPointer<UPnPAV::SoapCallDouble> soapCall{nullptr};
     QString mName{"MediaServer"};
     QUrl mIconUrl{"http://localhost:8200/icons/sm.png"};
 };

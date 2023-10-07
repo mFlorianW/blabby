@@ -4,8 +4,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "CurrentConnectionInfoResultShould.h"
+#include "ConnectionManagerActions.h"
+#include "ConnectionManagerStateVariables.h"
 #include "CurrentConnectionInfoResponse.h"
 #include "CurrentConnectionInfoResult.h"
+#include "Descriptions.h"
 #include <QTest>
 
 namespace UPnPAV
@@ -13,7 +16,9 @@ namespace UPnPAV
 
 void CurrentConnetionInfoResultShould::gives_the_correct_result_for_valid_response()
 {
-    const auto respone = CurrentConnectionInfoResult(ValidCurrentConnectionInfoResponse);
+    const auto respone = CurrentConnectionInfoResult(ValidCurrentConnectionInfoResponse,
+                                                     validConnectionManagerSCPD,
+                                                     GetCurrentConnectionInfo);
     const auto expectedInfo = ConnectionInfo{
         .rcsId = 123,
         .avTransportId = 12,

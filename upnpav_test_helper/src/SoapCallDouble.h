@@ -15,6 +15,7 @@ class SoapCallDouble : public SoapCall
 {
 public:
     SoapCallDouble();
+    SoapCallDouble(ServiceControlPointDefinition scpd, SCPDAction action);
 
     void setErrorState(bool error);
     bool hasFinishedSuccesful() const noexcept override;
@@ -23,10 +24,10 @@ public:
     QString rawMessage() const noexcept override;
 
 private:
-    bool m_errorState;
-    QString m_rawMessage;
+    bool m_errorState{false};
+    QString m_rawMessage{""};
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // SOAPCALLDOUBLE_H

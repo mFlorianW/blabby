@@ -47,6 +47,9 @@ add_library(Blabby::UPnPAV ALIAS ${PROJECT_NAME})
 generate_export_header(BlabbyUPnPAV)
 
 set(PRIVATE_SRCS
+    # General
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/LoggingCategories.cpp
+
     #Service Provider 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.cpp
@@ -72,6 +75,9 @@ set(PRIVATE_SRCS
 )
 
 set(PRIVATE_HEADERS
+    # General
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/LoggingCategories.h
+
     #Service Provider
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.h
@@ -174,6 +180,7 @@ target_link_libraries(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/src
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/device>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider>
 )

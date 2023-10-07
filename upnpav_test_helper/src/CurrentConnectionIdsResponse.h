@@ -9,7 +9,7 @@ constexpr auto ValidCurrentConnectionIdsResponse = R"(<?xml version="1.0" encodi
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
    <s:Body>
       <u:GetCurrentConnectionIDsResponse xmlns:u="urn:schemas-upnp-org:service:ConnectionManager:1">
-         <CurrentConnectionIDs>12,13,52,12,16</CurrentConnectionIDs>
+         <ConnectionIDs>12,13,52,12,16</ConnectionIDs>
       </u:GetCurrentConnectionIDsResponse>
    </s:Body>
 </s:Envelope>)";

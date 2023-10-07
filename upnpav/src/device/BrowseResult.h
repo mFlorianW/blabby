@@ -2,13 +2,11 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-
-#ifndef BROWSERESULT_H
-#define BROWSERESULT_H
-
+#pragma once
 #include "MediaServerObject.h"
+#include "SCPDAction.h"
+#include "ServiceControlPointDefinition.h"
 #include "blabbyupnpav_export.h"
-
 #include <QVector>
 
 class QXmlStreamReader;
@@ -19,7 +17,7 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT BrowseResult
 {
 public:
-    BrowseResult(const QString xmlResponse);
+    BrowseResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
     quint32 totalMatches() const noexcept;
 
@@ -34,13 +32,11 @@ private:
     MediaServerObject readDidlObjectDescription(QXmlStreamReader &streamReader);
 
 private:
-    quint32 m_numberReturned{0};
-    quint32 m_totalMatches{0};
-    quint32 m_updateId{0};
+    quint32 mNumberReturned{0};
+    quint32 mTotalMatches{0};
+    quint32 mUpdateId{0};
 
     QVector<MediaServerObject> m_objects;
 };
 
 } // namespace UPnPAV
-
-#endif // BROWSERESULT_H

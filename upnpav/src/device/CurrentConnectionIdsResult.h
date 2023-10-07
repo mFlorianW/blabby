@@ -4,6 +4,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
+#include "SCPDAction.h"
+#include "ServiceControlPointDefinition.h"
 #include <QString>
 #include <QVector>
 
@@ -13,10 +15,10 @@ namespace UPnPAV
 /**
  * Converts the response of GetCurrentConnectionIds call into a list of quint32 values.
  */
-class CurrentConnectionIdsResult
+class CurrentConnectionIdsResult final
 {
 public:
-    CurrentConnectionIdsResult(const QString &xmlResponse);
+    CurrentConnectionIdsResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
     QVector<quint32> currentConnectionIds() const noexcept;
 

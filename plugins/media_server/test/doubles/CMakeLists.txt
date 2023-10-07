@@ -10,7 +10,6 @@ target_sources(test_media_server_doubles
     PRIVATE
         src/MediaServerDouble.cpp
         src/ServiceProviderDouble.cpp
-        src/SoapCallDouble.cpp
 )
 
 target_include_directories(test_media_server_doubles

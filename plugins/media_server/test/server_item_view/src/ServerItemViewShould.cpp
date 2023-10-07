@@ -4,10 +4,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "ServerItemViewShould.h"
+#include "ContentDirectoryActions.h"
+#include "Descriptions.h"
 #include "MediaServerDouble.h"
 #include "Response.h"
 #include "ServerItemModel.h"
 #include "ServerItemView.h"
+#include "SoapCallDouble.h"
 #include <QTest>
 
 namespace MediaServer::Plugin
@@ -25,7 +28,8 @@ void ServerItemViewShould::on_inserted_media_server_request_root_folder()
     auto serverItemModel = ServerItemModel{};
     auto controller = ServerItemView{&serverItemModel};
     auto mediaServer = MediaServer();
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto desc = UPnPAV::validContentDirectoryDescription;
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     const auto expectedBrowseRequest = LastBrowseRequest{.objectId = "0", .browseFlag = MediaServer::DirectChildren};
     soapCall->setRawMessage(didlOnlyOneContainer);
     mediaServer.soapCall = soapCall;
@@ -40,7 +44,7 @@ void ServerItemViewShould::on_valid_result_received_insert_media_objects_into_se
     auto serverItemModel = ServerItemModel{};
     auto controller = ServerItemView{&serverItemModel};
     auto mediaServer = MediaServer{};
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     soapCall->setRawMessage(QString{xmlResponse}.arg(didlOnlyOneContainer, "", "", ""));
     mediaServer.soapCall = soapCall;
 
@@ -55,7 +59,7 @@ void ServerItemViewShould::request_specific_folder_on_media_server()
     auto serverItemModel = ServerItemModel{};
     auto controller = ServerItemView{&serverItemModel};
     auto mediaServer = MediaServer();
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     const auto expectedBrowseRequest = LastBrowseRequest{.objectId = "1", .browseFlag = MediaServer::DirectChildren};
     mediaServer.soapCall = soapCall;
     controller.setMediaServer(&mediaServer);
@@ -70,7 +74,7 @@ void ServerItemViewShould::on_valid_response_of_specific_request_fill_objects_in
     auto serverItemModel = ServerItemModel{};
     auto controller = ServerItemView{&serverItemModel};
     auto mediaServer = MediaServer{};
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     soapCall->setRawMessage(QString{xmlResponse}.arg(didlOnlyOneContainer, "", "", ""));
     mediaServer.soapCall = soapCall;
     controller.setMediaServer(&mediaServer);
@@ -89,7 +93,7 @@ void ServerItemViewShould::go_to_previous_folder()
 {
     auto serverItemModel = ServerItemModel{};
     auto mediaServer = MediaServer{};
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     auto controller = ServerItemView{&serverItemModel};
     mediaServer.soapCall = soapCall;
     controller.setMediaServer(&mediaServer);
@@ -106,7 +110,7 @@ void ServerItemViewShould::go_to_back_to_root_folder()
 {
     auto serverItemModel = ServerItemModel{};
     auto mediaServer = MediaServer{};
-    auto soapCall = QSharedPointer<Doubles::SoapCallDouble>(new SoapCallDouble{});
+    auto soapCall = QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD, UPnPAV::Browse);
     auto controller = ServerItemView{&serverItemModel};
     mediaServer.soapCall = soapCall;
     controller.setMediaServer(&mediaServer);

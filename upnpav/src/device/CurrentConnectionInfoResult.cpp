@@ -3,101 +3,103 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "CurrentConnectionInfoResult.h"
+#include "private/LoggingCategories.h"
+#include "private/ResponseReader.h"
 #include <QDebug>
 #include <QXmlStreamReader>
 #include <optional>
-#include <qstringliteral.h>
 
 namespace UPnPAV
 {
 
-CurrentConnectionInfoResult::CurrentConnectionInfoResult(QString const &xmlResponse)
+CurrentConnectionInfoResult::CurrentConnectionInfoResult(QString const &xmlResponse,
+                                                         ServiceControlPointDefinition const &scpd,
+                                                         SCPDAction action)
 {
-    auto responseReader = QXmlStreamReader{xmlResponse};
-    while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
+    auto resultReader = ResponseReader(xmlResponse, scpd, action);
+    QObject::connect(&resultReader,
+                     &ResponseReader::stringValueRead,
+                     &resultReader,
+                     [&](QString const &elementName, QString const &value, ResponseReader::ElementReadResult result) {
+                         const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
+                         if (elementName == QStringLiteral("Direction") and conversionOk)
+                         {
+                             const auto direction = convertDirection(value);
+                             if (direction.has_value())
+                             {
+                                 mConnectionInfo.direction = direction.value();
+                             }
+                             else
+                             {
+                                 qCCritical(upnpavDevice) << "Failed to read Direction. Set to Input.";
+                                 mConnectionInfo.direction = ConnectionInfoDirection::Unknown;
+                             }
+                         }
+                         else if (elementName == QStringLiteral("ProtocolInfo") and conversionOk)
+                         {
+                             mConnectionInfo.protoclInfo = value;
+                         }
+                         else if (elementName == QStringLiteral("PeerConnectionManager") and conversionOk)
+                         {
+                             mConnectionInfo.peerConnectionManager = value;
+                         }
+                         else if (elementName == QStringLiteral("Status") and conversionOk)
+                         {
+                             const auto status = convertStatus(value);
+                             if (status.has_value())
+                             {
+                                 mConnectionInfo.status = status.value();
+                             }
+                             else
+                             {
+                                 qCCritical(upnpavDevice) << "Failed to read Status Element. Set to unknown.";
+                                 mConnectionInfo.status = ConnectionInfoStatus::Unknown;
+                             }
+                         }
+                         else if (result == ResponseReader::ElementReadResult::ConversionError)
+                         {
+                             qCCritical(upnpavDevice) << "Failed to convert " << elementName;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::Error)
+                         {
+                             qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
+                         }
+                     });
+    QObject::connect(&resultReader,
+                     &ResponseReader::signedIntValueRead,
+                     &resultReader,
+                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                         const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
+                         if (elementName == QStringLiteral("RcsID") and conversionOk)
+                         {
+                             mConnectionInfo.rcsId = value;
+                         }
+                         else if (elementName == QStringLiteral("AVTransportID") and conversionOk)
+                         {
+                             mConnectionInfo.avTransportId = value;
+                         }
+                         else if (elementName == QStringLiteral("PeerConnectionID") and conversionOk)
+                         {
+                             mConnectionInfo.peerConnectionId = value;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::ConversionError)
+                         {
+                             qCCritical(upnpavDevice) << "Failed to convert " << elementName;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::Error)
+                         {
+                             qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
+                         }
+                     });
+    const auto result = resultReader.read();
+    if (result != ResponseReader::ReadResult::Ok)
     {
-        if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("RcsID"))
-        {
-            const auto rcsId = convertU32Value(responseReader.readElementText());
-            if (rcsId.has_value())
-            {
-                mConnectionInfo.rcsId = rcsId.value();
-            }
-            else
-            {
-                qCritical() << "Failed to read RcsID. Set to 0";
-                mConnectionInfo.rcsId = 0;
-            }
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("AVTransportID"))
-        {
-            const auto avTId = convertU32Value(responseReader.readElementText());
-            if (avTId.has_value())
-            {
-                mConnectionInfo.avTransportId = avTId.value();
-            }
-            else
-            {
-                qCritical() << "Failed to read AVTransportID. Set to 0";
-                mConnectionInfo.avTransportId = 0;
-            }
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("ProtocolInfo"))
-        {
-            mConnectionInfo.protoclInfo = responseReader.readElementText();
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("PeerConnectionManager"))
-        {
-            mConnectionInfo.peerConnectionManager = responseReader.readElementText();
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("PeerConnectionId"))
-        {
-            const auto peerConId = convertU32Value(responseReader.readElementText());
-            if (peerConId.has_value())
-            {
-                mConnectionInfo.peerConnectionId = peerConId.value();
-            }
-            else
-            {
-                qCritical() << "Failed to read PeerConnectionId. Set to 0";
-                mConnectionInfo.avTransportId = 0;
-            }
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Direction"))
-        {
-            const auto direction = convertDirection(responseReader.readElementText());
-            if (direction.has_value())
-            {
-                mConnectionInfo.direction = direction.value();
-            }
-            else
-            {
-                qCritical() << "Failed to read Direction. Set to Input.";
-                mConnectionInfo.direction = ConnectionInfoDirection::Input;
-            }
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Status"))
-        {
-            const auto status = convertStatus(responseReader.readElementText());
-            if (status.has_value())
-            {
-                mConnectionInfo.status = status.value();
-            }
-            else
-            {
-                qCritical() << "Failed to read Status Element. Set to unknown.";
-                mConnectionInfo.status = ConnectionInfoStatus::Unknown;
-            }
-        }
-    }
-
-    if (responseReader.hasError())
-    {
-        qCritical() << "Failed GetCurrentConnectionInfo response";
-        qCritical() << xmlResponse;
-        qCritical() << "XML Error:" << responseReader.errorString();
+        qCritical() << "Failed to read GetCurrentConnectionInfo. Response was:" << resultReader.response();
+        return;
     }
 }
+
+CurrentConnectionInfoResult::~CurrentConnectionInfoResult() = default;
 
 const ConnectionInfo &CurrentConnectionInfoResult::connectionInfo() const noexcept
 {

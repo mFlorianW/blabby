@@ -16,7 +16,7 @@ constexpr auto ValidCurrentConnectionInfoResponse = R"(<?xml version="1.0" encod
          <AVTransportID>12</AVTransportID>
          <ProtocolInfo>audio/mpeg</ProtocolInfo>
          <PeerConnectionManager>DummyText</PeerConnectionManager>
-         <PeerConnectionId>321</PeerConnectionId>
+         <PeerConnectionID>321</PeerConnectionID>
          <Direction>Input</Direction>
          <Status>OK</Status>
       </u:GetCurrentConnectionInfoResponse>

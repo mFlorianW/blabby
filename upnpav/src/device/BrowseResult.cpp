@@ -4,51 +4,84 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "BrowseResult.h"
-
+#include "private/LoggingCategories.h"
+#include "private/ResponseReader.h"
 #include <QXmlStreamReader>
 
 namespace UPnPAV
 {
 
-BrowseResult::BrowseResult(const QString xmlResponse)
+BrowseResult::BrowseResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action)
 {
-    QXmlStreamReader responseReader{xmlResponse};
-    while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
+    auto reader = ResponseReader{xmlResponse, scpd, action};
+    QObject::connect(&reader,
+                     &ResponseReader::unsignedIntValueRead,
+                     &reader,
+                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                         bool conversionCorrect = result == ResponseReader::ElementReadResult::Ok;
+                         if (elementName == QStringLiteral("NumberReturned") and conversionCorrect)
+                         {
+                             mNumberReturned = value;
+                         }
+                         else if (elementName == QStringLiteral("TotalMatches") and conversionCorrect)
+                         {
+                             mTotalMatches = value;
+                         }
+                         else if (elementName == QStringLiteral("UpdateID") and conversionCorrect)
+                         {
+                             mUpdateId = value;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::ConversionError)
+                         {
+                             qCCritical(upnpavDevice) << "Failed to convert " << elementName;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::Error)
+                         {
+                             qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
+                         }
+                     });
+
+    QObject::connect(
+        &reader,
+        &ResponseReader::stringValueRead,
+        &reader,
+        [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+            if (elementName == QStringLiteral("Result") and result == ResponseReader::ElementReadResult::Ok)
+            {
+                auto unescapedResult = value.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
+                readDidlDescription(unescapedResult);
+            }
+            else if (result == ResponseReader::ElementReadResult::ConversionError)
+            {
+                qCCritical(upnpavDevice) << "Failed to convert " << elementName;
+            }
+            else if (result == ResponseReader::ElementReadResult::Error)
+            {
+                qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
+            }
+        });
+
+    const auto result = reader.read();
+    if (result != ResponseReader::ReadResult::Ok)
     {
-        if (responseReader.isStartElement() && responseReader.name() == "NumberReturned")
-        {
-            m_numberReturned = responseReader.readElementText().toUInt();
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == "TotalMatches")
-        {
-            m_totalMatches = responseReader.readElementText().toUInt();
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == "UpdateID")
-        {
-            m_updateId = responseReader.readElementText().toUInt();
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == "Result")
-        {
-            auto unescapedResult =
-                responseReader.readElementText().replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
-            readDidlDescription(unescapedResult);
-        }
+        qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
+        return;
     }
 }
 
 quint32 BrowseResult::totalMatches() const noexcept
 {
-    return m_totalMatches;
+    return mTotalMatches;
 }
 
 quint32 BrowseResult::numberReturned() const noexcept
 {
-    return m_numberReturned;
+    return mNumberReturned;
 }
 
 quint32 BrowseResult::updateId() const noexcept
 {
-    return m_updateId;
+    return mUpdateId;
 }
 
 const QVector<MediaServerObject> &BrowseResult::objects() const noexcept

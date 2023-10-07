@@ -20,6 +20,8 @@ PendingSoapCall::PendingSoapCall(const QSharedPointer<SoapCall> &soapCall)
     (void)connect(soapCall.get(), &SoapCall::finished, this, &PendingSoapCall::onSoapCallFinished);
 }
 
+PendingSoapCall::~PendingSoapCall() noexcept = default;
+
 PendingSoapCall::ErrorCode PendingSoapCall::errorCode() const noexcept
 {
     return m_errorCode;

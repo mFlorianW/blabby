@@ -4,8 +4,10 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "CurrentConnectionIdsResultShould.h"
+#include "ConnectionManagerActions.h"
 #include "CurrentConnectionIdsResponse.h"
 #include "CurrentConnectionIdsResult.h"
+#include "Descriptions.h"
 #include <QTest>
 #include <qtestcase.h>
 
@@ -14,7 +16,9 @@ namespace UPnPAV
 
 void CurrentConnectionIDsResultShould::give_the_correct_ids_from_response() noexcept
 {
-    const auto response = CurrentConnectionIdsResult(ValidCurrentConnectionIdsResponse);
+    const auto response = CurrentConnectionIdsResult(ValidCurrentConnectionIdsResponse,
+                                                     validConnectionManagerSCPD,
+                                                     GetCurrentConnectionIDs);
     const auto expectedResult = QVector<quint32>{12, 13, 52, 12, 16};
 
     QVERIFY2(response.currentConnectionIds() == expectedResult,
