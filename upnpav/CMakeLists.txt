@@ -51,27 +51,27 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/private/LoggingCategories.cpp
 
     #Service Provider 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DeviceDescriptionParser.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscoveryPackage.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ParsingError.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceControlPointDefinitionParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDiscovery.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/DescriptionFetcher.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/DeviceDescriptionParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDiscoveryPackage.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ParsingError.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceControlPointDefinitionParser.cpp
     
     #Device
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdStateVariableValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ConnectionManagerServiceValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceDescriptionValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/BaseValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/BaseValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdActionListValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ContentDirectoryServiceValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceValidatorBase.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/AvTransportServiceValidator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ResponseReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ScpdStateVariableValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ConnectionManagerServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDescriptionValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/BaseValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/BaseValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ScpdActionListValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ContentDirectoryServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceValidatorBase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/SoapMessageGenerator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/HttpSoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ErrorResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/AvTransportServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ResponseReader.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -79,86 +79,86 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/private/LoggingCategories.h
 
     #Service Provider
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscovery.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DescriptionFetcher.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/DeviceDescriptionParser.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceDiscoveryPackage.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ParsingError.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/private/ServiceControlPointDefinitionParser.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDiscovery.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/DescriptionFetcher.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/DeviceDescriptionParser.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDiscoveryPackage.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ParsingError.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceControlPointDefinitionParser.h
 
     #Device
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/MediaServer_p.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdStateVariableValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ConnectionManagerServiceValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceDescriptionValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ScpdActionListValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ContentDirectoryServiceValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ServiceValidatorBase.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/SoapMessageGenerator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/HttpSoapCall.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ErrorResult.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/AvTransportServiceValidator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/private/ResponseReader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/MediaServer_p.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ScpdStateVariableValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ConnectionManagerServiceValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceDescriptionValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ScpdActionListValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ContentDirectoryServiceValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ServiceValidatorBase.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/SoapMessageGenerator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/HttpSoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ErrorResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/AvTransportServiceValidator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/private/ResponseReader.h
 )
 
 set(PUBLIC_SRCS
     #Service Provider
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProvider.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DeviceDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IconDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceControlPointDefinition.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDAction.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDArgument.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDStateVariable.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DescriptionFetcherBackend.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDiscoveryBackend.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProviderError.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceProvider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DeviceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/IconDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceControlPointDefinition.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDAction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDArgument.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDStateVariable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DescriptionFetcherBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDiscoveryBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceProviderError.cpp
 
     #Device
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapCall.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/PendingSoapCall.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/InvalidDeviceDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapMessageTransmitter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionIdsResult.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionInfoResult.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaDevice.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaServer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/PendingSoapCall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/InvalidDeviceDescription.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/HttpSoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/BrowseResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaServerObject.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtocolInfoResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionIdsResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionInfoResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDevice.cpp
 )
 
 set(PUBLIC_HEADERS
     #Service Provider
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProvider.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DeviceDescription.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IconDescription.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDescription.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceControlPointDefinition.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDAction.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDArgument.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/SCPDStateVariable.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/DescriptionFetcherBackend.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceDiscoveryBackend.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IServiceProvider.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/ServiceProviderError.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service_provider/IServiceProvider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceProvider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DeviceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/IconDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceControlPointDefinition.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDArgument.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SCPDStateVariable.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DescriptionFetcherBackend.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceDiscoveryBackend.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/IServiceProvider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ServiceProviderError.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/IServiceProvider.h
 
     #Device
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServerObject.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/BrowseResult.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/HttpSoapMessageTransmitter.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapMessageTransmitter.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/InvalidDeviceDescription.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/PendingSoapCall.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/SoapCall.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaServer.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/ProtocolInfoResult.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionIdsResult.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/CurrentConnectionInfoResult.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/device/MediaDevice.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaServerObject.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/BrowseResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/HttpSoapMessageTransmitter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapMessageTransmitter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/InvalidDeviceDescription.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/PendingSoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SoapCall.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaServer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ProtocolInfoResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionIdsResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionInfoResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDevice.h
 )
 
 target_sources(${PROJECT_NAME}
