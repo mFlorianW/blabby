@@ -10,6 +10,8 @@ project(LibBlabbyPluginCore
     VERSION 0.1.0
 )
 
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core)
+
 ################################################################################
 # Build PluginCore
 ################################################################################
@@ -26,7 +28,7 @@ PRIVATE
 )
 
 target_link_libraries(BlabbyPluginCore
-    Qt5::Core
+    Qt6::Core
 )
 
 target_include_directories(BlabbyPluginCore

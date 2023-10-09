@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-find_package(Qt5Test 5.13 REQUIRED)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Test)
 
 ###############################################################################
 # Subdirectories

@@ -95,7 +95,8 @@ void BrowseResult::readDidlDescription(const QString &didlDescription)
 
     while (didlReader.readNext() && !didlReader.hasError() && !didlReader.atEnd())
     {
-        if (didlReader.isStartElement() && (didlReader.name() == "container" || didlReader.name() == "item"))
+        if (didlReader.isStartElement() &&
+            (didlReader.name() == QStringLiteral("container") || didlReader.name() == QStringLiteral("item")))
         {
             auto mediaServerObject = readDidlObjectDescription(didlReader);
             m_objects.append(mediaServerObject);
@@ -114,25 +115,26 @@ MediaServerObject BrowseResult::readDidlObjectDescription(QXmlStreamReader &stre
     auto attributes = streamReader.attributes();
     for (const auto &attribute : attributes)
     {
-        if (attribute.name() == "id")
+        if (attribute.name() == QStringLiteral("id"))
         {
             id = attribute.value().toString();
         }
-        else if (attribute.name() == "parentID")
+        else if (attribute.name() == QStringLiteral("parentID"))
         {
             parenId = attribute.value().toString();
         }
     }
 
     while (streamReader.readNext() && !streamReader.hasError() && !streamReader.atEnd() &&
-           !(streamReader.isEndElement() && ((streamReader.name() == "container") || (streamReader.name() == "item"))))
+           !(streamReader.isEndElement() &&
+             ((streamReader.name() == QStringLiteral("container")) || (streamReader.name() == QStringLiteral("item")))))
     {
-        if (streamReader.isStartElement() && streamReader.name() == "title")
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title"))
         {
             title = streamReader.readElementText();
         }
 
-        if (streamReader.isStartElement() && streamReader.name() == "class")
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class"))
         {
             typeClass = streamReader.readElementText();
         }

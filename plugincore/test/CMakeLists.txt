@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-find_package(Qt5Test 5.13 REQUIRED)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Test)
 
 ###############################################################################
 # Tests
@@ -21,7 +21,7 @@ target_sources(test_plugin_core_multimedia_plugin
 
 target_link_libraries(test_plugin_core_multimedia_plugin
     Blabby::PluginCore
-    Qt5::Test
+    Qt6::Test
 )
 
 add_test(test_plugin_core_multimedia_plugin ${EXECUTABLE_OUTPUT_PATH}/test_plugin_core_multimedia_plugin)

@@ -305,7 +305,7 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
@@ -378,7 +378,7 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }

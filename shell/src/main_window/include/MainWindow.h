@@ -6,13 +6,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "MultiMediaPluginModel.h"
 #include <QObject>
 #include <QQuickItem>
 #include <memory>
 
 namespace Shell
 {
-class MultiMediaPluginModel;
 class MultiMediaPluginSource;
 class MainWindowPrivate;
 

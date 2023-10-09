@@ -3,7 +3,9 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-qt5_add_resources(RESOURCE_FILES
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Quick)
+
+qt_add_resources(RESOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/resource/mediaserver.qrc
 )
 list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/resource/qml)
@@ -27,8 +29,8 @@ target_sources(BlabbyMediaServerObject
 )
 
 target_link_libraries(BlabbyMediaServerObject
-    Qt5::Core
-    Qt5::Quick
+    Qt6::Core
+    Qt6::Quick
     Blabby::PluginCore
     Blabby::UPnPAV
 )

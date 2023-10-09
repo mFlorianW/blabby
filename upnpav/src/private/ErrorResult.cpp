@@ -22,7 +22,7 @@ ErrorResult::ErrorResult(const QString &rawMessage)
 
     while (errorReader.readNext() && !errorReader.hasError() && !errorReader.atEnd())
     {
-        if (errorReader.isStartElement() && errorReader.name() == "errorCode")
+        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorCode"))
         {
             bool ok = false;
             m_errorCode = errorReader.readElementText().toInt(&ok);
@@ -33,7 +33,7 @@ ErrorResult::ErrorResult(const QString &rawMessage)
             }
         }
 
-        if (errorReader.isStartElement() && errorReader.name() == "errorDescription")
+        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorDescription"))
         {
             m_errorDescription = errorReader.readElementText();
         }
