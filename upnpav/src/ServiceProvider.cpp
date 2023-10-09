@@ -19,7 +19,7 @@
 
 namespace
 {
-auto registerMediaServerProviderError = qRegisterMetaType<UPnPAV::ServiceProviderError>();
+auto const registerMediaServerProviderError = qRegisterMetaType<UPnPAV::ServiceProviderError>();
 }
 
 namespace UPnPAV
@@ -240,19 +240,15 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
     }
 }
 
-ServiceProviderError::ServiceProviderError()
-{
-}
+ServiceProviderError::ServiceProviderError() = default;
 
-ServiceProviderError::ServiceProviderError(ErrorCode errorCode, const QString &errorDescription) noexcept
+ServiceProviderError::ServiceProviderError(ErrorCode errorCode, QString errorDescription) noexcept
     : m_errorCode(errorCode)
-    , m_errorDescription(errorDescription)
+    , m_errorDescription(std::move(errorDescription))
 {
 }
 
-ServiceProviderError::~ServiceProviderError() noexcept
-{
-}
+ServiceProviderError::~ServiceProviderError() noexcept = default;
 
 ServiceProviderFactory::ServiceProviderFactory() = default;
 ServiceProviderFactory::~ServiceProviderFactory() = default;

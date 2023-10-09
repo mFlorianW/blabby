@@ -23,8 +23,10 @@ jobs:
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
-    - name: Generate Compile Commands
-      run: cmake --preset github-ci-debug
+    - name: Generate Compile Commands and Build
+      run: |
+        cmake --preset github-ci-debug
+        cmake --build --preset github-ci-debug --target all -- -j
     - name: Static Code Analysis
       run: |
         files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ print $2}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true

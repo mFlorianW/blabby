@@ -16,9 +16,8 @@ class TestableMultiMediaPlugin : public MultimediaPlugin
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(TestableMultiMediaPlugin)
 public:
-    TestableMultiMediaPlugin()
-    {
-    }
+    TestableMultiMediaPlugin() = default;
+    ~TestableMultiMediaPlugin() override = default;
 
     QString pluginName() const override
     {

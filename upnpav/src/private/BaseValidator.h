@@ -6,7 +6,7 @@
 #ifndef BASEVALIDATOR_H
 #define BASEVALIDATOR_H
 
-#include_next "blabbyupnpav_export.h"
+#include "blabbyupnpav_export.h"
 #include <QString>
 
 namespace UPnPAV
@@ -18,7 +18,35 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT BaseValidator
 {
 public:
+    /**
+     * Creates an instance of the BaseValidator
+     */
+    BaseValidator() = default;
+
+    /**
+     * Default destructor
+     */
     virtual ~BaseValidator();
+
+    /**
+     * Default copy constructor
+     */
+    BaseValidator(BaseValidator const &other) = default;
+
+    /**
+     * Default move constructor
+     */
+    BaseValidator(BaseValidator &&other) noexcept = default;
+
+    /**
+     * Default copy assignment
+     */
+    BaseValidator &operator=(BaseValidator const &ohter) = default;
+
+    /**
+     * Default move assignment
+     */
+    BaseValidator &operator=(BaseValidator &&ohter) noexcept = default;
 
     /**
      * The validation implementaion.

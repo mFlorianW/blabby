@@ -78,7 +78,7 @@ class BLABBYUPNPAV_EXPORT MediaServerFactory
     Q_DISABLE_COPY_MOVE(MediaServerFactory)
 public:
     MediaServerFactory();
-    ~MediaServerFactory();
+    virtual ~MediaServerFactory();
     virtual std::unique_ptr<MediaServer> createMediaServer(const DeviceDescription &deviceDescription);
 };
 

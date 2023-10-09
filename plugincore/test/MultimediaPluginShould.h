@@ -16,6 +16,7 @@ class MultimediaPluginShould : public QObject
     Q_DISABLE_COPY_MOVE(MultimediaPluginShould)
 public:
     explicit MultimediaPluginShould(QObject *parent = nullptr);
+    ~MultimediaPluginShould() override = default;
 
 private Q_SLOTS:
     void be_able_to_set_a_active_view();

@@ -14,6 +14,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 ################################################################################
 # Modules
@@ -45,7 +46,7 @@ set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "QtCreator QML import paths"
 ################################################################################
 # Compiler-Settings
 ################################################################################
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_compile_options(-O0 -g3 -fno-inline)
 

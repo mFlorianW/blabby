@@ -25,20 +25,23 @@ public:
     };
 
     ServiceProviderError();
-    ServiceProviderError(ErrorCode errorCode, const QString &errorDescription) noexcept;
+    ServiceProviderError(ErrorCode errorCode, QString errorDescription) noexcept;
 
     ~ServiceProviderError() noexcept;
 
     ServiceProviderError(const ServiceProviderError &other);
     ServiceProviderError &operator=(const ServiceProviderError &other);
 
+    ServiceProviderError(ServiceProviderError &&other) noexcept = default;
+    ServiceProviderError &operator=(ServiceProviderError &&other) noexcept = default;
+
     ErrorCode errorCode() const;
 
     QString errorDescription() const;
 
 private:
-    ErrorCode m_errorCode;
-    QString m_errorDescription;
+    ErrorCode m_errorCode{ServiceProviderError::ErrorCode::WrongDestination};
+    QString m_errorDescription{""};
 };
 
 } // namespace UPnPAV
