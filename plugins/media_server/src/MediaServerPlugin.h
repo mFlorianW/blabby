@@ -30,6 +30,8 @@ public:
     MediaServerPlugin();
     ~MediaServerPlugin() override;
 
+    Q_DISABLE_COPY_MOVE(MediaServerPlugin)
+
     QString pluginName() const override;
 
     PluginCore::PluginVersion getPluginVersion() const override;
@@ -58,5 +60,7 @@ private:
 };
 
 } // namespace MediaServer::Plugin
+
+Q_DECLARE_OPAQUE_POINTER(MediaServer::Plugin::MediaServerPlugin);
 
 #endif // MEDIASERVERPLUGIN_H

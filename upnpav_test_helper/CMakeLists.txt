@@ -13,7 +13,7 @@ project(BlabbyUPnPAV
 ###############################################################################
 # Dependencies
 ###############################################################################
-find_package(Qt5Test 5.13 REQUIRED)
+find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
 # Build
@@ -50,7 +50,7 @@ target_sources(test_upnp_av_test_helper
 
 target_link_libraries(test_upnp_av_test_helper
     PRIVATE
-        Qt5::Test
+        Qt6::Test
         Blabby::UPnPAV
 )
 

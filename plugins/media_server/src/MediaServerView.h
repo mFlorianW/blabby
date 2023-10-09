@@ -59,4 +59,6 @@ private:
 
 } // namespace MediaServer::Plugin
 
+Q_DECLARE_OPAQUE_POINTER(MediaServer::Plugin::MediaServerView)
+
 #endif // MEDIASERVERVIEW_H

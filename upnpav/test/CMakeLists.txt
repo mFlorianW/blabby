@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-find_package(Qt5Test 5.13 REQUIRED)
+find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
 # Test Browse Result 
@@ -18,7 +18,7 @@ target_include_directories(test_upnpav_browse_result
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/data>
 )
 target_link_libraries(test_upnpav_browse_result
-    Qt5::Test
+    Qt6::Test
     Blabby::UPnPAV
     Blabby::UPnPAVTestHelper
 )
@@ -36,7 +36,7 @@ target_link_libraries(test_upnpav_media_server
     PUBLIC 
         Blabby::UPnPAV
         Blabby::UPnPAVTestHelper
-        Qt5::Test
+        Qt6::Test
 )
 add_test(test_upnpav_media_server ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server)
 
@@ -54,7 +54,7 @@ target_include_directories(test_upnpav_media_server_object
 )
 target_link_libraries(test_upnpav_media_server_object
     Blabby::UPnPAV
-    Qt5::Test
+    Qt6::Test
 )
 add_test(test_upnpav_browse_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server_object)
 
@@ -73,7 +73,7 @@ target_include_directories(test_upnpav_pending_soap_call
 target_link_libraries(test_upnpav_pending_soap_call
     Blabby::UPnPAV
     Blabby::UPnPAVTestHelper
-    Qt5::Test
+    Qt6::Test
 )
 add_test(test_upnpav_pending_soap_call ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_pending_soap_call)
 
@@ -92,7 +92,7 @@ target_sources(test_upnpav_service_provider
 target_link_libraries(test_upnpav_service_provider
     PRIVATE
         Blabby::UPnPAV
-        Qt5::Test
+        Qt6::Test
         Blabby::UPnPAVTestHelper
 )
 add_test(test_upnpav_service_provider ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_service_provider)
@@ -111,7 +111,7 @@ target_link_libraries(test_upnpav_protocol_info_result
     PRIVATE
         Blabby::UPnPAV
         Blabby::UPnPAVTestHelper
-        Qt5::Test
+        Qt6::Test
 )
 add_test(test_upnpav_protocol_info_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_protocol_info_result)
 
@@ -129,7 +129,7 @@ target_link_libraries(test_upnpav_current_connection_ids_result
     PRIVATE
         Blabby::UPnPAV
         Blabby::UPnPAVTestHelper
-        Qt5::Test
+        Qt6::Test
 )
 add_test(test_upnpav_current_connection_ids_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_current_connection_ids_result)
 
@@ -147,7 +147,7 @@ target_link_libraries(test_upnpav_current_connection_info_result
     PRIVATE
         Blabby::UPnPAV
         Blabby::UPnPAVTestHelper
-        Qt5::Test
+        Qt6::Test
 )
 add_test(test_upnpav_current_connection_info_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_current_connection_info_result)
 
@@ -164,6 +164,6 @@ target_link_libraries(test_upnpav_media_device
     PUBLIC
         Blabby::UPnPAV
         Blabby::UPnPAVTestHelper
-        Qt5::Test
+        Qt6::Test
 )
 add_test(test_upnpav_media_device ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_device)

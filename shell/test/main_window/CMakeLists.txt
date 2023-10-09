@@ -18,7 +18,7 @@ target_sources(test_shell_main_window
 target_link_libraries(test_shell_main_window
     Blabby::Object
     Blabby::ShellDoubles
-    Qt5::Test
+    Qt6::Test
 )
 
 add_test(test_shell_main_window ${EXECUTABLE_OUTPUT_PATH}/test_shell_main_window)

@@ -6,12 +6,9 @@
 #ifndef MEDIASERVERMODEL_H
 #define MEDIASERVERMODEL_H
 
+#include <MediaServer.h>
 #include <QAbstractListModel>
 
-namespace UPnPAV
-{
-class MediaServer;
-}
 namespace MediaServer::Plugin
 {
 
@@ -44,5 +41,7 @@ private:
 };
 
 } // namespace MediaServer::Plugin
+
+Q_DECLARE_OPAQUE_POINTER(MediaServer::Plugin::MediaServerModel);
 
 #endif // MEDIASERVERMODEL_H

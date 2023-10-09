@@ -405,7 +405,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
@@ -465,7 +465,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
@@ -642,7 +642,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (InvalidDeviceDescription const &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
@@ -799,7 +799,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }
@@ -860,7 +860,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegExp(ExpectedException)),
+        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
     }
 }

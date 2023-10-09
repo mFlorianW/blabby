@@ -28,7 +28,7 @@ PluginCore::PluginVersion TestPlugin::getPluginVersion() const
 
 QUuid TestPlugin::getPluginIdentifier() const
 {
-    return {"d6d02a93-b6f0-4581-ba0a-b70397c1200a"};
+    return QUuid::fromString(QStringLiteral("d6d02a93-b6f0-4581-ba0a-b70397c1200a"));
 }
 
 bool TestPlugin::load(QQmlContext *context)

@@ -26,8 +26,7 @@ include(GenerateExportHeader)
 ###############################################################################
 # Dependencies
 ###############################################################################
-find_package(Qt5Xml 5.13 REQUIRED)
-find_package(Qt5XmlPatterns 5.13 REQUIRED)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Xml Network)
 
 ###############################################################################
 # Runtime path
@@ -171,10 +170,9 @@ target_sources(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        Qt5::Core
-        Qt5::Network
-        Qt5::Xml
-        Qt5::XmlPatterns
+        Qt6::Core
+        Qt6::Network
+        Qt6::Xml
 )
 
 target_include_directories(${PROJECT_NAME}

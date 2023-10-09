@@ -43,12 +43,6 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "QtCreator QML import paths" FORCE)
 
 ################################################################################
-# Required Packages
-################################################################################
-find_package(Qt5Core 5.13 REQUIRED)
-find_package(Qt5Quick 5.13 REQUIRED)
-
-################################################################################
 # Compiler-Settings
 ################################################################################
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -62,7 +56,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         add_compile_options(-O2)
     endif()
 
-    add_compile_options(-Wall -Wextra -Wunused-function -fvisibility=hidden -fmessage-length=0)
+    add_compile_options(-Wall -fPIC -Wextra -Wunused-function -fvisibility=hidden -fmessage-length=0)
 endif()
 
 add_definitions("-DQT_NO_KEYWORDS")

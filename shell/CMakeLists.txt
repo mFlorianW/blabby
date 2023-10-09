@@ -3,12 +3,14 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+
 configure_file(src/main_window/src/PluginDirs.h.in ${CMAKE_CURRENT_BINARY_DIR}/PluginDirs.h)
 
 ################################################################################
 # Resource files
 ################################################################################
-qt5_add_resources(RESOURCE_FILES
+qt_add_resources(RESOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/resource/resource.qrc
 )
 
@@ -57,7 +59,7 @@ target_link_libraries(BlabbyObject
     PUBLIC
         Blabby::UPnPAV
         Blabby::PluginCore
-        Qt5::Quick
+        Qt6::Quick
 )
 
 target_include_directories(BlabbyObject

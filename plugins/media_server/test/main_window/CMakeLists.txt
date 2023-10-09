@@ -16,7 +16,7 @@ target_sources(test_media_server_plugin_media_server_view
 target_link_libraries(test_media_server_plugin_media_server_view
     Blabby::MediaServerObject
     Blabby::MediaServerPluginDoubles
-    Qt5::Test
+    Qt6::Test
 )
 
 add_test(test_media_server_plugin_media_server_view ${EXECUTABLE_OUTPUT_PATH}/test_media_server_plugin_media_server_view)

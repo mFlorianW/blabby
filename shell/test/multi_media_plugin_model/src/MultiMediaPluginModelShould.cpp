@@ -81,7 +81,8 @@ void MultiMediaPluginModelShould::give_a_icon_url_for_a_plugin()
 {
     Shell::MultiMediaPluginModel mediaPluginModel{{std::make_shared<TestPlugin>()}};
 
-    auto pluginIconUrl = mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginIcoUrl);
+    auto pluginIconUrl =
+        mediaPluginModel.data(mediaPluginModel.index(0), Shell::MultiMediaPluginModel::PluginIcoUrl).toString();
 
     QCOMPARE(pluginIconUrl, "qrc:/icon/pluginIcon.png");
 }
