@@ -1,9 +1,9 @@
 {
-    "version": 2,
+    "version": 6,
     "configurePresets": [
         {
             "name": "debug",
-            "displayName": "debug configure preset",
+            "displayName": "GCC debug configure preset",
             "description": "Sets Ninja generator, build and install directory",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
@@ -15,6 +15,24 @@
             },
             "environment": {
                 "BUILD_DIR": "build"
+            }
+        },
+        {
+            "name": "debug-clang",
+            "displayName": "Clang debug configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-clang",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/$env{BUILD_DIR}/install",
+                "ENABLE_TEST": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "1",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "environment": {
+                "BUILD_DIR": "build-clang"
             }
         },
         {

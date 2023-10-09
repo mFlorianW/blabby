@@ -38,7 +38,7 @@ public:
 
     void startSearch() const noexcept override;
 
-    DeviceDescription rootDeviceDescription(const QString &usn) const noexcept;
+    DeviceDescription rootDeviceDescription(const QString &usn) const noexcept override;
 
 private Q_SLOTS:
     void handleServiceDiscoveryMessage(const QNetworkDatagram &datagram);
@@ -83,8 +83,8 @@ class BLABBYUPNPAV_EXPORT ServiceProviderFactory : public IServiceProviderFactor
     Q_DISABLE_COPY_MOVE(ServiceProviderFactory)
 public:
     ServiceProviderFactory();
-    virtual ~ServiceProviderFactory();
-    virtual std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget);
+    ~ServiceProviderFactory() override;
+    std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget) override;
 };
 
 } // namespace UPnPAV
