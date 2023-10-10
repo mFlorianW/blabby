@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2023 Florian Weßel <florianwessel@gmx.net>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+name: Clazy
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Clazy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.*'
+        cache: 'true'
+    - name: Install Clazy
+      run: |
+        sudo apt update && sudo apt install clazy
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Generate Compile Commands and Build
+      run: |
+        cmake --preset github-ci-debug
+        cmake --build --preset github-ci-debug
+    - name: Clazy-Standalone
+      run: |
+        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ print $2}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true
+        if [[ ! -z ${files} ]]; then
+          clazy-standalone -p build-github-ci-debug --ignore-included-files --export-fixes=clazy-fixes.yml ${files} > clazy.log 2>&1
+        else
+          echo "No file for checking create empty log file."
+          touch clazy.log
+        fi
+    - name: Publish Clazy Fixes
+      uses: actions/upload-artifact@v3
+      with:
+        name: clazy-fixes@${{ github.sha }}.yml
+        path: clazy-fixes.yml
+    - name: Publish Clazy Log
+      uses: actions/upload-artifact@v3
+      with:
+        name: clazy.log@${{ github.sha }}.yml
+        path: clazy.log
+    - name: Check Clazy Warnings
+      run: |
+        if [ -e clazy.log ]; then
+          filesize=$(stat -c '%s' clazy.log)
+          if [ $filesize -gt 0 ]; then
+            echo "clazy warnings found."
+            exit 1
+          else
+            exit 0
+          fi
+        fi
