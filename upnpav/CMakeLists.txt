@@ -128,6 +128,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionInfoResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDevice.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GetMediaInfoResponse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GetTransportInfoResponse.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -160,6 +161,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/CurrentConnectionInfoResult.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaDevice.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GetMediaInfoResponse.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GetTransportInfoResponse.h
 )
 
 target_sources(${PROJECT_NAME}

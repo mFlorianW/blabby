@@ -165,7 +165,7 @@ SCPDAction createGetTransportInfoAction() noexcept
             },
             SCPDArgument
             {
-                QStringLiteral("CurrentTransportState"),
+                QStringLiteral("CurrentTransportStatus"),
                 SCPDArgument::Direction::Out,
                 QStringLiteral("TransportStatus")
             },
