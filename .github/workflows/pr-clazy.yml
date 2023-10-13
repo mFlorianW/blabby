@@ -31,7 +31,7 @@ jobs:
       run: |
         files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ print $2}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true
         if [[ ! -z ${files} ]]; then
-          clazy-standalone -p build-github-ci-debug --ignore-included-files --export-fixes=clazy-fixes.yml ${files} > clazy.log 2>&1
+          clazy-standalone -p build-github-ci-debug --ignore-included-files --export-fixes=clazy-fixes.yml ${files} 2>&1 | tee clazy.log
         else
           echo "No file for checking create empty log file."
           touch clazy.log
