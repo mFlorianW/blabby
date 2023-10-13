@@ -128,7 +128,7 @@ SCPDAction createGetMediaInfoAction() noexcept
             },
             SCPDArgument
             {
-                QStringLiteral("RecordStorage"),
+                QStringLiteral("RecordMedium"),
                 SCPDArgument::Direction::Out,
                 QStringLiteral("RecordStorageMedium")
             },

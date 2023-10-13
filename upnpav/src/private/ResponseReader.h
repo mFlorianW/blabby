@@ -40,9 +40,11 @@ public:
     ReadResult read() noexcept;
 
 Q_SIGNALS:
-    void unsignedIntValueRead(QString const &TokenName, quint32 value, ElementReadResult result);
-    void signedIntValueRead(QString const &TokenName, qint32 value, ElementReadResult result);
-    void stringValueRead(QString const &TokenName, QString &value, ElementReadResult result);
+    void unsignedIntValueRead(QString const &TokenName,
+                              quint32 value,
+                              UPnPAV::ResponseReader::ElementReadResult result);
+    void signedIntValueRead(QString const &TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);
+    void stringValueRead(QString const &TokenName, QString &value, UPnPAV::ResponseReader::ElementReadResult result);
 
 private:
     SCPDStateVariable::DataType dataType(QString const &argName) noexcept;
