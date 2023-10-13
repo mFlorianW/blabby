@@ -184,3 +184,20 @@ target_link_libraries(test_upnpav_get_media_info_response
         Qt6::Test
 )
 add_test(test_upnpav_get_media_info_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_media_info_response)
+
+###############################################################################
+# Test Media Device
+###############################################################################
+add_executable(test_upnpav_get_transport_info_response)
+target_sources(test_upnpav_get_transport_info_response
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponseShould.h
+)
+target_link_libraries(test_upnpav_get_transport_info_response
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_get_transport_info_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_transport_info_response)
