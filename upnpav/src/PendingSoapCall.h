@@ -64,8 +64,35 @@ public:
         ///< The session key reference is to a non-existent session. This could be because the device has expired a
         /// session, in which case the control point needs to open a new one.
         NoSuchSession = 612,
-        ///< The connection reference argument does not refer to a valid connection established by this service.
-        InvalidConnectionReference = 706,
+        ///< The immediate transition from current transport state to desired transport state is not supported by this
+        ///< device
+        TransitionNotAvailable = 701,
+        ///< The media does not contain any contents that can be played
+        NoContents = 702,
+        ///< The media cannot be read.
+        ReadError = 703,
+        ///< The storage format of the currently loaded media is not supported for playback by this device
+        FormatNotSupportedForPlayback = 704,
+        ///< The transport is “hold locked
+        TransportIsLocked = 705,
+        ///< The connection reference argument does not refer to a valid connection established by this service when
+        ///< Called on ConnectionManager service.
+        ///< The media cannot be written when called on a AVTransport service.
+        InvalidConnectionReferenceOrWriteError = 706,
+        ///< The media is write-protected or is of a not writable type
+        MediaIsProtectedorNotWritable = 707,
+        ///< The storage format of the currently loaded media is not supported for recording by this device.
+        FormatNotSupportedForRecording = 708,
+        ///< There is no free space left on the loaded media
+        MediaIsFull = 709,
+        ///< Seek mode notsupported
+        SeekModeNotSupported = 710,
+        ///< The specified seek target is not specified in terms of the seek mode, or is not present on the media
+        IllegalSeekTarget = 711,
+        ///< The specified play mode is not supported by the device
+        PlayModeNotSupported = 712,
+        ///< The specified record quality is not supported by the device
+        RecordQualityNotSupported = 713,
         ///< The specified resource has a MIME-type which is not supported by the AVTransport service
         IllegalMimeType = 714,
         ///< This indicates the resource is already being played by other means. The actual implementation might detect
@@ -73,6 +100,8 @@ public:
         ContentBusy = 715,
         ///< The specified resource cannot be found in the network
         ResourceNotFound = 716,
+        ///< The specified playback speed is not supported by the AVTransport service.
+        PlaySpeedNotSupported = 717,
         ///< The specified instanceID is invalid for this AVTransport
         InvalidInstanceId = 718,
         ///< The DNS Server is not available (HTTP error 503)
