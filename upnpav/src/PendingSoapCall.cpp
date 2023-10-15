@@ -94,8 +94,8 @@ PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
         return ErrorCode::InvalidControlUrl;
     case ErrorCode::NoSuchSession:
         return ErrorCode::NoSuchSession;
-    case ErrorCode::InvalidConnectionReference:
-        return ErrorCode::InvalidConnectionReference;
+    case ErrorCode::InvalidConnectionReferenceOrWriteError:
+        return ErrorCode::InvalidConnectionReferenceOrWriteError;
     case ErrorCode::IllegalMimeType:
         return ErrorCode::IllegalMimeType;
     case ErrorCode::ContentBusy:
@@ -110,6 +110,32 @@ PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
         return ErrorCode::BadDomainName;
     case ErrorCode::ServerError:
         return ErrorCode::ServerError;
+    case ErrorCode::TransitionNotAvailable:
+        return ErrorCode::TransitionNotAvailable;
+    case ErrorCode::TransportIsLocked:
+        return ErrorCode::TransportIsLocked;
+    case ErrorCode::NoContents:
+        return ErrorCode::NoContents;
+    case ErrorCode::ReadError:
+        return ErrorCode::ReadError;
+    case ErrorCode::FormatNotSupportedForPlayback:
+        return ErrorCode::FormatNotSupportedForPlayback;
+    case ErrorCode::PlaySpeedNotSupported:
+        return ErrorCode::PlaySpeedNotSupported;
+    case ErrorCode::MediaIsProtectedorNotWritable:
+        return ErrorCode::MediaIsProtectedorNotWritable;
+    case ErrorCode::FormatNotSupportedForRecording:
+        return ErrorCode::FormatNotSupportedForRecording;
+    case ErrorCode::MediaIsFull:
+        return ErrorCode::MediaIsFull;
+    case ErrorCode::SeekModeNotSupported:
+        return ErrorCode::SeekModeNotSupported;
+    case ErrorCode::IllegalSeekTarget:
+        return ErrorCode::IllegalSeekTarget;
+    case ErrorCode::RecordQualityNotSupported:
+        return ErrorCode::RecordQualityNotSupported;
+    case ErrorCode::PlayModeNotSupported:
+        return ErrorCode::PlayModeNotSupported;
     default:
         return ErrorCode::Unknown;
     }
