@@ -98,6 +98,17 @@ public:
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> mediaInfo(quint32 instanceId);
 
+    /**
+     * Calls the GetTransportInfo on the AVTransport service of the device.
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies
+     * @return PendingSoapCall with the result or an error.
+     *
+     * @note
+     * The function can only be called if the device has an AVTransport service.
+     * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
+     */
+    virtual std::optional<std::unique_ptr<PendingSoapCall>> transportInfo(quint32 instanceId);
+
 protected:
     MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
 
