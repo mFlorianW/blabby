@@ -234,4 +234,23 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::stop(quint32 instan
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::play(quint32 instanceId)
+{
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
+                                        Argument{.name = "Speed", .value = QStringLiteral("1")}};
+    const auto action = d->mAvTransportDescriptionSCPD.action("Play");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 } // namespace UPnPAV
