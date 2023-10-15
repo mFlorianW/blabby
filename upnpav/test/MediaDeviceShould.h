@@ -131,6 +131,7 @@ private Q_SLOTS:
 
     void send_the_correct_soap_message_when_calling_getmediainfo();
     void send_the_correct_soap_message_when_calling_gettransportinfo();
+    void send_the_correct_soap_message_when_calling_getpositioninfo();
 };
 
 } // namespace UPnPAV
