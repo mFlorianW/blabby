@@ -95,6 +95,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponse.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -129,6 +130,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponse.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponse.h
 )
 
 target_sources(${PROJECT_NAME}
