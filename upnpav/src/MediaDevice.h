@@ -5,6 +5,7 @@
 #pragma once
 
 #include "PendingSoapCall.h"
+#include "blabbyupnpav_export.h"
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QUrl>
@@ -21,7 +22,7 @@ class SoapMessageTransmitter;
  * This interface defines functions that every upnp media device
  * should support.
  */
-class MediaDevice
+class BLABBYUPNPAV_EXPORT MediaDevice
 {
 public:
     /**

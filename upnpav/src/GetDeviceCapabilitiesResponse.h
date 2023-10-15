@@ -5,12 +5,13 @@
 #pragma once
 
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QExplicitlySharedDataPointer>
 
 namespace UPnPAV
 {
 struct GetDeviceCapabilitiesResponseData;
-class GetDeviceCapabilitiesResponse final
+class BLABBYUPNPAV_EXPORT GetDeviceCapabilitiesResponse final
 {
 public:
     /**

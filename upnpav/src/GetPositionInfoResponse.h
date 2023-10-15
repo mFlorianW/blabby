@@ -5,13 +5,14 @@
 #pragma once
 
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QExplicitlySharedDataPointer>
 #include <QTime>
 
 namespace UPnPAV
 {
 struct GetPositionInfoResponseData;
-class GetPositionInfoResponse
+class BLABBYUPNPAV_EXPORT GetPositionInfoResponse
 {
 public:
     /**

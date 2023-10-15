@@ -6,6 +6,7 @@
 
 #include "SCPDAction.h"
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QString>
 #include <QVector>
 
@@ -15,7 +16,7 @@ namespace UPnPAV
 /**
  * Converts the response of GetCurrentConnectionIds call into a list of quint32 values.
  */
-class CurrentConnectionIdsResult final
+class BLABBYUPNPAV_EXPORT CurrentConnectionIdsResult final
 {
 public:
     CurrentConnectionIdsResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
