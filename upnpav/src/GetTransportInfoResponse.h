@@ -4,12 +4,13 @@
 #pragma once
 
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QExplicitlySharedDataPointer>
 
 namespace UPnPAV
 {
 struct GetTransportInfoResponseData;
-class GetTransportInfoResponse final
+class BLABBYUPNPAV_EXPORT GetTransportInfoResponse final
 {
 public:
     enum class TransportState : quint8

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QExplicitlySharedDataPointer>
 #include <QTime>
 #include <optional>
@@ -12,7 +13,7 @@
 namespace UPnPAV
 {
 struct GetMediaInfoResponseData;
-class GetMediaInfoResponse final
+class BLABBYUPNPAV_EXPORT GetMediaInfoResponse final
 {
 public:
     /**

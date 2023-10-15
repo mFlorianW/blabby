@@ -6,7 +6,7 @@
 ################################################################################
 # Build
 ################################################################################
-add_library(${PROJECT_NAME} OBJECT)
+add_library(${PROJECT_NAME} SHARED)
 add_library(Blabby::UPnPAV ALIAS ${PROJECT_NAME})
 generate_export_header(BlabbyUPnPAV)
 
@@ -183,7 +183,7 @@ write_basic_package_version_file(
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS BlabbyUPnPAV EXPORT ${PROJECT_NAME}Targets
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT BlabbyUPnPAV_Runtime
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

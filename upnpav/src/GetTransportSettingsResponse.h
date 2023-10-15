@@ -5,13 +5,14 @@
 #pragma once
 
 #include "ServiceControlPointDefinition.h"
+#include "blabbyupnpav_export.h"
 #include <QExplicitlySharedDataPointer>
 
 namespace UPnPAV
 {
 
 struct GetTransportSettingsResponseData;
-class GetTransportSettingsResponse final
+class BLABBYUPNPAV_EXPORT GetTransportSettingsResponse final
 {
 public:
     /**
