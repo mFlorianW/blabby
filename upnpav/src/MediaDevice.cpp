@@ -293,4 +293,22 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::next(quint32 instan
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 instanceId)
+{
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    const auto action = d->mAvTransportDescriptionSCPD.action("Previous");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 } // namespace UPnPAV
