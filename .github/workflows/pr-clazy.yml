@@ -16,9 +16,9 @@ jobs:
       with:
         version: '6.5.*'
         cache: 'true'
-    - name: Install Clazy
+    - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install clazy
+        sudo apt update && sudo apt install clazy doxygen
     - name: Checkout
       uses: actions/checkout@v4
       with:

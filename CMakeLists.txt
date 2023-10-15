@@ -27,6 +27,7 @@ include(FeatureSummary)
 ################################################################################
 enable_testing()
 option(ENABLE_TEST "Enable/Disable tests build. Default: false" OFF)
+option(BUILD_DOC "Enable/Disable documentation build. Default: false" OFF)
 
 ################################################################################
 # Variables
@@ -73,6 +74,10 @@ add_subdirectory(plugins)
 
 if (ENABLE_TEST)
     add_subdirectory(upnpav_test_helper)
+endif()
+
+if(BUILD_DOC)
+    add_subdirectory(doc)
 endif()
 
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)
