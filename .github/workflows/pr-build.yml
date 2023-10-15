@@ -40,6 +40,9 @@ jobs:
       with:
         version: '6.5.*'
         cache: 'true'
+    - name: Install Dependencies
+      run: |
+        sudo apt update && sudo apt install doxygen
     - name: Checkout
       uses: actions/checkout@v4
       with:

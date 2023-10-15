@@ -16,9 +16,9 @@ jobs:
       with:
         version: '6.5.*'
         cache: 'true'
-    - name: Install Clang-Tidy
+    - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install clang-tidy-14
+        sudo apt update && sudo apt install clang-tidy-14 doxygen
     - name: Checkout
       uses: actions/checkout@v4
       with:

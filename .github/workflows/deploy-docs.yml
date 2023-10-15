@@ -1,15 +1,16 @@
 # SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
-
-name: Blabby CI
+name: Blabby Deploy Docs
 
 on:
   push:
     branches: [ main ]
+permissions:
+  contents: write
 
 jobs:
-  build:
+  deploy-docs:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
@@ -22,10 +23,11 @@ jobs:
         sudo apt update && sudo apt install doxygen
     - name: checkout
       uses: actions/checkout@v4
-    - name: build and test
+    - name: build docs
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug -- -j
-        ctest --preset github-test
-      env:
-        QT_QPA_PLATFORM: offscreen
+        cmake --build --preset github-ci-debug --target docs
+    - name: deploy docs
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+          folder: build-github-ci-debug/doc/html

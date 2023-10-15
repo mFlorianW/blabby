@@ -45,6 +45,7 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
                 "ENABLE_TEST": "ON",
+                "BUILD_DOC": "ON",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "1"
             }
         },
