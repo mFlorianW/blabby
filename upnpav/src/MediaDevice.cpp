@@ -179,4 +179,41 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint3
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(quint32 instanceId)
+{
+
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    const auto action = d->mAvTransportDescriptionSCPD.action("GetDeviceCapabilities");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportSettings(quint32 instanceId)
+{
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    const auto action = d->mAvTransportDescriptionSCPD.action("GetTransportSettings");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 } // namespace UPnPAV
