@@ -235,3 +235,20 @@ target_link_libraries(test_upnpav_get_device_capabilities_response
         Qt6::Test
 )
 add_test(test_upnpav_get_device_capabilities_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_device_capabilities_response)
+
+###############################################################################
+# Test GetTransportSettingsResponse
+###############################################################################
+add_executable(test_upnpav_get_transport_settings_response)
+target_sources(test_upnpav_get_transport_settings_response
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponseShould.h
+)
+target_link_libraries(test_upnpav_get_transport_settings_response
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_get_transport_settings_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_transport_settings_response)
