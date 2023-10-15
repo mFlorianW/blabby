@@ -405,8 +405,11 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
+        // clang-format off
+        const auto re = QRegularExpression(ExpectedException);
+        QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
+        // clang-format on
     }
 }
 
@@ -465,8 +468,11 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
+        // clang-format off
+        const auto re = QRegularExpression(ExpectedException);
+        QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
+        // clang-format on
     }
 }
 
@@ -642,8 +648,11 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (InvalidDeviceDescription const &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
+        // clang-format off
+        const auto re = QRegularExpression(ExpectedException);
+        QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
+        // clang-format on
     }
 }
 
@@ -799,8 +808,11 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
+        // clang-format off
+        const auto re = QRegularExpression(ExpectedException);
+        QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
+        // clang-format on
     }
 }
 
@@ -860,8 +872,11 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     }
     catch (const InvalidDeviceDescription &e)
     {
-        QVERIFY2(QString{e.what()}.contains(QRegularExpression(ExpectedException)),
+        // clang-format off
+        const auto re = QRegularExpression(ExpectedException);
+        QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
+        // clang-format on
     }
 }
 
