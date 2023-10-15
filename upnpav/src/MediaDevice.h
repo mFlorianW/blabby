@@ -24,6 +24,24 @@ class SoapMessageTransmitter;
 class MediaDevice
 {
 public:
+    /**
+     * Different modes when calling seek on the AVTransport service.
+     */
+    enum SeekMode
+    {
+        AbsTime,
+        RelTime,
+        AbsCount,
+        RelCount,
+        TrackNr,
+        ChannelFreq,
+        TapeIndex,
+        Frame,
+    };
+
+    /**
+     * Deleted move and copy operations
+     */
     Q_DISABLE_COPY_MOVE(MediaDevice)
 
     /**
@@ -167,6 +185,33 @@ public:
      * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> play(quint32 instanceId);
+
+    /**
+     * Calls the Seek on the AVTransport service of the device.
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies
+     * @param mode Which seek mode shall be used.
+     * @param target The target of seek. The value depends on the seek modes.
+     * @return PendingSoapCall with the result or an error.
+     *
+     * @note
+     * The following seek modes need the following target values.
+     * RelCount, => need an uint32 as target
+     * AbsCount, => need an uint32 as target
+     * RelCount, => need an uint32 as target
+     * TrackNr, => need an uint32 as target
+     * Frame, => need an uint32 as target
+     * TapeIndex, => need an uint32 as target
+     * AbsTime, => Timestamp in the format h.m.s.z
+     * RelTime, => Timestamp in the format h.m.s.z
+     * ChannelFreq, => float
+     *
+     * @note
+     * The function can only be called if the device has an AVTransport service.
+     * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
+     */
+    virtual std::optional<std::unique_ptr<PendingSoapCall>> seek(quint32 instanceId,
+                                                                 SeekMode mode,
+                                                                 QString const &target);
 
 protected:
     MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);

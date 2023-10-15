@@ -136,6 +136,7 @@ private Q_SLOTS:
     void send_the_correct_soap_message_when_calling_gettransportsettings();
     void send_the_correct_soap_message_when_calling_stop();
     void send_the_correct_soap_message_when_calling_play();
+    void send_the_correct_soap_message_when_calling_seek_with_int_target(); // TODO add tests for float and time
 };
 
 } // namespace UPnPAV
