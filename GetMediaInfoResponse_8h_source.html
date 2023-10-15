@@ -92,68 +92,59 @@ $(document).ready(function(){initNavTree('GetMediaInfoResponse_8h_source.html','
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;ServiceControlPointDefinition.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QExplicitlySharedDataPointer&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QTime&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">struct </span>GetMediaInfoResponseData;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetMediaInfoResponse.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html">GetMediaInfoResponse</a> final</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a1d70fdb9786f8fa43b74d10b6f65ba3f">GetMediaInfoResponse</a>(QString rawMsg, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    quint32 <a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374">numberOfTracks</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    std::optional&lt;QTime&gt; <a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a2a11999f963109c46fc2d1c41df417de">mediaDuration</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a71b1a6a12cff7de517ab006d84005b25">currentUri</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a44f054e2796f13dd89def73fdad48cd9">currentUriMetaData</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a946e011fa669e0fca7e2888162a333ad">nextUri</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a3cb22ebddd244ae43619195d139db044">nextUriMetaData</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#ad371519b754ea7279d3d657f99fbaffa">playMedium</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a0e62907bfb5d55ad0d514de61719932f">recordMedium</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> QString &amp;<a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html#a9f7be38c1fd6879a84e5fb785e81f808">writeStatus</a>() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    QExplicitlySharedDataPointer&lt;GetMediaInfoResponseData&gt; d;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="structUPnPAV_1_1GetMediaInfoResponseData.html">   87</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structUPnPAV_1_1GetMediaInfoResponseData.html">GetMediaInfoResponseData</a> : <span class="keyword">public</span> QSharedData</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    quint32 mNumberOfTracks{0};</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    std::optional&lt;QTime&gt; mMediaDuration{std::nullopt};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    QString mCurrentUri{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    QString mCurrentMetaData{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    QString mNextUri{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    QString mNextUriMetaData{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    QString mPlayMedium{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    QString mRecordMedium{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    QString mWriteStatus{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html">UPnPAV::GetMediaInfoResponse</a></div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.h:16</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a0e62907bfb5d55ad0d514de61719932f"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a0e62907bfb5d55ad0d514de61719932f">UPnPAV::GetMediaInfoResponse::recordMedium</a></div><div class="ttdeci">const QString &amp; recordMedium() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:124</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a1d70fdb9786f8fa43b74d10b6f65ba3f"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a1d70fdb9786f8fa43b74d10b6f65ba3f">UPnPAV::GetMediaInfoResponse::GetMediaInfoResponse</a></div><div class="ttdeci">GetMediaInfoResponse(QString rawMsg, ServiceControlPointDefinition scpd, SCPDAction action)</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:13</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a2a11999f963109c46fc2d1c41df417de"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a2a11999f963109c46fc2d1c41df417de">UPnPAV::GetMediaInfoResponse::mediaDuration</a></div><div class="ttdeci">std::optional&lt; QTime &gt; mediaDuration() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:89</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a3cb22ebddd244ae43619195d139db044"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a3cb22ebddd244ae43619195d139db044">UPnPAV::GetMediaInfoResponse::nextUriMetaData</a></div><div class="ttdeci">const QString &amp; nextUriMetaData() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:114</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a44f054e2796f13dd89def73fdad48cd9"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a44f054e2796f13dd89def73fdad48cd9">UPnPAV::GetMediaInfoResponse::currentUriMetaData</a></div><div class="ttdeci">const QString &amp; currentUriMetaData() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:104</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a71b1a6a12cff7de517ab006d84005b25"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a71b1a6a12cff7de517ab006d84005b25">UPnPAV::GetMediaInfoResponse::currentUri</a></div><div class="ttdeci">const QString &amp; currentUri() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:99</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a946e011fa669e0fca7e2888162a333ad"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a946e011fa669e0fca7e2888162a333ad">UPnPAV::GetMediaInfoResponse::nextUri</a></div><div class="ttdeci">const QString &amp; nextUri() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:109</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_a9f7be38c1fd6879a84e5fb785e81f808"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#a9f7be38c1fd6879a84e5fb785e81f808">UPnPAV::GetMediaInfoResponse::writeStatus</a></div><div class="ttdeci">const QString &amp; writeStatus() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:129</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_ab5f1c362243ea3b1ca7dff332015c374"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374">UPnPAV::GetMediaInfoResponse::numberOfTracks</a></div><div class="ttdeci">quint32 numberOfTracks() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:84</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html_ad371519b754ea7279d3d657f99fbaffa"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html#ad371519b754ea7279d3d657f99fbaffa">UPnPAV::GetMediaInfoResponse::playMedium</a></div><div class="ttdeci">const QString &amp; playMedium() const noexcept</div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.cpp:119</div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QExplicitlySharedDataPointer&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QTime&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">struct </span>GetMediaInfoResponseData;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetMediaInfoResponse.html">   16</a></span>&#160;<span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html">GetMediaInfoResponse</a> final</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classUPnPAV_1_1GetMediaInfoResponse.html">GetMediaInfoResponse</a>(QString rawMsg, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    quint32 numberOfTracks() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::optional&lt;QTime&gt; mediaDuration() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> QString &amp;currentUri() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> QString &amp;currentUriMetaData() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> QString &amp;nextUri() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">const</span> QString &amp;nextUriMetaData() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">const</span> QString &amp;playMedium() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">const</span> QString &amp;recordMedium() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">const</span> QString &amp;writeStatus() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    QExplicitlySharedDataPointer&lt;GetMediaInfoResponseData&gt; d;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="structUPnPAV_1_1GetMediaInfoResponseData.html">   88</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structUPnPAV_1_1GetMediaInfoResponseData.html">GetMediaInfoResponseData</a> : <span class="keyword">public</span> QSharedData</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    quint32 mNumberOfTracks{0};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    std::optional&lt;QTime&gt; mMediaDuration{std::nullopt};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    QString mCurrentUri{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    QString mCurrentMetaData{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    QString mNextUri{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    QString mNextUriMetaData{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    QString mPlayMedium{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    QString mRecordMedium{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    QString mWriteStatus{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
+<div class="ttc" id="aclassUPnPAV_1_1GetMediaInfoResponse_html"><div class="ttname"><a href="classUPnPAV_1_1GetMediaInfoResponse.html">UPnPAV::GetMediaInfoResponse</a></div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.h:17</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1SCPDAction_html"><div class="ttname"><a href="classUPnPAV_1_1SCPDAction.html">UPnPAV::SCPDAction</a></div><div class="ttdef"><b>Definition:</b> SCPDAction.h:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceControlPointDefinition_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceControlPointDefinition.html">UPnPAV::ServiceControlPointDefinition</a></div><div class="ttdef"><b>Definition:</b> ServiceControlPointDefinition.h:19</div></div>
-<div class="ttc" id="astructUPnPAV_1_1GetMediaInfoResponseData_html"><div class="ttname"><a href="structUPnPAV_1_1GetMediaInfoResponseData.html">UPnPAV::GetMediaInfoResponseData</a></div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.h:88</div></div>
+<div class="ttc" id="astructUPnPAV_1_1GetMediaInfoResponseData_html"><div class="ttname"><a href="structUPnPAV_1_1GetMediaInfoResponseData.html">UPnPAV::GetMediaInfoResponseData</a></div><div class="ttdef"><b>Definition:</b> GetMediaInfoResponse.h:89</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

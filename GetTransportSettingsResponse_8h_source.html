@@ -92,53 +92,51 @@ $(document).ready(function(){initNavTree('GetTransportSettingsResponse_8h_source
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;ServiceControlPointDefinition.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QExplicitlySharedDataPointer&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">struct </span>GetTransportSettingsResponseData;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetTransportSettingsResponse.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html">GetTransportSettingsResponse</a> final</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">   20</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">PlayMode</a></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        Normal,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        Shuffle,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        RepeatOne,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        RepeatAll,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        Random,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        DirectOne,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        Intro</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a0790ffcc481c33413c2a3b047293b2c8">GetTransportSettingsResponse</a>(QString rawMsg, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">PlayMode</a> <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724">playMode</a>() const noexcept;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    QString const &amp;<a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a9afbee49eea619e3369669054a0af913">recQualityMode</a>() const noexcept;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;private:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    static std::optional&lt;<a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">PlayMode</a>&gt; convertPlayMode(QString const &amp;rawMode) noexcept;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;private:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    QExplicitlySharedDataPointer&lt;<a class="code" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">GetTransportSettingsResponseData</a>&gt; d;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">   58</a></span>&#160;struct <a class="code" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">GetTransportSettingsResponseData</a> : public QSharedData</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">GetTransportSettingsResponse::PlayMode</a> mPlayMode{GetTransportSettingsResponse::PlayMode::Normal};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    QString mRecQMode{<span class="stringliteral">&quot;NOT_IMPLEMENTED&quot;</span>};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html">UPnPAV::GetTransportSettingsResponse</a></div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:15</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html_a0790ffcc481c33413c2a3b047293b2c8"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html#a0790ffcc481c33413c2a3b047293b2c8">UPnPAV::GetTransportSettingsResponse::GetTransportSettingsResponse</a></div><div class="ttdeci">GetTransportSettingsResponse(QString rawMsg, ServiceControlPointDefinition scpd, SCPDAction action)</div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.cpp:12</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html_a473465185f4a0bcd4f19e32a0dc8fa35"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">UPnPAV::GetTransportSettingsResponse::PlayMode</a></div><div class="ttdeci">PlayMode</div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:21</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html_a9afbee49eea619e3369669054a0af913"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html#a9afbee49eea619e3369669054a0af913">UPnPAV::GetTransportSettingsResponse::recQualityMode</a></div><div class="ttdeci">QString const  &amp; recQualityMode() const noexcept</div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.cpp:53</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html_aef8011e60b68f11bafdc198e6db90724"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724">UPnPAV::GetTransportSettingsResponse::playMode</a></div><div class="ttdeci">PlayMode playMode() const noexcept</div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.cpp:48</div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QExplicitlySharedDataPointer&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">struct </span>GetTransportSettingsResponseData;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetTransportSettingsResponse.html">   15</a></span>&#160;<span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html">GetTransportSettingsResponse</a> final</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">   21</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">PlayMode</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        Normal,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        Shuffle,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        RepeatOne,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        RepeatAll,</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        Random,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        DirectOne,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        Intro</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    };</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html">GetTransportSettingsResponse</a>(QString rawMsg, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    PlayMode playMode() const noexcept;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    QString const &amp;recQualityMode() const noexcept;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;private:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    static std::optional&lt;PlayMode&gt; convertPlayMode(QString const &amp;rawMode) noexcept;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;private:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    QExplicitlySharedDataPointer&lt;<a class="code" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">GetTransportSettingsResponseData</a>&gt; d;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">   59</a></span>&#160;struct <a class="code" href="structUPnPAV_1_1GetTransportSettingsResponseData.html">GetTransportSettingsResponseData</a> : public QSharedData</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">GetTransportSettingsResponse::PlayMode</a> mPlayMode{GetTransportSettingsResponse::PlayMode::Normal};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    QString mRecQMode{<span class="stringliteral">&quot;NOT_IMPLEMENTED&quot;</span>};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
+<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html">UPnPAV::GetTransportSettingsResponse</a></div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:16</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1GetTransportSettingsResponse_html_a473465185f4a0bcd4f19e32a0dc8fa35"><div class="ttname"><a href="classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35">UPnPAV::GetTransportSettingsResponse::PlayMode</a></div><div class="ttdeci">PlayMode</div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:22</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1SCPDAction_html"><div class="ttname"><a href="classUPnPAV_1_1SCPDAction.html">UPnPAV::SCPDAction</a></div><div class="ttdef"><b>Definition:</b> SCPDAction.h:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceControlPointDefinition_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceControlPointDefinition.html">UPnPAV::ServiceControlPointDefinition</a></div><div class="ttdef"><b>Definition:</b> ServiceControlPointDefinition.h:19</div></div>
-<div class="ttc" id="astructUPnPAV_1_1GetTransportSettingsResponseData_html"><div class="ttname"><a href="structUPnPAV_1_1GetTransportSettingsResponseData.html">UPnPAV::GetTransportSettingsResponseData</a></div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:59</div></div>
+<div class="ttc" id="astructUPnPAV_1_1GetTransportSettingsResponseData_html"><div class="ttname"><a href="structUPnPAV_1_1GetTransportSettingsResponseData.html">UPnPAV::GetTransportSettingsResponseData</a></div><div class="ttdef"><b>Definition:</b> GetTransportSettingsResponse.h:60</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

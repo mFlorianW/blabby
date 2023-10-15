@@ -92,105 +92,89 @@ $(document).ready(function(){initNavTree('MediaDevice_8h_source.html',''); initR
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;PendingSoapCall.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QScopedPointer&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QUrl&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span>MediaDevicePrivate;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>DeviceDescription;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>SoapMessageTransmitter;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">   30</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        AbsTime,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        RelTime,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        AbsCount,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        RelCount,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        TrackNr,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        ChannelFreq,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        TapeIndex,</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        Frame,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    Q_DISABLE_COPY_MOVE(<a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda">   50</a></span>&#160;    virtual ~<a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    virtual const QString &amp;<a class="code" href="classUPnPAV_1_1MediaDevice.html#a8e2c40ecca1383c56c69e80ad4774153">name</a>() const noexcept;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    virtual const QUrl &amp;<a class="code" href="classUPnPAV_1_1MediaDevice.html#a15e638f602438c2923630c1063e0cd18">iconUrl</a>() const noexcept;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2">protocolInfo</a>() noexcept;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a912fddeaf83460bb487b5d4f1cd79d40">currentConnectionIds</a>() noexcept;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#ae7da14f5fa7f35b1b0ef820602e5c1b1">currentConnectionInfo</a>(quint32 connectionId) noexcept;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">hasAvTransportService</a>() const noexcept;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    virtual std::optional&lt;QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0">setAvTransportUri</a>(quint32 instanceId,</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                                                             QString const &amp;uri,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                                                             QString const &amp;uriMetaData = QString{</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                                                                 <span class="stringliteral">&quot;&quot;</span>}) noexcept;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a57633fba8cfb183410d0db44266c7171">mediaInfo</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c">transportInfo</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e">positionInfo</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a61398a84fd05f2b85cecb628f47e16d6">deviceCapilities</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542">transportSettings</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e">stop</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce">play</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a2b67acb0ce070da86419cd935018138f">seek</a>(quint32 instanceId,</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                                                                 <a class="code" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a> mode,</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                                                                 QString <span class="keyword">const</span> &amp;target);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2">next</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; <a class="code" href="classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408">previous</a>(quint32 instanceId);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>(<a class="code" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt;SoapMessageTransmitter&gt; msgTransmitter);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    QScopedPointer&lt;MediaDevicePrivate&gt; d;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;};</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QScopedPointer&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;QUrl&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>MediaDevicePrivate;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>DeviceDescription;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">class </span>SoapMessageTransmitter;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html">   25</a></span>&#160;<span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">   31</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        AbsTime,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        RelTime,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        AbsCount,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        RelCount,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        TrackNr,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        ChannelFreq,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        TapeIndex,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        Frame,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    Q_DISABLE_COPY_MOVE(<a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda">   51</a></span>&#160;    virtual ~<a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    virtual const QString &amp;name() const noexcept;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    virtual const QUrl &amp;iconUrl() const noexcept;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; protocolInfo() noexcept;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; currentConnectionIds() noexcept;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    virtual QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; currentConnectionInfo(quint32 connectionId) noexcept;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">bool</span> hasAvTransportService() const noexcept;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    virtual std::optional&lt;QScopedPointer&lt;<a class="code" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt;&gt; setAvTransportUri(quint32 instanceId,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                                                             QString const &amp;uri,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                                                             QString const &amp;uriMetaData = QString{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                                                                 <span class="stringliteral">&quot;&quot;</span>}) noexcept;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; mediaInfo(quint32 instanceId);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; transportInfo(quint32 instanceId);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; positionInfo(quint32 instanceId);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; deviceCapilities(quint32 instanceId);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; transportSettings(quint32 instanceId);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; stop(quint32 instanceId);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; play(quint32 instanceId);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; seek(quint32 instanceId,</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                                                                 SeekMode mode,</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                                                                 QString <span class="keyword">const</span> &amp;target);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; next(quint32 instanceId);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; previous(quint32 instanceId);</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>(<a class="code" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt;SoapMessageTransmitter&gt; msgTransmitter);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    QScopedPointer&lt;MediaDevicePrivate&gt; d;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;};</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1DeviceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescription.html">UPnPAV::DeviceDescription</a></div><div class="ttdef"><b>Definition:</b> DeviceDescription.h:22</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></div><div class="ttdef"><b>Definition:</b> MediaDevice.h:25</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a15e638f602438c2923630c1063e0cd18"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a15e638f602438c2923630c1063e0cd18">UPnPAV::MediaDevice::iconUrl</a></div><div class="ttdeci">virtual const QUrl &amp; iconUrl() const noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:55</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a27cf1f7a611584a02f2b88627c78c408"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408">UPnPAV::MediaDevice::previous</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; previous(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:296</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a2b67acb0ce070da86419cd935018138f"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a2b67acb0ce070da86419cd935018138f">UPnPAV::MediaDevice::seek</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; seek(quint32 instanceId, SeekMode mode, QString const &amp;target)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:256</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a30de802748131c47ec77d6a03a7673e2"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2">UPnPAV::MediaDevice::protocolInfo</a></div><div class="ttdeci">virtual QScopedPointer&lt; PendingSoapCall &gt; protocolInfo() noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:60</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a3432dac80ea68fd26e5c7986df73ee1e"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e">UPnPAV::MediaDevice::positionInfo</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; positionInfo(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:164</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a40a9641c3e1dccb5ced3fc9cb7687542"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542">UPnPAV::MediaDevice::transportSettings</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; transportSettings(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:201</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a57633fba8cfb183410d0db44266c7171"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a57633fba8cfb183410d0db44266c7171">UPnPAV::MediaDevice::mediaInfo</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; mediaInfo(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:128</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a61398a84fd05f2b85cecb628f47e16d6"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a61398a84fd05f2b85cecb628f47e16d6">UPnPAV::MediaDevice::deviceCapilities</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; deviceCapilities(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:182</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a83bef79169b27bbbd7875bf09fd12900"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">UPnPAV::MediaDevice::hasAvTransportService</a></div><div class="ttdeci">bool hasAvTransportService() const noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:99</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a8e2c40ecca1383c56c69e80ad4774153"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a8e2c40ecca1383c56c69e80ad4774153">UPnPAV::MediaDevice::name</a></div><div class="ttdeci">virtual const QString &amp; name() const noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:50</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a912fddeaf83460bb487b5d4f1cd79d40"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a912fddeaf83460bb487b5d4f1cd79d40">UPnPAV::MediaDevice::currentConnectionIds</a></div><div class="ttdeci">virtual QScopedPointer&lt; PendingSoapCall &gt; currentConnectionIds() noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:72</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aa1c955b68bd56e2a4b3e01c0767831e0"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0">UPnPAV::MediaDevice::setAvTransportUri</a></div><div class="ttdeci">virtual std::optional&lt; QScopedPointer&lt; PendingSoapCall &gt; &gt; setAvTransportUri(quint32 instanceId, QString const &amp;uri, QString const &amp;uriMetaData=QString{ &quot;&quot;}) noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:104</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aa4cfab37879a56986a53fb2a7b45ab4d"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">UPnPAV::MediaDevice::SeekMode</a></div><div class="ttdeci">SeekMode</div><div class="ttdef"><b>Definition:</b> MediaDevice.h:31</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aabf3c343c16a0655f3a40d03616923ce"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce">UPnPAV::MediaDevice::play</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; play(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:237</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aba9ddc7e1cab54f5aeb11813a33363a2"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2">UPnPAV::MediaDevice::next</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; next(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:278</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_ae6ee3d6537bd96a689d7907a3beee10c"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c">UPnPAV::MediaDevice::transportInfo</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; transportInfo(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:146</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_ae7da14f5fa7f35b1b0ef820602e5c1b1"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#ae7da14f5fa7f35b1b0ef820602e5c1b1">UPnPAV::MediaDevice::currentConnectionInfo</a></div><div class="ttdeci">virtual QScopedPointer&lt; PendingSoapCall &gt; currentConnectionInfo(quint32 connectionId) noexcept</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:84</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aed513cb5218a1ebeb2785f15d4eba18e"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e">UPnPAV::MediaDevice::stop</a></div><div class="ttdeci">virtual std::optional&lt; std::unique_ptr&lt; PendingSoapCall &gt; &gt; stop(quint32 instanceId)</div><div class="ttdef"><b>Definition:</b> MediaDevice.cpp:219</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></div><div class="ttdef"><b>Definition:</b> MediaDevice.h:26</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aa4cfab37879a56986a53fb2a7b45ab4d"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">UPnPAV::MediaDevice::SeekMode</a></div><div class="ttdeci">SeekMode</div><div class="ttdef"><b>Definition:</b> MediaDevice.h:32</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1PendingSoapCall_html"><div class="ttname"><a href="classUPnPAV_1_1PendingSoapCall.html">UPnPAV::PendingSoapCall</a></div><div class="ttdef"><b>Definition:</b> PendingSoapCall.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

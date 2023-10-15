@@ -93,24 +93,25 @@ $(document).ready(function(){initNavTree('CurrentConnectionIdsResult_8h_source.h
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;SCPDAction.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;ServiceControlPointDefinition.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QString&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QVector&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">CurrentConnectionIdsResult</a> final</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">CurrentConnectionIdsResult</a>(QString xmlResponse, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    QVector&lt;quint32&gt; currentConnectionIds() <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    QVector&lt;quint32&gt; mConnectionIds;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1CurrentConnectionIdsResult_html"><div class="ttname"><a href="classUPnPAV_1_1CurrentConnectionIdsResult.html">UPnPAV::CurrentConnectionIdsResult</a></div><div class="ttdef"><b>Definition:</b> CurrentConnectionIdsResult.h:19</div></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">   19</a></span>&#160;<span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">CurrentConnectionIdsResult</a> final</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classUPnPAV_1_1CurrentConnectionIdsResult.html">CurrentConnectionIdsResult</a>(QString xmlResponse, <a class="code" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> scpd, <a class="code" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> action);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    QVector&lt;quint32&gt; currentConnectionIds() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    QVector&lt;quint32&gt; mConnectionIds;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;} <span class="comment">// namespace UPnPAV</span></div>
+<div class="ttc" id="aclassUPnPAV_1_1CurrentConnectionIdsResult_html"><div class="ttname"><a href="classUPnPAV_1_1CurrentConnectionIdsResult.html">UPnPAV::CurrentConnectionIdsResult</a></div><div class="ttdef"><b>Definition:</b> CurrentConnectionIdsResult.h:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1SCPDAction_html"><div class="ttname"><a href="classUPnPAV_1_1SCPDAction.html">UPnPAV::SCPDAction</a></div><div class="ttdef"><b>Definition:</b> SCPDAction.h:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceControlPointDefinition_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceControlPointDefinition.html">UPnPAV::ServiceControlPointDefinition</a></div><div class="ttdef"><b>Definition:</b> ServiceControlPointDefinition.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
