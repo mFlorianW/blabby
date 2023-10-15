@@ -125,4 +125,22 @@ std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(qu
     return std::optional<QScopedPointer<PendingSoapCall>>(new (std::nothrow) PendingSoapCall{soapCall});
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 instanceId)
+{
+    if (not hasAvTransportService())
+    {
+        return std::nullopt;
+    }
+
+    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    const auto action = d->mAvTransportDescriptionSCPD.action("GetMediaInfo");
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 } // namespace UPnPAV

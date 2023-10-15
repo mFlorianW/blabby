@@ -888,6 +888,27 @@ void MediaDeviceShould::Send_The_Correct_SOAP_Message_When_Calling_SetAVTranspor
                  .toLocal8Bit());
 }
 
+void MediaDeviceShould::send_the_correct_soap_message_when_calling_getmediainfo()
+{
+    auto device = MediaDeviceWithAV{};
+    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:GetMediaInfo xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
+                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "</u:GetMediaInfo>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    (void)device.mediaInfo(2);
+
+    QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
+             QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
+                 .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
+                 .toLocal8Bit());
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaDeviceShould)
