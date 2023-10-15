@@ -91,14 +91,15 @@ public:
 
     /**
      * Calls the AVTransportURI on the AVTransport service of the device.
-     *
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies
+     * @param uri The URI for the new virtual instance of the AVTransport service.
+     * @param uriMetaData The MetaData for the new instance optional. Defaults to empty string.
      * @return PendingSoapCall with the result or an error.
      * The optional will be null if the device doesn't have support for the AVTransport service.
      *
      * @note
      * The function can only be called if the device has an AVTransport service.
      * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
-     *
      */
     virtual std::optional<QScopedPointer<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
                                                                              QString const &uri,
