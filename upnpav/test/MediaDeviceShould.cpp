@@ -482,7 +482,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProt
                 "</s:Body>"
                 "</s:Envelope>"};
 
-    device.protocolInfo();
+    (void)device.protocolInfo();
 
     QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
@@ -501,7 +501,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
                 "<u:GetCurrentConnectionIDs xmlns:u=\"urn:schemas-upnp-org:service:ConnectionManager:1\"/>"
                 "</s:Body>"
                 "</s:Envelope>"};
-    device.currentConnectionIds();
+    (void)device.currentConnectionIds();
     QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
                  .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
@@ -522,7 +522,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
                 "</s:Body>"
                 "</s:Envelope>"};
 
-    device.currentConnectionInfo(2);
+    (void)device.currentConnectionInfo(2);
     QVERIFY2(device.lastSoapCall() == QString{expectedMessage},
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
                  .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
