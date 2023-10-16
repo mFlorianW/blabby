@@ -5,17 +5,16 @@
 #pragma once
 
 #include <QObject>
-#include <qobject.h>
 
 namespace UPnPAV
 {
-class CurrentConnectionIDsResultShould : public QObject
+class GetCurrentConnectionIDsResponseShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(CurrentConnectionIDsResultShould)
+    Q_DISABLE_COPY_MOVE(GetCurrentConnectionIDsResponseShould)
 public:
     using QObject::QObject;
-    ~CurrentConnectionIDsResultShould() override = default;
+    ~GetCurrentConnectionIDsResponseShould() override = default;
 
 private Q_SLOTS:
     void give_the_correct_ids_from_response() noexcept;

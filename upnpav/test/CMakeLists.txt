@@ -123,8 +123,8 @@ add_executable(test_upnpav_current_connection_ids_result)
 target_sources(test_upnpav_current_connection_ids_result
     PRIVATE
         ${TEST_RESOURCE_FILE}
-        ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionIdsResultShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionIdsResultShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponseShould.h
 )
 target_link_libraries(test_upnpav_current_connection_ids_result
     PRIVATE
