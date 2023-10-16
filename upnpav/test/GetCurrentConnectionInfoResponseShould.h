@@ -11,13 +11,13 @@
 namespace UPnPAV
 {
 
-class CurrentConnetionInfoResultShould : public QObject
+class GetCurrentConnetionInfoResponseShould : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(CurrentConnetionInfoResultShould)
+    Q_DISABLE_COPY_MOVE(GetCurrentConnetionInfoResponseShould)
 public:
     using QObject::QObject;
-    ~CurrentConnetionInfoResultShould() override = default;
+    ~GetCurrentConnetionInfoResponseShould() override = default;
 
 private Q_SLOTS:
     void gives_the_correct_result_for_valid_response();
