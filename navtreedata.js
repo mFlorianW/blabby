@@ -26,7 +26,9 @@ var NAVTREE =
 [
   [ "Blabby", "index.html", [
     [ "Architecture", "md__home_runner_work_blabby_blabby_doc_Architecture.html", [
-      [ "Architecture", "md__home_runner_work_blabby_blabby_doc_Architecture.html#Architecture", null ]
+      [ "Architecture", "md__home_runner_work_blabby_blabby_doc_Architecture.html#Architecture", [
+        [ "Building Blocks", "md__home_runner_work_blabby_blabby_doc_Architecture.html#BuildingBlocks", null ]
+      ] ]
     ] ],
     [ "MainPage", "md__home_runner_work_blabby_blabby_doc_MainPage.html", [
       [ "Blabby", "md__home_runner_work_blabby_blabby_doc_MainPage.html#mainpage", null ]

@@ -68,6 +68,7 @@ var NAVTREEINDEX2 =
 "md__home_runner_work_blabby_blabby_README.html#README":[2,0],
 "md__home_runner_work_blabby_blabby_doc_Architecture.html":[0],
 "md__home_runner_work_blabby_blabby_doc_Architecture.html#Architecture":[0,0],
+"md__home_runner_work_blabby_blabby_doc_Architecture.html#BuildingBlocks":[0,0,0],
 "md__home_runner_work_blabby_blabby_doc_MainPage.html":[1],
 "md__home_runner_work_blabby_blabby_doc_MainPage.html#mainpage":[1,0],
 "pages.html":[],
