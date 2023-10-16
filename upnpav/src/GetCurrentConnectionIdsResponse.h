@@ -16,10 +16,10 @@ namespace UPnPAV
 /**
  * Converts the response of GetCurrentConnectionIds call into a list of quint32 values.
  */
-class BLABBYUPNPAV_EXPORT CurrentConnectionIdsResult final
+class BLABBYUPNPAV_EXPORT GetCurrentConnectionIdsResponse final
 {
 public:
-    CurrentConnectionIdsResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
+    GetCurrentConnectionIdsResponse(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
     QVector<quint32> currentConnectionIds() const noexcept;
 

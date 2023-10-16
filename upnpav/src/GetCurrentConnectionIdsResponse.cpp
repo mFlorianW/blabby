@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "CurrentConnectionIdsResult.h"
+#include "GetCurrentConnectionIdsResponse.h"
 #include "private/LoggingCategories.h"
 #include "private/ResponseReader.h"
 #include <QDebug>
@@ -11,9 +11,9 @@
 namespace UPnPAV
 {
 
-CurrentConnectionIdsResult::CurrentConnectionIdsResult(QString xmlResponse,
-                                                       ServiceControlPointDefinition scpd,
-                                                       SCPDAction action)
+GetCurrentConnectionIdsResponse::GetCurrentConnectionIdsResponse(QString xmlResponse,
+                                                                 ServiceControlPointDefinition scpd,
+                                                                 SCPDAction action)
 {
     auto reader = ResponseReader{xmlResponse, scpd, action};
     QObject::connect(&reader,
@@ -55,7 +55,7 @@ CurrentConnectionIdsResult::CurrentConnectionIdsResult(QString xmlResponse,
     }
 }
 
-QVector<quint32> CurrentConnectionIdsResult::currentConnectionIds() const noexcept
+QVector<quint32> GetCurrentConnectionIdsResponse::currentConnectionIds() const noexcept
 {
     return mConnectionIds;
 }

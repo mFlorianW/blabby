@@ -2,23 +2,22 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-
-#include "CurrentConnectionIdsResultShould.h"
+#include "GetCurrentConnectionIdsResponseShould.h"
 #include "ConnectionManagerActions.h"
 #include "CurrentConnectionIdsResponse.h"
-#include "CurrentConnectionIdsResult.h"
 #include "Descriptions.h"
+#include "GetCurrentConnectionIdsResponse.h"
 #include <QTest>
 #include <qtestcase.h>
 
 namespace UPnPAV
 {
 
-void CurrentConnectionIDsResultShould::give_the_correct_ids_from_response() noexcept
+void GetCurrentConnectionIDsResponseShould::give_the_correct_ids_from_response() noexcept
 {
-    const auto response = CurrentConnectionIdsResult(ValidCurrentConnectionIdsResponse,
-                                                     validConnectionManagerSCPD,
-                                                     GetCurrentConnectionIDs);
+    const auto response = GetCurrentConnectionIdsResponse(ValidCurrentConnectionIdsResponse,
+                                                          validConnectionManagerSCPD,
+                                                          GetCurrentConnectionIDs);
     const auto expectedResult = QVector<quint32>{12, 13, 52, 12, 16};
 
     QVERIFY2(response.currentConnectionIds() == expectedResult,
@@ -27,4 +26,4 @@ void CurrentConnectionIDsResultShould::give_the_correct_ids_from_response() noex
 
 } // namespace UPnPAV
 
-QTEST_MAIN(UPnPAV::CurrentConnectionIDsResultShould)
+QTEST_MAIN(UPnPAV::GetCurrentConnectionIDsResponseShould)
