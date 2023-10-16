@@ -20,13 +20,15 @@ jobs:
         cache: 'true'
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install doxygen
+        sudo apt update && sudo apt install doxygen plantuml
     - name: checkout
       uses: actions/checkout@v4
     - name: build docs
       run: |
         cmake --preset github-ci-debug
         cmake --build --preset github-ci-debug --target docs
+      env:
+        PLANTUML_JAR: "/usr/share/plantuml/plantuml.jar"
     - name: deploy docs
       uses: JamesIves/github-pages-deploy-action@v4
       with:
