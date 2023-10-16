@@ -1,9 +1,8 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-
 #include "ServerItemView.h"
-#include "BrowseResult.h"
+#include "BrowseResponse.h"
 #include "MediaServer.h"
 #include "PendingSoapCall.h"
 #include "ServerItemModel.h"
@@ -89,7 +88,7 @@ void ServerItemView::onBrowsRequestFinished()
         mServerItemModel->clearMediaServerObjects();
     }
 
-    const auto result = mPendingSoapCall->resultAs<UPnPAV::BrowseResult>();
+    const auto result = mPendingSoapCall->resultAs<UPnPAV::BrowseResponse>();
     for (const auto &mediaServerObject : std::as_const(result->objects()))
     {
         mServerItemModel->insertMediaServerObject(mediaServerObject);

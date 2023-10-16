@@ -109,6 +109,12 @@ static SCPDAction Browse
             SCPDArgument::Direction::Out,
             "A_ARG_TYPE_Count"
         },
+        SCPDArgument
+        {
+            "UpdateID",
+            SCPDArgument::Direction::Out,
+            "A_ARG_TYPE_UpdateID"
+        }
     }
 };
 

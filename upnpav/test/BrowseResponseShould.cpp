@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "BrowseResultShould.h"
-#include "BrowseResult.h"
+#include "BrowseResponseShould.h"
+#include "BrowseResponse.h"
 #include "ContentDirectoryActions.h"
 #include "Descriptions.h"
 #include "MediaServerObject.h"
@@ -17,20 +17,20 @@ namespace UPnPAV
 
 namespace
 {
-BrowseResult createBrowseResult(QString const &response)
+BrowseResponse createBrowseResult(QString const &response)
 {
-    return BrowseResult{response, validContentDirectorySCPD, Browse};
+    return BrowseResponse{response, validContentDirectorySCPD, Browse};
 }
 } // namespace
 
-BrowseResultShould::BrowseResultShould()
+BrowseResponseShould::BrowseResponseShould()
     : QObject()
 {
 }
 
-void BrowseResultShould::give_The_NumberReturned_Value_Of_The_Response_When_Call_Finished()
+void BrowseResponseShould::give_The_NumberReturned_Value_Of_The_Response_When_Call_Finished()
 {
-    QString response = QString{xmlResponse}.arg("").arg("1").arg("").arg("");
+    QString response = QString{xmlResponse}.arg("", "1", "", "");
     auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
@@ -40,9 +40,9 @@ void BrowseResultShould::give_The_NumberReturned_Value_Of_The_Response_When_Call
              QString{"Expected: %1 \nActual: %2"}.arg(expectedNumber).arg(numberReturned).toLocal8Bit());
 }
 
-void BrowseResultShould::give_The_TotalMatches_Value_Of_The_Response_When_Call_Finished()
+void BrowseResponseShould::give_The_TotalMatches_Value_Of_The_Response_When_Call_Finished()
 {
-    QString response = QString{xmlResponse}.arg("").arg("").arg("1").arg("");
+    QString response = QString{xmlResponse}.arg("", "", "1", "");
     auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
@@ -52,9 +52,10 @@ void BrowseResultShould::give_The_TotalMatches_Value_Of_The_Response_When_Call_F
              QString{"Expected: %1 \nActual: %2"}.arg(expectedNumber).arg(totalMatches).toLocal8Bit());
 }
 
-void BrowseResultShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finished()
+void BrowseResponseShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finished()
 {
-    QString response = QString{xmlResponse}.arg("").arg("").arg("").arg("1");
+    QString response = QString{xmlResponse}.arg("", "", "", "1");
+    qInfo().noquote() << response;
     auto browseResult = createBrowseResult(response);
     quint32 expectedNumber{1};
 
@@ -64,9 +65,9 @@ void BrowseResultShould::give_The_UpdateID_Value_Of_The_Response_When_Call_Finis
              QString{"Expected: %1 \nActual: %2"}.arg(expectedNumber).arg(updateId).toLocal8Bit());
 }
 
-void BrowseResultShould::give_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
+void BrowseResponseShould::give_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
-    QString response = QString{xmlResponse}.arg(didlOnlyOneContainer).arg("").arg("").arg("");
+    QString response = QString{xmlResponse}.arg(didlOnlyOneContainer).arg("", "", "");
     auto browseResult = createBrowseResult(response);
     QVector<MediaServerObject> expectedObjects{
         MediaServerObject{"1", "0", "MyMusic", "object.container.storageFolder"}};
@@ -76,7 +77,7 @@ void BrowseResultShould::give_Container_In_The_Result_Field_Of_The_Response_When
     QVERIFY(expectedObjects == objects);
 }
 
-void BrowseResultShould::
+void BrowseResponseShould::
     give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{xmlResponse}.arg(didlOnlyTwoContainer, (""), (""), (""));
@@ -90,7 +91,7 @@ void BrowseResultShould::
     QVERIFY(expectedObjects == objects);
 }
 
-void BrowseResultShould::give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
+void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished()
 {
     QString response = QString{xmlResponse}.arg(didlOnlyOneItem, "1", "1", "33");
     auto browseResult = createBrowseResult(response);
@@ -104,4 +105,4 @@ void BrowseResultShould::give_All_Item_In_The_Result_Field_Of_The_Response_When_
 
 } // namespace UPnPAV
 
-QTEST_MAIN(UPnPAV::BrowseResultShould);
+QTEST_MAIN(UPnPAV::BrowseResponseShould);

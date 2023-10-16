@@ -14,10 +14,10 @@ class QXmlStreamReader;
 namespace UPnPAV
 {
 
-class BLABBYUPNPAV_EXPORT BrowseResult
+class BLABBYUPNPAV_EXPORT BrowseResponse
 {
 public:
-    BrowseResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
+    BrowseResponse(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
     quint32 totalMatches() const noexcept;
 
