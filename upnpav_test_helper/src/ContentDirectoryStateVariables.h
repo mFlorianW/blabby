@@ -98,5 +98,4 @@ static SCPDStateVariable SystemUpdateID
 
 // clang-format on
 
-
 #endif // CONTENTDIRECTORYSTATEVARIABLES_H

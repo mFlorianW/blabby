@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "BrowseResult.h"
+#include "BrowseResponse.h"
 #include "private/LoggingCategories.h"
 #include "private/ResponseReader.h"
 #include <QXmlStreamReader>
@@ -11,7 +11,7 @@
 namespace UPnPAV
 {
 
-BrowseResult::BrowseResult(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action)
+BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action)
 {
     auto reader = ResponseReader{xmlResponse, scpd, action};
     QObject::connect(&reader,
@@ -69,27 +69,27 @@ BrowseResult::BrowseResult(QString xmlResponse, ServiceControlPointDefinition sc
     }
 }
 
-quint32 BrowseResult::totalMatches() const noexcept
+quint32 BrowseResponse::totalMatches() const noexcept
 {
     return mTotalMatches;
 }
 
-quint32 BrowseResult::numberReturned() const noexcept
+quint32 BrowseResponse::numberReturned() const noexcept
 {
     return mNumberReturned;
 }
 
-quint32 BrowseResult::updateId() const noexcept
+quint32 BrowseResponse::updateId() const noexcept
 {
     return mUpdateId;
 }
 
-const QVector<MediaServerObject> &BrowseResult::objects() const noexcept
+const QVector<MediaServerObject> &BrowseResponse::objects() const noexcept
 {
     return m_objects;
 }
 
-void BrowseResult::readDidlDescription(const QString &didlDescription)
+void BrowseResponse::readDidlDescription(const QString &didlDescription)
 {
     QXmlStreamReader didlReader{didlDescription};
 
@@ -104,7 +104,7 @@ void BrowseResult::readDidlDescription(const QString &didlDescription)
     }
 }
 
-MediaServerObject BrowseResult::readDidlObjectDescription(QXmlStreamReader &streamReader)
+MediaServerObject BrowseResponse::readDidlObjectDescription(QXmlStreamReader &streamReader)
 {
     QString title;
     QString id;

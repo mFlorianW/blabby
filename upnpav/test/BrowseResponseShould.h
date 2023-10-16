@@ -2,20 +2,18 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-
-#ifndef BROWSERESULTSHOULD_H
-#define BROWSERESULTSHOULD_H
+#pragma once
 
 #include <QObject>
 
 namespace UPnPAV
 {
 
-class BrowseResultShould : public QObject
+class BrowseResponseShould : public QObject
 {
     Q_OBJECT
 public:
-    BrowseResultShould();
+    BrowseResponseShould();
 
 private Q_SLOTS:
     void give_The_NumberReturned_Value_Of_The_Response_When_Call_Finished();
@@ -27,5 +25,3 @@ private Q_SLOTS:
 };
 
 } // namespace UPnPAV
-
-#endif // BROWSERESULTSHOULD_H

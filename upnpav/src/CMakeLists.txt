@@ -86,7 +86,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionIdsResult.cpp
@@ -117,7 +117,7 @@ set(PUBLIC_HEADERS
 
     #Device
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.h
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.h

@@ -11,7 +11,8 @@ find_package(Qt6Test 6.5 REQUIRED)
 add_executable(test_upnpav_browse_result)
 target_sources(test_upnpav_browse_result
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResultShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.h
 )
 target_include_directories(test_upnpav_browse_result
     PRIVATE
