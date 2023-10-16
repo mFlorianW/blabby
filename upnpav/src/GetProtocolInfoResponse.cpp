@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ProtocolInfoResult.h"
+#include "GetProtocolInfoResponse.h"
 #include <QDebug>
 #include <QXmlStreamReader>
 #include <optional>
@@ -10,7 +10,7 @@
 namespace UPnPAV
 {
 
-ProtocolInfoResult::ProtocolInfoResult(const QString &xmlResponse)
+GetProtocolInfoResponse::GetProtocolInfoResponse(const QString &xmlResponse)
 {
     auto responseReader = QXmlStreamReader{xmlResponse};
     while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
@@ -49,11 +49,11 @@ ProtocolInfoResult::ProtocolInfoResult(const QString &xmlResponse)
     }
 }
 
-const QVector<Protocol> &ProtocolInfoResult::sourceProtocols() const noexcept
+const QVector<Protocol> &GetProtocolInfoResponse::sourceProtocols() const noexcept
 {
     return mSourceProtocols;
 }
-const QVector<Protocol> &ProtocolInfoResult::sinkProtocols() const noexcept
+const QVector<Protocol> &GetProtocolInfoResponse::sinkProtocols() const noexcept
 {
     return mSinkProtocols;
 }
@@ -73,7 +73,7 @@ bool operator!=(const Protocol &lhs, const Protocol &rhs) noexcept
     return !(lhs == rhs);
 }
 
-std::optional<QVector<Protocol>> ProtocolInfoResult::parseProtocolResponse(QString const &rawResult) noexcept
+std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(QString const &rawResult) noexcept
 {
     auto result = QVector<Protocol>{};
     if (rawResult.isEmpty())

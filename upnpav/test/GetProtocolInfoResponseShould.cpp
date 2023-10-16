@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ProtocolInfoResultShould.h"
+#include "GetProtocolInfoResponseShould.h"
+#include "GetProtocolInfoResponse.h"
 #include "ProtocolInfoResponse.h"
-#include "ProtocolInfoResult.h"
 #include <QTest>
 #include <qtestcase.h>
 #include <qvector.h>
@@ -12,9 +12,9 @@
 namespace UPnPAV
 {
 
-void ProtocolInfoResultShould::give_the_protocol_lists()
+void GetProtocolInfoResponseShould::give_the_protocol_lists()
 {
-    auto pInfo = ProtocolInfoResult{ValidProtoclInfoResponse};
+    auto pInfo = GetProtocolInfoResponse{ValidProtoclInfoResponse};
     auto expectedResult = QVector<Protocol>{
         Protocol{.protocol = "file", .network = "*", .contentFormat = "audio/mpegurl", .additionalInfo = "*"},
         Protocol{.protocol = "x-file-cifs", .network = "*", .contentFormat = "*", .additionalInfo = "*"},
@@ -33,4 +33,4 @@ void ProtocolInfoResultShould::give_the_protocol_lists()
 
 } // namespace UPnPAV
 
-QTEST_MAIN(UPnPAV::ProtocolInfoResultShould)
+QTEST_MAIN(UPnPAV::GetProtocolInfoResponseShould)

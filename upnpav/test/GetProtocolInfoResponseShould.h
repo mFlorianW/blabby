@@ -9,13 +9,13 @@
 namespace UPnPAV
 {
 
-class ProtocolInfoResultShould final : public QObject
+class GetProtocolInfoResponseShould final : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(ProtocolInfoResultShould)
+    Q_DISABLE_COPY_MOVE(GetProtocolInfoResponseShould)
 public:
     using QObject::QObject;
-    ~ProtocolInfoResultShould() override = default;
+    ~GetProtocolInfoResponseShould() override = default;
 
 private Q_SLOTS:
     void give_the_protocol_lists();
