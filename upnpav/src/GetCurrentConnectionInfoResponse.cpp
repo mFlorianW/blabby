@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "CurrentConnectionInfoResult.h"
+#include "GetCurrentConnectionInfoResponse.h"
 #include "private/LoggingCategories.h"
 #include "private/ResponseReader.h"
 #include <QDebug>
@@ -12,9 +12,9 @@
 namespace UPnPAV
 {
 
-CurrentConnectionInfoResult::CurrentConnectionInfoResult(QString const &xmlResponse,
-                                                         ServiceControlPointDefinition const &scpd,
-                                                         SCPDAction action)
+GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const &xmlResponse,
+                                                                   ServiceControlPointDefinition const &scpd,
+                                                                   SCPDAction action)
 {
     auto resultReader = ResponseReader(xmlResponse, scpd, action);
     QObject::connect(&resultReader,
@@ -99,14 +99,14 @@ CurrentConnectionInfoResult::CurrentConnectionInfoResult(QString const &xmlRespo
     }
 }
 
-CurrentConnectionInfoResult::~CurrentConnectionInfoResult() = default;
+GetCurrentConnectionInfoResponse::~GetCurrentConnectionInfoResponse() = default;
 
-const ConnectionInfo &CurrentConnectionInfoResult::connectionInfo() const noexcept
+const ConnectionInfo &GetCurrentConnectionInfoResponse::connectionInfo() const noexcept
 {
     return mConnectionInfo;
 }
 
-std::optional<quint32> CurrentConnectionInfoResult::convertU32Value(QString const &rawValue) noexcept
+std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString const &rawValue) noexcept
 {
     bool ok = false;
     const auto value = rawValue.toUInt(&ok);
@@ -118,7 +118,8 @@ std::optional<quint32> CurrentConnectionInfoResult::convertU32Value(QString cons
     return value;
 }
 
-std::optional<ConnectionInfoDirection> CurrentConnectionInfoResult::convertDirection(QString const &rawValue) noexcept
+std::optional<ConnectionInfoDirection> GetCurrentConnectionInfoResponse::convertDirection(
+    QString const &rawValue) noexcept
 {
     if (rawValue == QStringLiteral("Input"))
     {
@@ -132,7 +133,7 @@ std::optional<ConnectionInfoDirection> CurrentConnectionInfoResult::convertDirec
     return std::nullopt;
 }
 
-std::optional<ConnectionInfoStatus> CurrentConnectionInfoResult::convertStatus(QString const &rawValue) noexcept
+std::optional<ConnectionInfoStatus> GetCurrentConnectionInfoResponse::convertStatus(QString const &rawValue) noexcept
 {
     if (rawValue == QStringLiteral("OK"))
     {

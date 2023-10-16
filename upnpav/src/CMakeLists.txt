@@ -90,7 +90,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponse.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionInfoResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaDevice.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponse.cpp
@@ -126,7 +126,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResult.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponse.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/CurrentConnectionInfoResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaDevice.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponse.h

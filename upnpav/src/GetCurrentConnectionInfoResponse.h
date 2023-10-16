@@ -46,14 +46,14 @@ struct BLABBYUPNPAV_EXPORT ConnectionInfo
 /**
  * Converts the XML response from a GetConnectionInfo call to connection info
  */
-class BLABBYUPNPAV_EXPORT CurrentConnectionInfoResult final
+class BLABBYUPNPAV_EXPORT GetCurrentConnectionInfoResponse final
 {
 public:
-    CurrentConnectionInfoResult(QString const &xmlResponse,
-                                ServiceControlPointDefinition const &scpd,
-                                SCPDAction action);
-    Q_DISABLE_COPY_MOVE(CurrentConnectionInfoResult)
-    ~CurrentConnectionInfoResult();
+    GetCurrentConnectionInfoResponse(QString const &xmlResponse,
+                                     ServiceControlPointDefinition const &scpd,
+                                     SCPDAction action);
+    Q_DISABLE_COPY_MOVE(GetCurrentConnectionInfoResponse)
+    ~GetCurrentConnectionInfoResponse();
 
     const ConnectionInfo &connectionInfo() const noexcept;
 
