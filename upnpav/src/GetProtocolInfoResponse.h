@@ -31,10 +31,10 @@ struct BLABBYUPNPAV_EXPORT Protocol
  * This struct is the result of ConnectionManager::GetProtocolInfo call on a UPnPAV media device. The result contains
  * the supported source and sink protocols of the device.
  */
-class BLABBYUPNPAV_EXPORT ProtocolInfoResult
+class BLABBYUPNPAV_EXPORT GetProtocolInfoResponse
 {
 public:
-    ProtocolInfoResult(const QString &xmlResponse);
+    GetProtocolInfoResponse(const QString &xmlResponse);
 
     const QVector<Protocol> &sourceProtocols() const noexcept;
     const QVector<Protocol> &sinkProtocols() const noexcept;

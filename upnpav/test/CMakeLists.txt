@@ -105,8 +105,8 @@ add_executable(test_upnpav_protocol_info_result)
 target_sources(test_upnpav_protocol_info_result
     PRIVATE
         ${TEST_RESOURCE_FILE}
-        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResultShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResultShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponseShould.h
 )
 target_link_libraries(test_upnpav_protocol_info_result
     PRIVATE

@@ -88,7 +88,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResult.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaDevice.cpp
@@ -124,7 +124,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCall.h
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapCall.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServer.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResult.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaDevice.h
