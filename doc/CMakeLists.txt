@@ -8,6 +8,13 @@
 ################################################################################
 find_package(Doxygen REQUIRED)
 
+if(DEFINED ENV{PLANTUML_JAR})
+    set(PLANTUML_JAR $ENV{PLANTUML_JAR})
+else()
+    set(PLANTUML_JAR "/usr/share/java/plantuml/plantuml.jar")
+endif()
+message("-- Use PlantUML from path \n * ${PLANTUML_JAR}")
+
 ################################################################################
 # Build
 ################################################################################
