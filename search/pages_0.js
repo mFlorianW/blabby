@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['architecture_436',['Architecture',['../md__home_runner_work_blabby_blabby_doc_Architecture.html',1,'']]]
+  ['architecture_434',['Architecture',['../md__home_runner_work_blabby_blabby_docs_pages_Architecture.html',1,'']]]
 ];

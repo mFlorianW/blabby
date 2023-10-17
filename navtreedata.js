@@ -25,16 +25,13 @@
 var NAVTREE =
 [
   [ "Blabby", "index.html", [
-    [ "Architecture", "md__home_runner_work_blabby_blabby_doc_Architecture.html", [
-      [ "Architecture", "md__home_runner_work_blabby_blabby_doc_Architecture.html#Architecture", [
-        [ "Building Blocks", "md__home_runner_work_blabby_blabby_doc_Architecture.html#BuildingBlocks", null ]
+    [ "Blabby", "index.html#autotoc_md0", null ],
+    [ "Build", "index.html#autotoc_md1", null ],
+    [ "Documentation", "index.html#autotoc_md2", null ],
+    [ "Architecture", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html", [
+      [ "Architecture", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html#Architecture", [
+        [ "Building Blocks", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html#BuildingBlocks", null ]
       ] ]
-    ] ],
-    [ "MainPage", "md__home_runner_work_blabby_blabby_doc_MainPage.html", [
-      [ "Blabby", "md__home_runner_work_blabby_blabby_doc_MainPage.html#mainpage", null ]
-    ] ],
-    [ "README", "md__home_runner_work_blabby_blabby_README.html", [
-      [ "Blabby <img src=\"https://github.com/mFlorianW/blabby/workflows/Blabby%20CI/badge.svg\" alt=\"Blabby CI\"/>", "md__home_runner_work_blabby_blabby_README.html#README", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
