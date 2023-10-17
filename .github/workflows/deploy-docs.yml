@@ -32,4 +32,4 @@ jobs:
     - name: deploy docs
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-          folder: build-github-ci-debug/doc/html
+          folder: build-github-ci-debug/docs/html
