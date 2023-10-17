@@ -77,7 +77,7 @@ if (ENABLE_TEST)
 endif()
 
 if(BUILD_DOC)
-    add_subdirectory(doc)
+    add_subdirectory(docs)
 endif()
 
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)

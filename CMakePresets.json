@@ -67,6 +67,10 @@
             "configurePreset": "debug"
         },
         {
+            "name": "debug-clang",
+            "configurePreset": "debug-clang"
+        },
+        {
             "name": "github-ci-debug",
             "configurePreset": "github-ci-debug"
         },
