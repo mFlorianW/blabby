@@ -47,5 +47,5 @@ var classUPnPAV_1_1PendingSoapCall =
     [ "errorDescription", "classUPnPAV_1_1PendingSoapCall.html#a0409758fab32f31c5bcd01704f752779", null ],
     [ "finished", "classUPnPAV_1_1PendingSoapCall.html#a34d85ef99d4b8f461770ef43b793af20", null ],
     [ "hasError", "classUPnPAV_1_1PendingSoapCall.html#ad5a60ed1cd82852564dad67bc7c76f48", null ],
-    [ "resultAs", "classUPnPAV_1_1PendingSoapCall.html#a4b7c4693e32e5fe08ebbaa240292c50d", null ]
+    [ "resultAs", "classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523", null ]
 ];

@@ -11,7 +11,6 @@ var classUPnPAV_1_1MediaDevice =
       [ "Frame", "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da6ee98d4a23471d8b4285a5fefdac77a5", null ]
     ] ],
     [ "~MediaDevice", "classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda", null ],
-    [ "MediaDevice", "classUPnPAV_1_1MediaDevice.html#ac30f6f42c5cf03376f3d1f39e33b2d2f", null ],
     [ "currentConnectionIds", "classUPnPAV_1_1MediaDevice.html#a912fddeaf83460bb487b5d4f1cd79d40", null ],
     [ "currentConnectionInfo", "classUPnPAV_1_1MediaDevice.html#ae7da14f5fa7f35b1b0ef820602e5c1b1", null ],
     [ "deviceCapilities", "classUPnPAV_1_1MediaDevice.html#a61398a84fd05f2b85cecb628f47e16d6", null ],

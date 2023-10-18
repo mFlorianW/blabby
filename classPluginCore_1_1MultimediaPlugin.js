@@ -1,7 +1,5 @@
 var classPluginCore_1_1MultimediaPlugin =
 [
-    [ "~MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html#a492f69725de95f5d62e49391aa6ad006", null ],
-    [ "MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html#a74ae8a8e8ab7aab131fe23578da49c56", null ],
     [ "activeView", "classPluginCore_1_1MultimediaPlugin.html#acd50cac06b47b0dcc54e20990f4ad509", null ],
     [ "activeViewChanged", "classPluginCore_1_1MultimediaPlugin.html#a1150eac9fbbac94d59a5a727901669d9", null ],
     [ "getPluginIdentifier", "classPluginCore_1_1MultimediaPlugin.html#a69be2398a75ac38200bfce163dfc6dd6", null ],

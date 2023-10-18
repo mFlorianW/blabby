@@ -28,9 +28,9 @@ var NAVTREE =
     [ "Blabby", "index.html#autotoc_md0", null ],
     [ "Build", "index.html#autotoc_md1", null ],
     [ "Documentation", "index.html#autotoc_md2", null ],
-    [ "Architecture", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html", [
-      [ "Architecture", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html#Architecture", [
-        [ "Building Blocks", "md__home_runner_work_blabby_blabby_docs_pages_Architecture.html#BuildingBlocks", null ]
+    [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html", [
+      [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Architecture", [
+        [ "Building Blocks", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -53,8 +53,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AvTransportServiceValidator_8h_source.html",
-"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da1ca5f0fe1fbb37aa50bda66adbb2965b",
-"classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a4985bf5e6c9e78e999cc63318277a9a4"
+"classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032af233eff84e70c98d2b8b03c56c0c0189"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
