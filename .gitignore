@@ -43,3 +43,5 @@ build
 backup
 build*
 compile_commands*
+*/*.kra
+*/*~
