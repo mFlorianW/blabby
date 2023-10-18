@@ -18,9 +18,18 @@ jobs:
       with:
         version: '6.5.*'
         cache: 'true'
-    - name: Install Dependencies
+    - name: Install Packages
+      run: sudo apt-get update && sudo apt-get install graphviz
+    - name: Download and Install Doxygen
       run: |
-        sudo apt update && sudo apt install doxygen plantuml
+        wget https://www.doxygen.nl/files/doxygen-1.9.8.linux.bin.tar.gz
+        tar xf doxygen-1.9.8.linux.bin.tar.gz
+        sudo cp doxygen-1.9.8/bin/* /usr/bin
+    - name: Download and Install PlantUML
+      run: |
+        wget https://github.com/plantuml/plantuml/releases/download/v1.2023.11/plantuml-1.2023.11.jar
+        mkdir -p /usr/share/plantuml
+        sudo cp plantuml-1.2023.11.jar /usr/share/plantuml/plantuml.jar
     - name: checkout
       uses: actions/checkout@v4
     - name: build docs
