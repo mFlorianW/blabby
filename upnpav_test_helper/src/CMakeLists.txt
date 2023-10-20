@@ -36,6 +36,10 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportActions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportStateVariables.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.h
 )
 
 target_link_libraries(test_upnp_av_test_helper

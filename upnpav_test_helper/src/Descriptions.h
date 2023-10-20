@@ -59,6 +59,14 @@ ServiceDescription scpdUrlMissingInAvTransportDescription() noexcept;
 
 ServiceDescription controlUrlMissingInAvTransportDescription() noexcept;
 
+QVector<SCPDStateVariable> validRenderingControlStateVariables() noexcept;
+
+QVector<SCPDAction> validRenderingControlActions() noexcept;
+
+ServiceControlPointDefinition validRenderingControlSCPD() noexcept;
+
+ServiceDescription validRenderingControlServiceDescription() noexcept;
+
 } // namespace UPnPAV
 
 #endif // DESCRIPTIONS_H
