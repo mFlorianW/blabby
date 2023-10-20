@@ -16,7 +16,7 @@ namespace UPnPAV
 void GetCurrentConnetionInfoResponseShould::gives_the_correct_result_for_valid_response()
 {
     const auto respone = GetCurrentConnectionInfoResponse(ValidCurrentConnectionInfoResponse,
-                                                          validConnectionManagerSCPD,
+                                                          validConnectionManagerSCPD(),
                                                           GetCurrentConnectionInfo);
     const auto expectedInfo = ConnectionInfo{
         .rcsId = 123,

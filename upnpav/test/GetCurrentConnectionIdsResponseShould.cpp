@@ -16,7 +16,7 @@ namespace UPnPAV
 void GetCurrentConnectionIDsResponseShould::give_the_correct_ids_from_response() noexcept
 {
     const auto response = GetCurrentConnectionIdsResponse(ValidCurrentConnectionIdsResponse,
-                                                          validConnectionManagerSCPD,
+                                                          validConnectionManagerSCPD(),
                                                           GetCurrentConnectionIDs);
     const auto expectedResult = QVector<quint32>{12, 13, 52, 12, 16};
 
