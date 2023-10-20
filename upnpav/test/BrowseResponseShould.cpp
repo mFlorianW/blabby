@@ -19,7 +19,7 @@ namespace
 {
 BrowseResponse createBrowseResult(QString const &response)
 {
-    return BrowseResponse{response, validContentDirectorySCPD, Browse};
+    return BrowseResponse{response, validContentDirectorySCPD(), Browse()};
 }
 } // namespace
 

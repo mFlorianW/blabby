@@ -4,6 +4,8 @@
 #include "MediaDeviceShould.h"
 #include "AvTransportActions.h"
 #include "AvTransportStateVariables.h"
+#include "ConnectionManagerActions.h"
+#include "ConnectionManagerStateVariables.h"
 #include "Descriptions.h"
 #include "DeviceDescription.h"
 #include "InvalidDeviceDescription.h"
@@ -40,8 +42,8 @@ public:
                                 "",
                                 "",
                                 QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
-                                {validContentDirectoryDescription, validConnectionManagerDescription},
-                                {validContentDirectorySCPD, validConnectionManagerSCPD}},
+                                {validContentDirectoryDescription(), validConnectionManagerDescription()},
+                                {validContentDirectorySCPD(), validConnectionManagerSCPD()}},
               QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
     {
     }
@@ -62,16 +64,17 @@ class MediaDeviceWithAV : public TestMediaDevice
 public:
     MediaDeviceWithAV()
         : TestMediaDevice{
-              DeviceDescription{"",
-                                "MediaServerName",
-                                "",
-                                "",
-                                "",
-                                QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
-                                {validContentDirectoryDescription,
-                                 validConnectionManagerDescription,
-                                 validAvTransportServiceDescription()},
-                                {validContentDirectorySCPD, validConnectionManagerSCPD, validAvTranportServiceSCPD()}},
+              DeviceDescription{
+                  "",
+                  "MediaServerName",
+                  "",
+                  "",
+                  "",
+                  QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
+                  {validContentDirectoryDescription(),
+                   validConnectionManagerDescription(),
+                   validAvTransportServiceDescription()},
+                  {validContentDirectorySCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()}},
               QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
     {
     }
@@ -97,12 +100,12 @@ MediaDeviceShould::~MediaDeviceShould() = default;
 ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutStateVariable(
     const SCPDStateVariable &variable)
 {
-    QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables;
+    QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables();
     variables.removeAll(variable);
 
     return ServiceControlPointDefinition{"http://127.0.0.1/ConnectionManager.xml",
                                          variables,
-                                         validConnectionManagerActions};
+                                         validConnectionManagerActions()};
 }
 
 ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutStateVariable(
@@ -130,11 +133,11 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutSt
         "",
         "",
         QVector<IconDescription>{},
-        QVector<ServiceDescription>{validContentDirectoryDescription,
-                                    validConnectionManagerDescription,
+        QVector<ServiceDescription>{validContentDirectoryDescription(),
+                                    validConnectionManagerDescription(),
                                     validAvTransportServiceDescription()},
-        QVector<ServiceControlPointDefinition>{validContentDirectorySCPD,
-                                               validConnectionManagerSCPD,
+        QVector<ServiceControlPointDefinition>{validContentDirectorySCPD(),
+                                               validConnectionManagerSCPD(),
                                                createAvTransportSCPDWithoutStateVariable(variable)}};
     return devDesc;
 }
@@ -147,22 +150,22 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAc
                               "",
                               "",
                               QVector<IconDescription>{},
-                              QVector<ServiceDescription>{validContentDirectoryDescription,
-                                                          validConnectionManagerDescription,
+                              QVector<ServiceDescription>{validContentDirectoryDescription(),
+                                                          validConnectionManagerDescription(),
                                                           validAvTransportServiceDescription()},
-                              QVector<ServiceControlPointDefinition>{validContentDirectorySCPD,
-                                                                     validConnectionManagerSCPD,
+                              QVector<ServiceControlPointDefinition>{validContentDirectorySCPD(),
+                                                                     validConnectionManagerSCPD(),
                                                                      createAvTransportSCPDWithoutAction(action)}};
     return devDesc;
 }
 
 ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
 {
-    QVector<SCPDAction> actions = validConnectionManagerActions;
+    QVector<SCPDAction> actions = validConnectionManagerActions();
     actions.removeAll(action);
 
     return ServiceControlPointDefinition{"http://127.0.0.1/ConnectionManager.xml",
-                                         validConnectionManagerStateVariables,
+                                         validConnectionManagerStateVariables(),
                                          actions};
 }
 
@@ -189,8 +192,8 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 "",
                                                                 "",
                                                                 {},
-                                                                {eventUrlMissingInConnectionManagerDescription},
-                                                                {validConnectionManagerSCPD}});
+                                                                {eventUrlMissingInConnectionManagerDescription()},
+                                                                {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -209,8 +212,8 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 "",
                                                                 "",
                                                                 {},
-                                                                {serviceIdMissingInConnectionManagerDescription},
-                                                                {validConnectionManagerSCPD}});
+                                                                {serviceIdMissingInConnectionManagerDescription()},
+                                                                {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -229,8 +232,8 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 "",
                                                                 "",
                                                                 {},
-                                                                {scpdUrlMissingInConnectionManagerDescription},
-                                                                {validConnectionManagerSCPD}});
+                                                                {scpdUrlMissingInConnectionManagerDescription()},
+                                                                {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -244,7 +247,7 @@ void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_Fo
     try
     {
         auto const dev =
-            MediaDeviceWithoutAV(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription}});
+            MediaDeviceWithoutAV(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (const InvalidDeviceDescription &e)
@@ -263,8 +266,8 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 "",
                                                                 "",
                                                                 {},
-                                                                {controlUrlMissingInConnectionManagerDescription},
-                                                                {validConnectionManagerSCPD}});
+                                                                {controlUrlMissingInConnectionManagerDescription()},
+                                                                {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
     }
     catch (InvalidDeviceDescription &e)
@@ -284,7 +287,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
                                                  "",
                                                  "",
                                                  QVector<IconDescription>{},
-                                                 {validConnectionManagerDescription},
+                                                 {validConnectionManagerDescription()},
                                                  {createConnectionManagerSCPDWithoutStateVariable(SourceProtocolInfo)}};
 
     QTest::newRow("State variable SourceProtocolInfo missing")
@@ -296,7 +299,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
                                                "",
                                                "",
                                                QVector<IconDescription>{},
-                                               {validConnectionManagerDescription},
+                                               {validConnectionManagerDescription()},
                                                {createConnectionManagerSCPDWithoutStateVariable(SinkProtocolInfo)}};
 
     QTest::newRow("State variable SinkProtocolInfo missing")
@@ -309,7 +312,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(CurrentConnectionIDs)}};
 
     QTest::newRow("State variable CurrentConnectionIDs missing")
@@ -322,7 +325,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionStatus)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionStatus missing")
@@ -335,7 +338,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionManager)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionManager missing")
@@ -348,7 +351,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_Direction)}};
 
     QTest::newRow("State variable A_ARG_TYPE_Direction missing")
@@ -361,7 +364,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ProtocolInfo)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ProtocolInfo missing")
@@ -374,7 +377,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionID)}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionID missing")
@@ -386,7 +389,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
                                                "",
                                                "",
                                                QVector<IconDescription>{},
-                                               {validConnectionManagerDescription},
+                                               {validConnectionManagerDescription()},
                                                {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_RcsID)}};
 
     QTest::newRow("State variable A_ARG_TYPE_RcsID missing")
@@ -424,7 +427,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
                                               "",
                                               "",
                                               QVector<IconDescription>{},
-                                              {validConnectionManagerDescription},
+                                              {validConnectionManagerDescription()},
                                               {createConnectionManagerSCPDWithoutAction(GetProtocolInfo)}};
 
     QTest::newRow("Action GetProtocolInfo missing") << GetProtocolInfo_Missing << "ConnectionManager.*GetProtocolInfo";
@@ -436,7 +439,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionIDs)}};
 
     QTest::newRow("Action GetCurrentConnectionIDs missing")
@@ -449,7 +452,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
         "",
         "",
         QVector<IconDescription>{},
-        {validConnectionManagerDescription},
+        {validConnectionManagerDescription()},
         {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionInfo)}};
 
     QTest::newRow("Action GetCurrentConnectionInfo missing")
@@ -559,13 +562,13 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
         "", "", "", "", "",
         QVector<IconDescription>{},
         QVector<ServiceDescription>{
-            validContentDirectoryDescription,
-            validConnectionManagerDescription,
+            validContentDirectoryDescription(),
+            validConnectionManagerDescription(),
             eventUrlMissingInAvTransportDescription()
         },
         QVector<ServiceControlPointDefinition>{
-            validContentDirectorySCPD,
-            validConnectionManagerSCPD,
+            validContentDirectorySCPD(),
+            validConnectionManagerSCPD(),
             validAvTranportServiceSCPD()
         }
     };
@@ -579,13 +582,13 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
         "", "", "", "", "",
         QVector<IconDescription>{},
         QVector<ServiceDescription>{
-            validContentDirectoryDescription,
-            validConnectionManagerDescription,
+            validContentDirectoryDescription(),
+            validConnectionManagerDescription(),
             controlUrlMissingInAvTransportDescription()
         },
         QVector<ServiceControlPointDefinition>{
-            validContentDirectorySCPD,
-            validConnectionManagerSCPD,
+            validContentDirectorySCPD(),
+            validConnectionManagerSCPD(),
             validAvTranportServiceSCPD()
         }
     };
@@ -599,13 +602,13 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
         "", "", "", "", "",
         QVector<IconDescription>{},
         QVector<ServiceDescription>{
-            validContentDirectoryDescription,
-            validConnectionManagerDescription,
+            validContentDirectoryDescription(),
+            validConnectionManagerDescription(),
             serviceUrlMissingInAvTransportDescription()
         },
         QVector<ServiceControlPointDefinition>{
-            validContentDirectorySCPD,
-            validConnectionManagerSCPD,
+            validContentDirectorySCPD(),
+            validConnectionManagerSCPD(),
             validAvTranportServiceSCPD()
         }
     };
@@ -619,13 +622,13 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
         "", "", "", "", "",
         QVector<IconDescription>{},
         QVector<ServiceDescription>{
-            validContentDirectoryDescription,
-            validConnectionManagerDescription,
+            validContentDirectoryDescription(),
+            validConnectionManagerDescription(),
             scpdUrlMissingInAvTransportDescription()
         },
         QVector<ServiceControlPointDefinition>{
-            validContentDirectorySCPD,
-            validConnectionManagerSCPD,
+            validContentDirectorySCPD(),
+            validConnectionManagerSCPD(),
             validAvTranportServiceSCPD()
         }
     };

@@ -31,8 +31,8 @@ MediaServer::MediaServer()
               "",
               "",
               QVector<UPnPAV::IconDescription>{},
-              {UPnPAV::validContentDirectoryDescription, UPnPAV::validConnectionManagerDescription},
-              {UPnPAV::validContentDirectorySCPD, UPnPAV::validConnectionManagerSCPD}},
+              {UPnPAV::validContentDirectoryDescription(), UPnPAV::validConnectionManagerDescription()},
+              {UPnPAV::validContentDirectorySCPD(), UPnPAV::validConnectionManagerSCPD()}},
           QSharedPointer<UPnPAV::SoapMessageTransmitter>(nullptr))
 {
 }
@@ -79,7 +79,7 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objec
     lastBrowseRequest.objectId = objectId;
     lastBrowseRequest.browseFlag = browseFlag;
 
-    return QSharedPointer<UPnPAV::PendingSoapCall>{new UPnPAV::PendingSoapCall{soapCall}};
+    return QSharedPointer<UPnPAV::PendingSoapCall>{new (std::nothrow) UPnPAV::PendingSoapCall{soapCall}};
 }
 
 } // namespace MediaServer::Plugin::Doubles

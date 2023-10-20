@@ -2,7 +2,6 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-
 #ifndef CONTENTDIRECTORYSTATEVARIABLES_H
 #define CONTENTDIRECTORYSTATEVARIABLES_H
 
@@ -12,87 +11,27 @@
 namespace UPnPAV
 {
 
-static SCPDStateVariable A_ARG_TYPE_ObjectID
-{
-    false,
-    "A_ARG_TYPE_ObjectID",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable A_ARG_TYPE_ObjectID();
 
-static SCPDStateVariable A_ARG_TYPE_Result
-{
-    false,
-    "A_ARG_TYPE_Result",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable A_ARG_TYPE_Result();
 
-static SCPDStateVariable A_ARG_TYPE_BrowseFlag
-{
-    false,
-    "A_ARG_TYPE_BrowseFlag",
-    SCPDStateVariable::DataType::String,
-    "",
-    {
-        "BrowseMetaData"
-        "BrowseDirectChildren"
-    }
-};
+SCPDStateVariable A_ARG_TYPE_BrowseFlag();
 
-static SCPDStateVariable A_ARG_TYPE_Filter
-{
-    false,
-    "A_ARG_TYPE_Filter",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable A_ARG_TYPE_Filter();
 
-static SCPDStateVariable A_ARG_TYPE_SortCriteria
-{
-    false,
-    "A_ARG_TYPE_SortCriteria",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable A_ARG_TYPE_SortCriteria();
 
-static SCPDStateVariable A_ARG_TYPE_Index
-{
-    false,
-    "A_ARG_TYPE_Index",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable A_ARG_TYPE_Index();
 
-static SCPDStateVariable A_ARG_TYPE_Count
-{
-    false,
-    "A_ARG_TYPE_Count",
-    SCPDStateVariable::DataType::Ui4
-};
+SCPDStateVariable A_ARG_TYPE_Count();
 
-static SCPDStateVariable A_ARG_TYPE_UpdateID
-{
-    false,
-    "A_ARG_TYPE_UpdateID",
-    SCPDStateVariable::DataType::Ui4
-};
+SCPDStateVariable A_ARG_TYPE_UpdateID();
 
-static SCPDStateVariable SearchCapabilities
-{
-    false,
-    "SearchCapabilities",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable SearchCapabilities();
 
-static SCPDStateVariable SortCapabilities
-{
-    false,
-    "SortCapabilities",
-    SCPDStateVariable::DataType::String
-};
+SCPDStateVariable SortCapabilities();
 
-static SCPDStateVariable SystemUpdateID
-{
-    true,
-    "SystemUpdateID",
-    SCPDStateVariable::DataType::Ui4
-};
+SCPDStateVariable SystemUpdateID();
 
 } //namespace UPnPAV
 

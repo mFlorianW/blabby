@@ -17,7 +17,9 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryActions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryActions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryStateVariables.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryStateVariables.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.h
