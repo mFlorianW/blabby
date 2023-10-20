@@ -10,6 +10,8 @@
 #include "ConnectionManagerStateVariables.h"
 #include "ContentDirectoryActions.h"
 #include "ContentDirectoryStateVariables.h"
+#include "RenderingControlActions.h"
+#include "RenderingControlStateVariables.h"
 
 namespace UPnPAV
 {
@@ -329,4 +331,52 @@ ServiceDescription scpdUrlMissingInAvTransportDescription() noexcept
 
     return desc;
 }
+
+QVector<SCPDStateVariable> validRenderingControlStateVariables() noexcept
+{
+    static auto vars = QVector<SCPDStateVariable>{
+        lastChangeVariable(),
+        presetNameListVariable(),
+        a_ARG_TYPE_ChannelVariable(),
+        a_ARG_TYPE_InstanceIDVariable(),
+        a_ARG_TYPE_PresetNameVariable(),
+    };
+    return vars;
+}
+
+QVector<SCPDAction> validRenderingControlActions() noexcept
+{
+    static auto actions = QVector<SCPDAction>{
+        listPresetsAction(),
+        selectPresetAction(),
+    };
+    return actions;
+}
+
+ServiceControlPointDefinition validRenderingControlSCPD() noexcept
+{
+    static auto const scpd = ServiceControlPointDefinition{
+        QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
+        validRenderingControlStateVariables(),
+        validAvTranportActions(),
+    };
+    return scpd;
+}
+
+ServiceDescription validRenderingControlServiceDescription() noexcept
+{
+    // clang-format off
+    static auto const desc = ServiceDescription
+    {
+        QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
+        QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
+        QString(""),
+        QStringLiteral("http://127.0.0.1/test/controlUrl"),
+        QStringLiteral("http://127.0.0.1/test/eventUrl")
+    };
+    // clang-format on
+
+    return desc;
+}
+
 } // namespace UPnPAV
