@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blabby: Member List</title>
+<title>Blabby: UPnPAV::GetProtocolInfoResponse Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -79,7 +79,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('classUPnPAV_1_1CurrentConnectionInfoResult.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('classUPnPAV_1_1GetProtocolInfoResponse.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -105,20 +105,39 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1CurrentConnectionInfoRe
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">UPnPAV::CurrentConnectionInfoResult Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classUPnPAV_1_1GetProtocolInfoResponse-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">UPnPAV::GetProtocolInfoResponse Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a>, including all inherited members.</p>
-<table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>connectionInfo</b>() const noexcept (defined in <a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>CurrentConnectionInfoResult</b>(QString const &amp;xmlResponse, ServiceControlPointDefinition const &amp;scpd, SCPDAction action) (defined in <a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~CurrentConnectionInfoResult</b>() (defined in <a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1CurrentConnectionInfoResult.html">UPnPAV::CurrentConnectionInfoResult</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="GetProtocolInfoResponse_8h_source.html">GetProtocolInfoResponse.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a47503567541c5c328793473a338e961a" id="r_a47503567541c5c328793473a338e961a"><td class="memItemLeft" align="right" valign="top"><a id="a47503567541c5c328793473a338e961a" name="a47503567541c5c328793473a338e961a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GetProtocolInfoResponse</b> (const QString &amp;xmlResponse)</td></tr>
+<tr class="separator:a47503567541c5c328793473a338e961a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b6a352e41c17b33b54cee2976e2975" id="r_ac7b6a352e41c17b33b54cee2976e2975"><td class="memItemLeft" align="right" valign="top"><a id="ac7b6a352e41c17b33b54cee2976e2975" name="ac7b6a352e41c17b33b54cee2976e2975"></a>
+const QVector&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>sourceProtocols</b> () const noexcept</td></tr>
+<tr class="separator:ac7b6a352e41c17b33b54cee2976e2975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c3df265e92214a4e5e9dfb0a1713695" id="r_a8c3df265e92214a4e5e9dfb0a1713695"><td class="memItemLeft" align="right" valign="top"><a id="a8c3df265e92214a4e5e9dfb0a1713695" name="a8c3df265e92214a4e5e9dfb0a1713695"></a>
+const QVector&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>sinkProtocols</b> () const noexcept</td></tr>
+<tr class="separator:a8c3df265e92214a4e5e9dfb0a1713695"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This struct is the result of ConnectionManager::GetProtocolInfo call on a UPnPAV media device. The result contains the supported source and sink protocols of the device. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/runner/work/blabby/blabby/upnpav/src/<a class="el" href="GetProtocolInfoResponse_8h_source.html">GetProtocolInfoResponse.h</a></li>
+<li>/home/runner/work/blabby/blabby/upnpav/src/<b>GetProtocolInfoResponse.cpp</b></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><b>UPnPAV</b></li><li class="navelem"><a class="el" href="classUPnPAV_1_1GetProtocolInfoResponse.html">GetProtocolInfoResponse</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

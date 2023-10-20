@@ -11,16 +11,17 @@ var hierarchy =
         [ "UPnPAV::ContentDirectoryServiceValidator", "classUPnPAV_1_1ContentDirectoryServiceValidator.html", null ]
       ] ]
     ] ],
-    [ "UPnPAV::BrowseResult", "classUPnPAV_1_1BrowseResult.html", null ],
+    [ "UPnPAV::BrowseResponse", "classUPnPAV_1_1BrowseResponse.html", null ],
     [ "UPnPAV::ConnectionInfo", "structUPnPAV_1_1ConnectionInfo.html", null ],
-    [ "UPnPAV::CurrentConnectionIdsResult", "classUPnPAV_1_1CurrentConnectionIdsResult.html", null ],
-    [ "UPnPAV::CurrentConnectionInfoResult", "classUPnPAV_1_1CurrentConnectionInfoResult.html", null ],
     [ "UPnPAV::DeviceDescription", "classUPnPAV_1_1DeviceDescription.html", null ],
     [ "UPnPAV::DeviceDescriptionParser", "classUPnPAV_1_1DeviceDescriptionParser.html", null ],
     [ "UPnPAV::ErrorResult", "classUPnPAV_1_1ErrorResult.html", null ],
+    [ "UPnPAV::GetCurrentConnectionIdsResponse", "classUPnPAV_1_1GetCurrentConnectionIdsResponse.html", null ],
+    [ "UPnPAV::GetCurrentConnectionInfoResponse", "classUPnPAV_1_1GetCurrentConnectionInfoResponse.html", null ],
     [ "UPnPAV::GetDeviceCapabilitiesResponse", "classUPnPAV_1_1GetDeviceCapabilitiesResponse.html", null ],
     [ "UPnPAV::GetMediaInfoResponse", "classUPnPAV_1_1GetMediaInfoResponse.html", null ],
     [ "UPnPAV::GetPositionInfoResponse", "classUPnPAV_1_1GetPositionInfoResponse.html", null ],
+    [ "UPnPAV::GetProtocolInfoResponse", "classUPnPAV_1_1GetProtocolInfoResponse.html", null ],
     [ "UPnPAV::GetTransportInfoResponse", "classUPnPAV_1_1GetTransportInfoResponse.html", null ],
     [ "UPnPAV::GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", null ],
     [ "UPnPAV::IconDescription", "classUPnPAV_1_1IconDescription.html", null ],
@@ -34,7 +35,6 @@ var hierarchy =
     [ "PluginCore::MultimediaPluginPrivate", "classPluginCore_1_1MultimediaPluginPrivate.html", null ],
     [ "PluginCore::PluginVersion", "structPluginCore_1_1PluginVersion.html", null ],
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
-    [ "UPnPAV::ProtocolInfoResult", "classUPnPAV_1_1ProtocolInfoResult.html", null ],
     [ "QException", null, [
       [ "ParsingError", "classParsingError.html", null ],
       [ "UPnPAV::InvalidDeviceDescription", "classUPnPAV_1_1InvalidDeviceDescription.html", null ],
