@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 ## Building Blocks {#BuildingBlocks}
 
 @startuml "Building Blocks"
-skinparam linetype ortho
+!pragma layout elk
 node "Blabby" {
     node "Core" {
         component UPnPAV as upnpav{
@@ -27,9 +27,13 @@ node "Blabby" {
             [Multimedia] --> [Provider]
         }
 
+    }
+
+    node "Shell" {
         component Shell as shell
         shell --> [Multimedia]
         shell --> [Renderer]
+        shell --> [Provider]
     }
 
     node "Plugins" {
@@ -38,6 +42,8 @@ node "Blabby" {
             [FileSystemProvider]
 
             [MediaServerProvider] --> [Provider]
+            [MediaServerProvider] --> [MediaDevice]
+            [MediaServerProvider] --> [ServiceDiscovery]
             [FileSystemProvider] --> [Provider]
         }
     }
@@ -46,7 +52,7 @@ node "Blabby" {
 
 ## Multimedia {#Multimedia}
 @startuml Provider Module
-skinparam linetype ortho
+!pragma layout elk
 node "Multimedia"{
     node "Provider"{
         interface Provider
