@@ -1,4 +1,5 @@
 @startuml inline_umlgraph_1.png
+skinparam linetype ortho
 node "Blabby" {
     node "Core" {
         component UPnPAV as upnpav{
@@ -6,20 +7,83 @@ node "Blabby" {
             [MediaDevice]
         }
 
-        component MultiMedia as media {
-            [ProviderPlugin]
-            [MultiMedia]
+        component Multimedia as media {
+            [Provider]
+            [Multimedia]
             [Renderer]
 
             [Renderer] --> [MediaDevice]
             [Renderer] --> [ServiceDiscovery]
 
-            [MultiMedia] --> [ProviderPlugin]
+            [Multimedia] --> [Provider]
         }
 
         component Shell as shell
-        shell --> [MultiMedia]
+        shell --> [Multimedia]
         shell --> [Renderer]
+    }
+
+    node "Plugins" {
+        component Provider as provider{
+            [MediaServerProvider]
+            [FileSystemProvider]
+
+            [MediaServerProvider] --> [Provider]
+            [FileSystemProvider] --> [Provider]
+        }
+    }
+}
+@enduml
+@startuml inline_umlgraph_2.png
+skinparam linetype ortho
+node "Multimedia"{
+    node "Provider"{
+        interface Provider
+        class ProviderLoader
+        class MediaSource
+        class MediaItem 
+        class MediaItemModel
+        class ProviderModel
+
+        class ProviderLoader {
+            void loadProvider(QStringList providerFolders);
+            std::shared_pointer<ProviderModel> providerModel();
+        }
+
+        class Provider {
+            QString name();
+            Version verion();
+            QVector<std::shared_pointer<MediaSource> sources();
+            sourceAdded(std::shared_pointer<MediaSource> source);
+            sourceRemoved(std::shared_pointer<MediaSource> source);
+        }
+
+        class MediaSource{
+            QString name();
+            MediaItemModel model();
+            std::optional<Icon> icon();
+        }
+
+        class MediaItem{
+            QString name();
+            std::optional<Icon> icon();
+            QUrl url();
+            Type type();
+        }
+
+        ProviderLoader --> Provider : creates
+        ProviderLoader "1" o-- "1" ProviderModel 
+        Provider "1" o-- "1..*" MediaSource
+        MediaSource "1" o-- "1" MediaItemModel
+        MediaItemModel "1" o-- "*" MediaItem
+    }
+
+    node Multimedia {
+
+    }
+
+    node Renderer {
+
     }
 }
 @enduml

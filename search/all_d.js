@@ -18,5 +18,6 @@ var searchData=
   ['positioninfo_15',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
   ['previous_16',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
   ['protocol_17',['Protocol',['../structUPnPAV_1_1Protocol.html',1,'UPnPAV']]],
-  ['protocolinfo_18',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]]
+  ['protocolinfo_18',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
+  ['provider_19',['Provider',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider',1,'']]]
 ];

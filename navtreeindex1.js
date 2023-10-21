@@ -79,6 +79,8 @@ var NAVTREEINDEX1 =
 "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html":[3],
 "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Architecture":[3,0],
 "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks":[3,0,0],
+"md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia":[3,0,1],
+"md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider":[3,0,1,0],
 "pages.html":[],
 "structPluginCore_1_1PluginVersion.html":[4,0,0,2],
 "structUPnPAV_1_1Argument.html":[4,0,1,0],

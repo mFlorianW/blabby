@@ -30,7 +30,10 @@ var NAVTREE =
     [ "Documentation", "index.html#autotoc_md2", null ],
     [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html", [
       [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Architecture", [
-        [ "Building Blocks", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks", null ]
+        [ "Building Blocks", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks", null ],
+        [ "Multimedia", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia", [
+          [ "Provider", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider", null ]
+        ] ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
