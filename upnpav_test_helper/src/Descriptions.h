@@ -67,6 +67,14 @@ ServiceControlPointDefinition validRenderingControlSCPD() noexcept;
 
 ServiceDescription validRenderingControlServiceDescription() noexcept;
 
+ServiceDescription scpdUrlMissingInRenderingControlDescription() noexcept;
+
+ServiceDescription eventUrlMissingInRenderingControlDescription() noexcept;
+
+ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept;
+
+ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept;
+
 } // namespace UPnPAV
 
 #endif // DESCRIPTIONS_H

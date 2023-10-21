@@ -253,3 +253,20 @@ target_link_libraries(test_upnpav_get_transport_settings_response
         Qt6::Test
 )
 add_test(test_upnpav_get_transport_settings_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_transport_settings_response)
+
+###############################################################################
+# Test MediaRenderer
+###############################################################################
+add_executable(test_upnpav_media_renderer)
+target_sources(test_upnpav_media_renderer
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererShould.h
+)
+target_link_libraries(test_upnpav_media_renderer
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_media_renderer ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_renderer)

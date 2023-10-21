@@ -8,7 +8,7 @@ namespace UPnPAV
 {
 SCPDStateVariable lastChangeVariable() noexcept
 {
-    static auto var = SCPDStateVariable{true, QStringLiteral("Lastchange"), SCPDStateVariable::String};
+    static auto var = SCPDStateVariable{true, QStringLiteral("LastChange"), SCPDStateVariable::String};
     return var;
 }
 
