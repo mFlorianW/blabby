@@ -964,6 +964,7 @@ WARN_LOGFILE           =
 
 INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/pages \
                          @CMAKE_CURRENT_SOURCE_DIR@/../upnpav \
+                         @CMAKE_CURRENT_SOURCE_DIR@/../multimedia \
                          @CMAKE_CURRENT_SOURCE_DIR@/../README.md \
                          @CMAKE_CURRENT_SOURCE_DIR@/../plugincore \
 
