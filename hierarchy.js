@@ -8,7 +8,8 @@ var hierarchy =
       [ "UPnPAV::ServiceValidatorBase", "classUPnPAV_1_1ServiceValidatorBase.html", [
         [ "UPnPAV::AvTransportServiceValidator", "classUPnPAV_1_1AvTransportServiceValidator.html", null ],
         [ "UPnPAV::ConnectionManagerServiceValidator", "classUPnPAV_1_1ConnectionManagerServiceValidator.html", null ],
-        [ "UPnPAV::ContentDirectoryServiceValidator", "classUPnPAV_1_1ContentDirectoryServiceValidator.html", null ]
+        [ "UPnPAV::ContentDirectoryServiceValidator", "classUPnPAV_1_1ContentDirectoryServiceValidator.html", null ],
+        [ "UPnPAV::RenderingControlServiceValidator", "classUPnPAV_1_1RenderingControlServiceValidator.html", null ]
       ] ]
     ] ],
     [ "UPnPAV::BrowseResponse", "classUPnPAV_1_1BrowseResponse.html", null ],
@@ -26,6 +27,7 @@ var hierarchy =
     [ "UPnPAV::GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", null ],
     [ "UPnPAV::IconDescription", "classUPnPAV_1_1IconDescription.html", null ],
     [ "UPnPAV::MediaDevice", "classUPnPAV_1_1MediaDevice.html", [
+      [ "UPnPAV::MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", null ],
       [ "UPnPAV::MediaServer", "classUPnPAV_1_1MediaServer.html", null ]
     ] ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],

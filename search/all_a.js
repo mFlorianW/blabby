@@ -6,10 +6,11 @@ var searchData=
   ['mediainfo_3',['mediaInfo',['../classUPnPAV_1_1MediaDevice.html#a57633fba8cfb183410d0db44266c7171',1,'UPnPAV::MediaDevice']]],
   ['mediaisfull_4',['MediaIsFull',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ad858de6b65f58787606f03f49275b740',1,'UPnPAV::PendingSoapCall']]],
   ['mediaisprotectedornotwritable_5',['MediaIsProtectedorNotWritable',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a71a686c3f988f6c6e93da2a03bb28dd7',1,'UPnPAV::PendingSoapCall']]],
-  ['mediaserver_6',['mediaserver',['../classUPnPAV_1_1MediaServer.html',1,'UPnPAV::MediaServer'],['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer::MediaServer()']]],
-  ['mediaserverfactory_7',['MediaServerFactory',['../classUPnPAV_1_1MediaServerFactory.html',1,'UPnPAV']]],
-  ['mediaserverobject_8',['MediaServerObject',['../classUPnPAV_1_1MediaServerObject.html',1,'UPnPAV']]],
-  ['mediaserverprivate_9',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
-  ['multimediaplugin_10',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],
-  ['multimediapluginprivate_11',['MultimediaPluginPrivate',['../classPluginCore_1_1MultimediaPluginPrivate.html',1,'PluginCore']]]
+  ['mediarenderer_6',['mediarenderer',['../classUPnPAV_1_1MediaRenderer.html',1,'UPnPAV::MediaRenderer'],['../classUPnPAV_1_1MediaRenderer.html#a4228141d06dfedbef5823ffc590770d4',1,'UPnPAV::MediaRenderer::MediaRenderer()']]],
+  ['mediaserver_7',['mediaserver',['../classUPnPAV_1_1MediaServer.html',1,'UPnPAV::MediaServer'],['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer::MediaServer()']]],
+  ['mediaserverfactory_8',['MediaServerFactory',['../classUPnPAV_1_1MediaServerFactory.html',1,'UPnPAV']]],
+  ['mediaserverobject_9',['MediaServerObject',['../classUPnPAV_1_1MediaServerObject.html',1,'UPnPAV']]],
+  ['mediaserverprivate_10',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
+  ['multimediaplugin_11',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],
+  ['multimediapluginprivate_12',['MultimediaPluginPrivate',['../classPluginCore_1_1MultimediaPluginPrivate.html',1,'PluginCore']]]
 ];

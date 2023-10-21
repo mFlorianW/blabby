@@ -2,5 +2,6 @@ var searchData=
 [
   ['mediaduration_0',['mediaDuration',['../classUPnPAV_1_1GetMediaInfoResponse.html#a2a11999f963109c46fc2d1c41df417de',1,'UPnPAV::GetMediaInfoResponse']]],
   ['mediainfo_1',['mediaInfo',['../classUPnPAV_1_1MediaDevice.html#a57633fba8cfb183410d0db44266c7171',1,'UPnPAV::MediaDevice']]],
-  ['mediaserver_2',['MediaServer',['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer']]]
+  ['mediarenderer_2',['MediaRenderer',['../classUPnPAV_1_1MediaRenderer.html#a4228141d06dfedbef5823ffc590770d4',1,'UPnPAV::MediaRenderer']]],
+  ['mediaserver_3',['MediaServer',['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer']]]
 ];

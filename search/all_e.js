@@ -11,8 +11,9 @@ var searchData=
   ['recqualitymodes_8',['recQualityModes',['../classUPnPAV_1_1GetDeviceCapabilitiesResponse.html#afb0fe1aeb8da1cad275bd85f154dff22',1,'UPnPAV::GetDeviceCapabilitiesResponse']]],
   ['relcount_9',['relCount',['../classUPnPAV_1_1GetPositionInfoResponse.html#a3af45f0bb84d30a0bdb92c4eda2d116e',1,'UPnPAV::GetPositionInfoResponse']]],
   ['reltime_10',['relTime',['../classUPnPAV_1_1GetPositionInfoResponse.html#a570309454ef1d970d6413e615945d3f6',1,'UPnPAV::GetPositionInfoResponse']]],
-  ['resourcenotfound_11',['ResourceNotFound',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a481a3f3d9088b09047fe12fc86061fe1',1,'UPnPAV::PendingSoapCall']]],
-  ['responsereader_12',['ResponseReader',['../classUPnPAV_1_1ResponseReader.html',1,'UPnPAV']]],
-  ['resultas_13',['resultAs',['../classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523',1,'UPnPAV::PendingSoapCall']]],
-  ['rootdevicedescription_14',['rootdevicedescription',['../classUPnPAV_1_1IServiceProvider.html#a9d30088b3fdb7b9c145a24f2a853a923',1,'UPnPAV::IServiceProvider::rootDeviceDescription()'],['../classUPnPAV_1_1ServiceProvider.html#a8d708c0d4c0d58505fff6f664c17be3e',1,'UPnPAV::ServiceProvider::rootDeviceDescription()']]]
+  ['renderingcontrolservicevalidator_11',['RenderingControlServiceValidator',['../classUPnPAV_1_1RenderingControlServiceValidator.html',1,'UPnPAV']]],
+  ['resourcenotfound_12',['ResourceNotFound',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a481a3f3d9088b09047fe12fc86061fe1',1,'UPnPAV::PendingSoapCall']]],
+  ['responsereader_13',['ResponseReader',['../classUPnPAV_1_1ResponseReader.html',1,'UPnPAV']]],
+  ['resultas_14',['resultAs',['../classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523',1,'UPnPAV::PendingSoapCall']]],
+  ['rootdevicedescription_15',['rootdevicedescription',['../classUPnPAV_1_1IServiceProvider.html#a9d30088b3fdb7b9c145a24f2a853a923',1,'UPnPAV::IServiceProvider::rootDeviceDescription()'],['../classUPnPAV_1_1ServiceProvider.html#a8d708c0d4c0d58505fff6f664c17be3e',1,'UPnPAV::ServiceProvider::rootDeviceDescription()']]]
 ];

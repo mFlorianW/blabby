@@ -17,6 +17,7 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "InvalidDeviceDescription.h", "InvalidDeviceDescription_8h_source.html", null ],
     [ "IServiceProvider.h", "IServiceProvider_8h_source.html", null ],
     [ "MediaDevice.h", "MediaDevice_8h_source.html", null ],
+    [ "MediaRenderer.h", "MediaRenderer_8h_source.html", null ],
     [ "MediaServer.h", "MediaServer_8h_source.html", null ],
     [ "MediaServerObject.h", "MediaServerObject_8h_source.html", null ],
     [ "PendingSoapCall.h", "PendingSoapCall_8h_source.html", null ],

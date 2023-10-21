@@ -12,6 +12,7 @@ var dir_71536ca68254924bc0296813f8800c30 =
     [ "MediaDevicePrivate.h", "MediaDevicePrivate_8h_source.html", null ],
     [ "MediaServer_p.h", "MediaServer__p_8h_source.html", null ],
     [ "ParsingError.h", "ParsingError_8h_source.html", null ],
+    [ "RenderingControlServiceValidator.h", "RenderingControlServiceValidator_8h_source.html", null ],
     [ "ResponseReader.h", "ResponseReader_8h_source.html", null ],
     [ "ScpdActionListValidator.h", "ScpdActionListValidator_8h_source.html", null ],
     [ "ScpdStateVariableValidator.h", "ScpdStateVariableValidator_8h_source.html", null ],
