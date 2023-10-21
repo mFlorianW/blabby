@@ -1,5 +1,5 @@
 @startuml inline_umlgraph_1.png
-skinparam linetype ortho
+!pragma layout elk
 node "Blabby" {
     node "Core" {
         component UPnPAV as upnpav{
@@ -18,9 +18,13 @@ node "Blabby" {
             [Multimedia] --> [Provider]
         }
 
+    }
+
+    node "Shell" {
         component Shell as shell
         shell --> [Multimedia]
         shell --> [Renderer]
+        shell --> [Provider]
     }
 
     node "Plugins" {
@@ -29,13 +33,15 @@ node "Blabby" {
             [FileSystemProvider]
 
             [MediaServerProvider] --> [Provider]
+            [MediaServerProvider] --> [MediaDevice]
+            [MediaServerProvider] --> [ServiceDiscovery]
             [FileSystemProvider] --> [Provider]
         }
     }
 }
 @enduml
 @startuml inline_umlgraph_2.png
-skinparam linetype ortho
+!pragma layout elk
 node "Multimedia"{
     node "Provider"{
         interface Provider
