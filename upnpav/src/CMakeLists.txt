@@ -36,6 +36,7 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ErrorResult.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/AvTransportServiceValidator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -63,6 +64,7 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ErrorResult.h
     ${CMAKE_CURRENT_SOURCE_DIR}/private/AvTransportServiceValidator.h
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.h
 )
 
 set(PUBLIC_SRCS
@@ -97,6 +99,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -133,6 +136,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponse.h
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.h
 )
 
 target_sources(${PROJECT_NAME}

@@ -358,7 +358,7 @@ ServiceControlPointDefinition validRenderingControlSCPD() noexcept
     static auto const scpd = ServiceControlPointDefinition{
         QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
         validRenderingControlStateVariables(),
-        validAvTranportActions(),
+        validRenderingControlActions(),
     };
     return scpd;
 }
@@ -370,7 +370,68 @@ ServiceDescription validRenderingControlServiceDescription() noexcept
     {
         QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
         QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
-        QString(""),
+        QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
+        QStringLiteral("http://127.0.0.1/test/controlUrl"),
+        QStringLiteral("http://127.0.0.1/test/eventUrl")
+    };
+    // clang-format on
+
+    return desc;
+}
+
+ServiceDescription scpdUrlMissingInRenderingControlDescription() noexcept
+{
+    // clang-format off
+    static auto const desc = ServiceDescription
+    {
+        QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
+        QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
+        QStringLiteral(""),
+        QStringLiteral("http://127.0.0.1/test/controlUrl"),
+        QStringLiteral("http://127.0.0.1/test/eventUrl")
+    };
+    // clang-format on
+    return desc;
+}
+
+ServiceDescription eventUrlMissingInRenderingControlDescription() noexcept
+{
+    // clang-format off
+    static auto const desc = ServiceDescription
+    {
+        QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
+        QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
+        QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
+        QStringLiteral("http://127.0.0.1/test/controlUrl"),
+        QStringLiteral("")
+    };
+    // clang-format on
+    return desc;
+}
+
+ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept
+{
+    // clang-format off
+    static auto const desc = ServiceDescription
+    {
+        QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
+        QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
+        QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
+        QStringLiteral("http://127.0.0.1/test/controlUrl"),
+        QStringLiteral("")
+    };
+    // clang-format on
+    return desc;
+}
+
+ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
+{
+    // clang-format off
+    static auto const desc = ServiceDescription
+    {
+        QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
+        QStringLiteral(""),
+        QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
         QStringLiteral("http://127.0.0.1/test/eventUrl")
     };
