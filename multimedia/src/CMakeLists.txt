@@ -16,9 +16,13 @@ set(PRIVATE_HEADERS
 )
 
 set(PUBLIC_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Provider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.cpp
 )
 
 set(PUBLIC_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Provider.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -33,6 +37,11 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        Qt6::Core
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
