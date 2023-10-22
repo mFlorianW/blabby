@@ -49,3 +49,7 @@ endif("${isSystemDir}" STREQUAL "-1")
 # Subdirectories
 ################################################################################
 add_subdirectory(src)
+
+if(ENABLE_TEST)
+    add_subdirectory(test)
+endif()
