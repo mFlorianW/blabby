@@ -59,7 +59,6 @@ node "Multimedia"{
         class ProviderLoader
         class MediaSource
         class MediaItem 
-        class MediaItemModel
         class ProviderModel
 
         class ProviderLoader {
@@ -91,8 +90,7 @@ node "Multimedia"{
         ProviderLoader --> Provider : creates
         ProviderLoader "1" o-- "1" ProviderModel 
         Provider "1" o-- "1..*" MediaSource
-        MediaSource "1" o-- "1" MediaItemModel
-        MediaItemModel "1" o-- "*" MediaItem
+        MediaSource "1" o-- "*" MediaItem
     }
 
     node Multimedia {
@@ -109,10 +107,12 @@ node "Multimedia"{
 The "Provider" module defines the interface for the media items.
 It uses a plugin architecture in form of media sources.
 The base for a plugin is the Provider interface.
-A "Provider" can provide one to n media sourcen.
+A @ref Multimedia::Provider "Provider" can provide one to n media sources.
+Every @ref Multimedia::Provider "Provider" has name and version.
 It is possible that at runtime a media source can appear or disappear.
-Each provided media source must have a unique name, optional icon and version information.
-Additionaly a media source must provide an item model to the actual media items.
+Each provided media source must have a unique name and can have an icon.
+The media source is navigate repository for media items.
+Thats means that a media source can have different layers e.g. folders of media items.
 A media item can have two different roles.
 The first role is a container for other media items like album, folder etc.
 The second role is the concrete media item that can be played by a media renderer.
