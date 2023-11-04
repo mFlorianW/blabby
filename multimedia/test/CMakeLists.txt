@@ -5,6 +5,11 @@
 find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
+# Includes
+###############################################################################
+add_subdirectory(dummyplugin)
+
+###############################################################################
 # Test Provider
 ###############################################################################
 add_executable(test_multimedia_provider)
@@ -33,3 +38,19 @@ target_link_libraries(test_multimedia_mediasource
     Blabby::Multimedia
 )
 add_test(test_multimedia_mediasource ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_mediasource)
+
+###############################################################################
+# Test ProviderLoader
+###############################################################################
+add_executable(test_multimedia_providerloader)
+target_sources(test_multimedia_providerloader
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoaderShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoaderShould.h
+)
+target_link_libraries(test_multimedia_providerloader
+    Qt6::Test
+    Blabby::Multimedia
+    Blabby::DummyPlugin
+)
+add_test(test_multimedia_providerloader ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_providerloader)

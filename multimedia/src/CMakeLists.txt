@@ -10,19 +10,23 @@ add_library(Blabby::Multimedia ALIAS ${PROJECT_NAME})
 generate_export_header(${PROJECT_NAME})
 
 set(PRIVATE_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
 )
 
 set(PRIVATE_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.h
 )
 
 set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/Provider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.cpp
 )
 
 set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Provider.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.h
 )
 
 target_sources(${PROJECT_NAME}
