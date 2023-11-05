@@ -54,3 +54,18 @@ target_link_libraries(test_multimedia_providerloader
     Blabby::DummyPlugin
 )
 add_test(test_multimedia_providerloader ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_providerloader)
+
+###############################################################################
+# Test MediaItem
+###############################################################################
+add_executable(test_multimedia_mediaitem)
+target_sources(test_multimedia_mediaitem
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.h
+)
+target_link_libraries(test_multimedia_mediaitem
+    Qt6::Test
+    Blabby::Multimedia
+)
+add_test(test_multimedia_mediaitem ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_mediaitem)
