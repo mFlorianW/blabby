@@ -8,7 +8,7 @@ var dir_71536ca68254924bc0296813f8800c30 =
     [ "DeviceDescriptionParser.h", "DeviceDescriptionParser_8h_source.html", null ],
     [ "ErrorResult.h", "ErrorResult_8h_source.html", null ],
     [ "HttpSoapCall.h", "HttpSoapCall_8h_source.html", null ],
-    [ "LoggingCategories.h", "LoggingCategories_8h_source.html", null ],
+    [ "LoggingCategories.h", "upnpav_2src_2private_2LoggingCategories_8h_source.html", null ],
     [ "MediaDevicePrivate.h", "MediaDevicePrivate_8h_source.html", null ],
     [ "MediaServer_p.h", "MediaServer__p_8h_source.html", null ],
     [ "ParsingError.h", "ParsingError_8h_source.html", null ],

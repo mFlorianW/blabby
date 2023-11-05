@@ -48,7 +48,6 @@ node "Multimedia"{
         class ProviderLoader
         class MediaSource
         class MediaItem 
-        class MediaItemModel
         class ProviderModel
 
         class ProviderLoader {
@@ -80,8 +79,7 @@ node "Multimedia"{
         ProviderLoader --> Provider : creates
         ProviderLoader "1" o-- "1" ProviderModel 
         Provider "1" o-- "1..*" MediaSource
-        MediaSource "1" o-- "1" MediaItemModel
-        MediaItemModel "1" o-- "*" MediaItem
+        MediaSource "1" o-- "*" MediaItem
     }
 
     node Multimedia {

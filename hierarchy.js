@@ -31,18 +31,23 @@ var hierarchy =
       [ "UPnPAV::MediaServer", "classUPnPAV_1_1MediaServer.html", null ]
     ] ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
+    [ "Multimedia::MediaItem", "classMultimedia_1_1MediaItem.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
     [ "UPnPAV::MediaServerPrivate", "classUPnPAV_1_1MediaServerPrivate.html", null ],
+    [ "Multimedia::MediaSource", "classMultimedia_1_1MediaSource.html", null ],
     [ "PluginCore::MultimediaPluginPrivate", "classPluginCore_1_1MultimediaPluginPrivate.html", null ],
     [ "PluginCore::PluginVersion", "structPluginCore_1_1PluginVersion.html", null ],
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
+    [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
+    [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
     [ "QException", null, [
       [ "ParsingError", "classParsingError.html", null ],
       [ "UPnPAV::InvalidDeviceDescription", "classUPnPAV_1_1InvalidDeviceDescription.html", null ],
       [ "UPnPAV::PackageParseError", "classUPnPAV_1_1PackageParseError.html", null ]
     ] ],
     [ "QObject", null, [
+      [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", null ],
       [ "PluginCore::MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [
@@ -65,6 +70,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "QSharedData", null, [
+      [ "Multimedia::MediaItemData", "structMultimedia_1_1MediaItemData.html", null ],
       [ "UPnPAV::GetDeviceCapabilitiesResponseData", "structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html", null ],
       [ "UPnPAV::GetMediaInfoResponseData", "structUPnPAV_1_1GetMediaInfoResponseData.html", null ],
       [ "UPnPAV::GetPositionInfoResponseData", "structUPnPAV_1_1GetPositionInfoResponseData.html", null ],

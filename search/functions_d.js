@@ -11,5 +11,6 @@ var searchData=
   ['pluginname_8',['pluginName',['../classPluginCore_1_1MultimediaPlugin.html#a39ac65efa58da23a50719e1380064d87',1,'PluginCore::MultimediaPlugin']]],
   ['positioninfo_9',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
   ['previous_10',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
-  ['protocolinfo_11',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]]
+  ['protocolinfo_11',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
+  ['providerloader_12',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
 ];
