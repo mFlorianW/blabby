@@ -21,12 +21,14 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/Provider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.cpp
 )
 
 set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Provider.h
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.h
 )
 
 target_sources(${PROJECT_NAME}

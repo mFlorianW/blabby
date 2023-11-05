@@ -6,4 +6,34 @@
 
 namespace Multimedia
 {
+
+MediaItem::MediaItem(MediaItemType type, QString mainText, QString secondaryText, QString iconUrl)
+    : d{new MediaItemData{.mType = type,
+                          .mMainText = std::move(mainText),
+                          .mSecondaryText = secondaryText,
+                          .mIconUrl = std::move(iconUrl)}}
+{
 }
+
+MediaItemType MediaItem::type() const noexcept
+{
+    return d->mType;
+}
+
+QString const &MediaItem::mainText() const noexcept
+{
+    return d->mMainText;
+}
+
+QString const &MediaItem::secondaryText() const noexcept
+{
+
+    return d->mSecondaryText;
+}
+
+QString const &MediaItem::iconUrl() const noexcept
+{
+    return d->mIconUrl;
+}
+
+} // namespace Multimedia
