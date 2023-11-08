@@ -36,8 +36,13 @@ public:
      * @param mainText The main text of the media item. E.g. song name in of a playable item.
      * @param secondaryText The secondary text of the item. E.g. in case of a playable item the artist.
      * @param iconUrl The URL for icon of the media item.
+     * @param path The path of the media item, the path is used for the navigation in the source.
      */
-    MediaItem(MediaItemType type, QString mainText, QString secondaryText = QString(""), QString iconUrl = QString(""));
+    MediaItem(MediaItemType type,
+              QString mainText,
+              QString secondaryText = QString(""),
+              QString iconUrl = QString(""),
+              QString path = QString(""));
 
     /**
      * Gives the type of the @ref MediaItem.
@@ -68,6 +73,15 @@ public:
      */
     QString const &iconUrl() const noexcept;
 
+    /**
+     * Gives the path of that item.
+     * The format of the path depends on the @ref Multimedia::MediaSource implementation.
+     * The path is used for the navigation inside the @ref Multimedia::MediaSource.
+     * An empty path is also possible for @ref Multimedia::MediaSource when the source has no navigation.
+     * @return The path for the navigation inside the @ref Multimedia::MediaSource.
+     */
+    QString const &path() const noexcept;
+
 private:
     QExplicitlySharedDataPointer<MediaItemData> d;
 };
@@ -78,6 +92,7 @@ struct MediaItemData : public QSharedData
     QString mMainText;
     QString mSecondaryText;
     QString mIconUrl;
+    QString mPath;
 };
 
 } // namespace Multimedia
