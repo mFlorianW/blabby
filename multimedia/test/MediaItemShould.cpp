@@ -56,6 +56,16 @@ void MediaItemShould::give_the_icon_url()
              QString("The icon URL \"%1\" is not the expected one %2").arg(iconUrl, expIconUrl).toLocal8Bit());
 }
 
+void MediaItemShould::give_the_path()
+{
+    const auto expPath = QStringLiteral("1234");
+    auto const mItem = MediaItem{MediaItemType::Container, QString{""}, QString{""}, QString{""}, expPath};
+
+    const auto path = mItem.path();
+
+    QVERIFY2(path == expPath, QString("The path \"%1\" is not the expected one %2").arg(path, expPath).toLocal8Bit());
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::MediaItemShould)
