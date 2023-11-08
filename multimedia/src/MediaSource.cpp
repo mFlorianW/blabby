@@ -32,8 +32,6 @@ MediaItems const &MediaSource::mediaItems() const noexcept
 
 bool MediaSource::navigateTo(QString const &path) noexcept
 {
-    Q_UNUSED(path)
-    return false;
 }
 
 } // namespace Multimedia

@@ -34,14 +34,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(BASE_SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-#Install folder
-set(DEFAULT_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
-set(DEFAULT_LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib)
-set(DEFAULT_MULTIMEDIA_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/multimedia)
-set(DEFAULT_QML_PLUGIN_INSTALL_DIR ${DEFAULT_LIBRARY_INSTALL_DIR}/plugins/qml)
-set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "QtCreator QML import paths" FORCE)
-
 ################################################################################
 # Compiler-Settings
 ################################################################################
@@ -68,7 +60,7 @@ add_definitions("-DINSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 add_subdirectory(upnpav)
 add_subdirectory(plugincore)
 add_subdirectory(shell)
-add_subdirectory(plugins)
+add_subdirectory(providers)
 add_subdirectory(multimedia)
 
 if (ENABLE_TEST)
