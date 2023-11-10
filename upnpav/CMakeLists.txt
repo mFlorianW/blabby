@@ -22,6 +22,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN yes)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
+include(CompilerSettings)
 
 ###############################################################################
 # Runtime path

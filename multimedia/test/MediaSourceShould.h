@@ -14,7 +14,7 @@ class MediaSourceShould : public QObject
 public:
     MediaSourceShould();
     ~MediaSourceShould() override;
-    Q_DISABLE_COPY_MOVE(MediaSourceShould);
+    Q_DISABLE_COPY_MOVE(MediaSourceShould)
 
 private Q_SLOTS:
     void give_the_name_of_media_source();

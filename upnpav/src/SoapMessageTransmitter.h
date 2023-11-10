@@ -22,7 +22,7 @@ class BLABBYUPNPAV_EXPORT SoapMessageTransmitter
 public:
     virtual ~SoapMessageTransmitter();
 
-    Q_DISABLE_COPY_MOVE(SoapMessageTransmitter);
+    Q_DISABLE_COPY_MOVE(SoapMessageTransmitter)
 
     virtual QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
                                                      const QString &actionName,

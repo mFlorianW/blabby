@@ -45,7 +45,7 @@ public:
     /**
      * Deleted move and copy operations
      */
-    Q_DISABLE_COPY_MOVE(Provider);
+    Q_DISABLE_COPY_MOVE(Provider)
 
     /**
      * Gives the name of the Provider.

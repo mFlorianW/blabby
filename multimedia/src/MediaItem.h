@@ -93,6 +93,20 @@ struct MediaItemData : public QSharedData
     QString mSecondaryText;
     QString mIconUrl;
     QString mPath;
+
+    MediaItemData(MediaItemType type,
+                  QString mainText,
+                  QString secondaryText = QString(""),
+                  QString iconUrl = QString(""),
+                  QString path = QString(""))
+        : QSharedData{}
+        , mType{type}
+        , mMainText{std::move(mainText)}
+        , mSecondaryText{std::move(secondaryText)}
+        , mIconUrl{std::move(iconUrl)}
+        , mPath{std::move(path)}
+    {
+    }
 };
 
 } // namespace Multimedia

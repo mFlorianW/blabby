@@ -8,11 +8,7 @@ namespace Multimedia
 {
 
 MediaItem::MediaItem(MediaItemType type, QString mainText, QString secondaryText, QString iconUrl, QString path)
-    : d{new MediaItemData{.mType = type,
-                          .mMainText = std::move(mainText),
-                          .mSecondaryText = secondaryText,
-                          .mIconUrl = std::move(iconUrl),
-                          .mPath = path}}
+    : d{new MediaItemData{type, std::move(mainText), secondaryText, std::move(iconUrl), std::move(path)}}
 {
 }
 
