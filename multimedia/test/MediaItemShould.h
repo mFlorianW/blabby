@@ -15,7 +15,7 @@ class MediaItemShould : public QObject
 public:
     using QObject::QObject;
     ~MediaItemShould() override;
-    Q_DISABLE_COPY_MOVE(MediaItemShould);
+    Q_DISABLE_COPY_MOVE(MediaItemShould)
 private Q_SLOTS:
     void give_the_type();
     void give_the_main_and_secondary_text();

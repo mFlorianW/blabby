@@ -16,7 +16,7 @@ class DummyPlugin : public Provider
 public:
     DummyPlugin();
     ~DummyPlugin() override;
-    Q_DISABLE_COPY_MOVE(DummyPlugin);
+    Q_DISABLE_COPY_MOVE(DummyPlugin)
 };
 
 } // namespace Multimedia

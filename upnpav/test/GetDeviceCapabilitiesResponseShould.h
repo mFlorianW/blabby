@@ -15,7 +15,7 @@ class GetDeviceCapabilitiesResponseShould : public QObject
 public:
     using QObject::QObject;
     ~GetDeviceCapabilitiesResponseShould() override;
-    Q_DISABLE_COPY_MOVE(GetDeviceCapabilitiesResponseShould);
+    Q_DISABLE_COPY_MOVE(GetDeviceCapabilitiesResponseShould)
 private Q_SLOTS:
     void give_the_play_media_of_the_response();
     void give_the_rec_media_of_the_response();

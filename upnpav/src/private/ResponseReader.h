@@ -33,7 +33,7 @@ public:
     ResponseReader(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
     ~ResponseReader() noexcept override;
 
-    Q_DISABLE_COPY_MOVE(ResponseReader);
+    Q_DISABLE_COPY_MOVE(ResponseReader)
 
     const QString &response() const noexcept;
 
