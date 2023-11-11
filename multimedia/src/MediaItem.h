@@ -82,6 +82,22 @@ public:
      */
     QString const &path() const noexcept;
 
+    /**
+     * equal operator
+     * @param lhs Left hand side of the comparsion
+     * @param rhs right hand side of the comparsion
+     * @return True equal otherwise false.
+     */
+    BLABBYMULTIMEDIA_EXPORT friend bool operator==(MediaItem const &lhs, MediaItem const &rhs) noexcept;
+
+    /**
+     * unequal operator
+     * @param lhs Left hand side of the comparsion
+     * @param rhs right hand side of the comparsion
+     * @return True not equal otherwise false.
+     */
+    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(MediaItem const &lhs, MediaItem const &rhs) noexcept;
+
 private:
     QExplicitlySharedDataPointer<MediaItemData> d;
 };
