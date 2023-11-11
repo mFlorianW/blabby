@@ -6,7 +6,8 @@ var indexSectionsWithContent =
   3: "m",
   4: "bepst",
   5: "abcefhimnoprstuw",
-  6: "ab"
+  6: "o",
+  7: "ab"
 };
 
 var indexSectionNames =
@@ -17,7 +18,8 @@ var indexSectionNames =
   3: "variables",
   4: "enums",
   5: "enumvalues",
-  6: "pages"
+  6: "related",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -28,6 +30,7 @@ var indexSectionLabels =
   3: "Variables",
   4: "Enumerations",
   5: "Enumerator",
-  6: "Pages"
+  6: "Friends",
+  7: "Pages"
 };
 

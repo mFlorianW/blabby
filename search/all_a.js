@@ -15,7 +15,7 @@ var searchData=
   ['mediaserverfactory_12',['MediaServerFactory',['../classUPnPAV_1_1MediaServerFactory.html',1,'UPnPAV']]],
   ['mediaserverobject_13',['MediaServerObject',['../classUPnPAV_1_1MediaServerObject.html',1,'UPnPAV']]],
   ['mediaserverprivate_14',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
-  ['mediasource_15',['mediasource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia::MediaSource'],['../classMultimedia_1_1MediaSource.html#afdcdad18445d96241c61f0cdef190428',1,'Multimedia::MediaSource::MediaSource(const MediaSource &amp;)=delete'],['../classMultimedia_1_1MediaSource.html#a03d6e87920fc1f6920d86f19f3bf42fd',1,'Multimedia::MediaSource::MediaSource(MediaSource &amp;&amp;)=delete'],['../classMultimedia_1_1MediaSource.html#a61b5b8fdf4038500372685c7bae745d4',1,'Multimedia::MediaSource::MediaSource(QString sourceName, QString iconUrl=QString{&quot;&quot;})']]],
+  ['mediasource_15',['mediasource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia::MediaSource'],['../classMultimedia_1_1MediaSource.html#a61b5b8fdf4038500372685c7bae745d4',1,'Multimedia::MediaSource::MediaSource(QString sourceName, QString iconUrl=QString{&quot;&quot;})']]],
   ['mmediaitems_16',['mMediaItems',['../classMultimedia_1_1MediaSource.html#a90844f797e75820f0925f58932709468',1,'Multimedia::MediaSource']]],
   ['multimedia_17',['Multimedia',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia',1,'']]],
   ['multimediaplugin_18',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],

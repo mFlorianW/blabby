@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1MediaItem.html','')
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classMultimedia_1_1MediaItem-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Multimedia::MediaItem Class Reference</div></div>
 </div><!--header-->
@@ -128,6 +129,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7ff7d82b228856b0b6c3e9f21f9fbcde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ec8f7f8062a07b7b118a4140065ff33" id="r_a8ec8f7f8062a07b7b118a4140065ff33"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1MediaItem.html#a8ec8f7f8062a07b7b118a4140065ff33">path</a> () const noexcept</td></tr>
 <tr class="separator:a8ec8f7f8062a07b7b118a4140065ff33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ae1fbc67d2864b95a4da8a50954b7e536" id="r_ae1fbc67d2864b95a4da8a50954b7e536"><td class="memItemLeft" align="right" valign="top">BLABBYMULTIMEDIA_EXPORT friend bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1MediaItem.html#ae1fbc67d2864b95a4da8a50954b7e536">operator==</a> (<a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;lhs, <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;rhs) noexcept</td></tr>
+<tr class="separator:ae1fbc67d2864b95a4da8a50954b7e536"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63c934d449609b85469a1e7d979182c" id="r_ac63c934d449609b85469a1e7d979182c"><td class="memItemLeft" align="right" valign="top">BLABBYMULTIMEDIA_EXPORT friend bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1MediaItem.html#ac63c934d449609b85469a1e7d979182c">operator!=</a> (<a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;lhs, <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;rhs) noexcept</td></tr>
+<tr class="separator:ac63c934d449609b85469a1e7d979182c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> is item of a provider. Basically an <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> can have two roles. The first role is the container role and the seconde role is a concrete media item. The container role is used e.g. folder albums etc. </p>
@@ -316,6 +324,95 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Gives the type of the <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a>. </p><dl class="section return"><dt>Returns</dt><dd>The type of the <a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a>. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="ac63c934d449609b85469a1e7d979182c" name="ac63c934d449609b85469a1e7d979182c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac63c934d449609b85469a1e7d979182c">&#9670;&#160;</a></span>operator!=</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BLABBYMULTIMEDIA_EXPORT friend bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>unequal operator </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>Left hand side of the comparsion </td></tr>
+    <tr><td class="paramname">rhs</td><td>right hand side of the comparsion </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True not equal otherwise false. </dd></dl>
+
+</div>
+</div>
+<a id="ae1fbc67d2864b95a4da8a50954b7e536" name="ae1fbc67d2864b95a4da8a50954b7e536"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1fbc67d2864b95a4da8a50954b7e536">&#9670;&#160;</a></span>operator==</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BLABBYMULTIMEDIA_EXPORT friend bool operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1MediaItem.html">MediaItem</a> const &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>equal operator </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>Left hand side of the comparsion </td></tr>
+    <tr><td class="paramname">rhs</td><td>right hand side of the comparsion </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True equal otherwise false. </dd></dl>
 
 </div>
 </div>
