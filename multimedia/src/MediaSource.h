@@ -25,30 +25,19 @@ using MediaItems = QVector<MediaItem>;
  * Subclasses that are not navigatable, all playable items are on the root layer.
  * Those subclasses don't need to overwrite the default implemenation.
  */
-class BLABBYMULTIMEDIA_EXPORT MediaSource
+class BLABBYMULTIMEDIA_EXPORT MediaSource : public QObject
 {
+    Q_OBJECT
 public:
-    virtual ~MediaSource();
+    /**
+     * Default destructor
+     */
+    ~MediaSource() override;
 
     /**
-     * Deleted copy constructor
+     * Disable copy and move
      */
-    MediaSource &operator=(const MediaSource &) = delete;
-
-    /**
-     * Deleted copy oerpator
-     */
-    MediaSource(const MediaSource &) = delete;
-
-    /**
-     * Deleted move constructor
-     */
-    MediaSource &operator=(MediaSource &&) = delete;
-
-    /**
-     * Deleted move oerpator
-     */
-    MediaSource(MediaSource &&) = delete;
+    Q_DISABLE_COPY_MOVE(MediaSource)
 
     /**
      * Gives the name of the source as human readable version.
@@ -72,14 +61,21 @@ public:
     MediaItems const &mediaItems() const noexcept;
 
     /**
-     * The source shall navigate to the given path after succesful navigation the @ref mMediaItems must be updated.
+     * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
      * If it fails to navigate to the given path nothing shall happen.
      * This @ref navigateTo(QString) must only be implemented when the source navigatable.
-     * The default implementation always returns false.
+     * The default implementation does nothing.
+     * The source shall emit the @ref navigationFinished(QString) singal when the navigation is succesful finished.
      * @param path The target path to navigate to.
-     * @return The successful navigate to the target path otherwise false.
      */
-    virtual bool navigateTo(QString const &path) noexcept;
+    virtual void navigateTo(QString const &path) noexcept;
+
+Q_SIGNALS:
+    /**
+     * This signal is emitted when the navigation is succesful finished.
+     * @param The target path of the navigation.
+     */
+    void navigationFinished(QString const &path);
 
 protected:
     /**

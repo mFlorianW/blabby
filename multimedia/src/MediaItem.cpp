@@ -38,4 +38,20 @@ QString const &MediaItem::path() const noexcept
     return d->mPath;
 }
 
+bool operator==(MediaItem const &lhs, MediaItem const &rhs) noexcept
+{
+    // clang-format off
+    return (lhs.d == rhs.d) or ((lhs.d->mType == rhs.d->mType) and
+                               (lhs.d->mMainText == rhs.d->mMainText) and
+                               (lhs.d->mSecondaryText == rhs.d->mSecondaryText) and
+                               (lhs.d->mIconUrl == rhs.d->mIconUrl) and
+                               (lhs.d->mPath == rhs.d->mPath));
+    // clang-format on
+}
+
+bool operator!=(MediaItem const &lhs, MediaItem const &rhs) noexcept
+{
+    return !(lhs == rhs);
+}
+
 } // namespace Multimedia
