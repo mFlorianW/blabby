@@ -58,7 +58,6 @@ add_definitions("-DINSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 # Subdirectories
 ################################################################################
 add_subdirectory(upnpav)
-add_subdirectory(plugincore)
 add_subdirectory(shell)
 add_subdirectory(providers)
 add_subdirectory(multimedia)

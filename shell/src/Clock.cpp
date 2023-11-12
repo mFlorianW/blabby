@@ -15,6 +15,8 @@ Clock::Clock()
     setupTimerInterval();
 }
 
+Clock::~Clock() = default;
+
 QTime Clock::getCurrentTime()
 {
     setupTimerInterval();

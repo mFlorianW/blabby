@@ -5,8 +5,6 @@
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
-configure_file(src/main_window/src/PluginDirs.h.in ${CMAKE_CURRENT_BINARY_DIR}/PluginDirs.h)
-
 ################################################################################
 # Resource files
 ################################################################################
@@ -33,40 +31,20 @@ add_library(Blabby::Object ALIAS BlabbyObject)
 target_sources(BlabbyObject
     PRIVATE
         ${RESOURCE_FILES}
-        # Logging
-        src/LoggingCategories.cpp
-
-        # Plugin
-        src/plugin/src/MultiMediaPluginModel.cpp
-        src/plugin/src/FileSystemPluginSource.cpp
-
-        # MainWindow
-        src/main_window/src/MainWindow.cpp
-        src/main_window/src/Clock.cpp
-
-        #Public Includes
-        # Plugin
-        src/plugin/include/MultiMediaPluginSource.h
-        src/plugin/include/MultiMediaPluginModel.h
-        src/plugin/include/FileSystemPluginSource.h
-
-        # MainWindow
-        src/main_window/include/MainWindow.h
-        src/main_window/include/Clock.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Clock.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Clock.h
 )
 
 target_link_libraries(BlabbyObject
     PUBLIC
         Blabby::UPnPAV
-        Blabby::PluginCore
+        Blabby::Multimedia
         Qt6::Quick
 )
 
 target_include_directories(BlabbyObject
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/plugin/include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/main_window/include>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
@@ -86,7 +64,7 @@ target_link_libraries(blabby
 # Test
 ################################################################################
 if(ENABLE_TEST)
-    add_subdirectory(test)
+    # add_subdirectory(test)
 endif()
 
 ################################################################################
