@@ -15,8 +15,9 @@ namespace Shell
 class Clock : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(Clock)
-
+    /**
+     * The system current time in 24hour format.
+     */
     Q_PROPERTY(QTime currentTime READ getCurrentTime NOTIFY currentTimeChanged)
 
 public:
@@ -26,9 +27,19 @@ public:
     explicit Clock();
 
     /**
+     * Destructor
+     */
+    ~Clock() override;
+
+    /**
      * @return The system current time in 24hour format.
      */
     QTime getCurrentTime();
+
+    /**
+     * Disable copy and move
+     */
+    Q_DISABLE_COPY_MOVE(Clock)
 
 Q_SIGNALS:
     /**

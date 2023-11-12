@@ -7,7 +7,5 @@ SPDX-License-Identifier: GPL-2.0-or-later
 <RCC>
     <qresource prefix="/shell">
         <file>qml/MainWindow.qml</file>
-        <file>qml/controls/MultiMediaPluginButton.qml</file>
-        <file>icon/BackButton.png</file>
     </qresource>
 </RCC>
