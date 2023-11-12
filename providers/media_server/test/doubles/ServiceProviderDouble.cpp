@@ -6,8 +6,14 @@
 #include "ServiceProviderDouble.h"
 #include <QString>
 
-namespace MediaServer::Plugin::Doubles
+namespace Provider::Doubles
 {
+
+ServiceProviderDouble::ServiceProviderDouble(QString searchTarget)
+    : IServiceProvider{}
+    , mSearchTarget{std::move(searchTarget)}
+{
+}
 
 void ServiceProviderDouble::setSearchTarget(const QString &searchTarget) noexcept
 {
@@ -16,6 +22,7 @@ void ServiceProviderDouble::setSearchTarget(const QString &searchTarget) noexcep
 
 void ServiceProviderDouble::startSearch() const noexcept
 {
+    mSearchRequested = true;
 }
 
 UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QString &usn) const noexcept
@@ -24,12 +31,21 @@ UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QSt
     return UPnPAV::DeviceDescription{};
 }
 
+QString const &ServiceProviderDouble::searchTarget() const noexcept
+{
+    return mSearchTarget;
+}
+
+bool ServiceProviderDouble::isSearchTriggered() const noexcept
+{
+    return mSearchRequested;
+}
+
 std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    Q_UNUSED(searchTarget);
-    auto sp = std::make_unique<ServiceProviderDouble>();
+    auto sp = std::make_unique<ServiceProviderDouble>(searchTarget);
     serviceProvider = sp.get();
     return sp;
 }
 
-} // namespace MediaServer::Plugin::Doubles
+} // namespace Provider::Doubles

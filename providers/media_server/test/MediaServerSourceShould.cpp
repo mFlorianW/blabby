@@ -28,9 +28,9 @@ std::unique_ptr<Doubles::MediaServer> createMediaServer()
 
 } // namespace
 
-MediaServerProviderShould::~MediaServerProviderShould() = default;
+MediaServerSourceShould::~MediaServerSourceShould() = default;
 
-void MediaServerProviderShould::give_the_name_of_the_media_server()
+void MediaServerSourceShould::give_the_name_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
@@ -43,7 +43,7 @@ void MediaServerProviderShould::give_the_name_of_the_media_server()
         QStringLiteral("The media server name \"%1\" is not the expected one %2").arg(name, expName).toLocal8Bit());
 }
 
-void MediaServerProviderShould::give_the_icon_of_the_media_server()
+void MediaServerSourceShould::give_the_icon_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
@@ -56,7 +56,7 @@ void MediaServerProviderShould::give_the_icon_of_the_media_server()
         QStringLiteral("The media server icon \"%1\" is not the expected one %2").arg(icon, expIcon).toLocal8Bit());
 }
 
-void MediaServerProviderShould::request_root_media_items_on_init()
+void MediaServerSourceShould::request_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
@@ -67,7 +67,7 @@ void MediaServerProviderShould::request_root_media_items_on_init()
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
 }
 
-void MediaServerProviderShould::give_root_media_items_on_init()
+void MediaServerSourceShould::give_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
@@ -89,7 +89,7 @@ void MediaServerProviderShould::give_root_media_items_on_init()
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
 }
 
-void MediaServerProviderShould::send_correct_request_on_navigation()
+void MediaServerSourceShould::send_correct_request_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
@@ -106,7 +106,7 @@ void MediaServerProviderShould::send_correct_request_on_navigation()
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
 }
 
-void MediaServerProviderShould::request_root_media_items_on_navigation()
+void MediaServerSourceShould::request_root_media_items_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
@@ -131,4 +131,4 @@ void MediaServerProviderShould::request_root_media_items_on_navigation()
 
 } // namespace Provider
 
-QTEST_MAIN(Provider::MediaServerProviderShould);
+QTEST_MAIN(Provider::MediaServerSourceShould);

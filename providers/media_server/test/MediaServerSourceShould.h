@@ -9,13 +9,13 @@
 namespace Provider
 {
 
-class MediaServerProviderShould : public QObject
+class MediaServerSourceShould : public QObject
 {
     Q_OBJECT
 public:
     using QObject::QObject;
-    ~MediaServerProviderShould() override;
-    Q_DISABLE_COPY_MOVE(MediaServerProviderShould);
+    ~MediaServerSourceShould() override;
+    Q_DISABLE_COPY_MOVE(MediaServerSourceShould);
 private Q_SLOTS:
     void give_the_name_of_the_media_server();
     void give_the_icon_of_the_media_server();
