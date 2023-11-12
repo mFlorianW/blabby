@@ -78,7 +78,7 @@ public:
      *
      * @return A list with all media sources.
      */
-    virtual QVector<std::shared_ptr<MediaSource>> sources() noexcept;
+    virtual QVector<std::shared_ptr<MediaSource>> sources() const noexcept;
 
 Q_SIGNALS:
     /**

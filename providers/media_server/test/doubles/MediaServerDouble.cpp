@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaServerDouble.h"
+#include "ContentDirectoryActions.h"
 #include "Descriptions.h"
 #include "PendingSoapCall.h"
 #include <QDebug>
@@ -33,6 +34,7 @@ MediaServer::MediaServer()
               {UPnPAV::validContentDirectoryDescription(), UPnPAV::validConnectionManagerDescription()},
               {UPnPAV::validContentDirectorySCPD(), UPnPAV::validConnectionManagerSCPD()}},
           QSharedPointer<UPnPAV::SoapMessageTransmitter>(nullptr))
+    , soapCall{QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse())}
 {
 }
 

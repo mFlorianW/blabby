@@ -9,4 +9,5 @@
 namespace Provider
 {
 Q_DECLARE_LOGGING_CATEGORY(mediaServerSource)
-}
+Q_DECLARE_LOGGING_CATEGORY(mediaServerProvider)
+} // namespace Provider

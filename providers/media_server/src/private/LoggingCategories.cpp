@@ -7,4 +7,5 @@
 namespace Provider
 {
 Q_LOGGING_CATEGORY(mediaServerSource, "org.blabby.media.server.source")
-}
+Q_LOGGING_CATEGORY(mediaServerProvider, "org.blabby.media.server.provider")
+} // namespace Provider

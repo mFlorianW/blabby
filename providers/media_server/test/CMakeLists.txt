@@ -26,3 +26,20 @@ target_link_libraries(test_provider_mediaserversource
         Blabby::MediaServerProviderDoubles
 )
 add_test(test_provider_mediaserversource ${EXECUTABLE_OUTPUT_PATH}/test_provider_mediaserversource)
+
+###############################################################################
+# Test MediaServerProvider
+###############################################################################
+add_executable(test_provider_mediaserverprovider)
+target_sources(test_provider_mediaserverprovider
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProviderShould.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProviderShould.h
+)
+target_link_libraries(test_provider_mediaserverprovider
+    PRIVATE
+        Qt6::Test
+        Blabby::MediaServerProvider
+        Blabby::MediaServerProviderDoubles
+)
+add_test(test_provider_mediaserverprovider ${EXECUTABLE_OUTPUT_PATH}/test_provider_mediaserverprovider)
