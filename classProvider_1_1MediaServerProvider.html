@@ -111,6 +111,8 @@ $(document).ready(function(){initNavTree('classProvider_1_1MediaServerProvider.h
   <div class="headertitle"><div class="title">Provider::MediaServerProvider Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="MediaServerProvider_8h_source.html">MediaServerProvider.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Provider::MediaServerProvider:</div>
 <div class="dyncontent">
@@ -123,9 +125,10 @@ Inheritance diagram for Provider::MediaServerProvider:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8cfd8632e130317f3663f4fcafa2ace8" id="r_a8cfd8632e130317f3663f4fcafa2ace8"><td class="memItemLeft" align="right" valign="top"><a id="a8cfd8632e130317f3663f4fcafa2ace8" name="a8cfd8632e130317f3663f4fcafa2ace8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MediaServerProvider</b> (std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1IServiceProviderFactory.html">UPnPAV::IServiceProviderFactory</a> &gt; serviceProviderFab=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1ServiceProviderFactory.html">UPnPAV::ServiceProviderFactory</a> &gt;(), std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a> &gt; mediaServerFab=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a> &gt;())</td></tr>
+<tr class="memitem:a8cfd8632e130317f3663f4fcafa2ace8" id="r_a8cfd8632e130317f3663f4fcafa2ace8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServerProvider.html#a8cfd8632e130317f3663f4fcafa2ace8">MediaServerProvider</a> (std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1IServiceProviderFactory.html">UPnPAV::IServiceProviderFactory</a> &gt; serviceProviderFab=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1ServiceProviderFactory.html">UPnPAV::ServiceProviderFactory</a> &gt;(), std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a> &gt; mediaServerFab=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a> &gt;())</td></tr>
 <tr class="separator:a8cfd8632e130317f3663f4fcafa2ace8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f9a6857462003d3657c83279c554529" id="r_a0f9a6857462003d3657c83279c554529"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServerProvider.html#a0f9a6857462003d3657c83279c554529">~MediaServerProvider</a> () override</td></tr>
+<tr class="separator:a0f9a6857462003d3657c83279c554529"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe864c0877f85d7341f1d8ddf9810ff" id="r_adfe864c0877f85d7341f1d8ddf9810ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServerProvider.html#adfe864c0877f85d7341f1d8ddf9810ff">init</a> () noexcept override</td></tr>
 <tr class="separator:adfe864c0877f85d7341f1d8ddf9810ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf90292b1d22624091fa50c93f31986b" id="r_acf90292b1d22624091fa50c93f31986b"><td class="memItemLeft" align="right" valign="top">QVector&lt; std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b">sources</a> () const noexcept override</td></tr>
@@ -150,6 +153,70 @@ Additional Inherited Members</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Provider</b> (QString <a class="el" href="classMultimedia_1_1Provider.html#a0142064df5027f0165cfb46c1ab56bd1">name</a>, <a class="el" href="structMultimedia_1_1ProviderVersion.html">ProviderVersion</a> <a class="el" href="classMultimedia_1_1Provider.html#a51d0f53c4e52c834eb89d6c3c6cdf5f5">version</a>)</td></tr>
 <tr class="separator:adb4cdb8deb0f4415542966fbb7119dac inherit pro_methods_classMultimedia_1_1Provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classProvider_1_1MediaServerProvider.html">MediaServerProvider</a> searches the local Network for MediaServers and provides the access to them by <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> interface. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8cfd8632e130317f3663f4fcafa2ace8" name="a8cfd8632e130317f3663f4fcafa2ace8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cfd8632e130317f3663f4fcafa2ace8">&#9670;&#160;</a></span>MediaServerProvider()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Provider::MediaServerProvider::MediaServerProvider </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1IServiceProviderFactory.html">UPnPAV::IServiceProviderFactory</a> &gt;&#160;</td>
+          <td class="paramname"><em>serviceProviderFab</em> = <code>std::make_unique&lt;<a class="el" href="classUPnPAV_1_1ServiceProviderFactory.html">UPnPAV::ServiceProviderFactory</a>&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a> &gt;&#160;</td>
+          <td class="paramname"><em>mediaServerFab</em> = <code>std::make_unique&lt;<a class="el" href="classUPnPAV_1_1MediaServerFactory.html">UPnPAV::MediaServerFactory</a>&gt;()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates an instance of the media server provider </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">serviceProviderFab</td><td>The factory to create the service provider. Default <a class="el" href="classUPnPAV_1_1ServiceProviderFactory.html">UPnPAV::ServiceProviderFactory</a> </td></tr>
+    <tr><td class="paramname">mediaServerFab</td><td>The factory that shall be used when a creating MediaServer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0f9a6857462003d3657c83279c554529" name="a0f9a6857462003d3657c83279c554529"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f9a6857462003d3657c83279c554529">&#9670;&#160;</a></span>~MediaServerProvider()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Provider::MediaServerProvider::~MediaServerProvider </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destructor </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="adfe864c0877f85d7341f1d8ddf9810ff" name="adfe864c0877f85d7341f1d8ddf9810ff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adfe864c0877f85d7341f1d8ddf9810ff">&#9670;&#160;</a></span>init()</h2>
@@ -173,9 +240,7 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function must be implemented by every derived class. Here should the initialization start of the plugin.</p>
-<dl class="section note"><dt>Note</dt><dd>The default implementation just returns true.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>true everything initialized and false on a error. </dd></dl>
+<p>Disabled copy and move operators Basic init of the <a class="el" href="classProvider_1_1MediaServerProvider.html">MediaServerProvider</a> </p><dl class="section return"><dt>Returns</dt><dd>always true. </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classMultimedia_1_1Provider.html#a1b8213649172a7f8c61292e15ad2601a">Multimedia::Provider</a>.</p>
 
@@ -203,9 +268,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gives list with all media sources of the plugin.</p>
-<dl class="section note"><dt>Note</dt><dd>The default implementation returns an empty list.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>A list with all media sources. </dd></dl>
+
+<p></p>
 
 <p>Reimplemented from <a class="el" href="classMultimedia_1_1Provider.html#a460d3b061a032efa6885e221626f24b0">Multimedia::Provider</a>.</p>
 
