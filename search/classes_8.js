@@ -11,7 +11,5 @@ var searchData=
   ['mediaserverprivate_8',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
   ['mediaserverprovider_9',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
   ['mediaserversource_10',['MediaServerSource',['../classProvider_1_1MediaServerSource.html',1,'Provider']]],
-  ['mediasource_11',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]],
-  ['multimediaplugin_12',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],
-  ['multimediapluginprivate_13',['MultimediaPluginPrivate',['../classPluginCore_1_1MultimediaPluginPrivate.html',1,'PluginCore']]]
+  ['mediasource_11',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]]
 ];

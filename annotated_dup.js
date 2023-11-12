@@ -8,11 +8,6 @@ var annotated_dup =
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
       [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ]
     ] ],
-    [ "PluginCore", null, [
-      [ "MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html", "classPluginCore_1_1MultimediaPlugin" ],
-      [ "MultimediaPluginPrivate", "classPluginCore_1_1MultimediaPluginPrivate.html", null ],
-      [ "PluginVersion", "structPluginCore_1_1PluginVersion.html", null ]
-    ] ],
     [ "Provider", null, [
       [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],
       [ "MediaServerSource", "classProvider_1_1MediaServerSource.html", "classProvider_1_1MediaServerSource" ]

@@ -35,8 +35,6 @@ var hierarchy =
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
     [ "UPnPAV::MediaServerPrivate", "classUPnPAV_1_1MediaServerPrivate.html", null ],
-    [ "PluginCore::MultimediaPluginPrivate", "classPluginCore_1_1MultimediaPluginPrivate.html", null ],
-    [ "PluginCore::PluginVersion", "structPluginCore_1_1PluginVersion.html", null ],
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
     [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
     [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
@@ -52,7 +50,6 @@ var hierarchy =
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
         [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
       ] ],
-      [ "PluginCore::MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [
         [ "UPnPAV::HttpDescriptionFetcherBackend", "classUPnPAV_1_1HttpDescriptionFetcherBackend.html", null ]

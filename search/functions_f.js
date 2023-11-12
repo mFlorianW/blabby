@@ -9,13 +9,12 @@ var searchData=
   ['servicedescriptionvalidator_6',['ServiceDescriptionValidator',['../classUPnPAV_1_1ServiceDescriptionValidator.html#af0b724fad12b33e706a597d2bbaab2ff',1,'UPnPAV::ServiceDescriptionValidator']]],
   ['servicedisconnected_7',['serviceDisconnected',['../classUPnPAV_1_1IServiceProvider.html#a0c554e287927c6af592bb880f59808f0',1,'UPnPAV::IServiceProvider']]],
   ['servicediscoverypackage_8',['ServiceDiscoveryPackage',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a5d21467f6d89830948329e1e000fce33',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['setactiveview_9',['setActiveView',['../classPluginCore_1_1MultimediaPlugin.html#a76facefb2ccd64abd86383f7a0caa987',1,'PluginCore::MultimediaPlugin']]],
-  ['setavtransporturi_10',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0',1,'UPnPAV::MediaDevice']]],
-  ['setsearchtarget_11',['setsearchtarget',['../classUPnPAV_1_1IServiceProvider.html#ad88e84a4176cc1fc7d130f2bf9e63214',1,'UPnPAV::IServiceProvider::setSearchTarget()'],['../classUPnPAV_1_1ServiceProvider.html#aeb2c743f645abe35384fdb534901f43a',1,'UPnPAV::ServiceProvider::setSearchTarget()']]],
-  ['sourceadded_12',['sourceAdded',['../classMultimedia_1_1Provider.html#a79626131290f052d0c07334850bfc27f',1,'Multimedia::Provider']]],
-  ['sourcename_13',['sourceName',['../classMultimedia_1_1MediaSource.html#a98bc3ce24939436ccbf8f053a0dd20fd',1,'Multimedia::MediaSource']]],
-  ['sourceremoved_14',['sourceRemoved',['../classMultimedia_1_1Provider.html#a7cf0f8262f1aa307a567bbdcb1f37ca8',1,'Multimedia::Provider']]],
-  ['sources_15',['sources',['../classMultimedia_1_1Provider.html#a460d3b061a032efa6885e221626f24b0',1,'Multimedia::Provider::sources()'],['../classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b',1,'Provider::MediaServerProvider::sources()']]],
-  ['startsearch_16',['startsearch',['../classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220',1,'UPnPAV::IServiceProvider::startSearch()'],['../classUPnPAV_1_1ServiceProvider.html#a18dd562446267fac8f5bdf65e1b60ba7',1,'UPnPAV::ServiceProvider::startSearch()']]],
-  ['stop_17',['stop',['../classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e',1,'UPnPAV::MediaDevice']]]
+  ['setavtransporturi_9',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0',1,'UPnPAV::MediaDevice']]],
+  ['setsearchtarget_10',['setsearchtarget',['../classUPnPAV_1_1IServiceProvider.html#ad88e84a4176cc1fc7d130f2bf9e63214',1,'UPnPAV::IServiceProvider::setSearchTarget()'],['../classUPnPAV_1_1ServiceProvider.html#aeb2c743f645abe35384fdb534901f43a',1,'UPnPAV::ServiceProvider::setSearchTarget()']]],
+  ['sourceadded_11',['sourceAdded',['../classMultimedia_1_1Provider.html#a79626131290f052d0c07334850bfc27f',1,'Multimedia::Provider']]],
+  ['sourcename_12',['sourceName',['../classMultimedia_1_1MediaSource.html#a98bc3ce24939436ccbf8f053a0dd20fd',1,'Multimedia::MediaSource']]],
+  ['sourceremoved_13',['sourceRemoved',['../classMultimedia_1_1Provider.html#a7cf0f8262f1aa307a567bbdcb1f37ca8',1,'Multimedia::Provider']]],
+  ['sources_14',['sources',['../classMultimedia_1_1Provider.html#a460d3b061a032efa6885e221626f24b0',1,'Multimedia::Provider::sources()'],['../classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b',1,'Provider::MediaServerProvider::sources()']]],
+  ['startsearch_15',['startsearch',['../classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220',1,'UPnPAV::IServiceProvider::startSearch()'],['../classUPnPAV_1_1ServiceProvider.html#a18dd562446267fac8f5bdf65e1b60ba7',1,'UPnPAV::ServiceProvider::startSearch()']]],
+  ['stop_16',['stop',['../classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e',1,'UPnPAV::MediaDevice']]]
 ];
