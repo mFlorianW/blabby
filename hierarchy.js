@@ -46,8 +46,12 @@ var hierarchy =
       [ "UPnPAV::PackageParseError", "classUPnPAV_1_1PackageParseError.html", null ]
     ] ],
     [ "QObject", null, [
-      [ "Multimedia::MediaSource", "classMultimedia_1_1MediaSource.html", null ],
-      [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", null ],
+      [ "Multimedia::MediaSource", "classMultimedia_1_1MediaSource.html", [
+        [ "Provider::MediaServerSource", "classProvider_1_1MediaServerSource.html", null ]
+      ] ],
+      [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
+        [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
+      ] ],
       [ "PluginCore::MultimediaPlugin", "classPluginCore_1_1MultimediaPlugin.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [

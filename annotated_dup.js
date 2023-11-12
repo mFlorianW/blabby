@@ -13,6 +13,10 @@ var annotated_dup =
       [ "MultimediaPluginPrivate", "classPluginCore_1_1MultimediaPluginPrivate.html", null ],
       [ "PluginVersion", "structPluginCore_1_1PluginVersion.html", null ]
     ] ],
+    [ "Provider", null, [
+      [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],
+      [ "MediaServerSource", "classProvider_1_1MediaServerSource.html", "classProvider_1_1MediaServerSource" ]
+    ] ],
     [ "UPnPAV", null, [
       [ "Argument", "structUPnPAV_1_1Argument.html", null ],
       [ "AvTransportServiceValidator", "classUPnPAV_1_1AvTransportServiceValidator.html", null ],

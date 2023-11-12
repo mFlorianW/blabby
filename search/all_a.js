@@ -10,14 +10,16 @@ var searchData=
   ['mediaitem_7',['mediaitem',['../classMultimedia_1_1MediaItem.html#a8b0418a78a19b6f451cfce4adbca496e',1,'Multimedia::MediaItem::MediaItem()'],['../classMultimedia_1_1MediaItem.html',1,'Multimedia::MediaItem']]],
   ['mediaitemdata_8',['MediaItemData',['../structMultimedia_1_1MediaItemData.html',1,'Multimedia']]],
   ['mediaitems_9',['mediaItems',['../classMultimedia_1_1MediaSource.html#ad59e9bb76b8530bedb3c3db468628cc4',1,'Multimedia::MediaSource']]],
-  ['mediarenderer_10',['mediarenderer',['../classUPnPAV_1_1MediaRenderer.html',1,'UPnPAV::MediaRenderer'],['../classUPnPAV_1_1MediaRenderer.html#a4228141d06dfedbef5823ffc590770d4',1,'UPnPAV::MediaRenderer::MediaRenderer()']]],
-  ['mediaserver_11',['mediaserver',['../classUPnPAV_1_1MediaServer.html',1,'UPnPAV::MediaServer'],['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer::MediaServer()']]],
+  ['mediarenderer_10',['mediarenderer',['../classUPnPAV_1_1MediaRenderer.html#a4228141d06dfedbef5823ffc590770d4',1,'UPnPAV::MediaRenderer::MediaRenderer()'],['../classUPnPAV_1_1MediaRenderer.html',1,'UPnPAV::MediaRenderer']]],
+  ['mediaserver_11',['mediaserver',['../classUPnPAV_1_1MediaServer.html#a1db254a817bfe3f208b594e810e8e1a3',1,'UPnPAV::MediaServer::MediaServer()'],['../classUPnPAV_1_1MediaServer.html',1,'UPnPAV::MediaServer']]],
   ['mediaserverfactory_12',['MediaServerFactory',['../classUPnPAV_1_1MediaServerFactory.html',1,'UPnPAV']]],
   ['mediaserverobject_13',['MediaServerObject',['../classUPnPAV_1_1MediaServerObject.html',1,'UPnPAV']]],
   ['mediaserverprivate_14',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
-  ['mediasource_15',['mediasource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia::MediaSource'],['../classMultimedia_1_1MediaSource.html#a61b5b8fdf4038500372685c7bae745d4',1,'Multimedia::MediaSource::MediaSource(QString sourceName, QString iconUrl=QString{&quot;&quot;})']]],
-  ['mmediaitems_16',['mMediaItems',['../classMultimedia_1_1MediaSource.html#a90844f797e75820f0925f58932709468',1,'Multimedia::MediaSource']]],
-  ['multimedia_17',['Multimedia',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia',1,'']]],
-  ['multimediaplugin_18',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],
-  ['multimediapluginprivate_19',['MultimediaPluginPrivate',['../classPluginCore_1_1MultimediaPluginPrivate.html',1,'PluginCore']]]
+  ['mediaserverprovider_15',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
+  ['mediaserversource_16',['mediaserversource',['../classProvider_1_1MediaServerSource.html',1,'Provider::MediaServerSource'],['../classProvider_1_1MediaServerSource.html#a027f9c43196b47ef9b9d35ba930a6177',1,'Provider::MediaServerSource::MediaServerSource()']]],
+  ['mediasource_17',['mediasource',['../classMultimedia_1_1MediaSource.html#a61b5b8fdf4038500372685c7bae745d4',1,'Multimedia::MediaSource::MediaSource()'],['../classMultimedia_1_1MediaSource.html',1,'Multimedia::MediaSource']]],
+  ['mmediaitems_18',['mMediaItems',['../classMultimedia_1_1MediaSource.html#a90844f797e75820f0925f58932709468',1,'Multimedia::MediaSource']]],
+  ['multimedia_19',['Multimedia',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia',1,'']]],
+  ['multimediaplugin_20',['MultimediaPlugin',['../classPluginCore_1_1MultimediaPlugin.html',1,'PluginCore']]],
+  ['multimediapluginprivate_21',['MultimediaPluginPrivate',['../classPluginCore_1_1MultimediaPluginPrivate.html',1,'PluginCore']]]
 ];

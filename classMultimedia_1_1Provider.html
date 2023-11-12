@@ -119,8 +119,11 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1Provider.html','');
 Inheritance diagram for Multimedia::Provider:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classMultimedia_1_1Provider.png" alt=""/>
- </div></div>
+  <img src="classMultimedia_1_1Provider.png" usemap="#Multimedia::Provider_map" alt=""/>
+  <map id="Multimedia::Provider_map" name="Multimedia::Provider_map">
+<area href="classProvider_1_1MediaServerProvider.html" alt="Provider::MediaServerProvider" shape="rect" coords="0,112,190,136"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
@@ -139,8 +142,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a51d0f53c4e52c834eb89d6c3c6cdf5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b8213649172a7f8c61292e15ad2601a" id="r_a1b8213649172a7f8c61292e15ad2601a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a1b8213649172a7f8c61292e15ad2601a">init</a> () noexcept</td></tr>
 <tr class="separator:a1b8213649172a7f8c61292e15ad2601a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d08572dd93f797e8ea1bf220caae99e" id="r_a9d08572dd93f797e8ea1bf220caae99e"><td class="memItemLeft" align="right" valign="top">virtual QVector&lt; std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">MediaSource</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a9d08572dd93f797e8ea1bf220caae99e">sources</a> () noexcept</td></tr>
-<tr class="separator:a9d08572dd93f797e8ea1bf220caae99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a460d3b061a032efa6885e221626f24b0" id="r_a460d3b061a032efa6885e221626f24b0"><td class="memItemLeft" align="right" valign="top">virtual QVector&lt; std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">MediaSource</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a460d3b061a032efa6885e221626f24b0">sources</a> () const noexcept</td></tr>
+<tr class="separator:a460d3b061a032efa6885e221626f24b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -203,6 +206,8 @@ Protected Member Functions</h2></td></tr>
 <p>This function must be implemented by every derived class. Here should the initialization start of the plugin.</p>
 <dl class="section note"><dt>Note</dt><dd>The default implementation just returns true.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true everything initialized and false on a error. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServerProvider.html#adfe864c0877f85d7341f1d8ddf9810ff">Provider::MediaServerProvider</a>.</p>
 
 </div>
 </div>
@@ -286,8 +291,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d08572dd93f797e8ea1bf220caae99e" name="a9d08572dd93f797e8ea1bf220caae99e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d08572dd93f797e8ea1bf220caae99e">&#9670;&#160;</a></span>sources()</h2>
+<a id="a460d3b061a032efa6885e221626f24b0" name="a460d3b061a032efa6885e221626f24b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a460d3b061a032efa6885e221626f24b0">&#9670;&#160;</a></span>sources()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,7 +304,7 @@ Protected Member Functions</h2></td></tr>
           <td class="memname">QVector&lt; std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">MediaSource</a> &gt; &gt; Multimedia::Provider::sources </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -311,6 +316,8 @@ Protected Member Functions</h2></td></tr>
 <p>Gives list with all media sources of the plugin.</p>
 <dl class="section note"><dt>Note</dt><dd>The default implementation returns an empty list.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>A list with all media sources. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b">Provider::MediaServerProvider</a>.</p>
 
 </div>
 </div>

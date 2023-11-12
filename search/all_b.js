@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['name_0',['name',['../classUPnPAV_1_1MediaDevice.html#a8e2c40ecca1383c56c69e80ad4774153',1,'UPnPAV::MediaDevice::name()'],['../classMultimedia_1_1Provider.html#a0142064df5027f0165cfb46c1ab56bd1',1,'Multimedia::Provider::name()']]],
-  ['navigateto_1',['navigateTo',['../classMultimedia_1_1MediaSource.html#a7a93a6a17888b3f1a22ea0d0445f962d',1,'Multimedia::MediaSource']]],
+  ['name_0',['name',['../classMultimedia_1_1Provider.html#a0142064df5027f0165cfb46c1ab56bd1',1,'Multimedia::Provider::name()'],['../classUPnPAV_1_1MediaDevice.html#a8e2c40ecca1383c56c69e80ad4774153',1,'UPnPAV::MediaDevice::name()']]],
+  ['navigateto_1',['navigateto',['../classMultimedia_1_1MediaSource.html#a7a93a6a17888b3f1a22ea0d0445f962d',1,'Multimedia::MediaSource::navigateTo()'],['../classProvider_1_1MediaServerSource.html#a9936c3b7b9e6c5d23d03de02c3db6611',1,'Provider::MediaServerSource::navigateTo()']]],
   ['navigationfinished_2',['navigationFinished',['../classMultimedia_1_1MediaSource.html#ac0bce02bd50d99a06a8b3c951c2e5706',1,'Multimedia::MediaSource']]],
   ['next_3',['next',['../classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2',1,'UPnPAV::MediaDevice']]],
   ['nexturi_4',['nextUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#a946e011fa669e0fca7e2888162a333ad',1,'UPnPAV::GetMediaInfoResponse']]],
