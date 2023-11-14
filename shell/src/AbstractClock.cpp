@@ -2,28 +2,28 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "Clock.h"
+#include "AbstractClock.h"
 
 namespace Shell
 {
 
-Clock::Clock()
+AbstractClock::AbstractClock()
     : QObject()
 {
-    connect(&m_timer, &QTimer::timeout, this, &Clock::currentTimeChanged);
+    connect(&m_timer, &QTimer::timeout, this, &AbstractClock::currentTimeChanged);
 
     setupTimerInterval();
 }
 
-Clock::~Clock() = default;
+AbstractClock::~AbstractClock() = default;
 
-QTime Clock::getCurrentTime()
+QTime AbstractClock::getCurrentTime()
 {
     setupTimerInterval();
     return QTime::currentTime();
 }
 
-void Clock::setupTimerInterval()
+void AbstractClock::setupTimerInterval()
 {
     const qint32 msTillNextMinute = 60000 - (QTime::currentTime().msecsSinceStartOfDay() % 60000);
     m_timer.start(msTillNextMinute);

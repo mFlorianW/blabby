@@ -1,45 +1,47 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-
-#ifndef CLOCK_H
-#define CLOCK_H
+#pragma once
 
 #include <QObject>
 #include <QTime>
 #include <QTimer>
+#include <qqml.h>
 
 namespace Shell
 {
 
-class Clock : public QObject
+class AbstractClock : public QObject
 {
     Q_OBJECT
+
     /**
      * The system current time in 24hour format.
      */
     Q_PROPERTY(QTime currentTime READ getCurrentTime NOTIFY currentTimeChanged)
 
+    QML_ELEMENT
+
 public:
     /**
      * Crete instance of Clock
      */
-    explicit Clock();
+    explicit AbstractClock();
 
     /**
      * Destructor
      */
-    ~Clock() override;
+    ~AbstractClock() override;
+
+    /**
+     * Disable copy and move
+     */
+    Q_DISABLE_COPY_MOVE(AbstractClock)
 
     /**
      * @return The system current time in 24hour format.
      */
     QTime getCurrentTime();
-
-    /**
-     * Disable copy and move
-     */
-    Q_DISABLE_COPY_MOVE(Clock)
 
 Q_SIGNALS:
     /**
@@ -60,5 +62,3 @@ private:
 };
 
 } // namespace Shell
-
-#endif // CLOCK_H
