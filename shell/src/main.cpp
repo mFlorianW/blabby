@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QQuickView mainView;
 
     mainView.setMinimumSize(QSize{1280, 800});
-    mainView.setSource(QUrl("qrc:/shell/qml/MainWindow.qml"));
+    mainView.setSource(QUrl("qrc:/qt/qml/BlabbyShell/qml/MainWindow.qml"));
 
     mainView.show();
 
