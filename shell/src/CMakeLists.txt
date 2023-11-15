@@ -20,6 +20,8 @@ target_sources(${PROJECT_NAME}Object
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object
@@ -63,6 +65,9 @@ qt_add_qml_module(${PROJECT_NAME}Object
         qml/MainWindow.qml
         qml/Clock.qml
         qml/Theme.qml
+        qml/controls/IconButton.qml
+    RESOURCES
+        icons/24x24/burgermenu.svg
 )
 
 ################################################################################

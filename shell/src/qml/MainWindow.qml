@@ -20,13 +20,25 @@ Item{
             width: 125
             height: shell.height
 
+
             Rectangle{
                 id: roundedStyle
-                width: 90
+                width: 85
                 height: shell.height
                 anchors.left: menuRow.horizontalCenter
                 radius: 30
                 color: Theme.colors.surface
+            }
+            Row{
+                anchors.fill: parent
+                anchors.top: menuRow.top
+                anchors.topMargin: 30
+                anchors.left: menuRow.left
+                anchors.leftMargin: 8
+                IconButton{
+                    id: burgerButton
+                    source: "qrc:/qt/qml/BlabbyShell/icons/24x24/burgermenu.svg"
+                }
             }
         }
 
