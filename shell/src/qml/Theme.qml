@@ -12,6 +12,13 @@ QtObject{
         property color surfaceContainerHeighest: "#E1E3DF" 
     }
 
+    property QtObject stateColors: QtObject{
+       property QtObject onSurfaceVariant: QtObject{
+            property color opacity08: "#404943"
+            property color opacity12: opacity08
+       }
+    }
+
     property QtObject fonts: QtObject{
         property QtObject bodyLarge: QtObject{
             property int size: 16
