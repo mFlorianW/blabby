@@ -65,6 +65,7 @@ qt_add_qml_module(${PROJECT_NAME}Object
         qml/MainWindow.qml
         qml/Clock.qml
         qml/Theme.qml
+        qml/Menu.qml
         qml/controls/IconButton.qml
     RESOURCES
         icons/24x24/burgermenu.svg
