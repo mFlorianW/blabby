@@ -38,6 +38,14 @@ Item{
                 IconButton{
                     id: burgerButton
                     source: "qrc:/qt/qml/BlabbyShell/icons/24x24/burgermenu.svg"
+
+                    onClicked: {
+                        if(menuWindow.x == -menuWindow.width){
+                            moveIn.running = true
+                            menuWindowHandler.enabled = true
+                            blur.visible = true
+                        }
+                    }
                 }
             }
         }
@@ -103,4 +111,48 @@ Item{
             }
         }
     }
+
+    Menu{
+        id: menuWindow
+        height: shell.height
+        width: 300
+        visible: true
+        x: -menuWindow.width
+
+        NumberAnimation{
+            id: moveIn
+            target: menuWindow
+            properties: "x"
+            to: 0
+            duration: 250
+        }
+
+        NumberAnimation{
+            id: moveOut
+            target: menuWindow
+            properties: "x"
+            to: -menuWindow.width
+            duration: 250
+        }
+    }
+
+    Rectangle{
+        id: blur
+        anchors.left: menuWindow.right
+        anchors.right: shell.right
+        height: shell.height
+        color: Theme.stateColors.onSurfaceVariant.opacity08
+        opacity: 0.08
+        visible: false
+        TapHandler{
+            id: menuWindowHandler
+            enabled: false
+            onTapped: (event, button) => {
+                moveOut.running = true
+                menuWindowHandler.enabled = false
+                blur.visible =  false
+            }
+        }
+    }
+
 }
