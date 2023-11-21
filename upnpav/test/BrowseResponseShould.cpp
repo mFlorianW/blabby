@@ -3,12 +3,12 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "BrowseResponseShould.h"
-#include "BrowseResponse.h"
-#include "ContentDirectoryActions.h"
-#include "Descriptions.h"
-#include "MediaServerObject.h"
-#include "Response.h"
+#include "BrowseResponseShould.hpp"
+#include "BrowseResponse.hpp"
+#include "ContentDirectoryActions.hpp"
+#include "Descriptions.hpp"
+#include "MediaServerObject.hpp"
+#include "Response.hpp"
 
 #include <QTest>
 

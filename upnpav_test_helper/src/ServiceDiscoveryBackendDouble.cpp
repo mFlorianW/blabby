@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceDiscoveryBackendDouble.h"
+#include "ServiceDiscoveryBackendDouble.hpp"
 
 namespace UPnPAV
 {
@@ -13,9 +13,7 @@ ServiceDiscoveryBackendDouble::ServiceDiscoveryBackendDouble()
 {
 }
 
-ServiceDiscoveryBackendDouble::~ServiceDiscoveryBackendDouble()
-{
-}
+ServiceDiscoveryBackendDouble::~ServiceDiscoveryBackendDouble() = default;
 
 void ServiceDiscoveryBackendDouble::sendResponseForMediaServerRequest(const QNetworkDatagram &datagram)
 {

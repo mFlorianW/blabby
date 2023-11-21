@@ -1,18 +1,18 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaDeviceShould.h"
-#include "AvTransportActions.h"
-#include "AvTransportStateVariables.h"
-#include "ConnectionManagerActions.h"
-#include "ConnectionManagerStateVariables.h"
-#include "Descriptions.h"
-#include "DeviceDescription.h"
-#include "InvalidDeviceDescription.h"
-#include "MediaDevice.h"
-#include "SCPDAction.h"
-#include "SCPDStateVariable.h"
-#include "SoapMessageTransmitterDouble.h"
+#include "MediaDeviceShould.hpp"
+#include "AvTransportActions.hpp"
+#include "AvTransportStateVariables.hpp"
+#include "ConnectionManagerActions.hpp"
+#include "ConnectionManagerStateVariables.hpp"
+#include "Descriptions.hpp"
+#include "DeviceDescription.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "MediaDevice.hpp"
+#include "SCPDAction.hpp"
+#include "SCPDStateVariable.hpp"
+#include "SoapMessageTransmitterDouble.hpp"
 #include <QTest>
 
 namespace UPnPAV
@@ -281,14 +281,15 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
     QTest::addColumn<DeviceDescription>("DeviceDescription");
     QTest::addColumn<QString>("ExpectedException");
 
-    DeviceDescription SourceProtocolInfo_Missing{"",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 "",
-                                                 QVector<IconDescription>{},
-                                                 {validConnectionManagerDescription()},
-                                                 {createConnectionManagerSCPDWithoutStateVariable(SourceProtocolInfo)}};
+    DeviceDescription SourceProtocolInfo_Missing{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validConnectionManagerDescription()},
+        {createConnectionManagerSCPDWithoutStateVariable(SourceProtocolInfo())}};
 
     QTest::newRow("State variable SourceProtocolInfo missing")
         << SourceProtocolInfo_Missing << "ConnectionManager.*SourceProtocolInfo";
@@ -300,7 +301,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
                                                "",
                                                QVector<IconDescription>{},
                                                {validConnectionManagerDescription()},
-                                               {createConnectionManagerSCPDWithoutStateVariable(SinkProtocolInfo)}};
+                                               {createConnectionManagerSCPDWithoutStateVariable(SinkProtocolInfo())}};
 
     QTest::newRow("State variable SinkProtocolInfo missing")
         << SinkProtocolInfo_Missing << "ConnectionManager.*SinkProtocolInfo";
@@ -313,7 +314,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(CurrentConnectionIDs)}};
+        {createConnectionManagerSCPDWithoutStateVariable(CurrentConnectionIDs())}};
 
     QTest::newRow("State variable CurrentConnectionIDs missing")
         << CurrentConnectionIDs_Missing << "ConnectionManager.*CurrentConnectionIDs";
@@ -326,7 +327,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionStatus)}};
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionStatus())}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionStatus missing")
         << A_ARG_TYPE_ConnectionStatus_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionStatus";
@@ -339,7 +340,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionManager)}};
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionManager())}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionManager missing")
         << A_ARG_TYPE_ConnectionManager_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionManager";
@@ -352,7 +353,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_Direction)}};
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_Direction())}};
 
     QTest::newRow("State variable A_ARG_TYPE_Direction missing")
         << A_ARG_TYPE_Direction_Missing << "ConnectionManager.*A_ARG_TYPE_Direction";
@@ -365,7 +366,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ProtocolInfo)}};
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ProtocolInfo())}};
 
     QTest::newRow("State variable A_ARG_TYPE_ProtocolInfo missing")
         << A_ARG_TYPE_ProtocolInfo_Missing << "ConnectionManager.*A_ARG_TYPE_ProtocolInfo";
@@ -378,7 +379,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionID)}};
+        {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_ConnectionID())}};
 
     QTest::newRow("State variable A_ARG_TYPE_ConnectionID missing")
         << A_ARG_TYPE_ConnectionID_Missing << "ConnectionManager.*A_ARG_TYPE_ConnectionID";
@@ -390,7 +391,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
                                                "",
                                                QVector<IconDescription>{},
                                                {validConnectionManagerDescription()},
-                                               {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_RcsID)}};
+                                               {createConnectionManagerSCPDWithoutStateVariable(A_ARG_TYPE_RcsID())}};
 
     QTest::newRow("State variable A_ARG_TYPE_RcsID missing")
         << A_ARG_TYPE_RcsID_Missing << "ConnectionManager.*A_ARG_TYPE_RcsID";
@@ -428,7 +429,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
                                               "",
                                               QVector<IconDescription>{},
                                               {validConnectionManagerDescription()},
-                                              {createConnectionManagerSCPDWithoutAction(GetProtocolInfo)}};
+                                              {createConnectionManagerSCPDWithoutAction(GetProtocolInfo())}};
 
     QTest::newRow("Action GetProtocolInfo missing") << GetProtocolInfo_Missing << "ConnectionManager.*GetProtocolInfo";
 
@@ -440,7 +441,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionIDs)}};
+        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionIDs())}};
 
     QTest::newRow("Action GetCurrentConnectionIDs missing")
         << GetCurrentConnectionIDs_Missing << "ConnectionManager.*GetCurrentConnectionIDs";
@@ -453,7 +454,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
         "",
         QVector<IconDescription>{},
         {validConnectionManagerDescription()},
-        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionInfo)}};
+        {createConnectionManagerSCPDWithoutAction(GetCurrentConnectionInfo())}};
 
     QTest::newRow("Action GetCurrentConnectionInfo missing")
         << GetCurrentConnectionInfo_Missing << "ConnectionManager.*GetCurrentConnectionInfo";

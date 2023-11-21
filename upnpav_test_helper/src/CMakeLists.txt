@@ -12,34 +12,36 @@ add_library(Blabby::UPnPAVTestHelper ALIAS test_upnp_av_test_helper)
 target_sources(test_upnp_av_test_helper
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitterDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitterDouble.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitterDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerStateVariables.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerStateVariables.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryActions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryActions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryActions.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryStateVariables.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ContentDirectoryStateVariables.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackendDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackendDouble.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackendDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackendDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackendDouble.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackendDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestableMediaServerProviderFactory.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/TestableMediaServerProviderFactory.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestableMediaServerProviderFactory.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SoapCallDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SoapCallDouble.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResponse.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SoapCallDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProtocolInfoResponse.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportActions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportActions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportActions.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportStateVariables.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportStateVariables.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.hpp
 )
 
 target_link_libraries(test_upnp_av_test_helper

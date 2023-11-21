@@ -3,16 +3,16 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceProvider.h"
-#include "DescriptionFetcherBackend.h"
-#include "ServiceDiscoveryBackend.h"
-#include "ServiceProviderError.h"
-#include "private/DescriptionFetcher.h"
-#include "private/DeviceDescriptionParser.h"
-#include "private/ParsingError.h"
-#include "private/ServiceControlPointDefinitionParser.h"
-#include "private/ServiceDiscovery.h"
-#include "private/ServiceDiscoveryPackage.h"
+#include "ServiceProvider.hpp"
+#include "DescriptionFetcherBackend.hpp"
+#include "ServiceDiscoveryBackend.hpp"
+#include "ServiceProviderError.hpp"
+#include "private/DescriptionFetcher.hpp"
+#include "private/DeviceDescriptionParser.hpp"
+#include "private/ParsingError.hpp"
+#include "private/ServiceControlPointDefinitionParser.hpp"
+#include "private/ServiceDiscovery.hpp"
+#include "private/ServiceDiscoveryPackage.hpp"
 
 #include <QNetworkDatagram>
 #include <QUrl>

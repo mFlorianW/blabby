@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "PendingSoapCallShould.h"
-#include "PendingSoapCall.h"
-#include "SoapCallDouble.h"
+#include "PendingSoapCallShould.hpp"
+#include "PendingSoapCall.hpp"
+#include "SoapCallDouble.hpp"
 
 #include <QSignalSpy>
 #include <QTest>

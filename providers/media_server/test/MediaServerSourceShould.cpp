@@ -2,12 +2,12 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaServerSourceShould.h"
-#include "ContentDirectoryActions.h"
-#include "Descriptions.h"
-#include "MediaServerDouble.h"
-#include "MediaServerSource.h"
-#include "Response.h"
+#include "MediaServerSourceShould.hpp"
+#include "ContentDirectoryActions.hpp"
+#include "Descriptions.hpp"
+#include "MediaServerDouble.hpp"
+#include "MediaServerSource.hpp"
+#include "Response.hpp"
 #include <QSignalSpy>
 #include <QTest>
 

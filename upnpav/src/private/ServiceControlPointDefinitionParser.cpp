@@ -3,20 +3,19 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceControlPointDefinitionParser.h"
-#include "ParsingError.h"
+#include "ServiceControlPointDefinitionParser.hpp"
+#include "ParsingError.hpp"
 
 #include <QDebug>
+#include <utility>
 
 namespace UPnPAV
 {
 
-ServiceControlPointDefinitionParser::ServiceControlPointDefinitionParser()
-{
-}
+ServiceControlPointDefinitionParser::ServiceControlPointDefinitionParser() = default;
 
-ServiceControlPointDefinitionParser::ServiceControlPointDefinitionParser(const QString &url)
-    : m_url(url)
+ServiceControlPointDefinitionParser::ServiceControlPointDefinitionParser(QString url)
+    : m_url(std::move(url))
 {
 }
 

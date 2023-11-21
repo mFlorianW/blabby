@@ -2,12 +2,12 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "MediaDevice.h"
-#include "InvalidDeviceDescription.h"
-#include "private/AvTransportServiceValidator.h"
-#include "private/ConnectionManagerServiceValidator.h"
-#include "private/MediaDevicePrivate.h"
-#include "private/SoapMessageGenerator.h"
+#include "MediaDevice.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "private/AvTransportServiceValidator.hpp"
+#include "private/ConnectionManagerServiceValidator.hpp"
+#include "private/MediaDevicePrivate.hpp"
+#include "private/SoapMessageGenerator.hpp"
 
 namespace UPnPAV
 {

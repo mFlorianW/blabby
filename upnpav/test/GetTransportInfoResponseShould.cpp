@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "GetTransportInfoResponseShould.h"
-#include "AvTransportActions.h"
-#include "Descriptions.h"
-#include "GetTransportInfoResponse.h"
+#include "GetTransportInfoResponseShould.hpp"
+#include "AvTransportActions.hpp"
+#include "Descriptions.hpp"
+#include "GetTransportInfoResponse.hpp"
 #include <QTest>
 
 namespace UPnPAV

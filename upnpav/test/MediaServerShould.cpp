@@ -3,14 +3,14 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "MediaServerShould.h"
-#include "ContentDirectoryActions.h"
-#include "ContentDirectoryStateVariables.h"
-#include "Descriptions.h"
-#include "DeviceDescription.h"
-#include "InvalidDeviceDescription.h"
-#include "MediaServer.h"
-#include "SoapMessageTransmitterDouble.h"
+#include "MediaServerShould.hpp"
+#include "ContentDirectoryActions.hpp"
+#include "ContentDirectoryStateVariables.hpp"
+#include "Descriptions.hpp"
+#include "DeviceDescription.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "MediaServer.hpp"
+#include "SoapMessageTransmitterDouble.hpp"
 #include <QDebug>
 #include <QTest>
 

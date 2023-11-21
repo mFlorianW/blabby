@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "GetProtocolInfoResponse.h"
+#include "GetProtocolInfoResponse.hpp"
 #include <QDebug>
 #include <QXmlStreamReader>
 #include <optional>

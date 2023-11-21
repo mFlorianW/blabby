@@ -2,10 +2,10 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "GetDeviceCapabilitiesResponseShould.h"
-#include "AvTransportActions.h"
-#include "Descriptions.h"
-#include "GetDeviceCapabilitiesResponse.h"
+#include "GetDeviceCapabilitiesResponseShould.hpp"
+#include "AvTransportActions.hpp"
+#include "Descriptions.hpp"
+#include "GetDeviceCapabilitiesResponse.hpp"
 #include <QTest>
 
 namespace UPnPAV

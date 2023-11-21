@@ -3,14 +3,12 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "BaseValidator.h"
+#include "BaseValidator.hpp"
 
 namespace UPnPAV
 {
 
-BaseValidator::~BaseValidator()
-{
-}
+BaseValidator::~BaseValidator() = default;
 
 const QString &UPnPAV::BaseValidator::errorMessage() const noexcept
 {

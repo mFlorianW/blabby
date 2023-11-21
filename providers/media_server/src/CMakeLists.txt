@@ -12,11 +12,11 @@ generate_export_header(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProvider.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProvider.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProvider.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSource.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSource.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSource.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -2,8 +2,8 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "ProviderShould.h"
-#include "Provider.h"
+#include "ProviderShould.hpp"
+#include "Provider.hpp"
 #include <QTest>
 
 namespace Multimedia

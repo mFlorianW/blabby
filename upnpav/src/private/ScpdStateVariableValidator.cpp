@@ -3,21 +3,19 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ScpdStateVariableValidator.h"
+#include "ScpdStateVariableValidator.hpp"
+
+#include <utility>
 
 namespace UPnPAV
 {
 
-ScpdStateVariableValidator::ScpdStateVariableValidator(const QString &scpdName,
-                                                       const ServiceControlPointDefinition &scpd,
-                                                       const QVector<QString> &stateVariableNames)
-    : m_scpdName(scpdName)
-    , m_scpd(scpd)
-    , m_stateVariableNames(stateVariableNames)
-{
-}
-
-ScpdStateVariableValidator::~ScpdStateVariableValidator()
+ScpdStateVariableValidator::ScpdStateVariableValidator(QString scpdName,
+                                                       ServiceControlPointDefinition scpd,
+                                                       QVector<QString> stateVariableNames)
+    : m_scpdName(std::move(scpdName))
+    , m_scpd(std::move(scpd))
+    , m_stateVariableNames(std::move(stateVariableNames))
 {
 }
 
@@ -37,7 +35,7 @@ bool ScpdStateVariableValidator::validate() noexcept
                                  });
         if (iter == m_scpd.serviceStateTable().end())
         {
-            m_errorMessage = QString{"%1 SCPD has no %2 variable"}.arg(m_scpdName).arg(variableName);
+            m_errorMessage = QString{"%1 SCPD has no %2 variable"}.arg(m_scpdName, variableName);
             return false;
         }
     }

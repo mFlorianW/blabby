@@ -17,7 +17,7 @@ add_executable(test_provider_mediaserversource)
 target_sources(test_provider_mediaserversource
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSourceShould.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSourceShould.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerSourceShould.hpp
 )
 target_link_libraries(test_provider_mediaserversource
     PRIVATE
@@ -34,7 +34,7 @@ add_executable(test_provider_mediaserverprovider)
 target_sources(test_provider_mediaserverprovider
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProviderShould.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProviderShould.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerProviderShould.hpp
 )
 target_link_libraries(test_provider_mediaserverprovider
     PRIVATE

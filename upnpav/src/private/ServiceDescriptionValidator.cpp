@@ -3,15 +3,16 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceDescriptionValidator.h"
+#include "ServiceDescriptionValidator.hpp"
+
+#include <utility>
 
 namespace UPnPAV
 {
 
-ServiceDescriptionValidator::ServiceDescriptionValidator(const QString descriptionName,
-                                                         const ServiceDescription &serviceDescription)
-    : m_descriptionName(descriptionName)
-    , m_serviceDescription(serviceDescription)
+ServiceDescriptionValidator::ServiceDescriptionValidator(QString descriptionName, ServiceDescription serviceDescription)
+    : m_descriptionName(std::move(descriptionName))
+    , m_serviceDescription(std::move(serviceDescription))
 {
 }
 

@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "MediaServerDouble.h"
-#include "ContentDirectoryActions.h"
-#include "Descriptions.h"
-#include "PendingSoapCall.h"
+#include "MediaServerDouble.hpp"
+#include "ContentDirectoryActions.hpp"
+#include "Descriptions.hpp"
+#include "PendingSoapCall.hpp"
 #include <QDebug>
 #include <QUrl>
 

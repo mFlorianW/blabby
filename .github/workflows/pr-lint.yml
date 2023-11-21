@@ -47,12 +47,15 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         clang_tidy_fixes: clang-tidy-fixes.yml
+        request_changes: true
     - name: Publish Static Code Results
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: clang-tidy-results@${{ github.sha }}.yml
         path: clang-tidy-fixes.yml
     - name: Check Clang-Tidy Warnings
+      if: always()
       run: |
         if [ -e clang-tidy-fixes.yml ]; then
           filesize=$(stat -c '%s' clang-tidy-fixes.yml)

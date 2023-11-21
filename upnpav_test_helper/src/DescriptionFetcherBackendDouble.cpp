@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "DescriptionFetcherBackendDouble.h"
+#include "DescriptionFetcherBackendDouble.hpp"
 
 #include <QFile>
 
@@ -14,9 +14,7 @@ DescriptionFetcherBackendDouble::DescriptionFetcherBackendDouble()
 {
 }
 
-DescriptionFetcherBackendDouble::~DescriptionFetcherBackendDouble()
-{
-}
+DescriptionFetcherBackendDouble::~DescriptionFetcherBackendDouble() = default;
 
 void DescriptionFetcherBackendDouble::fetchDescription(const QUrl &url)
 {

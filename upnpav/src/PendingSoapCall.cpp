@@ -3,9 +3,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "PendingSoapCall.h"
-#include "SoapCall.h"
-#include "private/ErrorResult.h"
+#include "PendingSoapCall.hpp"
+#include "SoapCall.hpp"
+#include "private/ErrorResult.hpp"
 
 #include <QVariant>
 

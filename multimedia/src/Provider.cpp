@@ -3,7 +3,7 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "Provider.h"
+#include "Provider.hpp"
 
 namespace Multimedia
 {

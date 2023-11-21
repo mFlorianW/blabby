@@ -13,7 +13,7 @@ add_library(Blabby::DummyPlugin ALIAS DummyPlugin)
 target_sources(DummyPlugin
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/DummyPlugin.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/DummyPlugin.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DummyPlugin.hpp
 )
 target_link_libraries(DummyPlugin
     Blabby::Multimedia

@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "MediaServerSource.h"
-#include "BrowseResponse.h"
-#include "private/LoggingCategories.h"
+#include "MediaServerSource.hpp"
+#include "BrowseResponse.hpp"
+#include "private/LoggingCategories.hpp"
 #include <QDebug>
 
 namespace Provider

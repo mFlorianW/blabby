@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "GetProtocolInfoResponseShould.h"
-#include "GetProtocolInfoResponse.h"
-#include "ProtocolInfoResponse.h"
+#include "GetProtocolInfoResponseShould.hpp"
+#include "GetProtocolInfoResponse.hpp"
+#include "ProtocolInfoResponse.hpp"
 #include <QTest>
 #include <qtestcase.h>
 #include <qvector.h>

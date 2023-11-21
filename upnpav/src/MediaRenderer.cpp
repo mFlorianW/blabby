@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaRenderer.h"
-#include "DeviceDescription.h"
-#include "InvalidDeviceDescription.h"
-#include "private/RenderingControlServiceValidator.h"
+#include "MediaRenderer.hpp"
+#include "DeviceDescription.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "private/RenderingControlServiceValidator.hpp"
 
 namespace UPnPAV
 {

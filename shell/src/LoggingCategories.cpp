@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "LoggingCategories.h"
+#include "LoggingCategories.hpp"
 
 Q_LOGGING_CATEGORY(shell, "blabby.shell")

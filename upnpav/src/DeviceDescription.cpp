@@ -3,33 +3,32 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "DeviceDescription.h"
+#include "DeviceDescription.hpp"
 
 #include <QDebug>
+#include <utility>
 
 namespace UPnPAV
 {
 
-DeviceDescription::DeviceDescription()
-{
-}
+DeviceDescription::DeviceDescription() = default;
 
-DeviceDescription::DeviceDescription(const QString &deviceType,
-                                     const QString &friendlyName,
-                                     const QString &manufacturer,
-                                     const QString &modelName,
-                                     const QString &udn,
-                                     const QVector<IconDescription> &icons,
-                                     const QVector<ServiceDescription> &services,
-                                     const QVector<ServiceControlPointDefinition> &scpds)
-    : m_deviceType(deviceType)
-    , m_friendlyName(friendlyName)
-    , m_manufacturer(manufacturer)
-    , m_modelName(modelName)
-    , m_udn(udn)
-    , m_icons(icons)
-    , m_services(services)
-    , m_scpds(scpds)
+DeviceDescription::DeviceDescription(QString deviceType,
+                                     QString friendlyName,
+                                     QString manufacturer,
+                                     QString modelName,
+                                     QString udn,
+                                     QVector<IconDescription> icons,
+                                     QVector<ServiceDescription> services,
+                                     QVector<ServiceControlPointDefinition> scpds)
+    : m_deviceType(std::move(deviceType))
+    , m_friendlyName(std::move(friendlyName))
+    , m_manufacturer(std::move(manufacturer))
+    , m_modelName(std::move(modelName))
+    , m_udn(std::move(udn))
+    , m_icons(std::move(icons))
+    , m_services(std::move(services))
+    , m_scpds(std::move(scpds))
 {
 }
 
@@ -92,7 +91,7 @@ std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QStri
     {
         if (scpd.scpdUrl() == scpdUrl)
         {
-            return std::optional<ServiceControlPointDefinition>(scpd);
+            return scpd;
         }
     }
 

@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "GetPositionInfoResponse.h"
-#include "private/LoggingCategories.h"
-#include "private/ResponseReader.h"
+#include "GetPositionInfoResponse.hpp"
+#include "private/LoggingCategories.hpp"
+#include "private/ResponseReader.hpp"
 
 namespace UPnPAV
 {

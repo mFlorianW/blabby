@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "DescriptionFetcherBackend.h"
+#include "DescriptionFetcherBackend.hpp"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -16,9 +16,7 @@ DescriptionFetcherBackend::DescriptionFetcherBackend()
 {
 }
 
-DescriptionFetcherBackend::~DescriptionFetcherBackend()
-{
-}
+DescriptionFetcherBackend::~DescriptionFetcherBackend() = default;
 
 void DescriptionFetcherBackend::fetchDescriptionFrom(const QUrl &url)
 {

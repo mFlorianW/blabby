@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ContentDirectoryServiceValidator.h"
-#include "ScpdStateVariableValidator.h"
+#include "ContentDirectoryServiceValidator.hpp"
+#include "ScpdStateVariableValidator.hpp"
 
 namespace UPnPAV
 {

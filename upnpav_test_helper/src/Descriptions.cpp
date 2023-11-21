@@ -3,15 +3,15 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "Descriptions.h"
-#include "AvTransportActions.h"
-#include "AvTransportStateVariables.h"
-#include "ConnectionManagerActions.h"
-#include "ConnectionManagerStateVariables.h"
-#include "ContentDirectoryActions.h"
-#include "ContentDirectoryStateVariables.h"
-#include "RenderingControlActions.h"
-#include "RenderingControlStateVariables.h"
+#include "Descriptions.hpp"
+#include "AvTransportActions.hpp"
+#include "AvTransportStateVariables.hpp"
+#include "ConnectionManagerActions.hpp"
+#include "ConnectionManagerStateVariables.hpp"
+#include "ContentDirectoryActions.hpp"
+#include "ContentDirectoryStateVariables.hpp"
+#include "RenderingControlActions.hpp"
+#include "RenderingControlStateVariables.hpp"
 
 namespace UPnPAV
 {
@@ -118,22 +118,22 @@ ServiceDescription scpdUrlMissingInConnectionManagerDescription()
 
 QVector<SCPDStateVariable> validConnectionManagerStateVariables()
 {
-    static auto variables = QVector<SCPDStateVariable>{SourceProtocolInfo,
-                                                       SinkProtocolInfo,
-                                                       CurrentConnectionIDs,
-                                                       A_ARG_TYPE_ConnectionStatus,
-                                                       A_ARG_TYPE_ConnectionManager,
-                                                       A_ARG_TYPE_Direction,
-                                                       A_ARG_TYPE_ProtocolInfo,
-                                                       A_ARG_TYPE_ConnectionID,
-                                                       A_ARG_TYPE_AVTransportID,
-                                                       A_ARG_TYPE_RcsID};
+    static auto variables = QVector<SCPDStateVariable>{SourceProtocolInfo(),
+                                                       SinkProtocolInfo(),
+                                                       CurrentConnectionIDs(),
+                                                       A_ARG_TYPE_ConnectionStatus(),
+                                                       A_ARG_TYPE_ConnectionManager(),
+                                                       A_ARG_TYPE_Direction(),
+                                                       A_ARG_TYPE_ProtocolInfo(),
+                                                       A_ARG_TYPE_ConnectionID(),
+                                                       A_ARG_TYPE_AVTransportID(),
+                                                       A_ARG_TYPE_RcsID()};
     return variables;
 }
 
 QVector<SCPDAction> validConnectionManagerActions()
 {
-    static auto actions = QVector<SCPDAction>{GetProtocolInfo, GetCurrentConnectionIDs, GetCurrentConnectionInfo};
+    static auto actions = QVector<SCPDAction>{GetProtocolInfo(), GetCurrentConnectionIDs(), GetCurrentConnectionInfo()};
     return actions;
 }
 

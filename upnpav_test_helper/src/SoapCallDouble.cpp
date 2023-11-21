@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "SoapCallDouble.h"
+#include "SoapCallDouble.hpp"
 
 namespace UPnPAV
 {

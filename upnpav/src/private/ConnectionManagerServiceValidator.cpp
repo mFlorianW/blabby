@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ConnectionManagerServiceValidator.h"
-#include "ScpdActionListValidator.h"
-#include "ScpdStateVariableValidator.h"
-#include "ServiceDescriptionValidator.h"
+#include "ConnectionManagerServiceValidator.hpp"
+#include "ScpdActionListValidator.hpp"
+#include "ScpdStateVariableValidator.hpp"
+#include "ServiceDescriptionValidator.hpp"
 
 namespace UPnPAV
 {

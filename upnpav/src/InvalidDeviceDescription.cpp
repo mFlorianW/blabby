@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "InvalidDeviceDescription.h"
+#include "InvalidDeviceDescription.hpp"
 
 namespace UPnPAV
 {
@@ -25,7 +25,7 @@ void InvalidDeviceDescription::raise() const
 
 InvalidDeviceDescription *InvalidDeviceDescription::clone() const
 {
-    return new InvalidDeviceDescription(*this);
+    return new InvalidDeviceDescription(*this); // NOLINT cppcoreguidelines-owning-memory
 }
 
 } // namespace UPnPAV

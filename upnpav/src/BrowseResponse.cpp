@@ -3,9 +3,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "BrowseResponse.h"
-#include "private/LoggingCategories.h"
-#include "private/ResponseReader.h"
+#include "BrowseResponse.hpp"
+#include "private/LoggingCategories.hpp"
+#include "private/ResponseReader.hpp"
 #include <QXmlStreamReader>
 
 namespace UPnPAV

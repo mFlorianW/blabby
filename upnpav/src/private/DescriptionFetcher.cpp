@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "DescriptionFetcher.h"
-#include "DescriptionFetcherBackend.h"
+#include "DescriptionFetcher.hpp"
+#include "DescriptionFetcherBackend.hpp"
 
 namespace UPnPAV
 {

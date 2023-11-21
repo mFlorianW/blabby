@@ -12,7 +12,7 @@ add_executable(test_upnpav_browse_result)
 target_sources(test_upnpav_browse_result
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.hpp
 )
 target_include_directories(test_upnpav_browse_result
     PRIVATE
@@ -32,6 +32,7 @@ add_executable(test_upnpav_media_server)
 target_sources(test_upnpav_media_server
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerShould.hpp
 )
 target_link_libraries(test_upnpav_media_server
     PUBLIC 
@@ -48,6 +49,7 @@ add_executable(test_upnpav_media_server_object)
 target_sources(test_upnpav_media_server_object
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObjectShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObjectShould.hpp
 )
 target_include_directories(test_upnpav_media_server_object
     PRIVATE
@@ -65,7 +67,8 @@ add_test(test_upnpav_browse_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_s
 add_executable(test_upnpav_pending_soap_call)
 target_sources(test_upnpav_pending_soap_call
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCallShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCallShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCallShould.hpp
 )
 target_include_directories(test_upnpav_pending_soap_call
     PRIVATE
@@ -89,6 +92,7 @@ target_sources(test_upnpav_service_provider
     PRIVATE
         ${TEST_RESOURCE_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderShould.hpp
 )
 target_link_libraries(test_upnpav_service_provider
     PRIVATE
@@ -106,7 +110,7 @@ target_sources(test_upnpav_protocol_info_result
     PRIVATE
         ${TEST_RESOURCE_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponseShould.hpp
 )
 target_link_libraries(test_upnpav_protocol_info_result
     PRIVATE
@@ -124,7 +128,7 @@ target_sources(test_upnpav_current_connection_ids_result
     PRIVATE
         ${TEST_RESOURCE_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionIdsResponseShould.hpp
 )
 target_link_libraries(test_upnpav_current_connection_ids_result
     PRIVATE
@@ -142,7 +146,7 @@ target_sources(test_upnpav_current_connection_info_result
     PRIVATE
         ${TEST_RESOURCE_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetCurrentConnectionInfoResponseShould.hpp
 )
 target_link_libraries(test_upnpav_current_connection_info_result
     PRIVATE
@@ -159,7 +163,7 @@ add_executable(test_upnpav_media_device)
 target_sources(test_upnpav_media_device
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaDeviceShould.hpp
 )
 target_link_libraries(test_upnpav_media_device
     PUBLIC
@@ -176,7 +180,7 @@ add_executable(test_upnpav_get_media_info_response)
 target_sources(test_upnpav_get_media_info_response
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetMediaInfoResponseShould.hpp
 )
 target_link_libraries(test_upnpav_get_media_info_response
     PUBLIC
@@ -193,7 +197,7 @@ add_executable(test_upnpav_get_transport_info_response)
 target_sources(test_upnpav_get_transport_info_response
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportInfoResponseShould.hpp
 )
 target_link_libraries(test_upnpav_get_transport_info_response
     PUBLIC
@@ -210,7 +214,7 @@ add_executable(test_upnpav_get_position_info_response)
 target_sources(test_upnpav_get_position_info_response
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetPositionInfoResponseShould.hpp
 )
 target_link_libraries(test_upnpav_get_position_info_response
     PUBLIC
@@ -227,7 +231,7 @@ add_executable(test_upnpav_get_device_capabilities_response)
 target_sources(test_upnpav_get_device_capabilities_response
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetDeviceCapabilitiesResponseShould.hpp
 )
 target_link_libraries(test_upnpav_get_device_capabilities_response
     PUBLIC
@@ -244,7 +248,7 @@ add_executable(test_upnpav_get_transport_settings_response)
 target_sources(test_upnpav_get_transport_settings_response
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponseShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponseShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponseShould.hpp
 )
 target_link_libraries(test_upnpav_get_transport_settings_response
     PUBLIC
@@ -261,7 +265,7 @@ add_executable(test_upnpav_media_renderer)
 target_sources(test_upnpav_media_renderer
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererShould.hpp
 )
 target_link_libraries(test_upnpav_media_renderer
     PUBLIC

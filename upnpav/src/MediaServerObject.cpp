@@ -3,23 +3,21 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "MediaServerObject.h"
+#include "MediaServerObject.hpp"
 
 #include <QDebug>
+#include <utility>
 
 namespace UPnPAV
 {
 
 MediaServerObject::MediaServerObject() = default;
 
-MediaServerObject::MediaServerObject(const QString &id,
-                                     const QString &parentId,
-                                     const QString &title,
-                                     const QString &typeClass)
-    : m_id(id)
-    , m_parentId(parentId)
-    , m_title(title)
-    , m_class(typeClass)
+MediaServerObject::MediaServerObject(QString id, QString parentId, QString title, QString typeClass)
+    : m_id(std::move(id))
+    , m_parentId(std::move(parentId))
+    , m_title(std::move(title))
+    , m_class(std::move(typeClass))
 {
 }
 
