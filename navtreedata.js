@@ -57,7 +57,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AvTransportServiceValidator_8h_source.html",
+"AvTransportServiceValidator_8hpp_source.html",
 "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0cb4ba0d256a8a83a5c0297fbb130188"
 ];
 
