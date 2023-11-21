@@ -3,15 +3,13 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "SoapMessageTransmitterDouble.h"
-#include "TestSoapCall.h"
+#include "SoapMessageTransmitterDouble.hpp"
+#include "TestSoapCall.hpp"
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitterDouble::SoapMessageTransmitterDouble()
-{
-}
+SoapMessageTransmitterDouble::SoapMessageTransmitterDouble() = default;
 
 QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QString &url,
                                                                        const QString &actionName,
@@ -23,7 +21,7 @@ QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QSt
     Q_UNUSED(serviceType)
     m_xmlMessageBody = xmlBody;
 
-    return QSharedPointer<TestSoapCall>{new TestSoapCall()};
+    return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall()};
 }
 
 QString SoapMessageTransmitterDouble::xmlMessageBody() const

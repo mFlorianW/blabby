@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "MediaServerProviderShould.h"
-#include "MediaServerDouble.h"
-#include "MediaServerProvider.h"
-#include "ServiceProviderDouble.h"
+#include "MediaServerProviderShould.hpp"
+#include "MediaServerDouble.hpp"
+#include "MediaServerProvider.hpp"
+#include "ServiceProviderDouble.hpp"
 #include <QSignalSpy>
 #include <QTest>
 

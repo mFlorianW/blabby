@@ -14,7 +14,7 @@ set(PRIVATE_SRCS
 )
 
 set(PRIVATE_HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
 )
 
 set(PUBLIC_SRCS
@@ -25,10 +25,10 @@ set(PUBLIC_SRCS
 )
 
 set(PUBLIC_HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Provider.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Provider.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.hpp
 )
 
 target_sources(${PROJECT_NAME}

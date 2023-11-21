@@ -3,9 +3,9 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "TestableMediaServerProviderFactory.h"
-#include "DescriptionFetcherBackendDouble.h"
-#include "ServiceDiscoveryBackendDouble.h"
+#include "TestableMediaServerProviderFactory.hpp"
+#include "DescriptionFetcherBackendDouble.hpp"
+#include "ServiceDiscoveryBackendDouble.hpp"
 
 namespace UPnPAV
 {

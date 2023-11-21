@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "DeviceDescriptionParser.h"
-#include "ParsingError.h"
+#include "DeviceDescriptionParser.hpp"
+#include "ParsingError.hpp"
 
 #include <QDebug>
 #include <QUrl>

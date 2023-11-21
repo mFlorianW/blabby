@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceDiscovery.h"
-#include "ServiceDiscoveryBackend.h"
+#include "ServiceDiscovery.hpp"
+#include "ServiceDiscoveryBackend.hpp"
 
 #include <QNetworkDatagram>
 
@@ -13,7 +13,7 @@ namespace UPnPAV
 
 namespace
 {
-constexpr char MULTICAST_ADDRESS[]{"239.255.255.250"};
+constexpr const char *MULTICAST_ADDRESS = "239.255.255.250";
 constexpr quint16 MULTICAST_PORT{1900};
 } // namespace
 
@@ -27,9 +27,7 @@ ServiceDiscovery::ServiceDiscovery(ServiceDiscoveryBackend *discoveryBackend)
                   &ServiceDiscovery::dataReceived);
 }
 
-ServiceDiscovery::~ServiceDiscovery()
-{
-}
+ServiceDiscovery::~ServiceDiscovery() = default;
 
 void ServiceDiscovery::sendSearchRequest(const QString &searchTarget)
 {

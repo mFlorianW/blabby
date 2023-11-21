@@ -3,17 +3,13 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceValidatorBase.h"
-#include "ScpdActionListValidator.h"
-#include "ScpdStateVariableValidator.h"
-#include "ServiceDescriptionValidator.h"
+#include "ServiceValidatorBase.hpp"
+#include "ScpdActionListValidator.hpp"
+#include "ScpdStateVariableValidator.hpp"
+#include "ServiceDescriptionValidator.hpp"
 
 namespace UPnPAV
 {
-
-ServiceValidatorBase::~ServiceValidatorBase()
-{
-}
 
 bool ServiceValidatorBase::validate() noexcept
 {

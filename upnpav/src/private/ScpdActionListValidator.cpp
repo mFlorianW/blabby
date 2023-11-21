@@ -3,21 +3,19 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ScpdActionListValidator.h"
+#include "ScpdActionListValidator.hpp"
+
+#include <utility>
 
 namespace UPnPAV
 {
 
-ScpdActionListValidator::ScpdActionListValidator(const QString &scpdName,
-                                                 const ServiceControlPointDefinition &scpd,
-                                                 const QVector<QString> actionNames)
-    : m_scpdName(scpdName)
-    , m_scpd(scpd)
-    , m_actionNames(actionNames)
-{
-}
-
-ScpdActionListValidator::~ScpdActionListValidator()
+ScpdActionListValidator::ScpdActionListValidator(QString scpdName,
+                                                 ServiceControlPointDefinition scpd,
+                                                 QVector<QString> actionNames)
+    : m_scpdName(std::move(scpdName))
+    , m_scpd(std::move(scpd))
+    , m_actionNames(std::move(actionNames))
 {
 }
 
@@ -35,7 +33,7 @@ bool ScpdActionListValidator::validate() noexcept
         });
         if (iter == m_scpd.actionList().end())
         {
-            m_errorMessage = QString{"%1 SCPD has no %2 action"}.arg(m_scpdName).arg(actionName);
+            m_errorMessage = QString{"%1 SCPD has no %2 action"}.arg(m_scpdName, actionName);
             return false;
         }
     }

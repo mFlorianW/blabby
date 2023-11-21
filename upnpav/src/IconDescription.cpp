@@ -3,24 +3,19 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "IconDescription.h"
+#include "IconDescription.hpp"
 
 #include <QUrl>
+#include <utility>
 
 namespace UPnPAV
 {
 
-IconDescription::IconDescription()
-{
-}
+IconDescription::IconDescription() = default;
 
-IconDescription::IconDescription(const QString &mimeType,
-                                 quint32 width,
-                                 quint32 height,
-                                 quint32 depth,
-                                 const QString &url)
-    : m_mimeType(mimeType)
-    , m_url(url)
+IconDescription::IconDescription(QString mimeType, quint32 width, quint32 height, quint32 depth, QString url)
+    : m_mimeType(std::move(mimeType))
+    , m_url(std::move(url))
     , m_width(width)
     , m_height(height)
     , m_depth(depth)

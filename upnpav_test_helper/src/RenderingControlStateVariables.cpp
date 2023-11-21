@@ -2,7 +2,7 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "RenderingControlStateVariables.h"
+#include "RenderingControlStateVariables.hpp"
 
 namespace UPnPAV
 {

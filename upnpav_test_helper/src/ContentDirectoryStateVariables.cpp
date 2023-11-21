@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "ContentDirectoryStateVariables.h"
+#include "ContentDirectoryStateVariables.hpp"
 
 namespace UPnPAV
 {

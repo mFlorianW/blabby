@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "MediaServerProvider.h"
-#include "InvalidDeviceDescription.h"
-#include "MediaServerSource.h"
-#include "private/LoggingCategories.h"
+#include "MediaServerProvider.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "MediaServerSource.hpp"
+#include "private/LoggingCategories.hpp"
 #include <QDebug>
 #include <source_location>
 

@@ -3,11 +3,11 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceProviderShould.h"
-#include "DescriptionFetcherBackendDouble.h"
-#include "IServiceProvider.h"
-#include "ServiceDiscoveryBackendDouble.h"
-#include "TestableMediaServerProviderFactory.h"
+#include "ServiceProviderShould.hpp"
+#include "DescriptionFetcherBackendDouble.hpp"
+#include "IServiceProvider.hpp"
+#include "ServiceDiscoveryBackendDouble.hpp"
+#include "TestableMediaServerProviderFactory.hpp"
 
 #include <QNetworkDatagram>
 #include <QSharedPointer>
@@ -19,37 +19,37 @@ namespace UPnPAV
 
 namespace
 {
-constexpr char validMSearchRequest[] = "M-SEARCH * HTTP/1.1\r\n"
-                                       "Host: 239.255.255.250:1900\r\n"
-                                       "Man: \"ssdp:discover\"\r\n"
-                                       "MX: 3\r\n"
-                                       "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
-                                       "USER-AGENT: Linux/1.0 UPnP/1.0 test/0.1.0"
-                                       "\r\n";
+constexpr const char *validMSearchRequest = "M-SEARCH * HTTP/1.1\r\n"
+                                            "Host: 239.255.255.250:1900\r\n"
+                                            "Man: \"ssdp:discover\"\r\n"
+                                            "MX: 3\r\n"
+                                            "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                            "USER-AGENT: Linux/1.0 UPnP/1.0 test/0.1.0"
+                                            "\r\n";
 
-constexpr char validMSearchResponse[] = "HTTP/1.1 200 OK\r\n"
-                                        "CACHE-CONTROL: max-age = seconds until advertisement expires\r\n"
-                                        "DATE: when response was generated\r\n"
-                                        "EXT:\r\n"
-                                        "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
-                                        "SERVER: Linux UPnP/1.0\r\n"
-                                        "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+constexpr const char *validMSearchResponse = "HTTP/1.1 200 OK\r\n"
+                                             "CACHE-CONTROL: max-age = seconds until advertisement expires\r\n"
+                                             "DATE: when response was generated\r\n"
+                                             "EXT:\r\n"
+                                             "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                                             "SERVER: Linux UPnP/1.0\r\n"
+                                             "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                             "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
+
+constexpr const char *validNotifyMessage = "NOTIFY * HTTP/1.1\r\n"
+                                           "HOST: 239.255.255.250:1900\r\n"
+                                           "CACHE-CONTROL: max-age = seconds until advertisement expires \r\n"
+                                           "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                                           "NT: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                           "NTS: ssdp:alive\r\n"
+                                           "SERVER: OS/version UPnP/1.0 product/version\r\n"
+                                           "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
+
+constexpr const char *validByeMessage = "NOTIFY * HTTP/1.1 \r\n"
+                                        "HOST: 239.255.255.250:1900 \r\n"
+                                        "NT: urn:schemas-upnp-org:device:MediaServer:1 \r\n"
+                                        "NTS: ssdp:byebye \r\n"
                                         "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
-
-constexpr char validNotifyMessage[] = "NOTIFY * HTTP/1.1\r\n"
-                                      "HOST: 239.255.255.250:1900\r\n"
-                                      "CACHE-CONTROL: max-age = seconds until advertisement expires \r\n"
-                                      "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
-                                      "NT: urn:schemas-upnp-org:device:MediaServer:1\r\n"
-                                      "NTS: ssdp:alive\r\n"
-                                      "SERVER: OS/version UPnP/1.0 product/version\r\n"
-                                      "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
-
-constexpr char validByeMessage[] = "NOTIFY * HTTP/1.1 \r\n"
-                                   "HOST: 239.255.255.250:1900 \r\n"
-                                   "NT: urn:schemas-upnp-org:device:MediaServer:1 \r\n"
-                                   "NTS: ssdp:byebye \r\n"
-                                   "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
 } // namespace
 
 ServiceProviderShould::ServiceProviderShould() noexcept
@@ -57,9 +57,7 @@ ServiceProviderShould::ServiceProviderShould() noexcept
 {
 }
 
-ServiceProviderShould::~ServiceProviderShould()
-{
-}
+ServiceProviderShould::~ServiceProviderShould() = default;
 
 QNetworkDatagram ServiceProviderShould::createServiceDiscoveryRequestMessage(const QString &message)
 {
@@ -379,8 +377,7 @@ void ServiceProviderShould::parse_devices_description_with_services()
 
     QVERIFY2(expectedDeviceDescription.services().size() == receivedDeviceDescription.services().size(),
              QString{"Expected: %1 : Actual: %2"}
-                 .arg(expectedDeviceDescription.services().size())
-                 .arg(receivedDeviceDescription.services().size())
+                 .arg(expectedDeviceDescription.services().size(), receivedDeviceDescription.services().size())
                  .toUtf8()
                  .data());
 
@@ -391,36 +388,31 @@ void ServiceProviderShould::parse_devices_description_with_services()
 
         QVERIFY2(expectedServiceDescription.serviceType() == receivedServiceDescription.serviceType(),
                  QString{"Expected: %1 : Received: %2"}
-                     .arg(expectedServiceDescription.serviceType())
-                     .arg(receivedServiceDescription.serviceType())
+                     .arg(expectedServiceDescription.serviceType(), receivedServiceDescription.serviceType())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedServiceDescription.id() == receivedServiceDescription.id(),
                  QString{"Expected: %1 : Received: %2"}
-                     .arg(expectedServiceDescription.id())
-                     .arg(receivedServiceDescription.id())
+                     .arg(expectedServiceDescription.id(), receivedServiceDescription.id())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedServiceDescription.scpdUrl() == receivedServiceDescription.scpdUrl(),
                  QString{"Expected: %1 : Received: %2"}
-                     .arg(expectedServiceDescription.id())
-                     .arg(receivedServiceDescription.id())
+                     .arg(expectedServiceDescription.id(), receivedServiceDescription.id())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedServiceDescription.controlUrl() == receivedServiceDescription.controlUrl(),
                  QString{"Expected: %1 : Received: %2"}
-                     .arg(expectedServiceDescription.controlUrl())
-                     .arg(receivedServiceDescription.controlUrl())
+                     .arg(expectedServiceDescription.controlUrl(), receivedServiceDescription.controlUrl())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedServiceDescription.eventUrl() == receivedServiceDescription.eventUrl(),
                  QString{"Expected: %1 : Received: %2"}
-                     .arg(expectedServiceDescription.eventUrl())
-                     .arg(receivedServiceDescription.eventUrl())
+                     .arg(expectedServiceDescription.eventUrl(), receivedServiceDescription.eventUrl())
                      .toUtf8()
                      .data());
 
@@ -445,15 +437,13 @@ void ServiceProviderShould::ignore_broken_device_description_notify_error()
 
     QVERIFY2(expectedError.errorCode() == error.errorCode(),
              QString{"Expected: %1 : Actual:%2"}
-                 .arg(static_cast<qint32>(expectedError.errorCode()))
-                 .arg(static_cast<qint32>(error.errorCode()))
+                 .arg(static_cast<qint32>(expectedError.errorCode()), static_cast<qint32>(error.errorCode()))
                  .toUtf8()
                  .data());
 
     QVERIFY2(expectedError.errorDescription() == error.errorDescription(),
              QString{"Expected: %1 : Actual:%2"}
-                 .arg(expectedError.errorDescription())
-                 .arg(error.errorDescription())
+                 .arg(expectedError.errorDescription(), error.errorDescription())
                  .toUtf8()
                  .data());
 }
@@ -475,8 +465,8 @@ void ServiceProviderShould::request_scpd_configurations()
 
     QVERIFY2(expectedUrl == m_providerFactory->descriptionFetcherBackendDouble->lastDescriptionRequest,
              QString{"Expected %1 : Actual %2"}
-                 .arg(expectedUrl.toString())
-                 .arg(m_providerFactory->descriptionFetcherBackendDouble->lastDescriptionRequest.toString())
+                 .arg(expectedUrl.toString(),
+                      m_providerFactory->descriptionFetcherBackendDouble->lastDescriptionRequest.toString())
                  .toUtf8()
                  .data());
 }
@@ -635,8 +625,7 @@ void ServiceProviderShould::parse_service_control_point_definition()
 
     QVERIFY2(expectedScpd.serviceStateTable().size() == receivedScpd.at(0).serviceStateTable().size(),
              QString{"Expected: %1 : Actual %2"}
-                 .arg(expectedScpd.serviceStateTable().size())
-                 .arg(receivedScpd.at(0).serviceStateTable().size())
+                 .arg(expectedScpd.serviceStateTable().size(), receivedScpd.at(0).serviceStateTable().size())
                  .toUtf8()
                  .data());
 
@@ -648,58 +637,50 @@ void ServiceProviderShould::parse_service_control_point_definition()
 
         QVERIFY2(expectedStateVariable.name() == stateVariable.name(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.name())
-                     .arg(stateVariable.name())
+                     .arg(expectedStateVariable.name(), stateVariable.name())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.dataType() == stateVariable.dataType(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.dataType())
-                     .arg(stateVariable.dataType())
+                     .arg(expectedStateVariable.dataType(), stateVariable.dataType())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.defaultValue() == stateVariable.defaultValue(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.defaultValue())
-                     .arg(stateVariable.defaultValue())
+                     .arg(expectedStateVariable.defaultValue(), stateVariable.defaultValue())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.allowedValues() == stateVariable.allowedValues(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.allowedValues().size())
-                     .arg(stateVariable.allowedValues().size())
+                     .arg(expectedStateVariable.allowedValues().size(), stateVariable.allowedValues().size())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.miniumValue() == stateVariable.miniumValue(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.miniumValue())
-                     .arg(stateVariable.miniumValue())
+                     .arg(expectedStateVariable.miniumValue(), stateVariable.miniumValue())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.maximumValue() == stateVariable.maximumValue(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.name())
-                     .arg(stateVariable.name())
+                     .arg(expectedStateVariable.name(), stateVariable.name())
                      .toUtf8()
                      .data());
 
         QVERIFY2(expectedStateVariable.maximumValue() == stateVariable.maximumValue(),
                  QString{"Expected: %1 : Actual %2"}
-                     .arg(expectedStateVariable.name())
-                     .arg(stateVariable.name())
+                     .arg(expectedStateVariable.name(), stateVariable.name())
                      .toUtf8()
                      .data());
     }
 
     QVERIFY2(expectedScpd.actionList().size() == receivedScpd.at(0).actionList().size(),
              QString{"Expected: %1 : Actual %2"}
-                 .arg(expectedScpd.actionList().size())
-                 .arg(receivedScpd.at(0).actionList().size())
+                 .arg(expectedScpd.actionList().size(), receivedScpd.at(0).actionList().size())
                  .toUtf8()
                  .data());
 
@@ -710,37 +691,34 @@ void ServiceProviderShould::parse_service_control_point_definition()
         auto expectedAction = expectedScpd.actionList().at(actionIndex);
 
         QVERIFY2(expectedAction.name() == action.name(),
-                 QString{"Expected: %1 : Actual %2"}.arg(expectedAction.name()).arg(action.name()).toUtf8().data());
+                 QString{"Expected: %1 : Actual %2"}.arg(expectedAction.name(), action.name()).toUtf8().data());
 
         auto actionArgs = action.arguments();
         auto expectedActionArgs = expectedAction.arguments();
 
-        QVERIFY2(
-            expectedActionArgs.size() == actionArgs.size(),
-            QString{"Expected: %1 : Actual %2"}.arg(expectedActionArgs.size()).arg(actionArgs.size()).toUtf8().data());
+        QVERIFY2(expectedActionArgs.size() == actionArgs.size(),
+                 QString{"Expected: %1 : Actual %2"}.arg(expectedActionArgs.size(), actionArgs.size()).toUtf8().data());
 
         auto argIndex = 0;
         for (; argIndex < actionArgs.size(); ++argIndex)
         {
             QVERIFY2(expectedActionArgs.at(argIndex).name() == actionArgs.at(argIndex).name(),
                      QString{"Expected %1 : Actual %2"}
-                         .arg(expectedActionArgs.at(argIndex).name())
-                         .arg(actionArgs.at(argIndex).name())
+                         .arg(expectedActionArgs.at(argIndex).name(), actionArgs.at(argIndex).name())
                          .toUtf8()
                          .data());
 
             QVERIFY2(expectedActionArgs.at(argIndex).direction() == actionArgs.at(argIndex).direction(),
                      QString{"Expected %1 : Actual %2"}
-                         .arg(expectedActionArgs.at(argIndex).direction())
-                         .arg(actionArgs.at(argIndex).direction())
+                         .arg(expectedActionArgs.at(argIndex).direction(), actionArgs.at(argIndex).direction())
                          .toUtf8()
                          .data());
 
             QVERIFY2(expectedActionArgs.at(argIndex).relatedStateVariable() ==
                          actionArgs.at(argIndex).relatedStateVariable(),
                      QString{"Expected %1 : Actual %2"}
-                         .arg(expectedActionArgs.at(argIndex).relatedStateVariable())
-                         .arg(actionArgs.at(argIndex).relatedStateVariable())
+                         .arg(expectedActionArgs.at(argIndex).relatedStateVariable(),
+                              actionArgs.at(argIndex).relatedStateVariable())
                          .toUtf8()
                          .data());
         }

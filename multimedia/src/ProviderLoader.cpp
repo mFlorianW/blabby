@@ -2,8 +2,8 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "ProviderLoader.h"
-#include "private/LoggingCategories.h"
+#include "ProviderLoader.hpp"
+#include "private/LoggingCategories.hpp"
 #include <QDir>
 #include <QDirIterator>
 #include <QPluginLoader>

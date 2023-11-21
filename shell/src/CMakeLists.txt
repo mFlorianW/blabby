@@ -19,7 +19,7 @@ add_library(BlabbyShell::Object ALIAS ${PROJECT_NAME}Object)
 target_sources(${PROJECT_NAME}Object
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object

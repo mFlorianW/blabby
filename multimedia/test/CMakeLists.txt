@@ -16,7 +16,7 @@ add_executable(test_multimedia_provider)
 target_sources(test_multimedia_provider
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ProviderShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderShould.hpp
 )
 target_link_libraries(test_multimedia_provider
     Qt6::Test
@@ -31,7 +31,7 @@ add_executable(test_multimedia_mediasource)
 target_sources(test_multimedia_mediasource
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceShould.hpp
 )
 target_link_libraries(test_multimedia_mediasource
     Qt6::Test
@@ -46,7 +46,7 @@ add_executable(test_multimedia_providerloader)
 target_sources(test_multimedia_providerloader
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoaderShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoaderShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoaderShould.hpp
 )
 target_link_libraries(test_multimedia_providerloader
     Qt6::Test
@@ -62,7 +62,7 @@ add_executable(test_multimedia_mediaitem)
 target_sources(test_multimedia_mediaitem
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.hpp
 )
 target_link_libraries(test_multimedia_mediaitem
     Qt6::Test

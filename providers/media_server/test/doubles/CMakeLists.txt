@@ -9,10 +9,10 @@ add_library(Blabby::MediaServerProviderDoubles ALIAS MediaServerProviderDoubles)
 target_sources(MediaServerProviderDoubles
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerDouble.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderDouble.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderDouble.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Response.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Response.hpp
 )
 
 target_include_directories(MediaServerProviderDoubles

@@ -2,10 +2,10 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "GetTransportSettingsResponseShould.h"
-#include "AvTransportActions.h"
-#include "Descriptions.h"
-#include <GetTransportSettingsResponse.h>
+#include "GetTransportSettingsResponseShould.hpp"
+#include "AvTransportActions.hpp"
+#include "Descriptions.hpp"
+#include "GetTransportSettingsResponse.hpp"
 #include <QTest>
 
 namespace UPnPAV

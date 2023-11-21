@@ -3,16 +3,16 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "MediaServer.h"
-#include "DeviceDescription.h"
-#include "HttpSoapMessageTransmitter.h"
-#include "InvalidDeviceDescription.h"
-#include "PendingSoapCall.h"
-#include "SoapMessageTransmitter.h"
-#include "private/ConnectionManagerServiceValidator.h"
-#include "private/ContentDirectoryServiceValidator.h"
-#include "private/MediaServer_p.h"
-#include "private/SoapMessageGenerator.h"
+#include "MediaServer.hpp"
+#include "DeviceDescription.hpp"
+#include "HttpSoapMessageTransmitter.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "PendingSoapCall.hpp"
+#include "SoapMessageTransmitter.hpp"
+#include "private/ConnectionManagerServiceValidator.hpp"
+#include "private/ContentDirectoryServiceValidator.hpp"
+#include "private/MediaServer_p.hpp"
+#include "private/SoapMessageGenerator.hpp"
 
 namespace UPnPAV
 {

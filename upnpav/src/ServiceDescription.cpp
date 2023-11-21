@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceDescription.h"
+#include "ServiceDescription.hpp"
 #include <QSharedData>
 #include <utility>
 

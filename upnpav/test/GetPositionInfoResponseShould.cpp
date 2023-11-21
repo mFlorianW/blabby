@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "GetPositionInfoResponseShould.h"
-#include "AvTransportActions.h"
-#include "Descriptions.h"
-#include "GetPositionInfoResponse.h"
+#include "GetPositionInfoResponseShould.hpp"
+#include "AvTransportActions.hpp"
+#include "Descriptions.hpp"
+#include "GetPositionInfoResponse.hpp"
 #include <QTest>
 
 namespace UPnPAV

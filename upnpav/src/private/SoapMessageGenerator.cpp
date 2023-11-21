@@ -3,17 +3,15 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "SoapMessageGenerator.h"
-#include "SCPDAction.h"
+#include "SoapMessageGenerator.hpp"
+#include "SCPDAction.hpp"
 #include <QDebug>
 #include <QXmlStreamWriter>
 
 namespace UPnPAV
 {
 
-SoapMessageGenerator::SoapMessageGenerator()
-{
-}
+SoapMessageGenerator::SoapMessageGenerator() = default;
 
 QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
                                                      const QString &serviceType,

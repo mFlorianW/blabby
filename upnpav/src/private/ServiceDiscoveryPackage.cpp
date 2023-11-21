@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ServiceDiscoveryPackage.h"
+#include "ServiceDiscoveryPackage.hpp"
 
 namespace UPnPAV
 {
@@ -86,19 +86,15 @@ ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::convertSubTypeString(c
     return Unknown;
 }
 
-PackageParseError::PackageParseError(const QString &description)
+PackageParseError::PackageParseError(QString description)
     : QException()
-    , m_errorDescription(description)
-{
-}
-
-PackageParseError::~PackageParseError()
+    , m_errorDescription(std::move(description).toLocal8Bit())
 {
 }
 
 const char *PackageParseError::what() const noexcept
 {
-    return m_errorDescription.toLocal8Bit().data();
+    return m_errorDescription.data();
 }
 
 void PackageParseError::raise() const
@@ -108,7 +104,7 @@ void PackageParseError::raise() const
 
 PackageParseError *PackageParseError::clone() const
 {
-    return new PackageParseError(*this);
+    return new PackageParseError(*this); // NOLINT cppcoreguidelines-owning-memory
 }
 
 } // namespace UPnPAV

@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "GetMediaInfoResponseShould.h"
-#include "AvTransportActions.h"
-#include "Descriptions.h"
-#include "GetMediaInfoResponse.h"
+#include "GetMediaInfoResponseShould.hpp"
+#include "AvTransportActions.hpp"
+#include "Descriptions.hpp"
+#include "GetMediaInfoResponse.hpp"
 #include <QTest>
 
 namespace UPnPAV

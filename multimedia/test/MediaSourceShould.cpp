@@ -2,8 +2,8 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaSourceShould.h"
-#include "MediaSource.h"
+#include "MediaSourceShould.hpp"
+#include "MediaSource.hpp"
 #include <QTest>
 
 namespace Multimedia

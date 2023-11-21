@@ -17,7 +17,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
         add_compile_options(-O2)
     endif()
 
-    add_compile_options(-Wall -Wpedantic -fpic -Wextra -Wunused-function -fvisibility=hidden -fmessage-length=0)
+    add_compile_options(-Wall -Wpedantic -fpic -Wextra -Wno-gnu-zero-variadic-macro-arguments -Wunused-function -fvisibility=hidden -fmessage-length=0)
     if(ENABLE_WARNING_AS_ERROR)
         add_compile_options(-Werror)
     endif()

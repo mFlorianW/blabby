@@ -2,9 +2,9 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "GetDeviceCapabilitiesResponse.h"
-#include "private/LoggingCategories.h"
-#include "private/ResponseReader.h"
+#include "GetDeviceCapabilitiesResponse.hpp"
+#include "private/LoggingCategories.hpp"
+#include "private/ResponseReader.hpp"
 
 namespace UPnPAV
 {

@@ -3,16 +3,18 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "ParsingError.h"
+#include "ParsingError.hpp"
 
-ParsingError::ParsingError(const QString &errorDescription)
-    : m_errorDescription(errorDescription)
+#include <utility>
+
+ParsingError::ParsingError(QString errorDescription)
+    : m_errorDescription(std::move(errorDescription).toLocal8Bit())
 {
 }
 
 const char *ParsingError::what() const noexcept
 {
-    return m_errorDescription.toUtf8().data();
+    return m_errorDescription.data();
 }
 
 void ParsingError::raise() const
@@ -22,5 +24,5 @@ void ParsingError::raise() const
 
 ParsingError *ParsingError::clone() const
 {
-    return new ParsingError{*this};
+    return new ParsingError{*this}; // NOLINT cppcoreguidelines-owning-memory
 }

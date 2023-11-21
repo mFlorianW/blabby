@@ -2,13 +2,13 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaRendererShould.h"
-#include "Descriptions.h"
-#include "DeviceDescription.h"
-#include "IconDescription.h"
-#include "InvalidDeviceDescription.h"
-#include "MediaRenderer.h"
-#include "SoapMessageTransmitterDouble.h"
+#include "MediaRendererShould.hpp"
+#include "Descriptions.hpp"
+#include "DeviceDescription.hpp"
+#include "IconDescription.hpp"
+#include "InvalidDeviceDescription.hpp"
+#include "MediaRenderer.hpp"
+#include "SoapMessageTransmitterDouble.hpp"
 #include <QTest>
 
 namespace UPnPAV

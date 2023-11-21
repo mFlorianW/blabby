@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "GetCurrentConnectionIdsResponse.h"
-#include "private/LoggingCategories.h"
-#include "private/ResponseReader.h"
+#include "GetCurrentConnectionIdsResponse.hpp"
+#include "private/LoggingCategories.hpp"
+#include "private/ResponseReader.hpp"
 #include <QDebug>
 #include <QObject>
 
