@@ -36,7 +36,7 @@ bool Provider::init() noexcept
     return true;
 }
 
-QVector<std::shared_ptr<MediaSource>> Provider::sources() const noexcept
+MediaSources Provider::sources() const noexcept
 {
     return {};
 }

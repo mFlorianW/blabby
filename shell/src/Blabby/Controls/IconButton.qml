@@ -3,7 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 import QtQuick
-import BlabbyShell 0.0
+import Blabby.Shell 1.0
+import Blabby.Controls 1.0
 
 AbstractIconButton{
     id: iconButton
@@ -24,6 +25,8 @@ AbstractIconButton{
         id: icon
         anchors.centerIn: iconButton
         source: iconButton.source
+        width: 24
+        height: 24
     }
 
     TapHandler{

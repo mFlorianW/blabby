@@ -21,7 +21,7 @@ using Providers = QVector<std::shared_ptr<Provider>>;
  * A provider looks for shared libraries in the past folders and tries to
  * load them with if they implements the @ref Multimedia::Provider interface.
  */
-class BLABBYMULTIMEDIA_EXPORT ProviderLoader final
+class BLABBYMULTIMEDIA_EXPORT ProviderLoader
 {
 public:
     /**
@@ -32,19 +32,20 @@ public:
     /**
      * Default Destructor
      */
-    ~ProviderLoader();
+    virtual ~ProviderLoader();
 
     /**
      * Disable copy move
      */
     Q_DISABLE_COPY_MOVE(ProviderLoader)
+
     /**
      * Loads all plugins in the given paths.
      * It will only load plugins that implements the @ref Multimedia::Provider interface.
      * @param paths The folder list for the recursive search for valid provider.
      * @return The list of loaded providers.
      */
-    [[nodiscard]] Providers const &load(QStringList const &paths) noexcept;
+    [[nodiscard]] virtual Providers const &load(QStringList const &paths) noexcept;
 
 private:
     void loadProvider(QFileInfo const &provider) noexcept;

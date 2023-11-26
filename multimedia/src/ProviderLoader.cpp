@@ -21,22 +21,21 @@ Providers const &ProviderLoader::load(QStringList const &paths) noexcept
         QDir dir{path};
         if (!dir.exists(path))
         {
-            qCWarning(mmProvider()) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";
+            qCWarning(mmProvider) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";
             continue;
         }
 
-        qCDebug(mmProvider()) << "Searching: " << path;
+        qCDebug(mmProvider) << "Searching: " << path;
         QDirIterator dirIter{path, QDirIterator::Subdirectories};
         while (dirIter.hasNext())
         {
+            dirIter.next();
+            qCDebug(mmProvider) << dirIter.fileName();
             QFileInfo fileInfo = dirIter.fileInfo();
             if (fileInfo.isFile() && QLibrary::isLibrary(fileInfo.fileName()))
             {
                 loadProvider(fileInfo);
             }
-
-            qCDebug(mmProvider()) << dirIter.fileName();
-            dirIter.next();
         }
     }
     return mProviders;
@@ -46,8 +45,8 @@ void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
     QPluginLoader pluginLoader{provider.filePath()};
     if (!pluginLoader.load())
     {
-        qCWarning(mmProvider()) << "Failed to load plugin fileName:" << provider.fileName()
-                                << "Error:" << pluginLoader.errorString();
+        qCWarning(mmProvider) << "Failed to load plugin fileName:" << provider.fileName()
+                              << "Error:" << pluginLoader.errorString();
         return;
     }
 
@@ -61,7 +60,7 @@ void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
     else
     {
         pluginLoader.unload();
-        qCCritical(mmProvider()) << "Plugin:" << provider.fileName() << "Error: Plugin is not a Multimedia::Provider";
+        qCCritical(mmProvider) << "Plugin:" << provider.fileName() << "Error: Plugin is not a Multimedia::Provider";
     }
 }
 

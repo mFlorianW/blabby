@@ -29,7 +29,6 @@ bool MediaServerProvider::init() noexcept
 
     mServiceProvider =
         mServiceProviderFab->createServiceProvider(QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1"));
-    mServiceProvider->startSearch();
 
     connect(mServiceProvider.get(),
             &UPnPAV::IServiceProvider::serviceConnected,
@@ -40,6 +39,7 @@ bool MediaServerProvider::init() noexcept
             this,
             &MediaServerProvider::onServiceDisconnected);
 
+    mServiceProvider->startSearch();
     return true;
 }
 

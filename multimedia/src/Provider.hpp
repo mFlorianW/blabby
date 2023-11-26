@@ -11,6 +11,11 @@
 namespace Multimedia
 {
 /**
+ * Alias for a list of media sources
+ */
+using MediaSources = QVector<std::shared_ptr<MediaSource>>;
+
+/**
  * Provider plugin version
  */
 struct BLABBYMULTIMEDIA_EXPORT ProviderVersion
@@ -78,7 +83,7 @@ public:
      *
      * @return A list with all media sources.
      */
-    virtual QVector<std::shared_ptr<MediaSource>> sources() const noexcept;
+    virtual MediaSources sources() const noexcept;
 
 Q_SIGNALS:
     /**

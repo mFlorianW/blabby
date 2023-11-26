@@ -3,7 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 import QtQuick
-import BlabbyShell 0.0
+import Blabby.Shell 1.0
+import Blabby.Controls 1.0
 
 Item{
     id: clock
@@ -20,7 +21,7 @@ Item{
     AbstractClock{
         id: cppClock
 
-        onCurrentTimeChanged: () => { 
+        onCurrentTimeChanged: () => {
             clockUi.text = Qt.formatTime(cppClock.currentTime , "hh:mm")
         }
     }
