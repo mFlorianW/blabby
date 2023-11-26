@@ -24,6 +24,11 @@ include(GNUInstallDirs)
 include(CompilerSettings)
 
 ###############################################################################
+# Variables
+###############################################################################
+set(DEFAULT_PROVIDER_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/blabby/plugins)
+
+###############################################################################
 # Runtime path
 ###############################################################################
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -52,5 +57,5 @@ add_subdirectory(src)
 # Test
 ################################################################################
 if(ENABLE_TEST)
-    # add_subdirectory(test)
+    add_subdirectory(test)
 endif()

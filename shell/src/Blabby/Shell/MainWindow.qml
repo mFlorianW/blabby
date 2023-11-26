@@ -4,7 +4,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import QtQuick 
-import BlabbyShell 0.0
+import Blabby.Shell 1.0
+import Blabby.Controls 1.0
+import Blabby.Singleton 1.0
 
 Item{
     id: shell
@@ -29,15 +31,18 @@ Item{
                 radius: 30
                 color: Theme.colors.surface
             }
-            Row{
+
+            Column{
                 anchors.fill: parent
                 anchors.top: menuRow.top
                 anchors.topMargin: 30
                 anchors.left: menuRow.left
                 anchors.leftMargin: 8
+                spacing: 50
+
                 IconButton{
                     id: burgerButton
-                    source: "qrc:/qt/qml/BlabbyShell/icons/24x24/burgermenu.svg"
+                    source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/burgermenu.svg"
 
                     onClicked: {
                         if(menuWindow.x == -menuWindow.width){
@@ -45,6 +50,16 @@ Item{
                             menuWindowHandler.enabled = true
                             blur.visible = true
                         }
+                    }
+                }
+
+                ListView{
+                    id: mediaSourceList
+                    width: 100
+                    height:400
+                    model: Singleton.mediaSourceModel
+                    delegate: IconButton{
+                        source: mediaSourceIconUrl
                     }
                 }
             }
@@ -154,5 +169,4 @@ Item{
             }
         }
     }
-
 }

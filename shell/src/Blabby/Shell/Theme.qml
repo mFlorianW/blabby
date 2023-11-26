@@ -9,7 +9,7 @@ import QtQuick
 QtObject{
     property QtObject colors: QtObject{
         property color surface: "#F8FAF6"
-        property color surfaceContainerHeighest: "#E1E3DF" 
+        property color surfaceContainerHeighest: "#E1E3DF"
     }
 
     property QtObject stateColors: QtObject{

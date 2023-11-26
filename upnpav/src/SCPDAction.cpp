@@ -10,7 +10,10 @@
 namespace UPnPAV
 {
 
-SCPDAction::SCPDAction() = default;
+SCPDAction::SCPDAction()
+    : d{new SCPDActionData{QString{""}, {}}}
+{
+}
 
 SCPDAction::SCPDAction(QString name, QVector<SCPDArgument> arguments)
     : d{new SCPDActionData{std::move(name), std::move(arguments)}}

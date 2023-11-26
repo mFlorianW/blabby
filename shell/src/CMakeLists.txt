@@ -4,11 +4,15 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 ################################################################################
-# Resource files
+# Configure File
 ################################################################################
-qt_add_resources(RESOURCE_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/resource/resource.qrc
-)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ProviderDirs.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/ProviderDirs.hpp)
+
+################################################################################
+# QML Modules
+################################################################################
+add_subdirectory(Blabby/Shell)
+add_subdirectory(Blabby/Controls)
 
 ################################################################################
 # Build blabby
@@ -18,17 +22,20 @@ add_library(BlabbyShell::Object ALIAS ${PROJECT_NAME}Object)
 
 target_sources(${PROJECT_NAME}Object
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object
     PUBLIC
         Blabby::UPnPAV
         Blabby::Multimedia
-        Qt6::Quick
+        BlabbyShell::Qml
+        BlabbyShell::QmlPlugin
+        BlabbyShell::Controls
+        BlabbyShell::ControlsPlugin
 )
 
 target_include_directories(${PROJECT_NAME}Object
@@ -39,42 +46,20 @@ target_include_directories(${PROJECT_NAME}Object
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
 
-add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME}
+add_executable(blabby)
+target_sources(blabby
     PRIVATE
         main.cpp
 )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(blabby
     PRIVATE
-        BlabbyShellObject
+        BlabbyShell::Object
 )
-################################################################################
-# QML Module
-################################################################################
-set_source_files_properties(qml/Theme.qml PROPERTIES
-    QT_QML_SINGLETON_TYPE TRUE
-)
-
-qt_add_qml_module(${PROJECT_NAME}Object
-    URI
-        "${PROJECT_NAME}"
-    VERSION
-        ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    QML_FILES
-        qml/MainWindow.qml
-        qml/Clock.qml
-        qml/Theme.qml
-        qml/Menu.qml
-        qml/controls/IconButton.qml
-    RESOURCES
-        icons/24x24/burgermenu.svg
-)
-
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS blabby
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT BlabbyUPnPAV_Runtime)
 
