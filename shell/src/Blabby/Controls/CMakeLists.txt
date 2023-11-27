@@ -13,11 +13,14 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
     QML_FILES
         Clock.qml
         IconButton.qml
+        ListEntry.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntry.hpp
 )
 add_library(BlabbyShell::Controls ALIAS ${PROJECT_NAME}Controls)
 add_library(BlabbyShell::ControlsPlugin ALIAS ${PROJECT_NAME}Controlsplugin)
