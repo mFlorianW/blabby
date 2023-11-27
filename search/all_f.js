@@ -37,7 +37,7 @@ var searchData=
   ['sourceadded_34',['sourceAdded',['../classMultimedia_1_1Provider.html#a79626131290f052d0c07334850bfc27f',1,'Multimedia::Provider']]],
   ['sourcename_35',['sourceName',['../classMultimedia_1_1MediaSource.html#a98bc3ce24939436ccbf8f053a0dd20fd',1,'Multimedia::MediaSource']]],
   ['sourceremoved_36',['sourceRemoved',['../classMultimedia_1_1Provider.html#a7cf0f8262f1aa307a567bbdcb1f37ca8',1,'Multimedia::Provider']]],
-  ['sources_37',['sources',['../classMultimedia_1_1Provider.html#a460d3b061a032efa6885e221626f24b0',1,'Multimedia::Provider::sources()'],['../classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b',1,'Provider::MediaServerProvider::sources()']]],
+  ['sources_37',['sources',['../classMultimedia_1_1Provider.html#a6824cf3a8b56aacd4974da2b1c38a9ae',1,'Multimedia::Provider::sources()'],['../classProvider_1_1MediaServerProvider.html#acf90292b1d22624091fa50c93f31986b',1,'Provider::MediaServerProvider::sources()']]],
   ['startsearch_38',['startsearch',['../classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220',1,'UPnPAV::IServiceProvider::startSearch()'],['../classUPnPAV_1_1ServiceProvider.html#a18dd562446267fac8f5bdf65e1b60ba7',1,'UPnPAV::ServiceProvider::startSearch()']]],
   ['stop_39',['stop',['../classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e',1,'UPnPAV::MediaDevice']]],
   ['stopped_40',['Stopped',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac23e2b09ebe6bf4cb5e2a9abe85c0be2',1,'UPnPAV::GetTransportInfoResponse']]],
