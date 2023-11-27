@@ -3,6 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 import QtQuick
+import Blabby.Controls 1.0
+import Blabby.Singleton 1.0
 
 Rectangle{
     id: menu
@@ -15,5 +17,20 @@ Rectangle{
         height: 125
         width: menu.width
         color: Theme.colors.surfaceContainerHeighest
+    }
+
+    ListView{
+        id: provdiderList
+        anchors.top: header.bottom
+        height: menu.height
+        width: menu.width
+        model: Singleton.mediaSourceModel
+        boundsBehavior: Flickable.StopAtBounds
+        delegate: ListEntry{
+            width: provdiderList.width
+            height: 48
+            iconUrl: mediaSourceIconUrl
+            title: mediaSourceName
+        }
     }
 }

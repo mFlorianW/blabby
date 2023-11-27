@@ -23,6 +23,7 @@ QtObject{
         property QtObject bodyLarge: QtObject{
             property int size: 16
             property string family: "Roboto"
+            property color color: "#191C1A"
         }
     }
 }

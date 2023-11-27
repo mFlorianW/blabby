@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "MediaSourceModel.hpp"
+#include "LoggingCategories.hpp"
 #include "ProviderDirs.hpp"
 
 namespace Shell
@@ -50,8 +51,9 @@ QHash<int, QByteArray> MediaSourceModel::roleNames() const noexcept
 
 QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexcept
 {
-    if (not index.isValid() or index.row() >= mProviders.size())
+    if (not index.isValid() or (index.row() >= mSources.size()))
     {
+        qCritical(shell) << "Invalided index for requesting data. Index:" << index << "Source size:" << mSources.size();
         return {};
     }
 
@@ -63,7 +65,6 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
     }
     else if (dispRole == DisplayRole::MediaSourceIocnUrl)
     {
-        qInfo() << item->iconUrl();
         return item->iconUrl();
     }
 
@@ -73,7 +74,7 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
 void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept
 {
     const auto newIndex = static_cast<int>(mSources.size());
-    beginInsertRows(QModelIndex{}, newIndex, newIndex);
+    beginInsertRows(index(newIndex), newIndex, newIndex);
     mSources.append(source);
     endInsertRows();
 }
