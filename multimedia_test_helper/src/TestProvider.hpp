@@ -5,7 +5,7 @@
 #pragma once
 #include "Provider.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 
 class TestProvider : public Multimedia::Provider
@@ -29,4 +29,4 @@ private:
     QVector<std::shared_ptr<Multimedia::MediaSource>> mSources;
 };
 
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper

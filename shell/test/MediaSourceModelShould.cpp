@@ -16,7 +16,7 @@ MediaSourceModelShould::~MediaSourceModelShould() = default;
 
 void MediaSourceModelShould::load_the_provider_and_report_amount_of_media_sources()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>();
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
@@ -30,7 +30,7 @@ void MediaSourceModelShould::load_the_provider_and_report_amount_of_media_source
 
 void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>();
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expRoleNames = QHash<int, QByteArray>{
@@ -45,7 +45,7 @@ void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
 
 void MediaSourceModelShould::give_the_name_of_provider_for_valid_index()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>();
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expName = QStringLiteral("TestMediaSource");
@@ -61,7 +61,7 @@ void MediaSourceModelShould::give_the_name_of_provider_for_valid_index()
 
 void MediaSourceModelShould::give_the_iconurl_of_provider_for_valid_index()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>();
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expIconUrl = QStringLiteral("http::/127.0.0.1/TestMediaSource.png");
@@ -77,12 +77,12 @@ void MediaSourceModelShould::give_the_iconurl_of_provider_for_valid_index()
 
 void MediaSourceModelShould::handle_new_connected_sources()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>();
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
     auto loaderRaw = loader.get();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
-    qobject_cast<Doubles::TestProvider *>(loaderRaw->providers().at(0).get())->createNewSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(0).get())->createNewSource();
     const auto rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 2,
@@ -93,7 +93,7 @@ void MediaSourceModelShould::handle_new_connected_sources()
 
 void MediaSourceModelShould::handle_disconnected_sources()
 {
-    auto loader = std::make_unique<Doubles::TestProviderLoader>(2);
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
     auto loaderRaw = loader.get();
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
@@ -104,7 +104,7 @@ void MediaSourceModelShould::handle_disconnected_sources()
                  .arg(QString::number(rowCount))
                  .toLocal8Bit());
 
-    qobject_cast<Doubles::TestProvider *>(loaderRaw->providers().at(0).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(0).get())->removeLastSource();
     rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 1,

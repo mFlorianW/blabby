@@ -6,7 +6,7 @@
 
 #include "MediaSource.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 
 class TestMediaSource : public Multimedia::MediaSource
@@ -18,4 +18,4 @@ public:
     Q_DISABLE_COPY_MOVE(TestMediaSource)
 };
 
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper

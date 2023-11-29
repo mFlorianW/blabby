@@ -5,7 +5,7 @@
 #include "TestProviderLoader.hpp"
 #include "TestProvider.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 
 TestProviderLoader::TestProviderLoader(std::size_t count)
@@ -28,4 +28,4 @@ const Multimedia::Providers &TestProviderLoader::providers() const noexcept
     return mProviders;
 }
 
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper

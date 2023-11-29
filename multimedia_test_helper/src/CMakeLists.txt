@@ -6,10 +6,10 @@
 ###############################################################################
 # Build Shell Test Doules
 ###############################################################################
-add_library(BlabbyShellTestDoubles STATIC)
-add_library(BlabbyShell::TestDoubles ALIAS BlabbyShellTestDoubles)
+add_library(BlabbyMultimediaTestHelper STATIC)
+add_library(Blabby::MultimediaTestHelper ALIAS BlabbyMultimediaTestHelper)
 
-target_sources(BlabbyShellTestDoubles
+target_sources(BlabbyMultimediaTestHelper
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/TestProviderLoader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestProviderLoader.hpp
@@ -19,13 +19,12 @@ target_sources(BlabbyShellTestDoubles
         ${CMAKE_CURRENT_SOURCE_DIR}/TestMediaSource.hpp
 )
 
-target_link_libraries(BlabbyShellTestDoubles
+target_link_libraries(BlabbyMultimediaTestHelper
     Qt6::Core
-    BlabbyShell::Object
     Blabby::Multimedia
 )
 
-target_include_directories(BlabbyShellTestDoubles
+target_include_directories(BlabbyMultimediaTestHelper
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
