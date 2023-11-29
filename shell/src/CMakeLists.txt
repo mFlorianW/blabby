@@ -28,6 +28,8 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModel.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModel.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object
