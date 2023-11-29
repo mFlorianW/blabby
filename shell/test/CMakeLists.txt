@@ -8,6 +8,27 @@
 find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
+# Test MediaItemModel
+###############################################################################
+add_executable(test_shell_mediaitem_model)
+target_sources(test_shell_mediaitem_model
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModelShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModelShould.hpp
+)
+target_include_directories(test_shell_mediaitem_model
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/data>
+)
+target_link_libraries(test_shell_mediaitem_model
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+        Blabby::MultimediaTestHelper
+)
+add_test(test_shell_mediaitem_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediaitem_model)
+
+###############################################################################
 # Test MediaSourceModel
 ###############################################################################
 add_executable(test_shell_mediasource_model)

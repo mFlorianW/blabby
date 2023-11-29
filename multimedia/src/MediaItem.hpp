@@ -31,6 +31,12 @@ class BLABBYMULTIMEDIA_EXPORT MediaItem
 {
 public:
     /**
+     * Creates an empty MediaItem instance.
+     * This allows to put a MedaItem in a QVariant.
+     */
+    MediaItem() = default;
+
+    /**
      * Creates an Instance of MediaItem.
      * @param type The Type of the media item.
      * @param mainText The main text of the media item. E.g. song name in of a playable item.
