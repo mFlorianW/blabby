@@ -8,12 +8,7 @@
 find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
-# Include doubles
-###############################################################################
-add_subdirectory(doubles)
-
-###############################################################################
-# Test Browse Result
+# Test MediaSourceModel
 ###############################################################################
 add_executable(test_shell_mediasource_model)
 target_sources(test_shell_mediasource_model
@@ -29,6 +24,6 @@ target_link_libraries(test_shell_mediasource_model
     PRIVATE
         Qt6::Test
         BlabbyShell::Object
-        BlabbyShell::TestDoubles
+        Blabby::MultimediaTestHelper
 )
 add_test(test_shell_mediasource_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediasource_model)

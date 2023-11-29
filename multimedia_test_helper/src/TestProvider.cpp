@@ -5,7 +5,7 @@
 #include "TestProvider.hpp"
 #include "TestMediaSource.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 
 TestProvider::TestProvider(QString name)
@@ -45,4 +45,4 @@ void TestProvider::removeLastSource() noexcept
     }
 }
 
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper

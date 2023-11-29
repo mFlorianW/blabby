@@ -6,7 +6,7 @@
 
 #include "ProviderLoader.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 class TestProviderLoader : public Multimedia::ProviderLoader
 {
@@ -19,4 +19,4 @@ public:
 private:
     Multimedia::Providers mProviders;
 };
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper

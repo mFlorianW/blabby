@@ -44,6 +44,7 @@ add_subdirectory(multimedia)
 
 if (ENABLE_TEST)
     add_subdirectory(upnpav_test_helper)
+    add_subdirectory(multimedia_test_helper)
 endif()
 
 if(BUILD_DOC)

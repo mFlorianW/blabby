@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "TestMediaSource.hpp"
 
-namespace Shell::Doubles
+namespace Multimedia::TestHelper
 {
 
 TestMediaSource::TestMediaSource(QString name, QString iconUrl)
@@ -14,4 +14,4 @@ TestMediaSource::TestMediaSource(QString name, QString iconUrl)
 
 TestMediaSource::~TestMediaSource() = default;
 
-} // namespace Shell::Doubles
+} // namespace Multimedia::TestHelper
