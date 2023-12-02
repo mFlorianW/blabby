@@ -55,6 +55,9 @@ Item{
                 model: Singleton.mediaSourceModel
                 delegate: IconButton{
                     source: mediaSourceIconUrl
+                    onClicked: {
+                        Singleton.mediaSourceModel.activateMediaSource(mediaSourceList.currentIndex)
+                    }
                 }
             }
         }
@@ -120,6 +123,20 @@ Item{
                     width: 765
                     text: "Music Box > ... > Bad Religion > True North"
                 }
+
+                ListView{
+                    id: mediaItemListView
+                    anchors.top: mediaItemModelHeader.bottom
+                    width: mediaItemModelHeader.width
+                    height: mediaItemModelHeader.height
+                    model: Singleton.mediaItemModel
+                    boundsBehavior: Flickable.StopAtBounds
+                    delegate: ListEntry{
+                        width: mediaItemListView.width
+                        height: 64
+                        title: mediaItemTitle
+                    }
+                }
             }
 
             Item{
@@ -170,6 +187,13 @@ Item{
                 menuWindowHandler.enabled = false
                 blur.visible =  false
             }
+        }
+    }
+
+    Connections{
+        target: Singleton.mediaSourceModel
+        function onActiveMediaSourceChanged() {
+            Singleton.mediaItemModel.setMediaSource(Singleton.mediaSourceModel.activeMediaSource)
         }
     }
 }

@@ -64,7 +64,7 @@ public:
      * To clear the model pass a nullptr to the function.
      * @param mediaSrc The model from that the @ref Multimedia::MediaItem are retrived.
      */
-    void setMediaSource(std::shared_ptr<Multimedia::MediaSource> const &mediaSrc);
+    Q_INVOKABLE void setMediaSource(std::shared_ptr<Multimedia::MediaSource> const &mediaSrc);
 
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
