@@ -5,6 +5,7 @@
 #pragma once
 
 #include "MediaSource.hpp"
+#include <QHash>
 
 namespace Multimedia::TestHelper
 {
@@ -16,6 +17,14 @@ public:
     TestMediaSource(QString name, QString iconUrl);
     ~TestMediaSource() override;
     Q_DISABLE_COPY_MOVE(TestMediaSource)
+
+    void navigateTo(QString const &path) noexcept override;
+
+    QString const &lastNavigationPath() const noexcept;
+
+private:
+    QHash<QString, MediaItems> mItems;
+    QString mLastNavigationPath;
 };
 
 } // namespace Multimedia::TestHelper
