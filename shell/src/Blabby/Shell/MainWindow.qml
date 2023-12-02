@@ -12,117 +12,120 @@ Item{
     id: shell
     anchors.fill: parent
 
-    Row{
-        id: content
-        anchors.fill: parent
+    Rectangle{
+        id: menuRow
+        color: Theme.colors.surfaceContainerHeighest
+        width: 150
+        height: shell.height
 
         Rectangle{
-            id: menuRow
-            color: Theme.colors.surfaceContainerHeighest
-            width: 125
+            id: roundedStyle
+            width: 100
             height: shell.height
+            anchors.left: menuRow.horizontalCenter
+            radius: 30
+            color: Theme.colors.surface
+        }
 
+        Column{
+            anchors.fill: parent
+            anchors.top: menuRow.top
+            anchors.topMargin: 30
+            anchors.left: menuRow.left
+            anchors.leftMargin: 12
+            spacing: 40
 
-            Rectangle{
-                id: roundedStyle
-                width: 85
-                height: shell.height
-                anchors.left: menuRow.horizontalCenter
-                radius: 30
-                color: Theme.colors.surface
-            }
+            IconButton{
+                id: burgerButton
+                source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/burgermenu.svg"
 
-            Column{
-                anchors.fill: parent
-                anchors.top: menuRow.top
-                anchors.topMargin: 30
-                anchors.left: menuRow.left
-                anchors.leftMargin: 8
-                spacing: 50
-
-                IconButton{
-                    id: burgerButton
-                    source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/burgermenu.svg"
-
-                    onClicked: {
-                        if(menuWindow.x == -menuWindow.width){
-                            moveIn.running = true
-                            menuWindowHandler.enabled = true
-                            blur.visible = true
-                        }
+                onClicked: {
+                    if(menuWindow.x == -menuWindow.width){
+                        moveIn.running = true
+                        menuWindowHandler.enabled = true
+                        blur.visible = true
                     }
                 }
+            }
 
-                ListView{
-                    id: mediaSourceList
-                    width: 100
-                    height:400
-                    model: Singleton.mediaSourceModel
-                    delegate: IconButton{
-                        source: mediaSourceIconUrl
-                    }
+            ListView{
+                id: mediaSourceList
+                width: 100
+                height:400
+                model: Singleton.mediaSourceModel
+                delegate: IconButton{
+                    source: mediaSourceIconUrl
                 }
             }
         }
+    }
 
-        Rectangle{
-            id: contentRow
-            color: Theme.colors.surface
-            width: shell.width - menuRow.width
-            height: shell.height
+    Rectangle{
+        id: content
+        color: Theme.colors.surface
+        width: shell.width - menuRow.width - anchors.leftMargin
+        height: shell.height
+        anchors.left: menuRow.right
+        anchors.leftMargin: -45
 
-            Column{
-                anchors.fill: parent
-                Item{
-                    id: topControlArea
+        Column{
+            anchors.fill: parent
+            Item{
+                id: topControlArea
+                width: parent.width
+                height: 109
+
+                Row{
+                    anchors.top: topControlArea.top
+                    anchors.topMargin: 40
                     width: parent.width
-                    height: 109
+                    Item{
+                        id: navigationPlaceHolder
+                        height: topControlArea.height - 40
+                        width: 200
+                    }
 
-                    Row{
-                        anchors.top: topControlArea.top
-                        anchors.topMargin: 40
-                        width: parent.width
-                        Item{
-                            id: navigationPlaceHolder
-                            height: topControlArea.height - 40
-                            width: 200
-                        }
+                    Item{
+                        id: searchBarPlaceHolder
+                        height: topControlArea.height - 40
+                        width: parent.width - navigationPlaceHolder.width - statusBar.width
+                    }
 
-                        Item{
-                            id: searchBarPlaceHolder
-                            height: topControlArea.height - 40
-                            width: parent.width - navigationPlaceHolder.width - statusBar.width
-                        }
+                    Item{
+                        id: statusBar
+                        height: topControlArea.height - 40
+                        width: 200
+                        Row{
+                            anchors.fill: parent
+                            layoutDirection: Qt.RightToLeft
+                            rightPadding: 20
 
-                        Item{
-                            id: statusBar
-                            height: topControlArea.height - 40
-                            width: 200
-                            Row{
-                                anchors.fill: parent
-                                layoutDirection: Qt.RightToLeft
-                                rightPadding: 20
-
-                                Clock{
-                                    id: clock
-                                }
+                            Clock{
+                                id: clock
                             }
                         }
                     }
-
                 }
 
-                Item{
-                    id: mediaItemArea
-                    height: shell.height - topControlArea.height - mediaControlArea.height
-                    width: parent.width
-                }
+            }
 
-                Item{
-                    id: mediaControlArea
-                    width: parent.width
-                    height: 109
+            Item{
+                id: mediaItemArea
+                height: shell.height - topControlArea.height - mediaControlArea.height
+                width: parent.width
+
+                Header{
+                    id: mediaItemModelHeader
+                    height: 65
+                    width: 765
+                    text: "Music Box > ... > Bad Religion > True North"
                 }
+            }
+
+            Item{
+                id: mediaControlArea
+                width: parent.width
+                height: 109
             }
         }
     }
