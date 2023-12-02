@@ -1,12 +1,6 @@
 var searchData=
 [
-  ['_7ebasevalidator_0',['~BaseValidator',['../classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951',1,'UPnPAV::BaseValidator']]],
-  ['_7eiserviceprovider_1',['~IServiceProvider',['../classUPnPAV_1_1IServiceProvider.html#ae445d4485d2c44d480aa4ddb5a981799',1,'UPnPAV::IServiceProvider']]],
-  ['_7emediadevice_2',['~MediaDevice',['../classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda',1,'UPnPAV::MediaDevice']]],
-  ['_7emediaserverprovider_3',['~MediaServerProvider',['../classProvider_1_1MediaServerProvider.html#a0f9a6857462003d3657c83279c554529',1,'Provider::MediaServerProvider']]],
-  ['_7emediaserversource_4',['~MediaServerSource',['../classProvider_1_1MediaServerSource.html#af33accfdb51a715eaaad998d7174e189',1,'Provider::MediaServerSource']]],
-  ['_7emediasource_5',['~MediaSource',['../classMultimedia_1_1MediaSource.html#a5b0695e7bbc1938488b628e19e4f955a',1,'Multimedia::MediaSource']]],
-  ['_7ependingsoapcall_6',['~PendingSoapCall',['../classUPnPAV_1_1PendingSoapCall.html#ada9bbd833a23a973b1217c0c0e51f432',1,'UPnPAV::PendingSoapCall']]],
-  ['_7eprovider_7',['~Provider',['../classMultimedia_1_1Provider.html#ad5d6c8246d67b8ac49a669386b4c0720',1,'Multimedia::Provider']]],
-  ['_7eproviderloader_8',['~ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#ac4a43f57293a652373c943eba210a514',1,'Multimedia::ProviderLoader']]]
+  ['what_0',['what',['../classParsingError.html#ae6a9f8a4618f4da53be888be31df9a99',1,'ParsingError::what()'],['../classUPnPAV_1_1PackageParseError.html#aa92faa735c6ec38499a0f9a10fb56a50',1,'UPnPAV::PackageParseError::what()']]],
+  ['writestatus_1',['writeStatus',['../classUPnPAV_1_1GetMediaInfoResponse.html#a9f7be38c1fd6879a84e5fb785e81f808',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['wrongdestination_2',['WrongDestination',['../classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a4985bf5e6c9e78e999cc63318277a9a4',1,'UPnPAV::ServiceProviderError']]]
 ];

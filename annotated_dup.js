@@ -12,6 +12,13 @@ var annotated_dup =
       [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],
       [ "MediaServerSource", "classProvider_1_1MediaServerSource.html", "classProvider_1_1MediaServerSource" ]
     ] ],
+    [ "Shell", null, [
+      [ "AbstractClock", "classShell_1_1AbstractClock.html", "classShell_1_1AbstractClock" ],
+      [ "AbstractIconButton", "classShell_1_1AbstractIconButton.html", "classShell_1_1AbstractIconButton" ],
+      [ "AbstractListEntry", "classShell_1_1AbstractListEntry.html", "classShell_1_1AbstractListEntry" ],
+      [ "MediaSourceModel", "classShell_1_1MediaSourceModel.html", "classShell_1_1MediaSourceModel" ],
+      [ "QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", "classShell_1_1QmlSingletonRegistry" ]
+    ] ],
     [ "UPnPAV", null, [
       [ "Argument", "structUPnPAV_1_1Argument.html", null ],
       [ "AvTransportServiceValidator", "classUPnPAV_1_1AvTransportServiceValidator.html", null ],

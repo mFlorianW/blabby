@@ -11,5 +11,6 @@ var searchData=
   ['mediaserverprivate_8',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
   ['mediaserverprovider_9',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
   ['mediaserversource_10',['MediaServerSource',['../classProvider_1_1MediaServerSource.html',1,'Provider']]],
-  ['mediasource_11',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]]
+  ['mediasource_11',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]],
+  ['mediasourcemodel_12',['MediaSourceModel',['../classShell_1_1MediaSourceModel.html',1,'Shell']]]
 ];

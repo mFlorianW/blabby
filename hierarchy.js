@@ -38,6 +38,9 @@ var hierarchy =
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
     [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
     [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
+    [ "QAbstractListModel", null, [
+      [ "Shell::MediaSourceModel", "classShell_1_1MediaSourceModel.html", null ]
+    ] ],
     [ "QException", null, [
       [ "ParsingError", "classParsingError.html", null ],
       [ "UPnPAV::InvalidDeviceDescription", "classUPnPAV_1_1InvalidDeviceDescription.html", null ],
@@ -50,6 +53,8 @@ var hierarchy =
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
         [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
       ] ],
+      [ "Shell::AbstractClock", "classShell_1_1AbstractClock.html", null ],
+      [ "Shell::QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [
         [ "UPnPAV::HttpDescriptionFetcherBackend", "classUPnPAV_1_1HttpDescriptionFetcherBackend.html", null ]
@@ -69,6 +74,10 @@ var hierarchy =
       [ "UPnPAV::SoapCall", "classUPnPAV_1_1SoapCall.html", [
         [ "UPnPAV::HttpSoapCall", "classUPnPAV_1_1HttpSoapCall.html", null ]
       ] ]
+    ] ],
+    [ "QQuickItem", null, [
+      [ "Shell::AbstractIconButton", "classShell_1_1AbstractIconButton.html", null ],
+      [ "Shell::AbstractListEntry", "classShell_1_1AbstractListEntry.html", null ]
     ] ],
     [ "QSharedData", null, [
       [ "Multimedia::MediaItemData", "structMultimedia_1_1MediaItemData.html", null ],
