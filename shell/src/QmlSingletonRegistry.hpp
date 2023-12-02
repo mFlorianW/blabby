@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "MediaItemModel.hpp"
 #include "MediaSourceModel.hpp"
 #include <QObject>
 #include <QQmlEngine>
@@ -22,6 +23,11 @@ class QmlSingletonRegistry : public QObject
      * Gives the MediaSourceModel
      */
     Q_PROPERTY(Shell::MediaSourceModel *mediaSourceModel READ mediaSourceModel CONSTANT)
+
+    /**
+     * Gives the MediaItemModel
+     */
+    Q_PROPERTY(Shell::MediaItemModel *mediaItemModel READ mediaItemModel CONSTANT)
 public:
     /**
      * Default destructor
@@ -42,6 +48,14 @@ public:
     MediaSourceModel *mediaSourceModel() noexcept;
 
     /**
+     * Gives a pointer to the QMLEngine for the @ref Shell::MediaItemModel singleton.
+     * The pointer has the same lifetime as the @ref Shell::QmlSingletonRegistry instance.
+     * @note The callee doesn't take the ownership of the returned pointer.
+     * @return A pointer to the @ref Shell::MediaItemModel instance
+     */
+    MediaItemModel *mediaItemModel() noexcept;
+
+    /**
      * Callback for the QML engine for creating an instance of the @ref Shell::QmlSingletonRegistry
      * @param engine Unused
      * @param scriptEngine Unused
@@ -60,6 +74,7 @@ protected:
 
 private:
     MediaSourceModel mSourceModel;
+    MediaItemModel mItemModel;
 };
 
 } // namespace Shell

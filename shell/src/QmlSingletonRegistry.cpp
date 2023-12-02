@@ -19,6 +19,11 @@ MediaSourceModel *QmlSingletonRegistry::mediaSourceModel() noexcept
     return &mSourceModel;
 }
 
+MediaItemModel *QmlSingletonRegistry::mediaItemModel() noexcept
+{
+    return &mItemModel;
+}
+
 QObject *QmlSingletonRegistry::createQmlRegistry(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)

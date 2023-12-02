@@ -79,7 +79,7 @@ public:
      * activeMediaSource property. If an invalid index is passed nothing happens.
      * @param idx The index of the MediaSource that shall be activated.
      */
-    void activateMediaSource(qsizetype idx);
+    Q_INVOKABLE void activateMediaSource(qsizetype idx);
 
     /**
      * Gives the active @ref Multimedia::MediaSource.
