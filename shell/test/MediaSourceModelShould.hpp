@@ -22,6 +22,7 @@ private Q_SLOTS:
     void give_the_iconurl_of_provider_for_valid_index();
     void handle_new_connected_sources();
     void handle_disconnected_sources();
+    void set_the_active_media_source_property_correctly();
 };
 
 } // namespace Shell

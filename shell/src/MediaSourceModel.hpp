@@ -18,6 +18,15 @@ namespace Shell
 class MediaSourceModel : public QAbstractListModel
 {
     Q_OBJECT
+
+    /**
+     * This property holds the active @ref Multimedia::MediaSource.
+     * A active @ref Multimedia::MediaSource means that the media of that @ref Multimedia::MediaSource are displayed to
+     * the user in the UI.
+     */
+    Q_PROPERTY(std::shared_ptr<Multimedia::MediaSource> activeMediaSource READ activeMediaSource NOTIFY
+                   activeMediaSourceChanged)
+
 public:
     /**
      * The Display Roles for the UI to query the data.
@@ -65,6 +74,26 @@ public:
      */
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const noexcept override;
 
+    /**
+     * Activates the @ref Multimedia::MediaSource under the passed indeunder the passed indexxand updates the @ref
+     * activeMediaSource property. If an invalid index is passed nothing happens.
+     * @param idx The index of the MediaSource that shall be activated.
+     */
+    void activateMediaSource(qsizetype idx);
+
+    /**
+     * Gives the active @ref Multimedia::MediaSource.
+     * This can be a nullptr when currently no @ref Multimedia::MediaSource is active.
+     * @return The active @ref Multimedia::MediaSource or nullptr, when no @ref Multimedia::MediaSource is active.
+     */
+    std::shared_ptr<Multimedia::MediaSource> activeMediaSource();
+
+Q_SIGNALS:
+    /**
+     * The signal is emitted when the active @ref Multimedia::MediaSource changed.
+     */
+    void activeMediaSourceChanged();
+
 private Q_SLOTS:
     void onSourceAdded(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept;
     void onSourceRemoved(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept;
@@ -73,6 +102,7 @@ private:
     std::unique_ptr<Multimedia::ProviderLoader> mProviderLoader;
     Multimedia::Providers mProviders;
     Multimedia::MediaSources mSources;
+    std::shared_ptr<Multimedia::MediaSource> mActiveSource{nullptr};
 };
 
 } // namespace Shell

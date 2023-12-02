@@ -7,6 +7,7 @@
 #include "TestProvider.hpp"
 #include "TestProviderLoader.hpp"
 #include <QAbstractItemModelTester>
+#include <QSignalSpy>
 #include <QTest>
 
 namespace Shell
@@ -104,13 +105,28 @@ void MediaSourceModelShould::handle_disconnected_sources()
                  .arg(QString::number(rowCount))
                  .toLocal8Bit());
 
-    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(0).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(1).get())->removeLastSource();
     rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 1,
              QString{"The returned rowCount \"%1\" is not the expected rowCount 2"}
                  .arg(QString::number(rowCount))
                  .toLocal8Bit());
+}
+
+void MediaSourceModelShould::set_the_active_media_source_property_correctly()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
+    auto loaderRaw = loader.get();
+    auto model = MediaSourceModel{std::move(loader)};
+    auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+    auto expectedSrc = loaderRaw->providers().at(0)->sources().at(0);
+
+    model.activateMediaSource(0);
+
+    QCOMPARE(mediaSourceActivatedSpy.size(), 1);
+    QCOMPARE(model.activeMediaSource(), expectedSrc);
+    QCOMPARE(model.property("activeMediaSource").value<std::shared_ptr<Multimedia::MediaSource>>(), expectedSrc);
 }
 
 } // namespace Shell

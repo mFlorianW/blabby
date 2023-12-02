@@ -53,7 +53,8 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
 {
     if (not index.isValid() or (index.row() >= mSources.size()))
     {
-        qCritical(shell) << "Invalided index for requesting data. Index:" << index << "Source size:" << mSources.size();
+        qCritical(shell) << "Failed to request data. Error: invalid index:" << index.row()
+                         << "Source size:" << mSources.size();
         return {};
     }
 
@@ -69,6 +70,23 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
     }
 
     return {};
+}
+
+void MediaSourceModel::activateMediaSource(qsizetype idx)
+{
+    if (idx >= mSources.size())
+    {
+        qCCritical(shell) << "Failed to activate MediaSource. Error: invalid index passed";
+        return;
+    }
+
+    mActiveSource = mSources.at(idx);
+    Q_EMIT activeMediaSourceChanged();
+}
+
+std::shared_ptr<Multimedia::MediaSource> MediaSourceModel::activeMediaSource()
+{
+    return mActiveSource;
 }
 
 void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept
@@ -89,6 +107,8 @@ void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::MediaSource> 
         const auto idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);
         mSources.remove(static_cast<int>(idx));
+        qCDebug(shell) << "Remove MediaSource under index:" << idx << "from sources. Address:" << source.get()
+                       << "iter:" << sourceIndex->get();
         endRemoveRows();
     }
 }
