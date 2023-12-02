@@ -14,6 +14,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         Clock.qml
         IconButton.qml
         ListEntry.qml
+        Header.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
@@ -21,6 +22,8 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntry.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractHeader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractHeader.hpp
 )
 add_library(BlabbyShell::Controls ALIAS ${PROJECT_NAME}Controls)
 add_library(BlabbyShell::ControlsPlugin ALIAS ${PROJECT_NAME}Controlsplugin)

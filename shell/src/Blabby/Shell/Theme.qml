@@ -9,6 +9,7 @@ import QtQuick
 QtObject{
     property QtObject colors: QtObject{
         property color surface: "#F8FAF6"
+        property color surfaceContainerHigh: "#E7E9E5"
         property color surfaceContainerHeighest: "#E1E3DF"
     }
 
@@ -24,6 +25,13 @@ QtObject{
             property int size: 16
             property string family: "Roboto"
             property color color: "#191C1A"
+            property bool bold: false
+        }
+        property QtObject titleMedium: QtObject{
+            property int size: 16
+            property string family: "Roboto"
+            property color color: "#404943"
+            property bool bold: true
         }
     }
 }
