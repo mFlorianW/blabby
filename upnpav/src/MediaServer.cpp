@@ -78,10 +78,9 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
     SoapMessageGenerator msgGen;
     auto xmlMessage =
         msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType(), browseArgs);
-
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mContentDirectoryServiceDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription,
+                                                                d->mContentDirectorySCPD,
+                                                                d->mContentDirectorySCPD.action("Browse"),
                                                                 xmlMessage);
 
     return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};

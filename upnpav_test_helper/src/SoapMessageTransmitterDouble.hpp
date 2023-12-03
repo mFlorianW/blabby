@@ -22,10 +22,15 @@ public:
                                              const QString &serviceType,
                                              const QString &xmlBody) noexcept override;
 
+    QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const &desc,
+                                             ServiceControlPointDefinition &scpd,
+                                             SCPDAction const &action,
+                                             QString &xmlBody) noexcept override;
+
     QString xmlMessageBody() const;
 
 private:
-    QString m_xmlMessageBody;
+    QString mXmlMessageBody;
 };
 
 } // namespace UPnPAV
