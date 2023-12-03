@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['iconurl_0',['iconUrl',['../classShell_1_1AbstractListEntry.html#aa6435802b61d8d582222e4556778fbeb',1,'Shell::AbstractListEntry']]]
+  ['currenttime_0',['currentTime',['../classShell_1_1AbstractClock.html#a1914cdc67b1ed84766d69239adb224e3',1,'Shell::AbstractClock']]]
 ];

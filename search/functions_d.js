@@ -8,8 +8,9 @@ var searchData=
   ['playmedia_5',['playMedia',['../classUPnPAV_1_1GetDeviceCapabilitiesResponse.html#a97c64a2e914f17621216cacfe9a4dcc6',1,'UPnPAV::GetDeviceCapabilitiesResponse']]],
   ['playmedium_6',['playMedium',['../classUPnPAV_1_1GetMediaInfoResponse.html#ad371519b754ea7279d3d657f99fbaffa',1,'UPnPAV::GetMediaInfoResponse']]],
   ['playmode_7',['playMode',['../classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724',1,'UPnPAV::GetTransportSettingsResponse']]],
-  ['positioninfo_8',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
-  ['previous_9',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
-  ['protocolinfo_10',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
-  ['providerloader_11',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
+  ['playrequest_8',['playRequest',['../classShell_1_1MediaItemModel.html#a1852e59203eb3a2888715c65302ed40d',1,'Shell::MediaItemModel']]],
+  ['positioninfo_9',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
+  ['previous_10',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
+  ['protocolinfo_11',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
+  ['providerloader_12',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
 ];

@@ -39,6 +39,7 @@ var hierarchy =
     [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
     [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
     [ "QAbstractListModel", null, [
+      [ "Shell::MediaItemModel", "classShell_1_1MediaItemModel.html", null ],
       [ "Shell::MediaSourceModel", "classShell_1_1MediaSourceModel.html", null ]
     ] ],
     [ "QException", null, [
@@ -76,6 +77,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "QQuickItem", null, [
+      [ "Shell::AbstractHeader", "classShell_1_1AbstractHeader.html", null ],
       [ "Shell::AbstractIconButton", "classShell_1_1AbstractIconButton.html", null ],
       [ "Shell::AbstractListEntry", "classShell_1_1AbstractListEntry.html", null ]
     ] ],

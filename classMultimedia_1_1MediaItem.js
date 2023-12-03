@@ -1,5 +1,6 @@
 var classMultimedia_1_1MediaItem =
 [
+    [ "MediaItem", "classMultimedia_1_1MediaItem.html#af3e18d048ca3a15fe395846c5329474d", null ],
     [ "MediaItem", "classMultimedia_1_1MediaItem.html#a8b0418a78a19b6f451cfce4adbca496e", null ],
     [ "iconUrl", "classMultimedia_1_1MediaItem.html#a7ff7d82b228856b0b6c3e9f21f9fbcde", null ],
     [ "mainText", "classMultimedia_1_1MediaItem.html#adb668308d1b10d8f60edd56dc32a4d2a", null ],

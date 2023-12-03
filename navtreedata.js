@@ -59,7 +59,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AbstractClock_8hpp_source.html",
-"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d"
+"classUPnPAV_1_1IServiceProvider.html#a19283fbbfd816c98b1ede6c80647c8b8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

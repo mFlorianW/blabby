@@ -9,7 +9,7 @@ var searchData=
   ['relcount_6',['relCount',['../classUPnPAV_1_1GetPositionInfoResponse.html#a3af45f0bb84d30a0bdb92c4eda2d116e',1,'UPnPAV::GetPositionInfoResponse']]],
   ['reltime_7',['relTime',['../classUPnPAV_1_1GetPositionInfoResponse.html#a570309454ef1d970d6413e615945d3f6',1,'UPnPAV::GetPositionInfoResponse']]],
   ['resultas_8',['resultAs',['../classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523',1,'UPnPAV::PendingSoapCall']]],
-  ['rolenames_9',['roleNames',['../classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b',1,'Shell::MediaSourceModel']]],
+  ['rolenames_9',['rolenames',['../classShell_1_1MediaItemModel.html#abcb01b7393213ae5ecd0900f12003646',1,'Shell::MediaItemModel::roleNames()'],['../classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b',1,'Shell::MediaSourceModel::roleNames()']]],
   ['rootdevicedescription_10',['rootdevicedescription',['../classUPnPAV_1_1IServiceProvider.html#a9d30088b3fdb7b9c145a24f2a853a923',1,'UPnPAV::IServiceProvider::rootDeviceDescription()'],['../classUPnPAV_1_1ServiceProvider.html#a8d708c0d4c0d58505fff6f664c17be3e',1,'UPnPAV::ServiceProvider::rootDeviceDescription()']]],
-  ['rowcount_11',['rowCount',['../classShell_1_1MediaSourceModel.html#ab7ff8e3ac0b4e1883ee447dd4166df92',1,'Shell::MediaSourceModel']]]
+  ['rowcount_11',['rowcount',['../classShell_1_1MediaItemModel.html#aa5d642c6e6569814aabcf5b92e3a1c9f',1,'Shell::MediaItemModel::rowCount()'],['../classShell_1_1MediaSourceModel.html#ab7ff8e3ac0b4e1883ee447dd4166df92',1,'Shell::MediaSourceModel::rowCount()']]]
 ];

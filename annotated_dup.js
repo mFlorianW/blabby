@@ -14,8 +14,10 @@ var annotated_dup =
     ] ],
     [ "Shell", null, [
       [ "AbstractClock", "classShell_1_1AbstractClock.html", "classShell_1_1AbstractClock" ],
+      [ "AbstractHeader", "classShell_1_1AbstractHeader.html", "classShell_1_1AbstractHeader" ],
       [ "AbstractIconButton", "classShell_1_1AbstractIconButton.html", "classShell_1_1AbstractIconButton" ],
       [ "AbstractListEntry", "classShell_1_1AbstractListEntry.html", "classShell_1_1AbstractListEntry" ],
+      [ "MediaItemModel", "classShell_1_1MediaItemModel.html", "classShell_1_1MediaItemModel" ],
       [ "MediaSourceModel", "classShell_1_1MediaSourceModel.html", "classShell_1_1MediaSourceModel" ],
       [ "QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", "classShell_1_1QmlSingletonRegistry" ]
     ] ],

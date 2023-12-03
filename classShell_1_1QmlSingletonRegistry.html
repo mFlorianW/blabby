@@ -129,6 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac91c47ce1d86d422093ee31a99e0f18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3ea5d79bab801478fc4f98ddc88dd71" id="r_ac3ea5d79bab801478fc4f98ddc88dd71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71">mediaSourceModel</a> () noexcept</td></tr>
 <tr class="separator:ac3ea5d79bab801478fc4f98ddc88dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc21b2c6759c20f7428aae86c80c5ba1" id="r_afc21b2c6759c20f7428aae86c80c5ba1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#afc21b2c6759c20f7428aae86c80c5ba1">mediaItemModel</a> () noexcept</td></tr>
+<tr class="separator:afc21b2c6759c20f7428aae86c80c5ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -144,6 +146,8 @@ Protected Member Functions</h2></td></tr>
 Properties</h2></td></tr>
 <tr class="memitem:a5582109cac914030cf071383f577fdb6" id="r_a5582109cac914030cf071383f577fdb6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classShell_1_1MediaSourceModel.html">Shell::MediaSourceModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5582109cac914030cf071383f577fdb6">mediaSourceModel</a></td></tr>
 <tr class="separator:a5582109cac914030cf071383f577fdb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5873eed983d84fe56d894f5113dea813" id="r_a5873eed983d84fe56d894f5113dea813"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5873eed983d84fe56d894f5113dea813">mediaItemModel</a></td></tr>
+<tr class="separator:a5873eed983d84fe56d894f5113dea813"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class is the main registry for every singleton that is used in the QML context. All the signleton types can be accesed by its property. </p>
@@ -246,6 +250,33 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="afc21b2c6759c20f7428aae86c80c5ba1" name="afc21b2c6759c20f7428aae86c80c5ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc21b2c6759c20f7428aae86c80c5ba1">&#9670;&#160;</a></span>mediaItemModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> * Shell::QmlSingletonRegistry::mediaItemModel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives a pointer to the QMLEngine for the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> singleton. The pointer has the same lifetime as the <a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a> instance. </p><dl class="section note"><dt>Note</dt><dd>The callee doesn't take the ownership of the returned pointer. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> instance </dd></dl>
+
+</div>
+</div>
 <a id="ac3ea5d79bab801478fc4f98ddc88dd71" name="ac3ea5d79bab801478fc4f98ddc88dd71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3ea5d79bab801478fc4f98ddc88dd71">&#9670;&#160;</a></span>mediaSourceModel()</h2>
 
@@ -274,6 +305,29 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="a5873eed983d84fe56d894f5113dea813" name="a5873eed983d84fe56d894f5113dea813"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5873eed983d84fe56d894f5113dea813">&#9670;&#160;</a></span>mediaItemModel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> * Shell::QmlSingletonRegistry::mediaItemModel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the <a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> </p>
+
+</div>
+</div>
 <a id="a5582109cac914030cf071383f577fdb6" name="a5582109cac914030cf071383f577fdb6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5582109cac914030cf071383f577fdb6">&#9670;&#160;</a></span>mediaSourceModel</h2>
 
