@@ -72,7 +72,7 @@ public:
      * For a playable item the signal @ref playRequest will be emitted.
      * @param idx The index of the @ref Multimedia::MediaItem that shall be activated.
      */
-    void activateMediaItem(qsizetype idx) noexcept;
+    Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
 
 Q_SIGNALS:
     /**

@@ -82,14 +82,14 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
 {
     if (mMediaSrc == nullptr)
     {
-        qCritical(shell) << "Failed to activate MediaSource. Error: MediaSource is not set.";
+        qCritical(shell) << "Failed to activate MediaItem. Error: MediaSource is not set.";
         return;
     }
 
     const auto &items = mMediaSrc->mediaItems();
-    if (idx >= items.size())
+    if (idx >= items.size() or idx < 0)
     {
-        qCritical(shell) << "Failed to activate MediaSource. Error: Invalid MediaItem index, Media item not found.";
+        qCritical(shell) << "Failed to activate MediaItem. Error: Invalid MediaItem index" << idx;
         return;
     }
 

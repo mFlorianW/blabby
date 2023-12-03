@@ -56,7 +56,7 @@ Item{
                 delegate: IconButton{
                     source: mediaSourceIconUrl
                     onClicked: {
-                        Singleton.mediaSourceModel.activateMediaSource(mediaSourceList.currentIndex)
+                        Singleton.mediaSourceModel.activateMediaSource(index)
                     }
                 }
             }
@@ -109,7 +109,6 @@ Item{
                         }
                     }
                 }
-
             }
 
             Item{
@@ -128,13 +127,16 @@ Item{
                     id: mediaItemListView
                     anchors.top: mediaItemModelHeader.bottom
                     width: mediaItemModelHeader.width
-                    height: mediaItemModelHeader.height
+                    height: mediaItemArea.height - mediaItemModelHeader.height
                     model: Singleton.mediaItemModel
                     boundsBehavior: Flickable.StopAtBounds
                     delegate: ListEntry{
                         width: mediaItemListView.width
                         height: 64
                         title: mediaItemTitle
+                        onClicked: {
+                            Singleton.mediaItemModel.activateMediaItem(index)
+                        }
                     }
                 }
             }
