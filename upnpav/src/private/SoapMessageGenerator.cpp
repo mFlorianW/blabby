@@ -34,7 +34,7 @@ QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
     {
         for (const auto &arg : args)
         {
-            soapMessabeBody.writeTextElement("u:" + arg.name, arg.value);
+            soapMessabeBody.writeTextElement(arg.name, arg.value);
         }
     }
 

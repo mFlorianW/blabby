@@ -527,7 +527,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                 "<s:Body>"
                 "<u:GetCurrentConnectionInfo xmlns:u=\"urn:schemas-upnp-org:service:ConnectionManager:1\">"
-                "<u:ConnectionID>2</u:ConnectionID>"
+                "<ConnectionID>2</ConnectionID>"
                 "</u:GetCurrentConnectionInfo>"
                 "</s:Body>"
                 "</s:Envelope>"};
@@ -892,9 +892,9 @@ void MediaDeviceShould::Send_The_Correct_SOAP_Message_When_Calling_SetAVTranspor
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:SetAVTransportURI xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
-                                         "<u:CurrentURI>http://someUri.com/file.mp3</u:CurrentURI>"
-                                         "<u:CurrentURIMetaData>audio/mp3</u:CurrentURIMetaData>"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<CurrentURI>http://someUri.com/file.mp3</CurrentURI>"
+                                         "<CurrentURIMetaData>audio/mp3</CurrentURIMetaData>"
                                          "</u:SetAVTransportURI>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -915,7 +915,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getmediainfo(
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:GetMediaInfo xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:GetMediaInfo>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -936,7 +936,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransporti
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:GetTransportInfo xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:GetTransportInfo>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -957,7 +957,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getpositionin
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:GetPositionInfo xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:GetPositionInfo>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -981,7 +981,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getdevicecapa
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                 "<s:Body>"
                 "<u:GetDeviceCapabilities xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                "<u:InstanceID>2</u:InstanceID>"
+                "<InstanceID>2</InstanceID>"
                 "</u:GetDeviceCapabilities>"
                 "</s:Body>"
                 "</s:Envelope>"};
@@ -1005,7 +1005,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransports
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                 "<s:Body>"
                 "<u:GetTransportSettings xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                "<u:InstanceID>2</u:InstanceID>"
+                "<InstanceID>2</InstanceID>"
                 "</u:GetTransportSettings>"
                 "</s:Body>"
                 "</s:Envelope>"};
@@ -1028,7 +1028,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_stop()
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:Stop xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:Stop>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -1051,8 +1051,8 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_play()
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:Play xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
-                                         "<u:Speed>1</u:Speed>"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Speed>1</Speed>"
                                          "</u:Play>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -1075,9 +1075,9 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:Seek xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
-                                         "<u:Unit>1</u:Unit>"
-                                         "<u:Target>12</u:Target>"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Unit>1</Unit>"
+                                         "<Target>12</Target>"
                                          "</u:Seek>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -1100,7 +1100,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_next()
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:Next xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:Next>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
@@ -1123,7 +1123,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_previous()
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
                                          "<u:Previous xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
-                                         "<u:InstanceID>2</u:InstanceID>"
+                                         "<InstanceID>2</InstanceID>"
                                          "</u:Previous>"
                                          "</s:Body>"
                                          "</s:Envelope>"};
