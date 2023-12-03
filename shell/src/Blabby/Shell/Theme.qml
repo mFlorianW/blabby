@@ -11,6 +11,7 @@ QtObject{
         property color surface: "#F8FAF6"
         property color surfaceContainerHigh: "#E7E9E5"
         property color surfaceContainerHeighest: "#E1E3DF"
+        property color outline: "#707973"
     }
 
     property QtObject stateColors: QtObject{

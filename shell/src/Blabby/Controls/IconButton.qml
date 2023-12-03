@@ -19,6 +19,8 @@ AbstractIconButton{
         radius: width*0.5
         anchors.centerIn: parent
         color: "transparent"
+        border.color: iconButton.border ? Theme.colors.outline : "transparent"
+        border.width: iconButton.border ? 1 : 0
     }
 
     Image{

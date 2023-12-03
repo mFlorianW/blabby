@@ -15,8 +15,18 @@ namespace Shell
 class AbstractIconButton : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     QML_ELEMENT
+    /**
+     * The icon source URL for the IconButton
+     */
+    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
+
+    /**
+     * Enables the Border for the IconButton
+     * Default: False
+     */
+    Q_PROPERTY(bool border READ border WRITE setBorder NOTIFY borderChanged)
+
 public:
     /**
      * Inherited Constructors
@@ -45,6 +55,19 @@ public:
      */
     void setSource(QUrl const &source) noexcept;
 
+    /**
+     * Display a border around the @ref Shell::AbstractIconButton.
+     * Default: False
+     * @return True around the border a border is displayed. False no border is displayed.
+     */
+    bool border() const noexcept;
+
+    /**
+     * Enable or disable the border state for the @ref Shell::AbstractIconButton
+     * border The new state of the border. True enables the border, false disables the border.
+     */
+    void setBorder(bool border) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @AbstractIconButton is clicked
@@ -56,7 +79,13 @@ Q_SIGNALS:
      */
     void sourceChanged();
 
+    /**
+     * This signal is emitted when the border property is changed.
+     */
+    void borderChanged();
+
 private:
     QUrl mIconSource;
+    bool mBorder{false};
 };
 } // namespace Shell
