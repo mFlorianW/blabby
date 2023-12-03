@@ -33,7 +33,7 @@ private:
     QString m_class;
 };
 
-QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);
+BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);
 
 } // namespace UPnPAV
 

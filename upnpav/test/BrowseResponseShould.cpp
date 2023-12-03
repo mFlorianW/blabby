@@ -9,7 +9,6 @@
 #include "Descriptions.hpp"
 #include "MediaServerObject.hpp"
 #include "Response.hpp"
-
 #include <QTest>
 
 namespace UPnPAV
@@ -101,6 +100,34 @@ void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_Whe
     auto objects = browseResult.objects();
 
     QVERIFY(expectedObjects == objects);
+}
+
+void BrowseResponseShould::parse_real_world_responses()
+{
+    auto response = QString{realWorldResponse};
+    auto browseResult = createBrowseResult(response);
+    QVector<MediaServerObject> expectedObjects{
+        {QStringLiteral("64"),
+         QStringLiteral("0"),
+         QStringLiteral("Browse Folders"),
+         QStringLiteral("object.container.storageFolder")},
+        {QStringLiteral("1"),
+         QStringLiteral("0"),
+         QStringLiteral("Music"),
+         QStringLiteral("object.container.storageFolder")},
+        {QStringLiteral("3"),
+         QStringLiteral("0"),
+         QStringLiteral("Pictures"),
+         QStringLiteral("object.container.storageFolder")},
+        {QStringLiteral("2"),
+         QStringLiteral("0"),
+         QStringLiteral("Video"),
+         QStringLiteral("object.container.storageFolder")},
+    };
+
+    auto objects = browseResult.objects();
+
+    QCOMPARE(expectedObjects, objects);
 }
 
 } // namespace UPnPAV

@@ -32,7 +32,7 @@ public:
     virtual QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const &desc,
                                                      ServiceControlPointDefinition &scpd,
                                                      SCPDAction const &action,
-                                                     QString &xmlBody) noexcept;
+                                                     QString &xmlBody) noexcept = 0;
 
 protected:
     SoapMessageTransmitter() = default;

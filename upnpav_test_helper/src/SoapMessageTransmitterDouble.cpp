@@ -19,14 +19,27 @@ QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(const QSt
     Q_UNUSED(url)
     Q_UNUSED(actionName)
     Q_UNUSED(serviceType)
-    m_xmlMessageBody = xmlBody;
+    mXmlMessageBody = xmlBody;
 
     return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall()};
 }
 
+QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(ServiceDescription const &desc,
+                                                                       ServiceControlPointDefinition &scpd,
+                                                                       SCPDAction const &action,
+                                                                       QString &xmlBody) noexcept
+{
+    Q_UNUSED(desc)
+    Q_UNUSED(scpd)
+    Q_UNUSED(action)
+
+    mXmlMessageBody = xmlBody;
+    return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall};
+}
+
 QString SoapMessageTransmitterDouble::xmlMessageBody() const
 {
-    return m_xmlMessageBody;
+    return mXmlMessageBody;
 }
 
 } // namespace UPnPAV
