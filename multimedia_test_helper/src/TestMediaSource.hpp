@@ -20,7 +20,7 @@ public:
 
     void navigateTo(QString const &path) noexcept override;
 
-    QString const &lastNavigationPath() const noexcept;
+    QString const &lastNavigatedPath() const noexcept;
 
 private:
     QHash<QString, MediaItems> mItems;

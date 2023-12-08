@@ -17,6 +17,8 @@ target_sources(BlabbyMultimediaTestHelper
         ${CMAKE_CURRENT_SOURCE_DIR}/TestProvider.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestMediaSource.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestMediaSource.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.hpp
 )
 
 target_link_libraries(BlabbyMultimediaTestHelper

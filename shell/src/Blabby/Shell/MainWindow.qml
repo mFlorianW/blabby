@@ -80,18 +80,33 @@ Item{
 
                 Row{
                     anchors.top: topControlArea.top
-                    anchors.topMargin: 40
+                    anchors.topMargin: 30
                     width: parent.width
                     Item{
-                        id: navigationPlaceHolder
+                        id: navigationContainer
                         height: topControlArea.height - 40
                         width: 200
+
+                        IconButton{
+                            id: backNavigation
+                            anchors.left: navigationContainer.left
+                            border: true
+                            source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/navigate_back.svg"
+                            onClicked: Singleton.mediaItemModel.navigateBack()
+                        }
+                        IconButton{
+                            id: nextNavigation
+                            anchors.left: backNavigation.right
+                            border: true
+                            source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/navigate_next.svg"
+                            onClicked: Singleton.mediaItemModel.navigateForward()
+                        }
                     }
 
                     Item{
                         id: searchBarPlaceHolder
                         height: topControlArea.height - 40
-                        width: parent.width - navigationPlaceHolder.width - statusBar.width
+                        width: parent.width - navigationContainer.width - statusBar.width
                     }
 
                     Item{

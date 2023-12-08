@@ -74,6 +74,16 @@ public:
      */
     Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
 
+    /**
+     * Navigates the @ref Shell::MediaItemModel to the previous layer if possible.
+     */
+    Q_INVOKABLE void navigateBack() const noexcept;
+
+    /**
+     * Navigates the @ref Shell::MediaItemModel to the last visited layer if possible.
+     */
+    Q_INVOKABLE void navigateForward() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when a playabale MediaItem is activated.

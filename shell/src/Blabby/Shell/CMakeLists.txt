@@ -16,6 +16,8 @@ qt_add_qml_module(${PROJECT_NAME}
         Menu.qml
     RESOURCES
         ../../icons/24x24/burgermenu.svg
+        ../../icons/24x24/navigate_back.svg
+        ../../icons/24x24/navigate_next.svg
 )
 add_library(BlabbyShell::Qml ALIAS ${PROJECT_NAME})
 add_library(BlabbyShell::QmlPlugin ALIAS ${PROJECT_NAME}plugin)
