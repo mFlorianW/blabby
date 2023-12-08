@@ -146,6 +146,7 @@ Item{
                     height: mediaItemArea.height - mediaItemModelHeader.height
                     model: Singleton.mediaItemModel
                     boundsBehavior: Flickable.StopAtBounds
+                    clip: true
                     delegate: ListEntry{
                         width: mediaItemListView.width
                         height: 64
