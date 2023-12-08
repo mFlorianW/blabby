@@ -45,6 +45,8 @@ public:
 
     const QUrl &iconUrl() const noexcept override;
 
+    void setIconUrl(QString const &iconUrl) noexcept;
+
     QScopedPointer<UPnPAV::PendingSoapCall> protocolInfo() noexcept override;
 
     QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionIds() noexcept override;

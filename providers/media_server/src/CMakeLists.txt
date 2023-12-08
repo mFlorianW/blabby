@@ -34,6 +34,15 @@ target_include_directories(${PROJECT_NAME}
 )
 
 ################################################################################
+# Resources
+################################################################################
+qt_add_resources(${PROJECT_NAME} "mediaserverprovider"
+    PREFIX "/mediaserverprovider"
+    FILES
+        icons/24x24/PC.svg
+)
+
+################################################################################
 # Install
 ################################################################################
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets

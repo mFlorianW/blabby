@@ -23,6 +23,7 @@ private Q_SLOTS:
     void give_root_media_items_on_init();
     void send_correct_request_on_navigation();
     void request_root_media_items_on_navigation();
+    void give_a_default_icon_when_no_icon_is_set();
 };
 
 } // namespace Provider

@@ -71,7 +71,8 @@ void MediaServerSourceShould::give_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    mediaServer->soapCall->setRawMessage(QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "", "", ""));
+    mediaServer->soapCall->setRawMessage(
+        QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::MediaItem{Multimedia::MediaItemType::Container,
                                                                                  QStringLiteral("MyMusic"),
@@ -110,7 +111,8 @@ void MediaServerSourceShould::request_root_media_items_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    mediaServer->soapCall->setRawMessage(QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "", "", ""));
+    mediaServer->soapCall->setRawMessage(
+        QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::MediaItem{Multimedia::MediaItemType::Container,
                                                                                  QStringLiteral("MyMusic"),
@@ -127,6 +129,16 @@ void MediaServerSourceShould::request_root_media_items_on_navigation()
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedMediaItems.at(0).secondaryText());
     QCOMPARE(mediaServerSource.mediaItems().at(0).iconUrl(), expectedMediaItems.at(0).iconUrl());
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
+}
+
+void MediaServerSourceShould::give_a_default_icon_when_no_icon_is_set()
+{
+    auto mediaServer = createMediaServer();
+    mediaServer->setIconUrl(QString(""));
+    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    const auto expIconUrl = QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg");
+
+    QCOMPARE(mediaServerSource.iconUrl(), expIconUrl);
 }
 
 } // namespace Provider
