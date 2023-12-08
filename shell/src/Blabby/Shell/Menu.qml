@@ -31,6 +31,9 @@ Rectangle{
             height: 48
             iconUrl: mediaSourceIconUrl
             title: mediaSourceName
+            onClicked:{
+                Singleton.mediaSourceModel.activateMediaSource(index)
+            }
         }
     }
 }

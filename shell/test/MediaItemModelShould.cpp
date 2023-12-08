@@ -152,6 +152,20 @@ void MediaItemModelShould::give_the_default_icon_url_when_the_media_item_has_no_
     QCOMPARE(iconUrl, QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg"));
 }
 
+void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_source()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc =
+        std::make_shared<Multimedia::TestHelper::TestMediaSource>(QStringLiteral("MediaSource"),
+                                                                  QStringLiteral("http:/localhost/1234.png"));
+    auto mediaSourceChangedSpy = QSignalSpy{&miModel, &MediaItemModel::mediaSourceChanged};
+    miModel.setMediaSource(mediaSrc);
+
+    QCOMPARE(mediaSourceChangedSpy.size(), 1);
+    QCOMPARE(miModel.property("mediaSourceName").toString(), QStringLiteral("MediaSource"));
+    QCOMPARE(miModel.property("mediaSourceIconUrl").toString(), QStringLiteral("http:/localhost/1234.png"));
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaItemModelShould)

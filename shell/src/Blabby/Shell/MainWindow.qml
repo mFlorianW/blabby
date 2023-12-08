@@ -135,7 +135,8 @@ Item{
                     id: mediaItemModelHeader
                     height: 65
                     width: 765
-                    text: "Music Box > ... > Bad Religion > True North"
+                    text: Singleton.mediaItemModel.mediaSourceName
+                    iconUrl: Singleton.mediaItemModel.mediaSourceIconUrl
                 }
 
                 ListView{
