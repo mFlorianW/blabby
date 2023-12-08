@@ -21,6 +21,10 @@ class AbstractHeader : public QQuickItem
      */
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 
+    /**
+     * The iocn URL for the header
+     */
+    Q_PROPERTY(QString iconUrl READ iconUrl WRITE setIconUrl NOTIFY iconUrlChanged)
 public:
     /**
      * Inherited Constructors
@@ -49,14 +53,32 @@ public:
      */
     void setText(QString const &text) noexcept;
 
+    /**
+     * Gives the icon URL for the header.
+     * @return The icon URL for the header.
+     */
+    QString iconUrl() const noexcept;
+
+    /**
+     * Sets the icon URL for the header.
+     * @param iconUrl The new icon URL for the header.
+     */
+    void setIconUrl(QString const &iconUrl) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the text of the header is changed.
      */
     void textChanged();
 
+    /**
+     * This signal is emitted when the icon URL of the header is changed
+     */
+    void iconUrlChanged();
+
 private:
     QString mText;
+    QString mIconUrl;
 };
 
 } // namespace Shell
