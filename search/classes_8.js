@@ -13,5 +13,6 @@ var searchData=
   ['mediaserverprovider_10',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
   ['mediaserversource_11',['MediaServerSource',['../classProvider_1_1MediaServerSource.html',1,'Provider']]],
   ['mediasource_12',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]],
-  ['mediasourcemodel_13',['MediaSourceModel',['../classShell_1_1MediaSourceModel.html',1,'Shell']]]
+  ['mediasourcemodel_13',['MediaSourceModel',['../classShell_1_1MediaSourceModel.html',1,'Shell']]],
+  ['mediasourceprivate_14',['MediaSourcePrivate',['../structMultimedia_1_1MediaSourcePrivate.html',1,'Multimedia']]]
 ];

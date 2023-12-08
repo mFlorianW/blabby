@@ -4,6 +4,8 @@ var annotated_dup =
       [ "MediaItem", "classMultimedia_1_1MediaItem.html", "classMultimedia_1_1MediaItem" ],
       [ "MediaItemData", "structMultimedia_1_1MediaItemData.html", null ],
       [ "MediaSource", "classMultimedia_1_1MediaSource.html", "classMultimedia_1_1MediaSource" ],
+      [ "MediaSourcePrivate", "structMultimedia_1_1MediaSourcePrivate.html", null ],
+      [ "NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
       [ "Provider", "classMultimedia_1_1Provider.html", "classMultimedia_1_1Provider" ],
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
       [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ]
