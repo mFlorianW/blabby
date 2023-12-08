@@ -87,6 +87,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> con
                 endResetModel();
             });
         }
+        Q_EMIT mediaSourceChanged();
     }
 }
 
@@ -134,6 +135,24 @@ void MediaItemModel::navigateForward() const noexcept
         return;
     }
     mMediaSrc->navigateForward();
+}
+
+QString MediaItemModel::mediaSourceName() const noexcept
+{
+    if (mMediaSrc != nullptr)
+    {
+        return mMediaSrc->sourceName();
+    }
+    return {};
+}
+
+QString MediaItemModel::mediaSourceIconUrl() const noexcept
+{
+    if (mMediaSrc != nullptr)
+    {
+        return mMediaSrc->iconUrl();
+    }
+    return {};
 }
 
 } // namespace Shell

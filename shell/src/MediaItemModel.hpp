@@ -15,6 +15,15 @@ namespace Shell
 class MediaItemModel : public QAbstractListModel
 {
     Q_OBJECT
+    /**
+     * This property holds the name of the active @ref Multimedia::MediaSource
+     */
+    Q_PROPERTY(QString mediaSourceName READ mediaSourceName NOTIFY mediaSourceChanged)
+
+    /**
+     * This property holds the icon URL of the active @ref Multimedia::MediaSource
+     */
+    Q_PROPERTY(QString mediaSourceIconUrl READ mediaSourceIconUrl NOTIFY mediaSourceChanged)
 public:
     enum class DisplayRole
     {
@@ -85,11 +94,30 @@ public:
      */
     Q_INVOKABLE void navigateForward() const noexcept;
 
+    /**
+     * Gives the name of the active @ref Multimedia::MediaSource.
+     * Is no @ref Multimedia::MediaSource active an empty name will be returned.
+     * @return The name of the active @ref Multimedia::MediaSource
+     */
+    QString mediaSourceName() const noexcept;
+
+    /**
+     * Gives the icon URL of the active @ref Multimedia::MediaSource
+     * Is no @ref Multimedia::MediaSource active an empty icon URL will be returned.
+     * @return The icon URL of the active @ref Multimedia::MediaSource
+     */
+    QString mediaSourceIconUrl() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when a playabale MediaItem is activated.
      */
     void playRequest(Multimedia::MediaItem const &mediaItem);
+
+    /**
+     * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.
+     */
+    void mediaSourceChanged();
 
 private:
     std::shared_ptr<Multimedia::MediaSource> mMediaSrc;
