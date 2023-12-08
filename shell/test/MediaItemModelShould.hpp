@@ -24,6 +24,7 @@ private Q_SLOTS:
     void update_the_media_items_when_navigation_is_finished();
     void emit_playRequest_when_a_playable_item_is_activated();
     void navigate_the_back_the_active_media_source();
+    void give_the_default_icon_url_when_the_media_item_has_no_icon();
 };
 
 } // namespace Shell
