@@ -50,6 +50,11 @@ const QUrl &MediaServer::iconUrl() const noexcept
     return mIconUrl;
 }
 
+void MediaServer::setIconUrl(QString const &iconUrl) noexcept
+{
+    mIconUrl = iconUrl;
+}
+
 QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::protocolInfo() noexcept
 {
     return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
