@@ -76,7 +76,7 @@ void MediaItemModelShould::navigate_when_a_container_item_is_activated()
 
     miModel.activateMediaItem(2);
 
-    QCOMPARE(mediaSrc->lastNavigationPath(), QStringLiteral("1"));
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("1"));
 }
 
 void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
@@ -91,14 +91,17 @@ void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
     miModel.activateMediaItem(2);
     QCOMPARE(modelAboutToReset.size(), 1);
     QCOMPARE(modelReset.size(), 1);
-    QCOMPARE(miModel.rowCount({}), 2);
+    QCOMPARE(miModel.rowCount({}), 3);
     auto const title0 =
         miModel.data(miModel.index(0), static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle)).toString();
     auto const title1 =
         miModel.data(miModel.index(1), static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle)).toString();
+    auto const title2 =
+        miModel.data(miModel.index(2), static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle)).toString();
 
     QCOMPARE(title0, QStringLiteral("MediaItem3"));
     QCOMPARE(title1, QStringLiteral("MediaItem4"));
+    QCOMPARE(title2, QStringLiteral("Container2"));
 }
 
 void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
@@ -113,6 +116,20 @@ void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
 
     QCOMPARE(playRequestSpy.size(), 1);
     QCOMPARE(playRequestSpy.at(0).at(0).value<Multimedia::MediaItem>().mainText(), QStringLiteral("MediaItem2"));
+}
+
+void MediaItemModelShould::navigate_the_back_the_active_media_source()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+
+    miModel.activateMediaItem(2);
+    QCOMPARE(miModel.rowCount({}), 3);
+
+    miModel.navigateBack();
+    QCOMPARE(miModel.rowCount({}), 5);
 }
 
 } // namespace Shell

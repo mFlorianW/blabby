@@ -104,4 +104,24 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
     }
 }
 
+void MediaItemModel::navigateBack() const noexcept
+{
+    if (mMediaSrc == nullptr)
+    {
+        qCritical(shell) << "Failed to navigate back. Error: MediaSource is not set.";
+        return;
+    }
+    mMediaSrc->navigateBack();
+}
+
+void MediaItemModel::navigateForward() const noexcept
+{
+    if (mMediaSrc == nullptr)
+    {
+        qCritical(shell) << "Failed to navigate forward. Error: MediaSource is not set.";
+        return;
+    }
+    mMediaSrc->navigateForward();
+}
+
 } // namespace Shell

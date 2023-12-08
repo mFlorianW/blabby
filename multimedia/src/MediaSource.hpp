@@ -6,6 +6,7 @@
 
 #include "MediaItem.hpp"
 #include "blabbymultimedia_export.h"
+#include <QStack>
 #include <QString>
 #include <QUrl>
 
@@ -16,6 +17,11 @@ namespace Multimedia
  * Definition for a list of MediaItem
  */
 using MediaItems = QVector<MediaItem>;
+
+/**
+ * Forward declaration for pimpl
+ */
+struct MediaSourcePrivate;
 
 /**
  * Base class for every media source.
@@ -70,6 +76,10 @@ public:
      */
     virtual void navigateTo(QString const &path) noexcept;
 
+    void navigateBack() noexcept;
+
+    void navigateForward() noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the navigation is succesful finished.
@@ -90,8 +100,7 @@ protected:
     MediaItems mMediaItems;
 
 private:
-    QString mSourceName{""};
-    QString mIconUrl{""};
+    std::unique_ptr<MediaSourcePrivate> d;
 };
 
 } // namespace Multimedia

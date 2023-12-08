@@ -36,6 +36,7 @@ target_sources(test_multimedia_mediasource
 target_link_libraries(test_multimedia_mediasource
     Qt6::Test
     Blabby::Multimedia
+    Blabby::MultimediaTestHelper
 )
 add_test(test_multimedia_mediasource ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_mediasource)
 

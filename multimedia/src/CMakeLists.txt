@@ -11,10 +11,12 @@ generate_export_header(${PROJECT_NAME})
 
 set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/NavigationStack.cpp
 )
 
 set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/NavigationStack.hpp
 )
 
 set(PUBLIC_SRCS

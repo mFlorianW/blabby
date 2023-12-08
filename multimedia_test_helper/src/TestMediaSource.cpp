@@ -3,6 +3,8 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "TestMediaSource.hpp"
+#include "LoggingCategories.hpp"
+#include <QDebug>
 
 namespace Multimedia::TestHelper
 {
@@ -10,19 +12,28 @@ namespace Multimedia::TestHelper
 TestMediaSource::TestMediaSource(QString name, QString iconUrl)
     : Multimedia::MediaSource{std::move(name), std::move(iconUrl)}
 {
-    mMediaItems.emplace_back(Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem1")});
-    mMediaItems.emplace_back(Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem2")});
-    mMediaItems.emplace_back(Multimedia::MediaItem{Multimedia::MediaItemType::Container,
-                                                   QStringLiteral("Container1"),
-                                                   QString(""),
-                                                   QString(""),
-                                                   QStringLiteral("1")});
-    mMediaItems.emplace_back(Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem3")});
-    mMediaItems.emplace_back(Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")});
-    mItems.insert(QStringLiteral("0"), mMediaItems);
+    mItems.insert(QStringLiteral("0"),
+                  {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem1")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem2")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Container,
+                                         QStringLiteral("Container1"),
+                                         QString(""),
+                                         QString(""),
+                                         QStringLiteral("1")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem3")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")}});
     mItems.insert(QStringLiteral("1"),
                   {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem3")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")}});
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Container,
+                                         QStringLiteral("Container2"),
+                                         QString(""),
+                                         QString(""),
+                                         QStringLiteral("2")}});
+    mItems.insert(QStringLiteral("2"),
+                  {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem5")},
+                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem6")}});
+    navigateTo(QStringLiteral("0"));
 }
 
 TestMediaSource::~TestMediaSource() = default;
@@ -38,10 +49,18 @@ void TestMediaSource::navigateTo(QString const &path) noexcept
     {
         mMediaItems = mItems[QStringLiteral("1")];
     }
+    else if (path == QStringLiteral("2"))
+    {
+        mMediaItems = mItems[QStringLiteral("2")];
+    }
+    else
+    {
+        qCCritical(testMediaSource) << "Path not found. Error: Invalied Path" << path << "passed";
+    }
     Q_EMIT navigationFinished(path);
 }
 
-const QString &TestMediaSource::lastNavigationPath() const noexcept
+const QString &TestMediaSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
 }

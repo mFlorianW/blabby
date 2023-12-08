@@ -4,29 +4,21 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "MediaSourceShould.hpp"
 #include "MediaSource.hpp"
+#include "TestMediaSource.hpp"
+#include <QSignalSpy>
 #include <QTest>
+
+using namespace Multimedia::TestHelper;
 
 namespace Multimedia
 {
-namespace
-{
-class TestMediaSource : public MediaSource
-{
-public:
-    TestMediaSource(QString name, QString iconUrl = QString{})
-        : MediaSource{std::move(name), std::move(iconUrl)}
-    {
-    }
-};
-
-} // namespace
 
 MediaSourceShould::MediaSourceShould() = default;
 MediaSourceShould::~MediaSourceShould() = default;
 
 void MediaSourceShould::give_the_name_of_media_source()
 {
-    const auto mediaSource = TestMediaSource{QStringLiteral("MusicBox")};
+    const auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("")};
     const auto expName = QStringLiteral("MusicBox");
 
     QVERIFY2(mediaSource.sourceName() == expName,
@@ -45,6 +37,90 @@ void MediaSourceShould::give_a_icon_url_when_set()
              QString("The MediaSource iconUrl \"%1\" is not the expected one %2")
                  .arg(mediaSource.iconUrl(), expUrl)
                  .toLocal8Bit());
+}
+
+void MediaSourceShould::navigate_to_previous_layer()
+{
+    auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+    const auto path1 = QStringLiteral("1");
+    mediaSource.navigateTo(path1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+    const auto path2 = QStringLiteral("2");
+    mediaSource.navigateTo(path2);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path2);
+
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("2"));
+    auto navSignalSpy = QSignalSpy{&mediaSource, &MediaSource::navigationFinished};
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+}
+
+void MediaSourceShould::navigate_forward_to_previous_layer()
+{
+    auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    const auto path1 = QStringLiteral("1");
+    const auto path2 = QStringLiteral("2");
+
+    mediaSource.navigateTo(path1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+    mediaSource.navigateTo(path2);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path2);
+
+    auto navSignalSpy = QSignalSpy{&mediaSource, &MediaSource::navigationFinished};
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+
+    navSignalSpy.clear();
+    mediaSource.navigateForward();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+
+    navSignalSpy.clear();
+    mediaSource.navigateForward();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path2);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+
+    mediaSource.navigateTo(path1);
+    mediaSource.navigateTo(path2);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), path1);
+
+    navSignalSpy.clear();
+    mediaSource.navigateBack();
+    QCOMPARE(navSignalSpy.size(), 1);
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
 }
 
 } // namespace Multimedia

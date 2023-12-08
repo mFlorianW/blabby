@@ -23,6 +23,7 @@ private Q_SLOTS:
     void navigate_when_a_container_item_is_activated();
     void update_the_media_items_when_navigation_is_finished();
     void emit_playRequest_when_a_playable_item_is_activated();
+    void navigate_the_back_the_active_media_source();
 };
 
 } // namespace Shell
