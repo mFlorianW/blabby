@@ -23,4 +23,18 @@ void AbstractHeader::setText(QString const &text) noexcept
     }
 }
 
+QString AbstractHeader::iconUrl() const noexcept
+{
+    return mIconUrl;
+}
+
+void AbstractHeader::setIconUrl(QString const &iconUrl) noexcept
+{
+    if (mIconUrl != iconUrl)
+    {
+        mIconUrl = iconUrl;
+    }
+    Q_EMIT iconUrlChanged();
+}
+
 } // namespace Shell

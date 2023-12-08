@@ -17,11 +17,21 @@ AbstractHeader{
         anchors.fill: header
     }
 
+    Image {
+        id: headerIcon
+        source: header.iconUrl
+        width: 48
+        height: headerIcon.width
+        anchors.left: header.left
+        anchors.verticalCenter: header.verticalCenter
+        anchors.leftMargin: 20
+    }
+
     Text{
         id: headerText
         anchors.verticalCenter: header.verticalCenter
         anchors.left: header.left
-        anchors.leftMargin: 90
+        anchors.leftMargin: 80
         height: header.heigt
         font.family: Theme.fonts.titleMedium.family
         font.pixelSize: Theme.fonts.titleMedium.size
