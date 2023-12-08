@@ -19,6 +19,7 @@ public:
     enum class DisplayRole
     {
         MediaItemTitle = Qt::UserRole + 1,
+        MediaItemIconUrl
     };
     Q_ENUM(DisplayRole)
 

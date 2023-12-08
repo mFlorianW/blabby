@@ -31,7 +31,9 @@ void MediaItemModelShould::give_the_correct_display_roles()
     auto miModel = MediaItemModel{};
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto const expRoles = QHash<int, QByteArray>{
-        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"})};
+        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
+        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+    };
 
     auto const roles = miModel.roleNames();
 
@@ -130,6 +132,24 @@ void MediaItemModelShould::navigate_the_back_the_active_media_source()
 
     miModel.navigateBack();
     QCOMPARE(miModel.rowCount({}), 5);
+}
+
+void MediaItemModelShould::give_the_default_icon_url_when_the_media_item_has_no_icon()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+
+    // default icon URL for playable item
+    auto const containerUrl =
+        miModel.data(miModel.index(2), static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl)).toString();
+    QCOMPARE(containerUrl, QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg"));
+    // default icon URL for container item
+    auto const iconUrl =
+        miModel.data(miModel.index(0), static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl)).toString();
+
+    QCOMPARE(iconUrl, QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg"));
 }
 
 } // namespace Shell

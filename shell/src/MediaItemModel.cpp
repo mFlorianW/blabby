@@ -25,7 +25,9 @@ int MediaItemModel::rowCount(QModelIndex const &index) const noexcept
 QHash<int, QByteArray> MediaItemModel::roleNames() const noexcept
 {
     static auto const roles = QHash<int, QByteArray>{
-        std::make_pair(static_cast<int>(DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"})};
+        std::make_pair(static_cast<int>(DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
+        std::make_pair(static_cast<int>(DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+    };
     return roles;
 }
 
@@ -50,6 +52,16 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
     if (dispRole == DisplayRole::MediaItemTitle)
     {
         return item.mainText();
+    }
+    else if (dispRole == DisplayRole::MediaItemIconUrl)
+    {
+        const auto iconUrl = item.iconUrl();
+        if (iconUrl.isEmpty())
+        {
+            return item.type() == Multimedia::MediaItemType::Container
+                       ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
+                       : QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg");
+        }
     }
 
     return {};

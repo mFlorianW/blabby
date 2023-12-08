@@ -149,6 +149,7 @@ Item{
                         width: mediaItemListView.width
                         height: 64
                         title: mediaItemTitle
+                        iconUrl: mediaItemIconUrl
                         onClicked: {
                             Singleton.mediaItemModel.activateMediaItem(index)
                         }
