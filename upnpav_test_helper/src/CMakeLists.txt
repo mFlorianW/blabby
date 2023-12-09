@@ -42,6 +42,11 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlStateVariables.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlActions.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderDouble.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerDouble.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Response.hpp
 )
 
 target_link_libraries(test_upnp_av_test_helper

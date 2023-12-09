@@ -6,11 +6,6 @@
 find_package(Qt6 6.5 REQUIRED COMPONENTS Test)
 
 ###############################################################################
-# Subdirectories
-###############################################################################
-add_subdirectory(doubles)
-
-###############################################################################
 # Test MediaServerSource
 ###############################################################################
 add_executable(test_provider_mediaserversource)
@@ -23,7 +18,7 @@ target_link_libraries(test_provider_mediaserversource
     PRIVATE
         Qt6::Test
         Blabby::MediaServerProvider
-        Blabby::MediaServerProviderDoubles
+        Blabby::UPnPAVTestHelper
 )
 add_test(test_provider_mediaserversource ${EXECUTABLE_OUTPUT_PATH}/test_provider_mediaserversource)
 
@@ -40,6 +35,6 @@ target_link_libraries(test_provider_mediaserverprovider
     PRIVATE
         Qt6::Test
         Blabby::MediaServerProvider
-        Blabby::MediaServerProviderDoubles
+        Blabby::UPnPAVTestHelper
 )
 add_test(test_provider_mediaserverprovider ${EXECUTABLE_OUTPUT_PATH}/test_provider_mediaserverprovider)

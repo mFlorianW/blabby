@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QUrl>
 
-namespace Provider::Doubles
+namespace UPnPAV::Doubles
 {
 
 std::unique_ptr<UPnPAV::MediaServer> MediaServerFactory::createMediaServer(
@@ -90,4 +90,4 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objec
     return QSharedPointer<UPnPAV::PendingSoapCall>{new (std::nothrow) UPnPAV::PendingSoapCall{soapCall}};
 }
 
-} // namespace Provider::Doubles
+} // namespace UPnPAV::Doubles
