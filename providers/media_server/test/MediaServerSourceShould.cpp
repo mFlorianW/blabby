@@ -17,9 +17,9 @@ namespace Provider
 namespace
 {
 
-std::unique_ptr<Doubles::MediaServer> createMediaServer()
+std::unique_ptr<UPnPAV::Doubles::MediaServer> createMediaServer()
 {
-    auto mediaServer = std::make_unique<Doubles::MediaServer>();
+    auto mediaServer = std::make_unique<UPnPAV::Doubles::MediaServer>();
     auto soapCall =
         QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse());
     mediaServer->soapCall = soapCall;
@@ -62,8 +62,8 @@ void MediaServerSourceShould::request_root_media_items_on_init()
     auto mediaServerRaw = mediaServer.get();
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expBrowseRequest =
-        Doubles::LastBrowseRequest{.objectId = QStringLiteral("0"),
-                                   .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
+        UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("0"),
+                                           .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
 }
 
@@ -71,8 +71,7 @@ void MediaServerSourceShould::give_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    mediaServer->soapCall->setRawMessage(
-        QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "1", "1", "1"));
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::MediaItem{Multimedia::MediaItemType::Container,
                                                                                  QStringLiteral("MyMusic"),
@@ -96,8 +95,8 @@ void MediaServerSourceShould::send_correct_request_on_navigation()
     auto mediaServerRaw = mediaServer.get();
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expBrowseRequest =
-        Doubles::LastBrowseRequest{.objectId = QStringLiteral("12"),
-                                   .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
+        UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("12"),
+                                           .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
     const auto navFinishedSpy = QSignalSpy{&mediaServerSource, &MediaServerSource::navigationFinished};
 
     mediaServerSource.navigateTo(QStringLiteral("12"));
@@ -111,8 +110,7 @@ void MediaServerSourceShould::request_root_media_items_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    mediaServer->soapCall->setRawMessage(
-        QString{Doubles::xmlResponse}.arg(Doubles::didlOnlyOneContainer, "1", "1", "1"));
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::MediaItem{Multimedia::MediaItemType::Container,
                                                                                  QStringLiteral("MyMusic"),

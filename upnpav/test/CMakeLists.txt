@@ -14,10 +14,7 @@ target_sources(test_upnpav_browse_result
         ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponseShould.hpp
 )
-target_include_directories(test_upnpav_browse_result
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/data>
-)
+
 target_link_libraries(test_upnpav_browse_result
     Qt6::Test
     Blabby::UPnPAV

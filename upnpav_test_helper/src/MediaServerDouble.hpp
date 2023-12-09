@@ -8,7 +8,7 @@
 #include "SoapCallDouble.hpp"
 #include <QUrl>
 
-namespace Provider::Doubles
+namespace UPnPAV::Doubles
 {
 
 class MediaServerFactory final : public UPnPAV::MediaServerFactory
@@ -67,4 +67,4 @@ public:
     QUrl mIconUrl{"http://localhost:8200/icons/sm.png"};
 };
 
-} // namespace Provider::Doubles
+} // namespace UPnPAV::Doubles

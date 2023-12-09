@@ -5,7 +5,7 @@
 
 #include "IServiceProvider.hpp"
 
-namespace Provider::Doubles
+namespace UPnPAV::Doubles
 {
 
 class ServiceProviderDouble final : public UPnPAV::IServiceProvider
@@ -38,4 +38,4 @@ public:
     std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(const QString &searchTarget) override;
 };
 
-} // namespace Provider::Doubles
+} // namespace UPnPAV::Doubles

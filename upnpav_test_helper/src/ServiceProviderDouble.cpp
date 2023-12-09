@@ -6,7 +6,7 @@
 #include "ServiceProviderDouble.hpp"
 #include <QString>
 
-namespace Provider::Doubles
+namespace UPnPAV::Doubles
 {
 
 ServiceProviderDouble::ServiceProviderDouble(QString searchTarget)
@@ -48,4 +48,4 @@ std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceP
     return sp;
 }
 
-} // namespace Provider::Doubles
+} // namespace UPnPAV::Doubles
