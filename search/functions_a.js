@@ -11,5 +11,8 @@ var searchData=
   ['mediaserverprovider_8',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html#a8cfd8632e130317f3663f4fcafa2ace8',1,'Provider::MediaServerProvider']]],
   ['mediaserversource_9',['MediaServerSource',['../classProvider_1_1MediaServerSource.html#a027f9c43196b47ef9b9d35ba930a6177',1,'Provider::MediaServerSource']]],
   ['mediasource_10',['MediaSource',['../classMultimedia_1_1MediaSource.html#a61b5b8fdf4038500372685c7bae745d4',1,'Multimedia::MediaSource']]],
-  ['mediasourcemodel_11',['mediasourcemodel',['../classShell_1_1MediaSourceModel.html#a4bea1458dc97157560d06960e452ab6e',1,'Shell::MediaSourceModel::MediaSourceModel()'],['../classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71',1,'Shell::QmlSingletonRegistry::mediaSourceModel()']]]
+  ['mediasourcechanged_11',['mediaSourceChanged',['../classShell_1_1MediaItemModel.html#a0b5fed5cd72f037bb198acc66dc7808e',1,'Shell::MediaItemModel']]],
+  ['mediasourceiconurl_12',['mediaSourceIconUrl',['../classShell_1_1MediaItemModel.html#af66853f9bd3cb6c4b96b88ab8120576f',1,'Shell::MediaItemModel']]],
+  ['mediasourcemodel_13',['mediasourcemodel',['../classShell_1_1MediaSourceModel.html#a4bea1458dc97157560d06960e452ab6e',1,'Shell::MediaSourceModel::MediaSourceModel()'],['../classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71',1,'Shell::QmlSingletonRegistry::mediaSourceModel()']]],
+  ['mediasourcename_14',['mediaSourceName',['../classShell_1_1MediaItemModel.html#a8e2beacf12ac193cdb25f21865495e97',1,'Shell::MediaItemModel']]]
 ];
