@@ -27,8 +27,16 @@ void ServiceProviderDouble::startSearch() const noexcept
 
 UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QString &usn) const noexcept
 {
-    Q_UNUSED(usn);
+    if (mDevices.contains(usn))
+    {
+        mDevices.value(usn);
+    }
     return UPnPAV::DeviceDescription{};
+}
+
+void ServiceProviderDouble::addDeviceDescription(QString const &usn, UPnPAV::DeviceDescription const &desc) noexcept
+{
+    mDevices.insert(usn, desc);
 }
 
 QString const &ServiceProviderDouble::searchTarget() const noexcept

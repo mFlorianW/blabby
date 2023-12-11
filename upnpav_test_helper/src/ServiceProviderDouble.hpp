@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "IServiceProvider.hpp"
+#include <QHash>
 
 namespace UPnPAV::Doubles
 {
@@ -21,6 +22,7 @@ public:
     void startSearch() const noexcept override;
 
     UPnPAV::DeviceDescription rootDeviceDescription(const QString &usn) const noexcept override;
+    void addDeviceDescription(QString const &usn, UPnPAV::DeviceDescription const &desc) noexcept;
 
     QString const &searchTarget() const noexcept;
 
@@ -29,6 +31,7 @@ public:
 private:
     QString mSearchTarget;
     mutable bool mSearchRequested{false};
+    QHash<QString, UPnPAV::DeviceDescription> mDevices;
 };
 
 class ServiceProviderFactory : public UPnPAV::IServiceProviderFactory
