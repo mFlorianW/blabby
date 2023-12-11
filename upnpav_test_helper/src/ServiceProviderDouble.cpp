@@ -29,7 +29,7 @@ UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QSt
 {
     if (mDevices.contains(usn))
     {
-        mDevices.value(usn);
+        return mDevices.value(usn);
     }
     return UPnPAV::DeviceDescription{};
 }
