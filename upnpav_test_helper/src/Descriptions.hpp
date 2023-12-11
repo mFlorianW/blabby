@@ -5,6 +5,7 @@
 #ifndef DESCRIPTIONS_H
 #define DESCRIPTIONS_H
 
+#include "DeviceDescription.hpp"
 #include "ServiceControlPointDefinition.hpp"
 #include "ServiceDescription.hpp"
 
@@ -74,6 +75,8 @@ ServiceDescription eventUrlMissingInRenderingControlDescription() noexcept;
 ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept;
 
 ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept;
+
+DeviceDescription validRendererDeviceDescription() noexcept;
 
 } // namespace UPnPAV
 

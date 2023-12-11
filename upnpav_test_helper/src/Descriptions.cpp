@@ -440,4 +440,16 @@ ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
     return desc;
 }
 
+DeviceDescription validRendererDeviceDescription() noexcept
+{
+    return DeviceDescription{QString(""),
+                             QStringLiteral("MediaRenderer"),
+                             QString(""),
+                             QString(""),
+                             QString(""),
+                             {IconDescription{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
+                             {validRenderingControlServiceDescription(), validConnectionManagerDescription()},
+                             {validRenderingControlSCPD(), validConnectionManagerSCPD()}};
+}
+
 } // namespace UPnPAV
