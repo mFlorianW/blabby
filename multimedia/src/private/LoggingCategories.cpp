@@ -5,3 +5,4 @@
 #include "LoggingCategories.hpp"
 
 Q_LOGGING_CATEGORY(mmProvider, "blabby.multimedia.provider")
+Q_LOGGING_CATEGORY(mmRenderer, "blabby.multimedia.renderer")

@@ -6,3 +6,4 @@
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(mmProvider)
+Q_DECLARE_LOGGING_CATEGORY(mmRenderer)
