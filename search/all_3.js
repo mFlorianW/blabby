@@ -7,6 +7,7 @@ var searchData=
   ['devicedescription_4',['devicedescription',['../classUPnPAV_1_1DeviceDescription.html',1,'UPnPAV::DeviceDescription'],['../classUPnPAV_1_1DeviceDescription.html#a7cc8e51ab2aa76f02e3715b2c0bb341f',1,'UPnPAV::DeviceDescription::DeviceDescription()']]],
   ['devicedescriptionparser_5',['DeviceDescriptionParser',['../classUPnPAV_1_1DeviceDescriptionParser.html',1,'UPnPAV']]],
   ['deviceid_6',['deviceId',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#ab25bbb14c067557fc99a300c184099ac',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['displayrole_7',['DisplayRole',['../classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b',1,'Shell::MediaSourceModel']]],
-  ['documentation_8',['Documentation',['../index.html#autotoc_md2',1,'']]]
+  ['discover_7',['discover',['../classMultimedia_1_1RendererProvider.html#af22b4a1c29aa4d9077e64f4106960dba',1,'Multimedia::RendererProvider']]],
+  ['displayrole_8',['DisplayRole',['../classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b',1,'Shell::MediaSourceModel']]],
+  ['documentation_9',['Documentation',['../index.html#autotoc_md2',1,'']]]
 ];

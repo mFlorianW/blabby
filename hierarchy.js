@@ -32,6 +32,7 @@ var hierarchy =
     ] ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
     [ "Multimedia::MediaItem", "classMultimedia_1_1MediaItem.html", null ],
+    [ "UPnPAV::MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
     [ "UPnPAV::MediaServerPrivate", "classUPnPAV_1_1MediaServerPrivate.html", null ],
@@ -56,6 +57,8 @@ var hierarchy =
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
         [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
       ] ],
+      [ "Multimedia::Renderer", "classMultimedia_1_1Renderer.html", null ],
+      [ "Multimedia::RendererProvider", "classMultimedia_1_1RendererProvider.html", null ],
       [ "Shell::AbstractClock", "classShell_1_1AbstractClock.html", null ],
       [ "Shell::QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],

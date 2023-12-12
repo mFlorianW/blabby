@@ -8,7 +8,9 @@ var annotated_dup =
       [ "NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
       [ "Provider", "classMultimedia_1_1Provider.html", "classMultimedia_1_1Provider" ],
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
-      [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ]
+      [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ],
+      [ "Renderer", "classMultimedia_1_1Renderer.html", "classMultimedia_1_1Renderer" ],
+      [ "RendererProvider", "classMultimedia_1_1RendererProvider.html", "classMultimedia_1_1RendererProvider" ]
     ] ],
     [ "Provider", null, [
       [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],
@@ -59,6 +61,7 @@ var annotated_dup =
       [ "MediaDevice", "classUPnPAV_1_1MediaDevice.html", "classUPnPAV_1_1MediaDevice" ],
       [ "MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
       [ "MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", "classUPnPAV_1_1MediaRenderer" ],
+      [ "MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", "classUPnPAV_1_1MediaRendererFactory" ],
       [ "MediaServer", "classUPnPAV_1_1MediaServer.html", "classUPnPAV_1_1MediaServer" ],
       [ "MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
       [ "MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],

@@ -8,8 +8,12 @@ var searchData=
   ['recqualitymodes_5',['recQualityModes',['../classUPnPAV_1_1GetDeviceCapabilitiesResponse.html#afb0fe1aeb8da1cad275bd85f154dff22',1,'UPnPAV::GetDeviceCapabilitiesResponse']]],
   ['relcount_6',['relCount',['../classUPnPAV_1_1GetPositionInfoResponse.html#a3af45f0bb84d30a0bdb92c4eda2d116e',1,'UPnPAV::GetPositionInfoResponse']]],
   ['reltime_7',['relTime',['../classUPnPAV_1_1GetPositionInfoResponse.html#a570309454ef1d970d6413e615945d3f6',1,'UPnPAV::GetPositionInfoResponse']]],
-  ['resultas_8',['resultAs',['../classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523',1,'UPnPAV::PendingSoapCall']]],
-  ['rolenames_9',['rolenames',['../classShell_1_1MediaItemModel.html#abcb01b7393213ae5ecd0900f12003646',1,'Shell::MediaItemModel::roleNames()'],['../classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b',1,'Shell::MediaSourceModel::roleNames()']]],
-  ['rootdevicedescription_10',['rootdevicedescription',['../classUPnPAV_1_1IServiceProvider.html#a9d30088b3fdb7b9c145a24f2a853a923',1,'UPnPAV::IServiceProvider::rootDeviceDescription()'],['../classUPnPAV_1_1ServiceProvider.html#a8d708c0d4c0d58505fff6f664c17be3e',1,'UPnPAV::ServiceProvider::rootDeviceDescription()']]],
-  ['rowcount_11',['rowcount',['../classShell_1_1MediaItemModel.html#aa5d642c6e6569814aabcf5b92e3a1c9f',1,'Shell::MediaItemModel::rowCount()'],['../classShell_1_1MediaSourceModel.html#ab7ff8e3ac0b4e1883ee447dd4166df92',1,'Shell::MediaSourceModel::rowCount()']]]
+  ['renderer_8',['Renderer',['../classMultimedia_1_1Renderer.html#a12dc28926d2b0045d8911fada2165f98',1,'Multimedia::Renderer']]],
+  ['rendererconnected_9',['rendererConnected',['../classMultimedia_1_1RendererProvider.html#ab57dbafe0c55df18ac8ce912f9e6ff60',1,'Multimedia::RendererProvider']]],
+  ['rendererdisconnected_10',['rendererDisconnected',['../classMultimedia_1_1RendererProvider.html#ad189bafa8ab21fa1c960db5c6d674704',1,'Multimedia::RendererProvider']]],
+  ['rendererprovider_11',['RendererProvider',['../classMultimedia_1_1RendererProvider.html#a9a8e412258b735c8623dcff1b9ad7e3d',1,'Multimedia::RendererProvider']]],
+  ['resultas_12',['resultAs',['../classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523',1,'UPnPAV::PendingSoapCall']]],
+  ['rolenames_13',['rolenames',['../classShell_1_1MediaItemModel.html#abcb01b7393213ae5ecd0900f12003646',1,'Shell::MediaItemModel::roleNames()'],['../classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b',1,'Shell::MediaSourceModel::roleNames()']]],
+  ['rootdevicedescription_14',['rootdevicedescription',['../classUPnPAV_1_1IServiceProvider.html#a9d30088b3fdb7b9c145a24f2a853a923',1,'UPnPAV::IServiceProvider::rootDeviceDescription()'],['../classUPnPAV_1_1ServiceProvider.html#a8d708c0d4c0d58505fff6f664c17be3e',1,'UPnPAV::ServiceProvider::rootDeviceDescription()']]],
+  ['rowcount_15',['rowcount',['../classShell_1_1MediaItemModel.html#aa5d642c6e6569814aabcf5b92e3a1c9f',1,'Shell::MediaItemModel::rowCount()'],['../classShell_1_1MediaSourceModel.html#ab7ff8e3ac0b4e1883ee447dd4166df92',1,'Shell::MediaSourceModel::rowCount()']]]
 ];
