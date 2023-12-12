@@ -41,25 +41,24 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
                          }
                      });
 
-    QObject::connect(
-        &reader,
-        &ResponseReader::stringValueRead,
-        &reader,
-        [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
-            if (elementName == QStringLiteral("Result") and result == ResponseReader::ElementReadResult::Ok)
-            {
-                auto unescapedResult = value.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
-                readDidlDescription(unescapedResult);
-            }
-            else if (result == ResponseReader::ElementReadResult::ConversionError)
-            {
-                qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-            }
-            else if (result == ResponseReader::ElementReadResult::Error)
-            {
-                qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
-            }
-        });
+    QObject::connect(&reader,
+                     &ResponseReader::stringValueRead,
+                     &reader,
+                     [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+                         if (elementName == QStringLiteral("Result") and
+                             result == ResponseReader::ElementReadResult::Ok)
+                         {
+                             m_objects = MediaServerObject::createFromDidl(value);
+                         }
+                         else if (result == ResponseReader::ElementReadResult::ConversionError)
+                         {
+                             qCCritical(upnpavDevice) << "Failed to convert " << elementName;
+                         }
+                         else if (result == ResponseReader::ElementReadResult::Error)
+                         {
+                             qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
+                         }
+                     });
 
     const auto result = reader.read();
     if (result != ResponseReader::ReadResult::Ok)
@@ -87,60 +86,6 @@ quint32 BrowseResponse::updateId() const noexcept
 const QVector<MediaServerObject> &BrowseResponse::objects() const noexcept
 {
     return m_objects;
-}
-
-void BrowseResponse::readDidlDescription(const QString &didlDescription)
-{
-    QXmlStreamReader didlReader{didlDescription};
-
-    while (didlReader.readNext() && !didlReader.hasError() && !didlReader.atEnd())
-    {
-        if (didlReader.isStartElement() &&
-            (didlReader.name() == QStringLiteral("container") || didlReader.name() == QStringLiteral("item")))
-        {
-            auto mediaServerObject = readDidlObjectDescription(didlReader);
-            m_objects.append(mediaServerObject);
-        }
-    }
-}
-
-MediaServerObject BrowseResponse::readDidlObjectDescription(QXmlStreamReader &streamReader)
-{
-    QString title;
-    QString id;
-    QString parenId;
-    QString typeClass;
-
-    // read container attributes
-    auto attributes = streamReader.attributes();
-    for (const auto &attribute : attributes)
-    {
-        if (attribute.name() == QStringLiteral("id"))
-        {
-            id = attribute.value().toString();
-        }
-        else if (attribute.name() == QStringLiteral("parentID"))
-        {
-            parenId = attribute.value().toString();
-        }
-    }
-
-    while (streamReader.readNext() && !streamReader.hasError() && !streamReader.atEnd() &&
-           !(streamReader.isEndElement() &&
-             ((streamReader.name() == QStringLiteral("container")) || (streamReader.name() == QStringLiteral("item")))))
-    {
-        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title"))
-        {
-            title = streamReader.readElementText();
-        }
-
-        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class"))
-        {
-            typeClass = streamReader.readElementText();
-        }
-    }
-
-    return MediaServerObject{id, parenId, title, typeClass};
 }
 
 } // namespace UPnPAV

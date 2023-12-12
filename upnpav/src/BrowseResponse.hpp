@@ -28,10 +28,6 @@ public:
     const QVector<MediaServerObject> &objects() const noexcept;
 
 private:
-    void readDidlDescription(const QString &didlDescription);
-    MediaServerObject readDidlObjectDescription(QXmlStreamReader &streamReader);
-
-private:
     quint32 mNumberReturned{0};
     quint32 mTotalMatches{0};
     quint32 mUpdateId{0};
