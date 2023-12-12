@@ -24,6 +24,8 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RendererProvider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -31,6 +33,8 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaSource.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ProviderLoader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaItem.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RendererProvider.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.hpp
 )
 
 target_sources(${PROJECT_NAME}
