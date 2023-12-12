@@ -8,6 +8,7 @@
 
 #include "blabbyupnpav_export.h"
 #include <QString>
+#include <QXmlStreamReader>
 
 namespace UPnPAV
 {
@@ -22,11 +23,21 @@ public:
     QString parentId() const noexcept;
     QString title() const noexcept;
     QString typeClass() const noexcept;
+    QString uri() const noexcept;
 
     BLABBYUPNPAV_EXPORT friend bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
     BLABBYUPNPAV_EXPORT friend bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
 
+    /**
+     * Factory method that creates all @ref UPnPAV::MediaServerObject from a DIDL.
+     * The result contains only @ref UPnPAV::MediaServerObject where all required parameters could be parsed.
+     * @param didl The raw/unescaped DIDL string.
+     * @return A list with all parsed @ref UPnPAV::MediaServerObject
+     */
+    static QVector<MediaServerObject> createFromDidl(QString &didl) noexcept;
+
 private:
+    static std::optional<MediaServerObject> readDidlDesc(QXmlStreamReader &streamReader) noexcept;
     QString m_id;
     QString m_parentId;
     QString m_title;
