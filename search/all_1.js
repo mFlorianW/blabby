@@ -9,7 +9,7 @@ var searchData=
   ['browse_6',['browse',['../classUPnPAV_1_1MediaServer.html#a49d0920153f500ac5f61b8fdfa67e266',1,'UPnPAV::MediaServer']]],
   ['browseflag_7',['BrowseFlag',['../classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43',1,'UPnPAV::MediaServer']]],
   ['browseresponse_8',['BrowseResponse',['../classUPnPAV_1_1BrowseResponse.html',1,'UPnPAV']]],
-  ['build_9',['Build',['../index.html#autotoc_md1',1,'']]],
+  ['build_9',['build',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a247593b4cb4f6bd04373ddaaa3e39e8e',1,'UPnPAV::MediaServerObjectBuilder::build()'],['../index.html#autotoc_md1',1,'Build']]],
   ['building_20blocks_10',['Building Blocks',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks',1,'']]],
   ['byebye_11',['ByeBye',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a18ad3c71d3e37aa2a348974c94a61fbd',1,'UPnPAV::ServiceDiscoveryPackage']]]
 ];

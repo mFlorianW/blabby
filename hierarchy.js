@@ -35,6 +35,7 @@ var hierarchy =
     [ "UPnPAV::MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
+    [ "UPnPAV::MediaServerObjectBuilder", "classUPnPAV_1_1MediaServerObjectBuilder.html", null ],
     [ "UPnPAV::MediaServerPrivate", "classUPnPAV_1_1MediaServerPrivate.html", null ],
     [ "Multimedia::MediaSourcePrivate", "structMultimedia_1_1MediaSourcePrivate.html", null ],
     [ "Multimedia::NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],

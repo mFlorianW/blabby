@@ -14,11 +14,12 @@ var searchData=
   ['playmodenotsupported_11',['PlayModeNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0cb4ba0d256a8a83a5c0297fbb130188',1,'UPnPAV::PendingSoapCall']]],
   ['playrequest_12',['playRequest',['../classShell_1_1MediaItemModel.html#a1852e59203eb3a2888715c65302ed40d',1,'Shell::MediaItemModel']]],
   ['playspeednotsupported_13',['PlaySpeedNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a05dc2b977bb18522b7b6e8ea896c8a86',1,'UPnPAV::PendingSoapCall']]],
-  ['positioninfo_14',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
-  ['previous_15',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
-  ['protocol_16',['Protocol',['../structUPnPAV_1_1Protocol.html',1,'UPnPAV']]],
-  ['protocolinfo_17',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
-  ['provider_18',['provider',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider',1,'Provider'],['../classMultimedia_1_1Provider.html',1,'Multimedia::Provider']]],
-  ['providerloader_19',['providerloader',['../classMultimedia_1_1ProviderLoader.html',1,'Multimedia::ProviderLoader'],['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader::ProviderLoader()']]],
-  ['providerversion_20',['ProviderVersion',['../structMultimedia_1_1ProviderVersion.html',1,'Multimedia']]]
+  ['playurl_14',['playUrl',['../classUPnPAV_1_1MediaServerObject.html#ad48028438344a36ac1f5565e3aaea551',1,'UPnPAV::MediaServerObject']]],
+  ['positioninfo_15',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
+  ['previous_16',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
+  ['protocol_17',['Protocol',['../structUPnPAV_1_1Protocol.html',1,'UPnPAV']]],
+  ['protocolinfo_18',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2',1,'UPnPAV::MediaDevice']]],
+  ['provider_19',['provider',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider',1,'Provider'],['../classMultimedia_1_1Provider.html',1,'Multimedia::Provider']]],
+  ['providerloader_20',['providerloader',['../classMultimedia_1_1ProviderLoader.html',1,'Multimedia::ProviderLoader'],['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader::ProviderLoader()']]],
+  ['providerversion_21',['ProviderVersion',['../structMultimedia_1_1ProviderVersion.html',1,'Multimedia']]]
 ];

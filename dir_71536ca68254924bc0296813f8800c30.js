@@ -11,6 +11,7 @@ var dir_71536ca68254924bc0296813f8800c30 =
     [ "LoggingCategories.hpp", "upnpav_2src_2private_2LoggingCategories_8hpp_source.html", null ],
     [ "MediaDevicePrivate.hpp", "MediaDevicePrivate_8hpp_source.html", null ],
     [ "MediaServer_p.hpp", "MediaServer__p_8hpp_source.html", null ],
+    [ "MediaServerObjectBuilder.hpp", "MediaServerObjectBuilder_8hpp_source.html", null ],
     [ "ParsingError.hpp", "ParsingError_8hpp_source.html", null ],
     [ "RenderingControlServiceValidator.hpp", "RenderingControlServiceValidator_8hpp_source.html", null ],
     [ "ResponseReader.hpp", "ResponseReader_8hpp_source.html", null ],

@@ -14,5 +14,6 @@ var searchData=
   ['invalidinstanceid_11',['InvalidInstanceId',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032af233eff84e70c98d2b8b03c56c0c0189',1,'UPnPAV::PendingSoapCall']]],
   ['invalidsequence_12',['InvalidSequence',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032aecc0c7f0b31037312b0292c4bf235aa3',1,'UPnPAV::PendingSoapCall']]],
   ['iserviceprovider_13',['IServiceProvider',['../classUPnPAV_1_1IServiceProvider.html',1,'UPnPAV']]],
-  ['iserviceproviderfactory_14',['IServiceProviderFactory',['../classUPnPAV_1_1IServiceProviderFactory.html',1,'UPnPAV']]]
+  ['iserviceproviderfactory_14',['IServiceProviderFactory',['../classUPnPAV_1_1IServiceProviderFactory.html',1,'UPnPAV']]],
+  ['isvalid_15',['isValid',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa7fc94ed1c205533f1c845d234549de1',1,'UPnPAV::MediaServerObjectBuilder']]]
 ];

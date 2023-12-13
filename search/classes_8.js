@@ -10,10 +10,11 @@ var searchData=
   ['mediaserver_7',['MediaServer',['../classUPnPAV_1_1MediaServer.html',1,'UPnPAV']]],
   ['mediaserverfactory_8',['MediaServerFactory',['../classUPnPAV_1_1MediaServerFactory.html',1,'UPnPAV']]],
   ['mediaserverobject_9',['MediaServerObject',['../classUPnPAV_1_1MediaServerObject.html',1,'UPnPAV']]],
-  ['mediaserverprivate_10',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
-  ['mediaserverprovider_11',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
-  ['mediaserversource_12',['MediaServerSource',['../classProvider_1_1MediaServerSource.html',1,'Provider']]],
-  ['mediasource_13',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]],
-  ['mediasourcemodel_14',['MediaSourceModel',['../classShell_1_1MediaSourceModel.html',1,'Shell']]],
-  ['mediasourceprivate_15',['MediaSourcePrivate',['../structMultimedia_1_1MediaSourcePrivate.html',1,'Multimedia']]]
+  ['mediaserverobjectbuilder_10',['MediaServerObjectBuilder',['../classUPnPAV_1_1MediaServerObjectBuilder.html',1,'UPnPAV']]],
+  ['mediaserverprivate_11',['MediaServerPrivate',['../classUPnPAV_1_1MediaServerPrivate.html',1,'UPnPAV']]],
+  ['mediaserverprovider_12',['MediaServerProvider',['../classProvider_1_1MediaServerProvider.html',1,'Provider']]],
+  ['mediaserversource_13',['MediaServerSource',['../classProvider_1_1MediaServerSource.html',1,'Provider']]],
+  ['mediasource_14',['MediaSource',['../classMultimedia_1_1MediaSource.html',1,'Multimedia']]],
+  ['mediasourcemodel_15',['MediaSourceModel',['../classShell_1_1MediaSourceModel.html',1,'Shell']]],
+  ['mediasourceprivate_16',['MediaSourcePrivate',['../structMultimedia_1_1MediaSourcePrivate.html',1,'Multimedia']]]
 ];
