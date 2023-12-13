@@ -37,6 +37,7 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/AvTransportServiceValidator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -65,6 +66,7 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/AvTransportServiceValidator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.hpp
 )
 
 set(PUBLIC_SRCS

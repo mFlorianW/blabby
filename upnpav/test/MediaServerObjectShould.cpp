@@ -5,6 +5,7 @@
 
 #include "MediaServerObjectShould.hpp"
 #include "MediaServerObject.hpp"
+#include "private/MediaServerObjectBuilder.hpp"
 
 #include <QtTest>
 
@@ -14,7 +15,7 @@ namespace UPnPAV
 void MediaServerObjectShould::return_The_ID_Set_In_The_Constructor()
 {
     QString expectedId = "1";
-    MediaServerObject mediaServerObject{"1", "", "", ""};
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setId("1").build();
 
     auto id = mediaServerObject.id();
 
@@ -24,7 +25,7 @@ void MediaServerObjectShould::return_The_ID_Set_In_The_Constructor()
 void MediaServerObjectShould::return_The_ParentId_Set_Passed_In_The_Constructor()
 {
     QString expectedParentId = "1";
-    MediaServerObject mediaServerObject{"", "1", "", ""};
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setParentId("1").build();
 
     auto parentId = mediaServerObject.parentId();
 
@@ -35,7 +36,7 @@ void MediaServerObjectShould::return_The_ParentId_Set_Passed_In_The_Constructor(
 void MediaServerObjectShould::return_the_Title_Passed_In_The_Constructor()
 {
     QString expectedTitle = "HelloTitle";
-    MediaServerObject mediaServerObject{"", "", "HelloTitle", ""};
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setTitle("HelloTitle").build();
 
     auto title = mediaServerObject.title();
 
@@ -45,7 +46,7 @@ void MediaServerObjectShould::return_the_Title_Passed_In_The_Constructor()
 void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
 {
     QString expectedTypeClass = "typeClass";
-    MediaServerObject mediaServerObject{"", "", "", "typeClass"};
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setTypeClass("typeClass").build();
 
     auto typeClass = mediaServerObject.typeClass();
 
