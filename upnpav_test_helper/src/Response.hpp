@@ -67,4 +67,18 @@ constexpr auto realWorldResponse = R"(
 </s:Envelope>)";
 
 }
+
+constexpr auto realWorldAudioItems = R"(
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+   <s:Body>
+      <u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+         <Result>&lt;DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/"&gt;
+&lt;item id="1$14$2$6$0" parentID="1$14$2$6" restricted="1" refID="64$2$6$0"&gt;&lt;dc:title&gt;Techno Mix 2017 Part 2 (Berghain Berlin)&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.musicTrack&lt;/upnp:class&gt;&lt;res size="84360000" duration="0:58:34.994" bitrate="192000" sampleFrequency="44100" nrAudioChannels="2" protocolInfo="http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01700000000000000000000000000000"&gt;http://192.168.0.3:8200/MediaItems/240.mp3&lt;/res&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;</Result>
+         <NumberReturned>1</NumberReturned>
+         <TotalMatches>1</TotalMatches>
+         <UpdateID>2</UpdateID>
+      </u:BrowseResponse>
+   </s:Body>
+</s:Envelope>
+)";
 // clang-format on
