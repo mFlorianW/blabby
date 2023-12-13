@@ -12,7 +12,10 @@
 
 namespace UPnPAV
 {
-
+class MediaServerObjectBuilder;
+/**
+ * A MediaServerObject is an item provided by @ref UPnPAV::MediaServer.
+ */
 class BLABBYUPNPAV_EXPORT MediaServerObject
 {
 public:
@@ -37,6 +40,7 @@ public:
     static QVector<MediaServerObject> createFromDidl(QString &didl) noexcept;
 
 private:
+    friend UPnPAV::MediaServerObjectBuilder;
     static std::optional<MediaServerObject> readDidlDesc(QXmlStreamReader &streamReader) noexcept;
     QString m_id;
     QString m_parentId;

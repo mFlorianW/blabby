@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MediaServerObject.hpp"
-
+#include "private/MediaServerObjectBuilder.hpp"
 #include <QDebug>
 #include <QXmlStreamReader>
 #include <utility>
@@ -89,22 +89,18 @@ QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noex
 
 std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReader &streamReader) noexcept
 {
-    QString title;
-    QString id;
-    QString parentId;
-    QString typeClass;
-
+    MediaServerObjectBuilder builder;
     // read container attributes
     auto attributes = streamReader.attributes();
     for (const auto &attribute : attributes)
     {
         if (attribute.name() == QStringLiteral("id"))
         {
-            id = attribute.value().toString();
+            builder.setId(attribute.value().toString());
         }
         else if (attribute.name() == QStringLiteral("parentID"))
         {
-            parentId = attribute.value().toString();
+            builder.setParentId(attribute.value().toString());
         }
     }
 
@@ -114,27 +110,21 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     {
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title"))
         {
-            title = streamReader.readElementText();
+            builder.setTitle(streamReader.readElementText());
         }
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class"))
         {
-            typeClass = streamReader.readElementText();
+            builder.setTypeClass(streamReader.readElementText());
         }
     }
 
-    if (title.isEmpty() or id.isEmpty() or parentId.isEmpty() or typeClass.isEmpty())
+    if (not builder.isValid())
     {
         return std::nullopt;
     }
 
-    auto msObj = MediaServerObject();
-    msObj.m_parentId = parentId;
-    msObj.m_id = id;
-    msObj.m_class = typeClass;
-    msObj.m_title = title;
-
-    return msObj;
+    return builder.build();
 }
 
 } // namespace UPnPAV
