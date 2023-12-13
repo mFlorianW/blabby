@@ -15,7 +15,7 @@ namespace UPnPAV
 void MediaServerObjectShould::return_The_ID_Set_In_The_Constructor()
 {
     QString expectedId = "1";
-    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setId("1").build();
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.withId("1").build();
 
     auto id = mediaServerObject.id();
 
@@ -25,7 +25,7 @@ void MediaServerObjectShould::return_The_ID_Set_In_The_Constructor()
 void MediaServerObjectShould::return_The_ParentId_Set_Passed_In_The_Constructor()
 {
     QString expectedParentId = "1";
-    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setParentId("1").build();
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.withParentId("1").build();
 
     auto parentId = mediaServerObject.parentId();
 
@@ -36,7 +36,7 @@ void MediaServerObjectShould::return_The_ParentId_Set_Passed_In_The_Constructor(
 void MediaServerObjectShould::return_the_Title_Passed_In_The_Constructor()
 {
     QString expectedTitle = "HelloTitle";
-    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setTitle("HelloTitle").build();
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.withTitle("HelloTitle").build();
 
     auto title = mediaServerObject.title();
 
@@ -46,7 +46,7 @@ void MediaServerObjectShould::return_the_Title_Passed_In_The_Constructor()
 void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
 {
     QString expectedTypeClass = "typeClass";
-    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.setTypeClass("typeClass").build();
+    MediaServerObject mediaServerObject = MediaServerObjectBuilder{}.withTypeClass("typeClass").build();
 
     auto typeClass = mediaServerObject.typeClass();
 
@@ -57,7 +57,7 @@ void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
 void MediaServerObjectShould::return_the_uri_of_a_playabe_item()
 {
     const auto exptectedUri = QStringLiteral("http://test.com/123.mp3");
-    const auto mediaServerObject = MediaServerObjectBuilder{}.setPlayUrl(exptectedUri).build();
+    const auto mediaServerObject = MediaServerObjectBuilder{}.withPlayUrl(exptectedUri).build();
 
     QCOMPARE(mediaServerObject.playUrl(), exptectedUri);
 }

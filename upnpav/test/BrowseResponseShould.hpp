@@ -23,6 +23,7 @@ private Q_SLOTS:
     void give_All_Container_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished();
     void give_All_Item_In_The_Result_Field_Of_The_Response_When_Call_Browse_DirectChildren_Finished();
     void parse_real_world_responses();
+    void parse_real_world_media_items();
 };
 
 } // namespace UPnPAV

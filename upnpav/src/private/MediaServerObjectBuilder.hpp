@@ -21,35 +21,35 @@ public:
      * @param id The ID of the @ref UPnPAV::MediaServerObject
      * @return Reference to the builder for chaining
      */
-    MediaServerObjectBuilder &setId(QString const &id) noexcept;
+    MediaServerObjectBuilder &withId(QString const &id) noexcept;
 
     /**
      * Sets the parent ID of the MediaObject
      * @param parentId The parent ID of the @ref UPnPAV::MediaServerObject
      * @return Reference to the builder for chaining
      */
-    MediaServerObjectBuilder &setParentId(QString const &parentId) noexcept;
+    MediaServerObjectBuilder &withParentId(QString const &parentId) noexcept;
 
     /**
      * Sets the titleof the MediaObject
      * @param id The title of the @ref UPnPAV::MediaServerObject
      * @return Reference to the builder for chaining
      */
-    MediaServerObjectBuilder &setTitle(QString const &title) noexcept;
+    MediaServerObjectBuilder &withTitle(QString const &title) noexcept;
 
     /**
      * Sets the type class of the MediaObject
      * @param id The type class of the @ref UPnPAV::MediaServerObject
      * @return Reference to the builder for chaining
      */
-    MediaServerObjectBuilder &setTypeClass(QString const &typeClass) noexcept;
+    MediaServerObjectBuilder &withTypeClass(QString const &typeClass) noexcept;
 
     /**
      * Sets the Id of the MediaObject
      * @param id The play URL of the @ref UPnPAV::MediaServerObject
      * @return Reference to the builder for chaining
      */
-    MediaServerObjectBuilder &setPlayUrl(QString const &playUrl) noexcept;
+    MediaServerObjectBuilder &withPlayUrl(QString const &playUrl) noexcept;
 
     /**
      * Checks if the required parameters are correctly set. This can be helpfull

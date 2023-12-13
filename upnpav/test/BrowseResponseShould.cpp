@@ -9,6 +9,7 @@
 #include "Descriptions.hpp"
 #include "MediaServerObject.hpp"
 #include "Response.hpp"
+#include "private/MediaServerObjectBuilder.hpp"
 #include <QTest>
 
 namespace UPnPAV
@@ -128,6 +129,23 @@ void BrowseResponseShould::parse_real_world_responses()
     auto objects = browseResult.objects();
 
     QCOMPARE(expectedObjects, objects);
+}
+
+void BrowseResponseShould::parse_real_world_media_items()
+{
+    auto response = QString{realWorldAudioItems};
+    auto browseResult = createBrowseResult(response);
+    auto expObj = MediaServerObjectBuilder{}
+                      .withTypeClass(QStringLiteral("object.item.audioItem.musicTrack"))
+                      .withId(QStringLiteral("1$14$2$6$0"))
+                      .withTitle(QStringLiteral("Techno Mix 2017 Part 2 (Berghain Berlin)"))
+                      .withParentId(QStringLiteral("1$14$2$6"))
+                      .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/240.mp3"))
+                      .build();
+
+    auto objects = browseResult.objects();
+    QCOMPARE(objects.size(), 1);
+    QCOMPARE(objects.at(0), expObj);
 }
 
 } // namespace UPnPAV

@@ -50,7 +50,7 @@ QString MediaServerObject::playUrl() const noexcept
 bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
 {
     return ((lhs.m_id == rhs.m_id) && (lhs.m_parentId == rhs.m_parentId) && (lhs.m_title == rhs.m_title) &&
-            (lhs.m_class == rhs.m_class));
+            (lhs.m_class == rhs.m_class) && (lhs.playUrl() == rhs.playUrl()));
 }
 
 bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
@@ -66,6 +66,7 @@ QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
     d.nospace().noquote() << "Parent ID:" << serverObject.parentId() << "\n";
     d.nospace().noquote() << "Title:" << serverObject.title() << "\n";
     d.nospace().noquote() << "Class:" << serverObject.typeClass() << "\n";
+    d.nospace().noquote() << "PlayUrl:" << serverObject.playUrl() << "\n";
 
     return d;
 }
@@ -73,6 +74,7 @@ QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
 QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noexcept
 {
     auto didlDesc = didl.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
+    qInfo().noquote() << didl;
     QXmlStreamReader didlReader{didlDesc};
     QVector<MediaServerObject> objects;
 
@@ -101,11 +103,11 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     {
         if (attribute.name() == QStringLiteral("id"))
         {
-            builder.setId(attribute.value().toString());
+            builder.withId(attribute.value().toString());
         }
         else if (attribute.name() == QStringLiteral("parentID"))
         {
-            builder.setParentId(attribute.value().toString());
+            builder.withParentId(attribute.value().toString());
         }
     }
 
@@ -115,12 +117,18 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     {
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title"))
         {
-            builder.setTitle(streamReader.readElementText());
+            builder.withTitle(streamReader.readElementText());
         }
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class"))
         {
-            builder.setTypeClass(streamReader.readElementText());
+            builder.withTypeClass(streamReader.readElementText());
+        }
+
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res"))
+        {
+            qInfo() << "fdsfsdfsdsdfsdf resss";
+            builder.withPlayUrl(streamReader.readElementText());
         }
     }
 
