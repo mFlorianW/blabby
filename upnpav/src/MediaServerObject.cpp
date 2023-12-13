@@ -42,6 +42,11 @@ QString MediaServerObject::typeClass() const noexcept
     return m_class;
 }
 
+QString MediaServerObject::playUrl() const noexcept
+{
+    return m_playUrl;
+}
+
 bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
 {
     return ((lhs.m_id == rhs.m_id) && (lhs.m_parentId == rhs.m_parentId) && (lhs.m_title == rhs.m_title) &&

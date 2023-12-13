@@ -27,6 +27,12 @@ MediaServerObjectBuilder &MediaServerObjectBuilder::setTypeClass(QString const &
     return *this;
 }
 
+MediaServerObjectBuilder &MediaServerObjectBuilder::setPlayUrl(QString const &playUrl) noexcept
+{
+    mObj.m_playUrl = playUrl;
+    return *this;
+}
+
 bool MediaServerObjectBuilder::isValid() const noexcept
 {
     return not mObj.m_id.isEmpty() and not mObj.m_parentId.isEmpty() and not mObj.m_title.isEmpty() and
