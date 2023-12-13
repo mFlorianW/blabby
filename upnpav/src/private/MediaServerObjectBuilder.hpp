@@ -45,6 +45,13 @@ public:
     MediaServerObjectBuilder &setTypeClass(QString const &typeClass) noexcept;
 
     /**
+     * Sets the Id of the MediaObject
+     * @param id The play URL of the @ref UPnPAV::MediaServerObject
+     * @return Reference to the builder for chaining
+     */
+    MediaServerObjectBuilder &setPlayUrl(QString const &playUrl) noexcept;
+
+    /**
      * Checks if the required parameters are correctly set. This can be helpfull
      * before calling build.
      */

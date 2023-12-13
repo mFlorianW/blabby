@@ -26,7 +26,12 @@ public:
     QString parentId() const noexcept;
     QString title() const noexcept;
     QString typeClass() const noexcept;
-    QString uri() const noexcept;
+
+    /**
+     * Gives the URL for playing the underlying object in @ref UPnPAV::MediaRenderer
+     * return The URL for playing the underlying object.
+     */
+    QString playUrl() const noexcept;
 
     BLABBYUPNPAV_EXPORT friend bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
     BLABBYUPNPAV_EXPORT friend bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
@@ -46,6 +51,7 @@ private:
     QString m_parentId;
     QString m_title;
     QString m_class;
+    QString m_playUrl;
 };
 
 BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);

@@ -20,8 +20,9 @@ private Q_SLOTS:
     void return_The_ParentId_Set_Passed_In_The_Constructor();
     void return_the_Title_Passed_In_The_Constructor();
     void return_The_TypeClass_Passed_In_The_Constructor();
+    void return_the_uri_of_a_playabe_item();
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // MEDIASERVEROBJECTSHOULD_H

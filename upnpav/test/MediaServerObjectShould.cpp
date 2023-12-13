@@ -54,6 +54,14 @@ void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
              QString{"Expected: %1 \nActual: %2"}.arg(expectedTypeClass, typeClass).toLocal8Bit());
 }
 
+void MediaServerObjectShould::return_the_uri_of_a_playabe_item()
+{
+    const auto exptectedUri = QStringLiteral("http://test.com/123.mp3");
+    const auto mediaServerObject = MediaServerObjectBuilder{}.setPlayUrl(exptectedUri).build();
+
+    QCOMPARE(mediaServerObject.playUrl(), exptectedUri);
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaServerObjectShould);
