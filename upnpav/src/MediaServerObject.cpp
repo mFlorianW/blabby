@@ -74,7 +74,6 @@ QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
 QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noexcept
 {
     auto didlDesc = didl.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
-    qInfo().noquote() << didl;
     QXmlStreamReader didlReader{didlDesc};
     QVector<MediaServerObject> objects;
 
