@@ -15,42 +15,47 @@ namespace UPnPAV
 MediaServerObject::MediaServerObject() = default;
 
 MediaServerObject::MediaServerObject(QString id, QString parentId, QString title, QString typeClass)
-    : m_id(std::move(id))
-    , m_parentId(std::move(parentId))
-    , m_title(std::move(title))
-    , m_class(std::move(typeClass))
+    : mId(std::move(id))
+    , mParentId(std::move(parentId))
+    , mTitle(std::move(title))
+    , mClass(std::move(typeClass))
 {
 }
 
 QString MediaServerObject::id() const noexcept
 {
-    return m_id;
+    return mId;
 }
 
 QString MediaServerObject::parentId() const noexcept
 {
-    return m_parentId;
+    return mParentId;
 }
 
 QString MediaServerObject::title() const noexcept
 {
-    return m_title;
+    return mTitle;
 }
 
 QString MediaServerObject::typeClass() const noexcept
 {
-    return m_class;
+    return mClass;
 }
 
 QString MediaServerObject::playUrl() const noexcept
 {
-    return m_playUrl;
+    return mPlayUrl;
+}
+QStringList MediaServerObject::supportedProtocols() const noexcept
+{
+    return mSupportedProtocols;
 }
 
 bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
 {
-    return ((lhs.m_id == rhs.m_id) && (lhs.m_parentId == rhs.m_parentId) && (lhs.m_title == rhs.m_title) &&
-            (lhs.m_class == rhs.m_class) && (lhs.playUrl() == rhs.playUrl()));
+    return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
+            (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
+            (lhs.supportedProtocols() == rhs.supportedProtocols()));
 }
 
 bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
@@ -67,6 +72,7 @@ QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
     d.nospace().noquote() << "Title:" << serverObject.title() << "\n";
     d.nospace().noquote() << "Class:" << serverObject.typeClass() << "\n";
     d.nospace().noquote() << "PlayUrl:" << serverObject.playUrl() << "\n";
+    d.nospace().noquote() << "SupportedProtocols:" << serverObject.supportedProtocols() << "\n";
 
     return d;
 }
@@ -126,7 +132,14 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res"))
         {
-            qInfo() << "fdsfsdfsdsdfsdf resss";
+            const auto attributes = streamReader.attributes();
+            for (auto const &attribute : attributes)
+            {
+                if (attribute.name() == QStringLiteral("protocolInfo"))
+                {
+                    builder.withSupportedProtocols(attribute.value().toString().split(":"));
+                }
+            }
             builder.withPlayUrl(streamReader.readElementText());
         }
     }
