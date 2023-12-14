@@ -26,6 +26,7 @@ public:
     QString parentId() const noexcept;
     QString title() const noexcept;
     QString typeClass() const noexcept;
+    QStringList supportedProtocols() const noexcept;
 
     /**
      * Gives the URL for playing the underlying object in @ref UPnPAV::MediaRenderer
@@ -47,11 +48,12 @@ public:
 private:
     friend UPnPAV::MediaServerObjectBuilder;
     static std::optional<MediaServerObject> readDidlDesc(QXmlStreamReader &streamReader) noexcept;
-    QString m_id;
-    QString m_parentId;
-    QString m_title;
-    QString m_class;
-    QString m_playUrl;
+    QString mId;
+    QString mParentId;
+    QString mTitle;
+    QString mClass;
+    QString mPlayUrl;
+    QStringList mSupportedProtocols;
 };
 
 BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);

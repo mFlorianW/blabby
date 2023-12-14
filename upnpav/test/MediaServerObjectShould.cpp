@@ -62,6 +62,14 @@ void MediaServerObjectShould::return_the_uri_of_a_playabe_item()
     QCOMPARE(mediaServerObject.playUrl(), exptectedUri);
 }
 
+void MediaServerObjectShould::return_the_supported_protocols()
+{
+    const auto expProtocols = QStringList(QStringLiteral("http-get:*:audio/mpeg"));
+    const auto mediaServerObject = MediaServerObjectBuilder{}.withSupportedProtocols(expProtocols).build();
+
+    QCOMPARE(mediaServerObject.supportedProtocols(), expProtocols);
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaServerObjectShould);
