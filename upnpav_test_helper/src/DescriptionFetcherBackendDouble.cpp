@@ -22,8 +22,7 @@ void DescriptionFetcherBackendDouble::fetchDescription(const QUrl &url)
     lastDescriptionRequest = url;
 
     // The service provider requests the scpd, so we sent him.
-    if (url.toString() == "http://127.0.0.1/test/serviceId1.xml")
-    {
+    if (url.toString() == "http://127.0.0.1/test/serviceId1.xml") {
         auto file = QFile{":/xml/ServiceControlPointDefinition.xml"};
         file.open(QIODevice::ReadOnly);
         QString xml = file.readAll();

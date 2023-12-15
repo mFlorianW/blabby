@@ -37,8 +37,7 @@ void TestProvider::createNewSource() noexcept
 
 void TestProvider::removeLastSource() noexcept
 {
-    if (not mSources.isEmpty())
-    {
+    if (not mSources.isEmpty()) {
         auto srcRemoved = mSources.at(mSources.size() - 1);
         mSources.removeLast();
         Q_EMIT sourceRemoved(srcRemoved);

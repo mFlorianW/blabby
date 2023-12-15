@@ -19,12 +19,9 @@ GetMediaInfoResponse::GetMediaInfoResponse(QString rawMsg, ServiceControlPointDe
                      &reader,
                      [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("NrTracks") && ok)
-                         {
+                         if (elementName == QStringLiteral("NrTracks") && ok) {
                              d->mNumberOfTracks = value;
-                         }
-                         else if (!ok)
-                         {
+                         } else if (!ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
@@ -34,48 +31,30 @@ GetMediaInfoResponse::GetMediaInfoResponse(QString rawMsg, ServiceControlPointDe
                      &reader,
                      [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("MediaDuration") && ok)
-                         {
+                         if (elementName == QStringLiteral("MediaDuration") && ok) {
                              d->mMediaDuration = QTime::fromString(value, "hh:mm:ss.zzz");
-                         }
-                         else if (elementName == QStringLiteral("CurrentURI") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("CurrentURI") && ok) {
                              d->mCurrentUri = value;
-                         }
-                         else if (elementName == QStringLiteral("CurrentURIMetaData") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("CurrentURIMetaData") && ok) {
                              d->mCurrentMetaData = value;
-                         }
-                         else if (elementName == QStringLiteral("NextURI") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("NextURI") && ok) {
                              d->mNextUri = value;
-                         }
-                         else if (elementName == QStringLiteral("NextURIMetaData") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("NextURIMetaData") && ok) {
                              d->mNextUriMetaData = value;
-                         }
-                         else if (elementName == QStringLiteral("PlayMedium") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("PlayMedium") && ok) {
                              d->mPlayMedium = value;
-                         }
-                         else if (elementName == QStringLiteral("RecordMedium") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("RecordMedium") && ok) {
                              d->mRecordMedium = value;
-                         }
-                         else if (elementName == QStringLiteral("WriteStatus") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("WriteStatus") && ok) {
                              d->mWriteStatus = value;
-                         }
-                         else if (!ok)
-                         {
+                         } else if (!ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
                      });
 
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
     }
@@ -88,8 +67,7 @@ quint32 GetMediaInfoResponse::numberOfTracks() const noexcept
 
 std::optional<QTime> GetMediaInfoResponse::mediaDuration() const noexcept
 {
-    if (d->mMediaDuration.has_value() && d->mMediaDuration.value_or(QTime{}).isValid())
-    {
+    if (d->mMediaDuration.has_value() && d->mMediaDuration.value_or(QTime{}).isValid()) {
         return d->mMediaDuration;
     }
 

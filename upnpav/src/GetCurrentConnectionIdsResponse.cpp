@@ -21,35 +21,25 @@ GetCurrentConnectionIdsResponse::GetCurrentConnectionIdsResponse(QString xmlResp
                      &reader,
                      [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
                          if (elementName == QStringLiteral("ConnectionIDs") and
-                             result == ResponseReader::ElementReadResult::Ok)
-                         {
+                             result == ResponseReader::ElementReadResult::Ok) {
                              const auto idList = value.split(",");
-                             for (auto const &rawId : std::as_const(idList))
-                             {
+                             for (auto const &rawId : std::as_const(idList)) {
                                  bool ok = false;
                                  const auto id = rawId.toInt(&ok, 10);
-                                 if (ok)
-                                 {
+                                 if (ok) {
                                      mConnectionIds.push_back(id);
-                                 }
-                                 else
-                                 {
+                                 } else {
                                      qCritical() << "Failed to convert connection id " << rawId << rawId;
                                  }
                              }
-                         }
-                         else if (result == ResponseReader::ElementReadResult::ConversionError)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::ConversionError) {
                              qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::Error)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::Error) {
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
     }

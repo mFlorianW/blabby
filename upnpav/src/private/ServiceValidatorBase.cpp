@@ -29,8 +29,7 @@ ServiceControlPointDefinition ServiceValidatorBase::scpd() const noexcept
 bool ServiceValidatorBase::hasService()
 {
     auto serviceDescription = m_deviceDescription.service(m_serviceType);
-    if (!serviceDescription)
-    {
+    if (!serviceDescription) {
         m_errorMessage = QString{m_serviceName + " description not found."};
         return false;
     }
@@ -43,8 +42,7 @@ bool ServiceValidatorBase::validateServiceDescription()
 {
     ServiceDescriptionValidator serviceDescriptionValidator{m_serviceName, m_serviceDescription};
 
-    if (!serviceDescriptionValidator.validate())
-    {
+    if (!serviceDescriptionValidator.validate()) {
         m_errorMessage = serviceDescriptionValidator.errorMessage();
         return false;
     }
@@ -55,8 +53,7 @@ bool ServiceValidatorBase::validateServiceDescription()
 bool ServiceValidatorBase::hasSCPD()
 {
     auto scpdConnectionManager = m_deviceDescription.scpd(m_serviceDescription.scpdUrl());
-    if (!scpdConnectionManager)
-    {
+    if (!scpdConnectionManager) {
         m_errorMessage = QString{"ConnectionManager SCPD not found."};
         return false;
     }
@@ -69,8 +66,7 @@ bool ServiceValidatorBase::validateStateVariables()
 {
     ScpdStateVariableValidator stateVariableValidator{m_serviceName, m_serviceControlPointDefinition, m_stateVariables};
 
-    if (!stateVariableValidator.validate())
-    {
+    if (!stateVariableValidator.validate()) {
         m_errorMessage = stateVariableValidator.errorMessage();
         return false;
     }
@@ -82,8 +78,7 @@ bool ServiceValidatorBase::validateActions()
 {
     ScpdActionListValidator actionVariableValidator{m_serviceName, m_serviceControlPointDefinition, m_actions};
 
-    if (!actionVariableValidator.validate())
-    {
+    if (!actionVariableValidator.validate()) {
         m_errorMessage = actionVariableValidator.errorMessage();
         return false;
     }

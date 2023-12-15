@@ -15,8 +15,7 @@ MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapMessageT
     : MediaDevice{desc, msgTransmitter}
 {
     auto validator = RenderingControlServiceValidator{desc};
-    if (!validator.validate())
-    {
+    if (!validator.validate()) {
         throw InvalidDeviceDescription(validator.errorMessage());
     }
 }

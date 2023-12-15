@@ -1,5 +1,21 @@
 ﻿---
 BasedOnStyle: Microsoft
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterNamespace: true
+  AfterStruct: true
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: Never
+  AfterEnum: true
+  AfterFunction: true
+  AfterObjCDeclaration: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: 'false'
 AlignConsecutiveAssignments: 'false'

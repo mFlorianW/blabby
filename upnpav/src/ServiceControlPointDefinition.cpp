@@ -24,10 +24,8 @@ const QString &ServiceControlPointDefinition::scpdUrl() const
 
 bool ServiceControlPointDefinition::hasStateVariable(const QString &stateVariableName) const noexcept
 {
-    for (const auto &variable : std::as_const(d->mStateVariables))
-    {
-        if (variable.name() == stateVariableName)
-        {
+    for (const auto &variable : std::as_const(d->mStateVariables)) {
+        if (variable.name() == stateVariableName) {
             return true;
         }
     }
@@ -47,10 +45,8 @@ const QVector<SCPDAction> &ServiceControlPointDefinition::actionList() const
 
 SCPDAction ServiceControlPointDefinition::action(const QString &actionName) const noexcept
 {
-    for (const auto &action : std::as_const(d->mActions))
-    {
-        if (action.name() == actionName)
-        {
+    for (const auto &action : std::as_const(d->mActions)) {
+        if (action.name() == actionName) {
             return action;
         }
     }
@@ -60,8 +56,7 @@ SCPDAction ServiceControlPointDefinition::action(const QString &actionName) cons
 
 bool operator==(const ServiceControlPointDefinition &lhs, const ServiceControlPointDefinition &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

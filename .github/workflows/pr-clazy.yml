@@ -35,7 +35,7 @@ jobs:
         cmake --build --preset github-ci-debug
     - name: Clazy-Standalone
       run: |
-        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true
+        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -E "(.*)\.(h|cpp|hpp)$") || true
         if [[ ! -z ${files} ]]; then
           clazy-standalone -p build-github-ci-debug --ignore-included-files --export-fixes=clazy-fixes.yml ${files} 2>&1 | tee clazy.log
         else

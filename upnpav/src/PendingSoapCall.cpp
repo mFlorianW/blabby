@@ -41,15 +41,12 @@ void PendingSoapCall::onSoapCallFinished()
 {
     m_rawMessage = m_soapCall->rawMessage();
 
-    if (!m_soapCall->hasFinishedSuccesful())
-    {
+    if (!m_soapCall->hasFinishedSuccesful()) {
         ErrorResult errorResult{m_rawMessage};
         m_errorState = true;
         m_errorCode = convertErrorCode(errorResult.errorCode());
         m_errorDescription = errorResult.errorDescription();
-    }
-    else
-    {
+    } else {
         m_errorCode = ErrorCode::NoError;
     }
 
@@ -58,8 +55,7 @@ void PendingSoapCall::onSoapCallFinished()
 
 PendingSoapCall::ErrorCode PendingSoapCall::convertErrorCode(qint32 errorCode)
 {
-    switch (errorCode)
-    {
+    switch (errorCode) {
     case ErrorCode::NoError:
         return ErrorCode::NoError;
     case ErrorCode::InvalidAction:

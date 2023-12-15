@@ -20,12 +20,9 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
                      &reader,
                      [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("Track") && ok)
-                         {
+                         if (elementName == QStringLiteral("Track") && ok) {
                              d->mTrack = value;
-                         }
-                         else if (!ok)
-                         {
+                         } else if (!ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
@@ -36,31 +33,22 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
         &reader,
         [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
             const auto ok = result == ResponseReader::ElementReadResult::Ok;
-            if (elementName == QStringLiteral("TrackDuration") && ok)
-            {
+            if (elementName == QStringLiteral("TrackDuration") && ok) {
                 auto time = QTime::fromString(value, "h:m:s.z");
                 d->mTrackDuration = time.isValid() ? time : QTime{0, 0, 0, 0};
-            }
-            else if (elementName == QStringLiteral("TrackMetaData") && ok)
-            {
+            } else if (elementName == QStringLiteral("TrackMetaData") && ok) {
                 d->mTrackMetaData = value;
-            }
-            else if (elementName == QStringLiteral("TrackURI") && ok)
-            {
+            } else if (elementName == QStringLiteral("TrackURI") && ok) {
                 d->mTrackUri = value;
             }
-            if (elementName == QStringLiteral("RelTime") && value != QStringLiteral("NOT_IMPLEMENTED") && ok)
-            {
+            if (elementName == QStringLiteral("RelTime") && value != QStringLiteral("NOT_IMPLEMENTED") && ok) {
                 const auto time = converToTime(value);
                 d->mRelTime = time.isValid() ? time : QTime{0, 0, 0, 0};
             }
-            if (elementName == QStringLiteral("AbsTime") && value != QStringLiteral("NOT_IMPLEMENTED") && ok)
-            {
+            if (elementName == QStringLiteral("AbsTime") && value != QStringLiteral("NOT_IMPLEMENTED") && ok) {
                 const auto time = converToTime(value);
                 d->mAbsTime = time.isValid() ? time : QTime{0, 0, 0, 0};
-            }
-            else if (!ok)
-            {
+            } else if (!ok) {
                 qCCritical(upnpavDevice) << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
             }
         });
@@ -69,23 +57,18 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
                      &reader,
                      [&](QString const &elementName, qint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("RelCount") && ok)
-                         {
+                         if (elementName == QStringLiteral("RelCount") && ok) {
                              d->mRelCount = value;
                          }
-                         if (elementName == QStringLiteral("AbsCount") && ok)
-                         {
+                         if (elementName == QStringLiteral("AbsCount") && ok) {
                              d->mAbsCount = value;
-                         }
-                         else if (!ok)
-                         {
+                         } else if (!ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
                      });
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
     }

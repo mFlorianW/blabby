@@ -37,8 +37,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
     ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};
-    if (!conDirectoryServiceValidator.validate())
-    {
+    if (!conDirectoryServiceValidator.validate()) {
         throw InvalidDeviceDescription{conDirectoryServiceValidator.errorMessage()};
     }
 

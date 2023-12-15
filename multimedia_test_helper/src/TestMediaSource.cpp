@@ -41,20 +41,13 @@ TestMediaSource::~TestMediaSource() = default;
 void TestMediaSource::navigateTo(QString const &path) noexcept
 {
     mLastNavigationPath = path;
-    if (path == QStringLiteral("0"))
-    {
+    if (path == QStringLiteral("0")) {
         mMediaItems = mItems[QStringLiteral("0")];
-    }
-    else if (path == QStringLiteral("1"))
-    {
+    } else if (path == QStringLiteral("1")) {
         mMediaItems = mItems[QStringLiteral("1")];
-    }
-    else if (path == QStringLiteral("2"))
-    {
+    } else if (path == QStringLiteral("2")) {
         mMediaItems = mItems[QStringLiteral("2")];
-    }
-    else
-    {
+    } else {
         qCCritical(testMediaSource) << "Path not found. Error: Invalied Path" << path << "passed";
     }
     Q_EMIT navigationFinished(path);

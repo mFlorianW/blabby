@@ -20,28 +20,22 @@ GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawM
                      &reader,
                      [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
                          const bool ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("PlayMedia") && ok)
-                         {
+                         if (elementName == QStringLiteral("PlayMedia") && ok) {
                              d->mPlayMedia = value.remove(" ").split(",");
                          }
-                         if (elementName == QStringLiteral("RecMedia") && ok)
-                         {
+                         if (elementName == QStringLiteral("RecMedia") && ok) {
                              d->mRecMedia = value.remove(" ").split(",");
                          }
-                         if (elementName == QStringLiteral("RecQualityModes") && ok)
-                         {
+                         if (elementName == QStringLiteral("RecQualityModes") && ok) {
                              d->mRecQModes = value.remove(" ").split(",");
-                         }
-                         else if (not ok)
-                         {
+                         } else if (not ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read element" << elementName << "Error:" << static_cast<qint32>(result);
                          }
                      });
 
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetDeviceCapabilities response Error:"
                                  << static_cast<qint32>(result) << "Response:" << rawMsg;
         return;

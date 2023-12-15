@@ -22,46 +22,29 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
                      &resultReader,
                      [&](QString const &elementName, QString const &value, ResponseReader::ElementReadResult result) {
                          const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("Direction") and conversionOk)
-                         {
+                         if (elementName == QStringLiteral("Direction") and conversionOk) {
                              const auto direction = convertDirection(value);
-                             if (direction.has_value())
-                             {
+                             if (direction.has_value()) {
                                  mConnectionInfo.direction = direction.value();
-                             }
-                             else
-                             {
+                             } else {
                                  qCCritical(upnpavDevice) << "Failed to read Direction. Set to Input.";
                                  mConnectionInfo.direction = ConnectionInfoDirection::Unknown;
                              }
-                         }
-                         else if (elementName == QStringLiteral("ProtocolInfo") and conversionOk)
-                         {
+                         } else if (elementName == QStringLiteral("ProtocolInfo") and conversionOk) {
                              mConnectionInfo.protoclInfo = value;
-                         }
-                         else if (elementName == QStringLiteral("PeerConnectionManager") and conversionOk)
-                         {
+                         } else if (elementName == QStringLiteral("PeerConnectionManager") and conversionOk) {
                              mConnectionInfo.peerConnectionManager = value;
-                         }
-                         else if (elementName == QStringLiteral("Status") and conversionOk)
-                         {
+                         } else if (elementName == QStringLiteral("Status") and conversionOk) {
                              const auto status = convertStatus(value);
-                             if (status.has_value())
-                             {
+                             if (status.has_value()) {
                                  mConnectionInfo.status = status.value();
-                             }
-                             else
-                             {
+                             } else {
                                  qCCritical(upnpavDevice) << "Failed to read Status Element. Set to unknown.";
                                  mConnectionInfo.status = ConnectionInfoStatus::Unknown;
                              }
-                         }
-                         else if (result == ResponseReader::ElementReadResult::ConversionError)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::ConversionError) {
                              qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::Error)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::Error) {
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
@@ -70,30 +53,20 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
                      &resultReader,
                      [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("RcsID") and conversionOk)
-                         {
+                         if (elementName == QStringLiteral("RcsID") and conversionOk) {
                              mConnectionInfo.rcsId = value;
-                         }
-                         else if (elementName == QStringLiteral("AVTransportID") and conversionOk)
-                         {
+                         } else if (elementName == QStringLiteral("AVTransportID") and conversionOk) {
                              mConnectionInfo.avTransportId = value;
-                         }
-                         else if (elementName == QStringLiteral("PeerConnectionID") and conversionOk)
-                         {
+                         } else if (elementName == QStringLiteral("PeerConnectionID") and conversionOk) {
                              mConnectionInfo.peerConnectionId = value;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::ConversionError)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::ConversionError) {
                              qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::Error)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::Error) {
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
     const auto result = resultReader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCritical() << "Failed to read GetCurrentConnectionInfo. Response was:" << resultReader.response();
         return;
     }
@@ -110,8 +83,7 @@ std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString
 {
     bool ok = false;
     const auto value = rawValue.toUInt(&ok);
-    if (!ok)
-    {
+    if (!ok) {
         return std::nullopt;
     }
 
@@ -121,12 +93,9 @@ std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString
 std::optional<ConnectionInfoDirection> GetCurrentConnectionInfoResponse::convertDirection(
     QString const &rawValue) noexcept
 {
-    if (rawValue == QStringLiteral("Input"))
-    {
+    if (rawValue == QStringLiteral("Input")) {
         return ConnectionInfoDirection::Input;
-    }
-    else if (rawValue == QStringLiteral("Output"))
-    {
+    } else if (rawValue == QStringLiteral("Output")) {
         return ConnectionInfoDirection::Output;
     }
 
@@ -135,24 +104,15 @@ std::optional<ConnectionInfoDirection> GetCurrentConnectionInfoResponse::convert
 
 std::optional<ConnectionInfoStatus> GetCurrentConnectionInfoResponse::convertStatus(QString const &rawValue) noexcept
 {
-    if (rawValue == QStringLiteral("OK"))
-    {
+    if (rawValue == QStringLiteral("OK")) {
         return ConnectionInfoStatus::OK;
-    }
-    else if (rawValue == QStringLiteral("Unknown"))
-    {
+    } else if (rawValue == QStringLiteral("Unknown")) {
         return ConnectionInfoStatus::Unknown;
-    }
-    else if (rawValue == QStringLiteral("ContentFormatMismatch"))
-    {
+    } else if (rawValue == QStringLiteral("ContentFormatMismatch")) {
         return ConnectionInfoStatus::ContentFormatMismatch;
-    }
-    else if (rawValue == QStringLiteral("InsufficientBandwidth"))
-    {
+    } else if (rawValue == QStringLiteral("InsufficientBandwidth")) {
         return ConnectionInfoStatus::InsufficientBandwidth;
-    }
-    else if (rawValue == QStringLiteral("UnreliableChannel"))
-    {
+    } else if (rawValue == QStringLiteral("UnreliableChannel")) {
         return ConnectionInfoStatus::UnreliableChannel;
     }
 

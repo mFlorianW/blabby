@@ -35,7 +35,7 @@ jobs:
         cmake --build --preset github-ci-debug --target all -- -j
     - name: Static Code Analysis
       run: |
-        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -e ".*.h$" -e ".*.hpp$" -e ".*.cpp$") || true
+        files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -E "(.*)\.(h|cpp|hpp)$") || true
         if [[ ! -z ${files} ]]; then
           clang-tidy -p build-github-ci-debug --export-fixes=clang-tidy-fixes.yml ${files}
         else

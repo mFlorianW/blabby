@@ -78,8 +78,7 @@ void ServiceProvider::handleByeByePackage(const ServiceDiscoveryPackage &package
 void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
 {
     // We already know the device we can ignore the message.
-    if (m_knownDevices.contains(package.deviceId()))
-    {
+    if (m_knownDevices.contains(package.deviceId())) {
         return;
     }
 
@@ -90,8 +89,7 @@ void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
 
 void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &datagram)
 {
-    if (datagram.data().isEmpty())
-    {
+    if (datagram.data().isEmpty()) {
         QString errorMessage = QString{"Received empty ssdp message from %1:%2"}
                                    .arg(datagram.senderAddress().toString())
                                    .arg(datagram.senderPort());
@@ -100,28 +98,23 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
         return;
     }
 
-    try
-    {
+    try {
         ServiceDiscoveryPackage package{datagram.data()};
 
         if ((package.notificationSubType() == ServiceDiscoveryPackage::ByeBye) &&
-            m_knownDevices.contains(package.deviceId()))
-        {
+            m_knownDevices.contains(package.deviceId())) {
             handleByeByePackage(package);
             return;
         }
 
-        if ((package.notificationSubType() == ServiceDiscoveryPackage::Notify) && (!validateDestination(datagram)))
-        {
+        if ((package.notificationSubType() == ServiceDiscoveryPackage::Notify) && (!validateDestination(datagram))) {
             Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::WrongDestination,
                                               "Received package with wrong destination."});
             return;
         }
 
         handlePackage(package);
-    }
-    catch (const PackageParseError &e)
-    {
+    } catch (const PackageParseError &e) {
         // TODO: Use category logging for details
         QString errorMessage = QString{"Received malformd SSDP message from %1:%2"}
                                    .arg(datagram.senderAddress().toString())
@@ -133,29 +126,22 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
 
 void ServiceProvider::handleFetchedDescription(const QString &description, const QUrl &url)
 {
-    if (m_pendingDeviceDescription.contains(url))
-    {
+    if (m_pendingDeviceDescription.contains(url)) {
         handleFetchedDeviceDescription(description, url);
-    }
-    else
-    {
+    } else {
         handleFetchSCPDDescription(description, url);
     }
 }
 
 void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &deviceDescription)
 {
-    if (deviceDescription.services().isEmpty())
-    {
+    if (deviceDescription.services().isEmpty()) {
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
         Q_EMIT serviceConnected(deviceDescription.udn());
-    }
-    else
-    {
+    } else {
         // request all scpds
         auto tempDeviceDescription = TempDeviceDescription{};
-        for (const auto &serviceDescription : deviceDescription.services())
-        {
+        for (const auto &serviceDescription : deviceDescription.services()) {
             tempDeviceDescription.udn = deviceDescription.udn();
             tempDeviceDescription.deviceDescriptions = deviceDescription;
             tempDeviceDescription.pendingSCPDS.append(serviceDescription.scpdUrl());
@@ -171,22 +157,17 @@ void ServiceProvider::handleFetchedDeviceDescription(const QString &deviceDescri
     m_pendingDeviceDescription.removeAll(url);
 
     auto deviceReader = DeviceDescriptionParser(url);
-    try
-    {
+    try {
         deviceReader.readDeviceDescription(deviceDescription);
-    }
-    catch (const ParsingError &e)
-    {
+    } catch (const ParsingError &e) {
         Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
                                           QString("Received XML from %1 is not well formed").arg(url.toString())});
         return;
     }
 
     auto devices = deviceReader.physicalDeviceDescription();
-    for (const auto &parsedDeviceDescription : devices)
-    {
-        if (parsedDeviceDescription.deviceType() == m_searchTarget)
-        {
+    for (const auto &parsedDeviceDescription : devices) {
+        if (parsedDeviceDescription.deviceType() == m_searchTarget) {
             handleparsedDeviceDescription(parsedDeviceDescription);
         }
     }
@@ -196,27 +177,21 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
 {
     // TODO: Maybe replace with std::find_if
     auto foundIter = m_tempDeviceDescriptions.end();
-    for (auto iter = m_tempDeviceDescriptions.begin(); iter != m_tempDeviceDescriptions.end(); ++iter)
-    {
-        if (iter.value().pendingSCPDS.contains(url.toString()))
-        {
+    for (auto iter = m_tempDeviceDescriptions.begin(); iter != m_tempDeviceDescriptions.end(); ++iter) {
+        if (iter.value().pendingSCPDS.contains(url.toString())) {
             foundIter = iter;
             break;
         }
     }
 
-    if (foundIter == m_tempDeviceDescriptions.end())
-    {
+    if (foundIter == m_tempDeviceDescriptions.end()) {
         return;
     }
 
     ServiceControlPointDefinitionParser scpdParser{url.toString()};
-    try
-    {
+    try {
         scpdParser.parseServiceControlPointDefinition(scpdDescription);
-    }
-    catch (const ParsingError &e)
-    {
+    } catch (const ParsingError &e) {
         Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
                                           QString("Received XML from %1 is not well formed").arg(url.toString())});
         return;
@@ -224,8 +199,7 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
 
     foundIter.value().pendingSCPDS.removeAll(url.toString());
     foundIter.value().scpds.append(scpdParser.serviceControlPointDefinition());
-    if (foundIter.value().pendingSCPDS.isEmpty())
-    {
+    if (foundIter.value().pendingSCPDS.isEmpty()) {
         DeviceDescription deviceDescription{foundIter.value().deviceDescriptions.deviceType(),
                                             foundIter.value().deviceDescriptions.friendlyName(),
                                             foundIter.value().deviceDescriptions.manufacturer(),

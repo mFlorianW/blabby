@@ -16,16 +16,12 @@ MediaSourceModel::MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> p
     Q_ASSERT(mProviderLoader != nullptr);
     mProviders = mProviderLoader->load({QStringLiteral(DEFAULT_PROVIDER_DIR)});
     beginResetModel();
-    for (auto const &provider : std::as_const(mProviders))
-    {
+    for (auto const &provider : std::as_const(mProviders)) {
         connect(provider.get(), &Multimedia::Provider::sourceAdded, this, &MediaSourceModel::onSourceAdded);
         connect(provider.get(), &Multimedia::Provider::sourceRemoved, this, &MediaSourceModel::onSourceRemoved);
-        if (provider->init())
-        {
+        if (provider->init()) {
             mSources.append(provider->sources());
-        }
-        else
-        {
+        } else {
             disconnect(provider.get());
         }
     }
@@ -51,8 +47,7 @@ QHash<int, QByteArray> MediaSourceModel::roleNames() const noexcept
 
 QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexcept
 {
-    if (not index.isValid() or (index.row() >= mSources.size()))
-    {
+    if (not index.isValid() or (index.row() >= mSources.size())) {
         qCritical(shell) << "Failed to request data. Error: invalid index:" << index.row()
                          << "Source size:" << mSources.size();
         return {};
@@ -60,12 +55,9 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
 
     const auto item = mSources.at(index.row());
     const auto dispRole = static_cast<DisplayRole>(role);
-    if (dispRole == DisplayRole::MediaSourceName)
-    {
+    if (dispRole == DisplayRole::MediaSourceName) {
         return item->sourceName();
-    }
-    else if (dispRole == DisplayRole::MediaSourceIocnUrl)
-    {
+    } else if (dispRole == DisplayRole::MediaSourceIocnUrl) {
         return item->iconUrl();
     }
 
@@ -74,8 +66,7 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
 
 void MediaSourceModel::activateMediaSource(qsizetype idx)
 {
-    if (idx >= mSources.size())
-    {
+    if (idx >= mSources.size()) {
         qCCritical(shell) << "Failed to activate MediaSource. Error: invalid index passed";
         return;
     }
@@ -102,8 +93,7 @@ void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::MediaSource> 
     auto sourceIndex = std::find_if(mSources.cbegin(),
                                     mSources.cend(),
                                     [&](std::shared_ptr<Multimedia::MediaSource> const &src) { return src == source; });
-    if (sourceIndex != mSources.cend())
-    {
+    if (sourceIndex != mSources.cend()) {
         const auto idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);
         mSources.remove(static_cast<int>(idx));

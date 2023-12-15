@@ -64,10 +64,8 @@ const QString &DeviceDescription::udn() const noexcept
 
 std::optional<ServiceDescription> DeviceDescription::service(const QString &serviceName) const noexcept
 {
-    for (const auto &serviceDesc : m_services)
-    {
-        if (serviceDesc.serviceType().contains(serviceName))
-        {
+    for (const auto &serviceDesc : m_services) {
+        if (serviceDesc.serviceType().contains(serviceName)) {
             return std::optional<ServiceDescription>{serviceDesc};
         }
     }
@@ -87,10 +85,8 @@ const QVector<ServiceControlPointDefinition> &DeviceDescription::scpds() const n
 
 std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QString &scpdUrl) const noexcept
 {
-    for (const auto &scpd : m_scpds)
-    {
-        if (scpd.scpdUrl() == scpdUrl)
-        {
+    for (const auto &scpd : m_scpds) {
+        if (scpd.scpdUrl() == scpdUrl) {
             return scpd;
         }
     }
@@ -100,8 +96,7 @@ std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QStri
 
 bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

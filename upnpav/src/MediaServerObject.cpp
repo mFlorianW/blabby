@@ -83,15 +83,12 @@ QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noex
     QXmlStreamReader didlReader{didlDesc};
     QVector<MediaServerObject> objects;
 
-    while (!didlReader.hasError() && !didlReader.atEnd())
-    {
+    while (!didlReader.hasError() && !didlReader.atEnd()) {
         didlReader.readNextStartElement();
         if (didlReader.isStartElement() &&
-            (didlReader.name() == QStringLiteral("container") || didlReader.name() == QStringLiteral("item")))
-        {
+            (didlReader.name() == QStringLiteral("container") || didlReader.name() == QStringLiteral("item"))) {
             auto mediaServerObject = readDidlDesc(didlReader);
-            if (mediaServerObject.has_value())
-            {
+            if (mediaServerObject.has_value()) {
                 objects.append(mediaServerObject.value());
             }
         }
@@ -104,39 +101,29 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     MediaServerObjectBuilder builder;
     // read container attributes
     auto attributes = streamReader.attributes();
-    for (const auto &attribute : attributes)
-    {
-        if (attribute.name() == QStringLiteral("id"))
-        {
+    for (const auto &attribute : attributes) {
+        if (attribute.name() == QStringLiteral("id")) {
             builder.withId(attribute.value().toString());
-        }
-        else if (attribute.name() == QStringLiteral("parentID"))
-        {
+        } else if (attribute.name() == QStringLiteral("parentID")) {
             builder.withParentId(attribute.value().toString());
         }
     }
 
     while (streamReader.readNext() && !streamReader.hasError() && !streamReader.atEnd() &&
-           !(streamReader.isEndElement() &&
-             ((streamReader.name() == QStringLiteral("container")) || (streamReader.name() == QStringLiteral("item")))))
-    {
-        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title"))
-        {
+           !(streamReader.isEndElement() && ((streamReader.name() == QStringLiteral("container")) ||
+                                             (streamReader.name() == QStringLiteral("item"))))) {
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("title")) {
             builder.withTitle(streamReader.readElementText());
         }
 
-        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class"))
-        {
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("class")) {
             builder.withTypeClass(streamReader.readElementText());
         }
 
-        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res"))
-        {
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res")) {
             const auto attributes = streamReader.attributes();
-            for (auto const &attribute : attributes)
-            {
-                if (attribute.name() == QStringLiteral("protocolInfo"))
-                {
+            for (auto const &attribute : attributes) {
+                if (attribute.name() == QStringLiteral("protocolInfo")) {
                     builder.withSupportedProtocols(attribute.value().toString().split(":"));
                 }
             }
@@ -144,8 +131,7 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
         }
     }
 
-    if (not builder.isValid())
-    {
+    if (not builder.isValid()) {
         return std::nullopt;
     }
 

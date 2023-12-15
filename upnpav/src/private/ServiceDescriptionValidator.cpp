@@ -18,26 +18,22 @@ ServiceDescriptionValidator::ServiceDescriptionValidator(QString descriptionName
 
 bool ServiceDescriptionValidator::validate() noexcept
 {
-    if (m_serviceDescription.eventUrl().isEmpty())
-    {
+    if (m_serviceDescription.eventUrl().isEmpty()) {
         m_errorMessage = QString{m_descriptionName + " event URL is not set."};
         return false;
     }
 
-    if (m_serviceDescription.controlUrl().isEmpty())
-    {
+    if (m_serviceDescription.controlUrl().isEmpty()) {
         m_errorMessage = QString{m_descriptionName + " control URL is not set."};
         return false;
     }
 
-    if (m_serviceDescription.id().isEmpty())
-    {
+    if (m_serviceDescription.id().isEmpty()) {
         m_errorMessage = QString{m_descriptionName + " service ID is not set."};
         return false;
     }
 
-    if (m_serviceDescription.scpdUrl().isEmpty())
-    {
+    if (m_serviceDescription.scpdUrl().isEmpty()) {
         m_errorMessage = QString{m_descriptionName + " SCPD URL is not set."};
         return false;
     }

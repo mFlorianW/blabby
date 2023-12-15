@@ -19,24 +19,15 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
                      &reader,
                      [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          bool conversionCorrect = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("NumberReturned") and conversionCorrect)
-                         {
+                         if (elementName == QStringLiteral("NumberReturned") and conversionCorrect) {
                              mNumberReturned = value;
-                         }
-                         else if (elementName == QStringLiteral("TotalMatches") and conversionCorrect)
-                         {
+                         } else if (elementName == QStringLiteral("TotalMatches") and conversionCorrect) {
                              mTotalMatches = value;
-                         }
-                         else if (elementName == QStringLiteral("UpdateID") and conversionCorrect)
-                         {
+                         } else if (elementName == QStringLiteral("UpdateID") and conversionCorrect) {
                              mUpdateId = value;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::ConversionError)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::ConversionError) {
                              qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::Error)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::Error) {
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
@@ -46,23 +37,17 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
                      &reader,
                      [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
                          if (elementName == QStringLiteral("Result") and
-                             result == ResponseReader::ElementReadResult::Ok)
-                         {
+                             result == ResponseReader::ElementReadResult::Ok) {
                              m_objects = MediaServerObject::createFromDidl(value);
-                         }
-                         else if (result == ResponseReader::ElementReadResult::ConversionError)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::ConversionError) {
                              qCCritical(upnpavDevice) << "Failed to convert " << elementName;
-                         }
-                         else if (result == ResponseReader::ElementReadResult::Error)
-                         {
+                         } else if (result == ResponseReader::ElementReadResult::Error) {
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
 
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
     }

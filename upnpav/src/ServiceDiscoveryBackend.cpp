@@ -24,13 +24,11 @@ UdpServiceDiscoveryBackend::UdpServiceDiscoveryBackend()
     // TODO: We need error handling in the constructor. Throw an exception when it fails to initialize the udp socket.
     connect(&m_udpSocket, &QUdpSocket::readyRead, this, &UdpServiceDiscoveryBackend::handleReceivedData);
 
-    if (!m_udpSocket.bind(QHostAddress::AnyIPv4, 1900, QUdpSocket::ShareAddress))
-    {
+    if (!m_udpSocket.bind(QHostAddress::AnyIPv4, 1900, QUdpSocket::ShareAddress)) {
         qWarning() << "Failed to bound UPD discovery socket.";
     }
 
-    if (!m_udpSocket.joinMulticastGroup(QHostAddress{"239.255.255.250"}))
-    {
+    if (!m_udpSocket.joinMulticastGroup(QHostAddress{"239.255.255.250"})) {
         qWarning() << "Failed to join multicast group.";
         qWarning() << m_udpSocket.errorString();
     }

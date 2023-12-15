@@ -243,8 +243,7 @@ void ServiceProviderShould::parse_device_description_without_services_no_embedde
     QVERIFY2(expectedDeviceDescription.icons().size() == receivedDeviceDescription.icons().size(),
              "The icon list has not the expected size.");
 
-    for (auto index = 0; index < receivedDeviceDescription.icons().size(); ++index)
-    {
+    for (auto index = 0; index < receivedDeviceDescription.icons().size(); ++index) {
         QVERIFY2(expectedDeviceDescription.icons().at(index).mimeType() ==
                      receivedDeviceDescription.icons().at(index).mimeType(),
                  QString{"The mimetype of icon %1 is not the same"}.arg(index).toUtf8().data());
@@ -381,8 +380,7 @@ void ServiceProviderShould::parse_devices_description_with_services()
                  .toUtf8()
                  .data());
 
-    for (auto serviceIndex = 0; serviceIndex < receivedDeviceDescription.services().size(); ++serviceIndex)
-    {
+    for (auto serviceIndex = 0; serviceIndex < receivedDeviceDescription.services().size(); ++serviceIndex) {
         auto receivedServiceDescription = receivedDeviceDescription.services().at(serviceIndex);
         auto expectedServiceDescription = expectedDeviceDescription.services().at(serviceIndex);
 
@@ -630,8 +628,7 @@ void ServiceProviderShould::parse_service_control_point_definition()
                  .data());
 
     auto stateVariableIndex = 0;
-    for (; stateVariableIndex < receivedScpd.at(0).serviceStateTable().size(); ++stateVariableIndex)
-    {
+    for (; stateVariableIndex < receivedScpd.at(0).serviceStateTable().size(); ++stateVariableIndex) {
         auto stateVariable = receivedScpd.at(0).serviceStateTable().at(stateVariableIndex);
         auto expectedStateVariable = expectedScpd.serviceStateTable().at(stateVariableIndex);
 
@@ -685,8 +682,7 @@ void ServiceProviderShould::parse_service_control_point_definition()
                  .data());
 
     auto actionIndex = 0;
-    for (; actionIndex < receivedScpd.at(0).actionList().size(); ++actionIndex)
-    {
+    for (; actionIndex < receivedScpd.at(0).actionList().size(); ++actionIndex) {
         auto action = receivedScpd.at(0).actionList().at(actionIndex);
         auto expectedAction = expectedScpd.actionList().at(actionIndex);
 
@@ -700,8 +696,7 @@ void ServiceProviderShould::parse_service_control_point_definition()
                  QString{"Expected: %1 : Actual %2"}.arg(expectedActionArgs.size(), actionArgs.size()).toUtf8().data());
 
         auto argIndex = 0;
-        for (; argIndex < actionArgs.size(); ++argIndex)
-        {
+        for (; argIndex < actionArgs.size(); ++argIndex) {
             QVERIFY2(expectedActionArgs.at(argIndex).name() == actionArgs.at(argIndex).name(),
                      QString{"Expected %1 : Actual %2"}
                          .arg(expectedActionArgs.at(argIndex).name(), actionArgs.at(argIndex).name())

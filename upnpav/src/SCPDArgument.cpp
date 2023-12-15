@@ -32,8 +32,7 @@ QString SCPDArgument::relatedStateVariable() const
 
 bool operator==(const SCPDArgument &lhs, const SCPDArgument &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 
