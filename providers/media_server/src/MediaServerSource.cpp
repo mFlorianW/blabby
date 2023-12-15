@@ -41,8 +41,7 @@ void MediaServerSource::navigate(QString const &path) noexcept
 
 void MediaServerSource::onBrowseRequestFinished() noexcept
 {
-    if (mBrowseRequest.mRequest->hasError())
-    {
+    if (mBrowseRequest.mRequest->hasError()) {
         qCritical(mediaServerSource) << "Browse reqeust failed with error: Error Code:"
                                      << mBrowseRequest.mRequest->errorCode()
                                      << "Error Message:" << mBrowseRequest.mRequest->errorDescription();
@@ -50,8 +49,7 @@ void MediaServerSource::onBrowseRequestFinished() noexcept
 
     const auto result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
     mMediaItems.clear();
-    for (auto const &obj : result->objects())
-    {
+    for (auto const &obj : result->objects()) {
         const auto type = obj.typeClass().contains("storageFolder") ? Multimedia::MediaItemType::Container
                                                                     : Multimedia::MediaItemType::Playable;
         mMediaItems.emplace_back(Multimedia::MediaItem{type, obj.title(), QString(""), QString(""), obj.id()});

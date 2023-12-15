@@ -10,8 +10,7 @@ namespace Multimedia::TestHelper
 
 TestProviderLoader::TestProviderLoader(std::size_t count)
 {
-    for (std::size_t i = 0; i < count; ++i)
-    {
+    for (std::size_t i = 0; i < count; ++i) {
         mProviders.emplace_back(
             std::make_shared<TestProvider>(QStringLiteral("TestProvider%1").arg(QString::number(i))));
     }

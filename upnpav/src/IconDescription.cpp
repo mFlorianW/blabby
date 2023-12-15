@@ -60,8 +60,7 @@ quint32 IconDescription::depth() const noexcept
 
 bool operator==(const IconDescription &lhs, const IconDescription &rhs) noexcept
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

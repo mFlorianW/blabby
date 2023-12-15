@@ -14,8 +14,7 @@ int MediaItemModel::rowCount(QModelIndex const &index) const noexcept
 {
     Q_UNUSED(index);
 
-    if (mMediaSrc != nullptr)
-    {
+    if (mMediaSrc != nullptr) {
         return static_cast<int>(mMediaSrc->mediaItems().size());
     }
 
@@ -33,15 +32,13 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const noexcept
 
 QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
 {
-    if (mMediaSrc == nullptr)
-    {
+    if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to request data. Error: MediaSource is not set.";
         return {};
     }
 
     auto const &items = mMediaSrc->mediaItems();
-    if (not index.isValid() or (index.row() >= items.size()))
-    {
+    if (not index.isValid() or (index.row() >= items.size())) {
         qCritical(shell) << "Failed to request data. Error: Invalided index for requesting data. Index:" << index
                          << "Source size:" << items.size();
         return {};
@@ -49,15 +46,11 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
 
     auto const &item = items.at(index.row());
     auto const dispRole = static_cast<DisplayRole>(role);
-    if (dispRole == DisplayRole::MediaItemTitle)
-    {
+    if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
-    }
-    else if (dispRole == DisplayRole::MediaItemIconUrl)
-    {
+    } else if (dispRole == DisplayRole::MediaItemIconUrl) {
         const auto iconUrl = item.iconUrl();
-        if (iconUrl.isEmpty())
-        {
+        if (iconUrl.isEmpty()) {
             return item.type() == Multimedia::MediaItemType::Container
                        ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
                        : QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg");
@@ -69,10 +62,8 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
 
 void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> const &mediaSrc)
 {
-    if (mMediaSrc != mediaSrc)
-    {
-        if (mMediaSrc != nullptr)
-        {
+    if (mMediaSrc != mediaSrc) {
+        if (mMediaSrc != nullptr) {
             disconnect(mediaSrc.get());
         }
 
@@ -80,8 +71,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> con
         mMediaSrc = mediaSrc;
         endResetModel();
 
-        if (mMediaSrc != nullptr)
-        {
+        if (mMediaSrc != nullptr) {
             connect(mMediaSrc.get(), &Multimedia::MediaSource::navigationFinished, this, [&] {
                 beginResetModel();
                 endResetModel();
@@ -93,34 +83,28 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> con
 
 void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
 {
-    if (mMediaSrc == nullptr)
-    {
+    if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to activate MediaItem. Error: MediaSource is not set.";
         return;
     }
 
     const auto &items = mMediaSrc->mediaItems();
-    if (idx >= items.size() or idx < 0)
-    {
+    if (idx >= items.size() or idx < 0) {
         qCritical(shell) << "Failed to activate MediaItem. Error: Invalid MediaItem index" << idx;
         return;
     }
 
     const auto &item = items.at(idx);
-    if (item.type() == Multimedia::MediaItemType::Container)
-    {
+    if (item.type() == Multimedia::MediaItemType::Container) {
         mMediaSrc->navigateTo(item.path());
-    }
-    else
-    {
+    } else {
         Q_EMIT playRequest(item);
     }
 }
 
 void MediaItemModel::navigateBack() const noexcept
 {
-    if (mMediaSrc == nullptr)
-    {
+    if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to navigate back. Error: MediaSource is not set.";
         return;
     }
@@ -129,8 +113,7 @@ void MediaItemModel::navigateBack() const noexcept
 
 void MediaItemModel::navigateForward() const noexcept
 {
-    if (mMediaSrc == nullptr)
-    {
+    if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to navigate forward. Error: MediaSource is not set.";
         return;
     }
@@ -139,8 +122,7 @@ void MediaItemModel::navigateForward() const noexcept
 
 QString MediaItemModel::mediaSourceName() const noexcept
 {
-    if (mMediaSrc != nullptr)
-    {
+    if (mMediaSrc != nullptr) {
         return mMediaSrc->sourceName();
     }
     return {};
@@ -148,8 +130,7 @@ QString MediaItemModel::mediaSourceName() const noexcept
 
 QString MediaItemModel::mediaSourceIconUrl() const noexcept
 {
-    if (mMediaSrc != nullptr)
-    {
+    if (mMediaSrc != nullptr) {
         return mMediaSrc->iconUrl();
     }
     return {};

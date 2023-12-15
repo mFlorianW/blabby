@@ -120,7 +120,6 @@ private Q_SLOTS:
      */
     void ignore_broken_device_description_notify_error();
 
-
     /**
      * @test The ServiceProvider should request the SCPD description XML.
      */

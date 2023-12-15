@@ -30,24 +30,20 @@ void RendererProvider::discover()
 
 void RendererProvider::onRendererDiscovered(QString const &usn) noexcept
 {
-    try
-    {
+    try {
         const auto desc = mSp->rootDeviceDescription(usn);
         auto upnpRenderer = mRendererFab.create(desc);
         auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
         mRenderers.insert(usn, renderer);
         Q_EMIT rendererConnected(renderer);
-    }
-    catch (UPnPAV::InvalidDeviceDescription const &exception)
-    {
+    } catch (UPnPAV::InvalidDeviceDescription const &exception) {
         qCCritical(mmRenderer) << "Failed to create Renderer. Error:" << exception.what();
     }
 }
 
 void RendererProvider::onRendererDisconnected(QString const &usn) noexcept
 {
-    if (mRenderers.contains(usn))
-    {
+    if (mRenderers.contains(usn)) {
         const auto renderer = mRenderers.value(usn);
         mRenderers.remove(usn);
         Q_EMIT rendererDisconnected(renderer);

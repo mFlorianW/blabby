@@ -67,79 +67,64 @@ ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWitho
 
 void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_ContentDirectory_Service_Description()
 {
-    try
-    {
+    try {
         MediaServer mediaServer = createMediaServer({validConnectionManagerDescription()},
                                                     {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory description not found"));
     }
 }
 
 void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has_No_Url()
 {
-    try
-    {
+    try {
         MediaServer mediaServer =
             createMediaServer({eventUrlMissingInContentDirectoryDescription(), validConnectionManagerDescription()},
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory event URL"));
     }
 }
 
 void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has_No_Control_Url()
 {
-    try
-    {
+    try {
         MediaServer mediaServer =
             createMediaServer({controlUrlMissingInContentDirectoryDescription(), validConnectionManagerDescription()},
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory control URL"));
     }
 }
 
 void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has_No_ServiceId()
 {
-    try
-    {
+    try {
         MediaServer mediaServer =
             createMediaServer({serviceIdMissingInContentDirectoryDescription(), validConnectionManagerDescription()},
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory service ID"));
     }
 }
 
 void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has_No_SCPD_Url()
 {
-    try
-    {
+    try {
         MediaServer mediaServer =
             createMediaServer({scpdUrlMissingInContentDirectoryDescription(), validConnectionManagerDescription()},
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory SCPD URL"));
     }
 }
@@ -297,14 +282,11 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
     QFETCH(class DeviceDescription, DeviceDescription);
     QFETCH(QString, ExpectedException);
 
-    try
-    {
+    try {
         MediaServer mediaServer = createMediaServer(DeviceDescription);
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (const InvalidDeviceDescription &e)
-    {
+    } catch (const InvalidDeviceDescription &e) {
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
@@ -372,13 +354,10 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
     QFETCH(class DeviceDescription, DeviceDescription);
     QFETCH(QString, ExpectedException);
 
-    try
-    {
+    try {
         MediaServer mediaServer = createMediaServer(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    }
-    catch (const InvalidDeviceDescription &e)
-    {
+    } catch (const InvalidDeviceDescription &e) {
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());

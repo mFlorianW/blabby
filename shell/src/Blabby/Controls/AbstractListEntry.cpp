@@ -16,8 +16,7 @@ QString AbstractListEntry::title() const noexcept
 
 void AbstractListEntry::setTitle(QString const &title) noexcept
 {
-    if (mTitle != title)
-    {
+    if (mTitle != title) {
         mTitle = title;
         Q_EMIT titleChanged();
     }
@@ -30,8 +29,7 @@ QString AbstractListEntry::iconUrl() const noexcept
 
 void AbstractListEntry::setIconUrl(QString const &iconUrl) noexcept
 {
-    if (mIconUrl != iconUrl)
-    {
+    if (mIconUrl != iconUrl) {
         mIconUrl = iconUrl;
         Q_EMIT iconUrlChanged();
     }

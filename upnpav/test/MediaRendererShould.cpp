@@ -50,13 +50,10 @@ MediaRendererShould::~MediaRendererShould() = default;
 void MediaRendererShould::throw_an_exception_when_the_device_description_has_no_rendering_control()
 {
     auto desc = validRenderingControlServiceDescription();
-    try
-    {
+    try {
         auto renderer = createMediaRenderer({validConnectionManagerDescription()}, {validConnectionManagerSCPD()});
         QFAIL("The constructor of the MediaRenderer should throw an exception");
-    }
-    catch (InvalidDeviceDescription &e)
-    {
+    } catch (InvalidDeviceDescription &e) {
         QVERIFY(QString{e.what()}.contains("RenderingControl description not found"));
     }
 }

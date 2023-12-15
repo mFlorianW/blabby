@@ -11,19 +11,16 @@ NavigationStack::NavigationStack(MediaSource &mediaSource)
     : mMediaSource{mediaSource}
 {
     QObject::connect(&mMediaSource, &MediaSource::navigationFinished, &mMediaSource, [this](QString const &path) {
-        if (not mNavigationAction)
-        {
+        if (not mNavigationAction) {
             // Remove older navigation history and replace with the new history.
-            if (not mPathStack.isEmpty() and mPathStack.size() - 1 > mNavigationIndex)
-            {
+            if (not mPathStack.isEmpty() and mPathStack.size() - 1 > mNavigationIndex) {
                 mPathStack.erase(mPathStack.cbegin() + mNavigationIndex + 1, mPathStack.cend());
             }
             // append new history on the stack.
             mPathStack.append(path);
             // Increase the navigation index only after inserting the
             // second element.
-            if (mPathStack.size() > 1)
-            {
+            if (mPathStack.size() > 1) {
                 ++mNavigationIndex;
             }
         }
@@ -40,13 +37,11 @@ const QString &NavigationStack::path()
 
 void NavigationStack::navigateBack()
 {
-    if (mPathStack.empty())
-    {
+    if (mPathStack.empty()) {
         return;
     }
 
-    if (mNavigationIndex > qsizetype{0} and mPathStack.size() > qsizetype{0})
-    {
+    if (mNavigationIndex > qsizetype{0} and mPathStack.size() > qsizetype{0}) {
         --mNavigationIndex;
     }
     const auto path = mPathStack.at(mNavigationIndex);
@@ -56,20 +51,16 @@ void NavigationStack::navigateBack()
 
 void NavigationStack::navigateForward()
 {
-    if (mPathStack.empty() or (mNavigationIndex + 1) >= mPathStack.size())
-    {
+    if (mPathStack.empty() or (mNavigationIndex + 1) >= mPathStack.size()) {
         return;
     }
 
     ++mNavigationIndex;
-    if (mNavigationIndex < mPathStack.size())
-    {
+    if (mNavigationIndex < mPathStack.size()) {
         const auto path = mPathStack.at(mNavigationIndex);
         mNavigationAction = true;
         mMediaSource.navigateTo(path);
-    }
-    else
-    {
+    } else {
         --mNavigationIndex;
     }
 }

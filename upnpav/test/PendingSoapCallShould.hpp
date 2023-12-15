@@ -30,6 +30,6 @@ private Q_SLOTS:
     void return_An_Object_That_is_Constructable_With_QString_That_Returns_The_Message_When_Call_Finished();
 };
 
-} //namespace UPnPAV
+} // namespace UPnPAV
 
 #endif // PENDINGREPLYSHOULD_H

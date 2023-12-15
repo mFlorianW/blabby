@@ -13,36 +13,25 @@ namespace UPnPAV
 GetProtocolInfoResponse::GetProtocolInfoResponse(const QString &xmlResponse)
 {
     auto responseReader = QXmlStreamReader{xmlResponse};
-    while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError())
-    {
-        if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Source"))
-        {
+    while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError()) {
+        if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Source")) {
             auto const result = parseProtocolResponse(responseReader.readElementText());
-            if (result.has_value())
-            {
+            if (result.has_value()) {
                 mSourceProtocols = result.value();
-            }
-            else
-            {
+            } else {
                 qCritical() << "Can't read source protocols. Ignore then.";
             }
-        }
-        else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Sink"))
-        {
+        } else if (responseReader.isStartElement() && responseReader.name() == QStringLiteral("Sink")) {
             auto const result = parseProtocolResponse(responseReader.readElementText());
-            if (result.has_value())
-            {
+            if (result.has_value()) {
                 mSinkProtocols = result.value();
-            }
-            else
-            {
+            } else {
                 qCritical() << "Can't read source protocols. Ignore then.";
             }
         }
     }
 
-    if (responseReader.hasError())
-    {
+    if (responseReader.hasError()) {
         qCritical() << "Failed GetProtocolInfo response";
         qCritical() << xmlResponse;
         qCritical() << "XML Error:" << responseReader.errorString();
@@ -76,21 +65,16 @@ bool operator!=(const Protocol &lhs, const Protocol &rhs) noexcept
 std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(QString const &rawResult) noexcept
 {
     auto result = QVector<Protocol>{};
-    if (rawResult.isEmpty())
-    {
+    if (rawResult.isEmpty()) {
         return result;
     }
 
     const auto elements = rawResult.split(",");
-    for (auto const &proto : std::as_const(elements))
-    {
+    for (auto const &proto : std::as_const(elements)) {
         const auto protoElements = proto.split(":");
-        if (protoElements.size() < 4)
-        {
+        if (protoElements.size() < 4) {
             return std::nullopt;
-        }
-        else
-        {
+        } else {
             auto proto = Protocol{.protocol = protoElements[0],
                                   .network = protoElements[1],
                                   .contentFormat = protoElements[2],

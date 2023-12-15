@@ -20,16 +20,11 @@ GetTransportSettingsResponse::GetTransportSettingsResponse(QString rawMsg,
                      &reader,
                      [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("PlayMode") && ok)
-                         {
+                         if (elementName == QStringLiteral("PlayMode") && ok) {
                              d->mPlayMode = convertPlayMode(value).value_or(PlayMode::Normal);
-                         }
-                         else if (elementName == QStringLiteral("RecQualityMode") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("RecQualityMode") && ok) {
                              d->mRecQMode = value;
-                         }
-                         else if (not ok)
-                         {
+                         } else if (not ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read element" << elementName << "Error:" << static_cast<qint32>(result);
                              return;
@@ -37,8 +32,7 @@ GetTransportSettingsResponse::GetTransportSettingsResponse(QString rawMsg,
                      });
 
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read the GetTransportSettingsResponse. Error:"
                                  << static_cast<qint32>(result) << "Response:" << rawMsg;
         return;
@@ -58,36 +52,21 @@ const QString &GetTransportSettingsResponse::recQualityMode() const noexcept
 std::optional<GetTransportSettingsResponse::PlayMode> GetTransportSettingsResponse::convertPlayMode(
     QString const &rawMode) noexcept
 {
-    if (rawMode == QStringLiteral("NORMAL"))
-    {
+    if (rawMode == QStringLiteral("NORMAL")) {
         return PlayMode::Normal;
-    }
-    else if (rawMode == QStringLiteral("SHUFFLE"))
-    {
+    } else if (rawMode == QStringLiteral("SHUFFLE")) {
         return PlayMode::Shuffle;
-    }
-    else if (rawMode == QStringLiteral("REPEAT_ONE"))
-    {
+    } else if (rawMode == QStringLiteral("REPEAT_ONE")) {
         return PlayMode::RepeatOne;
-    }
-    else if (rawMode == QStringLiteral("REPEAT_ALL"))
-    {
+    } else if (rawMode == QStringLiteral("REPEAT_ALL")) {
         return PlayMode::RepeatAll;
-    }
-    else if (rawMode == QStringLiteral("RANDOM"))
-    {
+    } else if (rawMode == QStringLiteral("RANDOM")) {
         return PlayMode::Random;
-    }
-    else if (rawMode == QStringLiteral("DIRECT_1"))
-    {
+    } else if (rawMode == QStringLiteral("DIRECT_1")) {
         return PlayMode::DirectOne;
-    }
-    else if (rawMode == QStringLiteral("INTRO"))
-    {
+    } else if (rawMode == QStringLiteral("INTRO")) {
         return PlayMode::Intro;
-    }
-    else
-    {
+    } else {
         return std::nullopt;
     }
 }

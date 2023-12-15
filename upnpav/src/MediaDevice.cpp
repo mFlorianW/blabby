@@ -17,13 +17,11 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
           new MediaDevicePrivate{std::move(deviceDescription), std::move(msgTransmitter)})}
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{d->mDeviceDescription};
-    if (!conManagerServiceValidator.validate())
-    {
+    if (!conManagerServiceValidator.validate()) {
         throw InvalidDeviceDescription{conManagerServiceValidator.errorMessage()};
     }
 
-    if (!d->mDeviceDescription.icons().isEmpty())
-    {
+    if (!d->mDeviceDescription.icons().isEmpty()) {
         d->mIconUrl = d->mDeviceDescription.icons().first().url();
     }
 
@@ -32,11 +30,9 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
     d->mName = d->mDeviceDescription.friendlyName();
 
     const auto hasAvTransportService = d->mDeviceDescription.service("AVTransport").has_value();
-    if (hasAvTransportService)
-    {
+    if (hasAvTransportService) {
         auto avSerVali = AvTransportServiceValidator{d->mDeviceDescription};
-        if (!avSerVali.validate())
-        {
+        if (!avSerVali.validate()) {
             throw InvalidDeviceDescription{avSerVali.errorMessage()};
         }
         d->mHasAvTransportService = true;
@@ -105,8 +101,7 @@ std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(qu
                                                                               QString const &uri,
                                                                               QString const &uriMetaData) noexcept
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -127,8 +122,7 @@ std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(qu
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -145,8 +139,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 i
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportInfo(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -163,8 +156,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportInfo(quint
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -182,8 +174,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint3
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(quint32 instanceId)
 {
 
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -200,8 +191,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(qu
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportSettings(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -218,8 +208,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportSettings(q
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::stop(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -236,8 +225,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::stop(quint32 instan
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::play(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -257,8 +245,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
                                                                   SeekMode mode,
                                                                   QString const &target)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -277,8 +264,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::next(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 
@@ -295,8 +281,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::next(quint32 instan
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 instanceId)
 {
-    if (not hasAvTransportService())
-    {
+    if (not hasAvTransportService()) {
         return std::nullopt;
     }
 

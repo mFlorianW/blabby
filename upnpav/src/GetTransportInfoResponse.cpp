@@ -20,29 +20,21 @@ GetTransportInfoResponse::GetTransportInfoResponse(QString rawMessage,
                      &reader,
                      [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
-                         if (elementName == QStringLiteral("CurrentTransportState") && ok)
-                         {
+                         if (elementName == QStringLiteral("CurrentTransportState") && ok) {
                              d->mCurrentTransportState =
                                  convertTransportState(value).value_or(TransportState::NoMediaPresent);
-                         }
-                         else if (elementName == QStringLiteral("CurrentTransportStatus") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("CurrentTransportStatus") && ok) {
                              d->mCurrentTransportStatus = convertTransportStatus(value);
-                         }
-                         else if (elementName == QStringLiteral("CurrentSpeed") && ok)
-                         {
+                         } else if (elementName == QStringLiteral("CurrentSpeed") && ok) {
                              d->mTransportPlaySpeed = value;
-                         }
-                         else if (!ok)
-                         {
+                         } else if (!ok) {
                              qCCritical(upnpavDevice)
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
                      });
 
     const auto result = reader.read();
-    if (result != ResponseReader::ReadResult::Ok)
-    {
+    if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetTransportInfoResponse. Response was:" << reader.response();
         return;
     }
@@ -66,36 +58,21 @@ const QString &GetTransportInfoResponse::transportPlaySpeed() const noexcept
 std::optional<GetTransportInfoResponse::TransportState> GetTransportInfoResponse::convertTransportState(
     QString const &rawString)
 {
-    if (rawString == QStringLiteral("STOPPED"))
-    {
+    if (rawString == QStringLiteral("STOPPED")) {
         return TransportState::Stopped;
-    }
-    else if (rawString == QStringLiteral("PAUSED_PLAYBACK"))
-    {
+    } else if (rawString == QStringLiteral("PAUSED_PLAYBACK")) {
         return TransportState::PausedPlayback;
-    }
-    else if (rawString == QStringLiteral("PAUSED_RECORDING"))
-    {
+    } else if (rawString == QStringLiteral("PAUSED_RECORDING")) {
         return TransportState::PausedRecording;
-    }
-    else if (rawString == QStringLiteral("PLAYING"))
-    {
+    } else if (rawString == QStringLiteral("PLAYING")) {
         return TransportState::Playing;
-    }
-    else if (rawString == QStringLiteral("RECORDING"))
-    {
+    } else if (rawString == QStringLiteral("RECORDING")) {
         return TransportState::Recording;
-    }
-    else if (rawString == QStringLiteral("TRANSITIONING"))
-    {
+    } else if (rawString == QStringLiteral("TRANSITIONING")) {
         return TransportState::Transitioning;
-    }
-    else if (rawString == QStringLiteral("NO_MEDIA_PRESENT"))
-    {
+    } else if (rawString == QStringLiteral("NO_MEDIA_PRESENT")) {
         return TransportState::NoMediaPresent;
-    }
-    else
-    {
+    } else {
         qCCritical(upnpavDevice) << "Failed to convert transport state:" << rawString;
         return std::nullopt;
     }
@@ -104,16 +81,11 @@ std::optional<GetTransportInfoResponse::TransportState> GetTransportInfoResponse
 GetTransportInfoResponse::TransportStatus GetTransportInfoResponse::convertTransportStatus(QString const &rawString)
 {
 
-    if (rawString == QStringLiteral("OK"))
-    {
+    if (rawString == QStringLiteral("OK")) {
         return TransportStatus::Ok;
-    }
-    else if (rawString == QStringLiteral("ERROR_OCCURED"))
-    {
+    } else if (rawString == QStringLiteral("ERROR_OCCURED")) {
         return TransportStatus::ErrorOccured;
-    }
-    else
-    {
+    } else {
         return TransportStatus::Unknown;
     }
 }

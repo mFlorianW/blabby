@@ -52,8 +52,7 @@ QString ServiceDescription::eventUrl() const
 
 bool operator==(const ServiceDescription &lhs, const ServiceDescription &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

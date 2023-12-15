@@ -33,10 +33,8 @@ const QVector<SCPDArgument> &SCPDAction::arguments() const
 QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for (const auto &arg : std::as_const(d->mArguments))
-    {
-        if (arg.direction() == SCPDArgument::In)
-        {
+    for (const auto &arg : std::as_const(d->mArguments)) {
+        if (arg.direction() == SCPDArgument::In) {
             result.append(arg);
         }
     }
@@ -47,10 +45,8 @@ QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 QVector<SCPDArgument> SCPDAction::outArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for (auto const &arg : std::as_const(d->mArguments))
-    {
-        if (arg.direction() == SCPDArgument::Out)
-        {
+    for (auto const &arg : std::as_const(d->mArguments)) {
+        if (arg.direction() == SCPDArgument::Out) {
             result.append(arg);
         }
     }
@@ -59,8 +55,7 @@ QVector<SCPDArgument> SCPDAction::outArguments() const noexcept
 
 bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

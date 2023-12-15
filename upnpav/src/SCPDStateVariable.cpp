@@ -66,8 +66,7 @@ const QString &SCPDStateVariable::stepSize() const
 
 bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
 {
-    if (&lhs == &rhs)
-    {
+    if (&lhs == &rhs) {
         return true;
     }
 

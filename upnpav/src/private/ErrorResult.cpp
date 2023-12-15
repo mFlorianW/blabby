@@ -13,34 +13,28 @@ namespace UPnPAV
 
 ErrorResult::ErrorResult(const QString &rawMessage)
 {
-    if (rawMessage.isEmpty())
-    {
+    if (rawMessage.isEmpty()) {
         return;
     }
 
     QXmlStreamReader errorReader{rawMessage};
 
-    while (errorReader.readNext() && !errorReader.hasError() && !errorReader.atEnd())
-    {
-        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorCode"))
-        {
+    while (errorReader.readNext() && !errorReader.hasError() && !errorReader.atEnd()) {
+        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorCode")) {
             bool ok = false;
             m_errorCode = errorReader.readElementText().toInt(&ok);
 
-            if (!ok)
-            {
+            if (!ok) {
                 m_errorCode = 0;
             }
         }
 
-        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorDescription"))
-        {
+        if (errorReader.isStartElement() && errorReader.name() == QStringLiteral("errorDescription")) {
             m_errorDescription = errorReader.readElementText();
         }
     }
 
-    if (errorReader.hasError())
-    {
+    if (errorReader.hasError()) {
         qInfo() << "Failed to parse error XML result:" << errorReader.errorString();
     }
 }

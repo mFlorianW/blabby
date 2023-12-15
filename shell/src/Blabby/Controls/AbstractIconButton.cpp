@@ -16,8 +16,7 @@ QUrl AbstractIconButton::source() const noexcept
 
 void AbstractIconButton::setSource(QUrl const &source) noexcept
 {
-    if (mIconSource != source)
-    {
+    if (mIconSource != source) {
         mIconSource = source;
         Q_EMIT sourceChanged();
     }
@@ -30,8 +29,7 @@ bool AbstractIconButton::border() const noexcept
 
 void AbstractIconButton::setBorder(bool border) noexcept
 {
-    if (mBorder != border)
-    {
+    if (mBorder != border) {
         mBorder = border;
         Q_EMIT borderChanged();
     }

@@ -16,24 +16,20 @@ ProviderLoader::~ProviderLoader() = default;
 
 Providers const &ProviderLoader::load(QStringList const &paths) noexcept
 {
-    for (const QString &path : std::as_const(paths))
-    {
+    for (const QString &path : std::as_const(paths)) {
         QDir dir{path};
-        if (!dir.exists(path))
-        {
+        if (!dir.exists(path)) {
             qCWarning(mmProvider) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";
             continue;
         }
 
         qCDebug(mmProvider) << "Searching: " << path;
         QDirIterator dirIter{path, QDirIterator::Subdirectories};
-        while (dirIter.hasNext())
-        {
+        while (dirIter.hasNext()) {
             dirIter.next();
             qCDebug(mmProvider) << dirIter.fileName();
             QFileInfo fileInfo = dirIter.fileInfo();
-            if (fileInfo.isFile() && QLibrary::isLibrary(fileInfo.fileName()))
-            {
+            if (fileInfo.isFile() && QLibrary::isLibrary(fileInfo.fileName())) {
                 loadProvider(fileInfo);
             }
         }
@@ -43,8 +39,7 @@ Providers const &ProviderLoader::load(QStringList const &paths) noexcept
 void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
 {
     QPluginLoader pluginLoader{provider.filePath()};
-    if (!pluginLoader.load())
-    {
+    if (!pluginLoader.load()) {
         qCWarning(mmProvider) << "Failed to load plugin fileName:" << provider.fileName()
                               << "Error:" << pluginLoader.errorString();
         return;
@@ -53,12 +48,9 @@ void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
     // Load the plugin, if the library doesn't implements the Provider
     // interface then we can ignore this file and it can be unloaded.
     auto plugin = std::shared_ptr<Provider>(qobject_cast<Provider *>(pluginLoader.instance()));
-    if (plugin != nullptr)
-    {
+    if (plugin != nullptr) {
         mProviders.append(std::move(plugin));
-    }
-    else
-    {
+    } else {
         pluginLoader.unload();
         qCCritical(mmProvider) << "Plugin:" << provider.fileName() << "Error: Plugin is not a Multimedia::Provider";
     }

@@ -28,33 +28,23 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
     auto xmlReader = QXmlStreamReader{mXmlResponse};
     const auto outArgs = mAction.outArguments();
     auto readResult = ReadResult::Ok;
-    while (xmlReader.readNext() && !xmlReader.atEnd() && !xmlReader.hasError())
-    {
-        if (xmlReader.isStartElement())
-        {
+    while (xmlReader.readNext() && !xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.isStartElement()) {
             auto arg = std::find_if(outArgs.cbegin(), outArgs.cend(), [&](SCPDArgument const &arg) {
                 return arg.name() == xmlReader.name();
             });
 
-            if (arg != outArgs.cend())
-            {
+            if (arg != outArgs.cend()) {
 
                 auto const type = dataType(arg->relatedStateVariable());
-                if (type == SCPDStateVariable::DataType::Ui4)
-                {
+                if (type == SCPDStateVariable::DataType::Ui4) {
                     readUnsignedIntValue(xmlReader.name().toString(), xmlReader.readElementText());
-                }
-                else if (type == SCPDStateVariable::DataType::I4)
-                {
+                } else if (type == SCPDStateVariable::DataType::I4) {
                     readSignedIntValue(xmlReader.name().toString(), xmlReader.readElementText());
-                }
-                else if (type == SCPDStateVariable::DataType::String)
-                {
+                } else if (type == SCPDStateVariable::DataType::String) {
                     auto val = xmlReader.readElementText();
                     Q_EMIT stringValueRead(xmlReader.name().toString(), val, ElementReadResult::Ok);
-                }
-                else
-                {
+                } else {
                     readResult = ReadResult::StateVariableNotFound;
                     break;
                 }
@@ -62,8 +52,7 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
         }
     }
 
-    if (xmlReader.hasError())
-    {
+    if (xmlReader.hasError()) {
         qCritical() << "Failed GetCurrentConnectionInfo response";
         qCritical() << mXmlResponse;
         qCritical() << "XML Error:" << xmlReader.errorString();
@@ -77,8 +66,7 @@ SCPDStateVariable::DataType ResponseReader::dataType(QString const &argName) noe
     auto const argFound = std::find_if(mScpd.serviceStateTable().cbegin(),
                                        mScpd.serviceStateTable().cend(),
                                        [&](auto const &var) { return var.name() == argName; });
-    if (argFound != mScpd.serviceStateTable().cend())
-    {
+    if (argFound != mScpd.serviceStateTable().cend()) {
         return argFound->dataType();
     }
     return SCPDStateVariable::DataType::Unknown;
@@ -89,8 +77,7 @@ void ResponseReader::readUnsignedIntValue(QString const &argName, QString const 
     auto ok = false;
     auto result = ElementReadResult::Ok;
     auto const value = rawValue.toUInt(&ok);
-    if (not ok)
-    {
+    if (not ok) {
         result = ElementReadResult::ConversionError;
     }
     Q_EMIT unsignedIntValueRead(argName, value, result);
@@ -101,8 +88,7 @@ void ResponseReader::readSignedIntValue(QString const &argName, QString const &r
     auto ok = false;
     auto result = ElementReadResult::Ok;
     auto const value = rawValue.toInt(&ok);
-    if (not ok)
-    {
+    if (not ok) {
         result = ElementReadResult::ConversionError;
     }
     Q_EMIT signedIntValueRead(argName, value, result);

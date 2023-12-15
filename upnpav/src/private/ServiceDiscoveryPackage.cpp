@@ -12,26 +12,19 @@ ServiceDiscoveryPackage::ServiceDiscoveryPackage(const QByteArray &rawData)
 {
     auto rawDataSplitted = QString{rawData}.split("\r\n");
 
-    for (const auto &entry : rawDataSplitted)
-    {
-        if (entry.contains(QStringLiteral("LOCATION:")))
-        {
+    for (const auto &entry : rawDataSplitted) {
+        if (entry.contains(QStringLiteral("LOCATION:"))) {
             m_locationUrl = extracEntryValue(QString{entry});
-        }
-        else if (entry.contains(QStringLiteral("USN:")))
-        {
+        } else if (entry.contains(QStringLiteral("USN:"))) {
             auto deviceUsn = extracEntryValue(QString{entry});
             m_deviceUsn = extracDeviceIdentifierValue(deviceUsn);
-        }
-        else if (entry.contains(QStringLiteral("NTS:")))
-        {
+        } else if (entry.contains(QStringLiteral("NTS:"))) {
             auto nts = extracEntryValue(QString{entry});
             m_notificationSubType = convertSubTypeString(nts);
         }
     }
 
-    if (m_locationUrl.isEmpty() && m_notificationSubType != SubType::ByeBye)
-    {
+    if (m_locationUrl.isEmpty() && m_notificationSubType != SubType::ByeBye) {
         throw PackageParseError(QStringLiteral("The package is missing the location URL"));
     }
 }
@@ -54,8 +47,7 @@ ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::notificationSubType() 
 QString ServiceDiscoveryPackage::extracEntryValue(const QString &entry)
 {
     auto beginOfValue = entry.indexOf(':') + 1;
-    if (beginOfValue == 0)
-    {
+    if (beginOfValue == 0) {
         return {};
     }
 
@@ -64,8 +56,7 @@ QString ServiceDiscoveryPackage::extracEntryValue(const QString &entry)
 
 QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(const QString &rawString)
 {
-    if (rawString.contains("::"))
-    {
+    if (rawString.contains("::")) {
         return rawString.split("::").at(0).trimmed();
     }
 
@@ -74,12 +65,9 @@ QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(const QString &rawS
 
 ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::convertSubTypeString(const QString &subtype)
 {
-    if (subtype == QStringLiteral("ssdp:byebye"))
-    {
+    if (subtype == QStringLiteral("ssdp:byebye")) {
         return SubType::ByeBye;
-    }
-    else if (subtype == QStringLiteral("ssdp:alive"))
-    {
+    } else if (subtype == QStringLiteral("ssdp:alive")) {
         return SubType::Notify;
     }
 
