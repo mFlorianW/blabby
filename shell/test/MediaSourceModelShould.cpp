@@ -126,7 +126,7 @@ void MediaSourceModelShould::set_the_active_media_source_property_correctly()
 
     QCOMPARE(mediaSourceActivatedSpy.size(), 1);
     QCOMPARE(model.activeMediaSource(), expectedSrc);
-    QCOMPARE(model.property("activeMediaSource").value<std::shared_ptr<Multimedia::MediaSource>>(), expectedSrc);
+    QCOMPARE(model.property("activeMediaSource").value<std::shared_ptr<Multimedia::Source>>(), expectedSrc);
 }
 
 } // namespace Shell

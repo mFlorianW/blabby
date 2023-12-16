@@ -43,10 +43,10 @@ bool MediaServerProvider::init() noexcept
     return true;
 }
 
-QVector<std::shared_ptr<Multimedia::MediaSource>> MediaServerProvider::sources() const noexcept
+QVector<std::shared_ptr<Multimedia::Source>> MediaServerProvider::sources() const noexcept
 {
-    auto result = QVector<std::shared_ptr<Multimedia::MediaSource>>{};
-    auto iter = QHashIterator<QString, std::shared_ptr<Multimedia::MediaSource>>{mMediaServers};
+    auto result = QVector<std::shared_ptr<Multimedia::Source>>{};
+    auto iter = QHashIterator<QString, std::shared_ptr<Multimedia::Source>>{mMediaServers};
     while (iter.hasNext()) {
         iter.next();
         result.push_back(iter.value());

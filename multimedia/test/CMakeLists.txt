@@ -27,18 +27,18 @@ add_test(test_multimedia_provider ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_prov
 ###############################################################################
 # Test MediaSource
 ###############################################################################
-add_executable(test_multimedia_mediasource)
-target_sources(test_multimedia_mediasource
+add_executable(test_multimedia_source)
+target_sources(test_multimedia_source
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SourceShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SourceShould.hpp
 )
-target_link_libraries(test_multimedia_mediasource
+target_link_libraries(test_multimedia_source
     Qt6::Test
     Blabby::Multimedia
     Blabby::MultimediaTestHelper
 )
-add_test(test_multimedia_mediasource ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_mediasource)
+add_test(test_multimedia_source ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_source)
 
 ###############################################################################
 # Test ProviderLoader

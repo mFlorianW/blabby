@@ -2,15 +2,15 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "TestMediaSource.hpp"
+#include "TestSource.hpp"
 #include "LoggingCategories.hpp"
 #include <QDebug>
 
 namespace Multimedia::TestHelper
 {
 
-TestMediaSource::TestMediaSource(QString name, QString iconUrl)
-    : Multimedia::MediaSource{std::move(name), std::move(iconUrl)}
+TestSource::TestSource(QString name, QString iconUrl)
+    : Multimedia::Source{std::move(name), std::move(iconUrl)}
 {
     mItems.insert(QStringLiteral("0"),
                   {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem1")},
@@ -36,9 +36,9 @@ TestMediaSource::TestMediaSource(QString name, QString iconUrl)
     navigateTo(QStringLiteral("0"));
 }
 
-TestMediaSource::~TestMediaSource() = default;
+TestSource::~TestSource() = default;
 
-void TestMediaSource::navigateTo(QString const &path) noexcept
+void TestSource::navigateTo(QString const &path) noexcept
 {
     mLastNavigationPath = path;
     if (path == QStringLiteral("0")) {
@@ -53,7 +53,7 @@ void TestMediaSource::navigateTo(QString const &path) noexcept
     Q_EMIT navigationFinished(path);
 }
 
-const QString &TestMediaSource::lastNavigatedPath() const noexcept
+const QString &TestSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
 }

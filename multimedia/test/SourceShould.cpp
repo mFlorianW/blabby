@@ -2,9 +2,8 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaSourceShould.hpp"
-#include "MediaSource.hpp"
-#include "TestMediaSource.hpp"
+#include "SourceShould.hpp"
+#include "TestSource.hpp"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -18,7 +17,7 @@ MediaSourceShould::~MediaSourceShould() = default;
 
 void MediaSourceShould::give_the_name_of_media_source()
 {
-    const auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("")};
+    const auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("")};
     const auto expName = QStringLiteral("MusicBox");
 
     QVERIFY2(mediaSource.sourceName() == expName,
@@ -29,8 +28,7 @@ void MediaSourceShould::give_the_name_of_media_source()
 
 void MediaSourceShould::give_a_icon_url_when_set()
 {
-    const auto mediaSource =
-        TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    const auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
     const auto expUrl = QStringLiteral("http://localhost/musicbox.png");
 
     QVERIFY2(mediaSource.iconUrl() == expUrl,
@@ -41,7 +39,7 @@ void MediaSourceShould::give_a_icon_url_when_set()
 
 void MediaSourceShould::navigate_to_previous_layer()
 {
-    auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
 
     QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
     const auto path1 = QStringLiteral("1");
@@ -52,7 +50,7 @@ void MediaSourceShould::navigate_to_previous_layer()
     QCOMPARE(mediaSource.lastNavigatedPath(), path2);
 
     QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("2"));
-    auto navSignalSpy = QSignalSpy{&mediaSource, &MediaSource::navigationFinished};
+    auto navSignalSpy = QSignalSpy{&mediaSource, &Source::navigationFinished};
     mediaSource.navigateBack();
     QCOMPARE(navSignalSpy.size(), 1);
     QCOMPARE(mediaSource.lastNavigatedPath(), path1);
@@ -70,7 +68,7 @@ void MediaSourceShould::navigate_to_previous_layer()
 
 void MediaSourceShould::navigate_forward_to_previous_layer()
 {
-    auto mediaSource = TestMediaSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
     const auto path1 = QStringLiteral("1");
     const auto path2 = QStringLiteral("2");
 
@@ -79,7 +77,7 @@ void MediaSourceShould::navigate_forward_to_previous_layer()
     mediaSource.navigateTo(path2);
     QCOMPARE(mediaSource.lastNavigatedPath(), path2);
 
-    auto navSignalSpy = QSignalSpy{&mediaSource, &MediaSource::navigationFinished};
+    auto navSignalSpy = QSignalSpy{&mediaSource, &Source::navigationFinished};
     mediaSource.navigateBack();
     QCOMPARE(navSignalSpy.size(), 1);
     QCOMPARE(mediaSource.lastNavigatedPath(), path1);

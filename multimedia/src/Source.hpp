@@ -14,14 +14,14 @@ namespace Multimedia
 {
 
 /**
- * Definition for a list of MediaItem
+ * Definition for a list of items
  */
-using MediaItems = QVector<Item>;
+using Items = QVector<Item>;
 
 /**
  * Forward declaration for pimpl
  */
-struct MediaSourcePrivate;
+struct SourcePrivate;
 
 /**
  * Base class for every media source.
@@ -31,19 +31,19 @@ struct MediaSourcePrivate;
  * Subclasses that are not navigatable, all playable items are on the root layer.
  * Those subclasses don't need to overwrite the default implemenation.
  */
-class BLABBYMULTIMEDIA_EXPORT MediaSource : public QObject
+class BLABBYMULTIMEDIA_EXPORT Source : public QObject
 {
     Q_OBJECT
 public:
     /**
      * Default destructor
      */
-    ~MediaSource() override;
+    ~Source() override;
 
     /**
      * Disable copy and move
      */
-    Q_DISABLE_COPY_MOVE(MediaSource)
+    Q_DISABLE_COPY_MOVE(Source)
 
     /**
      * Gives the name of the source as human readable version.
@@ -64,7 +64,7 @@ public:
      * It's a readonly reference and the MediaSource should be the only writable owner.
      * @return The MediaItemModel for the source.
      */
-    MediaItems const &mediaItems() const noexcept;
+    Items const &mediaItems() const noexcept;
 
     /**
      * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
@@ -91,16 +91,16 @@ protected:
     /**
      * Constructor for subclasses
      */
-    MediaSource(QString sourceName, QString iconUrl = QString{""});
+    Source(QString sourceName, QString iconUrl = QString{""});
 
     /**
      * The MediaItems of the Source.
      * Subclasses have direct accesses to the variable for easier editing.
      */
-    MediaItems mMediaItems;
+    Items mMediaItems;
 
 private:
-    std::unique_ptr<MediaSourcePrivate> d;
+    std::unique_ptr<SourcePrivate> d;
 };
 
 } // namespace Multimedia

@@ -52,7 +52,7 @@ public:
     /**
      * @copydoc Multimedia::MediaSource::sources
      */
-    QVector<std::shared_ptr<Multimedia::MediaSource>> sources() const noexcept override;
+    QVector<std::shared_ptr<Multimedia::Source>> sources() const noexcept override;
 
 private Q_SLOTS:
     void onServiceConnected(QString const &usn) noexcept;
@@ -62,7 +62,7 @@ private:
     std::unique_ptr<UPnPAV::IServiceProviderFactory> mServiceProviderFab;
     std::unique_ptr<UPnPAV::MediaServerFactory> mMediaServerFab;
     std::unique_ptr<UPnPAV::IServiceProvider> mServiceProvider;
-    QHash<QString, std::shared_ptr<Multimedia::MediaSource>> mMediaServers;
+    QHash<QString, std::shared_ptr<Multimedia::Source>> mMediaServers;
 };
 
 } // namespace Provider

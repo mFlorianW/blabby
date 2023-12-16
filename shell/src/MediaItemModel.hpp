@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
-#include "MediaSource.hpp"
+#include "Source.hpp"
 #include <QAbstractListModel>
 
 namespace Shell
@@ -74,7 +74,7 @@ public:
      * To clear the model pass a nullptr to the function.
      * @param mediaSrc The model from that the @ref Multimedia::MediaItem are retrived.
      */
-    Q_INVOKABLE void setMediaSource(std::shared_ptr<Multimedia::MediaSource> const &mediaSrc);
+    Q_INVOKABLE void setMediaSource(std::shared_ptr<Multimedia::Source> const &mediaSrc);
 
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
@@ -120,7 +120,7 @@ Q_SIGNALS:
     void mediaSourceChanged();
 
 private:
-    std::shared_ptr<Multimedia::MediaSource> mMediaSrc;
+    std::shared_ptr<Multimedia::Source> mMediaSrc;
 };
 
 } // namespace Shell

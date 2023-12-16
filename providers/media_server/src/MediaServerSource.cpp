@@ -11,10 +11,10 @@ namespace Provider
 {
 
 MediaServerSource::MediaServerSource(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
-    : Multimedia::MediaSource{mediaServer->name(),
-                              mediaServer->iconUrl().isEmpty()
-                                  ? QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg")
-                                  : mediaServer->iconUrl().toString()}
+    : Multimedia::Source{mediaServer->name(),
+                         mediaServer->iconUrl().isEmpty()
+                             ? QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg")
+                             : mediaServer->iconUrl().toString()}
     , mServer{std::move(mediaServer)}
 {
     navigate(QStringLiteral("0"));

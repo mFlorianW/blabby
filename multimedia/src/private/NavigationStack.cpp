@@ -7,10 +7,10 @@
 namespace Multimedia
 {
 
-NavigationStack::NavigationStack(MediaSource &mediaSource)
-    : mMediaSource{mediaSource}
+NavigationStack::NavigationStack(Source &source)
+    : mSource{source}
 {
-    QObject::connect(&mMediaSource, &MediaSource::navigationFinished, &mMediaSource, [this](QString const &path) {
+    QObject::connect(&mSource, &Source::navigationFinished, &mSource, [this](QString const &path) {
         if (not mNavigationAction) {
             // Remove older navigation history and replace with the new history.
             if (not mPathStack.isEmpty() and mPathStack.size() - 1 > mNavigationIndex) {
@@ -46,7 +46,7 @@ void NavigationStack::navigateBack()
     }
     const auto path = mPathStack.at(mNavigationIndex);
     mNavigationAction = true;
-    mMediaSource.navigateTo(path);
+    mSource.navigateTo(path);
 }
 
 void NavigationStack::navigateForward()
@@ -59,7 +59,7 @@ void NavigationStack::navigateForward()
     if (mNavigationIndex < mPathStack.size()) {
         const auto path = mPathStack.at(mNavigationIndex);
         mNavigationAction = true;
-        mMediaSource.navigateTo(path);
+        mSource.navigateTo(path);
     } else {
         --mNavigationIndex;
     }

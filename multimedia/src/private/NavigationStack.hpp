@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
-#include "MediaSource.hpp"
+#include "Source.hpp"
 #include <QStringList>
 #include <QtGlobal>
 
@@ -14,7 +14,7 @@ namespace Multimedia
 class NavigationStack final
 {
 public:
-    NavigationStack(MediaSource &mediaSource);
+    NavigationStack(Source &source);
 
     ~NavigationStack();
 
@@ -27,7 +27,7 @@ public:
     void navigateBack();
 
 private:
-    MediaSource &mMediaSource;
+    Source &mSource;
     QString mPath;
     QStringList mPathStack;
     qsizetype mNavigationIndex{0};
