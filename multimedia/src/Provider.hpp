@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
-#include "MediaSource.hpp"
+#include "Source.hpp"
 #include "blabbymultimedia_export.h"
 #include <QObject>
 
@@ -13,7 +13,7 @@ namespace Multimedia
 /**
  * Alias for a list of media sources
  */
-using MediaSources = QVector<std::shared_ptr<MediaSource>>;
+using MediaSources = QVector<std::shared_ptr<Source>>;
 
 /**
  * Provider plugin version
@@ -90,13 +90,13 @@ Q_SIGNALS:
      * This signal shall be emitted when ever a source is added to provider.
      * As an example a new MediaServer appears on the network, a USB-Stick got mounted etc.
      */
-    void sourceAdded(std::shared_ptr<MediaSource> const &source);
+    void sourceAdded(std::shared_ptr<Source> const &source);
 
     /**
      * This signal shall be emitted when ever a source is removed in the provider.
      * As an exmaple a MediaServer disappears on the network or USB-Stick got removed etc.
      */
-    void sourceRemoved(std::shared_ptr<MediaSource> const &source);
+    void sourceRemoved(std::shared_ptr<Source> const &source);
 
 protected:
     Provider(QString name, ProviderVersion version);

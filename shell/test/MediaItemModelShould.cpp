@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "MediaItemModelShould.hpp"
 #include "MediaItemModel.hpp"
-#include "TestMediaSource.hpp"
+#include "TestSource.hpp"
 #include <QAbstractItemModelTester>
 #include <QSignalSpy>
 #include <QTest>
@@ -17,7 +17,7 @@ MediaItemModelShould::~MediaItemModelShould() = default;
 void MediaItemModelShould::give_correct_amount_of_items()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
 
@@ -59,7 +59,7 @@ void MediaItemModelShould::give_the_correct_title_for_valid_index()
     QFETCH(QString, expectedTitle);
 
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
 
@@ -72,7 +72,7 @@ void MediaItemModelShould::give_the_correct_title_for_valid_index()
 void MediaItemModelShould::navigate_when_a_container_item_is_activated()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
 
@@ -84,7 +84,7 @@ void MediaItemModelShould::navigate_when_a_container_item_is_activated()
 void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
     auto modelAboutToReset = QSignalSpy{&miModel, &MediaItemModel::modelAboutToBeReset};
@@ -109,7 +109,7 @@ void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
 void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
     auto playRequestSpy = QSignalSpy{&miModel, &MediaItemModel::playRequest};
@@ -123,7 +123,7 @@ void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
 void MediaItemModelShould::navigate_the_back_the_active_media_source()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
 
@@ -137,7 +137,7 @@ void MediaItemModelShould::navigate_the_back_the_active_media_source()
 void MediaItemModelShould::give_the_default_icon_url_when_the_media_item_has_no_icon()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestMediaSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
 
@@ -155,9 +155,8 @@ void MediaItemModelShould::give_the_default_icon_url_when_the_media_item_has_no_
 void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_source()
 {
     auto miModel = MediaItemModel{};
-    auto mediaSrc =
-        std::make_shared<Multimedia::TestHelper::TestMediaSource>(QStringLiteral("MediaSource"),
-                                                                  QStringLiteral("http:/localhost/1234.png"));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QStringLiteral("MediaSource"),
+                                                                         QStringLiteral("http:/localhost/1234.png"));
     auto mediaSourceChangedSpy = QSignalSpy{&miModel, &MediaItemModel::mediaSourceChanged};
     miModel.setMediaSource(mediaSrc);
 

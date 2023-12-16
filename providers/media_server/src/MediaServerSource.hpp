@@ -4,13 +4,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 #include "MediaServer.hpp"
-#include "MediaSource.hpp"
+#include "Source.hpp"
 #include "blabbymediaserverprovider_export.h"
 
 namespace Provider
 {
 
-class BLABBYMEDIASERVERPROVIDER_EXPORT MediaServerSource final : public Multimedia::MediaSource
+class BLABBYMEDIASERVERPROVIDER_EXPORT MediaServerSource final : public Multimedia::Source
 {
 public:
     /**

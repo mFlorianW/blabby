@@ -73,11 +73,11 @@ void MediaServerSourceShould::give_root_media_items_on_init()
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
-    const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::Item{Multimedia::ItemType::Container,
-                                                                            QStringLiteral("MyMusic"),
-                                                                            QString{""},
-                                                                            QString{""},
-                                                                            QString{"1"}}};
+    const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
+                                                                       QStringLiteral("MyMusic"),
+                                                                       QString{""},
+                                                                       QString{""},
+                                                                       QString{"1"}}};
 
     Q_EMIT mediaServerRaw->soapCall->finished();
 
@@ -112,11 +112,11 @@ void MediaServerSourceShould::request_root_media_items_on_navigation()
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
-    const auto expectedMediaItems = Multimedia::MediaItems{Multimedia::Item{Multimedia::ItemType::Container,
-                                                                            QStringLiteral("MyMusic"),
-                                                                            QString{""},
-                                                                            QString{""},
-                                                                            QString{"1"}}};
+    const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
+                                                                       QStringLiteral("MyMusic"),
+                                                                       QString{""},
+                                                                       QString{""},
+                                                                       QString{"1"}}};
 
     mediaServerSource.navigateTo(QStringLiteral("0"));
     Q_EMIT mediaServerRaw->soapCall->finished();

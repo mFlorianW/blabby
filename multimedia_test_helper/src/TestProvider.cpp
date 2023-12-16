@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "TestProvider.hpp"
-#include "TestMediaSource.hpp"
+#include "TestSource.hpp"
 
 namespace Multimedia::TestHelper
 {
@@ -17,8 +17,8 @@ TestProvider::~TestProvider() = default;
 
 bool TestProvider::init() noexcept
 {
-    mSources.emplace_back(std::make_shared<TestMediaSource>(QStringLiteral("TestMediaSource"),
-                                                            QStringLiteral("http::/127.0.0.1/TestMediaSource.png")));
+    mSources.emplace_back(std::make_shared<TestSource>(QStringLiteral("TestMediaSource"),
+                                                       QStringLiteral("http::/127.0.0.1/TestMediaSource.png")));
     return true;
 }
 
@@ -29,9 +29,9 @@ Multimedia::MediaSources TestProvider::sources() const noexcept
 
 void TestProvider::createNewSource() noexcept
 {
-    auto src = mSources.emplace_back(
-        std::make_shared<TestMediaSource>(QStringLiteral("TestMediaSource"),
-                                          QStringLiteral("http::/127.0.0.1/TestMediaSource.png")));
+    auto src =
+        mSources.emplace_back(std::make_shared<TestSource>(QStringLiteral("TestMediaSource"),
+                                                           QStringLiteral("http::/127.0.0.1/TestMediaSource.png")));
     Q_EMIT sourceAdded(src);
 }
 

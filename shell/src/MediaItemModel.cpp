@@ -60,7 +60,7 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
     return {};
 }
 
-void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> const &mediaSrc)
+void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const &mediaSrc)
 {
     if (mMediaSrc != mediaSrc) {
         if (mMediaSrc != nullptr) {
@@ -72,7 +72,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::MediaSource> con
         endResetModel();
 
         if (mMediaSrc != nullptr) {
-            connect(mMediaSrc.get(), &Multimedia::MediaSource::navigationFinished, this, [&] {
+            connect(mMediaSrc.get(), &Multimedia::Source::navigationFinished, this, [&] {
                 beginResetModel();
                 endResetModel();
             });

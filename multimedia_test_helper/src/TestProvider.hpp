@@ -26,7 +26,7 @@ public:
     void removeLastSource() noexcept;
 
 private:
-    QVector<std::shared_ptr<Multimedia::MediaSource>> mSources;
+    QVector<std::shared_ptr<Multimedia::Source>> mSources;
 };
 
 } // namespace Multimedia::TestHelper

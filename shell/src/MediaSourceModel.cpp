@@ -75,12 +75,12 @@ void MediaSourceModel::activateMediaSource(qsizetype idx)
     Q_EMIT activeMediaSourceChanged();
 }
 
-std::shared_ptr<Multimedia::MediaSource> MediaSourceModel::activeMediaSource()
+std::shared_ptr<Multimedia::Source> MediaSourceModel::activeMediaSource()
 {
     return mActiveSource;
 }
 
-void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept
+void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const &source) noexcept
 {
     const auto newIndex = static_cast<int>(mSources.size());
     beginInsertRows(index(newIndex), newIndex, newIndex);
@@ -88,11 +88,11 @@ void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::MediaSource> co
     endInsertRows();
 }
 
-void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::MediaSource> const &source) noexcept
+void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const &source) noexcept
 {
     auto sourceIndex = std::find_if(mSources.cbegin(),
                                     mSources.cend(),
-                                    [&](std::shared_ptr<Multimedia::MediaSource> const &src) { return src == source; });
+                                    [&](std::shared_ptr<Multimedia::Source> const &src) { return src == source; });
     if (sourceIndex != mSources.cend()) {
         const auto idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);
