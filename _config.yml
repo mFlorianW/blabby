@@ -1,0 +1,8 @@
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+- jekyll-remote-theme
+
+title: Blabby
+description: Blabby is UPnPAV control point. Designed to run on Raspberry PI or any other small device.
+show_downloads: false
+theme: jekyll-theme-cayman
