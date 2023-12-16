@@ -52,7 +52,13 @@ void MediaServerSource::onBrowseRequestFinished() noexcept
     for (auto const &obj : result->objects()) {
         const auto type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
                                                                     : Multimedia::ItemType::Playable;
-        mMediaItems.emplace_back(Multimedia::Item{type, obj.title(), QString(""), QString(""), obj.id()});
+        mMediaItems.emplace_back(Multimedia::ItemBuilder{}
+                                     .withItemType(type)
+                                     .withMainText(obj.title())
+                                     .withPath(obj.id())
+                                     .withPlayUrl(obj.playUrl())
+                                     .withSupportedTypes(obj.supportedProtocols())
+                                     .build());
     }
     Q_EMIT navigationFinished(mBrowseRequest.mPath);
 }

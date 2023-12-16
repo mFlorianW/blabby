@@ -21,6 +21,8 @@ private Q_SLOTS:
     void give_the_main_and_secondary_text();
     void give_the_icon_url();
     void give_the_path();
+    void give_the_play_url();
+    void give_supported_types();
 };
 
 } // namespace Multimedia
