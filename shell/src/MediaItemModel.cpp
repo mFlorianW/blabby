@@ -51,7 +51,7 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
     } else if (dispRole == DisplayRole::MediaItemIconUrl) {
         const auto iconUrl = item.iconUrl();
         if (iconUrl.isEmpty()) {
-            return item.type() == Multimedia::MediaItemType::Container
+            return item.type() == Multimedia::ItemType::Container
                        ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
                        : QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg");
         }
@@ -95,7 +95,7 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
     }
 
     const auto &item = items.at(idx);
-    if (item.type() == Multimedia::MediaItemType::Container) {
+    if (item.type() == Multimedia::ItemType::Container) {
         mMediaSrc->navigateTo(item.path());
     } else {
         Q_EMIT playRequest(item);

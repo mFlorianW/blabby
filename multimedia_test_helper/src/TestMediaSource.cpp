@@ -13,26 +13,26 @@ TestMediaSource::TestMediaSource(QString name, QString iconUrl)
     : Multimedia::MediaSource{std::move(name), std::move(iconUrl)}
 {
     mItems.insert(QStringLiteral("0"),
-                  {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem1")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem2")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Container,
-                                         QStringLiteral("Container1"),
-                                         QString(""),
-                                         QString(""),
-                                         QStringLiteral("1")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem3")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")}});
+                  {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem1")},
+                   Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem2")},
+                   Multimedia::Item{Multimedia::ItemType::Container,
+                                    QStringLiteral("Container1"),
+                                    QString(""),
+                                    QString(""),
+                                    QStringLiteral("1")},
+                   Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem3")},
+                   Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem4")}});
     mItems.insert(QStringLiteral("1"),
-                  {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem3")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem4")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Container,
-                                         QStringLiteral("Container2"),
-                                         QString(""),
-                                         QString(""),
-                                         QStringLiteral("2")}});
+                  {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem3")},
+                   Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem4")},
+                   Multimedia::Item{Multimedia::ItemType::Container,
+                                    QStringLiteral("Container2"),
+                                    QString(""),
+                                    QString(""),
+                                    QStringLiteral("2")}});
     mItems.insert(QStringLiteral("2"),
-                  {Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem5")},
-                   Multimedia::MediaItem{Multimedia::MediaItemType::Playable, QStringLiteral("MediaItem6")}});
+                  {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem5")},
+                   Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem6")}});
     navigateTo(QStringLiteral("0"));
 }
 

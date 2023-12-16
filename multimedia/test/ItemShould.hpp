@@ -9,13 +9,13 @@
 namespace Multimedia
 {
 
-class MediaItemShould : public QObject
+class ItemShould : public QObject
 {
     Q_OBJECT
 public:
     using QObject::QObject;
-    ~MediaItemShould() override;
-    Q_DISABLE_COPY_MOVE(MediaItemShould)
+    ~ItemShould() override;
+    Q_DISABLE_COPY_MOVE(ItemShould)
 private Q_SLOTS:
     void give_the_type();
     void give_the_main_and_secondary_text();

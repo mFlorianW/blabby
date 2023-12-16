@@ -117,7 +117,7 @@ void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
     miModel.activateMediaItem(1);
 
     QCOMPARE(playRequestSpy.size(), 1);
-    QCOMPARE(playRequestSpy.at(0).at(0).value<Multimedia::MediaItem>().mainText(), QStringLiteral("MediaItem2"));
+    QCOMPARE(playRequestSpy.at(0).at(0).value<Multimedia::Item>().mainText(), QStringLiteral("MediaItem2"));
 }
 
 void MediaItemModelShould::navigate_the_back_the_active_media_source()

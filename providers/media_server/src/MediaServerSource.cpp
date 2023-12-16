@@ -50,9 +50,9 @@ void MediaServerSource::onBrowseRequestFinished() noexcept
     const auto result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
     mMediaItems.clear();
     for (auto const &obj : result->objects()) {
-        const auto type = obj.typeClass().contains("storageFolder") ? Multimedia::MediaItemType::Container
-                                                                    : Multimedia::MediaItemType::Playable;
-        mMediaItems.emplace_back(Multimedia::MediaItem{type, obj.title(), QString(""), QString(""), obj.id()});
+        const auto type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
+                                                                    : Multimedia::ItemType::Playable;
+        mMediaItems.emplace_back(Multimedia::Item{type, obj.title(), QString(""), QString(""), obj.id()});
     }
     Q_EMIT navigationFinished(mBrowseRequest.mPath);
 }
