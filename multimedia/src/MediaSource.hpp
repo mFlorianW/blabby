@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
-#include "MediaItem.hpp"
+#include "Item.hpp"
 #include "blabbymultimedia_export.h"
 #include <QStack>
 #include <QString>
@@ -16,7 +16,7 @@ namespace Multimedia
 /**
  * Definition for a list of MediaItem
  */
-using MediaItems = QVector<MediaItem>;
+using MediaItems = QVector<Item>;
 
 /**
  * Forward declaration for pimpl

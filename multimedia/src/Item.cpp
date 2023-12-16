@@ -2,43 +2,43 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
-#include "MediaItem.hpp"
+#include "Item.hpp"
 
 namespace Multimedia
 {
 
-MediaItem::MediaItem(MediaItemType type, QString mainText, QString secondaryText, QString iconUrl, QString path)
-    : d{new MediaItemData{type, std::move(mainText), secondaryText, std::move(iconUrl), std::move(path)}}
+Item::Item(ItemType type, QString mainText, QString secondaryText, QString iconUrl, QString path)
+    : d{new ItemData{type, std::move(mainText), secondaryText, std::move(iconUrl), std::move(path)}}
 {
 }
 
-MediaItemType MediaItem::type() const noexcept
+ItemType Item::type() const noexcept
 {
     return d->mType;
 }
 
-QString const &MediaItem::mainText() const noexcept
+QString const &Item::mainText() const noexcept
 {
     return d->mMainText;
 }
 
-QString const &MediaItem::secondaryText() const noexcept
+QString const &Item::secondaryText() const noexcept
 {
 
     return d->mSecondaryText;
 }
 
-QString const &MediaItem::iconUrl() const noexcept
+QString const &Item::iconUrl() const noexcept
 {
     return d->mIconUrl;
 }
 
-QString const &MediaItem::path() const noexcept
+QString const &Item::path() const noexcept
 {
     return d->mPath;
 }
 
-bool operator==(MediaItem const &lhs, MediaItem const &rhs) noexcept
+bool operator==(Item const &lhs, Item const &rhs) noexcept
 {
     // clang-format off
     return (lhs.d == rhs.d) or ((lhs.d->mType == rhs.d->mType) and
@@ -49,7 +49,7 @@ bool operator==(MediaItem const &lhs, MediaItem const &rhs) noexcept
     // clang-format on
 }
 
-bool operator!=(MediaItem const &lhs, MediaItem const &rhs) noexcept
+bool operator!=(Item const &lhs, Item const &rhs) noexcept
 {
     return !(lhs == rhs);
 }

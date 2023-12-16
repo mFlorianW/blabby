@@ -112,7 +112,7 @@ Q_SIGNALS:
     /**
      * This signal is emitted when a playabale MediaItem is activated.
      */
-    void playRequest(Multimedia::MediaItem const &mediaItem);
+    void playRequest(Multimedia::Item const &mediaItem);
 
     /**
      * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.

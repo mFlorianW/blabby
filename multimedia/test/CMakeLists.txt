@@ -59,17 +59,17 @@ add_test(test_multimedia_providerloader ${EXECUTABLE_OUTPUT_PATH}/test_multimedi
 ###############################################################################
 # Test MediaItem
 ###############################################################################
-add_executable(test_multimedia_mediaitem)
-target_sources(test_multimedia_mediaitem
+add_executable(test_multimedia_item)
+target_sources(test_multimedia_item
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ItemShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ItemShould.hpp
 )
-target_link_libraries(test_multimedia_mediaitem
+target_link_libraries(test_multimedia_item
     Qt6::Test
     Blabby::Multimedia
 )
-add_test(test_multimedia_mediaitem ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_mediaitem)
+add_test(test_multimedia_item ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_item)
 
 ###############################################################################
 # Test RendererProvider

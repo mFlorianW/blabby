@@ -14,27 +14,27 @@ namespace Multimedia
 /**
  * The type of the MediaItem
  */
-enum class BLABBYMULTIMEDIA_EXPORT MediaItemType
+enum class BLABBYMULTIMEDIA_EXPORT ItemType
 {
     Container, ///< Container type, e.g. folder on a media server album etc.
     Playable ///< Playable type, a concrete item that can be played on a @ref UPnPAV::MediaRenderer
 };
 
-struct MediaItemData;
+struct ItemData;
 /**
- * A MediaItem is item of a provider.
- * Basically an MediaItem can have two roles.
+ * An Item is an element of a @ref Multimedia::MediaSource.
+ * Basically an Item can have two roles.
  * The first role is the container role and the seconde role is a concrete media item.
  * The container role is used e.g. folder albums etc.
  */
-class BLABBYMULTIMEDIA_EXPORT MediaItem
+class BLABBYMULTIMEDIA_EXPORT Item
 {
 public:
     /**
      * Creates an empty MediaItem instance.
      * This allows to put a MedaItem in a QVariant.
      */
-    MediaItem() = default;
+    Item() = default;
 
     /**
      * Creates an Instance of MediaItem.
@@ -44,17 +44,17 @@ public:
      * @param iconUrl The URL for icon of the media item.
      * @param path The path of the media item, the path is used for the navigation in the source.
      */
-    MediaItem(MediaItemType type,
-              QString mainText,
-              QString secondaryText = QString(""),
-              QString iconUrl = QString(""),
-              QString path = QString(""));
+    Item(ItemType type,
+         QString mainText,
+         QString secondaryText = QString(""),
+         QString iconUrl = QString(""),
+         QString path = QString(""));
 
     /**
      * Gives the type of the @ref MediaItem.
      * @return The type of the @ref MediaItem.
      */
-    MediaItemType type() const noexcept;
+    ItemType type() const noexcept;
 
     /**
      * Gives the main text of the media item.
@@ -94,7 +94,7 @@ public:
      * @param rhs right hand side of the comparsion
      * @return True equal otherwise false.
      */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator==(MediaItem const &lhs, MediaItem const &rhs) noexcept;
+    BLABBYMULTIMEDIA_EXPORT friend bool operator==(Item const &lhs, Item const &rhs) noexcept;
 
     /**
      * unequal operator
@@ -102,25 +102,25 @@ public:
      * @param rhs right hand side of the comparsion
      * @return True not equal otherwise false.
      */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(MediaItem const &lhs, MediaItem const &rhs) noexcept;
+    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(Item const &lhs, Item const &rhs) noexcept;
 
 private:
-    QExplicitlySharedDataPointer<MediaItemData> d;
+    QExplicitlySharedDataPointer<ItemData> d;
 };
 
-struct MediaItemData : public QSharedData
+struct ItemData : public QSharedData
 {
-    MediaItemType mType{MediaItemType::Container};
+    ItemType mType{ItemType::Container};
     QString mMainText;
     QString mSecondaryText;
     QString mIconUrl;
     QString mPath;
 
-    MediaItemData(MediaItemType type,
-                  QString mainText,
-                  QString secondaryText = QString(""),
-                  QString iconUrl = QString(""),
-                  QString path = QString(""))
+    ItemData(ItemType type,
+             QString mainText,
+             QString secondaryText = QString(""),
+             QString iconUrl = QString(""),
+             QString path = QString(""))
         : QSharedData{}
         , mType{type}
         , mMainText{std::move(mainText)}
