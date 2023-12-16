@@ -56,7 +56,7 @@ target_link_libraries(test_upnpav_media_server_object
     Blabby::UPnPAV
     Qt6::Test
 )
-add_test(test_upnpav_browse_result ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server_object)
+add_test(test_upnpav_media_server_object ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_server_object)
 
 ###############################################################################
 # Test Pending SoapCall
