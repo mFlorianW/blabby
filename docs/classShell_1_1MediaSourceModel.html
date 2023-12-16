@@ -149,13 +149,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab05a3c6f20631426bbbafeff28a7410b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad10f835c56381114a2c019715c0a3661" id="r_ad10f835c56381114a2c019715c0a3661"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">activateMediaSource</a> (qsizetype idx)</td></tr>
 <tr class="separator:ad10f835c56381114a2c019715c0a3661"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee8dc0fd892d6fcd398232ddcfa7867d" id="r_aee8dc0fd892d6fcd398232ddcfa7867d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#aee8dc0fd892d6fcd398232ddcfa7867d">activeMediaSource</a> ()</td></tr>
-<tr class="separator:aee8dc0fd892d6fcd398232ddcfa7867d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3008da4e4e3cbcca26e9737d59bed63" id="r_af3008da4e4e3cbcca26e9737d59bed63"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#af3008da4e4e3cbcca26e9737d59bed63">activeMediaSource</a> ()</td></tr>
+<tr class="separator:af3008da4e4e3cbcca26e9737d59bed63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:aaa8a84fab3daf28518f65aebcac28090" id="r_aaa8a84fab3daf28518f65aebcac28090"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#aaa8a84fab3daf28518f65aebcac28090">activeMediaSource</a></td></tr>
-<tr class="separator:aaa8a84fab3daf28518f65aebcac28090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed8262766b9b67dfd728588292065a5" id="r_a5ed8262766b9b67dfd728588292065a5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a></td></tr>
+<tr class="separator:a5ed8262766b9b67dfd728588292065a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a> is a QAbstractListModel that holds all every MediaSource. It also handels the appearing and disappearing of dynamic MediaSources. For instance a <a class="el" href="classUPnPAV_1_1MediaServer.html">UPnPAV::MediaServer</a> is removed from the network. </p>
@@ -250,7 +250,7 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Activates the <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> under the passed indeunder the passed indexxand updates the <a class="el" href="classShell_1_1MediaSourceModel.html#aaa8a84fab3daf28518f65aebcac28090">activeMediaSource</a> property. If an invalid index is passed nothing happens. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Activates the Multimedia::MediaSource under the passed indeunder the passed indexxand updates the <a class="el" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a> property. If an invalid index is passed nothing happens. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">idx</td><td>The index of the MediaSource that shall be activated. </td></tr>
   </table>
@@ -259,21 +259,21 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="aee8dc0fd892d6fcd398232ddcfa7867d" name="aee8dc0fd892d6fcd398232ddcfa7867d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee8dc0fd892d6fcd398232ddcfa7867d">&#9670;&#160;</a></span>activeMediaSource()</h2>
+<a id="af3008da4e4e3cbcca26e9737d59bed63" name="af3008da4e4e3cbcca26e9737d59bed63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3008da4e4e3cbcca26e9737d59bed63">&#9670;&#160;</a></span>activeMediaSource()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> &gt; Shell::MediaSourceModel::activeMediaSource </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; Shell::MediaSourceModel::activeMediaSource </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gives the active <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a>. This can be a nullptr when currently no <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> is active. </p><dl class="section return"><dt>Returns</dt><dd>The active <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> or nullptr, when no <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> is active. </dd></dl>
+<p>Gives the active Multimedia::MediaSource. This can be a nullptr when currently no Multimedia::MediaSource is active. </p><dl class="section return"><dt>Returns</dt><dd>The active Multimedia::MediaSource or nullptr, when no Multimedia::MediaSource is active. </dd></dl>
 
 </div>
 </div>
@@ -299,7 +299,7 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>The signal is emitted when the active <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> changed. </p>
+<p>The signal is emitted when the active Multimedia::MediaSource changed. </p>
 
 </div>
 </div>
@@ -401,8 +401,8 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="aaa8a84fab3daf28518f65aebcac28090" name="aaa8a84fab3daf28518f65aebcac28090"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa8a84fab3daf28518f65aebcac28090">&#9670;&#160;</a></span>activeMediaSource</h2>
+<a id="a5ed8262766b9b67dfd728588292065a5" name="a5ed8262766b9b67dfd728588292065a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed8262766b9b67dfd728588292065a5">&#9670;&#160;</a></span>activeMediaSource</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -411,7 +411,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> &gt; Shell::MediaSourceModel::activeMediaSource</td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; Shell::MediaSourceModel::activeMediaSource</td>
         </tr>
       </table>
   </td>
@@ -420,7 +420,7 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This property holds the active <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a>. A active <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> means that the media of that <a class="el" href="classMultimedia_1_1MediaSource.html">Multimedia::MediaSource</a> are displayed to the user in the UI. </p>
+<p>This property holds the active Multimedia::MediaSource. A active Multimedia::MediaSource means that the media of that Multimedia::MediaSource are displayed to the user in the UI. </p>
 
 </div>
 </div>

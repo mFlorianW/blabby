@@ -4,5 +4,5 @@ var searchData=
   ['border_1',['border',['../classShell_1_1AbstractIconButton.html#aa21aed8213b0573f76d95e8d74a67db5',1,'Shell::AbstractIconButton']]],
   ['borderchanged_2',['borderChanged',['../classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95',1,'Shell::AbstractIconButton']]],
   ['browse_3',['browse',['../classUPnPAV_1_1MediaServer.html#a49d0920153f500ac5f61b8fdfa67e266',1,'UPnPAV::MediaServer']]],
-  ['build_4',['build',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a247593b4cb4f6bd04373ddaaa3e39e8e',1,'UPnPAV::MediaServerObjectBuilder']]]
+  ['build_4',['build',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a247593b4cb4f6bd04373ddaaa3e39e8e',1,'UPnPAV::MediaServerObjectBuilder::build()'],['../classMultimedia_1_1ItemBuilder.html#a2903b5c57881dc6629637607e3ac1d25',1,'Multimedia::ItemBuilder::build()']]]
 ];

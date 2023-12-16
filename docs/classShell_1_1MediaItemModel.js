@@ -8,10 +8,10 @@ var classShell_1_1MediaItemModel =
     [ "mediaSourceName", "classShell_1_1MediaItemModel.html#a8e2beacf12ac193cdb25f21865495e97", null ],
     [ "navigateBack", "classShell_1_1MediaItemModel.html#a781472df8e4aae2d97dc4f0d97fa0e2b", null ],
     [ "navigateForward", "classShell_1_1MediaItemModel.html#a6483b2ac96d140b5f549adf13c051980", null ],
-    [ "playRequest", "classShell_1_1MediaItemModel.html#a1852e59203eb3a2888715c65302ed40d", null ],
+    [ "playRequest", "classShell_1_1MediaItemModel.html#a4953963f0b77629138338f3b5c7c1277", null ],
     [ "roleNames", "classShell_1_1MediaItemModel.html#abcb01b7393213ae5ecd0900f12003646", null ],
     [ "rowCount", "classShell_1_1MediaItemModel.html#aa5d642c6e6569814aabcf5b92e3a1c9f", null ],
-    [ "setMediaSource", "classShell_1_1MediaItemModel.html#a95cd12ab1c912d0394432412bec93e69", null ],
+    [ "setMediaSource", "classShell_1_1MediaItemModel.html#ae1a46b088c72e0f789e8582f52b0a6fc", null ],
     [ "mediaSourceIconUrl", "classShell_1_1MediaItemModel.html#a8a21ef0454342e6fbb28c8d6be695920", null ],
     [ "mediaSourceName", "classShell_1_1MediaItemModel.html#aa5c1dad675569030e321ff321b67fcfe", null ]
 ];

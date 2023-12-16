@@ -147,7 +147,7 @@ $(document).ready(function(){initNavTree('MediaServerProvider_8hpp_source.html',
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    </div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> init() noexcept override;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QVector&lt;std::shared_ptr&lt;Multimedia::MediaSource&gt;&gt; sources() const noexcept override;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QVector&lt;std::shared_ptr&lt;Multimedia::Source&gt;&gt; sources() const noexcept override;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>private Q_SLOTS:</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> onServiceConnected(QString const &amp;usn) noexcept;</div>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('MediaServerProvider_8hpp_source.html',
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::unique_ptr&lt;UPnPAV::IServiceProviderFactory&gt; mServiceProviderFab;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::unique_ptr&lt;UPnPAV::MediaServerFactory&gt; mMediaServerFab;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::unique_ptr&lt;UPnPAV::IServiceProvider&gt; mServiceProvider;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    QHash&lt;QString, std::shared_ptr&lt;Multimedia::MediaSource&gt;&gt; mMediaServers;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    QHash&lt;QString, std::shared_ptr&lt;Multimedia::Source&gt;&gt; mMediaServers;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>};</div>
 </div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>

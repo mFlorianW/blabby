@@ -1,16 +1,17 @@
 var annotated_dup =
 [
     [ "Multimedia", null, [
-      [ "MediaItem", "classMultimedia_1_1MediaItem.html", "classMultimedia_1_1MediaItem" ],
-      [ "MediaItemData", "structMultimedia_1_1MediaItemData.html", null ],
-      [ "MediaSource", "classMultimedia_1_1MediaSource.html", "classMultimedia_1_1MediaSource" ],
-      [ "MediaSourcePrivate", "structMultimedia_1_1MediaSourcePrivate.html", null ],
+      [ "Item", "classMultimedia_1_1Item.html", "classMultimedia_1_1Item" ],
+      [ "ItemBuilder", "classMultimedia_1_1ItemBuilder.html", "classMultimedia_1_1ItemBuilder" ],
+      [ "ItemData", "structMultimedia_1_1ItemData.html", null ],
       [ "NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
       [ "Provider", "classMultimedia_1_1Provider.html", "classMultimedia_1_1Provider" ],
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
       [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ],
       [ "Renderer", "classMultimedia_1_1Renderer.html", "classMultimedia_1_1Renderer" ],
-      [ "RendererProvider", "classMultimedia_1_1RendererProvider.html", "classMultimedia_1_1RendererProvider" ]
+      [ "RendererProvider", "classMultimedia_1_1RendererProvider.html", "classMultimedia_1_1RendererProvider" ],
+      [ "Source", "classMultimedia_1_1Source.html", "classMultimedia_1_1Source" ],
+      [ "SourcePrivate", "structMultimedia_1_1SourcePrivate.html", null ]
     ] ],
     [ "Provider", null, [
       [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],

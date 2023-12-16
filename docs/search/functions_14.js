@@ -11,12 +11,12 @@ var searchData=
   ['_7emediarendererfactory_8',['~MediaRendererFactory',['../classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d',1,'UPnPAV::MediaRendererFactory']]],
   ['_7emediaserverprovider_9',['~MediaServerProvider',['../classProvider_1_1MediaServerProvider.html#a0f9a6857462003d3657c83279c554529',1,'Provider::MediaServerProvider']]],
   ['_7emediaserversource_10',['~MediaServerSource',['../classProvider_1_1MediaServerSource.html#af33accfdb51a715eaaad998d7174e189',1,'Provider::MediaServerSource']]],
-  ['_7emediasource_11',['~MediaSource',['../classMultimedia_1_1MediaSource.html#a5b0695e7bbc1938488b628e19e4f955a',1,'Multimedia::MediaSource']]],
-  ['_7emediasourcemodel_12',['~MediaSourceModel',['../classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1',1,'Shell::MediaSourceModel']]],
-  ['_7ependingsoapcall_13',['~PendingSoapCall',['../classUPnPAV_1_1PendingSoapCall.html#ada9bbd833a23a973b1217c0c0e51f432',1,'UPnPAV::PendingSoapCall']]],
-  ['_7eprovider_14',['~Provider',['../classMultimedia_1_1Provider.html#ad5d6c8246d67b8ac49a669386b4c0720',1,'Multimedia::Provider']]],
-  ['_7eproviderloader_15',['~ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#ac4a43f57293a652373c943eba210a514',1,'Multimedia::ProviderLoader']]],
-  ['_7eqmlsingletonregistry_16',['~QmlSingletonRegistry',['../classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a',1,'Shell::QmlSingletonRegistry']]],
-  ['_7erenderer_17',['~Renderer',['../classMultimedia_1_1Renderer.html#a092e1ac22b3f58f0651c0cb583a6ba1a',1,'Multimedia::Renderer']]],
-  ['_7erendererprovider_18',['~RendererProvider',['../classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b',1,'Multimedia::RendererProvider']]]
+  ['_7emediasourcemodel_11',['~MediaSourceModel',['../classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1',1,'Shell::MediaSourceModel']]],
+  ['_7ependingsoapcall_12',['~PendingSoapCall',['../classUPnPAV_1_1PendingSoapCall.html#ada9bbd833a23a973b1217c0c0e51f432',1,'UPnPAV::PendingSoapCall']]],
+  ['_7eprovider_13',['~Provider',['../classMultimedia_1_1Provider.html#ad5d6c8246d67b8ac49a669386b4c0720',1,'Multimedia::Provider']]],
+  ['_7eproviderloader_14',['~ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#ac4a43f57293a652373c943eba210a514',1,'Multimedia::ProviderLoader']]],
+  ['_7eqmlsingletonregistry_15',['~QmlSingletonRegistry',['../classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a',1,'Shell::QmlSingletonRegistry']]],
+  ['_7erenderer_16',['~Renderer',['../classMultimedia_1_1Renderer.html#a092e1ac22b3f58f0651c0cb583a6ba1a',1,'Multimedia::Renderer']]],
+  ['_7erendererprovider_17',['~RendererProvider',['../classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b',1,'Multimedia::RendererProvider']]],
+  ['_7esource_18',['~Source',['../classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1',1,'Multimedia::Source']]]
 ];

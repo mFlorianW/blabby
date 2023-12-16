@@ -26,18 +26,18 @@ var hierarchy =
     [ "UPnPAV::GetTransportInfoResponse", "classUPnPAV_1_1GetTransportInfoResponse.html", null ],
     [ "UPnPAV::GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", null ],
     [ "UPnPAV::IconDescription", "classUPnPAV_1_1IconDescription.html", null ],
+    [ "Multimedia::Item", "classMultimedia_1_1Item.html", null ],
+    [ "Multimedia::ItemBuilder", "classMultimedia_1_1ItemBuilder.html", null ],
     [ "UPnPAV::MediaDevice", "classUPnPAV_1_1MediaDevice.html", [
       [ "UPnPAV::MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", null ],
       [ "UPnPAV::MediaServer", "classUPnPAV_1_1MediaServer.html", null ]
     ] ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
-    [ "Multimedia::MediaItem", "classMultimedia_1_1MediaItem.html", null ],
     [ "UPnPAV::MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
     [ "UPnPAV::MediaServerObjectBuilder", "classUPnPAV_1_1MediaServerObjectBuilder.html", null ],
     [ "UPnPAV::MediaServerPrivate", "classUPnPAV_1_1MediaServerPrivate.html", null ],
-    [ "Multimedia::MediaSourcePrivate", "structMultimedia_1_1MediaSourcePrivate.html", null ],
     [ "Multimedia::NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
     [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
@@ -52,14 +52,14 @@ var hierarchy =
       [ "UPnPAV::PackageParseError", "classUPnPAV_1_1PackageParseError.html", null ]
     ] ],
     [ "QObject", null, [
-      [ "Multimedia::MediaSource", "classMultimedia_1_1MediaSource.html", [
-        [ "Provider::MediaServerSource", "classProvider_1_1MediaServerSource.html", null ]
-      ] ],
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
         [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
       ] ],
       [ "Multimedia::Renderer", "classMultimedia_1_1Renderer.html", null ],
       [ "Multimedia::RendererProvider", "classMultimedia_1_1RendererProvider.html", null ],
+      [ "Multimedia::Source", "classMultimedia_1_1Source.html", [
+        [ "Provider::MediaServerSource", "classProvider_1_1MediaServerSource.html", null ]
+      ] ],
       [ "Shell::AbstractClock", "classShell_1_1AbstractClock.html", null ],
       [ "Shell::QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
@@ -88,7 +88,7 @@ var hierarchy =
       [ "Shell::AbstractListEntry", "classShell_1_1AbstractListEntry.html", null ]
     ] ],
     [ "QSharedData", null, [
-      [ "Multimedia::MediaItemData", "structMultimedia_1_1MediaItemData.html", null ],
+      [ "Multimedia::ItemData", "structMultimedia_1_1ItemData.html", null ],
       [ "UPnPAV::GetDeviceCapabilitiesResponseData", "structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html", null ],
       [ "UPnPAV::GetMediaInfoResponseData", "structUPnPAV_1_1GetMediaInfoResponseData.html", null ],
       [ "UPnPAV::GetPositionInfoResponseData", "structUPnPAV_1_1GetPositionInfoResponseData.html", null ],
@@ -111,5 +111,6 @@ var hierarchy =
     [ "UPnPAV::SoapMessageGenerator", "classUPnPAV_1_1SoapMessageGenerator.html", null ],
     [ "UPnPAV::SoapMessageTransmitter", "classUPnPAV_1_1SoapMessageTransmitter.html", [
       [ "UPnPAV::HttpSoapMessageTransmitter", "classUPnPAV_1_1HttpSoapMessageTransmitter.html", null ]
-    ] ]
+    ] ],
+    [ "Multimedia::SourcePrivate", "structMultimedia_1_1SourcePrivate.html", null ]
 ];

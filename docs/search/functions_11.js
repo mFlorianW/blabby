@@ -12,5 +12,5 @@ var searchData=
   ['transportinfo_9',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
   ['transportplayspeed_10',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#acbc67ad9564cd2e48d32ff51870cac83',1,'UPnPAV::GetTransportInfoResponse']]],
   ['transportsettings_11',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
-  ['type_12',['type',['../classMultimedia_1_1MediaItem.html#a5c59e79e9294c55a04f48680b34a5c13',1,'Multimedia::MediaItem']]]
+  ['type_12',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];
