@@ -7,6 +7,11 @@
 namespace Multimedia
 {
 
+Item::Item()
+    : d{new ItemData{}}
+{
+}
+
 Item::Item(ItemType type, QString mainText, QString secondaryText, QString iconUrl, QString path)
     : d{new ItemData{type, std::move(mainText), secondaryText, std::move(iconUrl), std::move(path)}}
 {
@@ -38,6 +43,16 @@ QString const &Item::path() const noexcept
     return d->mPath;
 }
 
+QString const &Item::playUrl() const noexcept
+{
+    return d->mPlayUrl;
+}
+
+QStringList const &Item::supportedTypes() const noexcept
+{
+    return d->mSupportedTypes;
+}
+
 bool operator==(Item const &lhs, Item const &rhs) noexcept
 {
     // clang-format off
@@ -52,6 +67,53 @@ bool operator==(Item const &lhs, Item const &rhs) noexcept
 bool operator!=(Item const &lhs, Item const &rhs) noexcept
 {
     return !(lhs == rhs);
+}
+
+ItemBuilder &ItemBuilder::withItemType(ItemType type) noexcept
+{
+    mItem.d->mType = type;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withMainText(QString const &text) noexcept
+{
+    mItem.d->mMainText = text;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withSecondaryText(QString const &text) noexcept
+{
+    mItem.d->mSecondaryText = text;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withIconUrl(QString const &iconUrl) noexcept
+{
+    mItem.d->mIconUrl = iconUrl;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withPath(QString const &path) noexcept
+{
+    mItem.d->mPath = path;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withPlayUrl(QString const &playUrl) noexcept
+{
+    mItem.d->mPlayUrl = playUrl;
+    return *this;
+}
+
+ItemBuilder &ItemBuilder::withSupportedTypes(QStringList const &supportedTypes)
+{
+    mItem.d->mSupportedTypes = supportedTypes;
+    return *this;
+}
+
+Item ItemBuilder::build() noexcept
+{
+    return mItem;
 }
 
 } // namespace Multimedia
