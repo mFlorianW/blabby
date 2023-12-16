@@ -96,11 +96,20 @@ void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_Whe
     QString response = QString{xmlResponse}.arg(didlOnlyOneItem, "1", "1", "33");
     auto browseResult = createBrowseResult(response);
     QVector<MediaServerObject> expectedObjects{
-        MediaServerObject{"64$0$0", "64$0", "Dekmantel Boiler Room 2016 -", "object.item.audioItem.musicTrack"}};
-
+        MediaServerObjectBuilder{}
+            .withId("64$0$0")
+            .withParentId("64$0")
+            .withTitle("Dekmantel Boiler Room 2016 -")
+            .withTypeClass("object.item.audioItem.musicTrack")
+            .withPlayUrl("http://192.168.0.2:8200/MediaItems/23.mp3")
+            .withSupportedProtocols(QStringList{{QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3")},
+                                                {QStringLiteral("DLNA.ORG_OP=01")},
+                                                {QStringLiteral("DLNA.ORG_CI=0")},
+                                                {QStringLiteral("DLNA.ORG_FLAGS=01700000000000000000000000000000")}})
+            .build()};
     auto objects = browseResult.objects();
 
-    QVERIFY(expectedObjects == objects);
+    QCOMPARE(expectedObjects, objects);
 }
 
 void BrowseResponseShould::parse_real_world_responses()
@@ -142,11 +151,10 @@ void BrowseResponseShould::parse_real_world_media_items()
             .withTitle(QStringLiteral("Techno Mix 2017 Part 2 (Berghain Berlin)"))
             .withParentId(QStringLiteral("1$14$2$6"))
             .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/240.mp3"))
-            .withSupportedProtocols(QStringList{
-                {QStringLiteral("http-get")},
-                {QStringLiteral("*")},
-                {QStringLiteral("audio/mpeg")},
-                {"DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01700000000000000000000000000000"}})
+            .withSupportedProtocols(QStringList{{QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3")},
+                                                {QStringLiteral("DLNA.ORG_OP=01")},
+                                                {QStringLiteral("DLNA.ORG_CI=0")},
+                                                {QStringLiteral("DLNA.ORG_FLAGS=01700000000000000000000000000000")}})
             .build();
 
     auto objects = browseResult.objects();

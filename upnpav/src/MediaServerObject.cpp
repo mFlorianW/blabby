@@ -124,7 +124,7 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
             const auto attributes = streamReader.attributes();
             for (auto const &attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
-                    builder.withSupportedProtocols(attribute.value().toString().split(":"));
+                    builder.withSupportedProtocols(attribute.value().toString().split(";"));
                 }
             }
             builder.withPlayUrl(streamReader.readElementText());
