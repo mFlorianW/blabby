@@ -78,21 +78,6 @@ const QVector<Protocol> &GetProtocolInfoResponse::sinkProtocols() const noexcept
     return mSinkProtocols;
 }
 
-bool operator==(const Protocol &lhs, const Protocol &rhs) noexcept
-{
-    // clang-format off
-    return (lhs.network == rhs.network or (lhs.network == "*" or rhs.network == "*")) and
-           (lhs.protocol == rhs.protocol or (lhs.protocol == "*" or rhs.protocol == "*")) and 
-           (lhs.contentFormat == rhs.contentFormat or (lhs.contentFormat == "*" or rhs.contentFormat == "*")) and
-           (lhs.additionalInfo == rhs.additionalInfo or (lhs.additionalInfo== "*" or rhs.additionalInfo == "*"));
-    // clang-format on
-}
-
-bool operator!=(const Protocol &lhs, const Protocol &rhs) noexcept
-{
-    return !(lhs == rhs);
-}
-
 std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(QString const &rawResult) noexcept
 {
     auto result = QVector<Protocol>{};
