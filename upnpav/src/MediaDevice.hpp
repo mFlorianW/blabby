@@ -70,19 +70,19 @@ public:
      *
      * @return PendingSoapCall with the result or an error.
      */
-    virtual QScopedPointer<PendingSoapCall> protocolInfo() noexcept;
+    virtual std::unique_ptr<PendingSoapCall> protocolInfo() noexcept;
 
     /**
      * Calls the GetCurrentConnectionIds on the ConnectionManager of the UPnPAV device.
      * @return PendingSoapCall with the result or an error.
      */
-    virtual QScopedPointer<PendingSoapCall> currentConnectionIds() noexcept;
+    virtual std::unique_ptr<PendingSoapCall> currentConnectionIds() noexcept;
 
     /**
      * Calls the GetCurrentConnectionInfo on the ConnectionManager of the UPnPAV device.
      * @return PendingSoapCall with the result or an error.
      */
-    virtual QScopedPointer<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept;
+    virtual std::unique_ptr<PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept;
 
     /**
      * Checks if the media device implements the AVTransport service.
@@ -102,10 +102,10 @@ public:
      * The function can only be called if the device has an AVTransport service.
      * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
      */
-    virtual std::optional<QScopedPointer<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
-                                                                             QString const &uri,
-                                                                             QString const &uriMetaData = QString{
-                                                                                 ""}) noexcept;
+    virtual std::optional<std::unique_ptr<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
+                                                                              QString const &uri,
+                                                                              QString const &uriMetaData = QString{
+                                                                                  ""}) noexcept;
 
     /**
      * Call the GetMediaInfo on the AVTransport service of the device.

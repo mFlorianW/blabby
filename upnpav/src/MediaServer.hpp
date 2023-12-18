@@ -53,7 +53,7 @@ public:
      *
      * @return PendingSoapCall with the result or error.
      */
-    virtual QSharedPointer<PendingSoapCall> getSortCapabilities() noexcept;
+    virtual std::unique_ptr<PendingSoapCall> getSortCapabilities() noexcept;
 
     /**
      * Browse the media server.
@@ -64,10 +64,10 @@ public:
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
      * @return PendingSoapCall with the result or error.
      */
-    virtual QSharedPointer<PendingSoapCall> browse(const QString &objectId,
-                                                   BrowseFlag browseFlag,
-                                                   const QString &filter,
-                                                   const QString &sortCriteria) noexcept;
+    virtual std::unique_ptr<PendingSoapCall> browse(const QString &objectId,
+                                                    BrowseFlag browseFlag,
+                                                    const QString &filter,
+                                                    const QString &sortCriteria) noexcept;
 
 private:
     std::unique_ptr<MediaServerPrivate> d;

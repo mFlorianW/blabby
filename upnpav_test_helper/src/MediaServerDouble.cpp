@@ -55,31 +55,31 @@ void MediaServer::setIconUrl(QString const &iconUrl) noexcept
     mIconUrl = iconUrl;
 }
 
-QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::protocolInfo() noexcept
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::protocolInfo() noexcept
 {
-    return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
+    return std::make_unique<UPnPAV::PendingSoapCall>(nullptr);
 }
 
-QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::currentConnectionIds() noexcept
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::currentConnectionIds() noexcept
 {
-    return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
+    return std::make_unique<UPnPAV::PendingSoapCall>(nullptr);
 }
 
-QScopedPointer<UPnPAV::PendingSoapCall> MediaServer::currentConnectionInfo(quint32 connectionId) noexcept
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::currentConnectionInfo(quint32 connectionId) noexcept
 {
     Q_UNUSED(connectionId)
-    return QScopedPointer<UPnPAV::PendingSoapCall>{nullptr};
+    return std::make_unique<UPnPAV::PendingSoapCall>(nullptr);
 }
 
-QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexcept
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
-    return {};
+    return std::make_unique<UPnPAV::PendingSoapCall>(nullptr);
 }
 
-QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId,
-                                                            BrowseFlag browseFlag,
-                                                            const QString &filter,
-                                                            const QString &sortCriteria) noexcept
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId,
+                                                             BrowseFlag browseFlag,
+                                                             const QString &filter,
+                                                             const QString &sortCriteria) noexcept
 {
     Q_UNUSED(filter)
     Q_UNUSED(sortCriteria)
@@ -87,7 +87,7 @@ QSharedPointer<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objec
     lastBrowseRequest.objectId = objectId;
     lastBrowseRequest.browseFlag = browseFlag;
 
-    return QSharedPointer<UPnPAV::PendingSoapCall>{new (std::nothrow) UPnPAV::PendingSoapCall{soapCall}};
+    return std::make_unique<UPnPAV::PendingSoapCall>(soapCall);
 }
 
 } // namespace UPnPAV::Doubles
