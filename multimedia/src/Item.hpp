@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
+#include "Protocol.hpp"
 #include "blabbymultimedia_export.h"
 #include <QExplicitlySharedDataPointer>
 #include <QObject>
@@ -106,13 +107,9 @@ public:
 
     /**
      * Gives the supported types of the Item.
-     * The each type consists of 4 parts separated by a ":".
-     * The parts have the following meaning:
-     *      <protocol>:<network>:<contentFormat>:<additionalInfo>
-     * Format is defined in the UPnPAV ConnectionManager specification. For furhter information read the specification.
      * The supported types are used to check if a @ref Multimedia::Renderer is able to play a @ref Multimedia::Item.
      */
-    QStringList const &supportedTypes() const noexcept;
+    QVector<UPnPAV::Protocol> const &supportedTypes() const noexcept;
 
     /**
      * equal operator
@@ -189,7 +186,7 @@ public:
      * @param supportedTypes The supported types of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withSupportedTypes(QStringList const &supportedTypes);
+    ItemBuilder &withSupportedTypes(QVector<UPnPAV::Protocol> const &supportedTypes);
 
     /**
      * Gives the constructed Item.
@@ -209,7 +206,7 @@ struct ItemData : public QSharedData
     QString mIconUrl;
     QString mPath;
     QString mPlayUrl;
-    QStringList mSupportedTypes;
+    QVector<UPnPAV::Protocol> mSupportedTypes;
 
     ItemData() = default;
     ItemData(ItemType type,

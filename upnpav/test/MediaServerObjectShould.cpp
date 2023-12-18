@@ -64,7 +64,8 @@ void MediaServerObjectShould::return_the_uri_of_a_playabe_item()
 
 void MediaServerObjectShould::return_the_supported_protocols()
 {
-    const auto expProtocols = QStringList(QStringLiteral("http-get:*:audio/mpeg"));
+    const auto expProtocols =
+        QVector<Protocol>{Protocol::create(QStringLiteral("http-get:*:audio/mpeg")).value_or(Protocol{})};
     const auto mediaServerObject = MediaServerObjectBuilder{}.withSupportedProtocols(expProtocols).build();
 
     QCOMPARE(mediaServerObject.supportedProtocols(), expProtocols);

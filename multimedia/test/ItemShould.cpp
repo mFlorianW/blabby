@@ -78,7 +78,8 @@ void ItemShould::give_the_play_url()
 
 void ItemShould::give_supported_types()
 {
-    const auto expTypes = QStringList(QStringLiteral("http-get:*:audio/mpeg:*"));
+    const auto expTypes = QVector<UPnPAV::Protocol>{
+        UPnPAV::Protocol::create(QStringLiteral("http-get:*:audio/mpeg:*")).value_or(UPnPAV::Protocol{})};
     const auto item = ItemBuilder{}.withSupportedTypes(expTypes).build();
 
     const auto supportedTypes = item.supportedTypes();

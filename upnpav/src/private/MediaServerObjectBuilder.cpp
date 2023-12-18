@@ -32,8 +32,9 @@ MediaServerObjectBuilder &MediaServerObjectBuilder::withPlayUrl(QString const &p
     mObj.mPlayUrl = playUrl;
     return *this;
 }
+
 MediaServerObjectBuilder &MediaServerObjectBuilder::withSupportedProtocols(
-    QStringList const &supportedProtocols) noexcept
+    QVector<Protocol> const &supportedProtocols) noexcept
 {
     mObj.mSupportedProtocols = supportedProtocols;
     return *this;
