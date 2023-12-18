@@ -48,7 +48,7 @@ QString const &Item::playUrl() const noexcept
     return d->mPlayUrl;
 }
 
-QStringList const &Item::supportedTypes() const noexcept
+QVector<UPnPAV::Protocol> const &Item::supportedTypes() const noexcept
 {
     return d->mSupportedTypes;
 }
@@ -105,7 +105,7 @@ ItemBuilder &ItemBuilder::withPlayUrl(QString const &playUrl) noexcept
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withSupportedTypes(QStringList const &supportedTypes)
+ItemBuilder &ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const &supportedTypes)
 {
     mItem.d->mSupportedTypes = supportedTypes;
     return *this;

@@ -56,7 +56,7 @@ public:
      * @param supportedProtocols The list of supported protocols for the @ref UPnPAV::MediaServerObject
      * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
      */
-    MediaServerObjectBuilder &withSupportedProtocols(QStringList const &supportedProtocols) noexcept;
+    MediaServerObjectBuilder &withSupportedProtocols(QVector<Protocol> const &supportedProtocols) noexcept;
 
     /**
      * Checks if the required parameters are correctly set. This can be helpfull

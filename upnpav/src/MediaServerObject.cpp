@@ -46,7 +46,8 @@ QString MediaServerObject::playUrl() const noexcept
 {
     return mPlayUrl;
 }
-QStringList MediaServerObject::supportedProtocols() const noexcept
+
+QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
 {
     return mSupportedProtocols;
 }
@@ -124,17 +125,23 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
             const auto attributes = streamReader.attributes();
             for (auto const &attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
-                    builder.withSupportedProtocols(attribute.value().toString().split(";"));
+                    auto protos = QVector<Protocol>{};
+                    for (auto const &rawProto : attribute.value().toString().split(";")) {
+                        const auto proto = Protocol::create(rawProto);
+                        if (proto.has_value()) {
+                            protos.push_back(std::move(proto.value()));
+                        }
+                    }
+                    builder.withSupportedProtocols(protos);
                 }
             }
             builder.withPlayUrl(streamReader.readElementText());
         }
-    }
 
-    if (not builder.isValid()) {
-        return std::nullopt;
+        if (not builder.isValid()) {
+            return std::nullopt;
+        }
     }
-
     return builder.build();
 }
 

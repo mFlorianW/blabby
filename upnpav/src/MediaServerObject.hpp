@@ -6,6 +6,7 @@
 #ifndef MEDIASERVEROBJECT_H
 #define MEDIASERVEROBJECT_H
 
+#include "Protocol.hpp"
 #include "blabbyupnpav_export.h"
 #include <QString>
 #include <QXmlStreamReader>
@@ -26,7 +27,7 @@ public:
     QString parentId() const noexcept;
     QString title() const noexcept;
     QString typeClass() const noexcept;
-    QStringList supportedProtocols() const noexcept;
+    QVector<Protocol> supportedProtocols() const noexcept;
 
     /**
      * Gives the URL for playing the underlying object in @ref UPnPAV::MediaRenderer
@@ -53,7 +54,7 @@ private:
     QString mTitle;
     QString mClass;
     QString mPlayUrl;
-    QStringList mSupportedProtocols;
+    QVector<Protocol> mSupportedProtocols;
 };
 
 BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);
