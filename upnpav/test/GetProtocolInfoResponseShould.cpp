@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "GetProtocolInfoResponseShould.hpp"
+#include "ConnectionManagerActions.hpp"
+#include "Descriptions.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "ProtocolInfoResponse.hpp"
 #include <QTest>
@@ -25,6 +27,12 @@ void GetProtocolInfoResponseShould::give_the_protocol_lists()
         Protocol{.protocol = "x-rincon-stream", .network = "*", .contentFormat = "*", .additionalInfo = "*"},
     };
 
+    QVERIFY2(pInfo.sourceProtocols() == expectedResult,
+             "The returned result doesn't match expected source protocol result");
+    QVERIFY2(pInfo.sinkProtocols() == expectedResult,
+             "The returned result doesn't match expected sink protocol result");
+
+    pInfo = GetProtocolInfoResponse{ValidProtoclInfoResponse, validConnectionManagerSCPD(), GetProtocolInfo()};
     QVERIFY2(pInfo.sourceProtocols() == expectedResult,
              "The returned result doesn't match expected source protocol result");
     QVERIFY2(pInfo.sinkProtocols() == expectedResult,

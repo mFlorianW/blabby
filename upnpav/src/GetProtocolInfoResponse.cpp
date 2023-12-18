@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "GetProtocolInfoResponse.hpp"
+#include "private/LoggingCategories.hpp"
+#include "private/ResponseReader.hpp"
 #include <QDebug>
 #include <QXmlStreamReader>
 #include <optional>
@@ -35,6 +37,35 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(const QString &xmlResponse)
         qCritical() << "Failed GetProtocolInfo response";
         qCritical() << xmlResponse;
         qCritical() << "XML Error:" << responseReader.errorString();
+    }
+}
+GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse,
+                                                 ServiceControlPointDefinition scpd,
+                                                 SCPDAction action)
+{
+    auto reader = ResponseReader{std::move(xmlResponse), std::move(scpd), std::move(action)};
+    QObject::connect(
+        &reader,
+        &ResponseReader::stringValueRead,
+        &reader,
+        [this](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+            if (elementName == QStringLiteral("Source") and result == ResponseReader::ElementReadResult::Ok) {
+                auto const result = parseProtocolResponse(value);
+                if (result.has_value()) {
+                    mSourceProtocols = result.value();
+                }
+            } else if (elementName == QStringLiteral("Sink") and result == ResponseReader::ElementReadResult::Ok) {
+                auto const result = parseProtocolResponse(value);
+                if (result.has_value()) {
+                    mSinkProtocols = result.value();
+                }
+            }
+        });
+
+    const auto result = reader.read();
+    if (result != ResponseReader::ReadResult::Ok) {
+        qCCritical(upnpavDevice) << "Failed to read GetProtocolInfo response. Response was:" << reader.response();
+        return;
     }
 }
 

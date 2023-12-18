@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "ServiceControlPointDefinition.hpp"
 #include "blabbyupnpav_export.h"
 #include <QString>
 #include <QVector>
@@ -35,6 +36,7 @@ class BLABBYUPNPAV_EXPORT GetProtocolInfoResponse
 {
 public:
     GetProtocolInfoResponse(const QString &xmlResponse);
+    GetProtocolInfoResponse(QString const &xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
     const QVector<Protocol> &sourceProtocols() const noexcept;
     const QVector<Protocol> &sinkProtocols() const noexcept;
