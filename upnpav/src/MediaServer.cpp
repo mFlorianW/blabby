@@ -47,7 +47,7 @@ MediaServer::MediaServer(const DeviceDescription &deviceDescription,
 
 MediaServer::~MediaServer() = default;
 
-QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
+std::unique_ptr<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 {
     auto action = d->mContentDirectorySCPD.action("GetSortCapabilities");
     SoapMessageGenerator msgGen;
@@ -59,13 +59,13 @@ QSharedPointer<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
                                                                 d->mContentDirectoryServiceDescription.serviceType(),
                                                                 xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
-QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
-                                                    MediaServer::BrowseFlag browseFlag,
-                                                    const QString &filter,
-                                                    const QString &sortCriteria) noexcept
+std::unique_ptr<PendingSoapCall> MediaServer::browse(const QString &objectId,
+                                                     MediaServer::BrowseFlag browseFlag,
+                                                     const QString &filter,
+                                                     const QString &sortCriteria) noexcept
 {
     auto action = d->mContentDirectorySCPD.action("Browse");
 
@@ -82,7 +82,7 @@ QSharedPointer<PendingSoapCall> MediaServer::browse(const QString &objectId,
                                                                 d->mContentDirectorySCPD.action("Browse"),
                                                                 xmlMessage);
 
-    return QSharedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
 namespace

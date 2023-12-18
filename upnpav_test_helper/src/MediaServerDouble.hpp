@@ -47,18 +47,18 @@ public:
 
     void setIconUrl(QString const &iconUrl) noexcept;
 
-    QScopedPointer<UPnPAV::PendingSoapCall> protocolInfo() noexcept override;
+    std::unique_ptr<UPnPAV::PendingSoapCall> protocolInfo() noexcept override;
 
-    QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionIds() noexcept override;
+    std::unique_ptr<UPnPAV::PendingSoapCall> currentConnectionIds() noexcept override;
 
-    QScopedPointer<UPnPAV::PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept override;
+    std::unique_ptr<UPnPAV::PendingSoapCall> currentConnectionInfo(quint32 connectionId) noexcept override;
 
-    QSharedPointer<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
+    std::unique_ptr<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
-    QSharedPointer<UPnPAV::PendingSoapCall> browse(const QString &objectId,
-                                                   BrowseFlag browseFlag,
-                                                   const QString &filter,
-                                                   const QString &sortCriteria) noexcept override;
+    std::unique_ptr<UPnPAV::PendingSoapCall> browse(const QString &objectId,
+                                                    BrowseFlag browseFlag,
+                                                    const QString &filter,
+                                                    const QString &sortCriteria) noexcept override;
 
 public:
     LastBrowseRequest lastBrowseRequest{};

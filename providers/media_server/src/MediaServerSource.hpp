@@ -41,7 +41,7 @@ private:
     void navigate(QString const &path) noexcept;
     struct BrowseRequest
     {
-        QSharedPointer<UPnPAV::PendingSoapCall> mRequest;
+        std::unique_ptr<UPnPAV::PendingSoapCall> mRequest;
         QString mPath;
     };
 

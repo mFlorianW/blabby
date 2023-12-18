@@ -53,7 +53,7 @@ const QUrl &MediaDevice::iconUrl() const noexcept
     return d->mIconUrl;
 }
 
-QScopedPointer<PendingSoapCall> MediaDevice::protocolInfo() noexcept
+std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
 {
     const auto action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
     auto msgGen = SoapMessageGenerator{};
@@ -62,10 +62,10 @@ QScopedPointer<PendingSoapCall> MediaDevice::protocolInfo() noexcept
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
                                                                 xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
-QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
+std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
 {
     const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
     auto msgGen = SoapMessageGenerator{};
@@ -74,10 +74,10 @@ QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
                                                                 xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
-QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 connectionId) noexcept
+std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 connectionId) noexcept
 {
     const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionInfo");
     auto msgGen = SoapMessageGenerator{};
@@ -89,7 +89,7 @@ QScopedPointer<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 conne
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
                                                                 xmlMessage);
-    return QScopedPointer<PendingSoapCall>{new (std::nothrow) PendingSoapCall{soapCall}};
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
 bool MediaDevice::hasAvTransportService() const noexcept
@@ -97,9 +97,9 @@ bool MediaDevice::hasAvTransportService() const noexcept
     return d->mHasAvTransportService;
 }
 
-std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(quint32 instanceId,
-                                                                              QString const &uri,
-                                                                              QString const &uriMetaData) noexcept
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::setAvTransportUri(quint32 instanceId,
+                                                                               QString const &uri,
+                                                                               QString const &uriMetaData) noexcept
 {
     if (not hasAvTransportService()) {
         return std::nullopt;
@@ -117,7 +117,7 @@ std::optional<QScopedPointer<PendingSoapCall>> MediaDevice::setAvTransportUri(qu
                                                                 action.name(),
                                                                 d->mAvTransportDescription.serviceType(),
                                                                 xmlMessage);
-    return std::optional<QScopedPointer<PendingSoapCall>>(new (std::nothrow) PendingSoapCall{soapCall});
+    return std::make_unique<PendingSoapCall>(soapCall);
 }
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 instanceId)
