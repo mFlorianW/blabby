@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('structUPnPAV_1_1Protocol.html',''); in
 
 <div class="header">
   <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="structUPnPAV_1_1Protocol-members.html">List of all members</a>  </div>
@@ -113,8 +114,13 @@ $(document).ready(function(){initNavTree('structUPnPAV_1_1Protocol.html',''); in
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="GetProtocolInfoResponse_8hpp_source.html">GetProtocolInfoResponse.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Protocol_8hpp_source.html">Protocol.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a0593f5c6ae4a284d02dd662f694c9ccf" id="r_a0593f5c6ae4a284d02dd662f694c9ccf"><td class="memItemLeft" align="right" valign="top">static std::optional&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structUPnPAV_1_1Protocol.html#a0593f5c6ae4a284d02dd662f694c9ccf">create</a> (QString const &amp;rawProtocol)</td></tr>
+<tr class="separator:a0593f5c6ae4a284d02dd662f694c9ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a59db798c62adef9c559f74a56406428d" id="r_a59db798c62adef9c559f74a56406428d"><td class="memItemLeft" align="right" valign="top"><a id="a59db798c62adef9c559f74a56406428d" name="a59db798c62adef9c559f74a56406428d"></a>
@@ -140,9 +146,38 @@ BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="botto
 <tr class="separator:a060ce913e12e588e8ae574b936c837cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> describes one specific protocol supported by the device. An asterix(*) is a wildcared and matches with everything during string comparsions to determine the supported protocol in the control point. struct <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/blabby/blabby/upnpav/src/<a class="el" href="GetProtocolInfoResponse_8hpp_source.html">GetProtocolInfoResponse.hpp</a></li>
+<div class="textblock"><p>The <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> describes one specific protocol supported by the device. An asterix(*) is a wildcared and matches with everything during string comparsions to determine the supported protocol in the control point </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0593f5c6ae4a284d02dd662f694c9ccf" name="a0593f5c6ae4a284d02dd662f694c9ccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0593f5c6ae4a284d02dd662f694c9ccf">&#9670;&#160;</a></span>create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> &gt; UPnPAV::Protocol::create </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>rawProtocol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates a <a class="el" href="structUPnPAV_1_1Protocol.html">UPnPAV::Protocol</a> from a string. The string must have the format: &lt;protocol&gt;:&lt;network&gt;:&lt;contentFormat&gt;:&lt;additionalInfo&gt; </p><dl class="section return"><dt>Returns</dt><dd>Valid optional if parsing runs successful othwise a std::nullopt </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>/home/runner/work/blabby/blabby/upnpav/src/<a class="el" href="Protocol_8hpp_source.html">Protocol.hpp</a></li>
+<li>/home/runner/work/blabby/blabby/upnpav/src/<b>Protocol.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

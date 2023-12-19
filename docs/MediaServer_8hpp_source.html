@@ -150,12 +150,12 @@ $(document).ready(function(){initNavTree('MediaServer_8hpp_source.html',''); ini
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                <span class="keyword">const</span> QSharedPointer&lt;SoapMessageTransmitter&gt; &amp;soapMessageTransmitter);</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaServer.html">~MediaServer</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">virtual</span> QSharedPointer&lt;PendingSoapCall&gt; getSortCapabilities() noexcept;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">virtual</span> std::unique_ptr&lt;PendingSoapCall&gt; getSortCapabilities() noexcept;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    virtual QSharedPointer&lt;<a class="code hl_class" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; browse(const QString &amp;objectId,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                                   BrowseFlag browseFlag,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                                   const QString &amp;filter,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                                                   const QString &amp;sortCriteria) noexcept;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    virtual std::unique_ptr&lt;<a class="code hl_class" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a>&gt; browse(const QString &amp;objectId,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                                    BrowseFlag browseFlag,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                                    const QString &amp;filter,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                                                    const QString &amp;sortCriteria) noexcept;</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>private:</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::unique_ptr&lt;<a class="code hl_class" href="classUPnPAV_1_1MediaServerPrivate.html">MediaServerPrivate</a>&gt; d;</div>
@@ -182,7 +182,7 @@ $(document).ready(function(){initNavTree('MediaServer_8hpp_source.html',''); ini
 <div class="ttc" id="aclassUPnPAV_1_1MediaServerPrivate_html"><div class="ttname"><a href="classUPnPAV_1_1MediaServerPrivate.html">UPnPAV::MediaServerPrivate</a></div><div class="ttdef"><b>Definition</b> MediaServer_p.hpp:21</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaServer_html"><div class="ttname"><a href="classUPnPAV_1_1MediaServer.html">UPnPAV::MediaServer</a></div><div class="ttdef"><b>Definition</b> MediaServer.hpp:22</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaServer_html_a66c0bddd952f8d41a6520bfbc47c1b43"><div class="ttname"><a href="classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43">UPnPAV::MediaServer::BrowseFlag</a></div><div class="ttdeci">BrowseFlag</div><div class="ttdef"><b>Definition</b> MediaServer.hpp:29</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1PendingSoapCall_html"><div class="ttname"><a href="classUPnPAV_1_1PendingSoapCall.html">UPnPAV::PendingSoapCall</a></div><div class="ttdef"><b>Definition</b> PendingSoapCall.hpp:19</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1PendingSoapCall_html"><div class="ttname"><a href="classUPnPAV_1_1PendingSoapCall.html">UPnPAV::PendingSoapCall</a></div><div class="ttdef"><b>Definition</b> PendingSoapCall.hpp:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

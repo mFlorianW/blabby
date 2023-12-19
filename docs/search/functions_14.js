@@ -16,7 +16,7 @@ var searchData=
   ['_7eprovider_13',['~Provider',['../classMultimedia_1_1Provider.html#ad5d6c8246d67b8ac49a669386b4c0720',1,'Multimedia::Provider']]],
   ['_7eproviderloader_14',['~ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#ac4a43f57293a652373c943eba210a514',1,'Multimedia::ProviderLoader']]],
   ['_7eqmlsingletonregistry_15',['~QmlSingletonRegistry',['../classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a',1,'Shell::QmlSingletonRegistry']]],
-  ['_7erenderer_16',['~Renderer',['../classMultimedia_1_1Renderer.html#a092e1ac22b3f58f0651c0cb583a6ba1a',1,'Multimedia::Renderer']]],
+  ['_7erenderer_16',['~Renderer',['../classMultimedia_1_1Renderer.html#a808fe64beedb20ae4a04fe4e05395acb',1,'Multimedia::Renderer']]],
   ['_7erendererprovider_17',['~RendererProvider',['../classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b',1,'Multimedia::RendererProvider']]],
   ['_7esource_18',['~Source',['../classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1',1,'Multimedia::Source']]]
 ];

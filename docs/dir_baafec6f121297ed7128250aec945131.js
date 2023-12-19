@@ -21,6 +21,7 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "MediaServer.hpp", "MediaServer_8hpp_source.html", null ],
     [ "MediaServerObject.hpp", "MediaServerObject_8hpp_source.html", null ],
     [ "PendingSoapCall.hpp", "PendingSoapCall_8hpp_source.html", null ],
+    [ "Protocol.hpp", "Protocol_8hpp_source.html", null ],
     [ "SCPDAction.hpp", "SCPDAction_8hpp_source.html", null ],
     [ "SCPDArgument.hpp", "SCPDArgument_8hpp_source.html", null ],
     [ "SCPDStateVariable.hpp", "SCPDStateVariable_8hpp_source.html", null ],

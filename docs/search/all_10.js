@@ -28,7 +28,7 @@ var searchData=
   ['serviceprovidererror_25',['ServiceProviderError',['../classUPnPAV_1_1ServiceProviderError.html',1,'UPnPAV']]],
   ['serviceproviderfactory_26',['ServiceProviderFactory',['../classUPnPAV_1_1ServiceProviderFactory.html',1,'UPnPAV']]],
   ['servicevalidatorbase_27',['ServiceValidatorBase',['../classUPnPAV_1_1ServiceValidatorBase.html',1,'UPnPAV']]],
-  ['setavtransporturi_28',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0',1,'UPnPAV::MediaDevice']]],
+  ['setavtransporturi_28',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#af17f241984a5ae675ebb2296e62d65e9',1,'UPnPAV::MediaDevice']]],
   ['setborder_29',['setBorder',['../classShell_1_1AbstractIconButton.html#ad15ea986abd65921de24eaa9cba36078',1,'Shell::AbstractIconButton']]],
   ['seticonurl_30',['seticonurl',['../classShell_1_1AbstractHeader.html#a8ef87c3610fd0d9ae6a912e2540ce545',1,'Shell::AbstractHeader::setIconUrl()'],['../classShell_1_1AbstractListEntry.html#ab92ddd87af9c97bc45e4eed547c77379',1,'Shell::AbstractListEntry::setIconUrl()']]],
   ['setmediasource_31',['setMediaSource',['../classShell_1_1MediaItemModel.html#ae1a46b088c72e0f789e8582f52b0a6fc',1,'Shell::MediaItemModel']]],
@@ -52,5 +52,5 @@ var searchData=
   ['stopped_49',['Stopped',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac23e2b09ebe6bf4cb5e2a9abe85c0be2',1,'UPnPAV::GetTransportInfoResponse']]],
   ['stringargumenttoolong_50',['StringArgumentTooLong',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a67efd5f8293be843695732657ce79dd9',1,'UPnPAV::PendingSoapCall']]],
   ['subtype_51',['SubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['supportedtypes_52',['supportedTypes',['../classMultimedia_1_1Item.html#abe2e215e9727d01badf3640d7236c633',1,'Multimedia::Item']]]
+  ['supportedtypes_52',['supportedTypes',['../classMultimedia_1_1Item.html#afc0bccf226ef8822c4fd660706766309',1,'Multimedia::Item']]]
 ];

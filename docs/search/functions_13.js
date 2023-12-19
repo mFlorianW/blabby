@@ -9,8 +9,8 @@ var searchData=
   ['withpath_6',['withPath',['../classMultimedia_1_1ItemBuilder.html#a5d626754a1b993f78ffaf3fb81bcd68c',1,'Multimedia::ItemBuilder']]],
   ['withplayurl_7',['withplayurl',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a15f0a8b370ceb7017dcd15bd5c0e8557',1,'UPnPAV::MediaServerObjectBuilder::withPlayUrl()'],['../classMultimedia_1_1ItemBuilder.html#a31401309f6ec45656d9ad5371dafd879',1,'Multimedia::ItemBuilder::withPlayUrl(QString const &amp;playUrl) noexcept']]],
   ['withsecondarytext_8',['withSecondaryText',['../classMultimedia_1_1ItemBuilder.html#a67d345249bc06eb6f1570535e97e8fc7',1,'Multimedia::ItemBuilder']]],
-  ['withsupportedprotocols_9',['withSupportedProtocols',['../classUPnPAV_1_1MediaServerObjectBuilder.html#acb175d3c6e16e5667256988a1d9730dd',1,'UPnPAV::MediaServerObjectBuilder']]],
-  ['withsupportedtypes_10',['withSupportedTypes',['../classMultimedia_1_1ItemBuilder.html#ac33cb070aae2fa8a7762316dbd9bfff9',1,'Multimedia::ItemBuilder']]],
+  ['withsupportedprotocols_9',['withSupportedProtocols',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a14cc1ba136e819917e5be0e209072396',1,'UPnPAV::MediaServerObjectBuilder']]],
+  ['withsupportedtypes_10',['withSupportedTypes',['../classMultimedia_1_1ItemBuilder.html#ab9fbe9df088ceb9fc7ce5d0bcf45c411',1,'Multimedia::ItemBuilder']]],
   ['withtitle_11',['withTitle',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa1d1ad923a750ebb60da44afc2978033',1,'UPnPAV::MediaServerObjectBuilder']]],
   ['withtypeclass_12',['withTypeClass',['../classUPnPAV_1_1MediaServerObjectBuilder.html#a23a16281d23722cf3ee09e1f6106250a',1,'UPnPAV::MediaServerObjectBuilder']]],
   ['writestatus_13',['writeStatus',['../classUPnPAV_1_1GetMediaInfoResponse.html#a9f7be38c1fd6879a84e5fb785e81f808',1,'UPnPAV::GetMediaInfoResponse']]]

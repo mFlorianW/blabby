@@ -9,7 +9,7 @@ var searchData=
   ['servicedescriptionvalidator_6',['ServiceDescriptionValidator',['../classUPnPAV_1_1ServiceDescriptionValidator.html#a3c1e10ee6ad07ad31443a824661fa408',1,'UPnPAV::ServiceDescriptionValidator']]],
   ['servicedisconnected_7',['serviceDisconnected',['../classUPnPAV_1_1IServiceProvider.html#a0c554e287927c6af592bb880f59808f0',1,'UPnPAV::IServiceProvider']]],
   ['servicediscoverypackage_8',['ServiceDiscoveryPackage',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a5d21467f6d89830948329e1e000fce33',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['setavtransporturi_9',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0',1,'UPnPAV::MediaDevice']]],
+  ['setavtransporturi_9',['setAvTransportUri',['../classUPnPAV_1_1MediaDevice.html#af17f241984a5ae675ebb2296e62d65e9',1,'UPnPAV::MediaDevice']]],
   ['setborder_10',['setBorder',['../classShell_1_1AbstractIconButton.html#ad15ea986abd65921de24eaa9cba36078',1,'Shell::AbstractIconButton']]],
   ['seticonurl_11',['seticonurl',['../classShell_1_1AbstractHeader.html#a8ef87c3610fd0d9ae6a912e2540ce545',1,'Shell::AbstractHeader::setIconUrl()'],['../classShell_1_1AbstractListEntry.html#ab92ddd87af9c97bc45e4eed547c77379',1,'Shell::AbstractListEntry::setIconUrl()']]],
   ['setmediasource_12',['setMediaSource',['../classShell_1_1MediaItemModel.html#ae1a46b088c72e0f789e8582f52b0a6fc',1,'Shell::MediaItemModel']]],
@@ -25,5 +25,5 @@ var searchData=
   ['sources_22',['sources',['../classMultimedia_1_1Provider.html#a6824cf3a8b56aacd4974da2b1c38a9ae',1,'Multimedia::Provider::sources()'],['../classProvider_1_1MediaServerProvider.html#a64fcad1539c5368ffad4b2cd347c657c',1,'Provider::MediaServerProvider::sources()']]],
   ['startsearch_23',['startsearch',['../classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220',1,'UPnPAV::IServiceProvider::startSearch()'],['../classUPnPAV_1_1ServiceProvider.html#a18dd562446267fac8f5bdf65e1b60ba7',1,'UPnPAV::ServiceProvider::startSearch()']]],
   ['stop_24',['stop',['../classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e',1,'UPnPAV::MediaDevice']]],
-  ['supportedtypes_25',['supportedTypes',['../classMultimedia_1_1Item.html#abe2e215e9727d01badf3640d7236c633',1,'Multimedia::Item']]]
+  ['supportedtypes_25',['supportedTypes',['../classMultimedia_1_1Item.html#afc0bccf226ef8822c4fd660706766309',1,'Multimedia::Item']]]
 ];

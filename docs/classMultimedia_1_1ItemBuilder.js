@@ -7,5 +7,5 @@ var classMultimedia_1_1ItemBuilder =
     [ "withPath", "classMultimedia_1_1ItemBuilder.html#a5d626754a1b993f78ffaf3fb81bcd68c", null ],
     [ "withPlayUrl", "classMultimedia_1_1ItemBuilder.html#a31401309f6ec45656d9ad5371dafd879", null ],
     [ "withSecondaryText", "classMultimedia_1_1ItemBuilder.html#a67d345249bc06eb6f1570535e97e8fc7", null ],
-    [ "withSupportedTypes", "classMultimedia_1_1ItemBuilder.html#ac33cb070aae2fa8a7762316dbd9bfff9", null ]
+    [ "withSupportedTypes", "classMultimedia_1_1ItemBuilder.html#ab9fbe9df088ceb9fc7ce5d0bcf45c411", null ]
 ];

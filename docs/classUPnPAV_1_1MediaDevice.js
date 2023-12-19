@@ -11,8 +11,8 @@ var classUPnPAV_1_1MediaDevice =
       [ "Frame", "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da6ee98d4a23471d8b4285a5fefdac77a5", null ]
     ] ],
     [ "~MediaDevice", "classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda", null ],
-    [ "currentConnectionIds", "classUPnPAV_1_1MediaDevice.html#a912fddeaf83460bb487b5d4f1cd79d40", null ],
-    [ "currentConnectionInfo", "classUPnPAV_1_1MediaDevice.html#ae7da14f5fa7f35b1b0ef820602e5c1b1", null ],
+    [ "currentConnectionIds", "classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83", null ],
+    [ "currentConnectionInfo", "classUPnPAV_1_1MediaDevice.html#a0dc7d849bf444ca617367d812ada2a05", null ],
     [ "deviceCapilities", "classUPnPAV_1_1MediaDevice.html#a61398a84fd05f2b85cecb628f47e16d6", null ],
     [ "hasAvTransportService", "classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900", null ],
     [ "iconUrl", "classUPnPAV_1_1MediaDevice.html#a15e638f602438c2923630c1063e0cd18", null ],
@@ -22,9 +22,9 @@ var classUPnPAV_1_1MediaDevice =
     [ "play", "classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce", null ],
     [ "positionInfo", "classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e", null ],
     [ "previous", "classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408", null ],
-    [ "protocolInfo", "classUPnPAV_1_1MediaDevice.html#a30de802748131c47ec77d6a03a7673e2", null ],
+    [ "protocolInfo", "classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694", null ],
     [ "seek", "classUPnPAV_1_1MediaDevice.html#a2b67acb0ce070da86419cd935018138f", null ],
-    [ "setAvTransportUri", "classUPnPAV_1_1MediaDevice.html#aa1c955b68bd56e2a4b3e01c0767831e0", null ],
+    [ "setAvTransportUri", "classUPnPAV_1_1MediaDevice.html#af17f241984a5ae675ebb2296e62d65e9", null ],
     [ "stop", "classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e", null ],
     [ "transportInfo", "classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c", null ],
     [ "transportSettings", "classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542", null ]
