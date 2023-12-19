@@ -86,19 +86,12 @@ std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(
     }
 
     const auto elements = rawResult.split(",");
-    for (auto const &proto : std::as_const(elements)) {
-        const auto protoElements = proto.split(":");
-        if (protoElements.size() < 4) {
-            return std::nullopt;
-        } else {
-            auto proto = Protocol{.protocol = protoElements[0],
-                                  .network = protoElements[1],
-                                  .contentFormat = protoElements[2],
-                                  .additionalInfo = protoElements[3]};
-            result.push_back(proto);
+    for (auto const &rawProto : std::as_const(elements)) {
+        const auto proto = Protocol::create(rawProto);
+        if (proto.has_value()) {
+            result.push_back(proto.value());
         }
     }
-
     return result;
 }
 

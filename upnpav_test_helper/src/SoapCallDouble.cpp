@@ -17,6 +17,8 @@ SoapCallDouble::SoapCallDouble(ServiceControlPointDefinition scpd, SCPDAction ac
 {
 }
 
+SoapCallDouble::~SoapCallDouble() = default;
+
 bool SoapCallDouble::hasFinishedSuccesful() const noexcept
 {
     return !m_errorState;

@@ -7,15 +7,21 @@
 #define SOAPCALLDOUBLE_H
 
 #include "SoapCall.hpp"
+#include <qdebug.h>
 
 namespace UPnPAV
 {
 
 class SoapCallDouble : public SoapCall
 {
+    Q_OBJECT
 public:
     SoapCallDouble();
     SoapCallDouble(ServiceControlPointDefinition scpd, SCPDAction action);
+
+    ~SoapCallDouble() override;
+
+    Q_DISABLE_COPY_MOVE(SoapCallDouble)
 
     void setErrorState(bool error);
     bool hasFinishedSuccesful() const noexcept override;
