@@ -10,7 +10,6 @@
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
 #include <QString>
-#include <concepts>
 
 namespace UPnPAV
 {

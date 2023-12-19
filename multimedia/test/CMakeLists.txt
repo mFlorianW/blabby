@@ -86,3 +86,19 @@ target_link_libraries(test_multimedia_rendererprovider
     Blabby::UPnPAVTestHelper
 )
 add_test(test_multimedia_rendererprovider ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_rendererprovider)
+
+###############################################################################
+# Test Renderer
+###############################################################################
+add_executable(test_multimedia_renderer)
+target_sources(test_multimedia_renderer
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/RendererShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RendererShould.hpp
+)
+target_link_libraries(test_multimedia_renderer
+    Qt6::Test
+    Blabby::Multimedia
+    Blabby::UPnPAVTestHelper
+)
+add_test(test_multimedia_renderer ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_renderer)
