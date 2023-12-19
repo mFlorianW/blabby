@@ -90,9 +90,10 @@ void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const &
 
 void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const &source) noexcept
 {
-    auto sourceIndex = std::find_if(mSources.cbegin(),
-                                    mSources.cend(),
-                                    [&](std::shared_ptr<Multimedia::Source> const &src) { return src == source; });
+    auto sourceIndex =
+        std::find_if(mSources.cbegin(), mSources.cend(), [&](std::shared_ptr<Multimedia::Source> const &src) {
+            return src == source;
+        });
     if (sourceIndex != mSources.cend()) {
         const auto idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);

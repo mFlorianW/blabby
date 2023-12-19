@@ -63,9 +63,10 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
 
 SCPDStateVariable::DataType ResponseReader::dataType(QString const &argName) noexcept
 {
-    auto const argFound = std::find_if(mScpd.serviceStateTable().cbegin(),
-                                       mScpd.serviceStateTable().cend(),
-                                       [&](auto const &var) { return var.name() == argName; });
+    auto const argFound =
+        std::find_if(mScpd.serviceStateTable().cbegin(), mScpd.serviceStateTable().cend(), [&](auto const &var) {
+            return var.name() == argName;
+        });
     if (argFound != mScpd.serviceStateTable().cend()) {
         return argFound->dataType();
     }
