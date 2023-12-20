@@ -9,6 +9,7 @@ namespace Shell
 
 QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
+    , mRendererModel{std::make_unique<Multimedia::RendererProvider>()}
 {
 }
 
@@ -22,6 +23,11 @@ MediaSourceModel *QmlSingletonRegistry::mediaSourceModel() noexcept
 MediaItemModel *QmlSingletonRegistry::mediaItemModel() noexcept
 {
     return &mItemModel;
+}
+
+MediaRendererModel *QmlSingletonRegistry::mediaRendererModel() noexcept
+{
+    return &mRendererModel;
 }
 
 QObject *QmlSingletonRegistry::createQmlRegistry(QQmlEngine *engine, QJSEngine *scriptEngine)
