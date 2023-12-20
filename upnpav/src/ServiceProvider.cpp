@@ -13,7 +13,6 @@
 #include "private/ServiceControlPointDefinitionParser.hpp"
 #include "private/ServiceDiscovery.hpp"
 #include "private/ServiceDiscoveryPackage.hpp"
-
 #include <QNetworkDatagram>
 #include <QUrl>
 
@@ -28,14 +27,14 @@ namespace UPnPAV
 ServiceProvider::ServiceProvider() = default;
 
 ServiceProvider::ServiceProvider(const QString searchTarget,
-                                 std::unique_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
+                                 std::shared_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
                                  std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend)
-    : IServiceProvider()
-    , m_searchTarget(searchTarget)
-    , mServiceDiscoveryBackend(std::move(serviceDiscoverybackend))
-    , m_serviceDiscovery(std::make_unique<ServiceDiscovery>(mServiceDiscoveryBackend.get()))
-    , mDescriptionFetcherBackend(std::move(descriptionFetcherBackend))
-    , m_descriptionFetcher(std::make_unique<DescriptionFetcher>(mDescriptionFetcherBackend.get()))
+    : IServiceProvider{}
+    , m_searchTarget{searchTarget}
+    , mServiceDiscoveryBackend{std::move(serviceDiscoverybackend)}
+    , m_serviceDiscovery{std::make_unique<ServiceDiscovery>(mServiceDiscoveryBackend.get())}
+    , mDescriptionFetcherBackend{std::move(descriptionFetcherBackend)}
+    , m_descriptionFetcher{std::make_unique<DescriptionFetcher>(mDescriptionFetcherBackend.get())}
 {
     (void)connect(m_serviceDiscovery.get(),
                   &ServiceDiscovery::dataReceived,
@@ -229,11 +228,11 @@ ServiceProviderFactory::~ServiceProviderFactory() = default;
 
 std::unique_ptr<IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
 {
-    auto serviceDiscoveryBackend = std::make_unique<UdpServiceDiscoveryBackend>();
+    static auto serviceDiscoveryBackend = std::make_shared<UdpServiceDiscoveryBackend>();
     auto descriptionFetcherBackend = std::make_unique<HttpDescriptionFetcherBackend>();
 
     return std::make_unique<ServiceProvider>(searchTarget,
-                                             std::move(serviceDiscoveryBackend),
+                                             serviceDiscoveryBackend,
                                              std::move(descriptionFetcherBackend));
 }
 

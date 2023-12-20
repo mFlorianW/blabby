@@ -41,7 +41,9 @@ void UdpServiceDiscoveryBackend::sendDiscoveryRequest(const QNetworkDatagram &da
 
 void UdpServiceDiscoveryBackend::handleReceivedData()
 {
-    Q_EMIT receivedNetworkDatagram(m_udpSocket.receiveDatagram());
+    while (m_udpSocket.hasPendingDatagrams()) {
+        Q_EMIT receivedNetworkDatagram(m_udpSocket.receiveDatagram());
+    }
 }
 
 } // namespace UPnPAV

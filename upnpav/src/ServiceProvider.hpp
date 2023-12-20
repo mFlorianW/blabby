@@ -30,7 +30,7 @@ class BLABBYUPNPAV_EXPORT ServiceProvider : public IServiceProvider
 public:
     ServiceProvider();
     ServiceProvider(const QString searchTarget,
-                    std::unique_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
+                    std::shared_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
                     std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend);
     ~ServiceProvider() override;
 
@@ -65,7 +65,7 @@ private:
 
     QString m_searchTarget{""};
 
-    std::unique_ptr<ServiceDiscoveryBackend> mServiceDiscoveryBackend;
+    std::shared_ptr<ServiceDiscoveryBackend> mServiceDiscoveryBackend;
     std::unique_ptr<ServiceDiscovery> m_serviceDiscovery;
     std::unique_ptr<DescriptionFetcherBackend> mDescriptionFetcherBackend;
     std::unique_ptr<DescriptionFetcher> m_descriptionFetcher;
