@@ -21,6 +21,16 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
 
 Renderer::~Renderer() = default;
 
+QString const &Renderer::name() const noexcept
+{
+    return mRenderer->name();
+}
+
+QString Renderer::iconUrl() const noexcept
+{
+    return mRenderer->iconUrl().toString();
+}
+
 void Renderer::initialize() noexcept
 {
     mProtoInfoCall = mRenderer->protocolInfo();
