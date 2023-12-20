@@ -42,6 +42,7 @@ AbstractListEntry{
 
     HoverHandler{
         id: hoverHandler
+        blocking: true
         onHoveredChanged: () => {
             if (hoverHandler.hovered){
                 listEntry.state = "hovered"
@@ -53,7 +54,7 @@ AbstractListEntry{
 
     TapHandler{
         id: tapHandler
-
+        gesturePolicy: TapHandler.ReleaseWithinBounds
         onTapped: (event, button) => {
             listEntry.state = "clicked"
             listEntry.clicked()
