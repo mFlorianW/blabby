@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-import QtQuick 2.15
+import QtQuick
 import Blabby.Controls 1.0
 import Blabby.Shell 1.0
 
@@ -11,6 +11,12 @@ AbstractDialog{
     id: dialog
     implicitWidth: 675
     implicitHeight: 360
+
+    // Do not hove Elements behind the dialog.
+    HoverHandler{
+        id: hoverEventConsumer
+        blocking: true
+    }
 
     Rectangle{
         id:background
@@ -30,6 +36,17 @@ AbstractDialog{
         anchors.right: dialog.right
         anchors.rightMargin: 1
         color: Theme.colors.surfaceContainerHigh
+
+        // Do not hove Elements behind the dialog.
+        HoverHandler{
+            id: hoverEventConsumerHeader
+            blocking: true
+        }
+
+        TapHandler {
+            id: tapEventConumserHeader
+            gesturePolicy: TapHandler.ReleaseWithinBounds
+        }
 
         Text{
             id: headerText
