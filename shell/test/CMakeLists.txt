@@ -8,6 +8,24 @@
 find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
+# Test MediaRendererModel
+###############################################################################
+add_executable(test_shell_mediarenderer_model)
+target_sources(test_shell_mediarenderer_model
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModelShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModelShould.hpp
+)
+target_link_libraries(test_shell_mediarenderer_model
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+        Blabby::MultimediaTestHelper
+        Blabby::UPnPAVTestHelper
+)
+add_test(test_shell_mediarenderer_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediarenderer_model)
+
+###############################################################################
 # Test MediaItemModel
 ###############################################################################
 add_executable(test_shell_mediaitem_model)

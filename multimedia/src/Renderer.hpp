@@ -37,6 +37,18 @@ public:
     Q_DISABLE_COPY_MOVE(Renderer)
 
     /**
+     * Gives the name of the @ref Mulitmedia::Renderer
+     * @return The name of the @ref Mulitmedia::Renderer.
+     */
+    QString const &name() const noexcept;
+
+    /**
+     * Gives the icon of the @ref Mulitmedia::Renderer
+     * @return The icon url of the @ref Multimedia::Renderer.
+     */
+    QString iconUrl() const noexcept;
+
+    /**
      * Initializes the @ref Mulitmedia::Renderer.
      * During the initialization the fetches all informations like, supported protocols for working properly.
      * Without calling the initialization the @ref Multimedia::Renderer does nothingl.
