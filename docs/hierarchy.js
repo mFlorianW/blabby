@@ -44,6 +44,7 @@ var hierarchy =
     [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
     [ "QAbstractListModel", null, [
       [ "Shell::MediaItemModel", "classShell_1_1MediaItemModel.html", null ],
+      [ "Shell::MediaRendererModel", "classShell_1_1MediaRendererModel.html", null ],
       [ "Shell::MediaSourceModel", "classShell_1_1MediaSourceModel.html", null ]
     ] ],
     [ "QException", null, [

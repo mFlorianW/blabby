@@ -23,6 +23,7 @@ var annotated_dup =
       [ "AbstractIconButton", "classShell_1_1AbstractIconButton.html", "classShell_1_1AbstractIconButton" ],
       [ "AbstractListEntry", "classShell_1_1AbstractListEntry.html", "classShell_1_1AbstractListEntry" ],
       [ "MediaItemModel", "classShell_1_1MediaItemModel.html", "classShell_1_1MediaItemModel" ],
+      [ "MediaRendererModel", "classShell_1_1MediaRendererModel.html", "classShell_1_1MediaRendererModel" ],
       [ "MediaSourceModel", "classShell_1_1MediaSourceModel.html", "classShell_1_1MediaSourceModel" ],
       [ "QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", "classShell_1_1QmlSingletonRegistry" ]
     ] ],

@@ -138,6 +138,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a12dc28926d2b0045d8911fada2165f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a808fe64beedb20ae4a04fe4e05395acb" id="r_a808fe64beedb20ae4a04fe4e05395acb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a808fe64beedb20ae4a04fe4e05395acb">~Renderer</a> () override</td></tr>
 <tr class="separator:a808fe64beedb20ae4a04fe4e05395acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6781b10b68d206d3dfbd14d127b7f11e" id="r_a6781b10b68d206d3dfbd14d127b7f11e"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a6781b10b68d206d3dfbd14d127b7f11e">name</a> () const noexcept</td></tr>
+<tr class="separator:a6781b10b68d206d3dfbd14d127b7f11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3054eb433278fac4a5cd233419ad3a5" id="r_ac3054eb433278fac4a5cd233419ad3a5"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ac3054eb433278fac4a5cd233419ad3a5">iconUrl</a> () const noexcept</td></tr>
+<tr class="separator:ac3054eb433278fac4a5cd233419ad3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c64fe68ba1cc7b1ff2df1cd72f11c32" id="r_a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a1c64fe68ba1cc7b1ff2df1cd72f11c32">initialize</a> () noexcept</td></tr>
 <tr class="separator:a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaca18abc3f13d5187fe897dac5a1c2d" id="r_aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">playback</a> (<a class="el" href="classMultimedia_1_1Item.html">Item</a> const &amp;item) noexcept</td></tr>
@@ -197,6 +201,32 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac3054eb433278fac4a5cd233419ad3a5" name="ac3054eb433278fac4a5cd233419ad3a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3054eb433278fac4a5cd233419ad3a5">&#9670;&#160;</a></span>iconUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Multimedia::Renderer::iconUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the icon of the Mulitmedia::Renderer </p><dl class="section return"><dt>Returns</dt><dd>The icon url of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </dd></dl>
+
+</div>
+</div>
 <a id="ace8ffdc00a3f8074bd6ab9671cccf91c" name="ace8ffdc00a3f8074bd6ab9671cccf91c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace8ffdc00a3f8074bd6ab9671cccf91c">&#9670;&#160;</a></span>initializationFailed</h2>
 
@@ -272,7 +302,33 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Disabled copy and move semantic Initializes the Mulitmedia::Renderer. During the initialization the fetches all informations like, supported protocols for working properly. Without calling the initialization the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> does nothingl. The signal Mulitmedia::Renderer::initializationFinished is emitted on success. The signal Mulitmedia::Renderer::initializationFailed is emitted with a the error Information. </p>
+<p>Initializes the Mulitmedia::Renderer. During the initialization the fetches all informations like, supported protocols for working properly. Without calling the initialization the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> does nothingl. The signal Mulitmedia::Renderer::initializationFinished is emitted on success. The signal Mulitmedia::Renderer::initializationFailed is emitted with a the error Information. </p>
+
+</div>
+</div>
+<a id="a6781b10b68d206d3dfbd14d127b7f11e" name="a6781b10b68d206d3dfbd14d127b7f11e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6781b10b68d206d3dfbd14d127b7f11e">&#9670;&#160;</a></span>name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; Multimedia::Renderer::name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Disabled copy and move semantic Gives the name of the Mulitmedia::Renderer </p><dl class="section return"><dt>Returns</dt><dd>The name of the Mulitmedia::Renderer. </dd></dl>
 
 </div>
 </div>
