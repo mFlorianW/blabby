@@ -7,6 +7,7 @@
 #include "IServiceProvider.hpp"
 #include "MediaRenderer.hpp"
 #include "Renderer.hpp"
+#include "ServiceProvider.hpp"
 #include "blabbymultimedia_export.h"
 #include <QHash>
 #include <QObject>
@@ -27,7 +28,8 @@ public:
      * @param The @UPnPAV::IServiceProvider interface that is used to find the devices on the network.
      * @param The @UPnPAV::MediaRendererFactory creates @UPnPAV::MediaRenderer instances.
      */
-    RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> serviceProider,
+    RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> serviceProider =
+                         UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString("")),
                      UPnPAV::MediaRendererFactory mrendererFab = UPnPAV::MediaRendererFactory{});
     /**
      * Default destructor

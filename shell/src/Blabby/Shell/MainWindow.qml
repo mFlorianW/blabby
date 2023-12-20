@@ -163,8 +163,22 @@ Item{
                 id: mediaControlArea
                 width: parent.width
                 height: 109
+
+                IconButton{
+                    id: rendererButton
+                    source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/renderer.svg"
+                    anchors.verticalCenter: mediaControlArea.verticalCenter
+                    anchors.right: mediaControlArea.right
+                    anchors.rightMargin: 242
+                    onClicked: rendererDialog.visible = !rendererDialog.visible
+                }
             }
         }
+    }
+
+    RendererDialog{
+        id: rendererDialog
+        visible: false
     }
 
     Menu{
