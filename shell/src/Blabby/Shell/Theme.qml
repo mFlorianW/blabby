@@ -34,5 +34,11 @@ QtObject{
             property color color: "#404943"
             property bool bold: true
         }
+        property QtObject titleLarge: QtObject{
+            property int size: 22
+            property string family: "Roboto"
+            property color color: "#404943"
+            property bool bold: true
+        }
     }
 }
