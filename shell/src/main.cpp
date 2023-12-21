@@ -5,6 +5,7 @@
 
 #include "QmlSingletonRegistry.hpp"
 #include <QGuiApplication>
+#include <QLoggingCategory>
 #include <QQuickView>
 
 namespace Shell
@@ -23,6 +24,7 @@ void registerQmlTypes()
 
 int main(int argc, char *argv[])
 {
+    QLoggingCategory::setFilterRules("*.debug=false");
     QGuiApplication blabby(argc, argv);
 
     Shell::registerQmlTypes();
