@@ -725,6 +725,29 @@ void ServiceProviderShould::parse_service_control_point_definition()
     QVERIFY2(!(expectedScpd != receivedScpd.at(0)), "The unequal operator returns wrong value");
 }
 
+void ServiceProviderShould::do_not_request_device_description_for_devices_that_not_match_search_target()
+{
+    QString discoveryResponse{"HTTP/1.1 200 OK\r\n"
+                              "CACHE-CONTROL: max-age = seconds until advertisement expires\r\n"
+                              "DATE: when response was generated\r\n"
+                              "EXT:\r\n"
+                              "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                              "SERVER: Linux UPnP/1.0\r\n"
+                              "ST: urn:schemas-upnp-org:device:MediaRenderer:1\r\n"
+                              "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n"};
+
+    QNetworkDatagram expectedDatagram;
+    expectedDatagram.setData(discoveryResponse.toUtf8());
+    expectedDatagram.setDestination(QHostAddress{"239.255.255.250"}, 1900);
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(expectedDatagram);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(expectedDatagram);
+
+    auto descriptionRequestSend = m_providerFactory->descriptionFetcherBackendDouble->descriptionRequestCalls;
+
+    QVERIFY2(descriptionRequestSend == 0, "The MediaServerProvider also handles already known devices.");
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::ServiceProviderShould)

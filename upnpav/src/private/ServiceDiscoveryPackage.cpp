@@ -21,6 +21,8 @@ ServiceDiscoveryPackage::ServiceDiscoveryPackage(const QByteArray &rawData)
         } else if (entry.contains(QStringLiteral("NTS:"))) {
             auto nts = extracEntryValue(QString{entry});
             m_notificationSubType = convertSubTypeString(nts);
+        } else if (entry.contains(QStringLiteral("ST:"))) {
+            mSearchTarget = extracEntryValue(entry);
         }
     }
 
@@ -42,6 +44,11 @@ QString UPnPAV::ServiceDiscoveryPackage::deviceId() const
 ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::notificationSubType() const
 {
     return m_notificationSubType;
+}
+
+QString const &ServiceDiscoveryPackage::searchTarget() const
+{
+    return mSearchTarget;
 }
 
 QString ServiceDiscoveryPackage::extracEntryValue(const QString &entry)

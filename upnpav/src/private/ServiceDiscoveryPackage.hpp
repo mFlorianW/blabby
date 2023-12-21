@@ -58,6 +58,12 @@ public:
      */
     SubType notificationSubType() const;
 
+    /**
+     * Gives the search target of the @ref UPnPAV::ServiceDiscoveryPackage message.
+     * @return The search target of the @ref UPnPAV::ServiceDiscoveryPackage message.
+     */
+    QString const &searchTarget() const;
+
 private:
     /**
      * Extracs the value of a entry in the NOTIFY message. The value
@@ -92,6 +98,7 @@ private:
     QUrl m_locationUrl;
     QString m_deviceUsn;
     SubType m_notificationSubType{SubType::Unknown};
+    QString mSearchTarget;
 };
 
 class PackageParseError final : public QException

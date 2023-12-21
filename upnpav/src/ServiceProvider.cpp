@@ -9,6 +9,7 @@
 #include "ServiceProviderError.hpp"
 #include "private/DescriptionFetcher.hpp"
 #include "private/DeviceDescriptionParser.hpp"
+#include "private/LoggingCategories.hpp"
 #include "private/ParsingError.hpp"
 #include "private/ServiceControlPointDefinitionParser.hpp"
 #include "private/ServiceDiscovery.hpp"
@@ -78,11 +79,16 @@ void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
 {
     // We already know the device we can ignore the message.
     if (m_knownDevices.contains(package.deviceId())) {
+        qCDebug(upnpavService) << "Ignoring dicover package for device with search target" << m_searchTarget
+                               << "with unique device name" << package.deviceId() << "already known";
         return;
+    } else {
+        qCDebug(upnpavService) << "Add device for search target" << m_searchTarget << "with unique name"
+                               << package.deviceId() << "to known devices.";
+        m_knownDevices.push_back(package.deviceId());
     }
 
     m_descriptionFetcher->fetchDescription(package.locationUrl());
-    m_knownDevices.push_back(package.deviceId());
     m_pendingDeviceDescription.append(package.locationUrl());
 }
 
@@ -112,6 +118,11 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
             return;
         }
 
+        if (package.notificationSubType() == ServiceDiscoveryPackage::Unknown &&
+            package.searchTarget() != m_searchTarget) {
+            return;
+        }
+
         handlePackage(package);
     } catch (const PackageParseError &e) {
         // TODO: Use category logging for details
@@ -136,6 +147,7 @@ void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &dev
 {
     if (deviceDescription.services().isEmpty()) {
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
+        qCDebug(upnpavService) << "Service with unique device name:" << deviceDescription.udn() << "connected.";
         Q_EMIT serviceConnected(deviceDescription.udn());
     } else {
         // request all scpds
@@ -208,6 +220,7 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
                                             foundIter.value().deviceDescriptions.services(),
                                             foundIter.value().scpds};
 
+        qCDebug(upnpavService) << "Service with unique device name:" << deviceDescription.udn() << "connected.";
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
         Q_EMIT serviceConnected(deviceDescription.udn());
     }

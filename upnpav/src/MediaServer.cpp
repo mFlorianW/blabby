@@ -9,7 +9,6 @@
 #include "InvalidDeviceDescription.hpp"
 #include "PendingSoapCall.hpp"
 #include "SoapMessageTransmitter.hpp"
-#include "private/ConnectionManagerServiceValidator.hpp"
 #include "private/ContentDirectoryServiceValidator.hpp"
 #include "private/MediaServer_p.hpp"
 #include "private/SoapMessageGenerator.hpp"
