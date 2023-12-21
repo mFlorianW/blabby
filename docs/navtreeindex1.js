@@ -226,6 +226,7 @@ var NAVTREEINDEX1 =
 "classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a6a496a5ee9e75f84476ff574e1f7520e":[4,0,3,62,0,2],
 "classUPnPAV_1_1ServiceDiscoveryPackage.html#a5d21467f6d89830948329e1e000fce33":[4,0,3,62,1],
 "classUPnPAV_1_1ServiceDiscoveryPackage.html#ab25bbb14c067557fc99a300c184099ac":[4,0,3,62,2],
+"classUPnPAV_1_1ServiceDiscoveryPackage.html#acd7dad4a405d53108b692b6cdf321119":[4,0,3,62,5],
 "classUPnPAV_1_1ServiceDiscoveryPackage.html#ae71b19d5679d7dd5028601a94461a099":[4,0,3,62,4],
 "classUPnPAV_1_1ServiceDiscoveryPackage.html#af68352b867789960eb7697eece4171d6":[4,0,3,62,3],
 "classUPnPAV_1_1ServiceProvider.html":[4,0,3,63],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classUPnPAV_1_1SoapCall.html#a9e9f864dd44dbbfd5838f004d8b8805d":[4,0,3,67,1],
 "classUPnPAV_1_1SoapCall.html#af8b4db226be751608b059963220b51e4":[4,0,3,67,2],
 "classUPnPAV_1_1SoapMessageGenerator.html":[4,0,3,68],
-"classUPnPAV_1_1SoapMessageTransmitter.html":[4,0,3,69],
-"classUPnPAV_1_1UdpServiceDiscoveryBackend.html":[4,0,3,70]
+"classUPnPAV_1_1SoapMessageTransmitter.html":[4,0,3,69]
 };
