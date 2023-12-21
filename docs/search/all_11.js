@@ -2,8 +2,8 @@ var searchData=
 [
   ['text_0',['text',['../classShell_1_1AbstractHeader.html#a5d0df8dff9c6454574d994691e7350e9',1,'Shell::AbstractHeader::text() const noexcept'],['../classShell_1_1AbstractHeader.html#a248a6caf476b3cfc2b4ff1d8dc99203e',1,'Shell::AbstractHeader::text']]],
   ['textchanged_1',['textChanged',['../classShell_1_1AbstractHeader.html#adccb19abfc369ac6fe023de8fb8a59b6',1,'Shell::AbstractHeader']]],
-  ['title_2',['title',['../classShell_1_1AbstractListEntry.html#a935f3838e17d5f6ccc4526a110606763',1,'Shell::AbstractListEntry::title'],['../classShell_1_1AbstractListEntry.html#afb8de7dc1e6fc703648a946df85efad3',1,'Shell::AbstractListEntry::title() const noexcept']]],
-  ['titlechanged_3',['titleChanged',['../classShell_1_1AbstractListEntry.html#ae27d2b2f454468ee1d333fa107ce7323',1,'Shell::AbstractListEntry']]],
+  ['title_2',['title',['../classShell_1_1AbstractDialog.html#ae3d9195ae715bfd8701f09b462d43ecc',1,'Shell::AbstractDialog::title'],['../classShell_1_1AbstractListEntry.html#a935f3838e17d5f6ccc4526a110606763',1,'Shell::AbstractListEntry::title'],['../classShell_1_1AbstractDialog.html#a7d2587758953faba11e81c71a8f2b5f7',1,'Shell::AbstractDialog::title()'],['../classShell_1_1AbstractListEntry.html#afb8de7dc1e6fc703648a946df85efad3',1,'Shell::AbstractListEntry::title()']]],
+  ['titlechanged_3',['titlechanged',['../classShell_1_1AbstractDialog.html#ad025f3d01f6ce7d33300d1231e573fb2',1,'Shell::AbstractDialog::titleChanged()'],['../classShell_1_1AbstractListEntry.html#ae27d2b2f454468ee1d333fa107ce7323',1,'Shell::AbstractListEntry::titleChanged()']]],
   ['tostring_4',['toString',['../structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5',1,'Multimedia::ProviderVersion']]],
   ['track_5',['track',['../classUPnPAV_1_1GetPositionInfoResponse.html#a6d78f18c0a66dcfb63e5bc54610480dc',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackduration_6',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#aefa2abc803435cba25ba414f0d552ccb',1,'UPnPAV::GetPositionInfoResponse']]],

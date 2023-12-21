@@ -19,6 +19,7 @@ var annotated_dup =
     ] ],
     [ "Shell", null, [
       [ "AbstractClock", "classShell_1_1AbstractClock.html", "classShell_1_1AbstractClock" ],
+      [ "AbstractDialog", "classShell_1_1AbstractDialog.html", "classShell_1_1AbstractDialog" ],
       [ "AbstractHeader", "classShell_1_1AbstractHeader.html", "classShell_1_1AbstractHeader" ],
       [ "AbstractIconButton", "classShell_1_1AbstractIconButton.html", "classShell_1_1AbstractIconButton" ],
       [ "AbstractListEntry", "classShell_1_1AbstractListEntry.html", "classShell_1_1AbstractListEntry" ],

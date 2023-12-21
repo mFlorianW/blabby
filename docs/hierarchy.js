@@ -84,6 +84,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "QQuickItem", null, [
+      [ "Shell::AbstractDialog", "classShell_1_1AbstractDialog.html", null ],
       [ "Shell::AbstractHeader", "classShell_1_1AbstractHeader.html", null ],
       [ "Shell::AbstractIconButton", "classShell_1_1AbstractIconButton.html", null ],
       [ "Shell::AbstractListEntry", "classShell_1_1AbstractListEntry.html", null ]
