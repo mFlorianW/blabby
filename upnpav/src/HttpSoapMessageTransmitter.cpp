@@ -5,6 +5,7 @@
 
 #include "HttpSoapMessageTransmitter.hpp"
 #include "private/HttpSoapCall.hpp"
+#include "private/LoggingCategories.hpp"
 #include <QDebug>
 #include <QNetworkReply>
 
@@ -28,11 +29,6 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QStri
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=\"utf-8\"");
     networkRequest.setRawHeader("SOAPACTION", soapHeader);
 
-    qDebug() << networkRequest.url();
-    qDebug() << networkRequest.rawHeaderList();
-    qDebug() << networkRequest.header(QNetworkRequest::ContentTypeHeader).toString();
-    qDebug() << networkRequest.rawHeader("SOAPACTION");
-
     QSharedPointer<QNetworkReply> reply{m_accessManager.post(networkRequest, xmlBody.toUtf8())};
 
     return QSharedPointer<HttpSoapCall>{new (std::nothrow) HttpSoapCall(reply)};
@@ -48,10 +44,11 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(ServiceDesc
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=\"utf-8\"");
     networkRequest.setRawHeader("SOAPACTION", soapHeader);
 
-    qDebug() << networkRequest.url();
-    qDebug() << networkRequest.rawHeaderList();
-    qDebug() << networkRequest.header(QNetworkRequest::ContentTypeHeader).toString();
-    qDebug() << networkRequest.rawHeader("SOAPACTION");
+    qCDebug(upnpavSoapHttp) << networkRequest.url();
+    qCDebug(upnpavSoapHttp) << networkRequest.rawHeaderList();
+    qCDebug(upnpavSoapHttp) << networkRequest.header(QNetworkRequest::ContentTypeHeader).toString();
+    qCDebug(upnpavSoapHttp) << networkRequest.rawHeader("SOAPACTION");
+    qCDebug(upnpavSoapHttp).nospace().noquote() << xmlBody;
 
     QSharedPointer<QNetworkReply> reply{m_accessManager.post(networkRequest, xmlBody.toUtf8())};
 

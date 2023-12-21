@@ -6,3 +6,5 @@
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(upnpavDevice)
+Q_DECLARE_LOGGING_CATEGORY(upnpavService)
+Q_DECLARE_LOGGING_CATEGORY(upnpavSoapHttp)

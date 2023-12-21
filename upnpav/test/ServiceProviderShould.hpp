@@ -132,6 +132,12 @@ private Q_SLOTS:
      */
     void parse_service_control_point_definition();
 
+    /**
+     * @test The ServiceProvider shall ignore discovery messages from devices that
+     * doesn t match the search target.
+     */
+    void do_not_request_device_description_for_devices_that_not_match_search_target();
+
 private:
     std::unique_ptr<IServiceProvider> m_mediaServerProvider;
     QSharedPointer<TestableMediaServerProviderFactory> m_providerFactory;
