@@ -62,6 +62,7 @@ var hierarchy =
         [ "Provider::MediaServerSource", "classProvider_1_1MediaServerSource.html", null ]
       ] ],
       [ "Shell::AbstractClock", "classShell_1_1AbstractClock.html", null ],
+      [ "Shell::MediaPlayer", "classShell_1_1MediaPlayer.html", null ],
       [ "Shell::QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", null ],
       [ "UPnPAV::DescriptionFetcher", "classUPnPAV_1_1DescriptionFetcher.html", null ],
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [
