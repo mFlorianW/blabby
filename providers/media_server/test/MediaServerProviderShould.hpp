@@ -6,20 +6,20 @@
 
 #include <QObject>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-class MediaServerProviderShould : public QObject
+class ProviderShould : public QObject
 {
     Q_OBJECT
 public:
     using QObject::QObject;
-    ~MediaServerProviderShould() override;
-    Q_DISABLE_COPY_MOVE(MediaServerProviderShould);
+    ~ProviderShould() override;
+    Q_DISABLE_COPY_MOVE(ProviderShould);
 private Q_SLOTS:
     void send_find_request_for_media_server_on_init();
     void notify_when_a_server_appears();
     void notify_when_a_server_disappears();
 };
 
-}; // namespace Provider
+}; // namespace Provider::MediaServer

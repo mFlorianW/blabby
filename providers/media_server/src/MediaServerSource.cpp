@@ -7,10 +7,10 @@
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-MediaServerSource::MediaServerSource(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
+Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
     : Multimedia::Source{mediaServer->name(),
                          mediaServer->iconUrl().isEmpty()
                              ? QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg")
@@ -20,26 +20,23 @@ MediaServerSource::MediaServerSource(std::unique_ptr<UPnPAV::MediaServer> mediaS
     navigate(QStringLiteral("0"));
 }
 
-MediaServerSource::~MediaServerSource() = default;
+Source::~Source() = default;
 
-void MediaServerSource::navigateTo(QString const &path) noexcept
+void Source::navigateTo(QString const &path) noexcept
 {
     navigate(path);
 }
 
-void MediaServerSource::navigate(QString const &path) noexcept
+void Source::navigate(QString const &path) noexcept
 {
     mBrowseRequest = {
         .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, QString(""), QString("")),
         .mPath = path,
     };
-    connect(mBrowseRequest.mRequest.get(),
-            &UPnPAV::PendingSoapCall::finished,
-            this,
-            &MediaServerSource::onBrowseRequestFinished);
+    connect(mBrowseRequest.mRequest.get(), &UPnPAV::PendingSoapCall::finished, this, &Source::onBrowseRequestFinished);
 }
 
-void MediaServerSource::onBrowseRequestFinished() noexcept
+void Source::onBrowseRequestFinished() noexcept
 {
     if (mBrowseRequest.mRequest->hasError()) {
         qCritical(mediaServerSource) << "Browse reqeust failed with error: Error Code:"
@@ -63,4 +60,4 @@ void MediaServerSource::onBrowseRequestFinished() noexcept
     Q_EMIT navigationFinished(mBrowseRequest.mPath);
 }
 
-} // namespace Provider
+} // namespace Provider::MediaServer
