@@ -75,6 +75,7 @@ void MediaRendererModel::activateRenderer(QModelIndex const &index)
     const auto renderer = mRenderers.at(index.row());
     if (mActiveRenderer != renderer) {
         mActiveRenderer = renderer;
+        qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
         Q_EMIT activeRendererChanged();
     }
 }

@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #include "MediaPlayer.hpp"
+#include "LoggingCategories.hpp"
 
 using namespace Multimedia;
 
@@ -22,7 +23,10 @@ void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const &rende
 
 void MediaPlayer::play(Multimedia::Item const &item)
 {
-    Q_ASSERT(mRenderer != nullptr);
+    if (mRenderer == nullptr) {
+        qCCritical(shell) << "Failed to start playback. No render device set.";
+        return;
+    }
     mRenderer->playback(item);
 }
 

@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "MediaItemModel.hpp"
+#include "MediaPlayer.hpp"
 #include "MediaRendererModel.hpp"
 #include "MediaSourceModel.hpp"
 #include <QObject>
@@ -34,6 +35,11 @@ class QmlSingletonRegistry : public QObject
      * Gives the MediaRendererModel
      */
     Q_PROPERTY(Shell::MediaRendererModel *mediaRendererModel READ mediaRendererModel CONSTANT)
+
+    /**
+     * Gives the MediaPlayer
+     */
+    Q_PROPERTY(Shell::MediaPlayer *mediaPlayer READ mediaPlayer CONSTANT)
 
 public:
     /**
@@ -71,6 +77,14 @@ public:
     MediaRendererModel *mediaRendererModel() noexcept;
 
     /**
+     * Gives a pointer to the QMLEngine for the @ref Shell::MediaPlayer singleton.
+     * The pointer has the same lifetime as the @ref Shell::QmlSingletonRegistry instance.
+     * @note The callee doesn't take the ownership of the returned pointer.
+     * @return A pointer to the @ref Shell::MediaItemModel instance
+     */
+    MediaPlayer *mediaPlayer() noexcept;
+
+    /**
      * Callback for the QML engine for creating an instance of the @ref Shell::QmlSingletonRegistry
      * @param engine Unused
      * @param scriptEngine Unused
@@ -91,6 +105,7 @@ private:
     MediaSourceModel mSourceModel;
     MediaItemModel mItemModel;
     MediaRendererModel mRendererModel;
+    MediaPlayer mMediaPlayer;
 };
 
 } // namespace Shell

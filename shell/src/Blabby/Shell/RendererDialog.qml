@@ -23,7 +23,7 @@ Dialog{
             title: mediaRendererTitle
             iconUrl: mediaRendererIconUrl
             onClicked: {
-                //Singleton.mediaItemModel.activateMediaItem(index)
+                Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
             }
         }
     }

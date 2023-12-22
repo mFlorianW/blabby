@@ -30,6 +30,11 @@ MediaRendererModel *QmlSingletonRegistry::mediaRendererModel() noexcept
     return &mRendererModel;
 }
 
+MediaPlayer *QmlSingletonRegistry::mediaPlayer() noexcept
+{
+    return &mMediaPlayer;
+}
+
 QObject *QmlSingletonRegistry::createQmlRegistry(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
