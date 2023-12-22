@@ -5,7 +5,7 @@ var searchData=
   ['iconurlchanged_2',['iconurlchanged',['../classShell_1_1AbstractHeader.html#a70d0d775019d13ba8487b7d68082eada',1,'Shell::AbstractHeader::iconUrlChanged()'],['../classShell_1_1AbstractListEntry.html#a6bd62870ea90340cf03cb12fc72f068e',1,'Shell::AbstractListEntry::iconUrlChanged()']]],
   ['illegalmimetype_3',['IllegalMimeType',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a02f033123fbba400fd1d4234c99abfad',1,'UPnPAV::PendingSoapCall']]],
   ['illegalseektarget_4',['IllegalSeekTarget',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a9f724c7541460b25d709f82d95d8c7f4',1,'UPnPAV::PendingSoapCall']]],
-  ['init_5',['init',['../classMultimedia_1_1Provider.html#a1b8213649172a7f8c61292e15ad2601a',1,'Multimedia::Provider::init()'],['../classProvider_1_1MediaServerProvider.html#adfe864c0877f85d7341f1d8ddf9810ff',1,'Provider::MediaServerProvider::init()']]],
+  ['init_5',['init',['../classMultimedia_1_1Provider.html#a1b8213649172a7f8c61292e15ad2601a',1,'Multimedia::Provider::init()'],['../classProvider_1_1MediaServer_1_1Provider.html#a858d5677b8ddeb058898868ba50a8e7b',1,'Provider::MediaServer::Provider::init()']]],
   ['initializationfailed_6',['initializationFailed',['../classMultimedia_1_1Renderer.html#ace8ffdc00a3f8074bd6ab9671cccf91c',1,'Multimedia::Renderer']]],
   ['initializationfinished_7',['initializationFinished',['../classMultimedia_1_1Renderer.html#a678fa5ee1249efc0d905dcbfffe463d5',1,'Multimedia::Renderer']]],
   ['initialize_8',['initialize',['../classMultimedia_1_1Renderer.html#a1c64fe68ba1cc7b1ff2df1cd72f11c32',1,'Multimedia::Renderer']]],

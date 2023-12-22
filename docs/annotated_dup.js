@@ -14,8 +14,10 @@ var annotated_dup =
       [ "SourcePrivate", "structMultimedia_1_1SourcePrivate.html", null ]
     ] ],
     [ "Provider", null, [
-      [ "MediaServerProvider", "classProvider_1_1MediaServerProvider.html", "classProvider_1_1MediaServerProvider" ],
-      [ "MediaServerSource", "classProvider_1_1MediaServerSource.html", "classProvider_1_1MediaServerSource" ]
+      [ "MediaServer", null, [
+        [ "Provider", "classProvider_1_1MediaServer_1_1Provider.html", "classProvider_1_1MediaServer_1_1Provider" ],
+        [ "Source", "classProvider_1_1MediaServer_1_1Source.html", "classProvider_1_1MediaServer_1_1Source" ]
+      ] ]
     ] ],
     [ "Shell", null, [
       [ "AbstractClock", "classShell_1_1AbstractClock.html", "classShell_1_1AbstractClock" ],

@@ -16,5 +16,6 @@ var searchData=
   ['positioninfo_13',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
   ['previous_14',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
   ['protocolinfo_15',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694',1,'UPnPAV::MediaDevice']]],
-  ['providerloader_16',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
+  ['provider_16',['Provider',['../classProvider_1_1MediaServer_1_1Provider.html#a521b18f5fd449b938ced5beab7f83822',1,'Provider::MediaServer::Provider']]],
+  ['providerloader_17',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
 ];

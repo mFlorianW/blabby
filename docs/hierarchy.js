@@ -54,12 +54,12 @@ var hierarchy =
     ] ],
     [ "QObject", null, [
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
-        [ "Provider::MediaServerProvider", "classProvider_1_1MediaServerProvider.html", null ]
+        [ "Provider::MediaServer::Provider", "classProvider_1_1MediaServer_1_1Provider.html", null ]
       ] ],
       [ "Multimedia::Renderer", "classMultimedia_1_1Renderer.html", null ],
       [ "Multimedia::RendererProvider", "classMultimedia_1_1RendererProvider.html", null ],
       [ "Multimedia::Source", "classMultimedia_1_1Source.html", [
-        [ "Provider::MediaServerSource", "classProvider_1_1MediaServerSource.html", null ]
+        [ "Provider::MediaServer::Source", "classProvider_1_1MediaServer_1_1Source.html", null ]
       ] ],
       [ "Shell::AbstractClock", "classShell_1_1AbstractClock.html", null ],
       [ "Shell::MediaPlayer", "classShell_1_1MediaPlayer.html", null ],
