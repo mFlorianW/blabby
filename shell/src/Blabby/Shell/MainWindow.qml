@@ -230,4 +230,18 @@ Item{
             Singleton.mediaItemModel.setMediaSource(Singleton.mediaSourceModel.activeMediaSource)
         }
     }
+
+    Connections{
+        target: Singleton.mediaRendererModel
+        function onActiveRendererChanged(){
+            Singleton.mediaPlayer.setRenderer(Singleton.mediaRendererModel.activeRenderer)
+        }
+    }
+
+    Connections{
+        target: Singleton.mediaItemModel
+        function onPlayRequest(mediaItem){
+            Singleton.mediaPlayer.play(mediaItem)
+        }
+    }
 }
