@@ -57,10 +57,10 @@ std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
 {
     const auto action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
     auto msgGen = SoapMessageGenerator{};
-    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription,
+                                                                d->mConnectionManagerSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
