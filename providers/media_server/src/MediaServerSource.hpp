@@ -7,27 +7,27 @@
 #include "Source.hpp"
 #include "blabbymediaserverprovider_export.h"
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-class BLABBYMEDIASERVERPROVIDER_EXPORT MediaServerSource final : public Multimedia::Source
+class BLABBYMEDIASERVERPROVIDER_EXPORT Source final : public Multimedia::Source
 {
 public:
     /**
      * Creates an instance of MediaServerSource
      * @mediaServer The UPnP MediaServer that shall be controlled by this source.
      */
-    MediaServerSource(std::unique_ptr<UPnPAV::MediaServer> mediaServer);
+    Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer);
 
     /**
      * The default desctructor
      */
-    ~MediaServerSource() override;
+    ~Source() override;
 
     /**
      * Disable copy or move
      */
-    Q_DISABLE_COPY_MOVE(MediaServerSource)
+    Q_DISABLE_COPY_MOVE(Source)
 
     /**
      * @copydoc Multimedia::MediaSource::navigateTo(QString)
@@ -48,4 +48,4 @@ private:
     std::unique_ptr<UPnPAV::MediaServer> mServer;
     BrowseRequest mBrowseRequest;
 };
-} // namespace Provider
+} // namespace Provider::MediaServer

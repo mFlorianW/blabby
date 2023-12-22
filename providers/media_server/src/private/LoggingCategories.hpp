@@ -6,8 +6,8 @@
 
 #include <QLoggingCategory>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 Q_DECLARE_LOGGING_CATEGORY(mediaServerSource)
 Q_DECLARE_LOGGING_CATEGORY(mediaServerProvider)
-} // namespace Provider
+} // namespace Provider::MediaServer

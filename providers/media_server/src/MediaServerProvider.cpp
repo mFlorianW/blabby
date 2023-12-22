@@ -8,42 +8,39 @@
 #include "MediaServerSource.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
-#include <source_location>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-MediaServerProvider::MediaServerProvider(std::unique_ptr<UPnPAV::IServiceProviderFactory> serviceProviderFab,
-                                         std::unique_ptr<UPnPAV::MediaServerFactory> mediaServerFab)
-    : Provider{QStringLiteral("MediaServerProvider"), Multimedia::ProviderVersion{.major = 0, .minor = 1, .patch = 1}}
+Provider::Provider(std::unique_ptr<UPnPAV::IServiceProviderFactory> serviceProviderFab,
+                   std::unique_ptr<UPnPAV::MediaServerFactory> mediaServerFab)
+    : Multimedia::Provider{QStringLiteral("MediaServerProvider"),
+                           Multimedia::ProviderVersion{.major = 0, .minor = 1, .patch = 1}}
     , mServiceProviderFab{std::move(serviceProviderFab)}
     , mMediaServerFab{std::move(mediaServerFab)}
 {
 }
 
-MediaServerProvider::~MediaServerProvider() = default;
+Provider::~Provider() = default;
 
-bool MediaServerProvider::init() noexcept
+bool Provider::init() noexcept
 {
     Q_ASSERT(mServiceProviderFab != nullptr);
 
     mServiceProvider =
         mServiceProviderFab->createServiceProvider(QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1"));
 
-    connect(mServiceProvider.get(),
-            &UPnPAV::IServiceProvider::serviceConnected,
-            this,
-            &MediaServerProvider::onServiceConnected);
+    connect(mServiceProvider.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &Provider::onServiceConnected);
     connect(mServiceProvider.get(),
             &UPnPAV::IServiceProvider::serviceDisconnected,
             this,
-            &MediaServerProvider::onServiceDisconnected);
+            &Provider::onServiceDisconnected);
 
     mServiceProvider->startSearch();
     return true;
 }
 
-QVector<std::shared_ptr<Multimedia::Source>> MediaServerProvider::sources() const noexcept
+QVector<std::shared_ptr<Multimedia::Source>> Provider::sources() const noexcept
 {
     auto result = QVector<std::shared_ptr<Multimedia::Source>>{};
     auto iter = QHashIterator<QString, std::shared_ptr<Multimedia::Source>>{mMediaServers};
@@ -54,7 +51,7 @@ QVector<std::shared_ptr<Multimedia::Source>> MediaServerProvider::sources() cons
     return result;
 }
 
-void MediaServerProvider::onServiceConnected(QString const &usn) noexcept
+void Provider::onServiceConnected(QString const &usn) noexcept
 {
     Q_ASSERT(mServiceProvider != nullptr);
     Q_ASSERT(mMediaServerFab != nullptr);
@@ -62,7 +59,7 @@ void MediaServerProvider::onServiceConnected(QString const &usn) noexcept
     const auto devDesc = mServiceProvider->rootDeviceDescription(usn);
     try {
         auto ms = mMediaServerFab->createMediaServer(devDesc);
-        auto msp = std::make_shared<MediaServerSource>(std::move(ms));
+        auto msp = std::make_shared<Source>(std::move(ms));
         mMediaServers.insert(usn, msp);
         Q_EMIT sourceAdded(msp);
     } catch (UPnPAV::InvalidDeviceDescription &invDesc) {
@@ -70,7 +67,7 @@ void MediaServerProvider::onServiceConnected(QString const &usn) noexcept
     }
 }
 
-void MediaServerProvider::onServiceDisconnected(QString const &usn) noexcept
+void Provider::onServiceDisconnected(QString const &usn) noexcept
 {
     if (!mMediaServers.contains(usn)) {
         qCDebug(mediaServerProvider()) << "Can't remove media server" << usn << "not found.";
@@ -82,4 +79,4 @@ void MediaServerProvider::onServiceDisconnected(QString const &usn) noexcept
     mMediaServers.remove(usn);
 }
 
-} // namespace Provider
+} // namespace Provider::MediaServer

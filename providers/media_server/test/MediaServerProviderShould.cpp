@@ -9,17 +9,17 @@
 #include <QSignalSpy>
 #include <QTest>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-MediaServerProviderShould::~MediaServerProviderShould() = default;
+ProviderShould::~ProviderShould() = default;
 
-void MediaServerProviderShould::send_find_request_for_media_server_on_init()
+void ProviderShould::send_find_request_for_media_server_on_init()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
     auto *spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
-    auto prov = MediaServerProvider{std::move(spFab), std::move(msFab)};
+    auto prov = Provider{std::move(spFab), std::move(msFab)};
     auto expSearchTarget = QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1");
 
     prov.init();
@@ -32,13 +32,13 @@ void MediaServerProviderShould::send_find_request_for_media_server_on_init()
     QCOMPARE(spFabRaw->serviceProvider->isSearchTriggered(), true);
 }
 
-void MediaServerProviderShould::notify_when_a_server_appears()
+void ProviderShould::notify_when_a_server_appears()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
     auto *spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
-    auto prov = MediaServerProvider{std::move(spFab), std::move(msFab)};
-    auto spy = QSignalSpy{&prov, &MediaServerProvider::sourceAdded};
+    auto prov = Provider{std::move(spFab), std::move(msFab)};
+    auto spy = QSignalSpy{&prov, &Provider::sourceAdded};
 
     prov.init();
     Q_EMIT spFabRaw->serviceProvider->serviceConnected(QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
@@ -50,13 +50,13 @@ void MediaServerProviderShould::notify_when_a_server_appears()
     QVERIFY2(prov.sources().isEmpty() == false, "The returned MediaSourcen shoudn't be empty.");
 }
 
-void MediaServerProviderShould::notify_when_a_server_disappears()
+void ProviderShould::notify_when_a_server_disappears()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
     auto *spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
-    auto prov = MediaServerProvider{std::move(spFab), std::move(msFab)};
-    auto spy = QSignalSpy{&prov, &MediaServerProvider::sourceRemoved};
+    auto prov = Provider{std::move(spFab), std::move(msFab)};
+    auto spy = QSignalSpy{&prov, &Provider::sourceRemoved};
 
     prov.init();
     Q_EMIT spFabRaw->serviceProvider->serviceConnected(QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
@@ -69,6 +69,6 @@ void MediaServerProviderShould::notify_when_a_server_disappears()
     QVERIFY2(prov.sources().isEmpty() == true, "The returned MediaSourcen shoudn't be empty.");
 }
 
-} // namespace Provider
+} // namespace Provider::MediaServer
 
-QTEST_MAIN(Provider::MediaServerProviderShould)
+QTEST_MAIN(Provider::MediaServer::ProviderShould)

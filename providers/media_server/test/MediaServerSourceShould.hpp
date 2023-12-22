@@ -6,16 +6,16 @@
 
 #include <QObject>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
-class MediaServerSourceShould : public QObject
+class SourceShould : public QObject
 {
     Q_OBJECT
 public:
     using QObject::QObject;
-    ~MediaServerSourceShould() override;
-    Q_DISABLE_COPY_MOVE(MediaServerSourceShould);
+    ~SourceShould() override;
+    Q_DISABLE_COPY_MOVE(SourceShould);
 private Q_SLOTS:
     void give_the_name_of_the_media_server();
     void give_the_icon_of_the_media_server();
@@ -26,4 +26,4 @@ private Q_SLOTS:
     void give_a_default_icon_when_no_icon_is_set();
 };
 
-} // namespace Provider
+} // namespace Provider::MediaServer

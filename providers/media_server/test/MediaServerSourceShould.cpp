@@ -11,7 +11,7 @@
 #include <QSignalSpy>
 #include <QTest>
 
-namespace Provider
+namespace Provider::MediaServer
 {
 
 namespace
@@ -28,12 +28,12 @@ std::unique_ptr<UPnPAV::Doubles::MediaServer> createMediaServer()
 
 } // namespace
 
-MediaServerSourceShould::~MediaServerSourceShould() = default;
+SourceShould::~SourceShould() = default;
 
-void MediaServerSourceShould::give_the_name_of_the_media_server()
+void SourceShould::give_the_name_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expName = QStringLiteral("MediaServer");
 
     const auto name = mediaServerSource.sourceName();
@@ -43,10 +43,10 @@ void MediaServerSourceShould::give_the_name_of_the_media_server()
         QStringLiteral("The media server name \"%1\" is not the expected one %2").arg(name, expName).toLocal8Bit());
 }
 
-void MediaServerSourceShould::give_the_icon_of_the_media_server()
+void SourceShould::give_the_icon_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expIcon = QStringLiteral("http://localhost:8200/icons/sm.png");
 
     const auto icon = mediaServerSource.iconUrl();
@@ -56,23 +56,23 @@ void MediaServerSourceShould::give_the_icon_of_the_media_server()
         QStringLiteral("The media server icon \"%1\" is not the expected one %2").arg(icon, expIcon).toLocal8Bit());
 }
 
-void MediaServerSourceShould::request_root_media_items_on_init()
+void SourceShould::request_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expBrowseRequest =
         UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("0"),
                                            .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
 }
 
-void MediaServerSourceShould::give_root_media_items_on_init()
+void SourceShould::give_root_media_items_on_init()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
                                                                        QStringLiteral("MyMusic"),
                                                                        QString{""},
@@ -89,15 +89,15 @@ void MediaServerSourceShould::give_root_media_items_on_init()
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
 }
 
-void MediaServerSourceShould::send_correct_request_on_navigation()
+void SourceShould::send_correct_request_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expBrowseRequest =
         UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("12"),
                                            .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
-    const auto navFinishedSpy = QSignalSpy{&mediaServerSource, &MediaServerSource::navigationFinished};
+    const auto navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
 
     mediaServerSource.navigateTo(QStringLiteral("12"));
     Q_EMIT mediaServerRaw->soapCall->finished();
@@ -106,12 +106,12 @@ void MediaServerSourceShould::send_correct_request_on_navigation()
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
 }
 
-void MediaServerSourceShould::request_root_media_items_on_navigation()
+void SourceShould::request_root_media_items_on_navigation()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
                                                                        QStringLiteral("MyMusic"),
                                                                        QString{""},
@@ -129,16 +129,16 @@ void MediaServerSourceShould::request_root_media_items_on_navigation()
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
 }
 
-void MediaServerSourceShould::give_a_default_icon_when_no_icon_is_set()
+void SourceShould::give_a_default_icon_when_no_icon_is_set()
 {
     auto mediaServer = createMediaServer();
     mediaServer->setIconUrl(QString(""));
-    auto mediaServerSource = MediaServerSource{std::move(mediaServer)};
+    auto mediaServerSource = Source{std::move(mediaServer)};
     const auto expIconUrl = QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg");
 
     QCOMPARE(mediaServerSource.iconUrl(), expIconUrl);
 }
 
-} // namespace Provider
+} // namespace Provider::MediaServer
 
-QTEST_MAIN(Provider::MediaServerSourceShould);
+QTEST_MAIN(Provider::MediaServer::SourceShould);
