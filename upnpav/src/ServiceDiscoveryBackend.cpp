@@ -4,7 +4,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "ServiceDiscoveryBackend.hpp"
-
+#include "private/LoggingCategories.hpp"
+#include <QDebug>
 #include <QNetworkDatagram>
 
 namespace UPnPAV
@@ -25,12 +26,12 @@ UdpServiceDiscoveryBackend::UdpServiceDiscoveryBackend()
     connect(&m_udpSocket, &QUdpSocket::readyRead, this, &UdpServiceDiscoveryBackend::handleReceivedData);
 
     if (!m_udpSocket.bind(QHostAddress::AnyIPv4, 1900, QUdpSocket::ShareAddress)) {
-        qWarning() << "Failed to bound UPD discovery socket.";
+        qCCritical(upnpavService) << "Failed to bound UPD discovery socket.";
     }
 
     if (!m_udpSocket.joinMulticastGroup(QHostAddress{"239.255.255.250"})) {
-        qWarning() << "Failed to join multicast group.";
-        qWarning() << m_udpSocket.errorString();
+        qCCritical(upnpavService) << "Failed to join multicast group.";
+        qCCritical(upnpavService) << m_udpSocket.errorString();
     }
 }
 
@@ -42,7 +43,10 @@ void UdpServiceDiscoveryBackend::sendDiscoveryRequest(const QNetworkDatagram &da
 void UdpServiceDiscoveryBackend::handleReceivedData()
 {
     while (m_udpSocket.hasPendingDatagrams()) {
-        Q_EMIT receivedNetworkDatagram(m_udpSocket.receiveDatagram());
+        const auto datagram = m_udpSocket.receiveDatagram();
+        qCDebug(upnpavService) << "Received Service discovery Datagram from:" << datagram.senderAddress() << ":"
+                               << datagram.senderPort();
+        Q_EMIT receivedNetworkDatagram(datagram);
     }
 }
 
