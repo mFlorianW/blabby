@@ -36,7 +36,7 @@ void ServiceDiscovery::sendSearchRequest(const QString &searchTarget)
                                  "Man: \"ssdp:discover\"\r\n"
                                  "MX: 3\r\n"
                                  "ST: %1\r\n"
-                                 "USER-AGENT: Linux/1.0 UPnP/1.0 test/0.1.0"
+                                 "User-Agent: Linux/1.0 UPnP/1.0 test/0.1.0\r\n"
                                  "\r\n"}
                              .arg(searchTarget);
 

@@ -24,7 +24,7 @@ constexpr const char *validMSearchRequest = "M-SEARCH * HTTP/1.1\r\n"
                                             "Man: \"ssdp:discover\"\r\n"
                                             "MX: 3\r\n"
                                             "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
-                                            "USER-AGENT: Linux/1.0 UPnP/1.0 test/0.1.0"
+                                            "User-Agent: Linux/1.0 UPnP/1.0 test/0.1.0\r\n"
                                             "\r\n";
 
 constexpr const char *validMSearchResponse = "HTTP/1.1 200 OK\r\n"
