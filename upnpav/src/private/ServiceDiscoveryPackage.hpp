@@ -14,6 +14,19 @@
 class QByteArray;
 namespace UPnPAV
 {
+
+Q_NAMESPACE
+/**
+ * Package Subtypes
+ */
+enum class SsdpSubType
+{
+    Unknown = 0, /*!< Unknown sub type e.g. search request response */
+    ByeBye, /*!< ssdp:byebye sub type */
+    Notify /*!< The package is a ssdp:alive message */
+};
+Q_ENUM_NS(SsdpSubType)
+
 /**
  * The ServiceDiscoveryPackage represents a discovery message. The package
  * can be constructed from a Notify, MSearch or ByeBye message.
@@ -21,13 +34,6 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT ServiceDiscoveryPackage final
 {
 public:
-    enum SubType
-    {
-        Unknown = 0, /*!< Unknown sub type*/
-        ByeBye, /*!< ssdp:byebye sub type */
-        Notify /*!< The package is a ssdp:alive message */
-    };
-
     /**
      * Constructs ServiceDiscoveryPackage and extracts the information from it.
      *
@@ -56,7 +62,7 @@ public:
      *
      * @return The NTS of the message.
      */
-    SubType notificationSubType() const;
+    SsdpSubType notificationSubType() const;
 
     /**
      * Gives the search target of the @ref UPnPAV::ServiceDiscoveryPackage message.
@@ -92,12 +98,12 @@ private:
      * @param subtype The subtype string from the message.
      * @return The convertion of the message NTS to the enum value SubType.
      */
-    static SubType convertSubTypeString(const QString &subtype);
+    static SsdpSubType convertSubTypeString(const QString &subtype);
 
 private:
     QUrl m_locationUrl;
     QString m_deviceUsn;
-    SubType m_notificationSubType{SubType::Unknown};
+    SsdpSubType m_notificationSubType{SsdpSubType::Unknown};
     QString mSearchTarget;
 };
 

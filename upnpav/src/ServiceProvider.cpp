@@ -88,6 +88,8 @@ void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
         m_knownDevices.push_back(package.deviceId());
     }
 
+    qCCritical(upnpavService) << "Fetch device description for search target" << m_searchTarget
+                              << " device:" << package.deviceId();
     m_descriptionFetcher->fetchDescription(package.locationUrl());
     m_pendingDeviceDescription.append(package.locationUrl());
 }
@@ -106,30 +108,32 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
     try {
         ServiceDiscoveryPackage package{datagram.data()};
 
-        if ((package.notificationSubType() == ServiceDiscoveryPackage::ByeBye) &&
-            m_knownDevices.contains(package.deviceId())) {
+        if (m_searchTarget != package.searchTarget()) {
+            qCDebug(upnpavService) << "Ignoring SSDP package search target doesn't match.\n\tExpected search target:"
+                                   << m_searchTarget << "\n\tActual search target" << package.searchTarget()
+                                   << "\n\tDevice" << package.deviceId();
+            return;
+        }
+
+        if ((package.notificationSubType() == SsdpSubType::ByeBye) && m_knownDevices.contains(package.deviceId())) {
             handleByeByePackage(package);
             return;
         }
 
-        if ((package.notificationSubType() == ServiceDiscoveryPackage::Notify) && (!validateDestination(datagram))) {
+        if ((package.notificationSubType() == SsdpSubType::Notify) && (!validateDestination(datagram))) {
             Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::WrongDestination,
                                               "Received package with wrong destination."});
             return;
         }
 
-        if (package.notificationSubType() == ServiceDiscoveryPackage::Unknown &&
-            package.searchTarget() != m_searchTarget) {
-            return;
-        }
-
+        qCDebug(upnpavService) << "Handle SSDP package" << package.notificationSubType() << "for search target "
+                               << m_searchTarget << "device" << package.deviceId();
         handlePackage(package);
     } catch (const PackageParseError &e) {
-        // TODO: Use category logging for details
         QString errorMessage = QString{"Received malformd SSDP message from %1:%2"}
                                    .arg(datagram.senderAddress().toString())
                                    .arg(datagram.senderPort());
-
+        qCDebug(upnpavService) << errorMessage;
         Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::MalformedSsdpMessage, errorMessage});
     }
 }

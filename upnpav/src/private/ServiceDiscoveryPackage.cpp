@@ -13,20 +13,20 @@ ServiceDiscoveryPackage::ServiceDiscoveryPackage(const QByteArray &rawData)
     auto rawDataSplitted = QString{rawData}.split("\r\n");
 
     for (const auto &entry : rawDataSplitted) {
-        if (entry.contains(QStringLiteral("LOCATION:"))) {
+        if (entry.startsWith(QStringLiteral("LOCATION:"))) {
             m_locationUrl = extracEntryValue(QString{entry});
-        } else if (entry.contains(QStringLiteral("USN:"))) {
+        } else if (entry.startsWith(QStringLiteral("USN:"))) {
             auto deviceUsn = extracEntryValue(QString{entry});
             m_deviceUsn = extracDeviceIdentifierValue(deviceUsn);
-        } else if (entry.contains(QStringLiteral("NTS:"))) {
+        } else if (entry.startsWith(QStringLiteral("NTS:"))) {
             auto nts = extracEntryValue(QString{entry});
             m_notificationSubType = convertSubTypeString(nts);
-        } else if (entry.contains(QStringLiteral("ST:"))) {
+        } else if (entry.startsWith(QStringLiteral("ST: ")) or entry.startsWith(QStringLiteral("NT: "))) {
             mSearchTarget = extracEntryValue(entry);
         }
     }
 
-    if (m_locationUrl.isEmpty() && m_notificationSubType != SubType::ByeBye) {
+    if (m_locationUrl.isEmpty() && m_notificationSubType != SsdpSubType::ByeBye) {
         throw PackageParseError(QStringLiteral("The package is missing the location URL"));
     }
 }
@@ -41,7 +41,7 @@ QString UPnPAV::ServiceDiscoveryPackage::deviceId() const
     return m_deviceUsn;
 }
 
-ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::notificationSubType() const
+SsdpSubType ServiceDiscoveryPackage::notificationSubType() const
 {
     return m_notificationSubType;
 }
@@ -70,15 +70,15 @@ QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(const QString &rawS
     return rawString.trimmed();
 }
 
-ServiceDiscoveryPackage::SubType ServiceDiscoveryPackage::convertSubTypeString(const QString &subtype)
+SsdpSubType ServiceDiscoveryPackage::convertSubTypeString(const QString &subtype)
 {
     if (subtype == QStringLiteral("ssdp:byebye")) {
-        return SubType::ByeBye;
+        return SsdpSubType::ByeBye;
     } else if (subtype == QStringLiteral("ssdp:alive")) {
-        return SubType::Notify;
+        return SsdpSubType::Notify;
     }
 
-    return Unknown;
+    return SsdpSubType::Unknown;
 }
 
 PackageParseError::PackageParseError(QString description)
