@@ -44,8 +44,6 @@ void UdpServiceDiscoveryBackend::handleReceivedData()
 {
     while (m_udpSocket.hasPendingDatagrams()) {
         const auto datagram = m_udpSocket.receiveDatagram();
-        qCDebug(upnpavService) << "Received Service discovery Datagram from:" << datagram.senderAddress() << ":"
-                               << datagram.senderPort();
         Q_EMIT receivedNetworkDatagram(datagram);
     }
 }
