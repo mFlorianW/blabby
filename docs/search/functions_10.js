@@ -20,7 +20,7 @@ var searchData=
   ['setsource_17',['setSource',['../classShell_1_1AbstractIconButton.html#a586593b013c80031e6721a8b6651bf14',1,'Shell::AbstractIconButton']]],
   ['settext_18',['setText',['../classShell_1_1AbstractHeader.html#a734a45743e73f41cb698373ba7c5adc9',1,'Shell::AbstractHeader']]],
   ['settitle_19',['settitle',['../classShell_1_1AbstractDialog.html#a489651fb95de15076da2b801c9f4d67c',1,'Shell::AbstractDialog::setTitle()'],['../classShell_1_1AbstractListEntry.html#ab4a37156bf9df0d7b6b88c25d62f5362',1,'Shell::AbstractListEntry::setTitle()']]],
-  ['source_20',['source',['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source()'],['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()']]],
+  ['source_20',['source',['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()'],['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source()']]],
   ['sourceadded_21',['sourceAdded',['../classMultimedia_1_1Provider.html#a5090d72b28c7d0d16e07798940328dd7',1,'Multimedia::Provider']]],
   ['sourcechanged_22',['sourceChanged',['../classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5',1,'Shell::AbstractIconButton']]],
   ['sourcename_23',['sourceName',['../classMultimedia_1_1Source.html#a25ac8c040538667bcc600f853560ec41',1,'Multimedia::Source']]],

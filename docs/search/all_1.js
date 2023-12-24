@@ -10,6 +10,5 @@ var searchData=
   ['browseflag_7',['BrowseFlag',['../classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43',1,'UPnPAV::MediaServer']]],
   ['browseresponse_8',['BrowseResponse',['../classUPnPAV_1_1BrowseResponse.html',1,'UPnPAV']]],
   ['build_9',['build',['../classMultimedia_1_1ItemBuilder.html#a2903b5c57881dc6629637607e3ac1d25',1,'Multimedia::ItemBuilder::build()'],['../classUPnPAV_1_1MediaServerObjectBuilder.html#a247593b4cb4f6bd04373ddaaa3e39e8e',1,'UPnPAV::MediaServerObjectBuilder::build()'],['../index.html#autotoc_md3',1,'Build']]],
-  ['building_20blocks_10',['Building Blocks',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks',1,'']]],
-  ['byebye_11',['ByeBye',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a18ad3c71d3e37aa2a348974c94a61fbd',1,'UPnPAV::ServiceDiscoveryPackage']]]
+  ['building_20blocks_10',['Building Blocks',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks',1,'']]]
 ];

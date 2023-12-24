@@ -106,7 +106,6 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1ServiceDiscoveryPackage
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classUPnPAV_1_1ServiceDiscoveryPackage-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UPnPAV::ServiceDiscoveryPackage Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div></div>
@@ -115,14 +114,6 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1ServiceDiscoveryPackage
 
 <p><code>#include &lt;<a class="el" href="ServiceDiscoveryPackage_8hpp_source.html">ServiceDiscoveryPackage.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a201b587dd39ec5c97589453da76f2c93" id="r_a201b587dd39ec5c97589453da76f2c93"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93">SubType</a> { <a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a0776c6e6c58cf35ae219479a89763072">Unknown</a> = 0
-, <a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a18ad3c71d3e37aa2a348974c94a61fbd">ByeBye</a>
-, <a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93a6a496a5ee9e75f84476ff574e1f7520e">Notify</a>
- }</td></tr>
-<tr class="separator:a201b587dd39ec5c97589453da76f2c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d21467f6d89830948329e1e000fce33" id="r_a5d21467f6d89830948329e1e000fce33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a5d21467f6d89830948329e1e000fce33">ServiceDiscoveryPackage</a> (const QByteArray &amp;rawData)</td></tr>
@@ -131,37 +122,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af68352b867789960eb7697eece4171d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab25bbb14c067557fc99a300c184099ac" id="r_ab25bbb14c067557fc99a300c184099ac"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#ab25bbb14c067557fc99a300c184099ac">deviceId</a> () const</td></tr>
 <tr class="separator:ab25bbb14c067557fc99a300c184099ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71b19d5679d7dd5028601a94461a099" id="r_ae71b19d5679d7dd5028601a94461a099"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93">SubType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#ae71b19d5679d7dd5028601a94461a099">notificationSubType</a> () const</td></tr>
-<tr class="separator:ae71b19d5679d7dd5028601a94461a099"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339313309efe5ca7539fd82266643540" id="r_a339313309efe5ca7539fd82266643540"><td class="memItemLeft" align="right" valign="top">SsdpSubType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540">notificationSubType</a> () const</td></tr>
+<tr class="separator:a339313309efe5ca7539fd82266643540"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd7dad4a405d53108b692b6cdf321119" id="r_acd7dad4a405d53108b692b6cdf321119"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#acd7dad4a405d53108b692b6cdf321119">searchTarget</a> () const</td></tr>
 <tr class="separator:acd7dad4a405d53108b692b6cdf321119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html">ServiceDiscoveryPackage</a> represents a discovery message. The package can be constructed from a Notify, MSearch or ByeBye message. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a201b587dd39ec5c97589453da76f2c93" name="a201b587dd39ec5c97589453da76f2c93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a201b587dd39ec5c97589453da76f2c93">&#9670;&#160;</a></span>SubType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93">UPnPAV::ServiceDiscoveryPackage::SubType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a201b587dd39ec5c97589453da76f2c93a0776c6e6c58cf35ae219479a89763072" name="a201b587dd39ec5c97589453da76f2c93a0776c6e6c58cf35ae219479a89763072"></a>Unknown&#160;</td><td class="fielddoc"><p>Unknown sub type </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a201b587dd39ec5c97589453da76f2c93a18ad3c71d3e37aa2a348974c94a61fbd" name="a201b587dd39ec5c97589453da76f2c93a18ad3c71d3e37aa2a348974c94a61fbd"></a>ByeBye&#160;</td><td class="fielddoc"><p>ssdp:byebye sub type </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a201b587dd39ec5c97589453da76f2c93a6a496a5ee9e75f84476ff574e1f7520e" name="a201b587dd39ec5c97589453da76f2c93a6a496a5ee9e75f84476ff574e1f7520e"></a>Notify&#160;</td><td class="fielddoc"><p>The package is a ssdp:alive message </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5d21467f6d89830948329e1e000fce33" name="a5d21467f6d89830948329e1e000fce33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d21467f6d89830948329e1e000fce33">&#9670;&#160;</a></span>ServiceDiscoveryPackage()</h2>
 
@@ -226,14 +194,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae71b19d5679d7dd5028601a94461a099" name="ae71b19d5679d7dd5028601a94461a099"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae71b19d5679d7dd5028601a94461a099">&#9670;&#160;</a></span>notificationSubType()</h2>
+<a id="a339313309efe5ca7539fd82266643540" name="a339313309efe5ca7539fd82266643540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a339313309efe5ca7539fd82266643540">&#9670;&#160;</a></span>notificationSubType()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#a201b587dd39ec5c97589453da76f2c93">ServiceDiscoveryPackage::SubType</a> UPnPAV::ServiceDiscoveryPackage::notificationSubType </td>
+          <td class="memname">SsdpSubType UPnPAV::ServiceDiscoveryPackage::notificationSubType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
