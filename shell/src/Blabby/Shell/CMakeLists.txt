@@ -1,4 +1,7 @@
-
+# Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
+# SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
 ################################################################################
 # QML Module
 ################################################################################
@@ -12,7 +15,6 @@ qt_add_qml_module(${PROJECT_NAME}
     STATIC
     QML_FILES
         MainWindow.qml
-        Theme.qml
         Menu.qml
         RendererDialog.qml
     RESOURCES

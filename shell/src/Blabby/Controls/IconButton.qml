@@ -5,6 +5,7 @@
 import QtQuick
 import Blabby.Shell 1.0
 import Blabby.Controls 1.0
+import Blabby.Theme 1.0
 
 AbstractIconButton{
     id: iconButton

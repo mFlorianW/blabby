@@ -5,6 +5,7 @@
 import QtQuick
 import Blabby.Controls 1.0
 import Blabby.Singleton 1.0
+import Blabby.Theme 1.0
 
 Rectangle{
     id: menu

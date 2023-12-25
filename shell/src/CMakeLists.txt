@@ -13,6 +13,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ProviderDirs.hpp.in ${CMAKE_CURRENT_B
 ################################################################################
 add_subdirectory(Blabby/Shell)
 add_subdirectory(Blabby/Controls)
+add_subdirectory(Blabby/Theme)
 
 ################################################################################
 # Build blabby
@@ -44,6 +45,8 @@ target_link_libraries(${PROJECT_NAME}Object
         BlabbyShell::QmlPlugin
         BlabbyShell::Controls
         BlabbyShell::ControlsPlugin
+        BlabbyShell::Theme
+        BlabbyShell::ThemePlugin
 )
 
 target_include_directories(${PROJECT_NAME}Object

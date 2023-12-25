@@ -6,6 +6,7 @@
 import QtQuick 2.15
 import Blabby.Controls 1.0
 import Blabby.Shell 1.0
+import Blabby.Theme 1.0
 
 AbstractHeader{
     id: header
