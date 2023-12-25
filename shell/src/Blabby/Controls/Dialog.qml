@@ -6,6 +6,7 @@
 import QtQuick
 import Blabby.Controls 1.0
 import Blabby.Shell 1.0
+import Blabby.Theme 1.0
 
 AbstractDialog{
     id: dialog
