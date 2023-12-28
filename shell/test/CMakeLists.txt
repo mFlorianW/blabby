@@ -8,6 +8,23 @@
 find_package(Qt6Test 6.5 REQUIRED)
 
 ###############################################################################
+# Test QmlTests
+###############################################################################
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControlShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractInteractiveControlShould.qml COPYONLY)
+
+add_executable(test_shell_qmltests)
+target_sources(test_shell_qmltests
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/QmlTests.cpp
+)
+target_link_libraries(test_shell_qmltests
+    PRIVATE
+        Qt6::Test
+        Qt6::QuickTest
+        BlabbyShell::Object
+)
+###############################################################################
 # Test MediaPlayer
 ###############################################################################
 add_executable(test_shell_mediaplayer)

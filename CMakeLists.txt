@@ -51,5 +51,4 @@ if(BUILD_DOC)
     add_subdirectory(docs)
 endif()
 
-list(REMOVE_DUPLICATES QML_IMPORT_PATH)
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES PACKAGES_FOUND)

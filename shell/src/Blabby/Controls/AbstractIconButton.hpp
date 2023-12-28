@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 
-#include <QQuickItem>
+#include "AbstractInteractiveControl.hpp"
 
 namespace Shell
 {
@@ -12,7 +12,7 @@ namespace Shell
  * Base implementation for an IconButton.
  * The class has all the logic for the button without any visual aspects.
  */
-class AbstractIconButton : public QQuickItem
+class AbstractIconButton : public AbstractInteractiveControl
 {
     Q_OBJECT
     QML_ELEMENT
@@ -31,7 +31,7 @@ public:
     /**
      * Inherited Constructors
      */
-    using QQuickItem::QQuickItem;
+    using AbstractInteractiveControl::AbstractInteractiveControl;
 
     /**
      * Destructor
@@ -69,11 +69,6 @@ public:
     void setBorder(bool border) noexcept;
 
 Q_SIGNALS:
-    /**
-     * This signal is emitted when the @AbstractIconButton is clicked
-     */
-    void clicked();
-
     /**
      * The signal is emitted source for the icon of the button is changed.
      */

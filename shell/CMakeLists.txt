@@ -41,7 +41,7 @@ endif("${isSystemDir}" STREQUAL "-1")
 ################################################################################
 # Dependencies
 ################################################################################
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickTest)
 
 ###############################################################################
 # Polices
