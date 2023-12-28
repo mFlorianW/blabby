@@ -3,11 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-import QtQuick 
-import Blabby.Shell 1.0
-import Blabby.Controls 1.0
-import Blabby.Singleton 1.0
-import Blabby.Theme 1.0
+import QtQuick
+import Blabby.Shell
+import Blabby.Controls
+import Blabby.Singleton
+import Blabby.Theme
 
 Item{
     id: shell

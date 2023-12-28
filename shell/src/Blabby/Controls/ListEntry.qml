@@ -2,7 +2,6 @@
 // SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
-
 import QtQuick
 import Blabby.Controls 1.0
 import Blabby.Shell 1.0
@@ -41,42 +40,14 @@ AbstractListEntry{
         elide: Text.ElideRight
     }
 
-    HoverHandler{
-        id: hoverHandler
-        blocking: true
-        onHoveredChanged: () => {
-            if (hoverHandler.hovered){
-                listEntry.state = "hovered"
-            } else {
-                listEntry.state = ""
-            }
-        }
-    }
-
-    TapHandler{
-        id: tapHandler
-        gesturePolicy: TapHandler.ReleaseWithinBounds
-        onTapped: (event, button) => {
-            listEntry.state = "clicked"
-            listEntry.clicked()
-        }
-    }
-
     states:[
         State{
             name: "hovered"
+            when: listEntry.hovered === true
             PropertyChanges{
                 target: stateLayer
                 color: Theme.stateColors.onSurfaceVariant.opacity08
                 opacity: 0.08
-            }
-        },
-        State{
-            name: "clicked"
-            PropertyChanges{
-                target: stateLayer
-                color: Theme.stateColors.onSurfaceVariant.opacity12
-                opacity: 0.12
             }
         }
     ]

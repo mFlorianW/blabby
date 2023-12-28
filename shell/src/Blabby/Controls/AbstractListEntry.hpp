@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 
-#include <QQuickItem>
+#include "AbstractInteractiveControl.hpp"
 
 namespace Shell
 {
@@ -12,7 +12,7 @@ namespace Shell
 /**
  * Implementation logic for the AbstractListEntry
  */
-class AbstractListEntry : public QQuickItem
+class AbstractListEntry : public AbstractInteractiveControl
 {
     Q_OBJECT
     QML_ELEMENT
@@ -30,7 +30,7 @@ public:
     /**
      * Inherited every QQuickItem constructor
      */
-    using QQuickItem::QQuickItem;
+    using AbstractInteractiveControl::AbstractInteractiveControl;
 
     /**
      * Default destructor
@@ -69,11 +69,6 @@ public:
     void setIconUrl(QString const &iconUrl) noexcept;
 
 Q_SIGNALS:
-    /**
-     * This signal is emitted when ever a list entry is clicked.
-     */
-    void clicked();
-
     /**
      * This signal is emitted when the title of the ListEntry is changed.
      */

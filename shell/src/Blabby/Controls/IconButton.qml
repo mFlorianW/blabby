@@ -32,30 +32,18 @@ AbstractIconButton{
         height: 24
     }
 
-    TapHandler{
-        id: tapHandler
-
-        onTapped: (event, button) => {
-            iconButton.state = "clicked"
-            iconButton.clicked()
-        }
+    onPressedChanged: () => {
+        iconButton.state = "clicked"
     }
 
-    HoverHandler{
-        id: hoverHandler
-
-        onHoveredChanged: () => {
-            if (hoverHandler.hovered){
-                iconButton.state = "hovered"
-            } else {
-                iconButton.state = ""
-            }
-        }
+    onClicked: () => {
+        iconButton.state = iconButton.hovered === true ? "hovered" : "normal"
     }
 
     states:[
         State{
             name: "hovered"
+            when: iconButton.hovered === true
             PropertyChanges{
                 target: stateLayer
                 color: Theme.stateColors.onSurfaceVariant.opacity08
@@ -63,7 +51,16 @@ AbstractIconButton{
             }
         },
         State{
+            name: "normal"
+            //when: iconButton.controlState === AbstractIconButton.ControlState.Inactive // && iconButton.hovered === false
+            PropertyChanges{
+                target: stateLayer
+                color: "transparent"
+            }
+        },
+        State{
             name: "clicked"
+            //when: iconButton.controlState === AbstractIconButton.ControlState.Active
             PropertyChanges{
                 target: stateLayer
                 color: Theme.stateColors.onSurfaceVariant.opacity12
