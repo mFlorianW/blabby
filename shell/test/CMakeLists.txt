@@ -12,6 +12,8 @@ find_package(Qt6Test 6.5 REQUIRED)
 ###############################################################################
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControlShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractInteractiveControlShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntryShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractListEntryShould.qml COPYONLY)
 
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests

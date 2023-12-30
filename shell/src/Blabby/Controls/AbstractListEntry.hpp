@@ -26,6 +26,11 @@ class AbstractListEntry : public AbstractInteractiveControl
      * The optional icon of the ListEntry
      */
     Q_PROPERTY(QString iconUrl READ iconUrl WRITE setIconUrl NOTIFY iconUrlChanged)
+
+    /**
+     * The optional trailing element for the entry
+     */
+    Q_PROPERTY(QQuickItem *trailingElement READ trailingElement WRITE setTrailingElement NOTIFY trailingElementChanged)
 public:
     /**
      * Inherited every QQuickItem constructor
@@ -68,20 +73,39 @@ public:
      */
     void setIconUrl(QString const &iconUrl) noexcept;
 
+    /**
+     * Gives the trailingElement for the @ref Shell::AbstractListEntry.
+     * The trailingElement is positioned on the right side of the entry.
+     * @return The trailing element or a nullptr when none is set.
+     */
+    QQuickItem *trailingElement() const noexcept;
+
+    /**
+     * Sets the trailing for the @ref Shell::AbstractListEntry.
+     * @param trailingElement The new trailing element for the @ref Shell::AbstractListEntry.
+     */
+    void setTrailingElement(QQuickItem *trailingElement) noexcept;
+
 Q_SIGNALS:
     /**
-     * This signal is emitted when the title of the ListEntry is changed.
+     * This signal is emitted when the title of the @ref Shell::AbstractListEntry is changed.
      */
     void titleChanged();
 
     /**
-     * This signal is emitted when the iconUrl of the ListEntry is changed.
+     * This signal is emitted when the iconUrl of the @ref Shell::AbstractListEntry is changed.
      */
     void iconUrlChanged();
+
+    /**
+     * This signal is emitted when the trailingElement of the @ref Shell::AbstractListEntry is changed.
+     */
+    void trailingElementChanged();
 
 private:
     QString mTitle;
     QString mIconUrl;
+    QQuickItem *mTrailingElement = nullptr;
 };
 
 } // namespace Shell

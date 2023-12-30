@@ -35,4 +35,17 @@ void AbstractListEntry::setIconUrl(QString const &iconUrl) noexcept
     }
 }
 
+QQuickItem *AbstractListEntry::trailingElement() const noexcept
+{
+    return mTrailingElement;
+}
+
+void AbstractListEntry::setTrailingElement(QQuickItem *trailingElement) noexcept
+{
+    if (mTrailingElement != trailingElement) {
+        mTrailingElement = trailingElement;
+        Q_EMIT trailingElementChanged();
+    }
+}
+
 } // namespace Shell
