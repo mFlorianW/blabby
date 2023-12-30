@@ -29,15 +29,34 @@ AbstractListEntry{
 
     Text {
         id: entryTitle
-        anchors.verticalCenter: listEntry.verticalCenter
         anchors.left: entryIcon.right
         anchors.leftMargin: 20
-        width: listEntry.width - entryIcon.width - anchors.leftMargin - entryIcon.anchors.leftMargin
+        anchors.right: trailingItemContainer.left
+        anchors.top: listEntry.top
+        anchors.bottom: listEntry.bottom
+        verticalAlignment:  Text.AlignVCenter
         text: listEntry.title
         font.family: Theme.fonts.bodyLarge.family
         font.pixelSize: Theme.fonts.bodyLarge.size
         color: Theme.fonts.bodyLarge.color
         elide: Text.ElideRight
+    }
+
+    Item{
+        id: trailingItemContainer
+        anchors.right: listEntry.right
+        anchors.rightMargin: 22
+        anchors.top: listEntry.top
+        anchors.bottom: listEntry.bottom
+        children: listEntry.trailingElement
+        clip: true
+
+        onChildrenChanged: () => {
+            for (var i = 0; i < trailingItemContainer.children.length; ++i) {
+                trailingItemContainer.children[i].anchors.centerIn = trailingItemContainer
+                trailingItemContainer.width = trailingItemContainer.children[i].width
+            }
+        }
     }
 
     states:[
