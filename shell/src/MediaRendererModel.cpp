@@ -37,6 +37,7 @@ QHash<int, QByteArray> MediaRendererModel::roleNames() const noexcept
     static auto const roles = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(DisplayRole::MediaRendererTitle), QByteArray{"mediaRendererTitle"}),
         std::make_pair(static_cast<int>(DisplayRole::MediaRendererIconUrl), QByteArray{"mediaRendererIconUrl"}),
+        std::make_pair(static_cast<int>(DisplayRole::MediaRendererActive), QByteArray{"mediaRendererActive"}),
     };
     return roles;
 }
@@ -55,6 +56,8 @@ QVariant MediaRendererModel::data(QModelIndex const &index, int role) const noex
         return renderer->name();
     } else if (dispRole == DisplayRole::MediaRendererIconUrl) {
         return renderer->iconUrl();
+    } else if (dispRole == DisplayRole::MediaRendererActive) {
+        return renderer == mActiveRenderer;
     }
     return {};
 }
@@ -77,6 +80,7 @@ void MediaRendererModel::activateRenderer(QModelIndex const &index)
         mActiveRenderer = renderer;
         qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
         Q_EMIT activeRendererChanged();
+        Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::MediaRendererActive)});
     }
 }
 

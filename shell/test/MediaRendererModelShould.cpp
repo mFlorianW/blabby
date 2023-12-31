@@ -34,6 +34,8 @@ void MediaRendererModelShould::give_correct_display_roles_for_the_ui()
                        QByteArray{"mediaRendererTitle"}),
         std::make_pair(static_cast<int>(MediaRendererModel::DisplayRole::MediaRendererIconUrl),
                        QByteArray{"mediaRendererIconUrl"}),
+        std::make_pair(static_cast<int>(MediaRendererModel::DisplayRole::MediaRendererActive),
+                       QByteArray{"mediaRendererActive"}),
     };
 
     const auto roleNames = mModel->roleNames();
@@ -88,12 +90,22 @@ void MediaRendererModelShould::give_correct_data_for_the_ui()
 void MediaRendererModelShould::set_active_renderer_property_correctly()
 {
     auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+    auto dataChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::dataChanged};
     Q_EMIT mServiceProvider->serviceConnected("RendererConnected");
 
     mModel->activateRenderer(mModel->index(0));
 
     QCOMPARE_NE(mModel->property("activeRenderer").value<std::shared_ptr<Renderer>>(), nullptr);
     QCOMPARE(activeRendererChangedSpy.size(), 1);
+    QCOMPARE(dataChangedSpy.size(), 1);
+    QCOMPARE(dataChangedSpy.at(0).size(), 3);
+    QCOMPARE(dataChangedSpy.at(0).at(0).value<QModelIndex>().row(), 0);
+    QCOMPARE(dataChangedSpy.at(0).at(1).value<QModelIndex>().row(), 0);
+    QCOMPARE(static_cast<MediaRendererModel::DisplayRole>(dataChangedSpy.at(0).at(2).value<QList<int>>().at(0)),
+             MediaRendererModel::DisplayRole::MediaRendererActive);
+    auto const activeState =
+        mModel->data(mModel->index(0), static_cast<int>(MediaRendererModel::DisplayRole::MediaRendererActive)).toBool();
+    QCOMPARE(activeState, true);
 }
 
 } // namespace Shell
