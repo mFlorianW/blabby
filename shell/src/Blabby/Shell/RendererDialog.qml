@@ -18,11 +18,25 @@ Dialog{
         boundsBehavior: Flickable.StopAtBounds
         clip: true
         delegate: ListEntry{
+            id: listEntry
             width: mediaItemListView.width
             height: 64
             title: mediaRendererTitle
             iconUrl: mediaRendererIconUrl
+
+            trailingElement: Switch{
+                id: activeSwitch
+                switchState: mediaRendererActive ? Switch.SwitchState.Active : Switch.SwitchState.Inactive
+                onClicked: {
+                    listEntry.activateRenderer()
+                }
+            }
+
             onClicked: {
+                activateRenderer()
+            }
+
+            function activateRenderer(){
                 Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
             }
         }
