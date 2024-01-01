@@ -9,8 +9,10 @@ var searchData=
   ['trackduration_6',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#aefa2abc803435cba25ba414f0d552ccb',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackmetadata_7',['trackMetaData',['../classUPnPAV_1_1GetPositionInfoResponse.html#a57c530bc9d30b314e8c07c643d278033',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackuri_8',['trackUri',['../classUPnPAV_1_1GetPositionInfoResponse.html#aa0a4823cd41b8809aa78639c0236b09f',1,'UPnPAV::GetPositionInfoResponse']]],
-  ['transportinfo_9',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
-  ['transportplayspeed_10',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#acbc67ad9564cd2e48d32ff51870cac83',1,'UPnPAV::GetTransportInfoResponse']]],
-  ['transportsettings_11',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
-  ['type_12',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
+  ['trailingelement_9',['trailingElement',['../classShell_1_1AbstractListEntry.html#a95b157ae5656d97d44de0d1e6ac8d804',1,'Shell::AbstractListEntry']]],
+  ['trailingelementchanged_10',['trailingElementChanged',['../classShell_1_1AbstractListEntry.html#a9c0df8d1ea51d7cebeaa6010f439bd99',1,'Shell::AbstractListEntry']]],
+  ['transportinfo_11',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
+  ['transportplayspeed_12',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#acbc67ad9564cd2e48d32ff51870cac83',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['transportsettings_13',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
+  ['type_14',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];

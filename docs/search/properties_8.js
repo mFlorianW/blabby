@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['text_0',['text',['../classShell_1_1AbstractHeader.html#a248a6caf476b3cfc2b4ff1d8dc99203e',1,'Shell::AbstractHeader']]],
+  ['title_1',['title',['../classShell_1_1AbstractDialog.html#ae3d9195ae715bfd8701f09b462d43ecc',1,'Shell::AbstractDialog::title'],['../classShell_1_1AbstractListEntry.html#a935f3838e17d5f6ccc4526a110606763',1,'Shell::AbstractListEntry::title']]],
+  ['trailingelement_2',['trailingElement',['../classShell_1_1AbstractListEntry.html#a91ec8027fc8a62a0794e0c5070a5a5c1',1,'Shell::AbstractListEntry']]]
+];

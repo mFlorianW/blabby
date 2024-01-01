@@ -2,7 +2,8 @@ var classShell_1_1MediaRendererModel =
 [
     [ "DisplayRole", "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccb", [
       [ "MediaRendererTitle", "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba89d805255afa589a4c7d9377f9518a7a", null ],
-      [ "MediaRendererIconUrl", "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbae7b43f8e8f90706c307d716db918401f", null ]
+      [ "MediaRendererIconUrl", "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbae7b43f8e8f90706c307d716db918401f", null ],
+      [ "MediaRendererActive", "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba588212c7d4ae36bcb889211d2dab9611", null ]
     ] ],
     [ "MediaRendererModel", "classShell_1_1MediaRendererModel.html#a3993d67f3e0dfd9de860853ddc216784", null ],
     [ "~MediaRendererModel", "classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1", null ],

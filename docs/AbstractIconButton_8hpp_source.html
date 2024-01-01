@@ -119,12 +119,12 @@ $(document).ready(function(){initNavTree('AbstractIconButton_8hpp_source.html','
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// SPDX-License-Identifier: GPL-2.0-or-later</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QQuickItem&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;AbstractInteractiveControl.hpp&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>Shell</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
 <div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classShell_1_1AbstractIconButton.html">AbstractIconButton</a> : <span class="keyword">public</span> QQuickItem</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classShell_1_1AbstractIconButton.html">AbstractIconButton</a> : <span class="keyword">public</span> <a class="code hl_class" href="classShell_1_1AbstractInteractiveControl.html">AbstractInteractiveControl</a></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    Q_OBJECT</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    QML_ELEMENT</div>
@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('AbstractIconButton_8hpp_source.html','
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec">   28</a></span>    Q_PROPERTY(<span class="keywordtype">bool</span> <a class="code hl_property" href="classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec">border</a> READ <a class="code hl_property" href="classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec">border</a> WRITE <a class="code hl_function" href="classShell_1_1AbstractIconButton.html#ad15ea986abd65921de24eaa9cba36078">setBorder</a> NOTIFY <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">borderChanged</a>)</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>public:</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    using QQuickItem::QQuickItem;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    using <a class="code hl_class" href="classShell_1_1AbstractInteractiveControl.html">AbstractInteractiveControl</a>::<a class="code hl_class" href="classShell_1_1AbstractInteractiveControl.html">AbstractInteractiveControl</a>;</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a819b33e361dc69ed87d5c07c48dcfd74">   39</a></span>    ~<a class="code hl_class" href="classShell_1_1AbstractIconButton.html">AbstractIconButton</a>() override;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
@@ -149,26 +149,24 @@ $(document).ready(function(){initNavTree('AbstractIconButton_8hpp_source.html','
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classShell_1_1AbstractIconButton.html#ad15ea986abd65921de24eaa9cba36078">setBorder</a>(<span class="keywordtype">bool</span> <a class="code hl_property" href="classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec">border</a>) noexcept;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a5ed8a36dd4f6ddc819b87b2f8dd7ae56">   75</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a5ed8a36dd4f6ddc819b87b2f8dd7ae56">clicked</a>();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5">   75</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5">sourceChanged</a>();</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5">   80</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5">sourceChanged</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">   80</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">borderChanged</a>();</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">   85</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">borderChanged</a>();</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>private:</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    QUrl mIconSource;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">bool</span> mBorder{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>};</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>private:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    QUrl mIconSource;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">bool</span> mBorder{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>};</div>
 </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>} <span class="comment">// namespace Shell</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>} <span class="comment">// namespace Shell</span></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html">Shell::AbstractIconButton</a></div><div class="ttdef"><b>Definition</b> AbstractIconButton.hpp:16</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a1c2f94a9e5f9bc02adfd8b4bba562d95"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95">Shell::AbstractIconButton::borderChanged</a></div><div class="ttdeci">void borderChanged()</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a586593b013c80031e6721a8b6651bf14"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a586593b013c80031e6721a8b6651bf14">Shell::AbstractIconButton::setSource</a></div><div class="ttdeci">void setSource(QUrl const &amp;source) noexcept</div><div class="ttdef"><b>Definition</b> AbstractIconButton.cpp:17</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a5ec3170fa53ce32d1fb4e5ae3c0666c5"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5">Shell::AbstractIconButton::sourceChanged</a></div><div class="ttdeci">void sourceChanged()</div></div>
-<div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a5ed8a36dd4f6ddc819b87b2f8dd7ae56"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a5ed8a36dd4f6ddc819b87b2f8dd7ae56">Shell::AbstractIconButton::clicked</a></div><div class="ttdeci">void clicked()</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a605a64984585483f3dab3e279fb5acec"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec">Shell::AbstractIconButton::border</a></div><div class="ttdeci">bool border</div><div class="ttdef"><b>Definition</b> AbstractIconButton.hpp:28</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_a82ae6e377625c51df8e867c43e584b67"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#a82ae6e377625c51df8e867c43e584b67">Shell::AbstractIconButton::source</a></div><div class="ttdeci">QML_ELEMENTQUrl source</div><div class="ttdef"><b>Definition</b> AbstractIconButton.hpp:22</div></div>
 <div class="ttc" id="aclassShell_1_1AbstractIconButton_html_ad15ea986abd65921de24eaa9cba36078"><div class="ttname"><a href="classShell_1_1AbstractIconButton.html#ad15ea986abd65921de24eaa9cba36078">Shell::AbstractIconButton::setBorder</a></div><div class="ttdeci">void setBorder(bool border) noexcept</div><div class="ttdef"><b>Definition</b> AbstractIconButton.cpp:30</div></div>
+<div class="ttc" id="aclassShell_1_1AbstractInteractiveControl_html"><div class="ttname"><a href="classShell_1_1AbstractInteractiveControl.html">Shell::AbstractInteractiveControl</a></div><div class="ttdef"><b>Definition</b> AbstractInteractiveControl.hpp:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
