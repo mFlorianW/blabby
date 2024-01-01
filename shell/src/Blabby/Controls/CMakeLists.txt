@@ -33,6 +33,8 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractSwitch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractSwitch.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.hpp
 )
 add_library(BlabbyShell::Controls ALIAS ${PROJECT_NAME}Controls)
 add_library(BlabbyShell::ControlsPlugin ALIAS ${PROJECT_NAME}Controlsplugin)
