@@ -115,47 +115,48 @@ $(document).ready(function(){initNavTree('BaseValidator_8hpp_source.html',''); i
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef BASEVALIDATOR_H</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define BASEVALIDATOR_H</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html">   18</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a3c22f1a2580b34b6a6940bb3794cbdb7">   24</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a3c22f1a2580b34b6a6940bb3794cbdb7">BaseValidator</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">   29</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">~BaseValidator</a>();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a1e4688800f0677ae9dd8f2a3282bb316">   34</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a1e4688800f0677ae9dd8f2a3282bb316">BaseValidator</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#ae2b502e203d65f64f5b9e9097dbcef73">   39</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#ae2b502e203d65f64f5b9e9097dbcef73">BaseValidator</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;&amp;other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219">   44</a></span>    <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> <span class="keyword">const</span> &amp;ohter) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7">   49</a></span>    <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;&amp;ohter) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6">   56</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6">validate</a>() noexcept = 0;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    const QString &amp;errorMessage() const noexcept;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>protected:</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    QString m_errorMessage;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef BASEVALIDATOR_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define BASEVALIDATOR_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html">   19</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a3c22f1a2580b34b6a6940bb3794cbdb7">   25</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a3c22f1a2580b34b6a6940bb3794cbdb7">BaseValidator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">   30</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">~BaseValidator</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a1e4688800f0677ae9dd8f2a3282bb316">   35</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a1e4688800f0677ae9dd8f2a3282bb316">BaseValidator</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#ae2b502e203d65f64f5b9e9097dbcef73">   40</a></span>    <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#ae2b502e203d65f64f5b9e9097dbcef73">BaseValidator</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;&amp;other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219">   45</a></span>    <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> <span class="keyword">const</span> &amp;ohter) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7">   50</a></span>    <a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1BaseValidator.html">BaseValidator</a> &amp;&amp;ohter) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6">   57</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6">validate</a>() noexcept = 0;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    const QString &amp;errorMessage() const noexcept;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>protected:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    QString m_errorMessage;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
 </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>} <span class="comment">// namespace UPnPAV</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif </span><span class="comment">// BASEVALIDATOR_H</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1BaseValidator_html"><div class="ttname"><a href="classUPnPAV_1_1BaseValidator.html">UPnPAV::BaseValidator</a></div><div class="ttdef"><b>Definition</b> BaseValidator.hpp:19</div></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif </span><span class="comment">// BASEVALIDATOR_H</span></div>
+<div class="ttc" id="aclassUPnPAV_1_1BaseValidator_html"><div class="ttname"><a href="classUPnPAV_1_1BaseValidator.html">UPnPAV::BaseValidator</a></div><div class="ttdef"><b>Definition</b> BaseValidator.hpp:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1BaseValidator_html_a0ee489038c9d0212d7acda4079388db7"><div class="ttname"><a href="classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7">UPnPAV::BaseValidator::operator=</a></div><div class="ttdeci">BaseValidator &amp; operator=(BaseValidator &amp;&amp;ohter) noexcept=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1BaseValidator_html_a1428711997186986b3177fd4e6b44951"><div class="ttname"><a href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">UPnPAV::BaseValidator::~BaseValidator</a></div><div class="ttdeci">virtual ~BaseValidator()</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1BaseValidator_html_a1e4688800f0677ae9dd8f2a3282bb316"><div class="ttname"><a href="classUPnPAV_1_1BaseValidator.html#a1e4688800f0677ae9dd8f2a3282bb316">UPnPAV::BaseValidator::BaseValidator</a></div><div class="ttdeci">BaseValidator(BaseValidator const &amp;other)=default</div></div>

@@ -115,47 +115,49 @@ $(document).ready(function(){initNavTree('MediaServerSource_8hpp_source.html',''
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// SPDX-License-Identifier: GPL-2.0-or-later</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;MediaServer.hpp&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;Source.hpp&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;blabbymediaserverprovider_export.h&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>Provider::MediaServer</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classProvider_1_1MediaServer_1_1Source.html">   13</a></span><span class="keyword">class </span>BLABBYMEDIASERVERPROVIDER_EXPORT <a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classMultimedia_1_1Source.html">Multimedia::Source</a></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a>(std::unique_ptr&lt;UPnPAV::MediaServer&gt; mediaServer);</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">   25</a></span>    <a class="code hl_function" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">~Source</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a>)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">void</span> navigateTo(QString <span class="keyword">const</span> &amp;path) <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">private</span> Q_SLOTS:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">void</span> onBrowseRequestFinished() noexcept;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>private:</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> navigate(QString const &amp;path) noexcept;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    struct BrowseRequest</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mRequest;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        QString mPath;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::unique_ptr&lt;UPnPAV::MediaServer&gt; mServer;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    BrowseRequest mBrowseRequest;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: GPL-2.0-or-later</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;MediaServer.hpp&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;Source.hpp&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;blabbymediaserverprovider_export.h&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>Provider::MediaServer</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classProvider_1_1MediaServer_1_1Source.html">   15</a></span><span class="keyword">class </span>BLABBYMEDIASERVERPROVIDER_EXPORT <a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classMultimedia_1_1Source.html">Multimedia::Source</a></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a>(std::unique_ptr&lt;UPnPAV::MediaServer&gt; mediaServer);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">   27</a></span>    <a class="code hl_function" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">~Source</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a>)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">void</span> navigateTo(QString <span class="keyword">const</span> &amp;path) <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">private</span> Q_SLOTS:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> onBrowseRequestFinished() noexcept;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>private:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> navigate(QString const &amp;path) noexcept;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    struct BrowseRequest</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mRequest;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        QString mPath;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    };</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    std::unique_ptr&lt;UPnPAV::MediaServer&gt; mServer;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    BrowseRequest mBrowseRequest;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>} <span class="comment">// namespace Provider::MediaServer</span></div>
-<div class="ttc" id="aclassMultimedia_1_1Source_html"><div class="ttname"><a href="classMultimedia_1_1Source.html">Multimedia::Source</a></div><div class="ttdef"><b>Definition</b> Source.hpp:35</div></div>
-<div class="ttc" id="aclassProvider_1_1MediaServer_1_1Source_html"><div class="ttname"><a href="classProvider_1_1MediaServer_1_1Source.html">Provider::MediaServer::Source</a></div><div class="ttdef"><b>Definition</b> MediaServerSource.hpp:14</div></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>} <span class="comment">// namespace Provider::MediaServer</span></div>
+<div class="ttc" id="aclassMultimedia_1_1Source_html"><div class="ttname"><a href="classMultimedia_1_1Source.html">Multimedia::Source</a></div><div class="ttdef"><b>Definition</b> Source.hpp:37</div></div>
+<div class="ttc" id="aclassProvider_1_1MediaServer_1_1Source_html"><div class="ttname"><a href="classProvider_1_1MediaServer_1_1Source.html">Provider::MediaServer::Source</a></div><div class="ttdef"><b>Definition</b> MediaServerSource.hpp:16</div></div>
 <div class="ttc" id="aclassProvider_1_1MediaServer_1_1Source_html_ac05eb4ac70f31f8b24d4f05a4bcff9f0"><div class="ttname"><a href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">Provider::MediaServer::Source::~Source</a></div><div class="ttdeci">~Source() override</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

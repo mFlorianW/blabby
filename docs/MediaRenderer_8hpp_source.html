@@ -115,54 +115,56 @@ $(document).ready(function(){initNavTree('MediaRenderer_8hpp_source.html',''); i
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;MediaDevice.hpp&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>UPnPAV</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRenderer.html">   15</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> desc, QSharedPointer&lt;SoapMessageTransmitter&gt; msgTransmitter);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>};</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;MediaDevice.hpp&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>UPnPAV</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRenderer.html">   17</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> desc, QSharedPointer&lt;SoapMessageTransmitter&gt; msgTransmitter);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
 </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html">   34</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">   40</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">MediaRendererFactory</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">   45</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">~MediaRendererFactory</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">   50</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">MediaRendererFactory</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">   55</a></span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">   60</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">MediaRendererFactory</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">   65</a></span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::unique_ptr&lt;MediaRenderer&gt; create(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> <span class="keyword">const</span> &amp;desc);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>};</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html">   36</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">   42</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">MediaRendererFactory</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">   47</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">~MediaRendererFactory</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">   52</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">MediaRendererFactory</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">   57</a></span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> <span class="keyword">const</span> &amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">   62</a></span>    <a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">MediaRendererFactory</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">   67</a></span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;<a class="code hl_function" href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">operator=</a>(<a class="code hl_class" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    std::unique_ptr&lt;MediaRenderer&gt; create(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> <span class="keyword">const</span> &amp;desc);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
 </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>} <span class="comment">// namespace UPnPAV</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1DeviceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescription.html">UPnPAV::DeviceDescription</a></div><div class="ttdef"><b>Definition</b> DeviceDescription.hpp:22</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></div><div class="ttdef"><b>Definition</b> MediaDevice.hpp:26</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:35</div></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="ttc" id="aclassUPnPAV_1_1DeviceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescription.html">UPnPAV::DeviceDescription</a></div><div class="ttdef"><b>Definition</b> DeviceDescription.hpp:23</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></div><div class="ttdef"><b>Definition</b> MediaDevice.hpp:28</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:37</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_a049712b45ff654a8d342baba1a9cb00d"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">UPnPAV::MediaRendererFactory::MediaRendererFactory</a></div><div class="ttdeci">MediaRendererFactory(MediaRendererFactory &amp;&amp;other)=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_a2527a2f29d79a591ac8cdc57b570717f"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">UPnPAV::MediaRendererFactory::operator=</a></div><div class="ttdeci">MediaRendererFactory &amp; operator=(MediaRendererFactory const &amp;other)=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_a508786171070aaa1b032c6552ff17ee4"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">UPnPAV::MediaRendererFactory::MediaRendererFactory</a></div><div class="ttdeci">MediaRendererFactory()=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_a69917e1bd1808790c34fb023f0ec8c24"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">UPnPAV::MediaRendererFactory::operator=</a></div><div class="ttdeci">MediaRendererFactory &amp; operator=(MediaRendererFactory &amp;&amp;other)=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_ac260bc8f65bead6c000b0e44d33ba391"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">UPnPAV::MediaRendererFactory::MediaRendererFactory</a></div><div class="ttdeci">MediaRendererFactory(MediaRendererFactory const &amp;other)=default</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererFactory_html_aebb1c07b6ea1de55282829a7fdf9365d"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">UPnPAV::MediaRendererFactory::~MediaRendererFactory</a></div><div class="ttdeci">virtual ~MediaRendererFactory()=default</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaRenderer_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:16</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaRenderer_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

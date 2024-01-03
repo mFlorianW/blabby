@@ -29,8 +29,10 @@ var NAVTREE =
     [ "Blabby", "index.html#autotoc_md1", [
       [ "Implemented Features", "index.html#autotoc_md2", null ]
     ] ],
-    [ "Build", "index.html#autotoc_md3", null ],
-    [ "Documentation", "index.html#autotoc_md4", null ],
+    [ "Build", "index.html#autotoc_md3", [
+      [ "Pre-commit", "index.html#autotoc_md4", null ]
+    ] ],
+    [ "Documentation", "index.html#autotoc_md5", null ],
     [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html", [
       [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Architecture", [
         [ "Building Blocks", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks", null ],

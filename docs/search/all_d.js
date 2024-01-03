@@ -19,12 +19,13 @@ var searchData=
   ['playspeednotsupported_16',['PlaySpeedNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a05dc2b977bb18522b7b6e8ea896c8a86',1,'UPnPAV::PendingSoapCall']]],
   ['playurl_17',['playurl',['../classMultimedia_1_1Item.html#ab4c6984f2c5028f8dd5d021241e8e2c4',1,'Multimedia::Item::playUrl()'],['../classUPnPAV_1_1MediaServerObject.html#ad48028438344a36ac1f5565e3aaea551',1,'UPnPAV::MediaServerObject::playUrl()']]],
   ['positioninfo_18',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
-  ['pressed_19',['pressed',['../classShell_1_1AbstractInteractiveControl.html#af4a9b8329b41ec4d6af6356a75402362',1,'Shell::AbstractInteractiveControl']]],
-  ['pressedchanged_20',['pressedChanged',['../classShell_1_1AbstractInteractiveControl.html#a4aed6649d979c992d0fe272cf8e85aa1',1,'Shell::AbstractInteractiveControl']]],
-  ['previous_21',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
-  ['protocol_22',['Protocol',['../structUPnPAV_1_1Protocol.html',1,'UPnPAV']]],
-  ['protocolinfo_23',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694',1,'UPnPAV::MediaDevice']]],
-  ['provider_24',['provider',['../classProvider_1_1MediaServer_1_1Provider.html#a521b18f5fd449b938ced5beab7f83822',1,'Provider::MediaServer::Provider::Provider()'],['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider',1,'Provider'],['../classMultimedia_1_1Provider.html',1,'Multimedia::Provider'],['../classProvider_1_1MediaServer_1_1Provider.html',1,'Provider::MediaServer::Provider']]],
-  ['providerloader_25',['providerloader',['../classMultimedia_1_1ProviderLoader.html',1,'Multimedia::ProviderLoader'],['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader::ProviderLoader()']]],
-  ['providerversion_26',['ProviderVersion',['../structMultimedia_1_1ProviderVersion.html',1,'Multimedia']]]
+  ['pre_20commit_19',['Pre-commit',['../index.html#autotoc_md4',1,'']]],
+  ['pressed_20',['pressed',['../classShell_1_1AbstractInteractiveControl.html#af4a9b8329b41ec4d6af6356a75402362',1,'Shell::AbstractInteractiveControl']]],
+  ['pressedchanged_21',['pressedChanged',['../classShell_1_1AbstractInteractiveControl.html#a4aed6649d979c992d0fe272cf8e85aa1',1,'Shell::AbstractInteractiveControl']]],
+  ['previous_22',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
+  ['protocol_23',['Protocol',['../structUPnPAV_1_1Protocol.html',1,'UPnPAV']]],
+  ['protocolinfo_24',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694',1,'UPnPAV::MediaDevice']]],
+  ['provider_25',['provider',['../classMultimedia_1_1Provider.html',1,'Multimedia::Provider'],['../classProvider_1_1MediaServer_1_1Provider.html',1,'Provider::MediaServer::Provider'],['../classProvider_1_1MediaServer_1_1Provider.html#a521b18f5fd449b938ced5beab7f83822',1,'Provider::MediaServer::Provider::Provider()'],['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider',1,'Provider']]],
+  ['providerloader_26',['providerloader',['../classMultimedia_1_1ProviderLoader.html',1,'Multimedia::ProviderLoader'],['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader::ProviderLoader()']]],
+  ['providerversion_27',['ProviderVersion',['../structMultimedia_1_1ProviderVersion.html',1,'Multimedia']]]
 ];
