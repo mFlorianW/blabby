@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "Renderer.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "PendingSoapCall.hpp"
