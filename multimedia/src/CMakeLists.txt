@@ -1,10 +1,3 @@
-# Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-# SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-#
-# SPDX-License-Identifier: LGPL-2.1-or-later
-################################################################################
-# Build
-################################################################################
 add_library(${PROJECT_NAME} SHARED)
 add_library(Blabby::Multimedia ALIAS ${PROJECT_NAME})
 generate_export_header(${PROJECT_NAME})

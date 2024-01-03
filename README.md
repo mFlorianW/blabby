@@ -33,6 +33,11 @@ The following CMakePresets are defined:
 - github-ci-debug
 - release
 
+## Pre-commit
+Blabby has some pre-commit hooks for handling the licenses and formatting
+The pre-commits can enabled by the CMake option with "ENABLE_PRECOMMIT=ON" or just use the "debug" preset.
+The pre-commits feature needs a Python and pip environment.
+The pip environment is only needed for the automatically install of the pre-commit Python module.
 
 # Documentation
 The detailed documentation of the Project can be found [here](https://mflorianw.github.io/blabby)

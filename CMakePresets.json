@@ -11,7 +11,8 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/$env{BUILD_DIR}/install",
                 "ENABLE_TEST": "ON",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "1"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "1",
+                "ENABLE_PRECOMMIT": "ON"
             },
             "environment": {
                 "BUILD_DIR": "build"
@@ -29,7 +30,8 @@
                 "ENABLE_TEST": "ON",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "1",
                 "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
+                "CMAKE_CXX_COMPILER": "clang++",
+                "ENABLE_PRECOMMIT": "ON"
             },
             "environment": {
                 "BUILD_DIR": "build-clang"

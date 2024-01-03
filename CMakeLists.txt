@@ -1,9 +1,4 @@
-# Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-# SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
-#
-# SPDX-License-Identifier: GPL-2.0-or-later
-
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.22)
 
 project(Blabby
     VERSION 0.1.0
@@ -19,13 +14,25 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 ################################################################################
 include(GenerateExportHeader)
 include(FeatureSummary)
+include(PreCommit)
 
 ################################################################################
 # Options
 ################################################################################
 enable_testing()
 option(ENABLE_TEST "Enable/Disable tests build. Default: false" OFF)
+add_feature_info(EnableTest ENABLE_TEST "Test building enabled.")
 option(BUILD_DOC "Enable/Disable documentation build. Default: false" OFF)
+add_feature_info(BuildDoc BUILD_DOC "Documentation build.")
+option(ENABLE_PRECOMMIT "Enables automatic pre-commit install." OFF)
+add_feature_info(PreCommit ENABLE_PRECOMMIT "Automatic install of the Python pre-commit tool.")
+
+################################################################################
+# PreCommit
+################################################################################
+if(ENABLE_PRECOMMIT)
+    setup_precommit()
+endif()
 
 ################################################################################
 # Variables
