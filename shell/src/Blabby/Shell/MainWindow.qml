@@ -10,17 +10,17 @@ import Blabby.Controls
 import Blabby.Singleton
 import Blabby.Theme
 
-Item{
+Item {
     id: shell
     anchors.fill: parent
 
-    Rectangle{
+    Rectangle {
         id: menuRow
         color: Theme.colors.surfaceContainerHeighest
         width: 150
         height: shell.height
 
-        Rectangle{
+        Rectangle {
             id: roundedStyle
             width: 100
             height: shell.height
@@ -29,7 +29,7 @@ Item{
             color: Theme.colors.surface
         }
 
-        Column{
+        Column {
             anchors.fill: parent
             anchors.top: menuRow.top
             anchors.topMargin: 30
@@ -37,35 +37,35 @@ Item{
             anchors.leftMargin: 12
             spacing: 40
 
-            IconButton{
+            IconButton {
                 id: burgerButton
                 source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/burgermenu.svg"
 
                 onClicked: {
-                    if(menuWindow.x == -menuWindow.width){
-                        moveIn.running = true
-                        menuWindowHandler.enabled = true
-                        blur.visible = true
+                    if (menuWindow.x == -menuWindow.width) {
+                        moveIn.running = true;
+                        menuWindowHandler.enabled = true;
+                        blur.visible = true;
                     }
                 }
             }
 
-            ListView{
+            ListView {
                 id: mediaSourceList
                 width: 100
-                height:400
+                height: 400
                 model: Singleton.mediaSourceModel
-                delegate: IconButton{
+                delegate: IconButton {
                     source: mediaSourceIconUrl
                     onClicked: {
-                        Singleton.mediaSourceModel.activateMediaSource(index)
+                        Singleton.mediaSourceModel.activateMediaSource(index);
                     }
                 }
             }
         }
     }
 
-    Rectangle{
+    Rectangle {
         id: content
         color: Theme.colors.surface
         width: shell.width - menuRow.width - anchors.leftMargin
@@ -73,30 +73,30 @@ Item{
         anchors.left: menuRow.right
         anchors.leftMargin: -45
 
-        Column{
+        Column {
             anchors.fill: parent
-            Item{
+            Item {
                 id: topControlArea
                 width: parent.width
                 height: 109
 
-                Row{
+                Row {
                     anchors.top: topControlArea.top
                     anchors.topMargin: 30
                     width: parent.width
-                    Item{
+                    Item {
                         id: navigationContainer
                         height: topControlArea.height - 40
                         width: 200
 
-                        IconButton{
+                        IconButton {
                             id: backNavigation
                             anchors.left: navigationContainer.left
                             border: true
                             source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/navigate_back.svg"
                             onClicked: Singleton.mediaItemModel.navigateBack()
                         }
-                        IconButton{
+                        IconButton {
                             id: nextNavigation
                             anchors.left: backNavigation.right
                             border: true
@@ -105,22 +105,22 @@ Item{
                         }
                     }
 
-                    Item{
+                    Item {
                         id: searchBarPlaceHolder
                         height: topControlArea.height - 40
                         width: parent.width - navigationContainer.width - statusBar.width
                     }
 
-                    Item{
+                    Item {
                         id: statusBar
                         height: topControlArea.height - 40
                         width: 200
-                        Row{
+                        Row {
                             anchors.fill: parent
                             layoutDirection: Qt.RightToLeft
                             rightPadding: 20
 
-                            Clock{
+                            Clock {
                                 id: clock
                             }
                         }
@@ -128,12 +128,12 @@ Item{
                 }
             }
 
-            Item{
+            Item {
                 id: mediaItemArea
                 height: shell.height - topControlArea.height - mediaControlArea.height
                 width: parent.width
 
-                Header{
+                Header {
                     id: mediaItemModelHeader
                     height: 65
                     width: 765
@@ -141,7 +141,7 @@ Item{
                     iconUrl: Singleton.mediaItemModel.mediaSourceIconUrl
                 }
 
-                ListView{
+                ListView {
                     id: mediaItemListView
                     anchors.top: mediaItemModelHeader.bottom
                     width: mediaItemModelHeader.width
@@ -149,24 +149,24 @@ Item{
                     model: Singleton.mediaItemModel
                     boundsBehavior: Flickable.StopAtBounds
                     clip: true
-                    delegate: ListEntry{
+                    delegate: ListEntry {
                         width: mediaItemListView.width
                         height: 64
                         title: mediaItemTitle
                         iconUrl: mediaItemIconUrl
                         onClicked: {
-                            Singleton.mediaItemModel.activateMediaItem(index)
+                            Singleton.mediaItemModel.activateMediaItem(index);
                         }
                     }
                 }
             }
 
-            Item{
+            Item {
                 id: mediaControlArea
                 width: parent.width
                 height: 109
 
-                IconButton{
+                IconButton {
                     id: rendererButton
                     source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/renderer.svg"
                     anchors.verticalCenter: mediaControlArea.verticalCenter
@@ -178,19 +178,19 @@ Item{
         }
     }
 
-    RendererDialog{
+    RendererDialog {
         id: rendererDialog
         visible: false
     }
 
-    Menu{
+    Menu {
         id: menuWindow
         height: shell.height
         width: 300
         visible: true
         x: -menuWindow.width
 
-        NumberAnimation{
+        NumberAnimation {
             id: moveIn
             target: menuWindow
             properties: "x"
@@ -198,7 +198,7 @@ Item{
             duration: 250
         }
 
-        NumberAnimation{
+        NumberAnimation {
             id: moveOut
             target: menuWindow
             properties: "x"
@@ -207,7 +207,7 @@ Item{
         }
     }
 
-    Rectangle{
+    Rectangle {
         id: blur
         anchors.left: menuWindow.right
         anchors.right: shell.right
@@ -215,35 +215,35 @@ Item{
         color: Theme.stateColors.onSurfaceVariant.opacity08
         opacity: 0.08
         visible: false
-        TapHandler{
+        TapHandler {
             id: menuWindowHandler
             enabled: false
             onTapped: (event, button) => {
-                moveOut.running = true
-                menuWindowHandler.enabled = false
-                blur.visible =  false
+                moveOut.running = true;
+                menuWindowHandler.enabled = false;
+                blur.visible = false;
             }
         }
     }
 
-    Connections{
+    Connections {
         target: Singleton.mediaSourceModel
         function onActiveMediaSourceChanged() {
-            Singleton.mediaItemModel.setMediaSource(Singleton.mediaSourceModel.activeMediaSource)
+            Singleton.mediaItemModel.setMediaSource(Singleton.mediaSourceModel.activeMediaSource);
         }
     }
 
-    Connections{
+    Connections {
         target: Singleton.mediaRendererModel
-        function onActiveRendererChanged(){
-            Singleton.mediaPlayer.setRenderer(Singleton.mediaRendererModel.activeRenderer)
+        function onActiveRendererChanged() {
+            Singleton.mediaPlayer.setRenderer(Singleton.mediaRendererModel.activeRenderer);
         }
     }
 
-    Connections{
+    Connections {
         target: Singleton.mediaItemModel
-        function onPlayRequest(mediaItem){
-            Singleton.mediaPlayer.play(mediaItem)
+        function onPlayRequest(mediaItem) {
+            Singleton.mediaPlayer.play(mediaItem);
         }
     }
 }

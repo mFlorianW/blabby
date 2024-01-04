@@ -9,33 +9,33 @@ import Blabby.Controls 1.0
 import Blabby.Singleton 1.0
 import Blabby.Theme 1.0
 
-Rectangle{
+Rectangle {
     id: menu
 
     implicitWidth: 300
     color: Theme.colors.surface
 
-    Rectangle{
+    Rectangle {
         id: header
         height: 125
         width: menu.width
         color: Theme.colors.surfaceContainerHeighest
     }
 
-    ListView{
+    ListView {
         id: provdiderList
         anchors.top: header.bottom
         height: menu.height
         width: menu.width
         model: Singleton.mediaSourceModel
         boundsBehavior: Flickable.StopAtBounds
-        delegate: ListEntry{
+        delegate: ListEntry {
             width: provdiderList.width
             height: 48
             iconUrl: mediaSourceIconUrl
             title: mediaSourceName
-            onClicked:{
-                Singleton.mediaSourceModel.activateMediaSource(index)
+            onClicked: {
+                Singleton.mediaSourceModel.activateMediaSource(index);
             }
         }
     }

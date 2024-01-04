@@ -6,19 +6,19 @@ import QtQuick
 import QtTest
 import Blabby.Controls
 
-Item{
+Item {
     id: root
     height: 400
     width: root.height
 
-    Rectangle{
+    Rectangle {
         id: trailingElem
         height: 80
         width: 80
         color: "black"
     }
 
-    AbstractListEntry{
+    AbstractListEntry {
         id: abstractListEntry
         anchors.fill: parent
         trailingElement: trailingElem
@@ -31,8 +31,8 @@ Item{
         /**
          * Tests that the trailing item is correctly passed to qml.
          */
-        function test_trailing_item_is_correctly_passed_to_qml(){
-            compare(abstractListEntry.trailingElement, trailingElem)
+        function test_trailing_item_is_correctly_passed_to_qml() {
+            compare(abstractListEntry.trailingElement, trailingElem);
         }
     }
 }

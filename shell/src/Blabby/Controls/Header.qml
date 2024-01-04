@@ -9,10 +9,10 @@ import Blabby.Controls 1.0
 import Blabby.Shell 1.0
 import Blabby.Theme 1.0
 
-AbstractHeader{
+AbstractHeader {
     id: header
 
-    Rectangle{
+    Rectangle {
         id: background
         color: Theme.colors.surfaceContainerHigh
         radius: 10
@@ -29,7 +29,7 @@ AbstractHeader{
         anchors.leftMargin: 20
     }
 
-    Text{
+    Text {
         id: headerText
         anchors.verticalCenter: header.verticalCenter
         anchors.left: header.left

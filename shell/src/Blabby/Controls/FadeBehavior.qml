@@ -16,7 +16,8 @@ Behavior {
             to: 0
             easing.type: Easing.InQuad
         }
-        PropertyAction { }
+        PropertyAction {
+        }
         NumberAnimation {
             target: root.fadeTarget
             property: "opacity"

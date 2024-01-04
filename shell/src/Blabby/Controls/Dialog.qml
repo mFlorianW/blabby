@@ -9,26 +9,26 @@ import Blabby.Controls 1.0
 import Blabby.Shell 1.0
 import Blabby.Theme 1.0
 
-AbstractDialog{
+AbstractDialog {
     id: dialog
     implicitWidth: 675
     implicitHeight: 360
 
     // Do not hove Elements behind the dialog.
-    HoverHandler{
+    HoverHandler {
         id: hoverEventConsumer
         blocking: true
     }
 
-    Rectangle{
-        id:background
+    Rectangle {
+        id: background
         color: Theme.colors.surface
         border.color: Theme.colors.outline
         border.width: 1
         anchors.fill: dialog
     }
 
-    Rectangle{
+    Rectangle {
         id: header
         height: dialog.headerHeight
         anchors.top: dialog.top
@@ -40,7 +40,7 @@ AbstractDialog{
         color: Theme.colors.surfaceContainerHigh
 
         // Do not hove Elements behind the dialog.
-        HoverHandler{
+        HoverHandler {
             id: hoverEventConsumerHeader
             blocking: true
         }
@@ -50,7 +50,7 @@ AbstractDialog{
             gesturePolicy: TapHandler.ReleaseWithinBounds
         }
 
-        Text{
+        Text {
             id: headerText
             anchors.verticalCenter: header.verticalCenter
             anchors.left: header.left
@@ -63,7 +63,7 @@ AbstractDialog{
             text: dialog.title
         }
 
-        IconButton{
+        IconButton {
             id: closeButton
             source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/close.svg"
             anchors.verticalCenter: header.verticalCenter
