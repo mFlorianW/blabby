@@ -9,23 +9,23 @@ import Blabby.Shell 1.0
 import Blabby.Controls 1.0
 import Blabby.Theme 1.0
 
-Item{
+Item {
     id: clock
     implicitHeight: clockUi.implicitHeight
     implicitWidth: clockUi.implicitWidth
 
-    Text{
+    Text {
         id: clockUi
-        text: Qt.formatTime(cppClock.currentTime , "hh:mm")
+        text: Qt.formatTime(cppClock.currentTime, "hh:mm")
         font.family: Theme.fonts.bodyLarge.family
         font.pixelSize: Theme.fonts.bodyLarge.size
     }
 
-    AbstractClock{
+    AbstractClock {
         id: cppClock
 
         onCurrentTimeChanged: () => {
-            clockUi.text = Qt.formatTime(cppClock.currentTime , "hh:mm")
+            clockUi.text = Qt.formatTime(cppClock.currentTime, "hh:mm");
         }
     }
 }

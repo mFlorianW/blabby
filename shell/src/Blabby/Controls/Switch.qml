@@ -10,12 +10,12 @@ import Blabby.Controls
 import Blabby.Singleton
 import Blabby.Theme
 
-AbstractSwitch{
+AbstractSwitch {
     id: switchControl
     implicitHeight: 32
     implicitWidth: 52
 
-    Rectangle{
+    Rectangle {
         id: background
         anchors.fill: switchControl
         color: Theme.colors.surfaceContainerHeighest
@@ -24,7 +24,7 @@ AbstractSwitch{
         radius: 20
     }
 
-    Rectangle{
+    Rectangle {
         id: switchDot
         height: 16
         width: switchDot.height
@@ -35,52 +35,52 @@ AbstractSwitch{
         anchors.verticalCenter: switchControl.verticalCenter
     }
 
-    states:[
-        State{
+    states: [
+        State {
             name: "normalState"
             when: switchControl.pressed === false && switchControl.switchState === AbstractSwitch.SwitchState.Inactive
-            PropertyChanges{
+            PropertyChanges {
                 target: switchDot
                 height: 16
                 width: switchDot.height
                 anchors.leftMargin: 5
             }
-            PropertyChanges{
+            PropertyChanges {
                 target: background
                 color: Theme.colors.surfaceContainerHeighest
                 border.width: 2
             }
         },
-        State{
+        State {
             name: "inactivePressedState"
             when: switchControl.pressed === true && switchControl.switchState === AbstractSwitch.SwitchState.Inactive
-            PropertyChanges{
+            PropertyChanges {
                 target: switchDot
                 height: 32
                 width: switchDot.height
                 anchors.leftMargin: 0
             }
         },
-        State{
+        State {
             name: "activePressedState"
             when: switchControl.pressed === true && switchControl.switchState === AbstractSwitch.SwitchState.Active
-            PropertyChanges{
+            PropertyChanges {
                 target: switchDot
                 height: 32
                 width: switchDot.height
                 anchors.rightMargin: 0
                 color: Theme.colors.colorOnPrimary
             }
-            AnchorChanges{
-                target:switchDot
+            AnchorChanges {
+                target: switchDot
                 anchors.left: undefined
                 anchors.right: background.right
             }
         },
-        State{
+        State {
             name: "activeState"
             when: switchControl.pressed === false && switchControl.switchState === AbstractSwitch.SwitchState.Active
-            PropertyChanges{
+            PropertyChanges {
                 target: switchDot
                 height: 24
                 width: switchDot.height
@@ -88,28 +88,28 @@ AbstractSwitch{
                 anchors.rightMargin: 4
                 color: Theme.colors.colorOnPrimary
             }
-            PropertyChanges{
+            PropertyChanges {
                 target: background
                 color: Theme.colors.primary
                 border.width: 0
             }
-            AnchorChanges{
-                target:switchDot
+            AnchorChanges {
+                target: switchDot
                 anchors.left: undefined
                 anchors.right: background.right
             }
         }
     ]
 
-    transitions:[
-        Transition{
-            SequentialAnimation{
-                PropertyAnimation{
+    transitions: [
+        Transition {
+            SequentialAnimation {
+                PropertyAnimation {
                     targets: switchDot
-                    properties: "height,width" 
+                    properties: "height,width"
                     easing.type: Easing.InOutQuad
                 }
-                AnchorAnimation{
+                AnchorAnimation {
                     targets: switchDot
                     easing.type: Easing.InOutQuad
                 }

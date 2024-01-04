@@ -9,36 +9,36 @@ import Blabby.Shell 1.0
 import Blabby.Controls 1.0
 import Blabby.Singleton 1.0
 
-Dialog{
+Dialog {
     id: mediaRendererDialog
     title: "Select Playback Device"
     anchors.centerIn: shell
-    contentItem: ListView{
+    contentItem: ListView {
         id: mediaItemListView
         model: Singleton.mediaRendererModel
         boundsBehavior: Flickable.StopAtBounds
         clip: true
-        delegate: ListEntry{
+        delegate: ListEntry {
             id: listEntry
             width: mediaItemListView.width
             height: 64
             title: mediaRendererTitle
             iconUrl: mediaRendererIconUrl
 
-            trailingElement: Switch{
+            trailingElement: Switch {
                 id: activeSwitch
                 switchState: mediaRendererActive ? Switch.SwitchState.Active : Switch.SwitchState.Inactive
                 onClicked: {
-                    listEntry.activateRenderer()
+                    listEntry.activateRenderer();
                 }
             }
 
             onClicked: {
-                activateRenderer()
+                activateRenderer();
             }
 
-            function activateRenderer(){
-                Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
+            function activateRenderer() {
+                Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0));
             }
         }
     }

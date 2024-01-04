@@ -8,6 +8,6 @@ import QtQuick
 import Blabby.Controls 1.0
 import Blabby.Singleton 1.0
 
-Item{
+Item {
     id: mediaPlayer
 }

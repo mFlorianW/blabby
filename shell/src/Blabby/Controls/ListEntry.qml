@@ -9,13 +9,13 @@ import Blabby.Controls 1.0
 import Blabby.Shell 1.0
 import Blabby.Theme 1.0
 
-AbstractListEntry{
+AbstractListEntry {
     id: listEntry
     implicitHeight: 48
 
-    Rectangle{
+    Rectangle {
         id: stateLayer
-        anchors.fill:parent
+        anchors.fill: parent
         color: "transparent"
     }
 
@@ -36,7 +36,7 @@ AbstractListEntry{
         anchors.right: trailingItemContainer.left
         anchors.top: listEntry.top
         anchors.bottom: listEntry.bottom
-        verticalAlignment:  Text.AlignVCenter
+        verticalAlignment: Text.AlignVCenter
         text: listEntry.title
         font.family: Theme.fonts.bodyLarge.family
         font.pixelSize: Theme.fonts.bodyLarge.size
@@ -44,7 +44,7 @@ AbstractListEntry{
         elide: Text.ElideRight
     }
 
-    Item{
+    Item {
         id: trailingItemContainer
         anchors.right: listEntry.right
         anchors.rightMargin: 22
@@ -55,17 +55,17 @@ AbstractListEntry{
 
         onChildrenChanged: () => {
             for (var i = 0; i < trailingItemContainer.children.length; ++i) {
-                trailingItemContainer.children[i].anchors.centerIn = trailingItemContainer
-                trailingItemContainer.width = trailingItemContainer.children[i].width
+                trailingItemContainer.children[i].anchors.centerIn = trailingItemContainer;
+                trailingItemContainer.width = trailingItemContainer.children[i].width;
             }
         }
     }
 
-    states:[
-        State{
+    states: [
+        State {
             name: "hovered"
             when: listEntry.hovered === true
-            PropertyChanges{
+            PropertyChanges {
                 target: stateLayer
                 color: Theme.stateColors.onSurfaceVariant.opacity08
                 opacity: 0.08
