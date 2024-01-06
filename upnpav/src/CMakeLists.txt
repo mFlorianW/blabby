@@ -83,8 +83,8 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapCall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SoapBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponse.cpp
@@ -119,8 +119,8 @@ set(PUBLIC_HEADERS
     #Device
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackend.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SoapBackend.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCall.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapCall.hpp

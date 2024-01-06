@@ -14,7 +14,7 @@
 #include "MediaDevice.hpp"
 #include "SCPDAction.hpp"
 #include "SCPDStateVariable.hpp"
-#include "SoapMessageTransmitterDouble.hpp"
+#include "SoapBackendDouble.hpp"
 #include <QTest>
 
 namespace UPnPAV
@@ -23,14 +23,14 @@ namespace UPnPAV
 class TestMediaDevice : public MediaDevice
 {
 public:
-    TestMediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitterDouble> msgTransmitter)
+    TestMediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackendDouble> msgTransmitter)
         : MediaDevice{deviceDescription, msgTransmitter}
         , mMsgTransmitter{msgTransmitter}
     {
     }
 
 protected:
-    QSharedPointer<SoapMessageTransmitterDouble> mMsgTransmitter;
+    QSharedPointer<SoapBackendDouble> mMsgTransmitter;
 };
 
 class MediaDeviceWithoutAV : public TestMediaDevice
@@ -46,12 +46,12 @@ public:
                                 QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
                                 {validContentDirectoryDescription(), validConnectionManagerDescription()},
                                 {validContentDirectorySCPD(), validConnectionManagerSCPD()}},
-              QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+              QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
     }
 
     MediaDeviceWithoutAV(DeviceDescription devDesc)
-        : TestMediaDevice{devDesc, QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+        : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
     }
 
@@ -77,12 +77,12 @@ public:
                    validConnectionManagerDescription(),
                    validAvTransportServiceDescription()},
                   {validContentDirectorySCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()}},
-              QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+              QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
     }
 
     MediaDeviceWithAV(DeviceDescription devDesc)
-        : TestMediaDevice{devDesc, QSharedPointer<SoapMessageTransmitterDouble>(new SoapMessageTransmitterDouble{})}
+        : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
     }
 

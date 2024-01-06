@@ -15,7 +15,7 @@
 namespace UPnPAV
 {
 
-MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter)
+MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> msgTransmitter)
     : d{QScopedPointer<MediaDevicePrivate>(
           new MediaDevicePrivate{std::move(deviceDescription), std::move(msgTransmitter)})}
 {

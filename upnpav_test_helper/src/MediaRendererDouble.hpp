@@ -44,7 +44,7 @@ public:
     using UPnPAV::MediaRenderer::MediaRenderer;
     ~MediaRendererDouble() override;
     Q_DISABLE_COPY_MOVE(MediaRendererDouble)
-    MediaRendererDouble(DeviceDescription desc, QSharedPointer<SoapMessageTransmitter> transmitter);
+    MediaRendererDouble(DeviceDescription desc, QSharedPointer<SoapBackend> transmitter);
 
     std::unique_ptr<PendingSoapCall> protocolInfo() noexcept override;
 

@@ -4,11 +4,11 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "SoapMessageTransmitter.hpp"
+#include "SoapBackend.hpp"
 
 namespace UPnPAV
 {
 
-SoapMessageTransmitter::~SoapMessageTransmitter() = default;
+SoapBackend::~SoapBackend() = default;
 
 } // namespace UPnPAV

@@ -4,19 +4,21 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#ifndef SOAPMESSAGETRANSMITTERDOUBLE_H
-#define SOAPMESSAGETRANSMITTERDOUBLE_H
+#pragma once
 
-#include "SoapMessageTransmitter.hpp"
-#include <QString>
+#include "SoapBackend.hpp"
+#include "blabbyupnpav_export.h"
+#include <QNetworkAccessManager>
 
 namespace UPnPAV
 {
-
-class SoapMessageTransmitterDouble : public SoapMessageTransmitter
+class BLABBYUPNPAV_EXPORT HttpSoapBackend final : public SoapBackend
 {
 public:
-    SoapMessageTransmitterDouble();
+    HttpSoapBackend();
+    ~HttpSoapBackend() override;
+
+    Q_DISABLE_COPY_MOVE(HttpSoapBackend)
 
     QSharedPointer<SoapCall> sendSoapMessage(QString const& url,
                                              QString const& actionName,
@@ -28,12 +30,8 @@ public:
                                              SCPDAction const& action,
                                              QString& xmlBody) noexcept override;
 
-    QString xmlMessageBody() const;
-
 private:
-    QString mXmlMessageBody;
+    QNetworkAccessManager m_accessManager;
 };
 
 } // namespace UPnPAV
-
-#endif // SOAPMESSAGETRANSMITTERDOUBLE_H

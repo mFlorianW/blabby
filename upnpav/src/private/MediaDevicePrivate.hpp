@@ -8,18 +8,19 @@
 #include "DeviceDescription.hpp"
 #include "ServiceControlPointDefinition.hpp"
 #include "ServiceDescription.hpp"
-#include "SoapMessageTransmitter.hpp"
+#include "SoapBackend.hpp"
 #include "blabbyupnpav_export.h"
 #include <QSharedPointer>
 #include <QUrl>
 #include <utility>
+
 namespace UPnPAV
 {
 
 class BLABBYUPNPAV_EXPORT MediaDevicePrivate
 {
 public:
-    MediaDevicePrivate(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> transmitter)
+    MediaDevicePrivate(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> transmitter)
         : mDeviceDescription{std::move(deviceDescription)}
         , mSoapMessageTransmitter{std::move(transmitter)}
     {
@@ -35,7 +36,7 @@ public:
     ServiceControlPointDefinition mConnectionManagerSCPD;
     ServiceDescription mAvTransportDescription;
     ServiceControlPointDefinition mAvTransportDescriptionSCPD;
-    QSharedPointer<SoapMessageTransmitter> mSoapMessageTransmitter;
+    QSharedPointer<SoapBackend> mSoapMessageTransmitter;
     QString mName{""};
     QUrl mIconUrl{""};
     bool mHasAvTransportService{false};

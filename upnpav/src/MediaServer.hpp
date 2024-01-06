@@ -15,7 +15,6 @@
 
 namespace UPnPAV
 {
-class SoapMessageTransmitter;
 class DeviceDescription;
 class MediaServerPrivate;
 
@@ -45,8 +44,7 @@ public:
      *         description doesn't contain the minimum
      *         requried functions and values.
      */
-    MediaServer(DeviceDescription const& deviceDescription,
-                QSharedPointer<SoapMessageTransmitter> const& soapMessageTransmitter);
+    MediaServer(DeviceDescription const& deviceDescription, QSharedPointer<SoapBackend> const& soapBackend);
     ~MediaServer() override;
 
     /**

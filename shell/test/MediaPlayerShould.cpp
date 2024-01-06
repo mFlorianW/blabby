@@ -9,7 +9,7 @@
 #include "MediaPlayer.hpp"
 #include "MediaRendererDouble.hpp"
 #include "Renderer.hpp"
-#include "SoapMessageTransmitterDouble.hpp"
+#include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -36,9 +36,8 @@ MediaPlayerShould::~MediaPlayerShould() = default;
 
 void MediaPlayerShould::init()
 {
-    auto upnpRenderer =
-        std::make_unique<MediaRendererDouble>(UPnPAV::validRendererDeviceDescription(),
-                                              QSharedPointer<UPnPAV::SoapMessageTransmitterDouble>::create());
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(UPnPAV::validRendererDeviceDescription(),
+                                                              QSharedPointer<UPnPAV::SoapBackendDouble>::create());
     mUpnpRenderer = upnpRenderer.get();
     auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
     mPlayer = std::make_shared<MediaPlayer>();

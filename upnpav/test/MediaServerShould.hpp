@@ -18,7 +18,7 @@ class ServiceControlPointDefinition;
 class SCPDStateVariable;
 class SCPDAction;
 class DeviceDescription;
-class SoapMessageTransmitterDouble;
+class SoapBackendDouble;
 
 class MediaServerShould : public QObject
 {
@@ -38,7 +38,7 @@ private:
 
     MediaServer createMediaServer(DeviceDescription& deviceDescription);
 
-    QSharedPointer<SoapMessageTransmitterDouble> m_soapMessageTransmitter;
+    QSharedPointer<SoapBackendDouble> mSoapBackend;
 
 private Q_SLOTS:
 

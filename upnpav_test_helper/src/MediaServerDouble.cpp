@@ -35,7 +35,7 @@ MediaServer::MediaServer()
               QVector<UPnPAV::IconDescription>{},
               {UPnPAV::validContentDirectoryDescription(), UPnPAV::validConnectionManagerDescription()},
               {UPnPAV::validContentDirectorySCPD(), UPnPAV::validConnectionManagerSCPD()}},
-          QSharedPointer<UPnPAV::SoapMessageTransmitter>(nullptr))
+          QSharedPointer<UPnPAV::SoapBackend>(nullptr))
     , soapCall{QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse())}
 {
 }

@@ -18,7 +18,7 @@ namespace UPnPAV
 
 class MediaDevicePrivate;
 class DeviceDescription;
-class SoapMessageTransmitter;
+class SoapBackend;
 
 /**
  * This interface defines functions that every upnp media device
@@ -42,7 +42,7 @@ public:
         Frame,
     };
 
-    /**
+    /*
      * Deleted move and copy operations
      */
     Q_DISABLE_COPY_MOVE(MediaDevice)
@@ -240,7 +240,7 @@ public:
     virtual std::optional<std::unique_ptr<PendingSoapCall>> previous(quint32 instanceId);
 
 protected:
-    MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
+    MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> msgTransmitter);
 
 private:
     QScopedPointer<MediaDevicePrivate> d;
