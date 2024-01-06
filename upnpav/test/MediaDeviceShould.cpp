@@ -29,6 +29,11 @@ public:
     {
     }
 
+    QString lastSoapCall() const noexcept
+    {
+        return mMsgTransmitter->xmlMessageBody();
+    }
+
 protected:
     QSharedPointer<SoapBackendDouble> mMsgTransmitter;
 };
@@ -53,11 +58,6 @@ public:
     MediaDeviceWithoutAV(DeviceDescription devDesc)
         : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
-    }
-
-    QString lastSoapCall() const noexcept
-    {
-        return mMsgTransmitter->xmlMessageBody();
     }
 };
 
@@ -84,11 +84,6 @@ public:
     MediaDeviceWithAV(DeviceDescription devDesc)
         : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
     {
-    }
-
-    QString lastSoapCall() const noexcept
-    {
-        return mMsgTransmitter->xmlMessageBody();
     }
 };
 
