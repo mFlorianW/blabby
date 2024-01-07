@@ -13,6 +13,6 @@ var searchData=
   ['currenttimechanged_10',['currentTimeChanged',['../classShell_1_1AbstractClock.html#a2820d3429b1dbdd4eec4752b041743b2',1,'Shell::AbstractClock']]],
   ['currenttransportstate_11',['currentTransportState',['../classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9',1,'UPnPAV::GetTransportInfoResponse']]],
   ['currenttransportstatus_12',['currentTransportStatus',['../classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241',1,'UPnPAV::GetTransportInfoResponse']]],
-  ['currenturi_13',['currentUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#a71b1a6a12cff7de517ab006d84005b25',1,'UPnPAV::GetMediaInfoResponse']]],
-  ['currenturimetadata_14',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a44f054e2796f13dd89def73fdad48cd9',1,'UPnPAV::GetMediaInfoResponse']]]
+  ['currenturi_13',['currentUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#ad16ebf0130c1cc500fcb654ab3c6e168',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['currenturimetadata_14',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a5c1e8065f66d448e12578c9dd2f97a4c',1,'UPnPAV::GetMediaInfoResponse']]]
 ];

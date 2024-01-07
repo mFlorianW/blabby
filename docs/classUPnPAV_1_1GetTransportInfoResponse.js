@@ -17,5 +17,5 @@ var classUPnPAV_1_1GetTransportInfoResponse =
     [ "GetTransportInfoResponse", "classUPnPAV_1_1GetTransportInfoResponse.html#a4bdcdff907b7074f9690957bd0e86e39", null ],
     [ "currentTransportState", "classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9", null ],
     [ "currentTransportStatus", "classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241", null ],
-    [ "transportPlaySpeed", "classUPnPAV_1_1GetTransportInfoResponse.html#acbc67ad9564cd2e48d32ff51870cac83", null ]
+    [ "transportPlaySpeed", "classUPnPAV_1_1GetTransportInfoResponse.html#a38ba6a9467c15fa6174d9e0d239eaff3", null ]
 ];

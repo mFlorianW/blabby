@@ -41,10 +41,10 @@ var classUPnPAV_1_1PendingSoapCall =
       [ "BadDomainName", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032abbb801cf2fee5f2ff98ccf4fa9ddf940", null ],
       [ "ServerError", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032aecf004f45def4cfd43b82d0a63706f23", null ]
     ] ],
-    [ "PendingSoapCall", "classUPnPAV_1_1PendingSoapCall.html#a6e2264906f5acbbe6cade4d7d08e7995", null ],
+    [ "PendingSoapCall", "classUPnPAV_1_1PendingSoapCall.html#a6803a32a1e86d661759e58cc6d793994", null ],
     [ "~PendingSoapCall", "classUPnPAV_1_1PendingSoapCall.html#ada9bbd833a23a973b1217c0c0e51f432", null ],
     [ "errorCode", "classUPnPAV_1_1PendingSoapCall.html#ab78b46f84f4bd3ca0c49c6d90ddd29e0", null ],
-    [ "errorDescription", "classUPnPAV_1_1PendingSoapCall.html#a0409758fab32f31c5bcd01704f752779", null ],
+    [ "errorDescription", "classUPnPAV_1_1PendingSoapCall.html#aa111fb4c497a99b6db275b08b1b247ea", null ],
     [ "finished", "classUPnPAV_1_1PendingSoapCall.html#a34d85ef99d4b8f461770ef43b793af20", null ],
     [ "hasError", "classUPnPAV_1_1PendingSoapCall.html#ad5a60ed1cd82852564dad67bc7c76f48", null ],
     [ "resultAs", "classUPnPAV_1_1PendingSoapCall.html#a26015724a3f6bab37fa687e30d1f9523", null ]

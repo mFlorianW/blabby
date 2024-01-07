@@ -6,7 +6,7 @@ var searchData=
   ['blocks_3',['Building Blocks',['../md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks',1,'']]],
   ['border_4',['border',['../classShell_1_1AbstractIconButton.html#a605a64984585483f3dab3e279fb5acec',1,'Shell::AbstractIconButton::border'],['../classShell_1_1AbstractIconButton.html#aa21aed8213b0573f76d95e8d74a67db5',1,'Shell::AbstractIconButton::border() const noexcept']]],
   ['borderchanged_5',['borderChanged',['../classShell_1_1AbstractIconButton.html#a1c2f94a9e5f9bc02adfd8b4bba562d95',1,'Shell::AbstractIconButton']]],
-  ['browse_6',['browse',['../classUPnPAV_1_1MediaServer.html#a4610f5a72638f6dd02b4e142b5ae1fed',1,'UPnPAV::MediaServer']]],
+  ['browse_6',['browse',['../classUPnPAV_1_1MediaServer.html#a8414cf0fed1b7f81857eabbc677ea3b4',1,'UPnPAV::MediaServer']]],
   ['browseflag_7',['BrowseFlag',['../classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43',1,'UPnPAV::MediaServer']]],
   ['browseresponse_8',['BrowseResponse',['../classUPnPAV_1_1BrowseResponse.html',1,'UPnPAV']]],
   ['build_9',['build',['../classMultimedia_1_1ItemBuilder.html#a2903b5c57881dc6629637607e3ac1d25',1,'Multimedia::ItemBuilder::build()'],['../classUPnPAV_1_1MediaServerObjectBuilder.html#a247593b4cb4f6bd04373ddaaa3e39e8e',1,'UPnPAV::MediaServerObjectBuilder::build()'],['../index.html#autotoc_md3',1,'Build']]],

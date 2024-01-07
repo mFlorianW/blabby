@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data_0',['data',['../classShell_1_1MediaItemModel.html#ab37f634e4f519c449c17e105571a80bd',1,'Shell::MediaItemModel::data()'],['../classShell_1_1MediaRendererModel.html#ac0ef1526c89582b1cbb7e5c1d40d6971',1,'Shell::MediaRendererModel::data()'],['../classShell_1_1MediaSourceModel.html#ab05a3c6f20631426bbbafeff28a7410b',1,'Shell::MediaSourceModel::data()']]],
+  ['data_0',['data',['../classShell_1_1MediaItemModel.html#ab37f634e4f519c449c17e105571a80bd',1,'Shell::MediaItemModel::data()'],['../classShell_1_1MediaRendererModel.html#ac0ef1526c89582b1cbb7e5c1d40d6971',1,'Shell::MediaRendererModel::data()'],['../classShell_1_1MediaSourceModel.html#a7bd6b8c16b57eec97decb7c1eb743bd8',1,'Shell::MediaSourceModel::data()']]],
   ['descriptionfetcher_1',['DescriptionFetcher',['../classUPnPAV_1_1DescriptionFetcher.html',1,'UPnPAV']]],
   ['descriptionfetcherbackend_2',['DescriptionFetcherBackend',['../classUPnPAV_1_1DescriptionFetcherBackend.html',1,'UPnPAV']]],
   ['devicecapilities_3',['deviceCapilities',['../classUPnPAV_1_1MediaDevice.html#a61398a84fd05f2b85cecb628f47e16d6',1,'UPnPAV::MediaDevice']]],

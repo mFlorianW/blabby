@@ -11,5 +11,5 @@ var classUPnPAV_1_1GetTransportSettingsResponse =
     ] ],
     [ "GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html#a0790ffcc481c33413c2a3b047293b2c8", null ],
     [ "playMode", "classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724", null ],
-    [ "recQualityMode", "classUPnPAV_1_1GetTransportSettingsResponse.html#a9afbee49eea619e3369669054a0af913", null ]
+    [ "recQualityMode", "classUPnPAV_1_1GetTransportSettingsResponse.html#ae4f18f704fad9fb106ab4d92f6862f21", null ]
 ];

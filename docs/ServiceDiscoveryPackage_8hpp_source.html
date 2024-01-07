@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('ServiceDiscoveryPackage_8hpp_source.ht
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1ServiceDiscoveryPackage.html">   35</a></span>class BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1ServiceDiscoveryPackage.html">ServiceDiscoveryPackage</a> final</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceDiscoveryPackage.html">ServiceDiscoveryPackage</a>(<span class="keyword">const</span> QByteArray &amp;rawData);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceDiscoveryPackage.html">ServiceDiscoveryPackage</a>(QByteArray <span class="keyword">const</span> &amp;rawData);</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    QUrl locationUrl() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
@@ -156,11 +156,11 @@ $(document).ready(function(){initNavTree('ServiceDiscoveryPackage_8hpp_source.ht
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    QString <span class="keyword">const</span> &amp;searchTarget() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">static</span> QString extracEntryValue(<span class="keyword">const</span> QString &amp;entry);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">static</span> QString extracEntryValue(QString <span class="keyword">const</span> &amp;entry);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">static</span> QString extracDeviceIdentifierValue(<span class="keyword">const</span> QString &amp;rawString);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">static</span> QString extracDeviceIdentifierValue(QString <span class="keyword">const</span> &amp;rawString);</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">static</span> SsdpSubType convertSubTypeString(<span class="keyword">const</span> QString &amp;subtype);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">static</span> SsdpSubType convertSubTypeString(QString <span class="keyword">const</span> &amp;subtype);</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keyword">private</span>:</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    QUrl m_locationUrl;</div>
@@ -176,7 +176,7 @@ $(document).ready(function(){initNavTree('ServiceDiscoveryPackage_8hpp_source.ht
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_class" href="classUPnPAV_1_1PackageParseError.html">PackageParseError</a>(QString description);</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_function" href="classUPnPAV_1_1PackageParseError.html#aa92faa735c6ec38499a0f9a10fb56a50">what</a>() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">char</span> <span class="keyword">const</span> *<a class="code hl_function" href="classUPnPAV_1_1PackageParseError.html#accfdf618ce9fdffcbf31797eacf242c7">what</a>() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classUPnPAV_1_1PackageParseError.html#a4b45d9ed37a7f612e07d39cc7ce98a55">raise</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
@@ -191,8 +191,8 @@ $(document).ready(function(){initNavTree('ServiceDiscoveryPackage_8hpp_source.ht
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#endif </span><span class="comment">// SERVICEDISCOVERYPACKAGE_H</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1PackageParseError_html"><div class="ttname"><a href="classUPnPAV_1_1PackageParseError.html">UPnPAV::PackageParseError</a></div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.hpp:112</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1PackageParseError_html_a4b45d9ed37a7f612e07d39cc7ce98a55"><div class="ttname"><a href="classUPnPAV_1_1PackageParseError.html#a4b45d9ed37a7f612e07d39cc7ce98a55">UPnPAV::PackageParseError::raise</a></div><div class="ttdeci">void raise() const override</div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.cpp:96</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1PackageParseError_html_aa92faa735c6ec38499a0f9a10fb56a50"><div class="ttname"><a href="classUPnPAV_1_1PackageParseError.html#aa92faa735c6ec38499a0f9a10fb56a50">UPnPAV::PackageParseError::what</a></div><div class="ttdeci">const char * what() const noexcept override</div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.cpp:91</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1PackageParseError_html_ac4f58ecbc639ae36694c923d9b205a0b"><div class="ttname"><a href="classUPnPAV_1_1PackageParseError.html#ac4f58ecbc639ae36694c923d9b205a0b">UPnPAV::PackageParseError::clone</a></div><div class="ttdeci">PackageParseError * clone() const override</div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.cpp:101</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1PackageParseError_html_accfdf618ce9fdffcbf31797eacf242c7"><div class="ttname"><a href="classUPnPAV_1_1PackageParseError.html#accfdf618ce9fdffcbf31797eacf242c7">UPnPAV::PackageParseError::what</a></div><div class="ttdeci">char const * what() const noexcept override</div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.cpp:91</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceDiscoveryPackage_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceDiscoveryPackage.html">UPnPAV::ServiceDiscoveryPackage</a></div><div class="ttdef"><b>Definition</b> ServiceDiscoveryPackage.hpp:36</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
