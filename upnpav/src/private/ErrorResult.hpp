@@ -16,7 +16,7 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT ErrorResult
 {
 public:
-    ErrorResult(const QString &rawMessage);
+    ErrorResult(QString const &rawMessage);
 
     qint32 errorCode() const noexcept;
 

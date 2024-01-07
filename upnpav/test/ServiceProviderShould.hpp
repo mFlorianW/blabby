@@ -27,8 +27,8 @@ public:
     ~ServiceProviderShould() override;
 
 private:
-    static QNetworkDatagram createServiceDiscoveryRequestMessage(const QString &message);
-    static QNetworkDatagram createServiceDiscoveryReceiveMessage(const QString &message);
+    static QNetworkDatagram createServiceDiscoveryRequestMessage(QString const &message);
+    static QNetworkDatagram createServiceDiscoveryReceiveMessage(QString const &message);
 
 private Q_SLOTS:
     /**

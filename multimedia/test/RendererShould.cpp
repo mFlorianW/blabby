@@ -94,7 +94,7 @@ void RendererShould::call_avtransport_uri_on_playback_request()
     Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();
     renderer.playback(createPlayableMediaItem());
 
-    const auto expData = AvTransportUriData{.instanceId = quint32{0},
+    auto const expData = AvTransportUriData{.instanceId = quint32{0},
                                             .uri = QStringLiteral("http://127.0.0.1/1234.mp3"),
                                             .uriMetaData = QString("")};
     QCOMPARE(upnpRendererRaw->isSetAvTransportUriCalled(), true);
@@ -113,7 +113,7 @@ void RendererShould::call_play_on_successful_avtransporturi_request()
     renderer.playback(createPlayableMediaItem());
     Q_EMIT upnpRendererRaw->avTransportUriCall()->finished();
 
-    const auto expData = PlayData{.instanceId = quint32{0}};
+    auto const expData = PlayData{.instanceId = quint32{0}};
     QCOMPARE(upnpRendererRaw->isPlayCalled(), true);
     QCOMPARE(upnpRendererRaw->playData(), expData);
 }
@@ -142,7 +142,7 @@ void RendererShould::not_call_avtransporturi_with_unsupported_items()
                                                               QSharedPointer<SoapMessageTransmitterDouble>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
-    const auto playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+    auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
 
     renderer.initialize();
     Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();
@@ -159,7 +159,7 @@ void RendererShould::signal_playback_failed_on_avtransporturi_call_failed()
                                                               QSharedPointer<SoapMessageTransmitterDouble>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
-    const auto playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+    auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
 
     renderer.initialize();
     Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();
@@ -177,7 +177,7 @@ void RendererShould::signal_playback_failed_on_playcall_failed()
                                                               QSharedPointer<SoapMessageTransmitterDouble>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
-    const auto playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+    auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
 
     renderer.initialize();
     Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();

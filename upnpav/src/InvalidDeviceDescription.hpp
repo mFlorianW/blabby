@@ -16,9 +16,9 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT InvalidDeviceDescription : public QException
 {
 public:
-    InvalidDeviceDescription(const QString &errorMessage);
+    InvalidDeviceDescription(QString const &errorMessage);
 
-    const char *what() const noexcept override;
+    char const *what() const noexcept override;
 
     void raise() const override;
 

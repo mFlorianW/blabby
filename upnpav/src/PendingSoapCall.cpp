@@ -12,7 +12,7 @@
 
 namespace UPnPAV
 {
-PendingSoapCall::PendingSoapCall(const QSharedPointer<SoapCall> &soapCall)
+PendingSoapCall::PendingSoapCall(QSharedPointer<SoapCall> const &soapCall)
     : QObject()
     , m_soapCall(soapCall)
 {
@@ -28,7 +28,7 @@ PendingSoapCall::ErrorCode PendingSoapCall::errorCode() const noexcept
     return m_errorCode;
 }
 
-const QString &PendingSoapCall::errorDescription() const noexcept
+QString const &PendingSoapCall::errorDescription() const noexcept
 {
     return m_errorDescription;
 }

@@ -40,40 +40,40 @@ public:
      * The URI of the resource that is controlled by the AVTransport instance.
      * @return The value of the CurrentURI field of the response.
      */
-    const QString &currentUri() const noexcept;
+    QString const &currentUri() const noexcept;
 
     /**
      * The meta data of the resource that is controlled by the AVTransport instance.
      * If the service doesn't support that feature NOT_IMPLEMENTED is returned.
      * @return The value of the CurrentURIMeta field of the response.
      */
-    const QString &currentUriMetaData() const noexcept;
+    QString const &currentUriMetaData() const noexcept;
 
     /**
      * The URI of the resource that is controlled by the AVTransport instance and is played next
      * @return The value of the NextURI field of the response.
      */
-    const QString &nextUri() const noexcept;
+    QString const &nextUri() const noexcept;
 
     /**
      * The meta data of the resource that is controlled by the AVTransport instance and is played next.
      * If the service doesn't support that feature "NOT_IMPLEMENTED" is returned.
      * @return The value of the NextURIMeta field of the response.
      */
-    const QString &nextUriMetaData() const noexcept;
+    QString const &nextUriMetaData() const noexcept;
 
     /**
      * The storage medium of the resource specified by the AVTransportURI.
      * @return The value of the PlayMedium field of the response.
      */
-    const QString &playMedium() const noexcept;
+    QString const &playMedium() const noexcept;
 
     /**
      * The storage medium of the resource specified by the AVTransportURI for a recording action.
      * If the implemented service has no support the "NOT_IMPLEMENTED" is returned.
      * @return The value of the RecordMedium field of the response.
      */
-    const QString &recordMedium() const noexcept;
+    QString const &recordMedium() const noexcept;
 
     /**
      * Gives the write protection status of the media.
@@ -81,7 +81,7 @@ public:
      * If the implemented service has no support for it, "NOT_IMPLEMENTED" is returned.
      * @return The value of the WriteStatus field of the response.
      */
-    const QString &writeStatus() const noexcept;
+    QString const &writeStatus() const noexcept;
 
 private:
     QExplicitlySharedDataPointer<GetMediaInfoResponseData> d;

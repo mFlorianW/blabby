@@ -14,17 +14,17 @@
 namespace UPnPAV
 {
 
-DeviceDescriptionParser::DeviceDescriptionParser(const QUrl &deviceUrl)
+DeviceDescriptionParser::DeviceDescriptionParser(QUrl const &deviceUrl)
     : m_baseUrl(deviceUrl.adjusted(QUrl::RemovePath).toString())
 {
 }
 
-const QVector<DeviceDescription> &DeviceDescriptionParser::physicalDeviceDescription()
+QVector<DeviceDescription> const &DeviceDescriptionParser::physicalDeviceDescription()
 {
     return m_embeddedDevices;
 }
 
-void DeviceDescriptionParser::readDeviceDescription(const QString &deviceDescription)
+void DeviceDescriptionParser::readDeviceDescription(QString const &deviceDescription)
 {
     m_streamReader.addData(deviceDescription);
 
@@ -150,7 +150,7 @@ void DeviceDescriptionParser::createDescriptions()
     }
 }
 
-QString DeviceDescriptionParser::makeAbsolutePath(const QString &base, const QString &relativePath)
+QString DeviceDescriptionParser::makeAbsolutePath(QString const &base, QString const &relativePath)
 {
     return relativePath.startsWith("/") ? base + relativePath : base + "/" + relativePath;
 }

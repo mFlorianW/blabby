@@ -71,8 +71,8 @@ void Renderer::playback(Item const &item) noexcept
 
 bool Renderer::isPlayableItem(Item const &item) const noexcept
 {
-    for (const auto &protocol : mProtocols) {
-        for (const auto &itemProto : item.supportedTypes()) {
+    for (auto const &protocol : mProtocols) {
+        for (auto const &itemProto : item.supportedTypes()) {
             if (itemProto == protocol) {
                 return true;
             }

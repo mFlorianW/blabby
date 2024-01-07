@@ -13,7 +13,7 @@ ParsingError::ParsingError(QString errorDescription)
 {
 }
 
-const char *ParsingError::what() const noexcept
+char const *ParsingError::what() const noexcept
 {
     return m_errorDescription.data();
 }

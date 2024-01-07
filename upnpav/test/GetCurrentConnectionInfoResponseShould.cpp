@@ -16,10 +16,10 @@ namespace UPnPAV
 
 void GetCurrentConnetionInfoResponseShould::gives_the_correct_result_for_valid_response()
 {
-    const auto respone = GetCurrentConnectionInfoResponse(ValidCurrentConnectionInfoResponse,
+    auto const respone = GetCurrentConnectionInfoResponse(ValidCurrentConnectionInfoResponse,
                                                           validConnectionManagerSCPD(),
                                                           GetCurrentConnectionInfo());
-    const auto expectedInfo = ConnectionInfo{
+    auto const expectedInfo = ConnectionInfo{
         .rcsId = 123,
         .avTransportId = 12,
         .protoclInfo = "audio/mpeg",

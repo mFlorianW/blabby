@@ -32,7 +32,7 @@ NavigationStack::NavigationStack(Source &source)
 
 NavigationStack::~NavigationStack() = default;
 
-const QString &NavigationStack::path()
+QString const &NavigationStack::path()
 {
     return mPath;
 }
@@ -46,7 +46,7 @@ void NavigationStack::navigateBack()
     if (mNavigationIndex > qsizetype{0} and mPathStack.size() > qsizetype{0}) {
         --mNavigationIndex;
     }
-    const auto path = mPathStack.at(mNavigationIndex);
+    auto const path = mPathStack.at(mNavigationIndex);
     mNavigationAction = true;
     mSource.navigateTo(path);
 }
@@ -59,7 +59,7 @@ void NavigationStack::navigateForward()
 
     ++mNavigationIndex;
     if (mNavigationIndex < mPathStack.size()) {
-        const auto path = mPathStack.at(mNavigationIndex);
+        auto const path = mPathStack.at(mNavigationIndex);
         mNavigationAction = true;
         mSource.navigateTo(path);
     } else {

@@ -12,7 +12,7 @@
 namespace UPnPAV
 {
 
-ErrorResult::ErrorResult(const QString &rawMessage)
+ErrorResult::ErrorResult(QString const &rawMessage)
 {
     if (rawMessage.isEmpty()) {
         return;

@@ -55,7 +55,7 @@ GetMediaInfoResponse::GetMediaInfoResponse(QString rawMsg, ServiceControlPointDe
                          }
                      });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
@@ -76,37 +76,37 @@ std::optional<QTime> GetMediaInfoResponse::mediaDuration() const noexcept
     return std::nullopt;
 }
 
-const QString &GetMediaInfoResponse::currentUri() const noexcept
+QString const &GetMediaInfoResponse::currentUri() const noexcept
 {
     return d->mCurrentUri;
 }
 
-const QString &GetMediaInfoResponse::currentUriMetaData() const noexcept
+QString const &GetMediaInfoResponse::currentUriMetaData() const noexcept
 {
     return d->mCurrentMetaData;
 }
 
-const QString &GetMediaInfoResponse::nextUri() const noexcept
+QString const &GetMediaInfoResponse::nextUri() const noexcept
 {
     return d->mNextUri;
 }
 
-const QString &GetMediaInfoResponse::nextUriMetaData() const noexcept
+QString const &GetMediaInfoResponse::nextUriMetaData() const noexcept
 {
     return d->mNextUriMetaData;
 }
 
-const QString &GetMediaInfoResponse::playMedium() const noexcept
+QString const &GetMediaInfoResponse::playMedium() const noexcept
 {
     return d->mPlayMedium;
 }
 
-const QString &GetMediaInfoResponse::recordMedium() const noexcept
+QString const &GetMediaInfoResponse::recordMedium() const noexcept
 {
     return d->mRecordMedium;
 }
 
-const QString &GetMediaInfoResponse::writeStatus() const noexcept
+QString const &GetMediaInfoResponse::writeStatus() const noexcept
 {
     return d->mWriteStatus;
 }

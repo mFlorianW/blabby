@@ -20,7 +20,7 @@ namespace UPnPAV
 
 namespace
 {
-constexpr const char *validMSearchRequest = "M-SEARCH * HTTP/1.1\r\n"
+constexpr char const *validMSearchRequest = "M-SEARCH * HTTP/1.1\r\n"
                                             "Host: 239.255.255.250:1900\r\n"
                                             "Man: \"ssdp:discover\"\r\n"
                                             "MX: 3\r\n"
@@ -28,7 +28,7 @@ constexpr const char *validMSearchRequest = "M-SEARCH * HTTP/1.1\r\n"
                                             "User-Agent: Linux/1.0 UPnP/1.0 test/0.1.0\r\n"
                                             "\r\n";
 
-constexpr const char *validMSearchResponse = "HTTP/1.1 200 OK\r\n"
+constexpr char const *validMSearchResponse = "HTTP/1.1 200 OK\r\n"
                                              "CACHE-CONTROL: max-age = seconds until advertisement expires\r\n"
                                              "DATE: when response was generated\r\n"
                                              "EXT:\r\n"
@@ -37,7 +37,7 @@ constexpr const char *validMSearchResponse = "HTTP/1.1 200 OK\r\n"
                                              "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
                                              "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
 
-constexpr const char *validNotifyMessage = "NOTIFY * HTTP/1.1\r\n"
+constexpr char const *validNotifyMessage = "NOTIFY * HTTP/1.1\r\n"
                                            "HOST: 239.255.255.250:1900\r\n"
                                            "CACHE-CONTROL: max-age = seconds until advertisement expires \r\n"
                                            "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
@@ -46,7 +46,7 @@ constexpr const char *validNotifyMessage = "NOTIFY * HTTP/1.1\r\n"
                                            "SERVER: OS/version UPnP/1.0 product/version\r\n"
                                            "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
 
-constexpr const char *validByeMessage = "NOTIFY * HTTP/1.1 \r\n"
+constexpr char const *validByeMessage = "NOTIFY * HTTP/1.1 \r\n"
                                         "HOST: 239.255.255.250:1900 \r\n"
                                         "NT: urn:schemas-upnp-org:device:MediaServer:1 \r\n"
                                         "NTS: ssdp:byebye \r\n"
@@ -60,12 +60,12 @@ ServiceProviderShould::ServiceProviderShould() noexcept
 
 ServiceProviderShould::~ServiceProviderShould() = default;
 
-QNetworkDatagram ServiceProviderShould::createServiceDiscoveryRequestMessage(const QString &message)
+QNetworkDatagram ServiceProviderShould::createServiceDiscoveryRequestMessage(QString const &message)
 {
     return QNetworkDatagram{message.toUtf8(), QHostAddress{"239.255.255.250"}, 1900};
 }
 
-QNetworkDatagram ServiceProviderShould::createServiceDiscoveryReceiveMessage(const QString &message)
+QNetworkDatagram ServiceProviderShould::createServiceDiscoveryReceiveMessage(QString const &message)
 {
     return createServiceDiscoveryRequestMessage(message);
 }

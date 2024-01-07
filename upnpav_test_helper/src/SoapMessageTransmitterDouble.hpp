@@ -18,10 +18,10 @@ class SoapMessageTransmitterDouble : public SoapMessageTransmitter
 public:
     SoapMessageTransmitterDouble();
 
-    QSharedPointer<SoapCall> sendSoapMessage(const QString &url,
-                                             const QString &actionName,
-                                             const QString &serviceType,
-                                             const QString &xmlBody) noexcept override;
+    QSharedPointer<SoapCall> sendSoapMessage(QString const &url,
+                                             QString const &actionName,
+                                             QString const &serviceType,
+                                             QString const &xmlBody) noexcept override;
 
     QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const &desc,
                                              ServiceControlPointDefinition &scpd,

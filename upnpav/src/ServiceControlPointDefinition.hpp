@@ -24,18 +24,18 @@ public:
                                   QVector<SCPDStateVariable> serviceStateTable,
                                   QVector<SCPDAction> actions = {});
 
-    const QString &scpdUrl() const;
+    QString const &scpdUrl() const;
 
-    bool hasStateVariable(const QString &stateVariableName) const noexcept;
-    const QVector<SCPDStateVariable> &serviceStateTable() const;
+    bool hasStateVariable(QString const &stateVariableName) const noexcept;
+    QVector<SCPDStateVariable> const &serviceStateTable() const;
 
-    const QVector<SCPDAction> &actionList() const;
-    SCPDAction action(const QString &actionName) const noexcept;
+    QVector<SCPDAction> const &actionList() const;
+    SCPDAction action(QString const &actionName) const noexcept;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(const ServiceControlPointDefinition &lhs,
-                                               const ServiceControlPointDefinition &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(const ServiceControlPointDefinition &lhs,
-                                               const ServiceControlPointDefinition &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(ServiceControlPointDefinition const &lhs,
+                                               ServiceControlPointDefinition const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(ServiceControlPointDefinition const &lhs,
+                                               ServiceControlPointDefinition const &rhs);
 
 private:
     QExplicitlySharedDataPointer<ServiceControlPointDefinitionData> d;

@@ -57,17 +57,17 @@ void MediaServerObjectShould::return_The_TypeClass_Passed_In_The_Constructor()
 
 void MediaServerObjectShould::return_the_uri_of_a_playabe_item()
 {
-    const auto exptectedUri = QStringLiteral("http://test.com/123.mp3");
-    const auto mediaServerObject = MediaServerObjectBuilder{}.withPlayUrl(exptectedUri).build();
+    auto const exptectedUri = QStringLiteral("http://test.com/123.mp3");
+    auto const mediaServerObject = MediaServerObjectBuilder{}.withPlayUrl(exptectedUri).build();
 
     QCOMPARE(mediaServerObject.playUrl(), exptectedUri);
 }
 
 void MediaServerObjectShould::return_the_supported_protocols()
 {
-    const auto expProtocols =
+    auto const expProtocols =
         QVector<Protocol>{Protocol::create(QStringLiteral("http-get:*:audio/mpeg")).value_or(Protocol{})};
-    const auto mediaServerObject = MediaServerObjectBuilder{}.withSupportedProtocols(expProtocols).build();
+    auto const mediaServerObject = MediaServerObjectBuilder{}.withSupportedProtocols(expProtocols).build();
 
     QCOMPARE(mediaServerObject.supportedProtocols(), expProtocols);
 }

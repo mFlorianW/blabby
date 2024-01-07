@@ -24,7 +24,7 @@ void MediaSourceModelShould::load_the_provider_and_report_amount_of_media_source
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
-    const auto count = model.rowCount();
+    auto const count = model.rowCount();
 
     QVERIFY2(count == 1,
              QString("The returned ProviderCount \"%1\" is not the expected ProviderCount 1")
@@ -42,7 +42,7 @@ void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceIocnUrl),
                        QByteArray{"mediaSourceIconUrl"})};
 
-    const auto roleNames = model.roleNames();
+    auto const roleNames = model.roleNames();
 
     QCOMPARE(roleNames, expRoleNames);
 }
@@ -54,7 +54,7 @@ void MediaSourceModelShould::give_the_name_of_provider_for_valid_index()
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expName = QStringLiteral("TestMediaSource");
 
-    const auto providerName =
+    auto const providerName =
         model.data(model.index(0), static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceName)).toString();
 
     QVERIFY2(providerName == expName,
@@ -70,7 +70,7 @@ void MediaSourceModelShould::give_the_iconurl_of_provider_for_valid_index()
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expIconUrl = QStringLiteral("http::/127.0.0.1/TestMediaSource.png");
 
-    const auto iconUrl =
+    auto const iconUrl =
         model.data(model.index(0), static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceIocnUrl)).toString();
 
     QVERIFY2(iconUrl == expIconUrl,
@@ -87,7 +87,7 @@ void MediaSourceModelShould::handle_new_connected_sources()
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
     qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(0).get())->createNewSource();
-    const auto rowCount = model.rowCount();
+    auto const rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 2,
              QString{"The returned rowCount \"%1\" is not the expected rowCount 2"}

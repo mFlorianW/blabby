@@ -33,39 +33,39 @@ DeviceDescription::DeviceDescription(QString deviceType,
 {
 }
 
-const QString &DeviceDescription::deviceType() const noexcept
+QString const &DeviceDescription::deviceType() const noexcept
 {
     return m_deviceType;
 }
 
-const QString &DeviceDescription::friendlyName() const noexcept
+QString const &DeviceDescription::friendlyName() const noexcept
 {
     return m_friendlyName;
 }
 
-const QString &DeviceDescription::manufacturer() const noexcept
+QString const &DeviceDescription::manufacturer() const noexcept
 {
     return m_manufacturer;
 }
 
-const QVector<IconDescription> &DeviceDescription::icons() const noexcept
+QVector<IconDescription> const &DeviceDescription::icons() const noexcept
 {
     return m_icons;
 }
 
-const QString &DeviceDescription::modelName() const noexcept
+QString const &DeviceDescription::modelName() const noexcept
 {
     return m_modelName;
 }
 
-const QString &DeviceDescription::udn() const noexcept
+QString const &DeviceDescription::udn() const noexcept
 {
     return m_udn;
 }
 
-std::optional<ServiceDescription> DeviceDescription::service(const QString &serviceName) const noexcept
+std::optional<ServiceDescription> DeviceDescription::service(QString const &serviceName) const noexcept
 {
-    for (const auto &serviceDesc : m_services) {
+    for (auto const &serviceDesc : m_services) {
         if (serviceDesc.serviceType().contains(serviceName)) {
             return std::optional<ServiceDescription>{serviceDesc};
         }
@@ -74,19 +74,19 @@ std::optional<ServiceDescription> DeviceDescription::service(const QString &serv
     return std::nullopt;
 }
 
-const QVector<ServiceDescription> &DeviceDescription::services() const noexcept
+QVector<ServiceDescription> const &DeviceDescription::services() const noexcept
 {
     return m_services;
 }
 
-const QVector<ServiceControlPointDefinition> &DeviceDescription::scpds() const noexcept
+QVector<ServiceControlPointDefinition> const &DeviceDescription::scpds() const noexcept
 {
     return m_scpds;
 }
 
-std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QString &scpdUrl) const noexcept
+std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(QString const &scpdUrl) const noexcept
 {
-    for (const auto &scpd : m_scpds) {
+    for (auto const &scpd : m_scpds) {
         if (scpd.scpdUrl() == scpdUrl) {
             return scpd;
         }
@@ -95,7 +95,7 @@ std::optional<ServiceControlPointDefinition> DeviceDescription::scpd(const QStri
     return std::nullopt;
 }
 
-bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs)
+bool operator==(DeviceDescription const &lhs, DeviceDescription const &rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -106,7 +106,7 @@ bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs)
             (lhs.m_manufacturer == rhs.m_manufacturer) && (lhs.m_services == rhs.m_services));
 }
 
-bool operator!=(const DeviceDescription &lhs, const DeviceDescription &rhs)
+bool operator!=(DeviceDescription const &lhs, DeviceDescription const &rhs)
 {
     return !(lhs == rhs);
 }

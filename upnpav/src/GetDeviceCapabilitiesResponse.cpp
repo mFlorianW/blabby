@@ -36,7 +36,7 @@ GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawM
                          }
                      });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetDeviceCapabilities response Error:"
                                  << static_cast<qint32>(result) << "Response:" << rawMsg;
@@ -44,17 +44,17 @@ GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawM
     }
 }
 
-const QStringList &GetDeviceCapabilitiesResponse::playMedia() const noexcept
+QStringList const &GetDeviceCapabilitiesResponse::playMedia() const noexcept
 {
     return d->mPlayMedia;
 }
 
-const QStringList &GetDeviceCapabilitiesResponse::recMedia() const noexcept
+QStringList const &GetDeviceCapabilitiesResponse::recMedia() const noexcept
 {
     return d->mRecMedia;
 }
 
-const QStringList &GetDeviceCapabilitiesResponse::recQualityModes() const noexcept
+QStringList const &GetDeviceCapabilitiesResponse::recQualityModes() const noexcept
 {
     return d->mRecQModes;
 }

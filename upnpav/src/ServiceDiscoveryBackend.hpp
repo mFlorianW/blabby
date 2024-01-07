@@ -27,13 +27,13 @@ public:
     explicit ServiceDiscoveryBackend();
     ~ServiceDiscoveryBackend() override;
 
-    void sendSearchRequest(const QNetworkDatagram &requestMessage);
+    void sendSearchRequest(QNetworkDatagram const &requestMessage);
 
 Q_SIGNALS:
-    void receivedNetworkDatagram(const QNetworkDatagram &datagram);
+    void receivedNetworkDatagram(QNetworkDatagram const &datagram);
 
 protected:
-    virtual void sendDiscoveryRequest(const QNetworkDatagram &datagram) = 0;
+    virtual void sendDiscoveryRequest(QNetworkDatagram const &datagram) = 0;
 };
 
 class BLABBYUPNPAV_EXPORT UdpServiceDiscoveryBackend : public ServiceDiscoveryBackend
@@ -44,7 +44,7 @@ public:
     UdpServiceDiscoveryBackend();
     ~UdpServiceDiscoveryBackend() override = default;
 
-    void sendDiscoveryRequest(const QNetworkDatagram &datagram) override;
+    void sendDiscoveryRequest(QNetworkDatagram const &datagram) override;
 
 private Q_SLOTS:
     void handleReceivedData();

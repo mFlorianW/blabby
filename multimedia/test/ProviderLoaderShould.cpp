@@ -17,9 +17,9 @@ ProviderLoaderShould::~ProviderLoaderShould() = default;
 void ProviderLoaderShould::provider_should_load_valid_plugins()
 {
     auto pLoader = ProviderLoader{};
-    const auto expectedName = QStringLiteral("DummyPlugin");
+    auto const expectedName = QStringLiteral("DummyPlugin");
 
-    const auto &providers = pLoader.load({QString(DummyPluginFolder)});
+    auto const &providers = pLoader.load({QString(DummyPluginFolder)});
 
     QVERIFY2(providers.size() == 1,
              QString{"The loaded provider size \"%1\" is not the expected one %2"}

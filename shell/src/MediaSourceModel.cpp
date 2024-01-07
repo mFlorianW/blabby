@@ -33,7 +33,7 @@ MediaSourceModel::MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> p
 
 MediaSourceModel::~MediaSourceModel() = default;
 
-int MediaSourceModel::rowCount(const QModelIndex &parent) const noexcept
+int MediaSourceModel::rowCount(QModelIndex const &parent) const noexcept
 {
     Q_UNUSED(parent)
     return static_cast<int>(mSources.size());
@@ -48,7 +48,7 @@ QHash<int, QByteArray> MediaSourceModel::roleNames() const noexcept
     return roleNames;
 }
 
-QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexcept
+QVariant MediaSourceModel::data(QModelIndex const &index, int role) const noexcept
 {
     if (not index.isValid() or (index.row() >= mSources.size())) {
         qCritical(shell) << "Failed to request data. Error: invalid index:" << index.row()
@@ -56,8 +56,8 @@ QVariant MediaSourceModel::data(const QModelIndex &index, int role) const noexce
         return {};
     }
 
-    const auto item = mSources.at(index.row());
-    const auto dispRole = static_cast<DisplayRole>(role);
+    auto const item = mSources.at(index.row());
+    auto const dispRole = static_cast<DisplayRole>(role);
     if (dispRole == DisplayRole::MediaSourceName) {
         return item->sourceName();
     } else if (dispRole == DisplayRole::MediaSourceIocnUrl) {
@@ -85,7 +85,7 @@ std::shared_ptr<Multimedia::Source> MediaSourceModel::activeMediaSource()
 
 void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const &source) noexcept
 {
-    const auto newIndex = static_cast<int>(mSources.size());
+    auto const newIndex = static_cast<int>(mSources.size());
     beginInsertRows(index(newIndex), newIndex, newIndex);
     mSources.append(source);
     endInsertRows();
@@ -98,7 +98,7 @@ void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const
             return src == source;
         });
     if (sourceIndex != mSources.cend()) {
-        const auto idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
+        auto const idx = static_cast<int>(std::distance(mSources.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);
         mSources.remove(static_cast<int>(idx));
         qCDebug(shell) << "Remove MediaSource under index:" << idx << "from sources. Address:" << source.get()

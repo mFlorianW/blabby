@@ -9,12 +9,12 @@
 namespace UPnPAV
 {
 
-InvalidDeviceDescription::InvalidDeviceDescription(const QString &errorMessage)
+InvalidDeviceDescription::InvalidDeviceDescription(QString const &errorMessage)
     : m_errorMessage(errorMessage.toLocal8Bit())
 {
 }
 
-const char *InvalidDeviceDescription::what() const noexcept
+char const *InvalidDeviceDescription::what() const noexcept
 {
     return m_errorMessage;
 }

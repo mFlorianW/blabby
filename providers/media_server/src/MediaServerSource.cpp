@@ -46,10 +46,10 @@ void Source::onBrowseRequestFinished() noexcept
                                      << "Error Message:" << mBrowseRequest.mRequest->errorDescription();
     }
 
-    const auto result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
+    auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
     mMediaItems.clear();
     for (auto const &obj : result->objects()) {
-        const auto type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
+        auto const type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
                                                                     : Multimedia::ItemType::Playable;
         mMediaItems.emplace_back(Multimedia::ItemBuilder{}
                                      .withItemType(type)

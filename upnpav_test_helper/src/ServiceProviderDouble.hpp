@@ -19,11 +19,11 @@ public:
     ServiceProviderDouble(QString searchTarget = QString(""));
     ~ServiceProviderDouble() noexcept override = default;
 
-    void setSearchTarget(const QString &searchTarget) noexcept override;
+    void setSearchTarget(QString const &searchTarget) noexcept override;
 
     void startSearch() const noexcept override;
 
-    UPnPAV::DeviceDescription rootDeviceDescription(const QString &usn) const noexcept override;
+    UPnPAV::DeviceDescription rootDeviceDescription(QString const &usn) const noexcept override;
     void addDeviceDescription(QString const &usn, UPnPAV::DeviceDescription const &desc) noexcept;
 
     QString const &searchTarget() const noexcept;
@@ -40,7 +40,7 @@ class ServiceProviderFactory : public UPnPAV::IServiceProviderFactory
 {
 public:
     ServiceProviderDouble *serviceProvider{nullptr};
-    std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(const QString &searchTarget) override;
+    std::unique_ptr<UPnPAV::IServiceProvider> createServiceProvider(QString const &searchTarget) override;
 };
 
 } // namespace UPnPAV::Doubles

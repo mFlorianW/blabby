@@ -11,14 +11,14 @@
 namespace UPnPAV
 {
 
-HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply)
+HttpSoapCall::HttpSoapCall(QSharedPointer<QNetworkReply> const &reply)
     : SoapCall()
     , m_reply(reply)
 {
     (void)connect(m_reply.get(), &QNetworkReply::finished, this, &HttpSoapCall::finished);
 }
 
-HttpSoapCall::HttpSoapCall(const QSharedPointer<QNetworkReply> &reply,
+HttpSoapCall::HttpSoapCall(QSharedPointer<QNetworkReply> const &reply,
                            ServiceControlPointDefinition scpd,
                            SCPDAction action)
     : SoapCall(std::move(scpd), std::move(action))

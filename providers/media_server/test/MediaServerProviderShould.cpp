@@ -25,7 +25,7 @@ void ProviderShould::send_find_request_for_media_server_on_init()
     auto expSearchTarget = QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1");
 
     prov.init();
-    const auto &st = spFabRaw->serviceProvider->searchTarget();
+    auto const &st = spFabRaw->serviceProvider->searchTarget();
 
     QVERIFY2(spFabRaw->serviceProvider != nullptr,
              QStringLiteral("The MediaServerProvider should create a ServiceProvider instance").toLocal8Bit());

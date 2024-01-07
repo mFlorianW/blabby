@@ -67,7 +67,7 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
-    const auto result = resultReader.read();
+    auto const result = resultReader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCritical() << "Failed to read GetCurrentConnectionInfo. Response was:" << resultReader.response();
         return;
@@ -76,7 +76,7 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
 
 GetCurrentConnectionInfoResponse::~GetCurrentConnectionInfoResponse() = default;
 
-const ConnectionInfo &GetCurrentConnectionInfoResponse::connectionInfo() const noexcept
+ConnectionInfo const &GetCurrentConnectionInfoResponse::connectionInfo() const noexcept
 {
     return mConnectionInfo;
 }
@@ -84,7 +84,7 @@ const ConnectionInfo &GetCurrentConnectionInfoResponse::connectionInfo() const n
 std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString const &rawValue) noexcept
 {
     bool ok = false;
-    const auto value = rawValue.toUInt(&ok);
+    auto const value = rawValue.toUInt(&ok);
     if (!ok) {
         return std::nullopt;
     }

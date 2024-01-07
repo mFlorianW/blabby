@@ -24,13 +24,13 @@ public:
     DescriptionFetcherBackend();
     ~DescriptionFetcherBackend() override;
 
-    void fetchDescriptionFrom(const QUrl &url);
+    void fetchDescriptionFrom(QUrl const &url);
 
 Q_SIGNALS:
-    void descriptionFetched(const QString &description, const QUrl &url);
+    void descriptionFetched(QString const &description, QUrl const &url);
 
 protected:
-    virtual void fetchDescription(const QUrl &url) = 0;
+    virtual void fetchDescription(QUrl const &url) = 0;
 };
 
 class BLABBYUPNPAV_EXPORT HttpDescriptionFetcherBackend final : public DescriptionFetcherBackend
@@ -42,7 +42,7 @@ public:
     ~HttpDescriptionFetcherBackend() override = default;
 
 protected:
-    void fetchDescription(const QUrl &url) override;
+    void fetchDescription(QUrl const &url) override;
 
 private Q_SLOTS:
     void replyFinished(QNetworkReply *reply);

@@ -17,7 +17,7 @@ ServiceProviderDouble::ServiceProviderDouble(QString searchTarget)
 {
 }
 
-void ServiceProviderDouble::setSearchTarget(const QString &searchTarget) noexcept
+void ServiceProviderDouble::setSearchTarget(QString const &searchTarget) noexcept
 {
     mSearchTarget = searchTarget;
 }
@@ -27,7 +27,7 @@ void ServiceProviderDouble::startSearch() const noexcept
     mSearchRequested = true;
 }
 
-UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(const QString &usn) const noexcept
+UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(QString const &usn) const noexcept
 {
     if (mDevices.contains(usn)) {
         return mDevices.value(usn);
@@ -50,7 +50,7 @@ bool ServiceProviderDouble::isSearchTriggered() const noexcept
     return mSearchRequested;
 }
 
-std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
+std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceProvider(QString const &searchTarget)
 {
     auto sp = std::make_unique<ServiceProviderDouble>(searchTarget);
     serviceProvider = sp.get();

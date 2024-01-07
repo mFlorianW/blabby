@@ -29,12 +29,12 @@ public:
     ~MediaServerShould() override;
 
 private:
-    MediaServer createMediaServer(const QVector<ServiceDescription> &services,
-                                  const QVector<ServiceControlPointDefinition> &scpds);
+    MediaServer createMediaServer(QVector<ServiceDescription> const &services,
+                                  QVector<ServiceControlPointDefinition> const &scpds);
 
-    ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(const SCPDStateVariable &variable);
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(SCPDStateVariable const &variable);
 
-    ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(const SCPDAction &action);
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(SCPDAction const &action);
 
     MediaServer createMediaServer(DeviceDescription &deviceDescription);
 

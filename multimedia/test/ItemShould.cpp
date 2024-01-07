@@ -34,8 +34,8 @@ void ItemShould::give_the_type()
 
 void ItemShould::give_the_main_and_secondary_text()
 {
-    const auto expMainText = QStringLiteral("Hello");
-    const auto expSecText = QStringLiteral("World");
+    auto const expMainText = QStringLiteral("Hello");
+    auto const expSecText = QStringLiteral("World");
     auto const item = Item{ItemType::Container, expMainText, expSecText};
 
     auto const &mText = item.mainText();
@@ -49,10 +49,10 @@ void ItemShould::give_the_main_and_secondary_text()
 
 void ItemShould::give_the_icon_url()
 {
-    const auto expIconUrl = QStringLiteral("http://exmaple.com/Blubdi.png");
+    auto const expIconUrl = QStringLiteral("http://exmaple.com/Blubdi.png");
     auto const item = Item{ItemType::Container, QString{""}, QString{""}, expIconUrl};
 
-    const auto iconUrl = item.iconUrl();
+    auto const iconUrl = item.iconUrl();
 
     QVERIFY2(iconUrl == expIconUrl,
              QString("The icon URL \"%1\" is not the expected one %2").arg(iconUrl, expIconUrl).toLocal8Bit());
@@ -60,31 +60,31 @@ void ItemShould::give_the_icon_url()
 
 void ItemShould::give_the_path()
 {
-    const auto expPath = QStringLiteral("1234");
+    auto const expPath = QStringLiteral("1234");
     auto const item = Item{ItemType::Container, QString{""}, QString{""}, QString{""}, expPath};
 
-    const auto path = item.path();
+    auto const path = item.path();
 
     QVERIFY2(path == expPath, QString("The path \"%1\" is not the expected one %2").arg(path, expPath).toLocal8Bit());
 }
 
 void ItemShould::give_the_play_url()
 {
-    const auto expUrl = QStringLiteral("http://example.com/123.mp3");
-    const auto item = ItemBuilder{}.withPlayUrl(expUrl).build();
+    auto const expUrl = QStringLiteral("http://example.com/123.mp3");
+    auto const item = ItemBuilder{}.withPlayUrl(expUrl).build();
 
-    const auto playUrl = item.playUrl();
+    auto const playUrl = item.playUrl();
 
     QCOMPARE(playUrl, expUrl);
 }
 
 void ItemShould::give_supported_types()
 {
-    const auto expTypes = QVector<UPnPAV::Protocol>{
+    auto const expTypes = QVector<UPnPAV::Protocol>{
         UPnPAV::Protocol::create(QStringLiteral("http-get:*:audio/mpeg:*")).value_or(UPnPAV::Protocol{})};
-    const auto item = ItemBuilder{}.withSupportedTypes(expTypes).build();
+    auto const item = ItemBuilder{}.withSupportedTypes(expTypes).build();
 
-    const auto supportedTypes = item.supportedTypes();
+    auto const supportedTypes = item.supportedTypes();
 
     QCOMPARE(supportedTypes, expTypes);
 }

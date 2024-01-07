@@ -100,7 +100,7 @@ MediaDeviceShould::MediaDeviceShould()
 MediaDeviceShould::~MediaDeviceShould() = default;
 
 ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutStateVariable(
-    const SCPDStateVariable &variable)
+    SCPDStateVariable const &variable)
 {
     QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables();
     variables.removeAll(variable);
@@ -111,7 +111,7 @@ ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWith
 }
 
 ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutStateVariable(
-    const SCPDStateVariable &variable)
+    SCPDStateVariable const &variable)
 {
     QVector<SCPDStateVariable> variables = validAvTransportStateVariables();
     variables.removeAll(variable);
@@ -161,7 +161,7 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAc
     return devDesc;
 }
 
-ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(const SCPDAction &action)
+ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(SCPDAction const &action)
 {
     QVector<SCPDAction> actions = validConnectionManagerActions();
     actions.removeAll(action);
@@ -238,7 +238,7 @@ void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_Fo
         auto const dev =
             MediaDeviceWithoutAV(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (const InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription const &e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD not found."));
     }
 }
@@ -389,7 +389,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (const InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription const &e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -449,7 +449,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (const InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription const &e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -461,7 +461,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProtocolInfo()
 {
     auto device = MediaDeviceWithoutAV{};
-    const auto expectedMessage =
+    auto const expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -481,7 +481,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetProt
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionIds()
 {
     auto device = MediaDeviceWithoutAV{};
-    const auto expectedMessage =
+    auto const expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -499,7 +499,7 @@ void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurr
 void MediaDeviceShould::shall_Send_The_Correct_SOAP_Message_When_Calling_GetCurrentConnectionInfo()
 {
     auto device = MediaDeviceWithoutAV{};
-    const auto expectedMessage =
+    auto const expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -783,7 +783,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (const InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription const &e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -844,7 +844,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (const InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription const &e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -856,7 +856,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
 void MediaDeviceShould::Send_The_Correct_SOAP_Message_When_Calling_SetAVTransportUri()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -879,7 +879,7 @@ void MediaDeviceShould::Send_The_Correct_SOAP_Message_When_Calling_SetAVTranspor
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_getmediainfo()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -900,7 +900,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getmediainfo(
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransportinfo()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -921,7 +921,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransporti
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_getpositioninfo()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -944,7 +944,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getpositionin
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_getdevicecapabilities()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage =
+    auto const expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -968,7 +968,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getdevicecapa
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransportsettings()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage =
+    auto const expectedMessage =
         QString{"<?xml version=\"1.0\"?>"
                 "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -992,7 +992,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_gettransports
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_stop()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -1015,7 +1015,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_stop()
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_play()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -1039,7 +1039,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_play()
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int_target()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -1064,7 +1064,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_next()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"
@@ -1087,7 +1087,7 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_next()
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_previous()
 {
     auto device = MediaDeviceWithAV{};
-    const auto expectedMessage = QString{"<?xml version=\"1.0\"?>"
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"

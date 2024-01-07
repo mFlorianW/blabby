@@ -11,7 +11,7 @@ namespace UPnPAV
 
 BaseValidator::~BaseValidator() = default;
 
-const QString &UPnPAV::BaseValidator::errorMessage() const noexcept
+QString const &UPnPAV::BaseValidator::errorMessage() const noexcept
 {
     return m_errorMessage;
 }

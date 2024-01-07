@@ -17,7 +17,7 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT ContentDirectoryServiceValidator final : public ServiceValidatorBase
 {
 public:
-    ContentDirectoryServiceValidator(const DeviceDescription &deviceDescription);
+    ContentDirectoryServiceValidator(DeviceDescription const &deviceDescription);
 };
 
 } // namespace UPnPAV

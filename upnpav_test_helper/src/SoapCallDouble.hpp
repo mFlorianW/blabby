@@ -27,7 +27,7 @@ public:
     void setErrorState(bool error);
     bool hasFinishedSuccesful() const noexcept override;
 
-    void setRawMessage(const QString &rawMessage);
+    void setRawMessage(QString const &rawMessage);
     QString rawMessage() const noexcept override;
 
 private:

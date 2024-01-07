@@ -30,18 +30,18 @@ ProviderShould::~ProviderShould() = default;
 
 void ProviderShould::give_the_name_of_the_provider()
 {
-    const auto provider = TestProvider{};
-    const auto expName = QStringLiteral("TestProvider");
-    const auto name = provider.name();
+    auto const provider = TestProvider{};
+    auto const expName = QStringLiteral("TestProvider");
+    auto const name = provider.name();
     QVERIFY2(name == expName,
              QStringLiteral("The provider name %1 doesn't match the expected %2 one").arg(name, expName).toLocal8Bit());
 }
 
 void ProviderShould::give_the_version_of_the_provider()
 {
-    const auto provider = TestProvider{};
-    const auto expVersion = ProviderVersion{.major = quint32{1}, .minor = quint32{2}, .patch = quint32{3}};
-    const auto version = provider.version();
+    auto const provider = TestProvider{};
+    auto const expVersion = ProviderVersion{.major = quint32{1}, .minor = quint32{2}, .patch = quint32{3}};
+    auto const version = provider.version();
 
     QVERIFY2(version == expVersion,
              QStringLiteral("The provider version %1 doesn't match the expected %2 one")

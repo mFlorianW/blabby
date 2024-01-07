@@ -40,7 +40,7 @@ GetCurrentConnectionIdsResponse::GetCurrentConnectionIdsResponse(QString xmlResp
                              qCCritical(upnpavDevice) << "Unknown error for value" << elementName;
                          }
                      });
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;

@@ -37,27 +37,27 @@ public:
                       QVector<ServiceDescription> services = {},
                       QVector<ServiceControlPointDefinition> scpds = {});
 
-    const QString &deviceType() const noexcept;
+    QString const &deviceType() const noexcept;
 
-    const QString &friendlyName() const noexcept;
+    QString const &friendlyName() const noexcept;
 
-    const QString &manufacturer() const noexcept;
+    QString const &manufacturer() const noexcept;
 
-    const QVector<IconDescription> &icons() const noexcept;
+    QVector<IconDescription> const &icons() const noexcept;
 
-    const QString &modelName() const noexcept;
+    QString const &modelName() const noexcept;
 
-    const QString &udn() const noexcept;
+    QString const &udn() const noexcept;
 
-    std::optional<ServiceDescription> service(const QString &serviceName) const noexcept;
-    const QVector<ServiceDescription> &services() const noexcept;
+    std::optional<ServiceDescription> service(QString const &serviceName) const noexcept;
+    QVector<ServiceDescription> const &services() const noexcept;
 
-    const QVector<ServiceControlPointDefinition> &scpds() const noexcept;
+    QVector<ServiceControlPointDefinition> const &scpds() const noexcept;
 
-    std::optional<ServiceControlPointDefinition> scpd(const QString &scpdUrl) const noexcept;
+    std::optional<ServiceControlPointDefinition> scpd(QString const &scpdUrl) const noexcept;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(const DeviceDescription &lhs, const DeviceDescription &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(const DeviceDescription &lhs, const DeviceDescription &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(DeviceDescription const &lhs, DeviceDescription const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(DeviceDescription const &lhs, DeviceDescription const &rhs);
 
 private:
     QString m_deviceType{""};

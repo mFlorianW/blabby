@@ -47,7 +47,7 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
                          }
                      });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
@@ -69,7 +69,7 @@ quint32 BrowseResponse::updateId() const noexcept
     return mUpdateId;
 }
 
-const QVector<MediaServerObject> &BrowseResponse::objects() const noexcept
+QVector<MediaServerObject> const &BrowseResponse::objects() const noexcept
 {
     return m_objects;
 }

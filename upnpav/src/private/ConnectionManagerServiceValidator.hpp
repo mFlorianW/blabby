@@ -18,7 +18,7 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT ConnectionManagerServiceValidator : public ServiceValidatorBase
 {
 public:
-    ConnectionManagerServiceValidator(const DeviceDescription &deviceDescription);
+    ConnectionManagerServiceValidator(DeviceDescription const &deviceDescription);
 };
 
 } // namespace UPnPAV

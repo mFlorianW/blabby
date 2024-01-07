@@ -22,7 +22,7 @@ public:
 
     ServiceControlPointDefinitionParser(QString url);
 
-    void parseServiceControlPointDefinition(const QString &scpd);
+    void parseServiceControlPointDefinition(QString const &scpd);
 
     ServiceControlPointDefinition serviceControlPointDefinition() const noexcept;
 
@@ -67,11 +67,11 @@ private:
 
     QVector<TempSCPDStateVariable> parseServiceStateTable();
     TempSCPDStateVariable parseStateVariable();
-    SCPDStateVariable::DataType parseStateVariableDataType(const QString &dataType);
+    SCPDStateVariable::DataType parseStateVariableDataType(QString const &dataType);
     QVector<QString> parseAllowedValueList();
     SCPDAllowedValueRange parseAllowedValueRange();
 
-    static SCPDArgument::Direction convertStringToDirection(const QString &direction);
+    static SCPDArgument::Direction convertStringToDirection(QString const &direction);
 
 private:
     QString m_url;

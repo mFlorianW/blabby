@@ -35,25 +35,25 @@ public:
                     std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend);
     ~ServiceProvider() override;
 
-    void setSearchTarget(const QString &searchTarget) noexcept override;
+    void setSearchTarget(QString const &searchTarget) noexcept override;
 
     void startSearch() const noexcept override;
 
-    DeviceDescription rootDeviceDescription(const QString &usn) const noexcept override;
+    DeviceDescription rootDeviceDescription(QString const &usn) const noexcept override;
 
 private Q_SLOTS:
-    void handleServiceDiscoveryMessage(const QNetworkDatagram &datagram);
+    void handleServiceDiscoveryMessage(QNetworkDatagram const &datagram);
 
-    void handleFetchedDescription(const QString &description, const QUrl &url);
-    void handleFetchedDeviceDescription(const QString &deviceDescription, const QUrl &url);
-    void handleFetchSCPDDescription(const QString &scpdDescription, const QUrl &url);
+    void handleFetchedDescription(QString const &description, QUrl const &url);
+    void handleFetchedDeviceDescription(QString const &deviceDescription, QUrl const &url);
+    void handleFetchSCPDDescription(QString const &scpdDescription, QUrl const &url);
 
 private:
-    void handleByeByePackage(const ServiceDiscoveryPackage &package);
-    void handlePackage(const ServiceDiscoveryPackage &package);
-    void handleparsedDeviceDescription(const DeviceDescription &deviceDescription);
+    void handleByeByePackage(ServiceDiscoveryPackage const &package);
+    void handlePackage(ServiceDiscoveryPackage const &package);
+    void handleparsedDeviceDescription(DeviceDescription const &deviceDescription);
 
-    static bool validateDestination(const QNetworkDatagram &datagram);
+    static bool validateDestination(QNetworkDatagram const &datagram);
 
 private:
     struct TempDeviceDescription
@@ -85,7 +85,7 @@ class BLABBYUPNPAV_EXPORT ServiceProviderFactory : public IServiceProviderFactor
 public:
     ServiceProviderFactory();
     ~ServiceProviderFactory() override;
-    std::unique_ptr<IServiceProvider> createServiceProvider(const QString &searchTarget) override;
+    std::unique_ptr<IServiceProvider> createServiceProvider(QString const &searchTarget) override;
 };
 
 } // namespace UPnPAV
