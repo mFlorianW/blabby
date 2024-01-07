@@ -33,7 +33,7 @@ void RendererProvider::discover()
 void RendererProvider::onRendererDiscovered(QString const &usn) noexcept
 {
     try {
-        const auto desc = mSp->rootDeviceDescription(usn);
+        auto const desc = mSp->rootDeviceDescription(usn);
         auto upnpRenderer = mRendererFab.create(desc);
         auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
         mRenderers.insert(usn, renderer);
@@ -46,7 +46,7 @@ void RendererProvider::onRendererDiscovered(QString const &usn) noexcept
 void RendererProvider::onRendererDisconnected(QString const &usn) noexcept
 {
     if (mRenderers.contains(usn)) {
-        const auto renderer = mRenderers.value(usn);
+        auto const renderer = mRenderers.value(usn);
         mRenderers.remove(usn);
         Q_EMIT rendererDisconnected(renderer);
     }

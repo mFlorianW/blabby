@@ -16,7 +16,7 @@ qreal AbstractDialog::headerHeight() const noexcept
     return mHeaderHeight;
 }
 
-const QString &AbstractDialog::title() const noexcept
+QString const &AbstractDialog::title() const noexcept
 {
     return mTitle;
 }

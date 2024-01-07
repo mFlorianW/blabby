@@ -20,7 +20,7 @@ ServiceControlPointDefinitionParser::ServiceControlPointDefinitionParser(QString
 {
 }
 
-void ServiceControlPointDefinitionParser::parseServiceControlPointDefinition(const QString &scpd)
+void ServiceControlPointDefinitionParser::parseServiceControlPointDefinition(QString const &scpd)
 {
     m_streamReader.addData(scpd);
 
@@ -48,9 +48,9 @@ void ServiceControlPointDefinitionParser::parseServiceControlPointDefinition(con
 ServiceControlPointDefinition ServiceControlPointDefinitionParser::serviceControlPointDefinition() const noexcept
 {
     QVector<SCPDAction> actions;
-    for (const auto &action : m_actions) {
+    for (auto const &action : m_actions) {
         QVector<SCPDArgument> arguments;
-        for (const auto &argument : action.arguments) {
+        for (auto const &argument : action.arguments) {
             arguments.append(SCPDArgument{argument.name, argument.direction, argument.relatedStateVariable});
         }
 
@@ -58,7 +58,7 @@ ServiceControlPointDefinition ServiceControlPointDefinitionParser::serviceContro
     }
 
     QVector<SCPDStateVariable> variables;
-    for (const auto &variable : m_stateVariablies) {
+    for (auto const &variable : m_stateVariablies) {
         variables.append(SCPDStateVariable{variable.sendEvent,
                                            variable.name,
                                            variable.dataType,
@@ -188,7 +188,7 @@ ServiceControlPointDefinitionParser::TempSCPDStateVariable ServiceControlPointDe
     return stateVariable;
 }
 
-SCPDStateVariable::DataType ServiceControlPointDefinitionParser::parseStateVariableDataType(const QString &dataType)
+SCPDStateVariable::DataType ServiceControlPointDefinitionParser::parseStateVariableDataType(QString const &dataType)
 {
     if (dataType == "ui1") {
         return SCPDStateVariable::DataType::Ui1;
@@ -267,7 +267,7 @@ ServiceControlPointDefinitionParser::SCPDAllowedValueRange ServiceControlPointDe
     return allowedRange;
 }
 
-SCPDArgument::Direction ServiceControlPointDefinitionParser::convertStringToDirection(const QString &direction)
+SCPDArgument::Direction ServiceControlPointDefinitionParser::convertStringToDirection(QString const &direction)
 {
     if (direction == QStringLiteral("in")) {
         return SCPDArgument::Direction::In;

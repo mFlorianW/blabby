@@ -53,19 +53,19 @@ QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
     return mSupportedProtocols;
 }
 
-bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
+bool operator==(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept
 {
     return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
             (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
             (lhs.supportedProtocols() == rhs.supportedProtocols()));
 }
 
-bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept
+bool operator!=(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-QDebug operator<<(QDebug d, const MediaServerObject &serverObject)
+QDebug operator<<(QDebug d, MediaServerObject const &serverObject)
 {
     QDebugStateSaver saver(d);
 
@@ -103,7 +103,7 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     MediaServerObjectBuilder builder;
     // read container attributes
     auto attributes = streamReader.attributes();
-    for (const auto &attribute : attributes) {
+    for (auto const &attribute : attributes) {
         if (attribute.name() == QStringLiteral("id")) {
             builder.withId(attribute.value().toString());
         } else if (attribute.name() == QStringLiteral("parentID")) {
@@ -123,12 +123,12 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
         }
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res")) {
-            const auto attributes = streamReader.attributes();
+            auto const attributes = streamReader.attributes();
             for (auto const &attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
                     auto protos = QVector<Protocol>{};
                     for (auto const &rawProto : attribute.value().toString().split(";")) {
-                        const auto proto = Protocol::create(rawProto);
+                        auto const proto = Protocol::create(rawProto);
                         if (proto.has_value()) {
                             protos.push_back(std::move(proto.value()));
                         }

@@ -30,8 +30,8 @@ public:
 
     ~ServiceProviderError() noexcept;
 
-    ServiceProviderError(const ServiceProviderError &other);
-    ServiceProviderError &operator=(const ServiceProviderError &other);
+    ServiceProviderError(ServiceProviderError const &other);
+    ServiceProviderError &operator=(ServiceProviderError const &other);
 
     ServiceProviderError(ServiceProviderError &&other) noexcept = default;
     ServiceProviderError &operator=(ServiceProviderError &&other) noexcept = default;

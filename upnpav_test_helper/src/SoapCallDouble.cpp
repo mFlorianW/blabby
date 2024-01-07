@@ -30,7 +30,7 @@ QString SoapCallDouble::rawMessage() const noexcept
     return m_rawMessage;
 }
 
-void SoapCallDouble::setRawMessage(const QString &rawMessage)
+void SoapCallDouble::setRawMessage(QString const &rawMessage)
 {
     m_rawMessage = rawMessage;
 }

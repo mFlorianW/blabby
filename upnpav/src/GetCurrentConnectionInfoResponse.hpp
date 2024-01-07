@@ -57,7 +57,7 @@ public:
     Q_DISABLE_COPY_MOVE(GetCurrentConnectionInfoResponse)
     ~GetCurrentConnectionInfoResponse();
 
-    const ConnectionInfo &connectionInfo() const noexcept;
+    ConnectionInfo const &connectionInfo() const noexcept;
 
 private:
     static std::optional<quint32> convertU32Value(QString const &rawValue) noexcept;

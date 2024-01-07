@@ -14,8 +14,8 @@ namespace UPnPAV
 
 SoapMessageGenerator::SoapMessageGenerator() = default;
 
-QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
-                                                     const QString &serviceType,
+QString SoapMessageGenerator::generateXmlMessageBody(SCPDAction const &action,
+                                                     QString const &serviceType,
                                                      ArgumentList args) noexcept
 {
     QString result;
@@ -32,7 +32,7 @@ QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
 
     args = putArgumentsInOrderAsInDefiniton(args, action);
     if (!args.isEmpty()) {
-        for (const auto &arg : args) {
+        for (auto const &arg : args) {
             soapMessabeBody.writeTextElement(arg.name, arg.value);
         }
     }
@@ -46,8 +46,8 @@ QString SoapMessageGenerator::generateXmlMessageBody(const SCPDAction &action,
     return result.trimmed();
 }
 
-QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const QVector<Argument> &args,
-                                                                         const SCPDAction &action)
+QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(QVector<Argument> const &args,
+                                                                         SCPDAction const &action)
 {
     auto inArgs = action.inArguments();
     if (inArgs.size() > args.size()) {
@@ -59,7 +59,7 @@ QVector<Argument> SoapMessageGenerator::putArgumentsInOrderAsInDefiniton(const Q
     QVector<Argument> result{inArgs.size()};
     for (auto index = 0; index < result.size(); ++index) {
         auto actionName = inArgs.at(index).name();
-        auto actionIter = std::find_if(args.begin(), args.end(), [=](const Argument &argument) {
+        auto actionIter = std::find_if(args.begin(), args.end(), [=](Argument const &argument) {
             if (argument.name == actionName) {
                 return true;
             }

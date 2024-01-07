@@ -32,7 +32,7 @@ Source::Source(QString sourceName, QString iconUrl)
 {
 }
 
-const QString &Source::sourceName() const noexcept
+QString const &Source::sourceName() const noexcept
 {
     return d->mSourceName;
 }

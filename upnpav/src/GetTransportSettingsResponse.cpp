@@ -33,7 +33,7 @@ GetTransportSettingsResponse::GetTransportSettingsResponse(QString rawMsg,
                          }
                      });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read the GetTransportSettingsResponse. Error:"
                                  << static_cast<qint32>(result) << "Response:" << rawMsg;
@@ -46,7 +46,7 @@ GetTransportSettingsResponse::PlayMode GetTransportSettingsResponse::playMode() 
     return d->mPlayMode;
 }
 
-const QString &GetTransportSettingsResponse::recQualityMode() const noexcept
+QString const &GetTransportSettingsResponse::recQualityMode() const noexcept
 {
     return d->mRecQMode;
 }

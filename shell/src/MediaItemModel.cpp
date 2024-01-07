@@ -52,7 +52,7 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
     if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
     } else if (dispRole == DisplayRole::MediaItemIconUrl) {
-        const auto iconUrl = item.iconUrl();
+        auto const iconUrl = item.iconUrl();
         if (iconUrl.isEmpty()) {
             return item.type() == Multimedia::ItemType::Container
                        ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
@@ -91,13 +91,13 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
         return;
     }
 
-    const auto &items = mMediaSrc->mediaItems();
+    auto const &items = mMediaSrc->mediaItems();
     if (idx >= items.size() or idx < 0) {
         qCritical(shell) << "Failed to activate MediaItem. Error: Invalid MediaItem index" << idx;
         return;
     }
 
-    const auto &item = items.at(idx);
+    auto const &item = items.at(idx);
     if (item.type() == Multimedia::ItemType::Container) {
         mMediaSrc->navigateTo(item.path());
     } else {

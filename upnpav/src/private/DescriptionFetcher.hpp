@@ -22,10 +22,10 @@ public:
     DescriptionFetcher(DescriptionFetcherBackend *backend);
     ~DescriptionFetcher() override;
 
-    void fetchDescription(const QUrl &url);
+    void fetchDescription(QUrl const &url);
 
 Q_SIGNALS:
-    void descriptionFetched(const QString &description, const QUrl &url);
+    void descriptionFetched(QString const &description, QUrl const &url);
 
 private:
     DescriptionFetcherBackend *m_backend;

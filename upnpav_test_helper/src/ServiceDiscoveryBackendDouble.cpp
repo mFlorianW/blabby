@@ -16,12 +16,12 @@ ServiceDiscoveryBackendDouble::ServiceDiscoveryBackendDouble()
 
 ServiceDiscoveryBackendDouble::~ServiceDiscoveryBackendDouble() = default;
 
-void ServiceDiscoveryBackendDouble::sendResponseForMediaServerRequest(const QNetworkDatagram &datagram)
+void ServiceDiscoveryBackendDouble::sendResponseForMediaServerRequest(QNetworkDatagram const &datagram)
 {
     Q_EMIT receivedNetworkDatagram(datagram);
 }
 
-void ServiceDiscoveryBackendDouble::sendNotifyMessage(const QNetworkDatagram &datagram)
+void ServiceDiscoveryBackendDouble::sendNotifyMessage(QNetworkDatagram const &datagram)
 {
     Q_EMIT receivedNetworkDatagram(datagram);
 }

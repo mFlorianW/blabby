@@ -32,8 +32,8 @@ public:
 
     QString eventUrl() const;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(const ServiceDescription &lhs, const ServiceDescription &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(const ServiceDescription &lhs, const ServiceDescription &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(ServiceDescription const &lhs, ServiceDescription const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(ServiceDescription const &lhs, ServiceDescription const &rhs);
 
 private:
     QExplicitlySharedDataPointer<ServiceDescriptionData> d;

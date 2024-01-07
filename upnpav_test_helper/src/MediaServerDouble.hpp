@@ -17,7 +17,7 @@ class MediaServerFactory final : public UPnPAV::MediaServerFactory
 {
 public:
     quint32 howOftenCalled{0};
-    std::unique_ptr<UPnPAV::MediaServer> createMediaServer(const UPnPAV::DeviceDescription &deviceDescription) override;
+    std::unique_ptr<UPnPAV::MediaServer> createMediaServer(UPnPAV::DeviceDescription const &deviceDescription) override;
 };
 
 struct LastBrowseRequest
@@ -25,12 +25,12 @@ struct LastBrowseRequest
     QString objectId{""};
     UPnPAV::MediaServer::BrowseFlag browseFlag{UPnPAV::MediaServer::BrowseFlag::MetaData};
 
-    bool operator==(const LastBrowseRequest &rhs) const noexcept
+    bool operator==(LastBrowseRequest const &rhs) const noexcept
     {
         return (objectId == rhs.objectId) && (browseFlag == rhs.browseFlag);
     }
 
-    bool operator!=(const LastBrowseRequest &rhs) const noexcept
+    bool operator!=(LastBrowseRequest const &rhs) const noexcept
     {
         return !operator==(rhs);
     }
@@ -43,9 +43,9 @@ public:
     MediaServer();
     ~MediaServer() override;
 
-    const QString &name() const noexcept override;
+    QString const &name() const noexcept override;
 
-    const QUrl &iconUrl() const noexcept override;
+    QUrl const &iconUrl() const noexcept override;
 
     void setIconUrl(QString const &iconUrl) noexcept;
 
@@ -57,10 +57,10 @@ public:
 
     std::unique_ptr<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
-    std::unique_ptr<UPnPAV::PendingSoapCall> browse(const QString &objectId,
+    std::unique_ptr<UPnPAV::PendingSoapCall> browse(QString const &objectId,
                                                     BrowseFlag browseFlag,
-                                                    const QString &filter,
-                                                    const QString &sortCriteria) noexcept override;
+                                                    QString const &filter,
+                                                    QString const &sortCriteria) noexcept override;
 
 public:
     LastBrowseRequest lastBrowseRequest{};

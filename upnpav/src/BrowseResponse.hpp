@@ -27,7 +27,7 @@ public:
 
     quint32 updateId() const noexcept;
 
-    const QVector<MediaServerObject> &objects() const noexcept;
+    QVector<MediaServerObject> const &objects() const noexcept;
 
 private:
     quint32 mNumberReturned{0};

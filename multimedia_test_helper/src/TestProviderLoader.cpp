@@ -24,7 +24,7 @@ TestProviderLoader::TestProviderLoader(std::size_t count)
     return mProviders;
 }
 
-const Multimedia::Providers &TestProviderLoader::providers() const noexcept
+Multimedia::Providers const &TestProviderLoader::providers() const noexcept
 {
     return mProviders;
 }

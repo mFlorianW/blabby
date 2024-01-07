@@ -37,9 +37,9 @@ void SourceShould::give_the_name_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expName = QStringLiteral("MediaServer");
+    auto const expName = QStringLiteral("MediaServer");
 
-    const auto name = mediaServerSource.sourceName();
+    auto const name = mediaServerSource.sourceName();
 
     QVERIFY2(
         name == expName,
@@ -50,9 +50,9 @@ void SourceShould::give_the_icon_of_the_media_server()
 {
     auto mediaServer = createMediaServer();
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expIcon = QStringLiteral("http://localhost:8200/icons/sm.png");
+    auto const expIcon = QStringLiteral("http://localhost:8200/icons/sm.png");
 
-    const auto icon = mediaServerSource.iconUrl();
+    auto const icon = mediaServerSource.iconUrl();
 
     QVERIFY2(
         icon == expIcon,
@@ -64,7 +64,7 @@ void SourceShould::request_root_media_items_on_init()
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expBrowseRequest =
+    auto const expBrowseRequest =
         UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("0"),
                                            .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
     QCOMPARE(mediaServerRaw->lastBrowseRequest, expBrowseRequest);
@@ -76,7 +76,7 @@ void SourceShould::give_root_media_items_on_init()
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
+    auto const expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
                                                                        QStringLiteral("MyMusic"),
                                                                        QString{""},
                                                                        QString{""},
@@ -97,10 +97,10 @@ void SourceShould::send_correct_request_on_navigation()
     auto mediaServer = createMediaServer();
     auto mediaServerRaw = mediaServer.get();
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expBrowseRequest =
+    auto const expBrowseRequest =
         UPnPAV::Doubles::LastBrowseRequest{.objectId = QStringLiteral("12"),
                                            .browseFlag = UPnPAV::MediaServer::BrowseFlag::DirectChildren};
-    const auto navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
 
     mediaServerSource.navigateTo(QStringLiteral("12"));
     Q_EMIT mediaServerRaw->soapCall->finished();
@@ -115,7 +115,7 @@ void SourceShould::request_root_media_items_on_navigation()
     auto mediaServerRaw = mediaServer.get();
     mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
+    auto const expectedMediaItems = Multimedia::Items{Multimedia::Item{Multimedia::ItemType::Container,
                                                                        QStringLiteral("MyMusic"),
                                                                        QString{""},
                                                                        QString{""},
@@ -137,7 +137,7 @@ void SourceShould::give_a_default_icon_when_no_icon_is_set()
     auto mediaServer = createMediaServer();
     mediaServer->setIconUrl(QString(""));
     auto mediaServerSource = Source{std::move(mediaServer)};
-    const auto expIconUrl = QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg");
+    auto const expIconUrl = QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg");
 
     QCOMPARE(mediaServerSource.iconUrl(), expIconUrl);
 }

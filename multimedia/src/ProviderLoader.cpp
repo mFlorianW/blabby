@@ -18,7 +18,7 @@ ProviderLoader::~ProviderLoader() = default;
 
 Providers const &ProviderLoader::load(QStringList const &paths) noexcept
 {
-    for (const QString &path : std::as_const(paths)) {
+    for (QString const &path : std::as_const(paths)) {
         QDir dir{path};
         if (!dir.exists(path)) {
             qCWarning(mmProvider) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";

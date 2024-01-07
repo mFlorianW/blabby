@@ -20,10 +20,10 @@ HttpSoapMessageTransmitter::HttpSoapMessageTransmitter()
 
 HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter() = default;
 
-QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(const QString &url,
-                                                                     const QString &actionName,
-                                                                     const QString &serviceType,
-                                                                     const QString &xmlBody) noexcept
+QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString const &url,
+                                                                     QString const &actionName,
+                                                                     QString const &serviceType,
+                                                                     QString const &xmlBody) noexcept
 {
     QByteArray soapHeader = QString{serviceType + "#" + actionName}.toUtf8();
     QNetworkRequest networkRequest{url};

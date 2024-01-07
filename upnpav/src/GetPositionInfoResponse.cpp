@@ -70,7 +70,7 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
                                  << "Failed to read" << elementName << "Error:" << static_cast<qint32>(result);
                          }
                      });
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetCurrentConnectionInfo. Response was:" << reader.response();
         return;
@@ -82,27 +82,27 @@ quint32 GetPositionInfoResponse::track() const noexcept
     return d->mTrack;
 }
 
-const QTime &GetPositionInfoResponse::trackDuration() const noexcept
+QTime const &GetPositionInfoResponse::trackDuration() const noexcept
 {
     return d->mTrackDuration;
 }
 
-const QString &GetPositionInfoResponse::trackMetaData() const noexcept
+QString const &GetPositionInfoResponse::trackMetaData() const noexcept
 {
     return d->mTrackMetaData;
 }
 
-const QString &GetPositionInfoResponse::trackUri() const noexcept
+QString const &GetPositionInfoResponse::trackUri() const noexcept
 {
     return d->mTrackUri;
 }
 
-const QTime &GetPositionInfoResponse::relTime() const noexcept
+QTime const &GetPositionInfoResponse::relTime() const noexcept
 {
     return d->mRelTime;
 }
 
-const QTime &GetPositionInfoResponse::absTime() const noexcept
+QTime const &GetPositionInfoResponse::absTime() const noexcept
 {
     return d->mAbsTime;
 }

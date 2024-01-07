@@ -13,7 +13,7 @@
 namespace UPnPAV
 {
 
-GetProtocolInfoResponse::GetProtocolInfoResponse(const QString &xmlResponse)
+GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse)
 {
     auto responseReader = QXmlStreamReader{xmlResponse};
     while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError()) {
@@ -63,18 +63,18 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse,
             }
         });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetProtocolInfo response. Response was:" << reader.response();
         return;
     }
 }
 
-const QVector<Protocol> &GetProtocolInfoResponse::sourceProtocols() const noexcept
+QVector<Protocol> const &GetProtocolInfoResponse::sourceProtocols() const noexcept
 {
     return mSourceProtocols;
 }
-const QVector<Protocol> &GetProtocolInfoResponse::sinkProtocols() const noexcept
+QVector<Protocol> const &GetProtocolInfoResponse::sinkProtocols() const noexcept
 {
     return mSinkProtocols;
 }
@@ -86,9 +86,9 @@ std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(
         return result;
     }
 
-    const auto elements = rawResult.split(",");
+    auto const elements = rawResult.split(",");
     for (auto const &rawProto : std::as_const(elements)) {
-        const auto proto = Protocol::create(rawProto);
+        auto const proto = Protocol::create(rawProto);
         if (proto.has_value()) {
             result.push_back(proto.value());
         }

@@ -33,8 +33,8 @@ public:
 
     QString relatedStateVariable() const;
 
-    friend bool operator==(const SCPDArgument &lhs, const SCPDArgument &rhs);
-    friend bool operator!=(const SCPDArgument &lhs, const SCPDArgument &rhs);
+    friend bool operator==(SCPDArgument const &lhs, SCPDArgument const &rhs);
+    friend bool operator!=(SCPDArgument const &lhs, SCPDArgument const &rhs);
 
 private:
     QExplicitlySharedDataPointer<SCPDArgumentData> d;

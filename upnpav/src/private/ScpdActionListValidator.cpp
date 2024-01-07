@@ -23,7 +23,7 @@ ScpdActionListValidator::ScpdActionListValidator(QString scpdName,
 bool ScpdActionListValidator::validate() noexcept
 {
     for (auto &actionName : m_actionNames) {
-        auto iter = std::find_if(m_scpd.actionList().begin(), m_scpd.actionList().end(), [=](const SCPDAction &action) {
+        auto iter = std::find_if(m_scpd.actionList().begin(), m_scpd.actionList().end(), [=](SCPDAction const &action) {
             if (actionName == action.name()) {
                 return true;
             }

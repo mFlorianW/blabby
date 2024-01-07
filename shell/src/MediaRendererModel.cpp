@@ -53,8 +53,8 @@ QVariant MediaRendererModel::data(QModelIndex const &index, int role) const noex
         return {};
     }
 
-    const auto renderer = mRenderers.at(index.row());
-    const auto dispRole = static_cast<DisplayRole>(role);
+    auto const renderer = mRenderers.at(index.row());
+    auto const dispRole = static_cast<DisplayRole>(role);
     if (dispRole == DisplayRole::MediaRendererTitle) {
         return renderer->name();
     } else if (dispRole == DisplayRole::MediaRendererIconUrl) {
@@ -78,7 +78,7 @@ void MediaRendererModel::activateRenderer(QModelIndex const &index)
         return;
     }
 
-    const auto renderer = mRenderers.at(index.row());
+    auto const renderer = mRenderers.at(index.row());
     if (mActiveRenderer != renderer) {
         mActiveRenderer = renderer;
         qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
@@ -89,7 +89,7 @@ void MediaRendererModel::activateRenderer(QModelIndex const &index)
 
 void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const &renderer)
 {
-    const auto newIndex = static_cast<int>(mRenderers.size());
+    auto const newIndex = static_cast<int>(mRenderers.size());
     beginInsertRows(index(newIndex), newIndex, newIndex);
     mRenderers.push_back(std::move(renderer));
     endInsertRows();
@@ -101,7 +101,7 @@ void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Rend
         return src == renderer;
     });
     if (sourceIndex != mRenderers.cend()) {
-        const auto idx = static_cast<int>(std::distance(mRenderers.cbegin(), sourceIndex));
+        auto const idx = static_cast<int>(std::distance(mRenderers.cbegin(), sourceIndex));
         beginRemoveRows(index(idx), idx, idx);
         mRenderers.remove(static_cast<int>(idx));
         qCDebug(shell) << "Remove MediaRenderer index:" << idx << "from renderers. Address:" << renderer.get()

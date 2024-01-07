@@ -45,11 +45,11 @@ GetMediaInfoResponseShould::~GetMediaInfoResponseShould() = default;
 
 void GetMediaInfoResponseShould::the_get_media_response_shall_return_the_nr_tracks_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     constexpr auto expectedNrTracks = quint32{12};
 
-    const auto nrTracks = resp.numberOfTracks();
+    auto const nrTracks = resp.numberOfTracks();
 
     QVERIFY2(nrTracks == expectedNrTracks,
              QString("The numberOfTracks %1 is not the expected %2")
@@ -59,11 +59,11 @@ void GetMediaInfoResponseShould::the_get_media_response_shall_return_the_nr_trac
 
 void GetMediaInfoResponseShould::give_the_media_duration_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedDuration = QTime(1, 23, 23, 123);
 
-    const auto duration = resp.mediaDuration();
+    auto const duration = resp.mediaDuration();
 
     QVERIFY(duration.has_value() == true);
     QVERIFY2(duration.value_or(QTime{}) == expectedDuration,
@@ -74,11 +74,11 @@ void GetMediaInfoResponseShould::give_the_media_duration_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_current_uri_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedCurrentUri = QStringLiteral("http://myworld.com/music.mp3");
 
-    const auto currentUri = resp.currentUri();
+    auto const currentUri = resp.currentUri();
 
     QVERIFY2(currentUri == expectedCurrentUri,
              QString("The currentUri %1 is not the expected %2").arg(currentUri, expectedCurrentUri).toLocal8Bit());
@@ -87,11 +87,11 @@ void GetMediaInfoResponseShould::give_the_current_uri_of_a_response()
 void GetMediaInfoResponseShould::give_the_current_meta_data_of_a_response()
 {
 
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedCurrentMetaData = QStringLiteral("NOT_IMPLEMENTED");
 
-    const auto currentMetaData = resp.currentUriMetaData();
+    auto const currentMetaData = resp.currentUriMetaData();
 
     QVERIFY2(currentMetaData == expectedCurrentMetaData,
              QString("The currentUriMetaData %1 is not the expected %2")
@@ -101,11 +101,11 @@ void GetMediaInfoResponseShould::give_the_current_meta_data_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_next_uri_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedNextUri = QStringLiteral("http://myworld.com/music2.mp3");
 
-    const auto nextUri = resp.nextUri();
+    auto const nextUri = resp.nextUri();
 
     QVERIFY2(nextUri == expectedNextUri,
              QString("The nextUri %1 is not the expected %2").arg(nextUri, expectedNextUri).toLocal8Bit());
@@ -113,11 +113,11 @@ void GetMediaInfoResponseShould::give_the_next_uri_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_next_uri_meta_data_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedNextUriMetaData = QStringLiteral("NOT_IMPLEMENTED");
 
-    const auto nextUriMetaData = resp.nextUriMetaData();
+    auto const nextUriMetaData = resp.nextUriMetaData();
 
     QVERIFY2(nextUriMetaData == expectedNextUriMetaData,
              QString("The currentUri %1 is not the expected %2")
@@ -127,11 +127,11 @@ void GetMediaInfoResponseShould::give_the_next_uri_meta_data_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_play_medium_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedPlayMedium = QStringLiteral("NETWORK");
 
-    const auto playMedium = resp.playMedium();
+    auto const playMedium = resp.playMedium();
 
     QVERIFY2(playMedium == expectedPlayMedium,
              QString("The currentUri %1 is not the expected %2").arg(playMedium, expectedPlayMedium).toLocal8Bit());
@@ -139,11 +139,11 @@ void GetMediaInfoResponseShould::give_the_play_medium_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_record_medium_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedRecordMedium = QStringLiteral("HDD");
 
-    const auto recordMedium = resp.recordMedium();
+    auto const recordMedium = resp.recordMedium();
 
     QVERIFY2(recordMedium == expectedRecordMedium,
              QString("The currentUri %1 is not the expected %2").arg(recordMedium, expectedRecordMedium).toLocal8Bit());
@@ -151,11 +151,11 @@ void GetMediaInfoResponseShould::give_the_record_medium_of_a_response()
 
 void GetMediaInfoResponseShould::give_the_write_status_of_a_response()
 {
-    const auto resp =
+    auto const resp =
         GetMediaInfoResponse(getValidGetMediaInfoResponse(), validAvTranportServiceSCPD(), createGetMediaInfoAction());
     auto expectedWriteStatus = QStringLiteral("WRITEABLE");
 
-    const auto writeStatus = resp.writeStatus();
+    auto const writeStatus = resp.writeStatus();
 
     QVERIFY2(writeStatus == expectedWriteStatus,
              QString("The currentUri %1 is not the expected %2").arg(writeStatus, expectedWriteStatus).toLocal8Bit());

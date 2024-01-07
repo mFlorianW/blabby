@@ -22,7 +22,7 @@ Provider::Provider(QString name, ProviderVersion version)
 
 Provider::~Provider() = default;
 
-const QString &Provider::name() const noexcept
+QString const &Provider::name() const noexcept
 {
     return mName;
 }

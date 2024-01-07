@@ -37,7 +37,7 @@ public:
 
     Q_DISABLE_COPY_MOVE(ResponseReader)
 
-    const QString &response() const noexcept;
+    QString const &response() const noexcept;
 
     ReadResult read() noexcept;
 

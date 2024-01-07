@@ -118,7 +118,7 @@ public:
      *
      * @param soapCall The explicit soap call.
      */
-    PendingSoapCall(const QSharedPointer<SoapCall> &soapCall);
+    PendingSoapCall(QSharedPointer<SoapCall> const &soapCall);
 
     /**
      * Default desctructor
@@ -146,7 +146,7 @@ public:
      *
      * @return The error description for the case when the call failed.
      */
-    const QString &errorDescription() const noexcept;
+    QString const &errorDescription() const noexcept;
 
     /**
      * Indicates the result of the SOAP call. True means the call finished without

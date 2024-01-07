@@ -27,12 +27,12 @@ class BLABBYUPNPAV_EXPORT SoapMessageGenerator
 public:
     SoapMessageGenerator();
 
-    QString generateXmlMessageBody(const SCPDAction &action,
-                                   const QString &serviceType,
+    QString generateXmlMessageBody(SCPDAction const &action,
+                                   QString const &serviceType,
                                    ArgumentList args = {}) noexcept;
 
 private:
-    static QVector<Argument> putArgumentsInOrderAsInDefiniton(const QVector<Argument> &args, const SCPDAction &action);
+    static QVector<Argument> putArgumentsInOrderAsInDefiniton(QVector<Argument> const &args, SCPDAction const &action);
 };
 
 } // namespace UPnPAV

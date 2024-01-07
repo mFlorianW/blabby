@@ -19,7 +19,7 @@ DescriptionFetcherBackend::DescriptionFetcherBackend()
 
 DescriptionFetcherBackend::~DescriptionFetcherBackend() = default;
 
-void DescriptionFetcherBackend::fetchDescriptionFrom(const QUrl &url)
+void DescriptionFetcherBackend::fetchDescriptionFrom(QUrl const &url)
 {
     fetchDescription(url);
 }
@@ -29,7 +29,7 @@ HttpDescriptionFetcherBackend::HttpDescriptionFetcherBackend()
     (void)connect(&m_sender, &QNetworkAccessManager::finished, this, &HttpDescriptionFetcherBackend::replyFinished);
 }
 
-void HttpDescriptionFetcherBackend::fetchDescription(const QUrl &url)
+void HttpDescriptionFetcherBackend::fetchDescription(QUrl const &url)
 {
     auto reply = m_sender.get(QNetworkRequest{url});
     if (reply == nullptr) {

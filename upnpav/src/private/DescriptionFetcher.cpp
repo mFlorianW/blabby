@@ -22,7 +22,7 @@ DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
 
 DescriptionFetcher::~DescriptionFetcher() = default;
 
-void DescriptionFetcher::fetchDescription(const QUrl &url)
+void DescriptionFetcher::fetchDescription(QUrl const &url)
 {
     m_backend->fetchDescriptionFrom(url);
 }

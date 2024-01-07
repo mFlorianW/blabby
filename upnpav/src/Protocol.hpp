@@ -22,8 +22,8 @@ struct BLABBYUPNPAV_EXPORT Protocol
     QString contentFormat;
     QString additionalInfo;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(const Protocol &lhs, const Protocol &rhs) noexcept;
-    BLABBYUPNPAV_EXPORT friend bool operator!=(const Protocol &lhs, const Protocol &rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator==(Protocol const &lhs, Protocol const &rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator!=(Protocol const &lhs, Protocol const &rhs) noexcept;
 
     /**
      * Creates a @ref UPnPAV::Protocol from a string.
@@ -36,4 +36,4 @@ struct BLABBYUPNPAV_EXPORT Protocol
 
 } // namespace UPnPAV
 
-BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::Protocol &proto);
+BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::Protocol const &proto);

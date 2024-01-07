@@ -10,7 +10,7 @@
 namespace UPnPAV
 {
 
-ContentDirectoryServiceValidator::ContentDirectoryServiceValidator(const DeviceDescription &deviceDescription)
+ContentDirectoryServiceValidator::ContentDirectoryServiceValidator(DeviceDescription const &deviceDescription)
 {
     m_serviceName = "ContentDirectory";
     m_serviceType = "urn:schemas-upnp-org:service:ContentDirectory";

@@ -15,7 +15,7 @@ namespace UPnPAV
 ServiceDiscoveryBackend::ServiceDiscoveryBackend() = default;
 ServiceDiscoveryBackend::~ServiceDiscoveryBackend() = default;
 
-void ServiceDiscoveryBackend::sendSearchRequest(const QNetworkDatagram &requestMessage)
+void ServiceDiscoveryBackend::sendSearchRequest(QNetworkDatagram const &requestMessage)
 {
     sendDiscoveryRequest(requestMessage);
 }
@@ -36,7 +36,7 @@ UdpServiceDiscoveryBackend::UdpServiceDiscoveryBackend()
     }
 }
 
-void UdpServiceDiscoveryBackend::sendDiscoveryRequest(const QNetworkDatagram &datagram)
+void UdpServiceDiscoveryBackend::sendDiscoveryRequest(QNetworkDatagram const &datagram)
 {
     m_udpSocket.writeDatagram(datagram);
 }
@@ -44,7 +44,7 @@ void UdpServiceDiscoveryBackend::sendDiscoveryRequest(const QNetworkDatagram &da
 void UdpServiceDiscoveryBackend::handleReceivedData()
 {
     while (m_udpSocket.hasPendingDatagrams()) {
-        const auto datagram = m_udpSocket.receiveDatagram();
+        auto const datagram = m_udpSocket.receiveDatagram();
         Q_EMIT receivedNetworkDatagram(datagram);
     }
 }

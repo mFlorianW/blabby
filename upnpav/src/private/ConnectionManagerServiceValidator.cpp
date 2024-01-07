@@ -12,7 +12,7 @@
 namespace UPnPAV
 {
 
-ConnectionManagerServiceValidator::ConnectionManagerServiceValidator(const DeviceDescription &deviceDescription)
+ConnectionManagerServiceValidator::ConnectionManagerServiceValidator(DeviceDescription const &deviceDescription)
 {
     m_serviceName = "ConnectionManager";
     m_serviceType = "urn:schemas-upnp-org:service:ConnectionManager";

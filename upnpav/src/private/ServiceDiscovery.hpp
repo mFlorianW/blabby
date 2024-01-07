@@ -25,10 +25,10 @@ public:
     ServiceDiscovery(ServiceDiscoveryBackend *discoveryBackend);
     ~ServiceDiscovery() override;
 
-    void sendSearchRequest(const QString &searchTarget);
+    void sendSearchRequest(QString const &searchTarget);
 
 Q_SIGNALS:
-    void dataReceived(const QNetworkDatagram &response);
+    void dataReceived(QNetworkDatagram const &response);
 
 private:
     ServiceDiscoveryBackend *m_discoveryBackend;

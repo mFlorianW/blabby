@@ -41,8 +41,8 @@ void GetDeviceCapabilitiesResponseShould::give_the_play_media_of_the_response()
     auto resp = GetDeviceCapabilitiesResponse{getValidGetDeviceCapabilitiesResponse(),
                                               validAvTranportServiceSCPD(),
                                               createGetDeviceCapabilitiesAction()};
-    const auto expPlayMedia = QStringList{QStringLiteral("NONE"), QStringLiteral("NETWORK")};
-    const auto playMedia = resp.playMedia();
+    auto const expPlayMedia = QStringList{QStringLiteral("NONE"), QStringLiteral("NETWORK")};
+    auto const playMedia = resp.playMedia();
 
     QVERIFY2(playMedia == expPlayMedia,
              QString{"The playMedia %1 value is not the expected one %2"}
@@ -55,8 +55,8 @@ void GetDeviceCapabilitiesResponseShould::give_the_rec_media_of_the_response()
     auto resp = GetDeviceCapabilitiesResponse{getValidGetDeviceCapabilitiesResponse(),
                                               validAvTranportServiceSCPD(),
                                               createGetDeviceCapabilitiesAction()};
-    const auto expRecMedia = QStringList{QStringLiteral("NETWORK"), QStringLiteral("HDD")};
-    const auto recMedia = resp.recMedia();
+    auto const expRecMedia = QStringList{QStringLiteral("NETWORK"), QStringLiteral("HDD")};
+    auto const recMedia = resp.recMedia();
 
     QVERIFY2(recMedia == expRecMedia,
              QString{"The recMedia %1 value is not the expected one %2"}
@@ -69,8 +69,8 @@ void GetDeviceCapabilitiesResponseShould::give_the_rec_quality_modes_of_the_resp
     auto resp = GetDeviceCapabilitiesResponse{getValidGetDeviceCapabilitiesResponse(),
                                               validAvTranportServiceSCPD(),
                                               createGetDeviceCapabilitiesAction()};
-    const auto expRecQModes = QStringList{QStringLiteral("0:EP"), QStringLiteral("1:LP"), QStringLiteral("2:SP")};
-    const auto recQModes = resp.recQualityModes();
+    auto const expRecQModes = QStringList{QStringLiteral("0:EP"), QStringLiteral("1:LP"), QStringLiteral("2:SP")};
+    auto const recQModes = resp.recQualityModes();
 
     QVERIFY2(recQModes == expRecQModes,
              QString{"The recQualityModes \"%1\" value is not the expected one \"%2\""}

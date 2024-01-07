@@ -41,7 +41,7 @@ void MediaRendererModelShould::give_correct_display_roles_for_the_ui()
                        QByteArray{"mediaRendererActive"}),
     };
 
-    const auto roleNames = mModel->roleNames();
+    auto const roleNames = mModel->roleNames();
 
     QCOMPARE(roleNames, expRoles);
 }
@@ -56,7 +56,7 @@ void MediaRendererModelShould::increase_the_rowCount_on_new_connected_mediarende
     auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
 
     Q_EMIT mServiceProvider->serviceConnected("RendererConnected");
-    const auto rowCount = mModel->rowCount();
+    auto const rowCount = mModel->rowCount();
 
     QCOMPARE(rowCount, 1);
 }
@@ -79,10 +79,10 @@ void MediaRendererModelShould::give_correct_data_for_the_ui()
     auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
     Q_EMIT mServiceProvider->serviceConnected("RendererConnected");
 
-    const auto rendererName =
+    auto const rendererName =
         mModel->data(mModel->index(0), static_cast<int>(MediaRendererModel::DisplayRole::MediaRendererTitle))
             .toString();
-    const auto rendererIconUrl =
+    auto const rendererIconUrl =
         mModel->data(mModel->index(0), static_cast<int>(MediaRendererModel::DisplayRole::MediaRendererIconUrl))
             .toString();
 

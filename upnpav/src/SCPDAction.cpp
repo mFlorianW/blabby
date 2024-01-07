@@ -21,12 +21,12 @@ SCPDAction::SCPDAction(QString name, QVector<SCPDArgument> arguments)
 {
 }
 
-const QString &SCPDAction::name() const
+QString const &SCPDAction::name() const
 {
     return d->mName;
 }
 
-const QVector<SCPDArgument> &SCPDAction::arguments() const
+QVector<SCPDArgument> const &SCPDAction::arguments() const
 {
     return d->mArguments;
 }
@@ -34,7 +34,7 @@ const QVector<SCPDArgument> &SCPDAction::arguments() const
 QVector<SCPDArgument> SCPDAction::inArguments() const noexcept
 {
     QVector<SCPDArgument> result;
-    for (const auto &arg : std::as_const(d->mArguments)) {
+    for (auto const &arg : std::as_const(d->mArguments)) {
         if (arg.direction() == SCPDArgument::In) {
             result.append(arg);
         }
@@ -54,7 +54,7 @@ QVector<SCPDArgument> SCPDAction::outArguments() const noexcept
     return result;
 }
 
-bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
+bool operator==(SCPDAction const &lhs, SCPDAction const &rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -63,7 +63,7 @@ bool operator==(const SCPDAction &lhs, const SCPDAction &rhs)
     return ((lhs.d->mName == rhs.d->mName) && (lhs.d->mArguments == rhs.d->mArguments));
 }
 
-bool operator!=(const SCPDAction &lhs, const SCPDAction &rhs)
+bool operator!=(SCPDAction const &lhs, SCPDAction const &rhs)
 {
     return !(lhs == rhs);
 }

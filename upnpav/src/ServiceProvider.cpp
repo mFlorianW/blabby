@@ -50,7 +50,7 @@ ServiceProvider::ServiceProvider(const QString searchTarget,
 
 ServiceProvider::~ServiceProvider() = default;
 
-void ServiceProvider::setSearchTarget(const QString &searchTarget) noexcept
+void ServiceProvider::setSearchTarget(QString const &searchTarget) noexcept
 {
     m_searchTarget = searchTarget;
 }
@@ -60,23 +60,23 @@ void ServiceProvider::startSearch() const noexcept
     m_serviceDiscovery->sendSearchRequest(m_searchTarget);
 }
 
-DeviceDescription ServiceProvider::rootDeviceDescription(const QString &usn) const noexcept
+DeviceDescription ServiceProvider::rootDeviceDescription(QString const &usn) const noexcept
 {
     return m_deviceDescriptions.value(usn);
 }
 
-bool ServiceProvider::validateDestination(const QNetworkDatagram &datagram)
+bool ServiceProvider::validateDestination(QNetworkDatagram const &datagram)
 {
     return (datagram.destinationAddress() == QHostAddress{"239.255.255.250"}) && (datagram.destinationPort() == 1900);
 }
 
-void ServiceProvider::handleByeByePackage(const ServiceDiscoveryPackage &package)
+void ServiceProvider::handleByeByePackage(ServiceDiscoveryPackage const &package)
 {
     m_knownDevices.removeAll(package.deviceId());
     Q_EMIT serviceDisconnected(package.deviceId());
 }
 
-void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
+void ServiceProvider::handlePackage(ServiceDiscoveryPackage const &package)
 {
     // We already know the device we can ignore the message.
     if (m_knownDevices.contains(package.deviceId())) {
@@ -95,7 +95,7 @@ void ServiceProvider::handlePackage(const ServiceDiscoveryPackage &package)
     m_pendingDeviceDescription.append(package.locationUrl());
 }
 
-void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &datagram)
+void ServiceProvider::handleServiceDiscoveryMessage(QNetworkDatagram const &datagram)
 {
     if (datagram.data().isEmpty()) {
         QString errorMessage = QString{"Received empty ssdp message from %1:%2"}
@@ -130,7 +130,7 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
         qCDebug(upnpavService) << "Handle SSDP package" << package.notificationSubType() << "for search target "
                                << m_searchTarget << "device" << package.deviceId();
         handlePackage(package);
-    } catch (const PackageParseError &e) {
+    } catch (PackageParseError const &e) {
         QString errorMessage = QString{"Received malformd SSDP message from %1:%2"}
                                    .arg(datagram.senderAddress().toString())
                                    .arg(datagram.senderPort());
@@ -139,7 +139,7 @@ void ServiceProvider::handleServiceDiscoveryMessage(const QNetworkDatagram &data
     }
 }
 
-void ServiceProvider::handleFetchedDescription(const QString &description, const QUrl &url)
+void ServiceProvider::handleFetchedDescription(QString const &description, QUrl const &url)
 {
     if (m_pendingDeviceDescription.contains(url)) {
         handleFetchedDeviceDescription(description, url);
@@ -148,7 +148,7 @@ void ServiceProvider::handleFetchedDescription(const QString &description, const
     }
 }
 
-void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &deviceDescription)
+void ServiceProvider::handleparsedDeviceDescription(DeviceDescription const &deviceDescription)
 {
     if (deviceDescription.services().isEmpty()) {
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
@@ -157,7 +157,7 @@ void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &dev
     } else {
         // request all scpds
         auto tempDeviceDescription = TempDeviceDescription{};
-        for (const auto &serviceDescription : deviceDescription.services()) {
+        for (auto const &serviceDescription : deviceDescription.services()) {
             tempDeviceDescription.udn = deviceDescription.udn();
             tempDeviceDescription.deviceDescriptions = deviceDescription;
             tempDeviceDescription.pendingSCPDS.append(serviceDescription.scpdUrl());
@@ -168,28 +168,28 @@ void ServiceProvider::handleparsedDeviceDescription(const DeviceDescription &dev
     }
 }
 
-void ServiceProvider::handleFetchedDeviceDescription(const QString &deviceDescription, const QUrl &url)
+void ServiceProvider::handleFetchedDeviceDescription(QString const &deviceDescription, QUrl const &url)
 {
     m_pendingDeviceDescription.removeAll(url);
 
     auto deviceReader = DeviceDescriptionParser(url);
     try {
         deviceReader.readDeviceDescription(deviceDescription);
-    } catch (const ParsingError &e) {
+    } catch (ParsingError const &e) {
         Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
                                           QString("Received XML from %1 is not well formed").arg(url.toString())});
         return;
     }
 
     auto devices = deviceReader.physicalDeviceDescription();
-    for (const auto &parsedDeviceDescription : devices) {
+    for (auto const &parsedDeviceDescription : devices) {
         if (parsedDeviceDescription.deviceType() == m_searchTarget) {
             handleparsedDeviceDescription(parsedDeviceDescription);
         }
     }
 }
 
-void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription, const QUrl &url)
+void ServiceProvider::handleFetchSCPDDescription(QString const &scpdDescription, QUrl const &url)
 {
     // TODO: Maybe replace with std::find_if
     auto foundIter = m_tempDeviceDescriptions.end();
@@ -207,7 +207,7 @@ void ServiceProvider::handleFetchSCPDDescription(const QString &scpdDescription,
     ServiceControlPointDefinitionParser scpdParser{url.toString()};
     try {
         scpdParser.parseServiceControlPointDefinition(scpdDescription);
-    } catch (const ParsingError &e) {
+    } catch (ParsingError const &e) {
         Q_EMIT error(ServiceProviderError{ServiceProviderError::ErrorCode::XmlNotWellFormed,
                                           QString("Received XML from %1 is not well formed").arg(url.toString())});
         return;
@@ -244,7 +244,7 @@ ServiceProviderError::~ServiceProviderError() noexcept = default;
 ServiceProviderFactory::ServiceProviderFactory() = default;
 ServiceProviderFactory::~ServiceProviderFactory() = default;
 
-std::unique_ptr<IServiceProvider> ServiceProviderFactory::createServiceProvider(const QString &searchTarget)
+std::unique_ptr<IServiceProvider> ServiceProviderFactory::createServiceProvider(QString const &searchTarget)
 {
     static auto serviceDiscoveryBackend = std::make_shared<UdpServiceDiscoveryBackend>();
     auto descriptionFetcherBackend = std::make_unique<HttpDescriptionFetcherBackend>();

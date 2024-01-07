@@ -32,7 +32,7 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
     d->mConnectionManagerSCPD = conManagerServiceValidator.scpd();
     d->mName = d->mDeviceDescription.friendlyName();
 
-    const auto hasAvTransportService = d->mDeviceDescription.service("AVTransport").has_value();
+    auto const hasAvTransportService = d->mDeviceDescription.service("AVTransport").has_value();
     if (hasAvTransportService) {
         auto avSerVali = AvTransportServiceValidator{d->mDeviceDescription};
         if (!avSerVali.validate()) {
@@ -46,19 +46,19 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
 
 MediaDevice::~MediaDevice() = default;
 
-const QString &MediaDevice::name() const noexcept
+QString const &MediaDevice::name() const noexcept
 {
     return d->mName;
 }
 
-const QUrl &MediaDevice::iconUrl() const noexcept
+QUrl const &MediaDevice::iconUrl() const noexcept
 {
     return d->mIconUrl;
 }
 
 std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
 {
-    const auto action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
+    auto const action = d->mConnectionManagerSCPD.action("GetProtocolInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription,
@@ -70,9 +70,9 @@ std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
 
 std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
 {
-    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
+    auto const action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
     auto msgGen = SoapMessageGenerator{};
-    const auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto const xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
                                                                 action.name(),
                                                                 d->mConnectionManagerDescription.serviceType(),
@@ -82,11 +82,11 @@ std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
 
 std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 connectionId) noexcept
 {
-    const auto action = d->mConnectionManagerSCPD.action("GetCurrentConnectionInfo");
+    auto const action = d->mConnectionManagerSCPD.action("GetCurrentConnectionInfo");
     auto msgGen = SoapMessageGenerator{};
 
-    const auto arg = Argument{.name = "ConnectionID", .value = QString::number(connectionId)};
-    const auto xmlMessage =
+    auto const arg = Argument{.name = "ConnectionID", .value = QString::number(connectionId)};
+    auto const xmlMessage =
         msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
                                                                 action.name(),
@@ -108,12 +108,12 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::setAvTransportUri(q
         return std::nullopt;
     }
 
-    const auto args = QVector<Argument>{
+    auto const args = QVector<Argument>{
         {.name = "InstanceID", .value = QString::number(instanceId)},
         {.name = "CurrentURI", .value = uri},
         {.name = "CurrentURIMetaData", .value = uriMetaData},
     };
-    const auto action = d->mAvTransportDescriptionSCPD.action("SetAVTransportURI");
+    auto const action = d->mAvTransportDescriptionSCPD.action("SetAVTransportURI");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -129,8 +129,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 i
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("GetMediaInfo");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("GetMediaInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -146,8 +146,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportInfo(quint
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("GetTransportInfo");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("GetTransportInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -163,8 +163,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint3
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("GetPositionInfo");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("GetPositionInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -181,8 +181,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(qu
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("GetDeviceCapabilities");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("GetDeviceCapabilities");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -198,8 +198,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportSettings(q
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("GetTransportSettings");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("GetTransportSettings");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -215,8 +215,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::stop(quint32 instan
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("Stop");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("Stop");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -232,9 +232,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::play(quint32 instan
         return std::nullopt;
     }
 
-    const auto args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
+    auto const args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
                                         Argument{.name = "Speed", .value = QStringLiteral("1")}};
-    const auto action = d->mAvTransportDescriptionSCPD.action("Play");
+    auto const action = d->mAvTransportDescriptionSCPD.action("Play");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -252,10 +252,10 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
         return std::nullopt;
     }
 
-    const auto args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
+    auto const args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
                                         Argument{.name = "Unit", .value = QString::number(static_cast<qint32>(mode))},
                                         Argument{.name = "Target", .value = target}};
-    const auto action = d->mAvTransportDescriptionSCPD.action("Seek");
+    auto const action = d->mAvTransportDescriptionSCPD.action("Seek");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -271,8 +271,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::next(quint32 instan
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("Next");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("Next");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
@@ -288,8 +288,8 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
         return std::nullopt;
     }
 
-    const auto arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
-    const auto action = d->mAvTransportDescriptionSCPD.action("Previous");
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("Previous");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
     auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),

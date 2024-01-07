@@ -25,11 +25,11 @@ public:
 
     ~ServiceDiscoveryBackendDouble() override;
 
-    void sendResponseForMediaServerRequest(const QNetworkDatagram &datagram);
-    void sendNotifyMessage(const QNetworkDatagram &datagram);
+    void sendResponseForMediaServerRequest(QNetworkDatagram const &datagram);
+    void sendNotifyMessage(QNetworkDatagram const &datagram);
 
 protected:
-    void sendDiscoveryRequest(const QNetworkDatagram &datagram) override
+    void sendDiscoveryRequest(QNetworkDatagram const &datagram) override
     {
         lastSendDatagram = datagram;
     }

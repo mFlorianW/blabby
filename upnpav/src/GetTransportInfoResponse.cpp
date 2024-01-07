@@ -35,7 +35,7 @@ GetTransportInfoResponse::GetTransportInfoResponse(QString rawMessage,
                          }
                      });
 
-    const auto result = reader.read();
+    auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetTransportInfoResponse. Response was:" << reader.response();
         return;
@@ -52,7 +52,7 @@ GetTransportInfoResponse::TransportStatus GetTransportInfoResponse::currentTrans
     return d->mCurrentTransportStatus;
 }
 
-const QString &GetTransportInfoResponse::transportPlaySpeed() const noexcept
+QString const &GetTransportInfoResponse::transportPlaySpeed() const noexcept
 {
     return d->mTransportPlaySpeed;
 }

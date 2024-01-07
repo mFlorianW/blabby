@@ -20,7 +20,7 @@ ResponseReader::ResponseReader(QString xmlResponse, ServiceControlPointDefinitio
 
 ResponseReader::~ResponseReader() noexcept = default;
 
-const QString &ResponseReader::response() const noexcept
+QString const &ResponseReader::response() const noexcept
 {
     return mXmlResponse;
 }
@@ -28,7 +28,7 @@ const QString &ResponseReader::response() const noexcept
 ResponseReader::ReadResult ResponseReader::read() noexcept
 {
     auto xmlReader = QXmlStreamReader{mXmlResponse};
-    const auto outArgs = mAction.outArguments();
+    auto const outArgs = mAction.outArguments();
     auto readResult = ReadResult::Ok;
     while (xmlReader.readNext() && !xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.isStartElement()) {

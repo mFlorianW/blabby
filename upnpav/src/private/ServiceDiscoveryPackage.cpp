@@ -9,11 +9,11 @@
 namespace UPnPAV
 {
 
-ServiceDiscoveryPackage::ServiceDiscoveryPackage(const QByteArray &rawData)
+ServiceDiscoveryPackage::ServiceDiscoveryPackage(QByteArray const &rawData)
 {
     auto rawDataSplitted = QString{rawData}.split("\r\n");
 
-    for (const auto &entry : rawDataSplitted) {
+    for (auto const &entry : rawDataSplitted) {
         if (entry.startsWith(QStringLiteral("LOCATION:"))) {
             m_locationUrl = extracEntryValue(QString{entry});
         } else if (entry.startsWith(QStringLiteral("USN:"))) {
@@ -52,7 +52,7 @@ QString const &ServiceDiscoveryPackage::searchTarget() const
     return mSearchTarget;
 }
 
-QString ServiceDiscoveryPackage::extracEntryValue(const QString &entry)
+QString ServiceDiscoveryPackage::extracEntryValue(QString const &entry)
 {
     auto beginOfValue = entry.indexOf(':') + 1;
     if (beginOfValue == 0) {
@@ -62,7 +62,7 @@ QString ServiceDiscoveryPackage::extracEntryValue(const QString &entry)
     return entry.mid(beginOfValue).trimmed();
 }
 
-QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(const QString &rawString)
+QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(QString const &rawString)
 {
     if (rawString.contains("::")) {
         return rawString.split("::").at(0).trimmed();
@@ -71,7 +71,7 @@ QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(const QString &rawS
     return rawString.trimmed();
 }
 
-SsdpSubType ServiceDiscoveryPackage::convertSubTypeString(const QString &subtype)
+SsdpSubType ServiceDiscoveryPackage::convertSubTypeString(QString const &subtype)
 {
     if (subtype == QStringLiteral("ssdp:byebye")) {
         return SsdpSubType::ByeBye;
@@ -88,7 +88,7 @@ PackageParseError::PackageParseError(QString description)
 {
 }
 
-const char *PackageParseError::what() const noexcept
+char const *PackageParseError::what() const noexcept
 {
     return m_errorDescription.data();
 }

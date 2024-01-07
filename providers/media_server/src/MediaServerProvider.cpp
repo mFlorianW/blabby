@@ -57,7 +57,7 @@ void Provider::onServiceConnected(QString const &usn) noexcept
     Q_ASSERT(mServiceProvider != nullptr);
     Q_ASSERT(mMediaServerFab != nullptr);
 
-    const auto devDesc = mServiceProvider->rootDeviceDescription(usn);
+    auto const devDesc = mServiceProvider->rootDeviceDescription(usn);
     try {
         auto ms = mMediaServerFab->createMediaServer(devDesc);
         auto msp = std::make_shared<Source>(std::move(ms));

@@ -55,7 +55,7 @@ void TestSource::navigateTo(QString const &path) noexcept
     Q_EMIT navigationFinished(path);
 }
 
-const QString &TestSource::lastNavigatedPath() const noexcept
+QString const &TestSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
 }

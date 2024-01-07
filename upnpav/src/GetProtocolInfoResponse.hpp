@@ -22,14 +22,14 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT GetProtocolInfoResponse
 {
 public:
-    GetProtocolInfoResponse(const QString &xmlResponse);
+    GetProtocolInfoResponse(QString const &xmlResponse);
     GetProtocolInfoResponse(QString const &xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
 
-    const QVector<Protocol> &sourceProtocols() const noexcept;
-    const QVector<Protocol> &sinkProtocols() const noexcept;
+    QVector<Protocol> const &sourceProtocols() const noexcept;
+    QVector<Protocol> const &sinkProtocols() const noexcept;
 
 private:
-    static std::optional<QVector<Protocol>> parseProtocolResponse(const QString &rawResult) noexcept;
+    static std::optional<QVector<Protocol>> parseProtocolResponse(QString const &rawResult) noexcept;
 
 private:
     QVector<Protocol> mSourceProtocols;

@@ -62,7 +62,7 @@ public:
      *
      * @return The error message or empty string if validate return true.
      */
-    const QString &errorMessage() const noexcept;
+    QString const &errorMessage() const noexcept;
 
 protected:
     QString m_errorMessage;

@@ -16,7 +16,7 @@ namespace UPnPAV::Doubles
 {
 
 std::unique_ptr<UPnPAV::MediaServer> MediaServerFactory::createMediaServer(
-    const UPnPAV::DeviceDescription &deviceDescription)
+    UPnPAV::DeviceDescription const &deviceDescription)
 {
     Q_UNUSED(deviceDescription)
     ++howOftenCalled;
@@ -42,12 +42,12 @@ MediaServer::MediaServer()
 
 MediaServer::~MediaServer() = default;
 
-const QString &MediaServer::name() const noexcept
+QString const &MediaServer::name() const noexcept
 {
     return mName;
 }
 
-const QUrl &MediaServer::iconUrl() const noexcept
+QUrl const &MediaServer::iconUrl() const noexcept
 {
     return mIconUrl;
 }
@@ -78,10 +78,10 @@ std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noex
     return std::make_unique<UPnPAV::PendingSoapCall>(nullptr);
 }
 
-std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::browse(const QString &objectId,
+std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::browse(QString const &objectId,
                                                              BrowseFlag browseFlag,
-                                                             const QString &filter,
-                                                             const QString &sortCriteria) noexcept
+                                                             QString const &filter,
+                                                             QString const &sortCriteria) noexcept
 {
     Q_UNUSED(filter)
     Q_UNUSED(sortCriteria)

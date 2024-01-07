@@ -14,7 +14,7 @@ namespace UPnPAV
 
 namespace
 {
-constexpr const char *MULTICAST_ADDRESS = "239.255.255.250";
+constexpr char const *MULTICAST_ADDRESS = "239.255.255.250";
 constexpr quint16 MULTICAST_PORT{1900};
 } // namespace
 
@@ -30,7 +30,7 @@ ServiceDiscovery::ServiceDiscovery(ServiceDiscoveryBackend *discoveryBackend)
 
 ServiceDiscovery::~ServiceDiscovery() = default;
 
-void ServiceDiscovery::sendSearchRequest(const QString &searchTarget)
+void ServiceDiscovery::sendSearchRequest(QString const &searchTarget)
 {
     auto searchPayload = QString{"M-SEARCH * HTTP/1.1\r\n"
                                  "Host: 239.255.255.250:1900\r\n"

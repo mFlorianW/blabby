@@ -35,37 +35,37 @@ bool SCPDStateVariable::sendEvents() const
     return d->mSendEvents;
 }
 
-const QString &SCPDStateVariable::name() const
+QString const &SCPDStateVariable::name() const
 {
     return d->mName;
 }
 
-const QString &SCPDStateVariable::defaultValue() const
+QString const &SCPDStateVariable::defaultValue() const
 {
     return d->mDefaultValue;
 }
 
-const QVector<QString> &SCPDStateVariable::allowedValues() const
+QVector<QString> const &SCPDStateVariable::allowedValues() const
 {
     return d->mAllowedValues;
 }
 
-const QString &SCPDStateVariable::miniumValue() const
+QString const &SCPDStateVariable::miniumValue() const
 {
     return d->mMiniumValue;
 }
 
-const QString &SCPDStateVariable::maximumValue() const
+QString const &SCPDStateVariable::maximumValue() const
 {
     return d->mMaximumValue;
 }
 
-const QString &SCPDStateVariable::stepSize() const
+QString const &SCPDStateVariable::stepSize() const
 {
     return d->mStep;
 }
 
-bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
+bool operator==(SCPDStateVariable const &lhs, SCPDStateVariable const &rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -77,7 +77,7 @@ bool operator==(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
             (lhs.d->mMaximumValue == rhs.d->mMaximumValue) && (lhs.d->mStep == rhs.d->mStep));
 }
 
-bool operator!=(const SCPDStateVariable &lhs, const SCPDStateVariable &rhs)
+bool operator!=(SCPDStateVariable const &lhs, SCPDStateVariable const &rhs)
 {
     return !(lhs == rhs);
 }

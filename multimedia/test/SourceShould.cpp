@@ -19,8 +19,8 @@ MediaSourceShould::~MediaSourceShould() = default;
 
 void MediaSourceShould::give_the_name_of_media_source()
 {
-    const auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("")};
-    const auto expName = QStringLiteral("MusicBox");
+    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("")};
+    auto const expName = QStringLiteral("MusicBox");
 
     QVERIFY2(mediaSource.sourceName() == expName,
              QString("The MediaSource name \"%1\" is not the expected one %2")
@@ -30,8 +30,8 @@ void MediaSourceShould::give_the_name_of_media_source()
 
 void MediaSourceShould::give_a_icon_url_when_set()
 {
-    const auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
-    const auto expUrl = QStringLiteral("http://localhost/musicbox.png");
+    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    auto const expUrl = QStringLiteral("http://localhost/musicbox.png");
 
     QVERIFY2(mediaSource.iconUrl() == expUrl,
              QString("The MediaSource iconUrl \"%1\" is not the expected one %2")
@@ -44,10 +44,10 @@ void MediaSourceShould::navigate_to_previous_layer()
     auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
 
     QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
-    const auto path1 = QStringLiteral("1");
+    auto const path1 = QStringLiteral("1");
     mediaSource.navigateTo(path1);
     QCOMPARE(mediaSource.lastNavigatedPath(), path1);
-    const auto path2 = QStringLiteral("2");
+    auto const path2 = QStringLiteral("2");
     mediaSource.navigateTo(path2);
     QCOMPARE(mediaSource.lastNavigatedPath(), path2);
 
@@ -71,8 +71,8 @@ void MediaSourceShould::navigate_to_previous_layer()
 void MediaSourceShould::navigate_forward_to_previous_layer()
 {
     auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
-    const auto path1 = QStringLiteral("1");
-    const auto path2 = QStringLiteral("2");
+    auto const path1 = QStringLiteral("1");
+    auto const path2 = QStringLiteral("2");
 
     mediaSource.navigateTo(path1);
     QCOMPARE(mediaSource.lastNavigatedPath(), path1);

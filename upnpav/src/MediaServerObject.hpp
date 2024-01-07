@@ -36,8 +36,8 @@ public:
      */
     QString playUrl() const noexcept;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
-    BLABBYUPNPAV_EXPORT friend bool operator!=(const MediaServerObject &lhs, const MediaServerObject &rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator==(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator!=(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept;
 
     /**
      * Factory method that creates all @ref UPnPAV::MediaServerObject from a DIDL.
@@ -58,7 +58,7 @@ private:
     QVector<Protocol> mSupportedProtocols;
 };
 
-BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, const UPnPAV::MediaServerObject &serverObject);
+BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::MediaServerObject const &serverObject);
 
 } // namespace UPnPAV
 
