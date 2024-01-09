@@ -44,7 +44,9 @@ public:
      *         description doesn't contain the minimum
      *         requried functions and values.
      */
-    MediaServer(DeviceDescription const& deviceDescription, QSharedPointer<SoapBackend> const& soapBackend);
+    MediaServer(DeviceDescription const& deviceDescription,
+                QSharedPointer<SoapBackend> const& soapBackend,
+                QSharedPointer<EventBackend> eventBackend);
     ~MediaServer() override;
 
     /**

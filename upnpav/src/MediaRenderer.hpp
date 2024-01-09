@@ -26,7 +26,9 @@ public:
      * @throws InvalidDeviceDescription when the DeviceDescription doesn't contain the
      *         required functions and state variables.
      */
-    MediaRenderer(DeviceDescription desc, QSharedPointer<SoapBackend> msgTransmitter);
+    MediaRenderer(DeviceDescription desc,
+                  QSharedPointer<SoapBackend> msgTransmitter,
+                  QSharedPointer<EventBackend> eventBackend);
 };
 
 /**

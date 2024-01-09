@@ -7,6 +7,7 @@
 #ifndef MEDIASERVERSHOULD_H
 #define MEDIASERVERSHOULD_H
 
+#include "EventBackendDouble.hpp"
 #include <QObject>
 #include <QSharedPointer>
 
@@ -39,6 +40,7 @@ private:
     MediaServer createMediaServer(DeviceDescription& deviceDescription);
 
     QSharedPointer<SoapBackendDouble> mSoapBackend;
+    QSharedPointer<Doubles::EventBackend> mEventBackend;
 
 private Q_SLOTS:
 

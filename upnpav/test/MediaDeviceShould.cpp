@@ -10,6 +10,7 @@
 #include "ConnectionManagerStateVariables.hpp"
 #include "Descriptions.hpp"
 #include "DeviceDescription.hpp"
+#include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaDevice.hpp"
 #include "SCPDAction.hpp"
@@ -23,9 +24,12 @@ namespace UPnPAV
 class TestMediaDevice : public MediaDevice
 {
 public:
-    TestMediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackendDouble> msgTransmitter)
-        : MediaDevice{deviceDescription, msgTransmitter}
+    TestMediaDevice(DeviceDescription deviceDescription,
+                    QSharedPointer<SoapBackendDouble> msgTransmitter,
+                    QSharedPointer<Doubles::EventBackend> eventBackend)
+        : MediaDevice{deviceDescription, msgTransmitter, eventBackend}
         , mMsgTransmitter{msgTransmitter}
+        , mEventBackend{eventBackend}
     {
     }
 
@@ -34,8 +38,14 @@ public:
         return mMsgTransmitter->xmlMessageBody();
     }
 
+    QSharedPointer<Doubles::EventBackend> const& eventBacked() const noexcept
+    {
+        return mEventBackend;
+    }
+
 protected:
     QSharedPointer<SoapBackendDouble> mMsgTransmitter;
+    QSharedPointer<Doubles::EventBackend> mEventBackend;
 };
 
 class MediaDeviceWithoutAV : public TestMediaDevice
@@ -51,12 +61,15 @@ public:
                                 QVector<IconDescription>{{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
                                 {validContentDirectoryDescription(), validConnectionManagerDescription()},
                                 {validContentDirectorySCPD(), validConnectionManagerSCPD()}},
-              QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
+              QSharedPointer<SoapBackendDouble>::create(),
+              QSharedPointer<Doubles::EventBackend>::create()}
     {
     }
 
     MediaDeviceWithoutAV(DeviceDescription devDesc)
-        : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
+        : TestMediaDevice{devDesc,
+                          QSharedPointer<SoapBackendDouble>::create(),
+                          QSharedPointer<Doubles::EventBackend>::create()}
     {
     }
 };
@@ -77,12 +90,15 @@ public:
                    validConnectionManagerDescription(),
                    validAvTransportServiceDescription()},
                   {validContentDirectorySCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()}},
-              QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
+              QSharedPointer<SoapBackendDouble>::create(),
+              QSharedPointer<Doubles::EventBackend>::create()}
     {
     }
 
     MediaDeviceWithAV(DeviceDescription devDesc)
-        : TestMediaDevice{devDesc, QSharedPointer<SoapBackendDouble>(new SoapBackendDouble{})}
+        : TestMediaDevice{devDesc,
+                          QSharedPointer<SoapBackendDouble>::create(),
+                          QSharedPointer<Doubles::EventBackend>::create()}
     {
     }
 };
@@ -548,7 +564,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     };
 
     QTest::newRow("Event Url missing in AVTransport service description")
-        << eventUrl_Missing 
+        << eventUrl_Missing
         << "AVTransport event URL is not set";
 
     DeviceDescription controlUrl_Missing
@@ -568,7 +584,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     };
 
     QTest::newRow("Control Url missing in AVTransport service description")
-        << controlUrl_Missing 
+        << controlUrl_Missing
         << "AVTransport control URL is not set";
 
     DeviceDescription serviceUrl_Missing
@@ -588,7 +604,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     };
 
     QTest::newRow("Service Url missing in AVTransport service description")
-        << serviceUrl_Missing 
+        << serviceUrl_Missing
         << "AVTransport service ID is not set";
 
     DeviceDescription scpdUrl_Missing
@@ -1100,6 +1116,21 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_previous()
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
                  .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
                  .toLocal8Bit());
+}
+
+void MediaDeviceShould::subscribe_events_of_avtransport_service_on_creation()
+{
+    auto const expectParams = EventSubscriptionParameters{
+        .publisherPath = QStringLiteral("/test/eventUrl"),
+        .host = "127.0.0.1",
+        .callback = QStringLiteral("<http://127.0.0.1/AVTransportCallback>"),
+        .timeout = 1800,
+    };
+    auto const expCbId = QStringLiteral("AVTransportCallback");
+    auto mediaDevice = MediaDeviceWithAV{};
+
+    QCOMPARE(mediaDevice.eventBacked()->lastRegisteredCallbackId(), expCbId);
+    QCOMPARE(mediaDevice.eventBacked()->lastSubscribeEventRequest(), expectParams);
 }
 
 } // namespace UPnPAV

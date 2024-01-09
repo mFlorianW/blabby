@@ -44,6 +44,8 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/Response.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EventBackendDouble.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EventBackendDouble.hpp
 )
 
 target_link_libraries(test_upnp_av_test_helper

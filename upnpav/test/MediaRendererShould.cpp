@@ -7,6 +7,7 @@
 #include "MediaRendererShould.hpp"
 #include "Descriptions.hpp"
 #include "DeviceDescription.hpp"
+#include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaRenderer.hpp"
 #include "SoapBackendDouble.hpp"
@@ -20,6 +21,11 @@ namespace
 QSharedPointer<SoapBackendDouble> createSoapBackend()
 {
     return QSharedPointer<SoapBackendDouble>::create();
+}
+
+QSharedPointer<Doubles::EventBackend> createEventBackend()
+{
+    return QSharedPointer<Doubles::EventBackend>::create();
 }
 
 MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
@@ -40,6 +46,7 @@ MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
             scpds
         },
         createSoapBackend(),
+        createEventBackend()
     };
     // clang-format on
 }
@@ -104,7 +111,8 @@ void MediaRendererShould::throw_an_exception_when_the_rendering_control_descript
 void MediaRendererShould::throw_an_exception_when_the_rendering_control_description_is_not_correct()
 {
     QFETCH(class DeviceDescription, DeviceDescription);
-    QVERIFY_THROWS_EXCEPTION(InvalidDeviceDescription, MediaRenderer{DeviceDescription, createSoapBackend()});
+    QVERIFY_THROWS_EXCEPTION(InvalidDeviceDescription,
+                             MediaRenderer{DeviceDescription, createSoapBackend(), createEventBackend()});
 }
 
 } // namespace UPnPAV

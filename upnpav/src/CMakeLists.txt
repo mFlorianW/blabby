@@ -98,6 +98,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -136,6 +137,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.hpp
 )
 
 target_sources(${PROJECT_NAME}

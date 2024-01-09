@@ -7,7 +7,6 @@
 #define UPNPAV_MEDIADEVICEBASETEST_H
 
 #include <QObject>
-#include <memory>
 
 namespace UPnPAV
 {
@@ -140,6 +139,12 @@ private Q_SLOTS:
     void send_the_correct_soap_message_when_calling_seek_with_int_target(); // TODO add tests for float and time
     void send_the_correct_soap_message_when_calling_next();
     void send_the_correct_soap_message_when_calling_previous();
+
+    /**
+     * @test The media device shall subscribe the AVTransport serivce events on device creation
+     *       when the device has a AVTransport service.
+     */
+    void subscribe_events_of_avtransport_service_on_creation();
 };
 
 } // namespace UPnPAV

@@ -15,9 +15,11 @@
 namespace UPnPAV
 {
 
-MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> msgTransmitter)
+MediaDevice::MediaDevice(DeviceDescription deviceDescription,
+                         QSharedPointer<SoapBackend> soapBackend,
+                         QSharedPointer<EventBackend> eventBackend)
     : d{QScopedPointer<MediaDevicePrivate>(
-          new MediaDevicePrivate{std::move(deviceDescription), std::move(msgTransmitter)})}
+          new MediaDevicePrivate{std::move(deviceDescription), std::move(soapBackend), std::move(eventBackend)})}
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{d->mDeviceDescription};
     if (!conManagerServiceValidator.validate()) {
@@ -41,6 +43,8 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
         d->mHasAvTransportService = true;
         d->mAvTransportDescription = avSerVali.serviceDescription();
         d->mAvTransportDescriptionSCPD = avSerVali.scpd();
+
+        d->mEventBackend->subscribeEvents(d->mAvTransportDescription);
     }
 }
 
@@ -176,7 +180,6 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint3
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(quint32 instanceId)
 {
-
     if (not hasAvTransportService()) {
         return std::nullopt;
     }

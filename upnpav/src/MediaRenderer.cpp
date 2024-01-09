@@ -13,8 +13,10 @@
 namespace UPnPAV
 {
 
-MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapBackend> msgTransmitter)
-    : MediaDevice{desc, msgTransmitter}
+MediaRenderer::MediaRenderer(DeviceDescription desc,
+                             QSharedPointer<SoapBackend> msgTransmitter,
+                             QSharedPointer<EventBackend> eventBackend)
+    : MediaDevice{desc, msgTransmitter, eventBackend}
 {
     auto validator = RenderingControlServiceValidator{desc};
     if (!validator.validate()) {
@@ -24,7 +26,9 @@ MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapBackend>
 
 std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)
 {
-    return std::make_unique<MediaRenderer>(desc, QSharedPointer<HttpSoapBackend>::create());
+    return std::make_unique<MediaRenderer>(desc,
+                                           QSharedPointer<HttpSoapBackend>::create(),
+                                           QSharedPointer<EventBackend>(nullptr));
 }
 
 } // namespace UPnPAV

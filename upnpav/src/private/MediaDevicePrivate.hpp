@@ -6,6 +6,7 @@
 
 #pragma once
 #include "DeviceDescription.hpp"
+#include "EventBackend.hpp"
 #include "ServiceControlPointDefinition.hpp"
 #include "ServiceDescription.hpp"
 #include "SoapBackend.hpp"
@@ -20,9 +21,12 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT MediaDevicePrivate
 {
 public:
-    MediaDevicePrivate(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> transmitter)
+    MediaDevicePrivate(DeviceDescription deviceDescription,
+                       QSharedPointer<SoapBackend> transmitter,
+                       QSharedPointer<EventBackend> eventBackend)
         : mDeviceDescription{std::move(deviceDescription)}
         , mSoapMessageTransmitter{std::move(transmitter)}
+        , mEventBackend{std::move(eventBackend)}
     {
     }
 
@@ -40,6 +44,7 @@ public:
     QString mName{""};
     QUrl mIconUrl{""};
     bool mHasAvTransportService{false};
+    QSharedPointer<EventBackend> mEventBackend;
 };
 
 } // namespace UPnPAV

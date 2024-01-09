@@ -26,11 +26,15 @@ MediaServerFactory::~MediaServerFactory() = default;
 
 std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(DeviceDescription const& deviceDescription)
 {
-    return std::make_unique<MediaServer>(deviceDescription, QSharedPointer<HttpSoapBackend>{new HttpSoapBackend()});
+    return std::make_unique<MediaServer>(deviceDescription,
+                                         QSharedPointer<HttpSoapBackend>{new HttpSoapBackend()},
+                                         QSharedPointer<EventBackend>(nullptr));
 }
 
-MediaServer::MediaServer(DeviceDescription const& deviceDescription, QSharedPointer<SoapBackend> const& soapBackend)
-    : MediaDevice{deviceDescription, soapBackend}
+MediaServer::MediaServer(DeviceDescription const& deviceDescription,
+                         QSharedPointer<SoapBackend> const& soapBackend,
+                         QSharedPointer<EventBackend> eventBackend)
+    : MediaDevice{deviceDescription, soapBackend, std::move(eventBackend)}
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapBackend))
 {
     ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};

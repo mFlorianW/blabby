@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "EventBackend.hpp"
 #include "PendingSoapCall.hpp"
 #include "blabbyupnpav_export.h"
 #include <QScopedPointer>
@@ -240,7 +241,9 @@ public:
     virtual std::optional<std::unique_ptr<PendingSoapCall>> previous(quint32 instanceId);
 
 protected:
-    MediaDevice(DeviceDescription deviceDescription, QSharedPointer<SoapBackend> msgTransmitter);
+    MediaDevice(DeviceDescription deviceDescription,
+                QSharedPointer<SoapBackend> soapBackend,
+                QSharedPointer<EventBackend> eventBackend);
 
 private:
     QScopedPointer<MediaDevicePrivate> d;

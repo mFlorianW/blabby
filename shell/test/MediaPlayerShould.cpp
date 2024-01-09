@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MediaPlayerShould.hpp"
+#include "EventBackendDouble.hpp"
 #include "MediaPlayer.hpp"
 #include "MediaRendererDouble.hpp"
 #include "Renderer.hpp"
@@ -37,7 +38,8 @@ MediaPlayerShould::~MediaPlayerShould() = default;
 void MediaPlayerShould::init()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(UPnPAV::validRendererDeviceDescription(),
-                                                              QSharedPointer<UPnPAV::SoapBackendDouble>::create());
+                                                              QSharedPointer<UPnPAV::SoapBackendDouble>::create(),
+                                                              QSharedPointer<UPnPAV::Doubles::EventBackend>::create());
     mUpnpRenderer = upnpRenderer.get();
     auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
     mPlayer = std::make_shared<MediaPlayer>();

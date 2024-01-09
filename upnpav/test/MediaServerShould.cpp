@@ -27,7 +27,7 @@ MediaServerShould::~MediaServerShould() = default;
 
 MediaServer MediaServerShould::createMediaServer(DeviceDescription& deviceDescription)
 {
-    return MediaServer{deviceDescription, mSoapBackend};
+    return MediaServer{deviceDescription, mSoapBackend, mEventBackend};
 }
 
 void MediaServerShould::init()
@@ -42,7 +42,8 @@ MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> con
     IconDescription iconDes{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"};
     return MediaServer{
         DeviceDescription{"", "MediaServerName", "", "", "", QVector<IconDescription>{iconDes}, services, scpds},
-        mSoapBackend};
+        mSoapBackend,
+        mEventBackend};
 }
 
 ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutStateVariable(
