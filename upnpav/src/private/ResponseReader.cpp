@@ -20,7 +20,7 @@ ResponseReader::ResponseReader(QString xmlResponse, ServiceControlPointDefinitio
 
 ResponseReader::~ResponseReader() noexcept = default;
 
-QString const &ResponseReader::response() const noexcept
+QString const& ResponseReader::response() const noexcept
 {
     return mXmlResponse;
 }
@@ -32,7 +32,7 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
     auto readResult = ReadResult::Ok;
     while (xmlReader.readNext() && !xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.isStartElement()) {
-            auto arg = std::find_if(outArgs.cbegin(), outArgs.cend(), [&](SCPDArgument const &arg) {
+            auto arg = std::find_if(outArgs.cbegin(), outArgs.cend(), [&](SCPDArgument const& arg) {
                 return arg.name() == xmlReader.name();
             });
 
@@ -63,10 +63,10 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
     return readResult;
 }
 
-SCPDStateVariable::DataType ResponseReader::dataType(QString const &argName) noexcept
+SCPDStateVariable::DataType ResponseReader::dataType(QString const& argName) noexcept
 {
     auto const argFound =
-        std::find_if(mScpd.serviceStateTable().cbegin(), mScpd.serviceStateTable().cend(), [&](auto const &var) {
+        std::find_if(mScpd.serviceStateTable().cbegin(), mScpd.serviceStateTable().cend(), [&](auto const& var) {
             return var.name() == argName;
         });
     if (argFound != mScpd.serviceStateTable().cend()) {
@@ -75,7 +75,7 @@ SCPDStateVariable::DataType ResponseReader::dataType(QString const &argName) noe
     return SCPDStateVariable::DataType::Unknown;
 }
 
-void ResponseReader::readUnsignedIntValue(QString const &argName, QString const &rawValue) noexcept
+void ResponseReader::readUnsignedIntValue(QString const& argName, QString const& rawValue) noexcept
 {
     auto ok = false;
     auto result = ElementReadResult::Ok;
@@ -86,7 +86,7 @@ void ResponseReader::readUnsignedIntValue(QString const &argName, QString const 
     Q_EMIT unsignedIntValueRead(argName, value, result);
 }
 
-void ResponseReader::readSignedIntValue(QString const &argName, QString const &rawValue) noexcept
+void ResponseReader::readSignedIntValue(QString const& argName, QString const& rawValue) noexcept
 {
     auto ok = false;
     auto result = ElementReadResult::Ok;

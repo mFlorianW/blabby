@@ -16,7 +16,7 @@ QString AbstractListEntry::title() const noexcept
     return mTitle;
 }
 
-void AbstractListEntry::setTitle(QString const &title) noexcept
+void AbstractListEntry::setTitle(QString const& title) noexcept
 {
     if (mTitle != title) {
         mTitle = title;
@@ -29,7 +29,7 @@ QString AbstractListEntry::iconUrl() const noexcept
     return mIconUrl;
 }
 
-void AbstractListEntry::setIconUrl(QString const &iconUrl) noexcept
+void AbstractListEntry::setIconUrl(QString const& iconUrl) noexcept
 {
     if (mIconUrl != iconUrl) {
         mIconUrl = iconUrl;
@@ -37,12 +37,12 @@ void AbstractListEntry::setIconUrl(QString const &iconUrl) noexcept
     }
 }
 
-QQuickItem *AbstractListEntry::trailingElement() const noexcept
+QQuickItem* AbstractListEntry::trailingElement() const noexcept
 {
     return mTrailingElement;
 }
 
-void AbstractListEntry::setTrailingElement(QQuickItem *trailingElement) noexcept
+void AbstractListEntry::setTrailingElement(QQuickItem* trailingElement) noexcept
 {
     if (mTrailingElement != trailingElement) {
         mTrailingElement = trailingElement;

@@ -14,17 +14,17 @@
 namespace UPnPAV
 {
 
-DeviceDescriptionParser::DeviceDescriptionParser(QUrl const &deviceUrl)
+DeviceDescriptionParser::DeviceDescriptionParser(QUrl const& deviceUrl)
     : m_baseUrl(deviceUrl.adjusted(QUrl::RemovePath).toString())
 {
 }
 
-QVector<DeviceDescription> const &DeviceDescriptionParser::physicalDeviceDescription()
+QVector<DeviceDescription> const& DeviceDescriptionParser::physicalDeviceDescription()
 {
     return m_embeddedDevices;
 }
 
-void DeviceDescriptionParser::readDeviceDescription(QString const &deviceDescription)
+void DeviceDescriptionParser::readDeviceDescription(QString const& deviceDescription)
 {
     m_streamReader.addData(deviceDescription);
 
@@ -106,10 +106,10 @@ void DeviceDescriptionParser::createDescriptions()
 {
     // Build concrete descriptions from the temporay extract descriptions.
     m_embeddedDevices.reserve(m_tempDevices.size());
-    for (auto &tempDesc : m_tempDevices) {
+    for (auto& tempDesc : m_tempDevices) {
         QVector<IconDescription> icons;
         icons.reserve(tempDesc.icons.size());
-        for (auto &iconDesc : tempDesc.icons) {
+        for (auto& iconDesc : tempDesc.icons) {
             if (QUrl{iconDesc.url}.isRelative()) {
                 iconDesc.url = makeAbsolutePath(m_baseUrl, iconDesc.url);
             }
@@ -120,7 +120,7 @@ void DeviceDescriptionParser::createDescriptions()
 
         QVector<ServiceDescription> services;
         services.reserve(tempDesc.services.size());
-        for (auto &serviceDesc : tempDesc.services) {
+        for (auto& serviceDesc : tempDesc.services) {
             if (QUrl{serviceDesc.scpdUrl}.isRelative()) {
                 serviceDesc.scpdUrl = makeAbsolutePath(m_baseUrl, serviceDesc.scpdUrl);
             }
@@ -150,7 +150,7 @@ void DeviceDescriptionParser::createDescriptions()
     }
 }
 
-QString DeviceDescriptionParser::makeAbsolutePath(QString const &base, QString const &relativePath)
+QString DeviceDescriptionParser::makeAbsolutePath(QString const& base, QString const& relativePath)
 {
     return relativePath.startsWith("/") ? base + relativePath : base + "/" + relativePath;
 }

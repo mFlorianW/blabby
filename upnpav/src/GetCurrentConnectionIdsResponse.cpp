@@ -21,11 +21,11 @@ GetCurrentConnectionIdsResponse::GetCurrentConnectionIdsResponse(QString xmlResp
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString& value, ResponseReader::ElementReadResult result) {
                          if (elementName == QStringLiteral("ConnectionIDs") and
                              result == ResponseReader::ElementReadResult::Ok) {
                              const auto idList = value.split(",");
-                             for (auto const &rawId : std::as_const(idList)) {
+                             for (auto const& rawId : std::as_const(idList)) {
                                  bool ok = false;
                                  const auto id = rawId.toInt(&ok, 10);
                                  if (ok) {

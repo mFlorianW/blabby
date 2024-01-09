@@ -34,13 +34,13 @@ public:
     /**
      * @copydoc Multimedia::MediaSource::navigateTo(QString)
      */
-    void navigateTo(QString const &path) noexcept override;
+    void navigateTo(QString const& path) noexcept override;
 
 private Q_SLOTS:
     void onBrowseRequestFinished() noexcept;
 
 private:
-    void navigate(QString const &path) noexcept;
+    void navigate(QString const& path) noexcept;
     struct BrowseRequest
     {
         std::unique_ptr<UPnPAV::PendingSoapCall> mRequest;

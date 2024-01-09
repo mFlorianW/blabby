@@ -51,7 +51,7 @@ public:
      * Gives the name of the source as human readable version.
      * @return The name of the source.
      */
-    QString const &sourceName() const noexcept;
+    QString const& sourceName() const noexcept;
 
     /**
      * Gives the URL for media source icon.
@@ -59,14 +59,14 @@ public:
      * If the source doesn't have an image a empty string is shall be returned.
      * @return The URL to the icon, or empty string when the source has no icon.
      */
-    QString const &iconUrl() const noexcept;
+    QString const& iconUrl() const noexcept;
 
     /**
      * Gives the current active media items for that media soruce.
      * It's a readonly reference and the MediaSource should be the only writable owner.
      * @return The MediaItemModel for the source.
      */
-    Items const &mediaItems() const noexcept;
+    Items const& mediaItems() const noexcept;
 
     /**
      * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
@@ -76,7 +76,7 @@ public:
      * The source shall emit the @ref navigationFinished(QString) singal when the navigation is succesful finished.
      * @param path The target path to navigate to.
      */
-    virtual void navigateTo(QString const &path) noexcept;
+    virtual void navigateTo(QString const& path) noexcept;
 
     void navigateBack() noexcept;
 
@@ -87,7 +87,7 @@ Q_SIGNALS:
      * This signal is emitted when the navigation is succesful finished.
      * @param The target path of the navigation.
      */
-    void navigationFinished(QString const &path);
+    void navigationFinished(QString const& path);
 
 protected:
     /**

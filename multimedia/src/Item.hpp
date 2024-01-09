@@ -75,7 +75,7 @@ public:
      * E.g. in case of a playable item it can be a song name.
      * @return The main text of the @ref MediaItem.
      */
-    QString const &mainText() const noexcept;
+    QString const& mainText() const noexcept;
 
     /**
      * Gives the secondary text of the media item.
@@ -83,14 +83,14 @@ public:
      * E.g. in case of a playable item it can be the artist.
      * @return The main text of the @ref MediaItem.
      */
-    QString const &secondaryText() const noexcept;
+    QString const& secondaryText() const noexcept;
 
     /**
      * Give an icon url for that item.
      * The icon is optional and if the item doesn't have an icon an empty QString is returned.
      * @return The url for the icon of the media item.
      */
-    QString const &iconUrl() const noexcept;
+    QString const& iconUrl() const noexcept;
 
     /**
      * Gives the path of that item.
@@ -99,19 +99,19 @@ public:
      * An empty path is also possible for @ref Multimedia::MediaSource when the source has no navigation.
      * @return The path for the navigation inside the @ref Multimedia::MediaSource.
      */
-    QString const &path() const noexcept;
+    QString const& path() const noexcept;
 
     /**
      * Gives the URL for playing the @ref Multimedia::Item on Renderer.
      * @return A reference to the URL for playing.
      */
-    QString const &playUrl() const noexcept;
+    QString const& playUrl() const noexcept;
 
     /**
      * Gives the supported types of the Item.
      * The supported types are used to check if a @ref Multimedia::Renderer is able to play a @ref Multimedia::Item.
      */
-    QVector<UPnPAV::Protocol> const &supportedTypes() const noexcept;
+    QVector<UPnPAV::Protocol> const& supportedTypes() const noexcept;
 
     /**
      * equal operator
@@ -119,7 +119,7 @@ public:
      * @param rhs right hand side of the comparsion
      * @return True equal otherwise false.
      */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator==(Item const &lhs, Item const &rhs) noexcept;
+    BLABBYMULTIMEDIA_EXPORT friend bool operator==(Item const& lhs, Item const& rhs) noexcept;
 
     /**
      * unequal operator
@@ -127,7 +127,7 @@ public:
      * @param rhs right hand side of the comparsion
      * @return True not equal otherwise false.
      */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(Item const &lhs, Item const &rhs) noexcept;
+    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(Item const& lhs, Item const& rhs) noexcept;
 
 private:
     friend ItemBuilder;
@@ -146,49 +146,49 @@ public:
      * @param type The type of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withItemType(ItemType type) noexcept;
+    ItemBuilder& withItemType(ItemType type) noexcept;
 
     /**
      * Sets the maint text of the @ref Multimedia::Item
      * @param text The text of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withMainText(QString const &text) noexcept;
+    ItemBuilder& withMainText(QString const& text) noexcept;
 
     /**
      * Sets the secondary text of the @ref Multimedia::Item
      * @param text The secondary text of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withSecondaryText(QString const &text) noexcept;
+    ItemBuilder& withSecondaryText(QString const& text) noexcept;
 
     /**
      * Sets the icon URL of the @ref Multimedia::Item
      * @param iconUrl The icon URL of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withIconUrl(QString const &iconUrl) noexcept;
+    ItemBuilder& withIconUrl(QString const& iconUrl) noexcept;
 
     /**
      * Sets the path of the @ref Multimedia::Item
      * @param path The path of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withPath(QString const &path) noexcept;
+    ItemBuilder& withPath(QString const& path) noexcept;
 
     /**
      * Sets the play URL of the @ref Multimedia::Item
      * @param playUrl The playUrl of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withPlayUrl(QString const &playUrl) noexcept;
+    ItemBuilder& withPlayUrl(QString const& playUrl) noexcept;
 
     /**
      * Sets the supported types of the @ref Multimedia::Item
      * @param supportedTypes The supported types of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder &withSupportedTypes(QVector<UPnPAV::Protocol> const &supportedTypes);
+    ItemBuilder& withSupportedTypes(QVector<UPnPAV::Protocol> const& supportedTypes);
 
     /**
      * Gives the constructed Item.

@@ -25,14 +25,14 @@ QString convertBrowseFlagToString(MediaServer::BrowseFlag browseFlag) noexcept;
 MediaServerFactory::MediaServerFactory() = default;
 MediaServerFactory::~MediaServerFactory() = default;
 
-std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(DeviceDescription const &deviceDescription)
+std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(DeviceDescription const& deviceDescription)
 {
     return std::make_unique<MediaServer>(deviceDescription,
                                          QSharedPointer<HttpSoapMessageTransmitter>{new HttpSoapMessageTransmitter()});
 }
 
-MediaServer::MediaServer(DeviceDescription const &deviceDescription,
-                         QSharedPointer<SoapMessageTransmitter> const &soapMessageTransmitter)
+MediaServer::MediaServer(DeviceDescription const& deviceDescription,
+                         QSharedPointer<SoapMessageTransmitter> const& soapMessageTransmitter)
     : MediaDevice{deviceDescription, soapMessageTransmitter}
     , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
 {
@@ -62,10 +62,10 @@ std::unique_ptr<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
-std::unique_ptr<PendingSoapCall> MediaServer::browse(QString const &objectId,
+std::unique_ptr<PendingSoapCall> MediaServer::browse(QString const& objectId,
                                                      MediaServer::BrowseFlag browseFlag,
-                                                     QString const &filter,
-                                                     QString const &sortCriteria) noexcept
+                                                     QString const& filter,
+                                                     QString const& sortCriteria) noexcept
 {
     auto action = d->mContentDirectorySCPD.action("Browse");
 

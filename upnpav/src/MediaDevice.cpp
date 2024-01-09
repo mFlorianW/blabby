@@ -46,12 +46,12 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription, QSharedPointer<Soa
 
 MediaDevice::~MediaDevice() = default;
 
-QString const &MediaDevice::name() const noexcept
+QString const& MediaDevice::name() const noexcept
 {
     return d->mName;
 }
 
-QUrl const &MediaDevice::iconUrl() const noexcept
+QUrl const& MediaDevice::iconUrl() const noexcept
 {
     return d->mIconUrl;
 }
@@ -101,8 +101,8 @@ bool MediaDevice::hasAvTransportService() const noexcept
 }
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::setAvTransportUri(quint32 instanceId,
-                                                                               QString const &uri,
-                                                                               QString const &uriMetaData) noexcept
+                                                                               QString const& uri,
+                                                                               QString const& uriMetaData) noexcept
 {
     if (not hasAvTransportService()) {
         return std::nullopt;
@@ -246,7 +246,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::play(quint32 instan
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instanceId,
                                                                   SeekMode mode,
-                                                                  QString const &target)
+                                                                  QString const& target)
 {
     if (not hasAvTransportService()) {
         return std::nullopt;

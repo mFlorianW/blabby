@@ -13,7 +13,7 @@
 namespace UPnPAV
 {
 
-GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse)
+GetProtocolInfoResponse::GetProtocolInfoResponse(QString const& xmlResponse)
 {
     auto responseReader = QXmlStreamReader{xmlResponse};
     while (responseReader.readNext() && !responseReader.atEnd() && !responseReader.hasError()) {
@@ -40,7 +40,7 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse)
         qCritical() << "XML Error:" << responseReader.errorString();
     }
 }
-GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse,
+GetProtocolInfoResponse::GetProtocolInfoResponse(QString const& xmlResponse,
                                                  ServiceControlPointDefinition scpd,
                                                  SCPDAction action)
 {
@@ -49,7 +49,7 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse,
         &reader,
         &ResponseReader::stringValueRead,
         &reader,
-        [this](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+        [this](QString const& elementName, QString& value, ResponseReader::ElementReadResult result) {
             if (elementName == QStringLiteral("Source") and result == ResponseReader::ElementReadResult::Ok) {
                 auto const result = parseProtocolResponse(value);
                 if (result.has_value()) {
@@ -70,16 +70,16 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(QString const &xmlResponse,
     }
 }
 
-QVector<Protocol> const &GetProtocolInfoResponse::sourceProtocols() const noexcept
+QVector<Protocol> const& GetProtocolInfoResponse::sourceProtocols() const noexcept
 {
     return mSourceProtocols;
 }
-QVector<Protocol> const &GetProtocolInfoResponse::sinkProtocols() const noexcept
+QVector<Protocol> const& GetProtocolInfoResponse::sinkProtocols() const noexcept
 {
     return mSinkProtocols;
 }
 
-std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(QString const &rawResult) noexcept
+std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(QString const& rawResult) noexcept
 {
     auto result = QVector<Protocol>{};
     if (rawResult.isEmpty()) {
@@ -87,7 +87,7 @@ std::optional<QVector<Protocol>> GetProtocolInfoResponse::parseProtocolResponse(
     }
 
     auto const elements = rawResult.split(",");
-    for (auto const &rawProto : std::as_const(elements)) {
+    for (auto const& rawProto : std::as_const(elements)) {
         auto const proto = Protocol::create(rawProto);
         if (proto.has_value()) {
             result.push_back(proto.value());

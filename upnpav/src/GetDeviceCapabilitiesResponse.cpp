@@ -11,7 +11,7 @@
 namespace UPnPAV
 {
 
-GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawMsg,
+GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const& rawMsg,
                                                              ServiceControlPointDefinition scpd,
                                                              SCPDAction action)
     : d{new GetDeviceCapabilitiesResponseData{}}
@@ -20,7 +20,7 @@ GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawM
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
                          const bool ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("PlayMedia") && ok) {
                              d->mPlayMedia = value.remove(" ").split(",");
@@ -44,17 +44,17 @@ GetDeviceCapabilitiesResponse::GetDeviceCapabilitiesResponse(QString const &rawM
     }
 }
 
-QStringList const &GetDeviceCapabilitiesResponse::playMedia() const noexcept
+QStringList const& GetDeviceCapabilitiesResponse::playMedia() const noexcept
 {
     return d->mPlayMedia;
 }
 
-QStringList const &GetDeviceCapabilitiesResponse::recMedia() const noexcept
+QStringList const& GetDeviceCapabilitiesResponse::recMedia() const noexcept
 {
     return d->mRecMedia;
 }
 
-QStringList const &GetDeviceCapabilitiesResponse::recQualityModes() const noexcept
+QStringList const& GetDeviceCapabilitiesResponse::recQualityModes() const noexcept
 {
     return d->mRecQModes;
 }

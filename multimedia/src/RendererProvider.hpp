@@ -54,17 +54,17 @@ Q_SIGNALS:
      * This signal is emitted when the @ref Multimedia::RendererProvider dicovers a new @ref MultiMedia::Renderer
      * appears on the network.
      */
-    void rendererConnected(std::shared_ptr<Multimedia::Renderer> const &renderer);
+    void rendererConnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
     /**
      * This signal is emitted when the @ref Multimedia::RendererProvider detects that a @ref Multimedia::Renderer
      * disapears on the Network.
      */
-    void rendererDisconnected(std::shared_ptr<Multimedia::Renderer> const &renderer);
+    void rendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
 private Q_SLOTS:
-    void onRendererDiscovered(QString const &usn) noexcept;
-    void onRendererDisconnected(QString const &usn) noexcept;
+    void onRendererDiscovered(QString const& usn) noexcept;
+    void onRendererDisconnected(QString const& usn) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::IServiceProvider> mSp;

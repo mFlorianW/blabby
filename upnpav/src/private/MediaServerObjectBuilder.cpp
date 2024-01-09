@@ -7,38 +7,38 @@
 namespace UPnPAV
 {
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withId(QString const &id) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withId(QString const& id) noexcept
 {
     mObj.mId = id;
     return *this;
 }
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withParentId(QString const &parentId) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withParentId(QString const& parentId) noexcept
 {
     mObj.mParentId = parentId;
     return *this;
 }
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withTitle(QString const &title) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withTitle(QString const& title) noexcept
 {
     mObj.mTitle = title;
     return *this;
 }
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withTypeClass(QString const &typeClass) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withTypeClass(QString const& typeClass) noexcept
 {
     mObj.mClass = typeClass;
     return *this;
 }
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withPlayUrl(QString const &playUrl) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withPlayUrl(QString const& playUrl) noexcept
 {
     mObj.mPlayUrl = playUrl;
     return *this;
 }
 
-MediaServerObjectBuilder &MediaServerObjectBuilder::withSupportedProtocols(
-    QVector<Protocol> const &supportedProtocols) noexcept
+MediaServerObjectBuilder& MediaServerObjectBuilder::withSupportedProtocols(
+    QVector<Protocol> const& supportedProtocols) noexcept
 {
     mObj.mSupportedProtocols = supportedProtocols;
     return *this;

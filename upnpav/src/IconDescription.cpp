@@ -34,12 +34,12 @@ IconDescription::IconDescription(QString mimeType, quint32 width, quint32 height
 //    }
 //}
 
-QString const &IconDescription::mimeType() const noexcept
+QString const& IconDescription::mimeType() const noexcept
 {
     return m_mimeType;
 }
 
-QString const &IconDescription::url() const noexcept
+QString const& IconDescription::url() const noexcept
 {
     return m_url;
 }
@@ -59,7 +59,7 @@ quint32 IconDescription::depth() const noexcept
     return m_depth;
 }
 
-bool operator==(IconDescription const &lhs, IconDescription const &rhs) noexcept
+bool operator==(IconDescription const& lhs, IconDescription const& rhs) noexcept
 {
     if (&lhs == &rhs) {
         return true;
@@ -69,7 +69,7 @@ bool operator==(IconDescription const &lhs, IconDescription const &rhs) noexcept
             (lhs.m_height == rhs.m_height) && (lhs.m_depth == rhs.m_depth));
 }
 
-bool operator!=(IconDescription const &lhs, IconDescription const &rhs) noexcept
+bool operator!=(IconDescription const& lhs, IconDescription const& rhs) noexcept
 {
     return !(lhs == rhs);
 }

@@ -36,8 +36,8 @@ bool MediaRendererDouble::isProtocolInfoCalled() const noexcept
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setAvTransportUri(
     quint32 instanceId,
-    QString const &uri,
-    QString const &uriMetaData) noexcept
+    QString const& uri,
+    QString const& uriMetaData) noexcept
 {
     mIsSetAvTranstportUriCalled = true;
     mSetAvTransportUriData = AvTransportUriData{.instanceId = instanceId, .uri = uri, .uriMetaData = uriMetaData};

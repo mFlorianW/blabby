@@ -7,8 +7,8 @@
 namespace UPnPAV
 {
 
-ServiceProviderError &ServiceProviderError::operator=(ServiceProviderError const &other) = default;
-ServiceProviderError::ServiceProviderError(ServiceProviderError const &other) = default;
+ServiceProviderError& ServiceProviderError::operator=(ServiceProviderError const& other) = default;
+ServiceProviderError::ServiceProviderError(ServiceProviderError const& other) = default;
 
 ServiceProviderError::ErrorCode ServiceProviderError::errorCode() const
 {

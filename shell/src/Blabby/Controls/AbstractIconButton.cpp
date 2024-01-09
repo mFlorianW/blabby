@@ -16,7 +16,7 @@ QUrl AbstractIconButton::source() const noexcept
     return mIconSource;
 }
 
-void AbstractIconButton::setSource(QUrl const &source) noexcept
+void AbstractIconButton::setSource(QUrl const& source) noexcept
 {
     if (mIconSource != source) {
         mIconSource = source;

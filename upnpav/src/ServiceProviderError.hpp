@@ -30,11 +30,11 @@ public:
 
     ~ServiceProviderError() noexcept;
 
-    ServiceProviderError(ServiceProviderError const &other);
-    ServiceProviderError &operator=(ServiceProviderError const &other);
+    ServiceProviderError(ServiceProviderError const& other);
+    ServiceProviderError& operator=(ServiceProviderError const& other);
 
-    ServiceProviderError(ServiceProviderError &&other) noexcept = default;
-    ServiceProviderError &operator=(ServiceProviderError &&other) noexcept = default;
+    ServiceProviderError(ServiceProviderError&& other) noexcept = default;
+    ServiceProviderError& operator=(ServiceProviderError&& other) noexcept = default;
 
     ErrorCode errorCode() const;
 

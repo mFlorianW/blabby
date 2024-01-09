@@ -25,7 +25,7 @@ MediaServerShould::MediaServerShould()
 
 MediaServerShould::~MediaServerShould() = default;
 
-MediaServer MediaServerShould::createMediaServer(DeviceDescription &deviceDescription)
+MediaServer MediaServerShould::createMediaServer(DeviceDescription& deviceDescription)
 {
     return MediaServer{deviceDescription, m_soapMessageTransmitter};
 }
@@ -35,8 +35,8 @@ void MediaServerShould::init()
     m_soapMessageTransmitter = QSharedPointer<SoapMessageTransmitterDouble>{new SoapMessageTransmitterDouble()};
 }
 
-MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> const &services,
-                                                 QVector<ServiceControlPointDefinition> const &scpds)
+MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> const& services,
+                                                 QVector<ServiceControlPointDefinition> const& scpds)
 
 {
     IconDescription iconDes{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"};
@@ -46,7 +46,7 @@ MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> con
 }
 
 ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutStateVariable(
-    SCPDStateVariable const &variable)
+    SCPDStateVariable const& variable)
 {
     QVector<SCPDStateVariable> variables = validContentDirectoryStateVariables();
     variables.removeAll(variable);
@@ -56,7 +56,7 @@ ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWitho
                                          validContentDirectoryActions()};
 }
 
-ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutAction(SCPDAction const &action)
+ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutAction(SCPDAction const& action)
 {
     QVector<SCPDAction> actions = validContentDirectoryActions();
     actions.removeAll(action);
@@ -73,7 +73,7 @@ void MediaServerShould::throw_An_Exception_When_DeviceDescription_Has_No_Content
                                                     {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory description not found"));
     }
 }
@@ -86,7 +86,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory event URL"));
     }
 }
@@ -99,7 +99,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory control URL"));
     }
 }
@@ -112,7 +112,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory service ID"));
     }
 }
@@ -125,7 +125,7 @@ void MediaServerShould::throw_An_Exception_When_ContentDirectory_Description_Has
                               {validConnectionManagerSCPD(), validContentDirectorySCPD()});
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ContentDirectory SCPD URL"));
     }
 }
@@ -287,7 +287,7 @@ void MediaServerShould::throw_Exception_When_StateVariable_Misses_In_ContentDire
         MediaServer mediaServer = createMediaServer(DeviceDescription);
 
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         auto const re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());
@@ -358,7 +358,7 @@ void MediaServerShould::throw_Exception_When_Action_Misses_in_ContentDirectory_S
     try {
         MediaServer mediaServer = createMediaServer(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         auto const re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
                  QString{"Actual:"}.append(e.what()).toLocal8Bit());

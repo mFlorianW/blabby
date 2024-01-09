@@ -19,7 +19,7 @@ DescriptionFetcherBackend::DescriptionFetcherBackend()
 
 DescriptionFetcherBackend::~DescriptionFetcherBackend() = default;
 
-void DescriptionFetcherBackend::fetchDescriptionFrom(QUrl const &url)
+void DescriptionFetcherBackend::fetchDescriptionFrom(QUrl const& url)
 {
     fetchDescription(url);
 }
@@ -29,7 +29,7 @@ HttpDescriptionFetcherBackend::HttpDescriptionFetcherBackend()
     (void)connect(&m_sender, &QNetworkAccessManager::finished, this, &HttpDescriptionFetcherBackend::replyFinished);
 }
 
-void HttpDescriptionFetcherBackend::fetchDescription(QUrl const &url)
+void HttpDescriptionFetcherBackend::fetchDescription(QUrl const& url)
 {
     auto reply = m_sender.get(QNetworkRequest{url});
     if (reply == nullptr) {
@@ -39,7 +39,7 @@ void HttpDescriptionFetcherBackend::fetchDescription(QUrl const &url)
     m_pendingReplies.append(reply);
 }
 
-void HttpDescriptionFetcherBackend::replyFinished(QNetworkReply *reply)
+void HttpDescriptionFetcherBackend::replyFinished(QNetworkReply* reply)
 {
     if (!reply->isFinished() && (reply->error() != QNetworkReply::NoError)) {
         m_pendingReplies.removeAll(reply);

@@ -20,9 +20,9 @@ public:
     ~TestSource() override;
     Q_DISABLE_COPY_MOVE(TestSource)
 
-    void navigateTo(QString const &path) noexcept override;
+    void navigateTo(QString const& path) noexcept override;
 
-    QString const &lastNavigatedPath() const noexcept;
+    QString const& lastNavigatedPath() const noexcept;
 
 private:
     QHash<QString, Items> mItems;

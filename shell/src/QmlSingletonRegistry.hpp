@@ -25,22 +25,22 @@ class QmlSingletonRegistry : public QObject
     /**
      * Gives the MediaSourceModel
      */
-    Q_PROPERTY(Shell::MediaSourceModel *mediaSourceModel READ mediaSourceModel CONSTANT)
+    Q_PROPERTY(Shell::MediaSourceModel* mediaSourceModel READ mediaSourceModel CONSTANT)
 
     /**
      * Gives the MediaItemModel
      */
-    Q_PROPERTY(Shell::MediaItemModel *mediaItemModel READ mediaItemModel CONSTANT)
+    Q_PROPERTY(Shell::MediaItemModel* mediaItemModel READ mediaItemModel CONSTANT)
 
     /**
      * Gives the MediaRendererModel
      */
-    Q_PROPERTY(Shell::MediaRendererModel *mediaRendererModel READ mediaRendererModel CONSTANT)
+    Q_PROPERTY(Shell::MediaRendererModel* mediaRendererModel READ mediaRendererModel CONSTANT)
 
     /**
      * Gives the MediaPlayer
      */
-    Q_PROPERTY(Shell::MediaPlayer *mediaPlayer READ mediaPlayer CONSTANT)
+    Q_PROPERTY(Shell::MediaPlayer* mediaPlayer READ mediaPlayer CONSTANT)
 
 public:
     /**
@@ -59,7 +59,7 @@ public:
      * @note The callee doesn't take the ownership of the returned pointer.
      * @return A pointer to the MediaSourceModel instance
      */
-    MediaSourceModel *mediaSourceModel() noexcept;
+    MediaSourceModel* mediaSourceModel() noexcept;
 
     /**
      * Gives a pointer to the QMLEngine for the @ref Shell::MediaItemModel singleton.
@@ -67,7 +67,7 @@ public:
      * @note The callee doesn't take the ownership of the returned pointer.
      * @return A pointer to the @ref Shell::MediaItemModel instance
      */
-    MediaItemModel *mediaItemModel() noexcept;
+    MediaItemModel* mediaItemModel() noexcept;
 
     /**
      * Gives a pointer to the QMLEngine for the @ref Shell::MediaRendererModel singleton.
@@ -75,7 +75,7 @@ public:
      * @note The callee doesn't take the ownership of the returned pointer.
      * @return A pointer to the @ref Shell::MediaItemModel instance
      */
-    MediaRendererModel *mediaRendererModel() noexcept;
+    MediaRendererModel* mediaRendererModel() noexcept;
 
     /**
      * Gives a pointer to the QMLEngine for the @ref Shell::MediaPlayer singleton.
@@ -83,7 +83,7 @@ public:
      * @note The callee doesn't take the ownership of the returned pointer.
      * @return A pointer to the @ref Shell::MediaItemModel instance
      */
-    MediaPlayer *mediaPlayer() noexcept;
+    MediaPlayer* mediaPlayer() noexcept;
 
     /**
      * Callback for the QML engine for creating an instance of the @ref Shell::QmlSingletonRegistry
@@ -93,7 +93,7 @@ public:
      *
      * @note The function should only be called by the QML engine.
      */
-    static QObject *createQmlRegistry(QQmlEngine *engine, QJSEngine *scriptEngine);
+    static QObject* createQmlRegistry(QQmlEngine* engine, QJSEngine* scriptEngine);
 
 protected:
     /**

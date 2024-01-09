@@ -21,11 +21,11 @@ class IconDescription;
 class BLABBYUPNPAV_EXPORT DeviceDescriptionParser
 {
 public:
-    DeviceDescriptionParser(QUrl const &deviceUrl);
+    DeviceDescriptionParser(QUrl const& deviceUrl);
 
-    QVector<DeviceDescription> const &physicalDeviceDescription();
+    QVector<DeviceDescription> const& physicalDeviceDescription();
 
-    void readDeviceDescription(QString const &deviceDescription);
+    void readDeviceDescription(QString const& deviceDescription);
 
 private:
     struct TempIconDescription
@@ -72,7 +72,7 @@ private:
 
     void createDescriptions();
 
-    static QString makeAbsolutePath(QString const &base, QString const &relativePath);
+    static QString makeAbsolutePath(QString const& base, QString const& relativePath);
 
 private:
     QVector<TempDeviceDescription> m_tempDevices;

@@ -12,10 +12,10 @@ namespace UPnPAV
 
 SoapMessageTransmitterDouble::SoapMessageTransmitterDouble() = default;
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(QString const &url,
-                                                                       QString const &actionName,
-                                                                       QString const &serviceType,
-                                                                       QString const &xmlBody) noexcept
+QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(QString const& url,
+                                                                       QString const& actionName,
+                                                                       QString const& serviceType,
+                                                                       QString const& xmlBody) noexcept
 {
     Q_UNUSED(url)
     Q_UNUSED(actionName)
@@ -25,10 +25,10 @@ QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(QString c
     return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall()};
 }
 
-QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(ServiceDescription const &desc,
-                                                                       ServiceControlPointDefinition &scpd,
-                                                                       SCPDAction const &action,
-                                                                       QString &xmlBody) noexcept
+QSharedPointer<SoapCall> SoapMessageTransmitterDouble::sendSoapMessage(ServiceDescription const& desc,
+                                                                       ServiceControlPointDefinition& scpd,
+                                                                       SCPDAction const& action,
+                                                                       QString& xmlBody) noexcept
 {
     Q_UNUSED(desc)
     Q_UNUSED(scpd)

@@ -29,7 +29,7 @@ MediaRendererModel::MediaRendererModel(std::unique_ptr<RendererProvider> provide
 
 MediaRendererModel::~MediaRendererModel() = default;
 
-int MediaRendererModel::rowCount(QModelIndex const &parent) const noexcept
+int MediaRendererModel::rowCount(QModelIndex const& parent) const noexcept
 {
     Q_UNUSED(parent);
     return static_cast<int>(mRenderers.size());
@@ -45,7 +45,7 @@ QHash<int, QByteArray> MediaRendererModel::roleNames() const noexcept
     return roles;
 }
 
-QVariant MediaRendererModel::data(QModelIndex const &index, int role) const noexcept
+QVariant MediaRendererModel::data(QModelIndex const& index, int role) const noexcept
 {
     if (not index.isValid() or (index.row() >= mRenderers.size())) {
         qCritical(shell) << "Failed to request data. Error: invalid index:" << index.row()
@@ -70,7 +70,7 @@ std::shared_ptr<Multimedia::Renderer> MediaRendererModel::activeRenderer() const
     return mActiveRenderer;
 }
 
-void MediaRendererModel::activateRenderer(QModelIndex const &index)
+void MediaRendererModel::activateRenderer(QModelIndex const& index)
 {
     if (index.isValid() and index.row() >= mRenderers.size()) {
         qCritical(shell) << "Failed to set active Renderer. Error: invalid index:" << index.row()
@@ -87,7 +87,7 @@ void MediaRendererModel::activateRenderer(QModelIndex const &index)
     }
 }
 
-void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const &renderer)
+void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const& renderer)
 {
     auto const newIndex = static_cast<int>(mRenderers.size());
     beginInsertRows(index(newIndex), newIndex, newIndex);
@@ -95,9 +95,9 @@ void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const &re
     endInsertRows();
 }
 
-void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const &renderer)
+void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer)
 {
-    auto sourceIndex = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [&](std::shared_ptr<Renderer> const &src) {
+    auto sourceIndex = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [&](std::shared_ptr<Renderer> const& src) {
         return src == renderer;
     });
     if (sourceIndex != mRenderers.cend()) {

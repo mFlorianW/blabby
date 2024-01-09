@@ -69,22 +69,22 @@ public:
 
     bool sendEvents() const;
 
-    QString const &name() const;
+    QString const& name() const;
 
     DataType dataType() const;
 
-    QString const &defaultValue() const;
+    QString const& defaultValue() const;
 
-    QVector<QString> const &allowedValues() const;
+    QVector<QString> const& allowedValues() const;
 
-    QString const &miniumValue() const;
+    QString const& miniumValue() const;
 
-    QString const &maximumValue() const;
+    QString const& maximumValue() const;
 
-    QString const &stepSize() const;
+    QString const& stepSize() const;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(SCPDStateVariable const &lhs, SCPDStateVariable const &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(SCPDStateVariable const &lhs, SCPDStateVariable const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(SCPDStateVariable const& lhs, SCPDStateVariable const& rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(SCPDStateVariable const& lhs, SCPDStateVariable const& rhs);
 
 private:
     QExplicitlySharedDataPointer<SCPDStateVariableData> d;

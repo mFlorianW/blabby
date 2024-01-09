@@ -53,19 +53,19 @@ QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
     return mSupportedProtocols;
 }
 
-bool operator==(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept
+bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
 {
     return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
             (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
             (lhs.supportedProtocols() == rhs.supportedProtocols()));
 }
 
-bool operator!=(MediaServerObject const &lhs, MediaServerObject const &rhs) noexcept
+bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-QDebug operator<<(QDebug d, MediaServerObject const &serverObject)
+QDebug operator<<(QDebug d, MediaServerObject const& serverObject)
 {
     QDebugStateSaver saver(d);
 
@@ -79,7 +79,7 @@ QDebug operator<<(QDebug d, MediaServerObject const &serverObject)
     return d;
 }
 
-QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noexcept
+QVector<MediaServerObject> MediaServerObject::createFromDidl(QString& didl) noexcept
 {
     auto didlDesc = didl.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"");
     QXmlStreamReader didlReader{didlDesc};
@@ -98,12 +98,12 @@ QVector<MediaServerObject> MediaServerObject::createFromDidl(QString &didl) noex
     return objects;
 }
 
-std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReader &streamReader) noexcept
+std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReader& streamReader) noexcept
 {
     MediaServerObjectBuilder builder;
     // read container attributes
     auto attributes = streamReader.attributes();
-    for (auto const &attribute : attributes) {
+    for (auto const& attribute : attributes) {
         if (attribute.name() == QStringLiteral("id")) {
             builder.withId(attribute.value().toString());
         } else if (attribute.name() == QStringLiteral("parentID")) {
@@ -124,10 +124,10 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res")) {
             auto const attributes = streamReader.attributes();
-            for (auto const &attribute : attributes) {
+            for (auto const& attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
                     auto protos = QVector<Protocol>{};
-                    for (auto const &rawProto : attribute.value().toString().split(";")) {
+                    for (auto const& rawProto : attribute.value().toString().split(";")) {
                         auto const proto = Protocol::create(rawProto);
                         if (proto.has_value()) {
                             protos.push_back(std::move(proto.value()));

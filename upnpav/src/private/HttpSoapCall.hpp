@@ -20,8 +20,8 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT HttpSoapCall final : public SoapCall
 {
 public:
-    HttpSoapCall(QSharedPointer<QNetworkReply> const &reply);
-    HttpSoapCall(QSharedPointer<QNetworkReply> const &reply, ServiceControlPointDefinition scpd, SCPDAction action);
+    HttpSoapCall(QSharedPointer<QNetworkReply> const& reply);
+    HttpSoapCall(QSharedPointer<QNetworkReply> const& reply, ServiceControlPointDefinition scpd, SCPDAction action);
 
     bool hasFinishedSuccesful() const noexcept override;
 

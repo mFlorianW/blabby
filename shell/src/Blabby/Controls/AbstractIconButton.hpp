@@ -55,7 +55,7 @@ public:
      * Sets the icon source for the button.
      * @param source The new source for the button.
      */
-    void setSource(QUrl const &source) noexcept;
+    void setSource(QUrl const& source) noexcept;
 
     /**
      * Display a border around the @ref Shell::AbstractIconButton.

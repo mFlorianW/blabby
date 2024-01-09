@@ -49,22 +49,22 @@ public:
     /**
      * Copy constructor
      */
-    MediaRendererFactory(MediaRendererFactory const &other) = default;
+    MediaRendererFactory(MediaRendererFactory const& other) = default;
 
     /**
      * Copy operator
      */
-    MediaRendererFactory &operator=(MediaRendererFactory const &other) = default;
+    MediaRendererFactory& operator=(MediaRendererFactory const& other) = default;
 
     /**
      * Move constructor
      */
-    MediaRendererFactory(MediaRendererFactory &&other) = default;
+    MediaRendererFactory(MediaRendererFactory&& other) = default;
 
     /**
      * Move operator
      */
-    MediaRendererFactory &operator=(MediaRendererFactory &&other) = default;
+    MediaRendererFactory& operator=(MediaRendererFactory&& other) = default;
 
     /**
      * Factory method that creates tries to create a @ref UPnPAV::MediaRenderer instance.
@@ -72,7 +72,7 @@ public:
      *         required functions and state variables.
      * @return The freestore allocated @ref UPnPAV::MediaRenderer
      */
-    std::unique_ptr<MediaRenderer> create(DeviceDescription const &desc);
+    std::unique_ptr<MediaRenderer> create(DeviceDescription const& desc);
 };
 
 } // namespace UPnPAV

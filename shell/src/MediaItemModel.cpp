@@ -13,7 +13,7 @@ namespace Shell
 
 MediaItemModel::~MediaItemModel() = default;
 
-int MediaItemModel::rowCount(QModelIndex const &index) const noexcept
+int MediaItemModel::rowCount(QModelIndex const& index) const noexcept
 {
     Q_UNUSED(index);
 
@@ -33,21 +33,21 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const noexcept
     return roles;
 }
 
-QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
+QVariant MediaItemModel::data(QModelIndex const& index, int role) const noexcept
 {
     if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to request data. Error: MediaSource is not set.";
         return {};
     }
 
-    auto const &items = mMediaSrc->mediaItems();
+    auto const& items = mMediaSrc->mediaItems();
     if (not index.isValid() or (index.row() >= items.size())) {
         qCritical(shell) << "Failed to request data. Error: Invalided index for requesting data. Index:" << index
                          << "Source size:" << items.size();
         return {};
     }
 
-    auto const &item = items.at(index.row());
+    auto const& item = items.at(index.row());
     auto const dispRole = static_cast<DisplayRole>(role);
     if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
@@ -63,7 +63,7 @@ QVariant MediaItemModel::data(QModelIndex const &index, int role) const noexcept
     return {};
 }
 
-void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const &mediaSrc)
+void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& mediaSrc)
 {
     if (mMediaSrc != mediaSrc) {
         if (mMediaSrc != nullptr) {
@@ -91,13 +91,13 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
         return;
     }
 
-    auto const &items = mMediaSrc->mediaItems();
+    auto const& items = mMediaSrc->mediaItems();
     if (idx >= items.size() or idx < 0) {
         qCritical(shell) << "Failed to activate MediaItem. Error: Invalid MediaItem index" << idx;
         return;
     }
 
-    auto const &item = items.at(idx);
+    auto const& item = items.at(idx);
     if (item.type() == Multimedia::ItemType::Container) {
         mMediaSrc->navigateTo(item.path());
     } else {

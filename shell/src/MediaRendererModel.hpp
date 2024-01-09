@@ -57,7 +57,7 @@ public:
     /**
      * Gives the number of @ref Multimedia::Renderer elements in the model.
      */
-    int rowCount(QModelIndex const &parent = QModelIndex{}) const noexcept override;
+    int rowCount(QModelIndex const& parent = QModelIndex{}) const noexcept override;
 
     /**
      * Gives the roles to the UI in a form that UI can request the data with @ref MediaRendererModel::data.
@@ -73,7 +73,7 @@ public:
      * @param role The data that shall be returned for item referred by the index.
      * @return A QVariant with the stored data or empty QVariant for an invalid index or role parameter.
      */
-    QVariant data(QModelIndex const &index, int role) const noexcept override;
+    QVariant data(QModelIndex const& index, int role) const noexcept override;
 
     /**
      * Gives the active @ref Multimedia::Renderer.
@@ -86,7 +86,7 @@ public:
      * Active means in this case that the renderer is used for playback.
      * If the index is invalid or not @ref Multimedia::Renderer was found for that index nothing happens.
      */
-    Q_INVOKABLE void activateRenderer(QModelIndex const &index);
+    Q_INVOKABLE void activateRenderer(QModelIndex const& index);
 
 Q_SIGNALS:
     /**
@@ -96,8 +96,8 @@ Q_SIGNALS:
     void activeRendererChanged();
 
 private Q_SLOTS:
-    void onRendererConnected(std::shared_ptr<Multimedia::Renderer> const &renderer);
-    void onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const &renderer);
+    void onRendererConnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
+    void onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
 private:
     std::unique_ptr<Multimedia::RendererProvider> mProvider;

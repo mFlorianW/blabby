@@ -18,7 +18,7 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
     QObject::connect(&reader,
                      &ResponseReader::unsignedIntValueRead,
                      &reader,
-                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          bool conversionCorrect = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("NumberReturned") and conversionCorrect) {
                              mNumberReturned = value;
@@ -36,7 +36,7 @@ BrowseResponse::BrowseResponse(QString xmlResponse, ServiceControlPointDefinitio
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString &value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString& value, ResponseReader::ElementReadResult result) {
                          if (elementName == QStringLiteral("Result") and
                              result == ResponseReader::ElementReadResult::Ok) {
                              m_objects = MediaServerObject::createFromDidl(value);
@@ -69,7 +69,7 @@ quint32 BrowseResponse::updateId() const noexcept
     return mUpdateId;
 }
 
-QVector<MediaServerObject> const &BrowseResponse::objects() const noexcept
+QVector<MediaServerObject> const& BrowseResponse::objects() const noexcept
 {
     return m_objects;
 }

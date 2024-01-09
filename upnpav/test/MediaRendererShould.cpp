@@ -23,8 +23,8 @@ QSharedPointer<SoapMessageTransmitterDouble> createSoapMessageTransmitter()
     return QSharedPointer<SoapMessageTransmitterDouble>::create();
 }
 
-MediaRenderer createMediaRenderer(QVector<ServiceDescription> const &services,
-                                  QVector<ServiceControlPointDefinition> const &scpds)
+MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
+                                  QVector<ServiceControlPointDefinition> const& scpds)
 {
     // clang-format off
     return MediaRenderer
@@ -55,7 +55,7 @@ void MediaRendererShould::throw_an_exception_when_the_device_description_has_no_
     try {
         auto renderer = createMediaRenderer({validConnectionManagerDescription()}, {validConnectionManagerSCPD()});
         QFAIL("The constructor of the MediaRenderer should throw an exception");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("RenderingControl description not found"));
     }
 }

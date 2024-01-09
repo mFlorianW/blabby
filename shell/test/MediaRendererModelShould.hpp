@@ -23,7 +23,7 @@ public:
     Q_DISABLE_COPY_MOVE(MediaRendererModelShould)
 
 private:
-    UPnPAV::Doubles::ServiceProviderDouble *mServiceProvider;
+    UPnPAV::Doubles::ServiceProviderDouble* mServiceProvider;
     std::unique_ptr<MediaRendererModel> mModel = nullptr;
 
 private Q_SLOTS:

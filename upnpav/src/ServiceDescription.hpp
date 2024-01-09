@@ -32,8 +32,8 @@ public:
 
     QString eventUrl() const;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(ServiceDescription const &lhs, ServiceDescription const &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(ServiceDescription const &lhs, ServiceDescription const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(ServiceDescription const& lhs, ServiceDescription const& rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(ServiceDescription const& lhs, ServiceDescription const& rhs);
 
 private:
     QExplicitlySharedDataPointer<ServiceDescriptionData> d;
@@ -59,11 +59,11 @@ struct ServiceDescriptionData : public QSharedData
 
     ~ServiceDescriptionData() = default;
 
-    ServiceDescriptionData(ServiceDescriptionData const &other) noexcept = default;
-    ServiceDescriptionData &operator=(ServiceDescriptionData const &other) noexcept = delete;
+    ServiceDescriptionData(ServiceDescriptionData const& other) noexcept = default;
+    ServiceDescriptionData& operator=(ServiceDescriptionData const& other) noexcept = delete;
 
-    ServiceDescriptionData(ServiceDescriptionData &&other) noexcept = default;
-    ServiceDescriptionData &operator=(ServiceDescriptionData &&other) noexcept = delete;
+    ServiceDescriptionData(ServiceDescriptionData&& other) noexcept = default;
+    ServiceDescriptionData& operator=(ServiceDescriptionData&& other) noexcept = delete;
 };
 
 } // namespace UPnPAV

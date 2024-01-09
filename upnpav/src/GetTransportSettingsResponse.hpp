@@ -49,10 +49,10 @@ public:
      * If the device doesn't support recording, "NOT_IMPLEMENTED" will be returned.
      * @return The value of the RecQualityMode field of the response.
      */
-    QString const &recQualityMode() const noexcept;
+    QString const& recQualityMode() const noexcept;
 
 private:
-    static std::optional<PlayMode> convertPlayMode(QString const &rawMode) noexcept;
+    static std::optional<PlayMode> convertPlayMode(QString const& rawMode) noexcept;
 
 private:
     QExplicitlySharedDataPointer<GetTransportSettingsResponseData> d;

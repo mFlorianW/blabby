@@ -19,7 +19,7 @@ MediaSourceModel::MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> p
     Q_ASSERT(mProviderLoader != nullptr);
     mProviders = mProviderLoader->load({QStringLiteral(DEFAULT_PROVIDER_DIR)});
     beginResetModel();
-    for (auto const &provider : std::as_const(mProviders)) {
+    for (auto const& provider : std::as_const(mProviders)) {
         connect(provider.get(), &Multimedia::Provider::sourceAdded, this, &MediaSourceModel::onSourceAdded);
         connect(provider.get(), &Multimedia::Provider::sourceRemoved, this, &MediaSourceModel::onSourceRemoved);
         if (provider->init()) {
@@ -33,7 +33,7 @@ MediaSourceModel::MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> p
 
 MediaSourceModel::~MediaSourceModel() = default;
 
-int MediaSourceModel::rowCount(QModelIndex const &parent) const noexcept
+int MediaSourceModel::rowCount(QModelIndex const& parent) const noexcept
 {
     Q_UNUSED(parent)
     return static_cast<int>(mSources.size());
@@ -48,7 +48,7 @@ QHash<int, QByteArray> MediaSourceModel::roleNames() const noexcept
     return roleNames;
 }
 
-QVariant MediaSourceModel::data(QModelIndex const &index, int role) const noexcept
+QVariant MediaSourceModel::data(QModelIndex const& index, int role) const noexcept
 {
     if (not index.isValid() or (index.row() >= mSources.size())) {
         qCritical(shell) << "Failed to request data. Error: invalid index:" << index.row()
@@ -83,7 +83,7 @@ std::shared_ptr<Multimedia::Source> MediaSourceModel::activeMediaSource()
     return mActiveSource;
 }
 
-void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const &source) noexcept
+void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const& source) noexcept
 {
     auto const newIndex = static_cast<int>(mSources.size());
     beginInsertRows(index(newIndex), newIndex, newIndex);
@@ -91,10 +91,10 @@ void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const &
     endInsertRows();
 }
 
-void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const &source) noexcept
+void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const& source) noexcept
 {
     auto sourceIndex =
-        std::find_if(mSources.cbegin(), mSources.cend(), [&](std::shared_ptr<Multimedia::Source> const &src) {
+        std::find_if(mSources.cbegin(), mSources.cend(), [&](std::shared_ptr<Multimedia::Source> const& src) {
             return src == source;
         });
     if (sourceIndex != mSources.cend()) {

@@ -18,13 +18,13 @@ TestProviderLoader::TestProviderLoader(std::size_t count)
     }
 }
 
-[[nodiscard]] Multimedia::Providers const &TestProviderLoader::load(QStringList const &paths) noexcept
+[[nodiscard]] Multimedia::Providers const& TestProviderLoader::load(QStringList const& paths) noexcept
 {
     Q_UNUSED(paths)
     return mProviders;
 }
 
-Multimedia::Providers const &TestProviderLoader::providers() const noexcept
+Multimedia::Providers const& TestProviderLoader::providers() const noexcept
 {
     return mProviders;
 }

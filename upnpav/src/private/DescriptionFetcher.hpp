@@ -19,16 +19,16 @@ class BLABBYUPNPAV_EXPORT DescriptionFetcher : public QObject
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(DescriptionFetcher)
 public:
-    DescriptionFetcher(DescriptionFetcherBackend *backend);
+    DescriptionFetcher(DescriptionFetcherBackend* backend);
     ~DescriptionFetcher() override;
 
-    void fetchDescription(QUrl const &url);
+    void fetchDescription(QUrl const& url);
 
 Q_SIGNALS:
-    void descriptionFetched(QString const &description, QUrl const &url);
+    void descriptionFetched(QString const& description, QUrl const& url);
 
 private:
-    DescriptionFetcherBackend *m_backend;
+    DescriptionFetcherBackend* m_backend;
 };
 
 } // namespace UPnPAV

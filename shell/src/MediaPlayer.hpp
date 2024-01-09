@@ -36,13 +36,13 @@ public:
      * Sets the renderer for @ref Shell::MediaPlayer that is used for the playback.
      * @param renderer The renderer for controlling the playback.
      */
-    Q_INVOKABLE void setRenderer(std::shared_ptr<Multimedia::Renderer> const &renderer) noexcept;
+    Q_INVOKABLE void setRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer) noexcept;
 
     /**
      * Starts the play for the passed @ref Multimedia::Item.
      * The signal @ref playbackStarted is emitted when the playback is successful started.
      */
-    Q_INVOKABLE void play(Multimedia::Item const &item);
+    Q_INVOKABLE void play(Multimedia::Item const& item);
 
 Q_SIGNALS:
     /**

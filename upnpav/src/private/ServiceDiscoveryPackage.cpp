@@ -9,11 +9,11 @@
 namespace UPnPAV
 {
 
-ServiceDiscoveryPackage::ServiceDiscoveryPackage(QByteArray const &rawData)
+ServiceDiscoveryPackage::ServiceDiscoveryPackage(QByteArray const& rawData)
 {
     auto rawDataSplitted = QString{rawData}.split("\r\n");
 
-    for (auto const &entry : rawDataSplitted) {
+    for (auto const& entry : rawDataSplitted) {
         if (entry.startsWith(QStringLiteral("LOCATION:"))) {
             m_locationUrl = extracEntryValue(QString{entry});
         } else if (entry.startsWith(QStringLiteral("USN:"))) {
@@ -47,12 +47,12 @@ SsdpSubType ServiceDiscoveryPackage::notificationSubType() const
     return m_notificationSubType;
 }
 
-QString const &ServiceDiscoveryPackage::searchTarget() const
+QString const& ServiceDiscoveryPackage::searchTarget() const
 {
     return mSearchTarget;
 }
 
-QString ServiceDiscoveryPackage::extracEntryValue(QString const &entry)
+QString ServiceDiscoveryPackage::extracEntryValue(QString const& entry)
 {
     auto beginOfValue = entry.indexOf(':') + 1;
     if (beginOfValue == 0) {
@@ -62,7 +62,7 @@ QString ServiceDiscoveryPackage::extracEntryValue(QString const &entry)
     return entry.mid(beginOfValue).trimmed();
 }
 
-QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(QString const &rawString)
+QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(QString const& rawString)
 {
     if (rawString.contains("::")) {
         return rawString.split("::").at(0).trimmed();
@@ -71,7 +71,7 @@ QString ServiceDiscoveryPackage::extracDeviceIdentifierValue(QString const &rawS
     return rawString.trimmed();
 }
 
-SsdpSubType ServiceDiscoveryPackage::convertSubTypeString(QString const &subtype)
+SsdpSubType ServiceDiscoveryPackage::convertSubTypeString(QString const& subtype)
 {
     if (subtype == QStringLiteral("ssdp:byebye")) {
         return SsdpSubType::ByeBye;
@@ -88,7 +88,7 @@ PackageParseError::PackageParseError(QString description)
 {
 }
 
-char const *PackageParseError::what() const noexcept
+char const* PackageParseError::what() const noexcept
 {
     return m_errorDescription.data();
 }
@@ -98,7 +98,7 @@ void PackageParseError::raise() const
     throw *this;
 }
 
-PackageParseError *PackageParseError::clone() const
+PackageParseError* PackageParseError::clone() const
 {
     return new PackageParseError(*this); // NOLINT cppcoreguidelines-owning-memory
 }

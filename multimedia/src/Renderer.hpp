@@ -42,7 +42,7 @@ public:
      * Gives the name of the @ref Mulitmedia::Renderer
      * @return The name of the @ref Mulitmedia::Renderer.
      */
-    QString const &name() const noexcept;
+    QString const& name() const noexcept;
 
     /**
      * Gives the icon of the @ref Mulitmedia::Renderer
@@ -66,7 +66,7 @@ public:
      * The signal @ref Multimedia::Renderer::playbackStarted is emitted on success.
      * The signal @ref Multimedia::Renderer::playbackFailed with the error information is emitted on failure.
      */
-    void playback(Item const &item) noexcept;
+    void playback(Item const& item) noexcept;
 
 Q_SIGNALS:
     /**
@@ -77,7 +77,7 @@ Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::Renderer::initialize call has a failure.
      */
-    void initializationFailed(QString const &errorMsg);
+    void initializationFailed(QString const& errorMsg);
 
     /**
      * This signal is emitted when the @ref Multimedia::Renderer::playback call finished successful.
@@ -87,14 +87,14 @@ Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::Renderer::playback call has a failure.
      */
-    void playbackFailed(QString const &errorMsg);
+    void playbackFailed(QString const& errorMsg);
 
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
 
 private:
-    bool isPlayableItem(Item const &item) const noexcept;
+    bool isPlayableItem(Item const& item) const noexcept;
 
 private:
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;

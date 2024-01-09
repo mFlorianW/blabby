@@ -24,12 +24,12 @@ Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
 
 Source::~Source() = default;
 
-void Source::navigateTo(QString const &path) noexcept
+void Source::navigateTo(QString const& path) noexcept
 {
     navigate(path);
 }
 
-void Source::navigate(QString const &path) noexcept
+void Source::navigate(QString const& path) noexcept
 {
     mBrowseRequest = {
         .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, QString(""), QString("")),
@@ -48,7 +48,7 @@ void Source::onBrowseRequestFinished() noexcept
 
     auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
     mMediaItems.clear();
-    for (auto const &obj : result->objects()) {
+    for (auto const& obj : result->objects()) {
         auto const type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
                                                                     : Multimedia::ItemType::Playable;
         mMediaItems.emplace_back(Multimedia::ItemBuilder{}

@@ -81,10 +81,10 @@ Q_SIGNALS:
     void controlStateChanged();
 
 protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void hoverEnterEvent(QHoverEvent *event) override;
-    void hoverLeaveEvent(QHoverEvent *event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void hoverEnterEvent(QHoverEvent* event) override;
+    void hoverLeaveEvent(QHoverEvent* event) override;
 
 private:
     bool mHoverState = false;

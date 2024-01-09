@@ -9,7 +9,7 @@
 namespace UPnPAV
 {
 
-AvTransportServiceValidator::AvTransportServiceValidator(DeviceDescription &deviceDescription)
+AvTransportServiceValidator::AvTransportServiceValidator(DeviceDescription& deviceDescription)
 {
     m_serviceName = QStringLiteral("AVTransport");
     m_serviceType = QStringLiteral("urn:schemas-upnp-org:service:AVTransport");

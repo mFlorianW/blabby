@@ -57,8 +57,8 @@ public:
     QVector<std::shared_ptr<Multimedia::Source>> sources() const noexcept override;
 
 private Q_SLOTS:
-    void onServiceConnected(QString const &usn) noexcept;
-    void onServiceDisconnected(QString const &usn) noexcept;
+    void onServiceConnected(QString const& usn) noexcept;
+    void onServiceDisconnected(QString const& usn) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::IServiceProviderFactory> mServiceProviderFab;

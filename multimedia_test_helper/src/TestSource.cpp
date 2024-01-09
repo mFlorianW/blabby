@@ -40,7 +40,7 @@ TestSource::TestSource(QString name, QString iconUrl)
 
 TestSource::~TestSource() = default;
 
-void TestSource::navigateTo(QString const &path) noexcept
+void TestSource::navigateTo(QString const& path) noexcept
 {
     mLastNavigationPath = path;
     if (path == QStringLiteral("0")) {
@@ -55,7 +55,7 @@ void TestSource::navigateTo(QString const &path) noexcept
     Q_EMIT navigationFinished(path);
 }
 
-QString const &TestSource::lastNavigatedPath() const noexcept
+QString const& TestSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
 }

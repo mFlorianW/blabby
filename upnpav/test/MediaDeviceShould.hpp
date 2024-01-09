@@ -28,13 +28,13 @@ public:
     ~MediaDeviceShould() override;
 
 private:
-    ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(SCPDStateVariable const &variable);
-    ServiceControlPointDefinition createConnectionManagerSCPDWithoutAction(SCPDAction const &action);
+    ServiceControlPointDefinition createConnectionManagerSCPDWithoutStateVariable(SCPDStateVariable const& variable);
+    ServiceControlPointDefinition createConnectionManagerSCPDWithoutAction(SCPDAction const& action);
 
-    ServiceControlPointDefinition createAvTransportSCPDWithoutStateVariable(SCPDStateVariable const &variable);
-    ServiceControlPointDefinition createAvTransportSCPDWithoutAction(SCPDAction const &action);
-    DeviceDescription createAvTransportDeviceDescriptionWithoutStateVariable(SCPDStateVariable const &variable);
-    DeviceDescription createAvTransportDeviceDescriptionWithoutAction(SCPDAction const &action);
+    ServiceControlPointDefinition createAvTransportSCPDWithoutStateVariable(SCPDStateVariable const& variable);
+    ServiceControlPointDefinition createAvTransportSCPDWithoutAction(SCPDAction const& action);
+    DeviceDescription createAvTransportDeviceDescriptionWithoutStateVariable(SCPDStateVariable const& variable);
+    DeviceDescription createAvTransportDeviceDescriptionWithoutAction(SCPDAction const& action);
 
 private Q_SLOTS:
     /**

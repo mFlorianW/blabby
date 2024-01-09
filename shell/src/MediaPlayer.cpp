@@ -15,7 +15,7 @@ namespace Shell
 
 MediaPlayer::~MediaPlayer() = default;
 
-void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const &renderer) noexcept
+void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer) noexcept
 {
     mRenderer = renderer;
     if (mRenderer != nullptr) {
@@ -24,7 +24,7 @@ void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const &rende
     }
 }
 
-void MediaPlayer::play(Multimedia::Item const &item)
+void MediaPlayer::play(Multimedia::Item const& item)
 {
     if (mRenderer == nullptr) {
         qCCritical(shell) << "Failed to start playback. No render device set.";

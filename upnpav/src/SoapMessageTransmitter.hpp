@@ -25,15 +25,15 @@ public:
 
     Q_DISABLE_COPY_MOVE(SoapMessageTransmitter)
 
-    virtual QSharedPointer<SoapCall> sendSoapMessage(QString const &url,
-                                                     QString const &actionName,
-                                                     QString const &serviceType,
-                                                     QString const &xmlBody) noexcept = 0;
+    virtual QSharedPointer<SoapCall> sendSoapMessage(QString const& url,
+                                                     QString const& actionName,
+                                                     QString const& serviceType,
+                                                     QString const& xmlBody) noexcept = 0;
 
-    virtual QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const &desc,
-                                                     ServiceControlPointDefinition &scpd,
-                                                     SCPDAction const &action,
-                                                     QString &xmlBody) noexcept = 0;
+    virtual QSharedPointer<SoapCall> sendSoapMessage(ServiceDescription const& desc,
+                                                     ServiceControlPointDefinition& scpd,
+                                                     SCPDAction const& action,
+                                                     QString& xmlBody) noexcept = 0;
 
 protected:
     SoapMessageTransmitter() = default;

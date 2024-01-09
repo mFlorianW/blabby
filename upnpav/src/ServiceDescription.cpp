@@ -51,7 +51,7 @@ QString ServiceDescription::eventUrl() const
     return d->mEventUrl;
 }
 
-bool operator==(ServiceDescription const &lhs, ServiceDescription const &rhs)
+bool operator==(ServiceDescription const& lhs, ServiceDescription const& rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -62,7 +62,7 @@ bool operator==(ServiceDescription const &lhs, ServiceDescription const &rhs)
             (lhs.d->mEventUrl == rhs.d->mEventUrl));
 }
 
-bool operator!=(ServiceDescription const &lhs, ServiceDescription const &rhs)
+bool operator!=(ServiceDescription const& lhs, ServiceDescription const& rhs)
 {
     return !(lhs == rhs);
 }

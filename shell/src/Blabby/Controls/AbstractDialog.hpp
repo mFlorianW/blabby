@@ -32,7 +32,7 @@ class AbstractDialog : public QQuickItem
      * The content item of the dialog
      * If the contentItem does not a height or width the item is automatically expanded to size of the dialog.
      */
-    Q_PROPERTY(QQuickItem *contentItem READ contentItem WRITE setContentItem NOTIFY contentItemChanged)
+    Q_PROPERTY(QQuickItem* contentItem READ contentItem WRITE setContentItem NOTIFY contentItemChanged)
 
     QML_ELEMENT
 public:
@@ -61,26 +61,26 @@ public:
      * Gives the title of the Shell::AbstractDialog.
      * @return The title of the @ref Shell::AbstractDialog.
      */
-    QString const &title() const noexcept;
+    QString const& title() const noexcept;
 
     /**
      * Sets a new title for the @ref Shell::AbstractDialog.
      * @param title The new title.
      */
-    void setTitle(QString const &title) noexcept;
+    void setTitle(QString const& title) noexcept;
 
     /**
      * Gives the content item of the @ref Shell::AbstractDialog.
      * @return The content item of the @ref Shell::AbstractDialog.
      */
-    QQuickItem *contentItem() const noexcept;
+    QQuickItem* contentItem() const noexcept;
 
     /**
      * Sets the new contentItem of the @ref Shell::AbstractDialog
      * If the contentItem does not a height or width the item is automatically expanded to size of the dialog.
      * @param contentItem The new content item for the dialog.
      */
-    void setContentItem(QQuickItem *contentItem) noexcept;
+    void setContentItem(QQuickItem* contentItem) noexcept;
 
 Q_SIGNALS:
     /**
@@ -95,7 +95,7 @@ Q_SIGNALS:
 
 private:
     QString mTitle;
-    QQuickItem *mContentItem;
+    QQuickItem* mContentItem;
     qreal mHeaderHeight = 52;
 };
 

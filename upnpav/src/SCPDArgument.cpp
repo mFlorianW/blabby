@@ -31,7 +31,7 @@ QString SCPDArgument::relatedStateVariable() const
     return d->mRelatedStateVariable;
 }
 
-bool operator==(SCPDArgument const &lhs, SCPDArgument const &rhs)
+bool operator==(SCPDArgument const& lhs, SCPDArgument const& rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -41,7 +41,7 @@ bool operator==(SCPDArgument const &lhs, SCPDArgument const &rhs)
             (lhs.d->mRelatedStateVariable == rhs.d->mRelatedStateVariable));
 }
 
-bool operator!=(SCPDArgument const &lhs, SCPDArgument const &rhs)
+bool operator!=(SCPDArgument const& lhs, SCPDArgument const& rhs)
 {
     return !(lhs == rhs);
 }

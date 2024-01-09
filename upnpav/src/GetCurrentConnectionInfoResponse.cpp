@@ -14,15 +14,15 @@
 namespace UPnPAV
 {
 
-GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const &xmlResponse,
-                                                                   ServiceControlPointDefinition const &scpd,
+GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const& xmlResponse,
+                                                                   ServiceControlPointDefinition const& scpd,
                                                                    SCPDAction action)
 {
     auto resultReader = ResponseReader(xmlResponse, scpd, action);
     QObject::connect(&resultReader,
                      &ResponseReader::stringValueRead,
                      &resultReader,
-                     [&](QString const &elementName, QString const &value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString const& value, ResponseReader::ElementReadResult result) {
                          const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("Direction") and conversionOk) {
                              const auto direction = convertDirection(value);
@@ -53,7 +53,7 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
     QObject::connect(&resultReader,
                      &ResponseReader::signedIntValueRead,
                      &resultReader,
-                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto conversionOk = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("RcsID") and conversionOk) {
                              mConnectionInfo.rcsId = value;
@@ -76,12 +76,12 @@ GetCurrentConnectionInfoResponse::GetCurrentConnectionInfoResponse(QString const
 
 GetCurrentConnectionInfoResponse::~GetCurrentConnectionInfoResponse() = default;
 
-ConnectionInfo const &GetCurrentConnectionInfoResponse::connectionInfo() const noexcept
+ConnectionInfo const& GetCurrentConnectionInfoResponse::connectionInfo() const noexcept
 {
     return mConnectionInfo;
 }
 
-std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString const &rawValue) noexcept
+std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString const& rawValue) noexcept
 {
     bool ok = false;
     auto const value = rawValue.toUInt(&ok);
@@ -93,7 +93,7 @@ std::optional<quint32> GetCurrentConnectionInfoResponse::convertU32Value(QString
 }
 
 std::optional<ConnectionInfoDirection> GetCurrentConnectionInfoResponse::convertDirection(
-    QString const &rawValue) noexcept
+    QString const& rawValue) noexcept
 {
     if (rawValue == QStringLiteral("Input")) {
         return ConnectionInfoDirection::Input;
@@ -104,7 +104,7 @@ std::optional<ConnectionInfoDirection> GetCurrentConnectionInfoResponse::convert
     return std::nullopt;
 }
 
-std::optional<ConnectionInfoStatus> GetCurrentConnectionInfoResponse::convertStatus(QString const &rawValue) noexcept
+std::optional<ConnectionInfoStatus> GetCurrentConnectionInfoResponse::convertStatus(QString const& rawValue) noexcept
 {
     if (rawValue == QStringLiteral("OK")) {
         return ConnectionInfoStatus::OK;
@@ -121,7 +121,7 @@ std::optional<ConnectionInfoStatus> GetCurrentConnectionInfoResponse::convertSta
     return std::nullopt;
 }
 
-bool operator==(ConnectionInfo const &lhs, ConnectionInfo const &rhs)
+bool operator==(ConnectionInfo const& lhs, ConnectionInfo const& rhs)
 {
     // clang-format off
     return (lhs.status == rhs.status) &&
@@ -134,7 +134,7 @@ bool operator==(ConnectionInfo const &lhs, ConnectionInfo const &rhs)
     // clang-format on
 }
 
-bool operator!=(ConnectionInfo const &lhs, ConnectionInfo const &rhs)
+bool operator!=(ConnectionInfo const& lhs, ConnectionInfo const& rhs)
 {
     return !(lhs == rhs);
 }

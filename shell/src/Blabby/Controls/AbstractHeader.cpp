@@ -16,7 +16,7 @@ QString AbstractHeader::text() const noexcept
     return mText;
 }
 
-void AbstractHeader::setText(QString const &text) noexcept
+void AbstractHeader::setText(QString const& text) noexcept
 {
     if (mText != text) {
         mText = text;
@@ -29,7 +29,7 @@ QString AbstractHeader::iconUrl() const noexcept
     return mIconUrl;
 }
 
-void AbstractHeader::setIconUrl(QString const &iconUrl) noexcept
+void AbstractHeader::setIconUrl(QString const& iconUrl) noexcept
 {
     if (mIconUrl != iconUrl) {
         mIconUrl = iconUrl;

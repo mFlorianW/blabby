@@ -60,11 +60,11 @@ public:
      * Gives the transport play speed of the response.
      * @return The value of the TransportPlaySpeed field of the message.
      */
-    QString const &transportPlaySpeed() const noexcept;
+    QString const& transportPlaySpeed() const noexcept;
 
 private:
-    static std::optional<TransportState> convertTransportState(QString const &rawString);
-    static TransportStatus convertTransportStatus(QString const &rawString);
+    static std::optional<TransportState> convertTransportState(QString const& rawString);
+    static TransportStatus convertTransportStatus(QString const& rawString);
 
 private:
     QExplicitlySharedDataPointer<GetTransportInfoResponseData> d;

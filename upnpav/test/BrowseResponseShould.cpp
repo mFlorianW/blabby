@@ -18,7 +18,7 @@ namespace UPnPAV
 
 namespace
 {
-BrowseResponse createBrowseResult(QString const &response)
+BrowseResponse createBrowseResult(QString const& response)
 {
     return BrowseResponse{response, validContentDirectorySCPD(), Browse()};
 }

@@ -10,7 +10,7 @@
 namespace UPnPAV
 {
 
-bool operator==(Protocol const &lhs, Protocol const &rhs) noexcept
+bool operator==(Protocol const& lhs, Protocol const& rhs) noexcept
 {
     // clang-format off
     return (lhs.network == rhs.network or (lhs.network == "*" or rhs.network == "*")) and
@@ -20,12 +20,12 @@ bool operator==(Protocol const &lhs, Protocol const &rhs) noexcept
     // clang-format on
 }
 
-bool operator!=(Protocol const &lhs, Protocol const &rhs) noexcept
+bool operator!=(Protocol const& lhs, Protocol const& rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-std::optional<Protocol> Protocol::create(QString const &rawProtocol)
+std::optional<Protocol> Protocol::create(QString const& rawProtocol)
 {
     auto const parts = rawProtocol.split(":");
     if (parts.size() < 3) {
@@ -50,7 +50,7 @@ std::optional<Protocol> Protocol::create(QString const &rawProtocol)
 
 } // namespace UPnPAV
 
-BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::Protocol const &proto)
+BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::Protocol const& proto)
 {
     QDebugStateSaver saver(d);
 

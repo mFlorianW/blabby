@@ -45,8 +45,8 @@ public:
      *         description doesn't contain the minimum
      *         requried functions and values.
      */
-    MediaServer(DeviceDescription const &deviceDescription,
-                QSharedPointer<SoapMessageTransmitter> const &soapMessageTransmitter);
+    MediaServer(DeviceDescription const& deviceDescription,
+                QSharedPointer<SoapMessageTransmitter> const& soapMessageTransmitter);
     ~MediaServer() override;
 
     /**
@@ -65,10 +65,10 @@ public:
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
      * @return PendingSoapCall with the result or error.
      */
-    virtual std::unique_ptr<PendingSoapCall> browse(QString const &objectId,
+    virtual std::unique_ptr<PendingSoapCall> browse(QString const& objectId,
                                                     BrowseFlag browseFlag,
-                                                    QString const &filter,
-                                                    QString const &sortCriteria) noexcept;
+                                                    QString const& filter,
+                                                    QString const& sortCriteria) noexcept;
 
 private:
     std::unique_ptr<MediaServerPrivate> d;
@@ -80,7 +80,7 @@ class BLABBYUPNPAV_EXPORT MediaServerFactory
 public:
     MediaServerFactory();
     virtual ~MediaServerFactory();
-    virtual std::unique_ptr<MediaServer> createMediaServer(DeviceDescription const &deviceDescription);
+    virtual std::unique_ptr<MediaServer> createMediaServer(DeviceDescription const& deviceDescription);
 };
 
 } // namespace UPnPAV

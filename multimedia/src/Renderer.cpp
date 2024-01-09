@@ -25,7 +25,7 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
 
 Renderer::~Renderer() = default;
 
-QString const &Renderer::name() const noexcept
+QString const& Renderer::name() const noexcept
 {
     return mRenderer->name();
 }
@@ -52,7 +52,7 @@ void Renderer::initialize() noexcept
     });
 }
 
-void Renderer::playback(Item const &item) noexcept
+void Renderer::playback(Item const& item) noexcept
 {
     if (not isPlayableItem(item)) {
         Q_EMIT playbackFailed(QString("Unsupported item passed. Now fitting protocol found."));
@@ -69,10 +69,10 @@ void Renderer::playback(Item const &item) noexcept
     }
 }
 
-bool Renderer::isPlayableItem(Item const &item) const noexcept
+bool Renderer::isPlayableItem(Item const& item) const noexcept
 {
-    for (auto const &protocol : mProtocols) {
-        for (auto const &itemProto : item.supportedTypes()) {
+    for (auto const& protocol : mProtocols) {
+        for (auto const& itemProto : item.supportedTypes()) {
             if (itemProto == protocol) {
                 return true;
             }

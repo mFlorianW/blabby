@@ -41,8 +41,8 @@ struct BLABBYUPNPAV_EXPORT ConnectionInfo
     ConnectionInfoDirection direction{ConnectionInfoDirection::Unknown};
     ConnectionInfoStatus status{ConnectionInfoStatus::Unknown};
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(ConnectionInfo const &lhs, ConnectionInfo const &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(ConnectionInfo const &lhs, ConnectionInfo const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(ConnectionInfo const& lhs, ConnectionInfo const& rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(ConnectionInfo const& lhs, ConnectionInfo const& rhs);
 };
 
 /**
@@ -51,18 +51,18 @@ struct BLABBYUPNPAV_EXPORT ConnectionInfo
 class BLABBYUPNPAV_EXPORT GetCurrentConnectionInfoResponse final
 {
 public:
-    GetCurrentConnectionInfoResponse(QString const &xmlResponse,
-                                     ServiceControlPointDefinition const &scpd,
+    GetCurrentConnectionInfoResponse(QString const& xmlResponse,
+                                     ServiceControlPointDefinition const& scpd,
                                      SCPDAction action);
     Q_DISABLE_COPY_MOVE(GetCurrentConnectionInfoResponse)
     ~GetCurrentConnectionInfoResponse();
 
-    ConnectionInfo const &connectionInfo() const noexcept;
+    ConnectionInfo const& connectionInfo() const noexcept;
 
 private:
-    static std::optional<quint32> convertU32Value(QString const &rawValue) noexcept;
-    static std::optional<ConnectionInfoDirection> convertDirection(QString const &rawValue) noexcept;
-    static std::optional<ConnectionInfoStatus> convertStatus(QString const &rawValue) noexcept;
+    static std::optional<quint32> convertU32Value(QString const& rawValue) noexcept;
+    static std::optional<ConnectionInfoDirection> convertDirection(QString const& rawValue) noexcept;
+    static std::optional<ConnectionInfoStatus> convertStatus(QString const& rawValue) noexcept;
 
 private:
     ConnectionInfo mConnectionInfo;

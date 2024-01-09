@@ -59,7 +59,7 @@ public:
     /**
      * Gives the number of provider in the model.
      */
-    int rowCount(QModelIndex const &parent = QModelIndex()) const noexcept override;
+    int rowCount(QModelIndex const& parent = QModelIndex()) const noexcept override;
 
     /**
      * Gives the roles names for the UI to access the for displaying in the model.
@@ -75,7 +75,7 @@ public:
      * @param role The data that shall be returned for item referred by the index.
      * @return A QVariant with the stored data or empty QVariant for an invalid index or role parameter.
      */
-    QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const noexcept override;
+    QVariant data(QModelIndex const& index, int role = Qt::DisplayRole) const noexcept override;
 
     /**
      * Activates the @ref Multimedia::MediaSource under the passed indeunder the passed indexxand updates the @ref
@@ -98,8 +98,8 @@ Q_SIGNALS:
     void activeMediaSourceChanged();
 
 private Q_SLOTS:
-    void onSourceAdded(std::shared_ptr<Multimedia::Source> const &source) noexcept;
-    void onSourceRemoved(std::shared_ptr<Multimedia::Source> const &source) noexcept;
+    void onSourceAdded(std::shared_ptr<Multimedia::Source> const& source) noexcept;
+    void onSourceRemoved(std::shared_ptr<Multimedia::Source> const& source) noexcept;
 
 private:
     std::unique_ptr<Multimedia::ProviderLoader> mProviderLoader;
