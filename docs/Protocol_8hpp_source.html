@@ -134,16 +134,16 @@ $(document).ready(function(){initNavTree('Protocol_8hpp_source.html',''); initRe
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    QString contentFormat;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    QString additionalInfo;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    BLABBYUPNPAV_EXPORT <span class="keyword">friend</span> <span class="keywordtype">bool</span> operator==(<a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span> &amp;lhs, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span> &amp;rhs) <span class="keyword">noexcept</span>;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    BLABBYUPNPAV_EXPORT <span class="keyword">friend</span> <span class="keywordtype">bool</span> operator!=(<a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span> &amp;lhs, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span> &amp;rhs) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    BLABBYUPNPAV_EXPORT <span class="keyword">friend</span> <span class="keywordtype">bool</span> operator==(<a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span>&amp; lhs, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span>&amp; rhs) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    BLABBYUPNPAV_EXPORT <span class="keyword">friend</span> <span class="keywordtype">bool</span> operator!=(<a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span>&amp; lhs, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">Protocol</a> <span class="keyword">const</span>&amp; rhs) <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">static</span> std::optional&lt;Protocol&gt; create(QString <span class="keyword">const</span> &amp;rawProtocol);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">static</span> std::optional&lt;Protocol&gt; create(QString <span class="keyword">const</span>&amp; rawProtocol);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
 </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>} <span class="comment">// namespace UPnPAV</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>BLABBYUPNPAV_EXPORT QDebug operator&lt;&lt;(QDebug d, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">UPnPAV::Protocol</a> <span class="keyword">const</span> &amp;proto);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>BLABBYUPNPAV_EXPORT QDebug operator&lt;&lt;(QDebug d, <a class="code hl_struct" href="structUPnPAV_1_1Protocol.html">UPnPAV::Protocol</a> <span class="keyword">const</span>&amp; proto);</div>
 <div class="ttc" id="astructUPnPAV_1_1Protocol_html"><div class="ttname"><a href="structUPnPAV_1_1Protocol.html">UPnPAV::Protocol</a></div><div class="ttdef"><b>Definition</b> Protocol.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

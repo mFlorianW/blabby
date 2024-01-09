@@ -152,8 +152,8 @@ $(document).ready(function(){initNavTree('MediaServerProvider_8hpp_source.html',
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    QVector&lt;std::shared_ptr&lt;Multimedia::<a class="code hl_class" href="classProvider_1_1MediaServer_1_1Source.html">Source</a>&gt;&gt; sources() const noexcept override;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>private Q_SLOTS:</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> onServiceConnected(QString const &amp;usn) noexcept;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> onServiceDisconnected(QString const &amp;usn) noexcept;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> onServiceConnected(QString const&amp; usn) noexcept;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> onServiceDisconnected(QString const&amp; usn) noexcept;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>private:</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::unique_ptr&lt;UPnPAV::IServiceProviderFactory&gt; mServiceProviderFab;</div>

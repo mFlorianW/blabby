@@ -9,7 +9,7 @@ var searchData=
   ['trackduration_6',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#a00b2833402c89200cd85cdec49be9039',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackmetadata_7',['trackMetaData',['../classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackuri_8',['trackUri',['../classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813',1,'UPnPAV::GetPositionInfoResponse']]],
-  ['trailingelement_9',['trailingelement',['../classShell_1_1AbstractListEntry.html#a91ec8027fc8a62a0794e0c5070a5a5c1',1,'Shell::AbstractListEntry::trailingElement'],['../classShell_1_1AbstractListEntry.html#a95b157ae5656d97d44de0d1e6ac8d804',1,'Shell::AbstractListEntry::trailingElement() const noexcept']]],
+  ['trailingelement_9',['trailingelement',['../classShell_1_1AbstractListEntry.html#aef6303ccd4d4c3b0b1321c58fd3ffaed',1,'Shell::AbstractListEntry::trailingElement'],['../classShell_1_1AbstractListEntry.html#a95b157ae5656d97d44de0d1e6ac8d804',1,'Shell::AbstractListEntry::trailingElement() const noexcept']]],
   ['trailingelementchanged_10',['trailingElementChanged',['../classShell_1_1AbstractListEntry.html#a9c0df8d1ea51d7cebeaa6010f439bd99',1,'Shell::AbstractListEntry']]],
   ['transitioning_11',['Transitioning',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa69a4b7185e3fbc9bfc0878876d7416cf',1,'UPnPAV::GetTransportInfoResponse']]],
   ['transitionnotavailable_12',['TransitionNotAvailable',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ada0ca75087e9019b7701dc0debac0536',1,'UPnPAV::PendingSoapCall']]],

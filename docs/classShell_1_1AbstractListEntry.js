@@ -13,5 +13,5 @@ var classShell_1_1AbstractListEntry =
     [ "trailingElementChanged", "classShell_1_1AbstractListEntry.html#a9c0df8d1ea51d7cebeaa6010f439bd99", null ],
     [ "iconUrl", "classShell_1_1AbstractListEntry.html#aa6435802b61d8d582222e4556778fbeb", null ],
     [ "title", "classShell_1_1AbstractListEntry.html#a935f3838e17d5f6ccc4526a110606763", null ],
-    [ "trailingElement", "classShell_1_1AbstractListEntry.html#a91ec8027fc8a62a0794e0c5070a5a5c1", null ]
+    [ "trailingElement", "classShell_1_1AbstractListEntry.html#aef6303ccd4d4c3b0b1321c58fd3ffaed", null ]
 ];

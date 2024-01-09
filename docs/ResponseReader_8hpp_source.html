@@ -153,21 +153,21 @@ $(document).ready(function(){initNavTree('ResponseReader_8hpp_source.html',''); 
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classUPnPAV_1_1ResponseReader.html">ResponseReader</a>)</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    QString <span class="keyword">const</span> &amp;response() <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    QString <span class="keyword">const</span>&amp; response() <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    ReadResult read() <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> unsignedIntValueRead(QString <span class="keyword">const</span> &amp;TokenName,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> unsignedIntValueRead(QString <span class="keyword">const</span>&amp; TokenName,</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                              quint32 value,</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                              UPnPAV::ResponseReader::ElementReadResult result);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> signedIntValueRead(QString <span class="keyword">const</span> &amp;TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> stringValueRead(QString <span class="keyword">const</span> &amp;TokenName, QString &amp;value, UPnPAV::ResponseReader::ElementReadResult result);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> signedIntValueRead(QString <span class="keyword">const</span>&amp; TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> stringValueRead(QString <span class="keyword">const</span>&amp; TokenName, QString&amp; value, UPnPAV::ResponseReader::ElementReadResult result);</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    SCPDStateVariable::DataType dataType(QString <span class="keyword">const</span> &amp;argName) <span class="keyword">noexcept</span>;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">void</span> readUnsignedIntValue(QString <span class="keyword">const</span> &amp;argName, QString <span class="keyword">const</span> &amp;rawValue) <span class="keyword">noexcept</span>;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> readSignedIntValue(QString <span class="keyword">const</span> &amp;argName, QString <span class="keyword">const</span> &amp;rawValue) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    SCPDStateVariable::DataType dataType(QString <span class="keyword">const</span>&amp; argName) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">void</span> readUnsignedIntValue(QString <span class="keyword">const</span>&amp; argName, QString <span class="keyword">const</span>&amp; rawValue) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> readSignedIntValue(QString <span class="keyword">const</span>&amp; argName, QString <span class="keyword">const</span>&amp; rawValue) <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">private</span>:</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    QString mXmlResponse;</div>

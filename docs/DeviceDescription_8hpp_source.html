@@ -149,27 +149,27 @@ $(document).ready(function(){initNavTree('DeviceDescription_8hpp_source.html',''
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                      QVector&lt;ServiceDescription&gt; services = {},</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                      QVector&lt;ServiceControlPointDefinition&gt; scpds = {});</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    QString <span class="keyword">const</span> &amp;deviceType() const noexcept;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    QString <span class="keyword">const</span>&amp; deviceType() const noexcept;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    QString const &amp;friendlyName() const noexcept;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    QString const&amp; friendlyName() const noexcept;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    QString const &amp;manufacturer() const noexcept;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    QString const&amp; manufacturer() const noexcept;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    QVector&lt;IconDescription&gt; const &amp;icons() const noexcept;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    QVector&lt;IconDescription&gt; const&amp; icons() const noexcept;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    QString const &amp;modelName() const noexcept;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    QString const&amp; modelName() const noexcept;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    QString const &amp;udn() const noexcept;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    QString const&amp; udn() const noexcept;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::optional&lt;ServiceDescription&gt; service(QString const &amp;serviceName) const noexcept;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    QVector&lt;ServiceDescription&gt; const &amp;services() const noexcept;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::optional&lt;ServiceDescription&gt; service(QString const&amp; serviceName) const noexcept;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    QVector&lt;ServiceDescription&gt; const&amp; services() const noexcept;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QVector&lt;ServiceControlPointDefinition&gt; const &amp;scpds() const noexcept;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QVector&lt;ServiceControlPointDefinition&gt; const&amp; scpds() const noexcept;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::optional&lt;ServiceControlPointDefinition&gt; scpd(QString const &amp;scpdUrl) const noexcept;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::optional&lt;ServiceControlPointDefinition&gt; scpd(QString const&amp; scpdUrl) const noexcept;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    BLABBYUPNPAV_EXPORT friend <span class="keywordtype">bool</span> operator==(DeviceDescription const &amp;lhs, DeviceDescription const &amp;rhs);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    BLABBYUPNPAV_EXPORT friend <span class="keywordtype">bool</span> operator!=(DeviceDescription const &amp;lhs, DeviceDescription const &amp;rhs);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    BLABBYUPNPAV_EXPORT friend <span class="keywordtype">bool</span> operator==(DeviceDescription const&amp; lhs, DeviceDescription const&amp; rhs);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    BLABBYUPNPAV_EXPORT friend <span class="keywordtype">bool</span> operator!=(DeviceDescription const&amp; lhs, DeviceDescription const&amp; rhs);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>private:</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    QString m_deviceType{<span class="stringliteral">&quot;&quot;</span>};</div>
