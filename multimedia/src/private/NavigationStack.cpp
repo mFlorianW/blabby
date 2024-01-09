@@ -9,10 +9,10 @@
 namespace Multimedia
 {
 
-NavigationStack::NavigationStack(Source &source)
+NavigationStack::NavigationStack(Source& source)
     : mSource{source}
 {
-    QObject::connect(&mSource, &Source::navigationFinished, &mSource, [this](QString const &path) {
+    QObject::connect(&mSource, &Source::navigationFinished, &mSource, [this](QString const& path) {
         if (not mNavigationAction) {
             // Remove older navigation history and replace with the new history.
             if (not mPathStack.isEmpty() and mPathStack.size() - 1 > mNavigationIndex) {
@@ -32,7 +32,7 @@ NavigationStack::NavigationStack(Source &source)
 
 NavigationStack::~NavigationStack() = default;
 
-QString const &NavigationStack::path()
+QString const& NavigationStack::path()
 {
     return mPath;
 }

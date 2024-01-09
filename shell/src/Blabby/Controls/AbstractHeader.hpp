@@ -53,7 +53,7 @@ public:
      * Sets the text for the header.
      * @param text The new text for the header.
      */
-    void setText(QString const &text) noexcept;
+    void setText(QString const& text) noexcept;
 
     /**
      * Gives the icon URL for the header.
@@ -65,7 +65,7 @@ public:
      * Sets the icon URL for the header.
      * @param iconUrl The new icon URL for the header.
      */
-    void setIconUrl(QString const &iconUrl) noexcept;
+    void setIconUrl(QString const& iconUrl) noexcept;
 
 Q_SIGNALS:
     /**

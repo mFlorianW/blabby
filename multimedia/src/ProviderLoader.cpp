@@ -16,9 +16,9 @@ namespace Multimedia
 ProviderLoader::ProviderLoader() = default;
 ProviderLoader::~ProviderLoader() = default;
 
-Providers const &ProviderLoader::load(QStringList const &paths) noexcept
+Providers const& ProviderLoader::load(QStringList const& paths) noexcept
 {
-    for (QString const &path : std::as_const(paths)) {
+    for (QString const& path : std::as_const(paths)) {
         QDir dir{path};
         if (!dir.exists(path)) {
             qCWarning(mmProvider) << "Plugin folder" << dir.path() << "doesn't exists. Skipping";
@@ -38,7 +38,7 @@ Providers const &ProviderLoader::load(QStringList const &paths) noexcept
     }
     return mProviders;
 }
-void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
+void ProviderLoader::loadProvider(QFileInfo const& provider) noexcept
 {
     QPluginLoader pluginLoader{provider.filePath()};
     if (!pluginLoader.load()) {
@@ -49,7 +49,7 @@ void ProviderLoader::loadProvider(QFileInfo const &provider) noexcept
 
     // Load the plugin, if the library doesn't implements the Provider
     // interface then we can ignore this file and it can be unloaded.
-    auto plugin = std::shared_ptr<Provider>(qobject_cast<Provider *>(pluginLoader.instance()));
+    auto plugin = std::shared_ptr<Provider>(qobject_cast<Provider*>(pluginLoader.instance()));
     if (plugin != nullptr) {
         mProviders.append(std::move(plugin));
     } else {

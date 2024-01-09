@@ -22,8 +22,8 @@ struct BLABBYUPNPAV_EXPORT Protocol
     QString contentFormat;
     QString additionalInfo;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(Protocol const &lhs, Protocol const &rhs) noexcept;
-    BLABBYUPNPAV_EXPORT friend bool operator!=(Protocol const &lhs, Protocol const &rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator==(Protocol const& lhs, Protocol const& rhs) noexcept;
+    BLABBYUPNPAV_EXPORT friend bool operator!=(Protocol const& lhs, Protocol const& rhs) noexcept;
 
     /**
      * Creates a @ref UPnPAV::Protocol from a string.
@@ -31,9 +31,9 @@ struct BLABBYUPNPAV_EXPORT Protocol
      *      <protocol>:<network>:<contentFormat>:<additionalInfo>
      * @return Valid optional if parsing runs successful othwise a std::nullopt
      */
-    static std::optional<Protocol> create(QString const &rawProtocol);
+    static std::optional<Protocol> create(QString const& rawProtocol);
 };
 
 } // namespace UPnPAV
 
-BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::Protocol const &proto);
+BLABBYUPNPAV_EXPORT QDebug operator<<(QDebug d, UPnPAV::Protocol const& proto);

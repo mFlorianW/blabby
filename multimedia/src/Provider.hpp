@@ -32,7 +32,7 @@ struct BLABBYMULTIMEDIA_EXPORT ProviderVersion
      */
     QString toString() const noexcept;
 
-    BLABBYMULTIMEDIA_EXPORT friend auto operator<=>(ProviderVersion const &, ProviderVersion const &) = default;
+    BLABBYMULTIMEDIA_EXPORT friend auto operator<=>(ProviderVersion const&, ProviderVersion const&) = default;
 };
 
 /**
@@ -58,13 +58,13 @@ public:
      * Gives the name of the Provider.
      * @return A human readable name of the provider.
      */
-    QString const &name() const noexcept;
+    QString const& name() const noexcept;
 
     /**
      * Gives the version of the plugin.
      * @return Gives the version of the plugin.
      */
-    ProviderVersion const &version() const noexcept;
+    ProviderVersion const& version() const noexcept;
 
     /**
      * This function must be implemented by every derived class.
@@ -92,13 +92,13 @@ Q_SIGNALS:
      * This signal shall be emitted when ever a source is added to provider.
      * As an example a new MediaServer appears on the network, a USB-Stick got mounted etc.
      */
-    void sourceAdded(std::shared_ptr<Source> const &source);
+    void sourceAdded(std::shared_ptr<Source> const& source);
 
     /**
      * This signal shall be emitted when ever a source is removed in the provider.
      * As an exmaple a MediaServer disappears on the network or USB-Stick got removed etc.
      */
-    void sourceRemoved(std::shared_ptr<Source> const &source);
+    void sourceRemoved(std::shared_ptr<Source> const& source);
 
 protected:
     Provider(QString name, ProviderVersion version);

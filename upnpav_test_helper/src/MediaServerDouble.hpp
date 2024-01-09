@@ -17,7 +17,7 @@ class MediaServerFactory final : public UPnPAV::MediaServerFactory
 {
 public:
     quint32 howOftenCalled{0};
-    std::unique_ptr<UPnPAV::MediaServer> createMediaServer(UPnPAV::DeviceDescription const &deviceDescription) override;
+    std::unique_ptr<UPnPAV::MediaServer> createMediaServer(UPnPAV::DeviceDescription const& deviceDescription) override;
 };
 
 struct LastBrowseRequest
@@ -25,12 +25,12 @@ struct LastBrowseRequest
     QString objectId{""};
     UPnPAV::MediaServer::BrowseFlag browseFlag{UPnPAV::MediaServer::BrowseFlag::MetaData};
 
-    bool operator==(LastBrowseRequest const &rhs) const noexcept
+    bool operator==(LastBrowseRequest const& rhs) const noexcept
     {
         return (objectId == rhs.objectId) && (browseFlag == rhs.browseFlag);
     }
 
-    bool operator!=(LastBrowseRequest const &rhs) const noexcept
+    bool operator!=(LastBrowseRequest const& rhs) const noexcept
     {
         return !operator==(rhs);
     }
@@ -43,11 +43,11 @@ public:
     MediaServer();
     ~MediaServer() override;
 
-    QString const &name() const noexcept override;
+    QString const& name() const noexcept override;
 
-    QUrl const &iconUrl() const noexcept override;
+    QUrl const& iconUrl() const noexcept override;
 
-    void setIconUrl(QString const &iconUrl) noexcept;
+    void setIconUrl(QString const& iconUrl) noexcept;
 
     std::unique_ptr<UPnPAV::PendingSoapCall> protocolInfo() noexcept override;
 
@@ -57,10 +57,10 @@ public:
 
     std::unique_ptr<UPnPAV::PendingSoapCall> getSortCapabilities() noexcept override;
 
-    std::unique_ptr<UPnPAV::PendingSoapCall> browse(QString const &objectId,
+    std::unique_ptr<UPnPAV::PendingSoapCall> browse(QString const& objectId,
                                                     BrowseFlag browseFlag,
-                                                    QString const &filter,
-                                                    QString const &sortCriteria) noexcept override;
+                                                    QString const& filter,
+                                                    QString const& sortCriteria) noexcept override;
 
 public:
     LastBrowseRequest lastBrowseRequest{};

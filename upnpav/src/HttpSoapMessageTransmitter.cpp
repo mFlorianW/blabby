@@ -20,10 +20,10 @@ HttpSoapMessageTransmitter::HttpSoapMessageTransmitter()
 
 HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter() = default;
 
-QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString const &url,
-                                                                     QString const &actionName,
-                                                                     QString const &serviceType,
-                                                                     QString const &xmlBody) noexcept
+QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString const& url,
+                                                                     QString const& actionName,
+                                                                     QString const& serviceType,
+                                                                     QString const& xmlBody) noexcept
 {
     QByteArray soapHeader = QString{serviceType + "#" + actionName}.toUtf8();
     QNetworkRequest networkRequest{url};
@@ -35,10 +35,10 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString con
     return QSharedPointer<HttpSoapCall>{new (std::nothrow) HttpSoapCall(reply)};
 }
 
-QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(ServiceDescription const &desc,
-                                                                     ServiceControlPointDefinition &scpd,
-                                                                     SCPDAction const &action,
-                                                                     QString &xmlBody) noexcept
+QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(ServiceDescription const& desc,
+                                                                     ServiceControlPointDefinition& scpd,
+                                                                     SCPDAction const& action,
+                                                                     QString& xmlBody) noexcept
 {
     QByteArray soapHeader = QString{desc.serviceType() + "#" + action.name()}.toUtf8();
     QNetworkRequest networkRequest{desc.controlUrl()};

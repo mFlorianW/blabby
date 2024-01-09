@@ -33,7 +33,7 @@ public:
      * Set the search for a service.
      * @param setSearchTarget The search target of the service.
      */
-    virtual void setSearchTarget(QString const &searchTarget) noexcept = 0;
+    virtual void setSearchTarget(QString const& searchTarget) noexcept = 0;
 
     /**
      * Starts a search.
@@ -46,26 +46,26 @@ public:
      * @param usn The unique service name
      * @return DeviceDescription The device description.
      */
-    virtual DeviceDescription rootDeviceDescription(QString const &usn) const noexcept = 0;
+    virtual DeviceDescription rootDeviceDescription(QString const& usn) const noexcept = 0;
 
 Q_SIGNALS:
     /**
      * This signal is emitted when a service for the specified search target is connected to the network.
      * @param uniqueServiceName The service name which is connected.
      */
-    void serviceConnected(QString const &uniqueServiceName);
+    void serviceConnected(QString const& uniqueServiceName);
 
     /**
      * This signal is emitted when a service is disconnected form the network.
      * @param uniqueServiceName
      */
-    void serviceDisconnected(QString const &uniqueServiceName);
+    void serviceDisconnected(QString const& uniqueServiceName);
 
     /**
      * This signal is emitted when an error occur during the service discovery.
      * @param errorObject The error object that contains a specific error message.
      */
-    void error(UPnPAV::ServiceProviderError const &errorObject);
+    void error(UPnPAV::ServiceProviderError const& errorObject);
 
 protected:
     IServiceProvider() = default;
@@ -77,7 +77,7 @@ class BLABBYUPNPAV_EXPORT IServiceProviderFactory : public QObject
     Q_DISABLE_COPY_MOVE(IServiceProviderFactory)
 public:
     ~IServiceProviderFactory() override = default;
-    virtual std::unique_ptr<IServiceProvider> createServiceProvider(QString const &searchTarget) = 0;
+    virtual std::unique_ptr<IServiceProvider> createServiceProvider(QString const& searchTarget) = 0;
 
 protected:
     IServiceProviderFactory() = default;

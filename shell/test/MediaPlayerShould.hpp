@@ -21,7 +21,7 @@ public:
     ~MediaPlayerShould() override;
     Q_DISABLE_COPY_MOVE(MediaPlayerShould)
 private:
-    UPnPAV::Doubles::MediaRendererDouble *mUpnpRenderer;
+    UPnPAV::Doubles::MediaRendererDouble* mUpnpRenderer;
     std::shared_ptr<MediaPlayer> mPlayer;
 private Q_SLOTS:
     /**

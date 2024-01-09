@@ -22,7 +22,7 @@ struct AvTransportUriData
     QString uri;
     QString uriMetaData;
 
-    friend bool operator==(AvTransportUriData const &lhs, AvTransportUriData const &rhs)
+    friend bool operator==(AvTransportUriData const& lhs, AvTransportUriData const& rhs)
     {
         return ((lhs.instanceId == rhs.instanceId) and (lhs.uri == rhs.uri) and (lhs.uriMetaData == rhs.uriMetaData));
     }
@@ -32,7 +32,7 @@ struct PlayData
 {
     quint32 instanceId = quint32{1234};
 
-    friend bool operator==(PlayData const &lhs, PlayData const &rhs)
+    friend bool operator==(PlayData const& lhs, PlayData const& rhs)
     {
         return ((lhs.instanceId == rhs.instanceId));
     }
@@ -53,8 +53,8 @@ public:
     bool isProtocolInfoCalled() const noexcept;
 
     std::optional<std::unique_ptr<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
-                                                                      QString const &uri,
-                                                                      QString const &uriMetaData = QString{
+                                                                      QString const& uri,
+                                                                      QString const& uriMetaData = QString{
                                                                           ""}) noexcept override;
 
     bool isSetAvTransportUriCalled() const noexcept;

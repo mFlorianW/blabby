@@ -37,21 +37,21 @@ public:
 
     Q_DISABLE_COPY_MOVE(ResponseReader)
 
-    QString const &response() const noexcept;
+    QString const& response() const noexcept;
 
     ReadResult read() noexcept;
 
 Q_SIGNALS:
-    void unsignedIntValueRead(QString const &TokenName,
+    void unsignedIntValueRead(QString const& TokenName,
                               quint32 value,
                               UPnPAV::ResponseReader::ElementReadResult result);
-    void signedIntValueRead(QString const &TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);
-    void stringValueRead(QString const &TokenName, QString &value, UPnPAV::ResponseReader::ElementReadResult result);
+    void signedIntValueRead(QString const& TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);
+    void stringValueRead(QString const& TokenName, QString& value, UPnPAV::ResponseReader::ElementReadResult result);
 
 private:
-    SCPDStateVariable::DataType dataType(QString const &argName) noexcept;
-    void readUnsignedIntValue(QString const &argName, QString const &rawValue) noexcept;
-    void readSignedIntValue(QString const &argName, QString const &rawValue) noexcept;
+    SCPDStateVariable::DataType dataType(QString const& argName) noexcept;
+    void readUnsignedIntValue(QString const& argName, QString const& rawValue) noexcept;
+    void readSignedIntValue(QString const& argName, QString const& rawValue) noexcept;
 
 private:
     QString mXmlResponse;

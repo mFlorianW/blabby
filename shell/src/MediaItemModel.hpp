@@ -53,7 +53,7 @@ public:
     /**
      * Gives the amout of media items in the model.
      */
-    int rowCount(QModelIndex const &index) const noexcept override;
+    int rowCount(QModelIndex const& index) const noexcept override;
 
     /**
      * Gives the roles names for the UI to access the for displaying in the model.
@@ -69,7 +69,7 @@ public:
      * @param role The data that shall be returned for item referred by the index.
      * @return A QVariant with the stored data or empty QVariant for an invalid index or role parameter.
      */
-    QVariant data(QModelIndex const &index, int role) const noexcept override;
+    QVariant data(QModelIndex const& index, int role) const noexcept override;
 
     /**
      * Sets the media source for the model.
@@ -77,7 +77,7 @@ public:
      * To clear the model pass a nullptr to the function.
      * @param mediaSrc The model from that the @ref Multimedia::MediaItem are retrived.
      */
-    Q_INVOKABLE void setMediaSource(std::shared_ptr<Multimedia::Source> const &mediaSrc);
+    Q_INVOKABLE void setMediaSource(std::shared_ptr<Multimedia::Source> const& mediaSrc);
 
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
@@ -115,7 +115,7 @@ Q_SIGNALS:
     /**
      * This signal is emitted when a playabale MediaItem is activated.
      */
-    void playRequest(Multimedia::Item const &mediaItem);
+    void playRequest(Multimedia::Item const& mediaItem);
 
     /**
      * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.

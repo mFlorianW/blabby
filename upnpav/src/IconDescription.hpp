@@ -20,9 +20,9 @@ public:
 
     IconDescription(QString mimeType, quint32 width, quint32 height, quint32 depth, QString url);
 
-    QString const &mimeType() const noexcept;
+    QString const& mimeType() const noexcept;
 
-    QString const &url() const noexcept;
+    QString const& url() const noexcept;
 
     quint32 width() const noexcept;
 
@@ -30,8 +30,8 @@ public:
 
     quint32 depth() const noexcept;
 
-    friend bool operator==(IconDescription const &lhs, IconDescription const &rhs) noexcept;
-    friend bool operator!=(IconDescription const &lhs, IconDescription const &rhs) noexcept;
+    friend bool operator==(IconDescription const& lhs, IconDescription const& rhs) noexcept;
+    friend bool operator!=(IconDescription const& lhs, IconDescription const& rhs) noexcept;
 
 private:
     QString m_mimeType;

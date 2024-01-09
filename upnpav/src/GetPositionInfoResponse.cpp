@@ -21,7 +21,7 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
     QObject::connect(&reader,
                      &ResponseReader::unsignedIntValueRead,
                      &reader,
-                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("Track") && ok) {
                              d->mTrack = value;
@@ -34,7 +34,7 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
         &reader,
         &ResponseReader::stringValueRead,
         &reader,
-        [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
+        [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
             const auto ok = result == ResponseReader::ElementReadResult::Ok;
             if (elementName == QStringLiteral("TrackDuration") && ok) {
                 auto time = QTime::fromString(value, "h:m:s.z");
@@ -58,7 +58,7 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
     QObject::connect(&reader,
                      &ResponseReader::signedIntValueRead,
                      &reader,
-                     [&](QString const &elementName, qint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, qint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("RelCount") && ok) {
                              d->mRelCount = value;
@@ -82,27 +82,27 @@ quint32 GetPositionInfoResponse::track() const noexcept
     return d->mTrack;
 }
 
-QTime const &GetPositionInfoResponse::trackDuration() const noexcept
+QTime const& GetPositionInfoResponse::trackDuration() const noexcept
 {
     return d->mTrackDuration;
 }
 
-QString const &GetPositionInfoResponse::trackMetaData() const noexcept
+QString const& GetPositionInfoResponse::trackMetaData() const noexcept
 {
     return d->mTrackMetaData;
 }
 
-QString const &GetPositionInfoResponse::trackUri() const noexcept
+QString const& GetPositionInfoResponse::trackUri() const noexcept
 {
     return d->mTrackUri;
 }
 
-QTime const &GetPositionInfoResponse::relTime() const noexcept
+QTime const& GetPositionInfoResponse::relTime() const noexcept
 {
     return d->mRelTime;
 }
 
-QTime const &GetPositionInfoResponse::absTime() const noexcept
+QTime const& GetPositionInfoResponse::absTime() const noexcept
 {
     return d->mAbsTime;
 }
@@ -117,7 +117,7 @@ qint32 GetPositionInfoResponse::absCount() const noexcept
     return d->mAbsCount;
 }
 
-QTime GetPositionInfoResponse::converToTime(QString const &rawMsg)
+QTime GetPositionInfoResponse::converToTime(QString const& rawMsg)
 {
     return QTime::fromString(rawMsg, "h:m:s.z");
 }

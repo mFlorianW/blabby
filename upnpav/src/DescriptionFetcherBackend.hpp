@@ -24,13 +24,13 @@ public:
     DescriptionFetcherBackend();
     ~DescriptionFetcherBackend() override;
 
-    void fetchDescriptionFrom(QUrl const &url);
+    void fetchDescriptionFrom(QUrl const& url);
 
 Q_SIGNALS:
-    void descriptionFetched(QString const &description, QUrl const &url);
+    void descriptionFetched(QString const& description, QUrl const& url);
 
 protected:
-    virtual void fetchDescription(QUrl const &url) = 0;
+    virtual void fetchDescription(QUrl const& url) = 0;
 };
 
 class BLABBYUPNPAV_EXPORT HttpDescriptionFetcherBackend final : public DescriptionFetcherBackend
@@ -42,14 +42,14 @@ public:
     ~HttpDescriptionFetcherBackend() override = default;
 
 protected:
-    void fetchDescription(QUrl const &url) override;
+    void fetchDescription(QUrl const& url) override;
 
 private Q_SLOTS:
-    void replyFinished(QNetworkReply *reply);
+    void replyFinished(QNetworkReply* reply);
 
 private:
     QNetworkAccessManager m_sender;
-    QVector<QNetworkReply *> m_pendingReplies;
+    QVector<QNetworkReply*> m_pendingReplies;
 };
 
 } // namespace UPnPAV

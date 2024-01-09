@@ -12,7 +12,7 @@ namespace Multimedia
 
 struct SourcePrivate
 {
-    SourcePrivate(QString sourceName, QString iconUrl, Source &ms)
+    SourcePrivate(QString sourceName, QString iconUrl, Source& ms)
         : mSourceName{std::move(sourceName)}
         , mIconUrl{std::move(iconUrl)}
         , mNavigationStack{ms}
@@ -32,22 +32,22 @@ Source::Source(QString sourceName, QString iconUrl)
 {
 }
 
-QString const &Source::sourceName() const noexcept
+QString const& Source::sourceName() const noexcept
 {
     return d->mSourceName;
 }
 
-QString const &Source::iconUrl() const noexcept
+QString const& Source::iconUrl() const noexcept
 {
     return d->mIconUrl;
 }
 
-Items const &Source::mediaItems() const noexcept
+Items const& Source::mediaItems() const noexcept
 {
     return mMediaItems;
 }
 
-void Source::navigateTo(QString const &path) noexcept
+void Source::navigateTo(QString const& path) noexcept
 {
     Q_UNUSED(path)
 }

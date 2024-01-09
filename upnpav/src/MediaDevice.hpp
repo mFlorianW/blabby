@@ -57,7 +57,7 @@ public:
      *
      * @return The human friendly name of the device.
      */
-    virtual QString const &name() const noexcept;
+    virtual QString const& name() const noexcept;
 
     /**
      * Gives the Url of an icon for the device. The string
@@ -65,7 +65,7 @@ public:
      *
      * @return The a Url to an icon of the device.
      */
-    virtual QUrl const &iconUrl() const noexcept;
+    virtual QUrl const& iconUrl() const noexcept;
 
     /**
      * Calls the GetProtocolInfo on the ConnectionManager Interface of the UPnPAV device.
@@ -105,8 +105,8 @@ public:
      * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> setAvTransportUri(quint32 instanceId,
-                                                                              QString const &uri,
-                                                                              QString const &uriMetaData = QString{
+                                                                              QString const& uri,
+                                                                              QString const& uriMetaData = QString{
                                                                                   ""}) noexcept;
 
     /**
@@ -215,7 +215,7 @@ public:
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> seek(quint32 instanceId,
                                                                  SeekMode mode,
-                                                                 QString const &target);
+                                                                 QString const& target);
 
     /**
      * Calls the Next on the AVTransport service of the device.

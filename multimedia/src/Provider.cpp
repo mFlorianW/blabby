@@ -22,12 +22,12 @@ Provider::Provider(QString name, ProviderVersion version)
 
 Provider::~Provider() = default;
 
-QString const &Provider::name() const noexcept
+QString const& Provider::name() const noexcept
 {
     return mName;
 }
 
-ProviderVersion const &Provider::version() const noexcept
+ProviderVersion const& Provider::version() const noexcept
 {
     return mVersion;
 }

@@ -23,7 +23,7 @@ public:
      *
      * @return
      */
-    char const *what() const noexcept override;
+    char const* what() const noexcept override;
 
     /**
      *
@@ -34,7 +34,7 @@ public:
      *
      * @return
      */
-    ParsingError *clone() const override;
+    ParsingError* clone() const override;
 
 private:
     QByteArray m_errorDescription;

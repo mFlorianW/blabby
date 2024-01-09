@@ -14,7 +14,7 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT AvTransportServiceValidator : public ServiceValidatorBase
 {
 public:
-    AvTransportServiceValidator(DeviceDescription &deviceDescription);
+    AvTransportServiceValidator(DeviceDescription& deviceDescription);
 };
 
 } // namespace UPnPAV

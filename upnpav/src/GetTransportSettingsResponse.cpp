@@ -20,7 +20,7 @@ GetTransportSettingsResponse::GetTransportSettingsResponse(QString rawMsg,
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("PlayMode") && ok) {
                              d->mPlayMode = convertPlayMode(value).value_or(PlayMode::Normal);
@@ -46,13 +46,13 @@ GetTransportSettingsResponse::PlayMode GetTransportSettingsResponse::playMode() 
     return d->mPlayMode;
 }
 
-QString const &GetTransportSettingsResponse::recQualityMode() const noexcept
+QString const& GetTransportSettingsResponse::recQualityMode() const noexcept
 {
     return d->mRecQMode;
 }
 
 std::optional<GetTransportSettingsResponse::PlayMode> GetTransportSettingsResponse::convertPlayMode(
-    QString const &rawMode) noexcept
+    QString const& rawMode) noexcept
 {
     if (rawMode == QStringLiteral("NORMAL")) {
         return PlayMode::Normal;

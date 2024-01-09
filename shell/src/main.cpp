@@ -23,7 +23,7 @@ void registerQmlTypes()
 
 } // namespace Shell
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QLoggingCategory::setFilterRules("*.debug=false");
     QGuiApplication blabby(argc, argv);

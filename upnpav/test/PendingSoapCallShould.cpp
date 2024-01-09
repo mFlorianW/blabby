@@ -36,7 +36,7 @@ private:
     QString mRawMessage;
 };
 
-static constexpr char const *errorXML = {"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+static constexpr char const* errorXML = {"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                                          "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
                                          "<s:Body>"

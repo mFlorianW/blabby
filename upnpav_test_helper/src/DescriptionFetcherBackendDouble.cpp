@@ -17,7 +17,7 @@ DescriptionFetcherBackendDouble::DescriptionFetcherBackendDouble()
 
 DescriptionFetcherBackendDouble::~DescriptionFetcherBackendDouble() = default;
 
-void DescriptionFetcherBackendDouble::fetchDescription(QUrl const &url)
+void DescriptionFetcherBackendDouble::fetchDescription(QUrl const& url)
 {
     descriptionRequestCalls++;
     lastDescriptionRequest = url;

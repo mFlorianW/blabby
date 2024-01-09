@@ -86,7 +86,7 @@ void MediaSourceModelShould::handle_new_connected_sources()
     auto model = MediaSourceModel{std::move(loader)};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
-    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(0).get())->createNewSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(0).get())->createNewSource();
     auto const rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 2,
@@ -108,7 +108,7 @@ void MediaSourceModelShould::handle_disconnected_sources()
                  .arg(QString::number(rowCount))
                  .toLocal8Bit());
 
-    qobject_cast<Multimedia::TestHelper::TestProvider *>(loaderRaw->providers().at(1).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
     rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 1,

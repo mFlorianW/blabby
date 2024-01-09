@@ -19,13 +19,13 @@ ProviderShould::~ProviderShould() = default;
 void ProviderShould::send_find_request_for_media_server_on_init()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
-    auto *spFabRaw = spFab.get();
+    auto* spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
     auto prov = Provider{std::move(spFab), std::move(msFab)};
     auto expSearchTarget = QStringLiteral("urn:schemas-upnp-org:device:MediaServer:1");
 
     prov.init();
-    auto const &st = spFabRaw->serviceProvider->searchTarget();
+    auto const& st = spFabRaw->serviceProvider->searchTarget();
 
     QVERIFY2(spFabRaw->serviceProvider != nullptr,
              QStringLiteral("The MediaServerProvider should create a ServiceProvider instance").toLocal8Bit());
@@ -37,7 +37,7 @@ void ProviderShould::send_find_request_for_media_server_on_init()
 void ProviderShould::notify_when_a_server_appears()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
-    auto *spFabRaw = spFab.get();
+    auto* spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
     auto prov = Provider{std::move(spFab), std::move(msFab)};
     auto spy = QSignalSpy{&prov, &Provider::sourceAdded};
@@ -55,7 +55,7 @@ void ProviderShould::notify_when_a_server_appears()
 void ProviderShould::notify_when_a_server_disappears()
 {
     auto spFab = std::make_unique<UPnPAV::Doubles::ServiceProviderFactory>();
-    auto *spFabRaw = spFab.get();
+    auto* spFabRaw = spFab.get();
     auto msFab = std::make_unique<UPnPAV::Doubles::MediaServerFactory>();
     auto prov = Provider{std::move(spFab), std::move(msFab)};
     auto spy = QSignalSpy{&prov, &Provider::sourceRemoved};

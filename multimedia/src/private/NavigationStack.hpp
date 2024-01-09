@@ -16,20 +16,20 @@ namespace Multimedia
 class NavigationStack final
 {
 public:
-    NavigationStack(Source &source);
+    NavigationStack(Source& source);
 
     ~NavigationStack();
 
     Q_DISABLE_COPY_MOVE(NavigationStack)
 
-    QString const &path();
+    QString const& path();
 
     void navigateForward();
 
     void navigateBack();
 
 private:
-    Source &mSource;
+    Source& mSource;
     QString mPath;
     QStringList mPathStack;
     qsizetype mNavigationIndex{0};

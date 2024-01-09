@@ -9,12 +9,12 @@
 namespace UPnPAV
 {
 
-InvalidDeviceDescription::InvalidDeviceDescription(QString const &errorMessage)
+InvalidDeviceDescription::InvalidDeviceDescription(QString const& errorMessage)
     : m_errorMessage(errorMessage.toLocal8Bit())
 {
 }
 
-char const *InvalidDeviceDescription::what() const noexcept
+char const* InvalidDeviceDescription::what() const noexcept
 {
     return m_errorMessage;
 }
@@ -24,7 +24,7 @@ void InvalidDeviceDescription::raise() const
     throw *this;
 }
 
-InvalidDeviceDescription *InvalidDeviceDescription::clone() const
+InvalidDeviceDescription* InvalidDeviceDescription::clone() const
 {
     return new InvalidDeviceDescription(*this); // NOLINT cppcoreguidelines-owning-memory
 }

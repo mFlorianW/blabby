@@ -16,13 +16,13 @@ namespace UPnPAV
 class BLABBYUPNPAV_EXPORT InvalidDeviceDescription : public QException
 {
 public:
-    InvalidDeviceDescription(QString const &errorMessage);
+    InvalidDeviceDescription(QString const& errorMessage);
 
-    char const *what() const noexcept override;
+    char const* what() const noexcept override;
 
     void raise() const override;
 
-    InvalidDeviceDescription *clone() const override;
+    InvalidDeviceDescription* clone() const override;
 
 private:
     QByteArray m_errorMessage;

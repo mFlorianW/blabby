@@ -11,7 +11,7 @@
 namespace UPnPAV
 {
 
-std::unique_ptr<IServiceProvider> TestableMediaServerProviderFactory::createServiceProvider(QString const &searchTarget)
+std::unique_ptr<IServiceProvider> TestableMediaServerProviderFactory::createServiceProvider(QString const& searchTarget)
 {
     auto serviceDiscoveryBackendDouble = std::make_unique<ServiceDiscoveryBackendDouble>();
     this->serviceDiscoveryBackendDouble = serviceDiscoveryBackendDouble.get();

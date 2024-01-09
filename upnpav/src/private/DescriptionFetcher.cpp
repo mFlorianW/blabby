@@ -10,7 +10,7 @@
 namespace UPnPAV
 {
 
-DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
+DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend* backend)
     : QObject()
     , m_backend(backend)
 {
@@ -22,7 +22,7 @@ DescriptionFetcher::DescriptionFetcher(DescriptionFetcherBackend *backend)
 
 DescriptionFetcher::~DescriptionFetcher() = default;
 
-void DescriptionFetcher::fetchDescription(QUrl const &url)
+void DescriptionFetcher::fetchDescription(QUrl const& url)
 {
     m_backend->fetchDescriptionFrom(url);
 }

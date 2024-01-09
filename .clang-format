@@ -30,7 +30,7 @@ BinPackParameters: 'false'
 ColumnLimit: '120'
 Cpp11BracedListStyle: 'true'
 Language: Cpp
-PointerAlignment: Right
+PointerAlignment: Left
 AccessModifierOffset: '-4'
 BreakConstructorInitializers: BeforeComma
 ConstructorInitializerIndentWidth: '4'

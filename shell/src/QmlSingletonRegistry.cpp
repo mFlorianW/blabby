@@ -17,27 +17,27 @@ QmlSingletonRegistry::QmlSingletonRegistry()
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;
 
-MediaSourceModel *QmlSingletonRegistry::mediaSourceModel() noexcept
+MediaSourceModel* QmlSingletonRegistry::mediaSourceModel() noexcept
 {
     return &mSourceModel;
 }
 
-MediaItemModel *QmlSingletonRegistry::mediaItemModel() noexcept
+MediaItemModel* QmlSingletonRegistry::mediaItemModel() noexcept
 {
     return &mItemModel;
 }
 
-MediaRendererModel *QmlSingletonRegistry::mediaRendererModel() noexcept
+MediaRendererModel* QmlSingletonRegistry::mediaRendererModel() noexcept
 {
     return &mRendererModel;
 }
 
-MediaPlayer *QmlSingletonRegistry::mediaPlayer() noexcept
+MediaPlayer* QmlSingletonRegistry::mediaPlayer() noexcept
 {
     return &mMediaPlayer;
 }
 
-QObject *QmlSingletonRegistry::createQmlRegistry(QQmlEngine *engine, QJSEngine *scriptEngine)
+QObject* QmlSingletonRegistry::createQmlRegistry(QQmlEngine* engine, QJSEngine* scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)

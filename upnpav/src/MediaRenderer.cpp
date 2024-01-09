@@ -22,7 +22,7 @@ MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapMessageT
     }
 }
 
-std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const &desc)
+std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)
 {
     return std::make_unique<MediaRenderer>(desc, QSharedPointer<HttpSoapMessageTransmitter>::create());
 }

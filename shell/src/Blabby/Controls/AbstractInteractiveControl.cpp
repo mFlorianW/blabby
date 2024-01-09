@@ -29,7 +29,7 @@ bool AbstractInteractiveControl::isPressed() const noexcept
     return mPressState;
 }
 
-void AbstractInteractiveControl::mousePressEvent(QMouseEvent *event)
+void AbstractInteractiveControl::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
         mPressState = true;
@@ -37,7 +37,7 @@ void AbstractInteractiveControl::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void AbstractInteractiveControl::mouseReleaseEvent(QMouseEvent *event)
+void AbstractInteractiveControl::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
         mPressState = false;
@@ -46,14 +46,14 @@ void AbstractInteractiveControl::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void AbstractInteractiveControl::hoverEnterEvent(QHoverEvent *event)
+void AbstractInteractiveControl::hoverEnterEvent(QHoverEvent* event)
 {
     Q_UNUSED(event);
     mHoverState = true;
     Q_EMIT hoveredChanged();
 }
 
-void AbstractInteractiveControl::hoverLeaveEvent(QHoverEvent *event)
+void AbstractInteractiveControl::hoverLeaveEvent(QHoverEvent* event)
 {
     Q_UNUSED(event);
     mHoverState = false;

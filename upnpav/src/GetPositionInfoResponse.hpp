@@ -38,34 +38,34 @@ public:
      * If the AVTransport Servic does not support the 00:00:00.000 will be returned.
      * @return The value of the TrackDuration field of the response.
      */
-    QTime const &trackDuration() const noexcept;
+    QTime const& trackDuration() const noexcept;
 
     /**
      * Gives the track meta data.
      * If the AVTransport Services does not support it, "NOT_IMPLEMENTED" will be returned.
      * @return The value of the TrackMetaData field of the response.
      */
-    QString const &trackMetaData() const noexcept;
+    QString const& trackMetaData() const noexcept;
 
     /**
      * Gives the track URI.
      * @return The value of the TrackURI field of the response.
      */
-    QString const &trackUri() const noexcept;
+    QString const& trackUri() const noexcept;
 
     /**
      * Gives the current position in terms of time of the current track.
      * If the AVTransport doesn't support it 00:00:00.000 will be returned.
      * @return The value of the RelTime field of the response.
      */
-    QTime const &relTime() const noexcept;
+    QTime const& relTime() const noexcept;
 
     /**
      * Gives the absolute position in terms of time of the media.
      * If the AVTransport doesn't support it 00:00:00.000 will be returned.
      * @return The value of the AbsTime field of the response.
      */
-    QTime const &absTime() const noexcept;
+    QTime const& absTime() const noexcept;
 
     /**
      * Gives the current position in terms of dimensionless counter from the start of the current track.
@@ -82,7 +82,7 @@ public:
     qint32 absCount() const noexcept;
 
 private:
-    static inline QTime converToTime(QString const &rawMsg);
+    static inline QTime converToTime(QString const& rawMsg);
 
 private:
     QExplicitlySharedDataPointer<GetPositionInfoResponseData> d;

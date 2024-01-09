@@ -13,7 +13,7 @@ ParsingError::ParsingError(QString errorDescription)
 {
 }
 
-char const *ParsingError::what() const noexcept
+char const* ParsingError::what() const noexcept
 {
     return m_errorDescription.data();
 }
@@ -23,7 +23,7 @@ void ParsingError::raise() const
     throw *this;
 }
 
-ParsingError *ParsingError::clone() const
+ParsingError* ParsingError::clone() const
 {
     return new ParsingError{*this}; // NOLINT cppcoreguidelines-owning-memory
 }

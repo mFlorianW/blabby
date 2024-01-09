@@ -47,10 +47,10 @@ public:
      * @param paths The folder list for the recursive search for valid provider.
      * @return The list of loaded providers.
      */
-    [[nodiscard]] virtual Providers const &load(QStringList const &paths) noexcept;
+    [[nodiscard]] virtual Providers const& load(QStringList const& paths) noexcept;
 
 private:
-    void loadProvider(QFileInfo const &provider) noexcept;
+    void loadProvider(QFileInfo const& provider) noexcept;
     Providers mProviders;
 };
 

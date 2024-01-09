@@ -29,14 +29,14 @@ public:
     ~MediaServerShould() override;
 
 private:
-    MediaServer createMediaServer(QVector<ServiceDescription> const &services,
-                                  QVector<ServiceControlPointDefinition> const &scpds);
+    MediaServer createMediaServer(QVector<ServiceDescription> const& services,
+                                  QVector<ServiceControlPointDefinition> const& scpds);
 
-    ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(SCPDStateVariable const &variable);
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutStateVariable(SCPDStateVariable const& variable);
 
-    ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(SCPDAction const &action);
+    ServiceControlPointDefinition createContentDirectorySCPDWithoutAction(SCPDAction const& action);
 
-    MediaServer createMediaServer(DeviceDescription &deviceDescription);
+    MediaServer createMediaServer(DeviceDescription& deviceDescription);
 
     QSharedPointer<SoapMessageTransmitterDouble> m_soapMessageTransmitter;
 

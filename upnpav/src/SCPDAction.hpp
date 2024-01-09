@@ -24,16 +24,16 @@ public:
 
     SCPDAction(QString name, QVector<SCPDArgument> arguments);
 
-    QString const &name() const;
+    QString const& name() const;
 
-    QVector<SCPDArgument> const &arguments() const;
+    QVector<SCPDArgument> const& arguments() const;
 
     QVector<SCPDArgument> inArguments() const noexcept;
 
     QVector<SCPDArgument> outArguments() const noexcept;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(SCPDAction const &lhs, SCPDAction const &rhs);
-    BLABBYUPNPAV_EXPORT friend bool operator!=(SCPDAction const &lhs, SCPDAction const &rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator==(SCPDAction const& lhs, SCPDAction const& rhs);
+    BLABBYUPNPAV_EXPORT friend bool operator!=(SCPDAction const& lhs, SCPDAction const& rhs);
 
 private:
     QExplicitlySharedDataPointer<SCPDActionData> d;

@@ -52,7 +52,7 @@ QVector<std::shared_ptr<Multimedia::Source>> Provider::sources() const noexcept
     return result;
 }
 
-void Provider::onServiceConnected(QString const &usn) noexcept
+void Provider::onServiceConnected(QString const& usn) noexcept
 {
     Q_ASSERT(mServiceProvider != nullptr);
     Q_ASSERT(mMediaServerFab != nullptr);
@@ -63,12 +63,12 @@ void Provider::onServiceConnected(QString const &usn) noexcept
         auto msp = std::make_shared<Source>(std::move(ms));
         mMediaServers.insert(usn, msp);
         Q_EMIT sourceAdded(msp);
-    } catch (UPnPAV::InvalidDeviceDescription &invDesc) {
+    } catch (UPnPAV::InvalidDeviceDescription& invDesc) {
         qCCritical(mediaServerProvider()) << "Failed to create MediaServer. Error:" << invDesc.what();
     }
 }
 
-void Provider::onServiceDisconnected(QString const &usn) noexcept
+void Provider::onServiceDisconnected(QString const& usn) noexcept
 {
     if (!mMediaServers.contains(usn)) {
         qCDebug(mediaServerProvider()) << "Can't remove media server" << usn << "not found.";

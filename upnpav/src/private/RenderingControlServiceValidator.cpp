@@ -9,7 +9,7 @@
 namespace UPnPAV
 {
 
-RenderingControlServiceValidator::RenderingControlServiceValidator(DeviceDescription const &desc)
+RenderingControlServiceValidator::RenderingControlServiceValidator(DeviceDescription const& desc)
 {
     m_serviceName = QStringLiteral("RenderingControl");
     m_deviceDescription = desc;

@@ -40,7 +40,7 @@ public:
      *
      * @param rawData The raw data of the message.
      */
-    ServiceDiscoveryPackage(QByteArray const &rawData);
+    ServiceDiscoveryPackage(QByteArray const& rawData);
 
     /**
      * Gives the location URL. If the package is not a ByeBye message
@@ -69,7 +69,7 @@ public:
      * Gives the search target of the @ref UPnPAV::ServiceDiscoveryPackage message.
      * @return The search target of the @ref UPnPAV::ServiceDiscoveryPackage message.
      */
-    QString const &searchTarget() const;
+    QString const& searchTarget() const;
 
 private:
     /**
@@ -82,7 +82,7 @@ private:
      * @return The valid value or invalid optional in the case no value
      *         found.
      */
-    static QString extracEntryValue(QString const &entry);
+    static QString extracEntryValue(QString const& entry);
 
     /**
      * Extras the UUID part of the USN entry and this is the unique identifier
@@ -91,7 +91,7 @@ private:
      * @param rawString The USN raw string.
      * @return The UUID part of the USN.
      */
-    static QString extracDeviceIdentifierValue(QString const &rawString);
+    static QString extracDeviceIdentifierValue(QString const& rawString);
 
     /**
      * Converts the NTS from the message to the enum Type SubType.
@@ -99,7 +99,7 @@ private:
      * @param subtype The subtype string from the message.
      * @return The convertion of the message NTS to the enum value SubType.
      */
-    static SsdpSubType convertSubTypeString(QString const &subtype);
+    static SsdpSubType convertSubTypeString(QString const& subtype);
 
 private:
     QUrl m_locationUrl;
@@ -124,7 +124,7 @@ public:
      *
      * @return The detailed description of the error.
      */
-    char const *what() const noexcept override;
+    char const* what() const noexcept override;
 
     /**
      * Raise a new exception.
@@ -135,7 +135,7 @@ public:
      * Creates a new instance of the exception.
      * @return A cloned instance of the exception.
      */
-    PackageParseError *clone() const override;
+    PackageParseError* clone() const override;
 
 private:
     QByteArray m_errorDescription{""};

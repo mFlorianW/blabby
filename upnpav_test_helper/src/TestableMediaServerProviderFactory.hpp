@@ -17,10 +17,10 @@ class DescriptionFetcherBackendDouble;
 class TestableMediaServerProviderFactory final : public ServiceProviderFactory
 {
 public:
-    std::unique_ptr<IServiceProvider> createServiceProvider(QString const &searchTarget) override;
+    std::unique_ptr<IServiceProvider> createServiceProvider(QString const& searchTarget) override;
 
-    ServiceDiscoveryBackendDouble *serviceDiscoveryBackendDouble;
-    DescriptionFetcherBackendDouble *descriptionFetcherBackendDouble;
+    ServiceDiscoveryBackendDouble* serviceDiscoveryBackendDouble;
+    DescriptionFetcherBackendDouble* descriptionFetcherBackendDouble;
 };
 
 } // namespace UPnPAV

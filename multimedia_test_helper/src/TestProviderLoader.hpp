@@ -14,9 +14,9 @@ class TestProviderLoader : public Multimedia::ProviderLoader
 {
 public:
     TestProviderLoader(std::size_t count = 1);
-    [[nodiscard]] Multimedia::Providers const &load(QStringList const &paths) noexcept override;
+    [[nodiscard]] Multimedia::Providers const& load(QStringList const& paths) noexcept override;
 
-    Multimedia::Providers const &providers() const noexcept;
+    Multimedia::Providers const& providers() const noexcept;
 
 private:
     Multimedia::Providers mProviders;

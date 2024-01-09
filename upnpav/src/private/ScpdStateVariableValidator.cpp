@@ -22,10 +22,10 @@ ScpdStateVariableValidator::ScpdStateVariableValidator(QString scpdName,
 
 bool ScpdStateVariableValidator::validate() noexcept
 {
-    for (auto &variableName : m_stateVariableNames) {
+    for (auto& variableName : m_stateVariableNames) {
         auto iter = std::find_if(m_scpd.serviceStateTable().begin(),
                                  m_scpd.serviceStateTable().end(),
-                                 [=](SCPDStateVariable const &variable) {
+                                 [=](SCPDStateVariable const& variable) {
                                      if (variableName == variable.name()) {
                                          return true;
                                      }

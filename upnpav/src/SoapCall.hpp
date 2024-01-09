@@ -43,12 +43,12 @@ public:
      * Gives the action that belongs to the call.
      * @return The SCPD action of the call
      */
-    SCPDAction const &action() const noexcept;
+    SCPDAction const& action() const noexcept;
 
     /**
      * Gives the scpd that belongs to the call.
      */
-    ServiceControlPointDefinition const &scpd() const noexcept;
+    ServiceControlPointDefinition const& scpd() const noexcept;
 
 Q_SIGNALS:
     /**

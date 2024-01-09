@@ -19,7 +19,7 @@ GetMediaInfoResponse::GetMediaInfoResponse(QString rawMsg, ServiceControlPointDe
     QObject::connect(&reader,
                      &ResponseReader::unsignedIntValueRead,
                      &reader,
-                     [&](QString const &elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, quint32 value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("NrTracks") && ok) {
                              d->mNumberOfTracks = value;
@@ -31,7 +31,7 @@ GetMediaInfoResponse::GetMediaInfoResponse(QString rawMsg, ServiceControlPointDe
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("MediaDuration") && ok) {
                              d->mMediaDuration = QTime::fromString(value, "hh:mm:ss.zzz");
@@ -76,37 +76,37 @@ std::optional<QTime> GetMediaInfoResponse::mediaDuration() const noexcept
     return std::nullopt;
 }
 
-QString const &GetMediaInfoResponse::currentUri() const noexcept
+QString const& GetMediaInfoResponse::currentUri() const noexcept
 {
     return d->mCurrentUri;
 }
 
-QString const &GetMediaInfoResponse::currentUriMetaData() const noexcept
+QString const& GetMediaInfoResponse::currentUriMetaData() const noexcept
 {
     return d->mCurrentMetaData;
 }
 
-QString const &GetMediaInfoResponse::nextUri() const noexcept
+QString const& GetMediaInfoResponse::nextUri() const noexcept
 {
     return d->mNextUri;
 }
 
-QString const &GetMediaInfoResponse::nextUriMetaData() const noexcept
+QString const& GetMediaInfoResponse::nextUriMetaData() const noexcept
 {
     return d->mNextUriMetaData;
 }
 
-QString const &GetMediaInfoResponse::playMedium() const noexcept
+QString const& GetMediaInfoResponse::playMedium() const noexcept
 {
     return d->mPlayMedium;
 }
 
-QString const &GetMediaInfoResponse::recordMedium() const noexcept
+QString const& GetMediaInfoResponse::recordMedium() const noexcept
 {
     return d->mRecordMedium;
 }
 
-QString const &GetMediaInfoResponse::writeStatus() const noexcept
+QString const& GetMediaInfoResponse::writeStatus() const noexcept
 {
     return d->mWriteStatus;
 }

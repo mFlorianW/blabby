@@ -13,7 +13,7 @@ namespace UPnPAV
 class RenderingControlServiceValidator : public ServiceValidatorBase
 {
 public:
-    RenderingControlServiceValidator(DeviceDescription const &desc);
+    RenderingControlServiceValidator(DeviceDescription const& desc);
 };
 
 } // namespace UPnPAV

@@ -32,22 +32,22 @@ public:
     /**
      * Default copy constructor
      */
-    BaseValidator(BaseValidator const &other) = default;
+    BaseValidator(BaseValidator const& other) = default;
 
     /**
      * Default move constructor
      */
-    BaseValidator(BaseValidator &&other) noexcept = default;
+    BaseValidator(BaseValidator&& other) noexcept = default;
 
     /**
      * Default copy assignment
      */
-    BaseValidator &operator=(BaseValidator const &ohter) = default;
+    BaseValidator& operator=(BaseValidator const& ohter) = default;
 
     /**
      * Default move assignment
      */
-    BaseValidator &operator=(BaseValidator &&ohter) noexcept = default;
+    BaseValidator& operator=(BaseValidator&& ohter) noexcept = default;
 
     /**
      * The validation implementaion.
@@ -62,7 +62,7 @@ public:
      *
      * @return The error message or empty string if validate return true.
      */
-    QString const &errorMessage() const noexcept;
+    QString const& errorMessage() const noexcept;
 
 protected:
     QString m_errorMessage;

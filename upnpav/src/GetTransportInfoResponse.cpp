@@ -20,7 +20,7 @@ GetTransportInfoResponse::GetTransportInfoResponse(QString rawMessage,
     QObject::connect(&reader,
                      &ResponseReader::stringValueRead,
                      &reader,
-                     [&](QString const &elementName, QString value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
                          const auto ok = result == ResponseReader::ElementReadResult::Ok;
                          if (elementName == QStringLiteral("CurrentTransportState") && ok) {
                              d->mCurrentTransportState =
@@ -52,13 +52,13 @@ GetTransportInfoResponse::TransportStatus GetTransportInfoResponse::currentTrans
     return d->mCurrentTransportStatus;
 }
 
-QString const &GetTransportInfoResponse::transportPlaySpeed() const noexcept
+QString const& GetTransportInfoResponse::transportPlaySpeed() const noexcept
 {
     return d->mTransportPlaySpeed;
 }
 
 std::optional<GetTransportInfoResponse::TransportState> GetTransportInfoResponse::convertTransportState(
-    QString const &rawString)
+    QString const& rawString)
 {
     if (rawString == QStringLiteral("STOPPED")) {
         return TransportState::Stopped;
@@ -80,7 +80,7 @@ std::optional<GetTransportInfoResponse::TransportState> GetTransportInfoResponse
     }
 }
 
-GetTransportInfoResponse::TransportStatus GetTransportInfoResponse::convertTransportStatus(QString const &rawString)
+GetTransportInfoResponse::TransportStatus GetTransportInfoResponse::convertTransportStatus(QString const& rawString)
 {
 
     if (rawString == QStringLiteral("OK")) {

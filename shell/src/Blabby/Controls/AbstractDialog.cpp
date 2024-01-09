@@ -16,12 +16,12 @@ qreal AbstractDialog::headerHeight() const noexcept
     return mHeaderHeight;
 }
 
-QString const &AbstractDialog::title() const noexcept
+QString const& AbstractDialog::title() const noexcept
 {
     return mTitle;
 }
 
-void AbstractDialog::setTitle(QString const &title) noexcept
+void AbstractDialog::setTitle(QString const& title) noexcept
 {
     if (mTitle != title) {
         mTitle = title;
@@ -29,12 +29,12 @@ void AbstractDialog::setTitle(QString const &title) noexcept
     }
 }
 
-QQuickItem *AbstractDialog::contentItem() const noexcept
+QQuickItem* AbstractDialog::contentItem() const noexcept
 {
     return mContentItem;
 }
 
-void AbstractDialog::setContentItem(QQuickItem *contentItem) noexcept
+void AbstractDialog::setContentItem(QQuickItem* contentItem) noexcept
 {
     if (contentItem == nullptr) {
         return;

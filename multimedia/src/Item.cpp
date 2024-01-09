@@ -24,38 +24,38 @@ ItemType Item::type() const noexcept
     return d->mType;
 }
 
-QString const &Item::mainText() const noexcept
+QString const& Item::mainText() const noexcept
 {
     return d->mMainText;
 }
 
-QString const &Item::secondaryText() const noexcept
+QString const& Item::secondaryText() const noexcept
 {
 
     return d->mSecondaryText;
 }
 
-QString const &Item::iconUrl() const noexcept
+QString const& Item::iconUrl() const noexcept
 {
     return d->mIconUrl;
 }
 
-QString const &Item::path() const noexcept
+QString const& Item::path() const noexcept
 {
     return d->mPath;
 }
 
-QString const &Item::playUrl() const noexcept
+QString const& Item::playUrl() const noexcept
 {
     return d->mPlayUrl;
 }
 
-QVector<UPnPAV::Protocol> const &Item::supportedTypes() const noexcept
+QVector<UPnPAV::Protocol> const& Item::supportedTypes() const noexcept
 {
     return d->mSupportedTypes;
 }
 
-bool operator==(Item const &lhs, Item const &rhs) noexcept
+bool operator==(Item const& lhs, Item const& rhs) noexcept
 {
     // clang-format off
     return (lhs.d == rhs.d) or ((lhs.d->mType == rhs.d->mType) and
@@ -66,48 +66,48 @@ bool operator==(Item const &lhs, Item const &rhs) noexcept
     // clang-format on
 }
 
-bool operator!=(Item const &lhs, Item const &rhs) noexcept
+bool operator!=(Item const& lhs, Item const& rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-ItemBuilder &ItemBuilder::withItemType(ItemType type) noexcept
+ItemBuilder& ItemBuilder::withItemType(ItemType type) noexcept
 {
     mItem.d->mType = type;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withMainText(QString const &text) noexcept
+ItemBuilder& ItemBuilder::withMainText(QString const& text) noexcept
 {
     mItem.d->mMainText = text;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withSecondaryText(QString const &text) noexcept
+ItemBuilder& ItemBuilder::withSecondaryText(QString const& text) noexcept
 {
     mItem.d->mSecondaryText = text;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withIconUrl(QString const &iconUrl) noexcept
+ItemBuilder& ItemBuilder::withIconUrl(QString const& iconUrl) noexcept
 {
     mItem.d->mIconUrl = iconUrl;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withPath(QString const &path) noexcept
+ItemBuilder& ItemBuilder::withPath(QString const& path) noexcept
 {
     mItem.d->mPath = path;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withPlayUrl(QString const &playUrl) noexcept
+ItemBuilder& ItemBuilder::withPlayUrl(QString const& playUrl) noexcept
 {
     mItem.d->mPlayUrl = playUrl;
     return *this;
 }
 
-ItemBuilder &ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const &supportedTypes)
+ItemBuilder& ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const& supportedTypes)
 {
     mItem.d->mSupportedTypes = supportedTypes;
     return *this;

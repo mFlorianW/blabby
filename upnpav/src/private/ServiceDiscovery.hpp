@@ -22,16 +22,16 @@ class BLABBYUPNPAV_EXPORT ServiceDiscovery final : public QObject
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(ServiceDiscovery)
 public:
-    ServiceDiscovery(ServiceDiscoveryBackend *discoveryBackend);
+    ServiceDiscovery(ServiceDiscoveryBackend* discoveryBackend);
     ~ServiceDiscovery() override;
 
-    void sendSearchRequest(QString const &searchTarget);
+    void sendSearchRequest(QString const& searchTarget);
 
 Q_SIGNALS:
-    void dataReceived(QNetworkDatagram const &response);
+    void dataReceived(QNetworkDatagram const& response);
 
 private:
-    ServiceDiscoveryBackend *m_discoveryBackend;
+    ServiceDiscoveryBackend* m_discoveryBackend;
 };
 
 } // namespace UPnPAV

@@ -38,8 +38,8 @@ void ItemShould::give_the_main_and_secondary_text()
     auto const expSecText = QStringLiteral("World");
     auto const item = Item{ItemType::Container, expMainText, expSecText};
 
-    auto const &mText = item.mainText();
-    auto const &secondaryText = item.secondaryText();
+    auto const& mText = item.mainText();
+    auto const& secondaryText = item.secondaryText();
 
     QVERIFY2(mText == expMainText,
              QString("The main text \"%1\" is not the expected one %2").arg(mText, expMainText).toLocal8Bit());

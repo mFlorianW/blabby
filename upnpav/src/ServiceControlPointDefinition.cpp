@@ -18,14 +18,14 @@ ServiceControlPointDefinition::ServiceControlPointDefinition(QString scpdUrl,
 {
 }
 
-QString const &ServiceControlPointDefinition::scpdUrl() const
+QString const& ServiceControlPointDefinition::scpdUrl() const
 {
     return d->mScpdUrl;
 }
 
-bool ServiceControlPointDefinition::hasStateVariable(QString const &stateVariableName) const noexcept
+bool ServiceControlPointDefinition::hasStateVariable(QString const& stateVariableName) const noexcept
 {
-    for (auto const &variable : std::as_const(d->mStateVariables)) {
+    for (auto const& variable : std::as_const(d->mStateVariables)) {
         if (variable.name() == stateVariableName) {
             return true;
         }
@@ -34,19 +34,19 @@ bool ServiceControlPointDefinition::hasStateVariable(QString const &stateVariabl
     return false;
 }
 
-QVector<SCPDStateVariable> const &ServiceControlPointDefinition::serviceStateTable() const
+QVector<SCPDStateVariable> const& ServiceControlPointDefinition::serviceStateTable() const
 {
     return d->mStateVariables;
 }
 
-QVector<SCPDAction> const &ServiceControlPointDefinition::actionList() const
+QVector<SCPDAction> const& ServiceControlPointDefinition::actionList() const
 {
     return d->mActions;
 }
 
-SCPDAction ServiceControlPointDefinition::action(QString const &actionName) const noexcept
+SCPDAction ServiceControlPointDefinition::action(QString const& actionName) const noexcept
 {
-    for (auto const &action : std::as_const(d->mActions)) {
+    for (auto const& action : std::as_const(d->mActions)) {
         if (action.name() == actionName) {
             return action;
         }
@@ -55,7 +55,7 @@ SCPDAction ServiceControlPointDefinition::action(QString const &actionName) cons
     return {};
 }
 
-bool operator==(ServiceControlPointDefinition const &lhs, ServiceControlPointDefinition const &rhs)
+bool operator==(ServiceControlPointDefinition const& lhs, ServiceControlPointDefinition const& rhs)
 {
     if (&lhs == &rhs) {
         return true;
@@ -64,7 +64,7 @@ bool operator==(ServiceControlPointDefinition const &lhs, ServiceControlPointDef
     return ((lhs.d->mActions == rhs.d->mActions) && (lhs.d->mStateVariables == rhs.d->mStateVariables));
 }
 
-bool operator!=(ServiceControlPointDefinition const &lhs, ServiceControlPointDefinition const &rhs)
+bool operator!=(ServiceControlPointDefinition const& lhs, ServiceControlPointDefinition const& rhs)
 {
     return !(lhs == rhs);
 }

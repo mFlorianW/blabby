@@ -43,7 +43,7 @@ public:
     quint32 descriptionRequestCalls{0};
 
 protected:
-    void fetchDescription(QUrl const &url) override;
+    void fetchDescription(QUrl const& url) override;
 };
 
 } // namespace UPnPAV

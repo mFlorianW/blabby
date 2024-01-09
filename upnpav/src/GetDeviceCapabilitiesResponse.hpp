@@ -22,27 +22,27 @@ public:
      * @param scpd The service control point definition of the device.
      * @param action The SCPD action of the AVTransport service.
      */
-    GetDeviceCapabilitiesResponse(QString const &rawMsg, ServiceControlPointDefinition scpd, SCPDAction action);
+    GetDeviceCapabilitiesResponse(QString const& rawMsg, ServiceControlPointDefinition scpd, SCPDAction action);
 
     /**
      * Gives the list of media that the device can play
      * @return The value of the PlayMedia field of the response.
      */
-    QStringList const &playMedia() const noexcept;
+    QStringList const& playMedia() const noexcept;
 
     /**
      * Gives the list of record media that the device can record.
      * If the device can't record anything, then "NOT_IMPLMENTED" will be returned.
      * @return The value of the RecMedia field of the response.
      */
-    QStringList const &recMedia() const noexcept;
+    QStringList const& recMedia() const noexcept;
 
     /**
      * Gives the list of the possible recording quality modes.
      * If the device can't record anything, the "NOT_IMPLMENTED" will be returned.
      * @return The value of the RecQualityModes field of the response.
      */
-    QStringList const &recQualityModes() const noexcept;
+    QStringList const& recQualityModes() const noexcept;
 
 private:
     QExplicitlySharedDataPointer<GetDeviceCapabilitiesResponseData> d;

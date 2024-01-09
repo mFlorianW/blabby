@@ -100,7 +100,7 @@ MediaDeviceShould::MediaDeviceShould()
 MediaDeviceShould::~MediaDeviceShould() = default;
 
 ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutStateVariable(
-    SCPDStateVariable const &variable)
+    SCPDStateVariable const& variable)
 {
     QVector<SCPDStateVariable> variables = validConnectionManagerStateVariables();
     variables.removeAll(variable);
@@ -111,14 +111,14 @@ ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWith
 }
 
 ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutStateVariable(
-    SCPDStateVariable const &variable)
+    SCPDStateVariable const& variable)
 {
     QVector<SCPDStateVariable> variables = validAvTransportStateVariables();
     variables.removeAll(variable);
     return ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validAvTranportActions()};
 }
 
-ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutAction(SCPDAction const &action)
+ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutAction(SCPDAction const& action)
 {
     auto actions = validAvTranportActions();
     actions.removeAll(action);
@@ -126,7 +126,7 @@ ServiceControlPointDefinition MediaDeviceShould::createAvTransportSCPDWithoutAct
 }
 
 DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutStateVariable(
-    SCPDStateVariable const &variable)
+    SCPDStateVariable const& variable)
 {
     DeviceDescription devDesc{
         "",
@@ -144,7 +144,7 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutSt
     return devDesc;
 }
 
-DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAction(SCPDAction const &action)
+DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAction(SCPDAction const& action)
 {
     DeviceDescription devDesc{"",
                               "",
@@ -161,7 +161,7 @@ DeviceDescription MediaDeviceShould::createAvTransportDeviceDescriptionWithoutAc
     return devDesc;
 }
 
-ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(SCPDAction const &action)
+ServiceControlPointDefinition MediaDeviceShould::createConnectionManagerSCPDWithoutAction(SCPDAction const& action)
 {
     QVector<SCPDAction> actions = validConnectionManagerActions();
     actions.removeAll(action);
@@ -176,7 +176,7 @@ void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_Connect
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription{"", "", "", "", "", {}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager description not found"));
     }
 }
@@ -193,7 +193,7 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 {eventUrlMissingInConnectionManagerDescription()},
                                                                 {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager event URL is not set"));
     }
 }
@@ -210,7 +210,7 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 {serviceIdMissingInConnectionManagerDescription()},
                                                                 {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager service ID is not set"));
     }
 }
@@ -227,7 +227,7 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 {scpdUrlMissingInConnectionManagerDescription()},
                                                                 {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD URL is not set"));
     }
 }
@@ -238,7 +238,7 @@ void MediaDeviceShould::throw_An_Exception_When_DeviceDescription_Has_No_SCPD_Fo
         auto const dev =
             MediaDeviceWithoutAV(DeviceDescription{"", "", "", "", "", {}, {validConnectionManagerDescription()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager SCPD not found."));
     }
 }
@@ -255,7 +255,7 @@ void MediaDeviceShould::throw_An_Exception_When_ConnectionManager_Description_Ha
                                                                 {controlUrlMissingInConnectionManagerDescription()},
                                                                 {validConnectionManagerSCPD()}});
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription &e) {
+    } catch (InvalidDeviceDescription& e) {
         QVERIFY(QString{e.what()}.contains("ConnectionManager control URL is not set"));
     }
 }
@@ -389,7 +389,7 @@ void MediaDeviceShould::throw_Exception_When_StateVariable_Misses_In_ConnectionM
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -449,7 +449,7 @@ void MediaDeviceShould::Throw_Exception_When_Action_Misses_in_ConnectionManager_
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -626,7 +626,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     try {
         auto const device = MediaDeviceWithAV{DeviceDescription};
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -783,7 +783,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
@@ -844,7 +844,7 @@ void MediaDeviceShould::Throw_An_Exception_When_The_AVTransport_Service_Descript
     try {
         auto const dev = MediaDeviceWithoutAV(DeviceDescription);
         QFAIL("The consturctor should throw Invalid Device Description.");
-    } catch (InvalidDeviceDescription const &e) {
+    } catch (InvalidDeviceDescription const& e) {
         // clang-format off
         const auto re = QRegularExpression(ExpectedException);
         QVERIFY2(QString{e.what()}.contains(re), // clazy:exclude=use-static-qregularexpression
