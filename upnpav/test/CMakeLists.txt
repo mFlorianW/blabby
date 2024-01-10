@@ -266,3 +266,20 @@ target_link_libraries(test_upnpav_media_renderer
         Qt6::Test
 )
 add_test(test_upnpav_media_renderer ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_media_renderer)
+
+###############################################################################
+# Test HttpBackend
+###############################################################################
+add_executable(test_upnpav_http_eventbackend)
+target_sources(test_upnpav_http_eventbackend
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackendShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackendShould.hpp
+)
+target_link_libraries(test_upnpav_http_eventbackend
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_http_eventbackend ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_http_eventbackend)

@@ -1,0 +1,56 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
+#pragma once
+
+#include "blabbyupnpav_export.h"
+#include <QHostAddress>
+#include <QObject>
+
+namespace UPnPAV
+{
+
+/**
+ * The HttpEventServer is the communication endpoint for UPnPAV devices which send events for subscribed events.
+ * There is only one instance in per process and all the @ref UPnPAV::HttpEventBackends are using the singleton
+ * instance. It's possible to configure the @HttpEventServer IP address and port. The configuration is done with
+ * environment variables: "BLABBY_EVENT_SERVER_IP" and "BLABBY_EVENT_SERVER_PORT"
+ */
+class BLABBYUPNPAV_EXPORT HttpEventServer final : public QObject
+{
+    Q_OBJECT
+public:
+    /**
+     * Gives the HttpServerInstance
+     */
+    static HttpEventServer& instance();
+
+    /**
+     * Default destructor
+     */
+    ~HttpEventServer() override;
+
+    /*
+     * Disabled copy and move semantic
+     */
+    Q_DISABLE_COPY_MOVE(HttpEventServer)
+
+    /**
+     * Gives the host address for the event callbacks.
+     * @return The host address for the event callbacks.
+     */
+    QUrl callbackHost() noexcept;
+
+private:
+    /**
+     * Default destructor
+     */
+    HttpEventServer();
+
+private:
+    QHostAddress mServerAddress = QHostAddress{QHostAddress::QHostAddress::AnyIPv4};
+    quint16 mServerPort = 0U;
+};
+
+} // namespace UPnPAV

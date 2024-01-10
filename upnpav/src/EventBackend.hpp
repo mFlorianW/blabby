@@ -169,7 +169,7 @@ Q_SIGNALS:
      * This signal is emitted when the event subscription failes.
      * @param error The reason why the subscribing of events failed.
      */
-    void subscriptionFailed(SubscriptionError const& error);
+    void subscriptionFailed(UPnPAV::SubscriptionError const& error);
 
 protected:
     /**
