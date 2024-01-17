@@ -48,6 +48,7 @@ add_subdirectory(upnpav)
 add_subdirectory(shell)
 add_subdirectory(providers)
 add_subdirectory(multimedia)
+add_subdirectory(http)
 
 if (ENABLE_TEST)
     add_subdirectory(upnpav_test_helper)

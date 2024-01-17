@@ -9,7 +9,7 @@ repos:
       name: format_license_lgpl 
       entry: reuse annotate --copyright 'All contributors' --license 'LGPL-2.1-or-later' --merge-copyrights --copyright-style 'spdx'
       types_or: ["c++", "c", "qml"]
-      files: ^(multimedia/|multimedia_test_helper/|upnpav/|upnpav_test_helper)
+      files: ^(multimedia/|multimedia_test_helper/|upnpav/|upnpav_test_helper|http)
       language: python
       additional_dependencies: ["reuse"]
 
