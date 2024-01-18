@@ -11,7 +11,7 @@ target_sources(test_http_server_should
 )
 target_link_libraries(test_http_server_should
     Qt6::Test
-    Blabby::Multimedia
+    Blabby::Http
 )
 add_test(test_http_server_should ${EXECUTABLE_OUTPUT_PATH}/test_http_server_should)
 
