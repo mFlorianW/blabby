@@ -6,17 +6,34 @@ add_library(Blabby::Http ALIAS ${PROJECT_NAME})
 generate_export_header(${PROJECT_NAME})
 
 set(PRIVATE_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.cpp
 )
 
 set(PRIVATE_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/ServerPrivate.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.hpp
 )
 
-set(SRCS
+set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/Server.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ServerRequest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ServerResponse.cpp
 )
 
-set(HEADERS
+set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Server.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ServerRequest.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ServerResponse.hpp
+)
+
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${PRIVATE_SRCS}
+        ${PRIVATE_HEADERS}
+        ${PUBLIC_SRCS}
+        ${PUBLIC_HEADERS}
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -39,14 +56,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 # CMakePackageConfig
 ################################################################################
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+set(HTTP_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     CACHE PATH "Location of header blabby http files" )
 
 configure_package_config_file(
     ${PROJECT_NAME}Config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/BlabbyHttpConfig.cmake"
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BlabbyHttp
-    PATH_VARS INCLUDE_INSTALL_DIR
+    PATH_VARS HTTP_INCLUDE_INSTALL_DIR
 )
 
 write_basic_package_version_file(
@@ -66,8 +83,8 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
     NAMELINK_COMPONENT BlabbyUPnPAV_Development
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-install(FILES ${PUBLIC_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}")
-install(FILES ${PRIVATE_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}/private")
+install(FILES ${PUBLIC_HEADERS} DESTINATION "${HTTP_INCLUDE_INSTALL_DIR}")
+install(FILES ${PRIVATE_HEADERS} DESTINATION "${HTTP_INCLUDE_INSTALL_DIR}/private")
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Version.cmake"
