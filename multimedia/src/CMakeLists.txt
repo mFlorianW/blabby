@@ -58,8 +58,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 # CMakePackageConfig
 ################################################################################
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-    CACHE PATH "Location of header blabby UPNPAV files" )
+set(MULTIMEDIA_INCLUDE_DIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+    CACHE PATH "Location of header blabby multimedia files" )
 
 configure_package_config_file(
     ${PROJECT_NAME}Config.cmake.in
@@ -79,14 +79,14 @@ write_basic_package_version_file(
 ################################################################################
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT BlabbyUPnPAV_Runtime
+    COMPONENT BlabbyMultimedia_Runtime
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT BlabbyUPnPAV_Development
+    COMPONENT BlabbyMultimedia_Development
     NAMELINK_COMPONENT BlabbyUPnPAV_Development
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-install(FILES ${PUBLIC_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}")
-install(FILES ${PRIVATE_HEADERS} DESTINATION "${INCLUDE_INSTALL_DIR}/private")
+install(FILES ${PUBLIC_HEADERS} DESTINATION "${MULTIMEDIA_INCLUDE_DIR}")
+install(FILES ${PRIVATE_HEADERS} DESTINATION "${MULTIMEDIA_INCLUDE_DIR}/private")
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Version.cmake"
