@@ -59,7 +59,10 @@
             "binaryDir": "${sourceDir}/build-${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/$env{BUILD_DIR}/install"
+            },
+            "environment": {
+                "BUILD_DIR": "build-release"
             }
         }
     ],
