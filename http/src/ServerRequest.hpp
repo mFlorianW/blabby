@@ -72,6 +72,7 @@ Q_ENUM_NS(Method)
 
 } // namespace Request
 
+using Headers = QHash<QByteArray, QByteArray>;
 class RequestReader;
 struct ServerRequestData;
 /**
@@ -91,6 +92,13 @@ public:
      */
     Request::Method method() const noexcept;
 
+    /**
+     * Gives all HTTP headers of the client request.
+     * All HTTP headers from the client request.
+     * @return A hash map with all headers of the request.
+     */
+    Headers const& headers() const noexcept;
+
 private:
     friend Http::RequestReader;
     QExplicitlySharedDataPointer<ServerRequestData> d;
@@ -102,6 +110,7 @@ private:
 struct ServerRequestData : public QSharedData
 {
     Request::Method mMethod = Request::Method::Unknown;
+    Headers mHeaders;
 };
 
 } // namespace Http

@@ -43,6 +43,8 @@ void RequestReader::readRequest()
     llhttp_settings_init(&settings);
 
     settings.on_method = onMethod;
+    settings.on_header_field = onHeader;
+    settings.on_header_value = onHeaderValue;
 
     llhttp_t parser;
     llhttp_init(&parser, HTTP_REQUEST, &settings);
@@ -77,6 +79,30 @@ int RequestReader::onMethod(llhttp_t* parser, char const* at, std::size_t length
     {
         auto locker = QMutexLocker{&reader->mMutex};
         reader->mServerRequest.d->mMethod = convertMethod(rawMethod);
+    }
+    return 0;
+}
+
+int RequestReader::onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept
+{
+    auto reader = static_cast<RequestReader*>(parser->data);
+    auto header = QByteArray{at, static_cast<qsizetype>(length)};
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        reader->mLastHeader = reader->mServerRequest.d->mHeaders.insert(header, QByteArray{});
+    }
+    return 0;
+}
+
+int RequestReader::onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept
+{
+    auto reader = static_cast<RequestReader*>(parser->data);
+    auto headerValue = QByteArray{at, static_cast<qsizetype>(length)};
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        if (reader->mLastHeader != reader->mServerRequest.d->mHeaders.end()) {
+            reader->mServerRequest.d->mHeaders.insert(reader->mLastHeader.key(), headerValue);
+        }
     }
     return 0;
 }

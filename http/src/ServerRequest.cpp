@@ -17,4 +17,9 @@ Request::Method ServerRequest::method() const noexcept
     return d->mMethod;
 }
 
+Headers const& ServerRequest::headers() const noexcept
+{
+    return d->mHeaders;
+}
+
 } // namespace Http
