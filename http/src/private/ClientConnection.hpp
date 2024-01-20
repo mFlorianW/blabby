@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ServerRequest.hpp"
+#include "ServerResponse.hpp"
 #include "blabbyhttp_export.h"
 #include "private/RequestReader.hpp"
 #include <QObject>
@@ -26,7 +27,7 @@ public:
      * Creates a ClientConnection instance
      * @param connection The TCP connection for reading and sending.
      */
-    ClientConnection(QTcpSocket* connection);
+    ClientConnection(qintptr socketDesc);
 
     /**
      * Destructor cleansup reader and sender threads.
@@ -47,15 +48,17 @@ public:
 Q_SIGNALS:
     /**
      * The signal is emitted when the whole complete request is received.
+     * @param request The parsed server request from the client.
+     * @param connection The client connection that has finished reading the request.
      */
-    void requestReceived(ServerRequest const& request);
+    void requestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection);
 
 private:
     void stopReadThread();
 
 private:
+    qintptr mSocketDesc;
     ServerRequest mRequest;
-    QTcpSocket* mSocket;
     QThread mReadThread;
     std::unique_ptr<RequestReader> mReader;
 };

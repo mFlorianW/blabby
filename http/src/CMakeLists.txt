@@ -8,12 +8,14 @@ generate_export_header(${PROJECT_NAME})
 set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
 )
 
 set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ServerPrivate.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
 )
 
 set(PUBLIC_SRCS
@@ -39,7 +41,9 @@ target_sources(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Qt6::Core
-        Blabby::UPnPAV
+        Qt6::Network
+    PRIVATE
+        ${LLHTTP_LIBRARIES}
 )
 
 target_include_directories(${PROJECT_NAME}

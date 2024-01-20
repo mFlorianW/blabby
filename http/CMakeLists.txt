@@ -31,6 +31,8 @@ include(CompilerSettings)
 # Dependencies
 ###############################################################################
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Network)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LLHTTP REQUIRED libllhttp)
 
 ###############################################################################
 # Runtime path

@@ -23,15 +23,20 @@ public:
 
 private Q_SLOTS:
     /**
-     * Setups a new server for each test.
+     * Setups a new server for the tests.
+     */
+    void initTestCase();
+
+    /**
+     * Reset server internal state for every test.
      */
     void init();
 
+    void give_a_request_with_the_request_method_data();
     /**
-     * Tests that the handle request function is called when a http request is successful
-     * received.
+     * Tests that the server returns the request method to the handle request function
      */
-    void call_handle_request_on_susccessful_http_request();
+    void give_a_request_with_the_request_method();
 
 private:
     std::unique_ptr<TestServer> mHtppServer;
@@ -42,12 +47,15 @@ class TestServer : public Server
 {
 public:
     bool handleRequestCalled() const noexcept;
+    ServerRequest serverRequest() const noexcept;
+    void resetStates() noexcept;
 
 protected:
     bool handleRequest(ServerRequest const& request, ServerResponse& response) override;
 
 private:
     bool mHandleRequestCalled = false;
+    ServerRequest mLastRequest;
 };
 
 } // namespace Http

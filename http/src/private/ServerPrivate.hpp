@@ -16,7 +16,6 @@ namespace Http
  */
 struct ServerPrivate
 {
-    QTcpServer mTcpServer;
     std::unordered_map<ClientConnection*, std::unique_ptr<ClientConnection>> mClients;
 };
 

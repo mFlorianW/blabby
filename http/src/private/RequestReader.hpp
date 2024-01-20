@@ -9,6 +9,7 @@
 #include <QMutex>
 #include <QObject>
 #include <QTcpSocket>
+#include <llhttp.h>
 
 namespace Http
 {
@@ -25,7 +26,7 @@ public:
      * Creates and instance of the RequestReader
      * @param connection The TCP client connection for reading.
      */
-    RequestReader(QTcpSocket* connection);
+    RequestReader(qintptr connection);
 
     /**
      * Default destructor
@@ -58,9 +59,12 @@ Q_SIGNALS:
     void requestRead();
 
 private:
+    static int onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept;
+
+private:
     mutable QMutex mMutex;
     ServerRequest mServerRequest;
-    QTcpSocket* mSocket;
+    qintptr mSocket;
 };
 
 } // namespace Http
