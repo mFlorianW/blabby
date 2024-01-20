@@ -22,6 +22,8 @@ jobs:
         sudo apt update && sudo apt install doxygen
     - name: checkout
       uses: actions/checkout@v4
+    - name: Build and Install nodejs-llhttp
+      uses: ./.github/actions/llhttp-build
     - name: build and test
       run: |
         cmake --preset github-ci-debug

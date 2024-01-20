@@ -5,15 +5,103 @@
 #pragma once
 
 #include "blabbyhttp_export.h"
+#include <QMetaEnum>
+#include <QSharedData>
 
 namespace Http
 {
 
+namespace Request
+{
+Q_NAMESPACE_EXPORT(BLABBYHTTP_EXPORT)
+
+/**
+ * Method of the @ref Http::ServerRequest
+ */
+enum class BLABBYHTTP_EXPORT Method
+{
+    Unknown,
+    Delete,
+    Get,
+    Head,
+    Post,
+    Put,
+    Connect,
+    Options,
+    Trace,
+    Copy,
+    Lock,
+    MkCol,
+    Move,
+    PropFind,
+    PropPatch,
+    Search,
+    Unlock,
+    Bind,
+    Rebind,
+    Unbind,
+    Acl,
+    Report,
+    MkActivity,
+    Checkout,
+    Merge,
+    MSearch,
+    Notify,
+    Subscribe,
+    Unsubscribe,
+    Patch,
+    Purge,
+    MkCalendar,
+    Link,
+    Unlink,
+    Source,
+    Pri,
+    Describe,
+    Announce,
+    Setup,
+    Play,
+    Pause,
+    Teardown,
+    GetParameter,
+    SetParameter,
+    Redirect,
+    Record,
+    Flush,
+};
+Q_ENUM_NS(Method)
+
+} // namespace Request
+
+class RequestReader;
+struct ServerRequestData;
 /**
  * The @ref Http::ServerRequest is a deserialized HTTP request, which was send from a client to server.
  */
 class BLABBYHTTP_EXPORT ServerRequest
 {
+public:
+    /**
+     * Creates an instance of a ServerRequest
+     */
+    ServerRequest();
+
+    /**
+     * Gives the HTTP method of the request
+     * @return The HTTP method
+     */
+    Request::Method method() const noexcept;
+
+private:
+    friend Http::RequestReader;
+    QExplicitlySharedDataPointer<ServerRequestData> d;
+};
+
+/**
+ * Shared data of a ServerRequest instance
+ */
+struct ServerRequestData : public QSharedData
+{
+    Request::Method mMethod = Request::Method::Unknown;
 };
 
 } // namespace Http

@@ -14,13 +14,14 @@
 namespace Http
 {
 struct ServerPrivate;
+class ClientConnection;
 
 /**
  * The @ref Http::Server can receive HTTP requests from network devices.
  * @note
  * The @ref Http::Server should only be used in LAN and known environments.
  */
-class BLABBYHTTP_EXPORT Server : public QObject
+class BLABBYHTTP_EXPORT Server : public QTcpServer
 {
     Q_OBJECT
 public:
@@ -39,15 +40,6 @@ public:
      */
     Q_DISABLE_COPY_MOVE(Server)
 
-    /**
-     * Binds the server on the given address and port. On default the
-     * server is listening on any interface of the device and a random port.
-     * @param address The address which the server shall use. Default: every interface of the device.
-     * @param port The port which the server shall use. Default: random port
-     * @return True the server is succesful binded, otherwise false.
-     */
-    bool bind(QHostAddress const& address = QHostAddress::Any, quint16 port = 0) noexcept;
-
 protected:
     /**
      * Pure virtual function for incoming requests.
@@ -58,9 +50,14 @@ protected:
      */
     virtual bool handleRequest(ServerRequest const& request, ServerResponse& response) = 0;
 
+    /**
+     * Handles new client connections
+     * @param socketDesc The new socket descriptor.
+     */
+    void incomingConnection(qintptr socketDesc) noexcept override;
+
 private Q_SLOTS:
-    void onNewConnection() noexcept;
-    void onRequestReceived(ServerRequest const& request) noexcept;
+    void onRequestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
 
 private:
     std::unique_ptr<ServerPrivate> d;

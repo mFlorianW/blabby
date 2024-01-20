@@ -47,6 +47,8 @@ jobs:
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
+    - name: Build and Install nodejs-llhttp
+      uses: ./.github/actions/llhttp-build
     - name: Build
       run: |
         echo "###############################################################"

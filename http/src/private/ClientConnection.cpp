@@ -7,9 +7,9 @@
 namespace Http
 {
 
-ClientConnection::ClientConnection(QTcpSocket* connection)
+ClientConnection::ClientConnection(qintptr socketDesc)
     : QObject{}
-    , mSocket{connection}
+    , mSocketDesc{socketDesc}
 {
 }
 
@@ -22,13 +22,13 @@ ClientConnection::~ClientConnection()
 
 void ClientConnection::readRequest() noexcept
 {
-    mReader = std::make_unique<RequestReader>(mSocket);
+    mReader = std::make_unique<RequestReader>(mSocketDesc);
     mReader->moveToThread(&mReadThread);
     connect(mReader.get(), &RequestReader::requestRead, this, [this] {
         stopReadThread();
         mRequest = mReader->serverRequest();
         mReader = nullptr;
-        Q_EMIT requestReceived(mRequest);
+        Q_EMIT requestReceived(mRequest, this);
     });
     connect(&mReadThread, &QThread::started, mReader.get(), &RequestReader::readRequest);
     mReadThread.start();

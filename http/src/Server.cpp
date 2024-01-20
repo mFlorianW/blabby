@@ -9,32 +9,24 @@ namespace Http
 {
 
 Server::Server()
-    : QObject{}
+    : QTcpServer{}
     , d{std::make_unique<ServerPrivate>()}
 {
-    connect(&d->mTcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
 }
 
 Server::~Server() = default;
 
-bool Server::bind(QHostAddress const& address, quint16 port) noexcept
+void Server::incomingConnection(qintptr socketDesc) noexcept
 {
-    return d->mTcpServer.listen(address, port);
+    auto con = std::make_unique<ClientConnection>(socketDesc);
+    connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
+    con->readRequest();
+    d->mClients.insert({con.get(), std::move(con)});
 }
 
-void Server::onNewConnection() noexcept
+void Server::onRequestReceived(ServerRequest const& request, ClientConnection* connection) noexcept
 {
-    while (d->mTcpServer.hasPendingConnections()) {
-        auto socket = d->mTcpServer.nextPendingConnection();
-        auto con = std::make_unique<ClientConnection>(socket);
-        connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
-        con->readRequest();
-        d->mClients.insert({con.get(), std::move(con)});
-    }
-}
-
-void Server::onRequestReceived(ServerRequest const& request) noexcept
-{
+    Q_UNUSED(connection);
     auto resp = ServerResponse{};
     handleRequest(request, resp);
 }
