@@ -118,6 +118,19 @@ void ServerShould::give_a_request_with_the_request_method()
     reply->deleteLater();
 }
 
+void ServerShould::give_a_request_with_the_headers()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setRawHeader(QByteArray{"Test"}, QByteArray{"TestValue"});
+    auto reply = mHttpClient.get(req);
+
+    QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
+    QCOMPARE(mHtppServer->serverRequest().headers().contains("Test"), true);
+    QCOMPARE(mHtppServer->serverRequest().headers().value("Test"), QByteArray{"TestValue"});
+    reply->deleteLater();
+}
+
 } // namespace Http
 
 QTEST_MAIN(Http::ServerShould)
