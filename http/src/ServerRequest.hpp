@@ -106,6 +106,12 @@ public:
      */
     QUrl const& url() const noexcept;
 
+    /**
+     * Gives the body of the request
+     * @return A QByteArray that contains the body of the request.
+     */
+    QByteArray const& body() const noexcept;
+
 private:
     friend Http::RequestReader;
     QExplicitlySharedDataPointer<ServerRequestData> d;
@@ -119,6 +125,7 @@ struct ServerRequestData : public QSharedData
     Request::Method mMethod = Request::Method::Unknown;
     Headers mHeaders;
     QUrl mUrl;
+    QByteArray mBody;
 };
 
 } // namespace Http

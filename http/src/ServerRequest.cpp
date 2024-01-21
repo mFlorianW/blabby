@@ -27,4 +27,9 @@ QUrl const& ServerRequest::url() const noexcept
     return d->mUrl;
 }
 
+QByteArray const& ServerRequest::body() const noexcept
+{
+    return d->mBody;
+}
+
 } // namespace Http
