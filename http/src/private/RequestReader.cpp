@@ -46,6 +46,7 @@ void RequestReader::readRequest()
     settings.on_header_field = onHeader;
     settings.on_header_value = onHeaderValue;
     settings.on_url = onUrl;
+    settings.on_body = onBody;
 
     llhttp_t parser;
     llhttp_init(&parser, HTTP_REQUEST, &settings);
@@ -115,6 +116,16 @@ int RequestReader::onUrl(llhttp_t* parser, char const* at, std::size_t length) n
     {
         auto locker = QMutexLocker{&reader->mMutex};
         reader->mServerRequest.d->mUrl = url;
+    }
+    return 0;
+}
+
+int RequestReader::onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept
+{
+    auto reader = static_cast<RequestReader*>(parser->data);
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        reader->mServerRequest.d->mBody = QByteArray{at, static_cast<qsizetype>(length)};
     }
     return 0;
 }

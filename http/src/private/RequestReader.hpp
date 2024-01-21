@@ -63,6 +63,7 @@ private:
     static int onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept;
+    static int onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept;
 
 private:
     mutable QMutex mMutex;
