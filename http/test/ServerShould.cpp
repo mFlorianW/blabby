@@ -19,11 +19,11 @@ bool TestServer::handleRequestCalled() const noexcept
 
 bool TestServer::handleRequest(ServerRequest const& request, ServerResponse& response)
 {
-    Q_UNUSED(response);
-
     mLastRequest = request;
     mHandleRequestCalled = true;
     response.setStatusCode(mResponseCode);
+
+    response.setBody({"Hello World"});
 
     return true;
 }
@@ -173,6 +173,7 @@ void ServerShould::send_a_response_to_the_client()
 
     QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
     QCOMPARE(reply->error(), QNetworkReply::NoError);
+    QCOMPARE(reply->readAll(), QByteArray{"Hello World"});
     reply->deleteLater();
 }
 

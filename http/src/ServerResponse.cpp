@@ -22,4 +22,14 @@ void ServerResponse::setStatusCode(Response::StatusCode statusCode) noexcept
     d->mStatusCode = statusCode;
 }
 
+QByteArray const& ServerResponse::body() const noexcept
+{
+    return d->mBody;
+}
+
+void ServerResponse::setBody(QByteArray const& body) noexcept
+{
+    d->mBody = body;
+}
+
 } // namespace Http

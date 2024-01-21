@@ -101,10 +101,34 @@ Q_ENUM_NS(StatusCode)
 class BLABBYHTTP_EXPORT ServerResponse
 {
 public:
+    /**
+     * Creates a @ref Htpp::ServerResponse instance
+     */
     ServerResponse();
 
+    /**
+     * Gives the status of the response.
+     * @return The @ref Http::Response::StatusCode of the response.
+     */
     Response::StatusCode statusCode() const noexcept;
+
+    /**
+     * Sets the status code of the response.
+     * @param statusCode The @ref Http::Response::statusCode of the response.
+     */
     void setStatusCode(Response::StatusCode statusCode) noexcept;
+
+    /**
+     * Gives the body of the response.
+     * @return The response body as byte array
+     */
+    QByteArray const& body() const noexcept;
+
+    /**
+     * Sets the body of the response.
+     * @param body The body of the response.
+     */
+    void setBody(QByteArray const& body) noexcept;
 
 private:
     QSharedDataPointer<ServerResponseData> d;
@@ -113,6 +137,7 @@ private:
 struct ServerResponseData : public QSharedData
 {
     Response::StatusCode mStatusCode = Response::StatusCode::Ok;
+    QByteArray mBody;
 };
 
 } // namespace Http
