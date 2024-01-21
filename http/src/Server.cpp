@@ -20,6 +20,7 @@ void Server::incomingConnection(qintptr socketDesc) noexcept
 {
     auto con = std::make_unique<ClientConnection>(socketDesc);
     connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
+    connect(con.get(), &ClientConnection::responseSent, this, &Server::onResponseSent);
     con->readRequest();
     d->mClients.insert({con.get(), std::move(con)});
 }
@@ -28,7 +29,17 @@ void Server::onRequestReceived(ServerRequest const& request, ClientConnection* c
 {
     Q_UNUSED(connection);
     auto resp = ServerResponse{};
-    handleRequest(request, resp);
+    if (handleRequest(request, resp)) {
+        connection->sendResponse(resp);
+    }
+}
+
+void Server::onResponseSent(Http::ClientConnection* connection)
+{
+    if (d->mClients.contains(connection)) {
+        d->mClients[connection]->close();
+        d->mClients.erase(connection);
+    }
 }
 
 } // namespace Http

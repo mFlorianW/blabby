@@ -9,6 +9,7 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseSerializer.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -16,6 +17,7 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseSerializer.hpp
 )
 
 set(PUBLIC_SRCS

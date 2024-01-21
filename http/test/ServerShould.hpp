@@ -53,6 +53,11 @@ private Q_SLOTS:
      */
     void give_a_request_with_the_request_body();
 
+    /**
+     * Tests that the server send a response to the client
+     */
+    void send_a_response_to_the_client();
+
 private:
     std::unique_ptr<TestServer> mHtppServer;
     QNetworkAccessManager mHttpClient;
@@ -65,12 +70,15 @@ public:
     ServerRequest serverRequest() const noexcept;
     void resetStates() noexcept;
 
+    void setResponse(Response::StatusCode code);
+
 protected:
     bool handleRequest(ServerRequest const& request, ServerResponse& response) override;
 
 private:
     bool mHandleRequestCalled = false;
     ServerRequest mLastRequest;
+    Response::StatusCode mResponseCode = Response::StatusCode::NotFound;
 };
 
 } // namespace Http

@@ -58,6 +58,7 @@ protected:
 
 private Q_SLOTS:
     void onRequestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
+    void onResponseSent(Http::ClientConnection* connection);
 
 private:
     std::unique_ptr<ServerPrivate> d;
