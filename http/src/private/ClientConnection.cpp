@@ -48,15 +48,15 @@ void ClientConnection::readRequest() noexcept
         return;
     }
     auto request = mSocket.readAll();
-    mReader = std::make_unique<RequestReader>(request);
+    mReader = std::make_unique<RequestDeserializer>(request);
     mReader->moveToThread(&mReadThread);
-    connect(mReader.get(), &RequestReader::requestRead, this, [this] {
+    connect(mReader.get(), &RequestDeserializer::requestRead, this, [this] {
         stopThread(mReadThread);
         mRequest = mReader->serverRequest();
         mReader = nullptr;
         Q_EMIT requestReceived(mRequest, this);
     });
-    connect(&mReadThread, &QThread::started, mReader.get(), &RequestReader::readRequest);
+    connect(&mReadThread, &QThread::started, mReader.get(), &RequestDeserializer::readRequest);
     mReadThread.start();
     qCDebug(httpServer) << "Read request for connection:" << mSocket.peerAddress().toString() << mSocket.peerPort();
 }

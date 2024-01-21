@@ -8,7 +8,7 @@
 #include "ServerRequest.hpp"
 #include "ServerResponse.hpp"
 #include "blabbyhttp_export.h"
-#include "private/RequestReader.hpp"
+#include "private/RequestDeserializer.hpp"
 #include <QObject>
 #include <QTcpSocket>
 #include <QThread>
@@ -82,7 +82,7 @@ private:
     QTcpSocket mSocket;
     ServerRequest mRequest;
     QThread mReadThread;
-    std::unique_ptr<RequestReader> mReader;
+    std::unique_ptr<RequestDeserializer> mReader;
     QThread mWriteThread;
     std::unique_ptr<ResponseSerializer> mWriter;
     qsizetype mResponseSize = qsizetype{0};
