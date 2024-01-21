@@ -4,12 +4,13 @@
 
 #include "ServerShould.hpp"
 #include <QNetworkReply>
+#include <QSignalSpy>
 #include <QTest>
 
 namespace Http
 {
 
-constexpr quint32 timeout = 30000;
+constexpr quint32 timeout = 1000;
 
 bool TestServer::handleRequestCalled() const noexcept
 {
@@ -22,6 +23,7 @@ bool TestServer::handleRequest(ServerRequest const& request, ServerResponse& res
 
     mLastRequest = request;
     mHandleRequestCalled = true;
+    response.setStatusCode(mResponseCode);
 
     return true;
 }
@@ -31,10 +33,16 @@ ServerRequest TestServer::serverRequest() const noexcept
     return mLastRequest;
 }
 
+void TestServer::setResponse(Response::StatusCode code)
+{
+    mResponseCode = code;
+}
+
 void TestServer::resetStates() noexcept
 {
     mHandleRequestCalled = false;
     mLastRequest = ServerRequest{};
+    mResponseCode = Response::StatusCode::NotFound;
 }
 
 ServerShould::~ServerShould() = default;
@@ -112,9 +120,11 @@ void ServerShould::give_a_request_with_the_request_method()
     auto req = QNetworkRequest{};
     req.setUrl(QUrl{"http://127.0.0.1:27016"});
     auto reply = mHttpClient.sendCustomRequest(req, method);
+    auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
 
     QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
     QCOMPARE(mHtppServer->serverRequest().method(), methodEnum);
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
     reply->deleteLater();
 }
 
@@ -150,6 +160,19 @@ void ServerShould::give_a_request_with_the_request_body()
 
     QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
     QCOMPARE(mHtppServer->serverRequest().body(), QByteArray{"Hello World"});
+    reply->deleteLater();
+}
+
+void ServerShould::send_a_response_to_the_client()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    auto* reply = mHttpClient.get(req);
+    auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
+    mHtppServer->setResponse(Response::StatusCode::Ok);
+
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
+    QCOMPARE(reply->error(), QNetworkReply::NoError);
     reply->deleteLater();
 }
 

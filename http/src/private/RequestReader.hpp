@@ -24,9 +24,9 @@ class BLABBYHTTP_EXPORT RequestReader final : public QObject
 public:
     /**
      * Creates and instance of the RequestReader
-     * @param connection The TCP client connection for reading.
+     * @param rawRequest The raw request for parsing.
      */
-    RequestReader(qintptr connection);
+    RequestReader(QByteArray rawRequest);
 
     /**
      * Default destructor
@@ -68,7 +68,7 @@ private:
 private:
     mutable QMutex mMutex;
     ServerRequest mServerRequest;
-    qintptr mSocket;
+    QByteArray mRequest;
     Headers::iterator mLastHeader;
 };
 

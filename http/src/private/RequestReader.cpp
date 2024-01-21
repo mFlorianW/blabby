@@ -18,9 +18,9 @@ Request::Method convertMethod(QByteArray const& rawMethod);
 
 } // namespace
 
-RequestReader::RequestReader(qintptr socket)
+RequestReader::RequestReader(QByteArray rawRequest)
     : QObject{}
-    , mSocket{socket}
+    , mRequest{std::move(rawRequest)}
 {
 }
 
@@ -34,10 +34,6 @@ ServerRequest RequestReader::serverRequest() const noexcept
 
 void RequestReader::readRequest()
 {
-    auto socket = QTcpSocket{};
-    if (not socket.setSocketDescriptor(mSocket)) {
-        qCCritical(httpServer) << "Failed to set the Socket";
-    }
 
     llhttp_settings_t settings;
     llhttp_settings_init(&settings);
@@ -52,22 +48,9 @@ void RequestReader::readRequest()
     llhttp_init(&parser, HTTP_REQUEST, &settings);
     parser.data = this;
 
-    if (socket.bytesAvailable() == 0) {
-        socket.waitForReadyRead();
-    }
-
-    while (true) {
-        auto data = socket.readAll();
-        llhttp_errno error = llhttp_execute(&parser, data.data(), data.size());
-        if (error == HPE_OK) {
-            break;
-        } else if (error == HPE_PAUSED) {
-            socket.waitForReadyRead();
-        } else {
-            qCCritical(httpServer) << "Failed to read request. Error:" << llhttp_errno_name(error);
-            break;
-        }
-        break;
+    llhttp_errno error = llhttp_execute(&parser, mRequest.data(), mRequest.size());
+    if (error != HPE_OK) {
+        qCCritical(httpServer) << "Failed to read request. Error:" << llhttp_errno_name(error);
     }
 
     llhttp_finish(&parser);

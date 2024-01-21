@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "ResponseSerializer.hpp"
 #include "ServerRequest.hpp"
 #include "ServerResponse.hpp"
 #include "blabbyhttp_export.h"
@@ -40,10 +41,25 @@ public:
     Q_DISABLE_COPY_MOVE(ClientConnection)
 
     /**
+     * Closes the @ref HTTP::ClientConnection.
+     * No further data are received or emitted.
+     */
+    void close();
+
+    /**
      * Starts the reading and parsing of the HTTP request.
      * The signal requestReceived is emitted when the request is completly received and parsed.
      */
     void readRequest() noexcept;
+
+    /**
+     * Sends the passed @ref Http::ServerResponse to the client
+     * @param serverResponse The Response which shall be send to the client.
+     *
+     * @note
+     * The signal @ref Http::ClientConnection::responseSent is emitted when the response is sended to the client.
+     */
+    void sendResponse(ServerResponse const& serverResponse) noexcept;
 
 Q_SIGNALS:
     /**
@@ -53,14 +69,23 @@ Q_SIGNALS:
      */
     void requestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection);
 
-private:
-    void stopReadThread();
+    /**
+     * This signal is emitted when a @ref Http::ServerResponse is send to the client.
+     * @param connection The connection for that the response was send.
+     */
+    void responseSent(Http::ClientConnection* connection);
 
 private:
-    qintptr mSocketDesc;
+    void stopThread(QThread& thread);
+
+private:
+    QTcpSocket mSocket;
     ServerRequest mRequest;
     QThread mReadThread;
     std::unique_ptr<RequestReader> mReader;
+    QThread mWriteThread;
+    std::unique_ptr<ResponseSerializer> mWriter;
+    qsizetype mResponseSize = qsizetype{0};
 };
 
 } // namespace Http
