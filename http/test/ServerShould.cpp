@@ -131,6 +131,17 @@ void ServerShould::give_a_request_with_the_headers()
     reply->deleteLater();
 }
 
+void ServerShould::give_a_request_with_the_request_url()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    auto reply = mHttpClient.get(req);
+
+    QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
+    QCOMPARE(mHtppServer->serverRequest().url(), QUrl{"/"});
+    reply->deleteLater();
+}
+
 } // namespace Http
 
 QTEST_MAIN(Http::ServerShould)

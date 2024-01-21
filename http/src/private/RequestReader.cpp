@@ -45,6 +45,7 @@ void RequestReader::readRequest()
     settings.on_method = onMethod;
     settings.on_header_field = onHeader;
     settings.on_header_value = onHeaderValue;
+    settings.on_url = onUrl;
 
     llhttp_t parser;
     llhttp_init(&parser, HTTP_REQUEST, &settings);
@@ -103,6 +104,17 @@ int RequestReader::onHeaderValue(llhttp_t* parser, char const* at, std::size_t l
         if (reader->mLastHeader != reader->mServerRequest.d->mHeaders.end()) {
             reader->mServerRequest.d->mHeaders.insert(reader->mLastHeader.key(), headerValue);
         }
+    }
+    return 0;
+}
+
+int RequestReader::onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept
+{
+    auto reader = static_cast<RequestReader*>(parser->data);
+    auto url = QUrl{QString{QByteArray{at, static_cast<qsizetype>(length)}}};
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        reader->mServerRequest.d->mUrl = url;
     }
     return 0;
 }
