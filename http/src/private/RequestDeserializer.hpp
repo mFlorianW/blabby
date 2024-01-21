@@ -18,7 +18,7 @@ namespace Http
  * The @ref Http::RequestReader is worker object for asynchronous receiving of HTTP requests.
  * An instance is automatically created when the @ref Http::ClientConnection starts to read the request.
  */
-class BLABBYHTTP_EXPORT RequestReader final : public QObject
+class BLABBYHTTP_EXPORT RequestDeserializer final : public QObject
 {
     Q_OBJECT
 public:
@@ -26,17 +26,17 @@ public:
      * Creates and instance of the RequestReader
      * @param rawRequest The raw request for parsing.
      */
-    RequestReader(QByteArray rawRequest);
+    RequestDeserializer(QByteArray rawRequest);
 
     /**
      * Default destructor
      */
-    ~RequestReader() override;
+    ~RequestDeserializer() override;
 
     /*
      * Disabled copy and move semantic
      */
-    Q_DISABLE_COPY_MOVE(RequestReader)
+    Q_DISABLE_COPY_MOVE(RequestDeserializer)
 
     /**
      * Gives the read HTTP request.

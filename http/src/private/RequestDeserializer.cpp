@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "RequestReader.hpp"
+#include "RequestDeserializer.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
 #include <QMutexLocker>
@@ -18,21 +18,21 @@ Request::Method convertMethod(QByteArray const& rawMethod);
 
 } // namespace
 
-RequestReader::RequestReader(QByteArray rawRequest)
+RequestDeserializer::RequestDeserializer(QByteArray rawRequest)
     : QObject{}
     , mRequest{std::move(rawRequest)}
 {
 }
 
-RequestReader::~RequestReader() = default;
+RequestDeserializer::~RequestDeserializer() = default;
 
-ServerRequest RequestReader::serverRequest() const noexcept
+ServerRequest RequestDeserializer::serverRequest() const noexcept
 {
     auto locker = QMutexLocker{&mMutex};
     return mServerRequest;
 }
 
-void RequestReader::readRequest()
+void RequestDeserializer::readRequest()
 {
 
     llhttp_settings_t settings;
@@ -57,9 +57,9 @@ void RequestReader::readRequest()
     Q_EMIT requestRead();
 }
 
-int RequestReader::onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept
+int RequestDeserializer::onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept
 {
-    auto* reader = static_cast<RequestReader*>(parser->data);
+    auto* reader = static_cast<RequestDeserializer*>(parser->data);
     auto rawMethod = QByteArray{at, static_cast<qsizetype>(length)};
     {
         auto locker = QMutexLocker{&reader->mMutex};
@@ -68,9 +68,9 @@ int RequestReader::onMethod(llhttp_t* parser, char const* at, std::size_t length
     return 0;
 }
 
-int RequestReader::onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept
+int RequestDeserializer::onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept
 {
-    auto reader = static_cast<RequestReader*>(parser->data);
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
     auto header = QByteArray{at, static_cast<qsizetype>(length)};
     {
         auto locker = QMutexLocker{&reader->mMutex};
@@ -79,9 +79,9 @@ int RequestReader::onHeader(llhttp_t* parser, char const* at, std::size_t length
     return 0;
 }
 
-int RequestReader::onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept
+int RequestDeserializer::onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept
 {
-    auto reader = static_cast<RequestReader*>(parser->data);
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
     auto headerValue = QByteArray{at, static_cast<qsizetype>(length)};
     {
         auto locker = QMutexLocker{&reader->mMutex};
@@ -92,9 +92,9 @@ int RequestReader::onHeaderValue(llhttp_t* parser, char const* at, std::size_t l
     return 0;
 }
 
-int RequestReader::onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept
+int RequestDeserializer::onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept
 {
-    auto reader = static_cast<RequestReader*>(parser->data);
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
     auto url = QUrl{QString{QByteArray{at, static_cast<qsizetype>(length)}}};
     {
         auto locker = QMutexLocker{&reader->mMutex};
@@ -103,9 +103,9 @@ int RequestReader::onUrl(llhttp_t* parser, char const* at, std::size_t length) n
     return 0;
 }
 
-int RequestReader::onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept
+int RequestDeserializer::onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept
 {
-    auto reader = static_cast<RequestReader*>(parser->data);
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
     {
         auto locker = QMutexLocker{&reader->mMutex};
         reader->mServerRequest.d->mBody = QByteArray{at, static_cast<qsizetype>(length)};

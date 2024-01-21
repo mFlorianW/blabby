@@ -7,7 +7,7 @@ generate_export_header(${PROJECT_NAME})
 
 set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestDeserializer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseSerializer.cpp
 )
@@ -15,7 +15,7 @@ set(PRIVATE_SRCS
 set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ServerPrivate.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ClientConnection.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestReader.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/RequestDeserializer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseSerializer.hpp
 )

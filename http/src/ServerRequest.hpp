@@ -74,7 +74,7 @@ Q_ENUM_NS(Method)
 } // namespace Request
 
 using Headers = QHash<QByteArray, QByteArray>;
-class RequestReader;
+class RequestDeserializer;
 struct ServerRequestData;
 /**
  * The @ref Http::ServerRequest is a deserialized HTTP request, which was send from a client to server.
@@ -113,7 +113,7 @@ public:
     QByteArray const& body() const noexcept;
 
 private:
-    friend Http::RequestReader;
+    friend Http::RequestDeserializer;
     QExplicitlySharedDataPointer<ServerRequestData> d;
 };
 
