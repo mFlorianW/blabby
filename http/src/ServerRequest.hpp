@@ -7,6 +7,7 @@
 #include "blabbyhttp_export.h"
 #include <QMetaEnum>
 #include <QSharedData>
+#include <QUrl>
 
 namespace Http
 {
@@ -99,6 +100,12 @@ public:
      */
     Headers const& headers() const noexcept;
 
+    /**
+     * Gives the requested URL
+     * @return The requested URL.
+     */
+    QUrl const& url() const noexcept;
+
 private:
     friend Http::RequestReader;
     QExplicitlySharedDataPointer<ServerRequestData> d;
@@ -111,6 +118,7 @@ struct ServerRequestData : public QSharedData
 {
     Request::Method mMethod = Request::Method::Unknown;
     Headers mHeaders;
+    QUrl mUrl;
 };
 
 } // namespace Http

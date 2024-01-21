@@ -22,4 +22,9 @@ Headers const& ServerRequest::headers() const noexcept
     return d->mHeaders;
 }
 
+QUrl const& ServerRequest::url() const noexcept
+{
+    return d->mUrl;
+}
+
 } // namespace Http

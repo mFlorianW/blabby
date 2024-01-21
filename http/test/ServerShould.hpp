@@ -43,6 +43,11 @@ private Q_SLOTS:
      */
     void give_a_request_with_the_headers();
 
+    /**
+     * Tests that the server correctly parse the URL from the raw HTTP request.
+     */
+    void give_a_request_with_the_request_url();
+
 private:
     std::unique_ptr<TestServer> mHtppServer;
     QNetworkAccessManager mHttpClient;
