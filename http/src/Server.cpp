@@ -12,22 +12,24 @@ Server::Server()
     : QTcpServer{}
     , d{std::make_unique<ServerPrivate>()}
 {
+    connect(this, &QTcpServer::newConnection, this, &Server::onNewConnection);
 }
 
 Server::~Server() = default;
 
-void Server::incomingConnection(qintptr socketDesc) noexcept
+void Server::onNewConnection() noexcept
 {
-    auto con = std::make_unique<ClientConnection>(socketDesc);
-    connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
-    connect(con.get(), &ClientConnection::responseSent, this, &Server::onResponseSent);
-    con->readRequest();
-    d->mClients.insert({con.get(), std::move(con)});
+    while (hasPendingConnections()) {
+        auto con = std::make_unique<ClientConnection>(nextPendingConnection());
+        connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
+        connect(con.get(), &ClientConnection::responseSent, this, &Server::onResponseSent);
+        con->readRequest();
+        d->mClients.insert({con.get(), std::move(con)});
+    }
 }
 
 void Server::onRequestReceived(ServerRequest const& request, ClientConnection* connection) noexcept
 {
-    Q_UNUSED(connection);
     auto resp = ServerResponse{};
     if (handleRequest(request, resp)) {
         connection->sendResponse(resp);

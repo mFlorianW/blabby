@@ -51,10 +51,9 @@ protected:
     virtual bool handleRequest(ServerRequest const& request, ServerResponse& response) = 0;
 
     /**
-     * Handles new client connections
-     * @param socketDesc The new socket descriptor.
+     * This slot is called for every new connection.
      */
-    void incomingConnection(qintptr socketDesc) noexcept override;
+    void onNewConnection() noexcept;
 
 private Q_SLOTS:
     void onRequestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;

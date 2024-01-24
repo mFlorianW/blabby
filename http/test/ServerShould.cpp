@@ -23,6 +23,7 @@ bool TestServer::handleRequest(ServerRequest const& request, ServerResponse& res
     mHandleRequestCalled = true;
     response.setStatusCode(mResponseCode);
 
+    response.setHeader("Test", "Hello World");
     response.setBody({"Hello World"});
 
     return true;
@@ -173,6 +174,7 @@ void ServerShould::send_a_response_to_the_client()
 
     QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
     QCOMPARE(reply->error(), QNetworkReply::NoError);
+    QCOMPARE(reply->rawHeader("Test"), QByteArray{"Hello World"});
     QCOMPARE(reply->readAll(), QByteArray{"Hello World"});
     reply->deleteLater();
 }

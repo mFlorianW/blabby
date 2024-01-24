@@ -28,7 +28,7 @@ public:
      * Creates a ClientConnection instance
      * @param connection The TCP connection for reading and sending.
      */
-    ClientConnection(qintptr socketDesc);
+    ClientConnection(QTcpSocket* socketDesc);
 
     /**
      * Destructor cleansup reader and sender threads.
@@ -79,7 +79,7 @@ private:
     void stopThread(QThread& thread);
 
 private:
-    QTcpSocket mSocket;
+    QTcpSocket* mSocket;
     ServerRequest mRequest;
     QThread mReadThread;
     std::unique_ptr<RequestDeserializer> mReader;

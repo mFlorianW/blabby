@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "HttpCommon.hpp"
 #include "blabbyhttp_export.h"
 #include <QMetaEnum>
 #include <QSharedData>
@@ -125,6 +126,19 @@ public:
     QByteArray const& body() const noexcept;
 
     /**
+     * Gives the headers of the response
+     * @return All headers of the response
+     */
+    Headers const& headers() const noexcept;
+
+    /**
+     * Adds a header to the response
+     * @param header The header title
+     * @param value The header value
+     */
+    void setHeader(QByteArray const& header, QByteArray const& value) noexcept;
+
+    /**
      * Sets the body of the response.
      * @param body The body of the response.
      */
@@ -138,6 +152,7 @@ struct ServerResponseData : public QSharedData
 {
     Response::StatusCode mStatusCode = Response::StatusCode::Ok;
     QByteArray mBody;
+    Headers mHeaders;
 };
 
 } // namespace Http
