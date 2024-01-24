@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "HttpCommon.hpp"
 #include "blabbyhttp_export.h"
 #include <QMetaEnum>
 #include <QSharedData>
@@ -73,7 +74,6 @@ Q_ENUM_NS(Method)
 
 } // namespace Request
 
-using Headers = QHash<QByteArray, QByteArray>;
 class RequestDeserializer;
 struct ServerRequestData;
 /**

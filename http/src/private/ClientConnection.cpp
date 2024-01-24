@@ -8,18 +8,19 @@
 namespace Http
 {
 
-ClientConnection::ClientConnection(qintptr socketDesc)
+ClientConnection::ClientConnection(QTcpSocket* socket)
     : QObject{}
+    , mSocket(socket)
 {
-    mSocket.setSocketDescriptor(socketDesc);
-    connect(&mSocket, &QTcpSocket::readyRead, this, &ClientConnection::readRequest);
-    connect(&mSocket, &QTcpSocket::bytesWritten, this, [this](auto bytes) {
+    connect(mSocket, &QTcpSocket::readyRead, this, &ClientConnection::readRequest);
+    connect(mSocket, &QTcpSocket::bytesWritten, this, [this](auto bytes) {
         if (mResponseSize == bytes) {
             mResponseSize = qsizetype{0};
+            qCDebug(httpServer) << "Response sent to:" << mSocket->peerAddress().toString() << mSocket->peerPort();
             Q_EMIT responseSent(this);
         }
     });
-    qCDebug(httpServer) << "New client connection from:" << mSocket.peerAddress().toString() << mSocket.peerPort();
+    qCDebug(httpServer) << "New client connection from:" << mSocket->peerAddress().toString() << mSocket->peerPort();
 }
 
 ClientConnection::~ClientConnection()
@@ -32,22 +33,24 @@ ClientConnection::~ClientConnection()
         stopThread(mWriteThread);
     }
 
-    if (mSocket.state() != QTcpSocket::ClosingState) {
-        mSocket.close();
+    if (mSocket->state() != QTcpSocket::ClosingState) {
+        mSocket->close();
     }
+
+    mSocket->deleteLater();
 };
 
 void ClientConnection::close()
 {
-    mSocket.close();
+    // mSocket->disconnectFromHost();
 }
 
 void ClientConnection::readRequest() noexcept
 {
-    if (mSocket.bytesAvailable() == 0) {
+    if (mSocket->bytesAvailable() == 0) {
         return;
     }
-    auto request = mSocket.readAll();
+    auto request = mSocket->readAll();
     mReader = std::make_unique<RequestDeserializer>(request);
     mReader->moveToThread(&mReadThread);
     connect(mReader.get(), &RequestDeserializer::requestRead, this, [this] {
@@ -58,7 +61,7 @@ void ClientConnection::readRequest() noexcept
     });
     connect(&mReadThread, &QThread::started, mReader.get(), &RequestDeserializer::readRequest);
     mReadThread.start();
-    qCDebug(httpServer) << "Read request for connection:" << mSocket.peerAddress().toString() << mSocket.peerPort();
+    qCDebug(httpServer) << "Read request for connection:" << mSocket->peerAddress().toString() << mSocket->peerPort();
 }
 
 void ClientConnection::sendResponse(ServerResponse const& serverResponse) noexcept
@@ -68,7 +71,8 @@ void ClientConnection::sendResponse(ServerResponse const& serverResponse) noexce
     connect(mWriter.get(), &ResponseSerializer::responseSerialized, this, [this](auto const& response) {
         stopThread(mWriteThread);
         mResponseSize = response.size();
-        mSocket.write(response);
+        mSocket->write(response);
+        mSocket->flush();
     });
     connect(&mWriteThread, &QThread::started, mWriter.get(), &ResponseSerializer::serialize);
     mWriteThread.start();

@@ -22,6 +22,16 @@ void ServerResponse::setStatusCode(Response::StatusCode statusCode) noexcept
     d->mStatusCode = statusCode;
 }
 
+Headers const& ServerResponse::headers() const noexcept
+{
+    return d->mHeaders;
+}
+
+void ServerResponse::setHeader(QByteArray const& header, QByteArray const& value) noexcept
+{
+    d->mHeaders.insert(header, value);
+}
+
 QByteArray const& ServerResponse::body() const noexcept
 {
     return d->mBody;
