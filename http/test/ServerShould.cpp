@@ -17,7 +17,7 @@ bool TestServer::handleRequestCalled() const noexcept
     return mHandleRequestCalled;
 }
 
-bool TestServer::handleRequest(ServerRequest const& request, ServerResponse& response)
+void TestServer::handleRequest(ServerRequest const& request, ServerResponse& response)
 {
     mLastRequest = request;
     mHandleRequestCalled = true;
@@ -25,8 +25,6 @@ bool TestServer::handleRequest(ServerRequest const& request, ServerResponse& res
 
     response.setHeader("Test", "Hello World");
     response.setBody({"Hello World"});
-
-    return true;
 }
 
 ServerRequest TestServer::serverRequest() const noexcept
@@ -44,6 +42,7 @@ void TestServer::resetStates() noexcept
     mHandleRequestCalled = false;
     mLastRequest = ServerRequest{};
     mResponseCode = Response::StatusCode::NotFound;
+    removeRoute("/testRoute");
 }
 
 ServerShould::~ServerShould() = default;
@@ -176,6 +175,53 @@ void ServerShould::send_a_response_to_the_client()
     QCOMPARE(reply->error(), QNetworkReply::NoError);
     QCOMPARE(reply->rawHeader("Test"), QByteArray{"Hello World"});
     QCOMPARE(reply->readAll(), QByteArray{"Hello World"});
+    reply->deleteLater();
+}
+
+void ServerShould::register_a_route_with_a_callback_that_is_called()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27016/testRoute"});
+    auto* reply = mHttpClient.get(req);
+    auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
+
+    auto callbackCalled = false;
+    auto callback = [&callbackCalled](ServerRequest const& request, ServerResponse& response) {
+        Q_UNUSED(request)
+        response.setStatusCode(Response::StatusCode::Ok);
+        callbackCalled = true;
+        return true;
+    };
+
+    mHtppServer->addRoute("/testRoute", callback);
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
+    QCOMPARE(callbackCalled, true);
+    QCOMPARE(reply->error(), QNetworkReply::NoError);
+
+    reply->deleteLater();
+}
+
+void ServerShould::remove_route_and_when_called_error_response_is_send()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27016/testRoute"});
+
+    auto callback = [](ServerRequest const& request, ServerResponse& response) {
+        Q_UNUSED(request)
+        response.setStatusCode(Response::StatusCode::Ok);
+        return true;
+    };
+    mHtppServer->addRoute("/testRoute", callback);
+    mHtppServer->removeRoute("/testRoute");
+
+    auto* reply = mHttpClient.get(req);
+    auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
+
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, timeout);
+    QCOMPARE(reply->error(), QNetworkReply::ContentNotFoundError);
+
+    replySpy.clear();
+
     reply->deleteLater();
 }
 

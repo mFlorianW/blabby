@@ -58,6 +58,17 @@ private Q_SLOTS:
      */
     void send_a_response_to_the_client();
 
+    /**
+     * Tests that it's possible to register a route with a callback in the server
+     * that is called when a request for this route is detected.
+     */
+    void register_a_route_with_a_callback_that_is_called();
+
+    /**
+     * Tests that a removed route responses with an error when requested.
+     */
+    void remove_route_and_when_called_error_response_is_send();
+
 private:
     std::unique_ptr<TestServer> mHtppServer;
     QNetworkAccessManager mHttpClient;
@@ -73,7 +84,7 @@ public:
     void setResponse(Response::StatusCode code);
 
 protected:
-    bool handleRequest(ServerRequest const& request, ServerResponse& response) override;
+    void handleRequest(ServerRequest const& request, ServerResponse& response) override;
 
 private:
     bool mHandleRequestCalled = false;
