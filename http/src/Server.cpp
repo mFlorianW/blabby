@@ -17,6 +17,22 @@ Server::Server()
 
 Server::~Server() = default;
 
+void Server::addRoute(QByteArray const& route, RouteCallback const& routeCallback) noexcept
+{
+    mRoutes.insert({route, routeCallback});
+}
+
+void Server::removeRoute(QByteArray const& route) noexcept
+{
+    mRoutes.erase(route);
+}
+
+void Server::handleRequest(ServerRequest const& request, ServerResponse& resp)
+{
+    Q_UNUSED(request)
+    Q_UNUSED(resp)
+}
+
 void Server::onNewConnection() noexcept
 {
     while (hasPendingConnections()) {
@@ -31,9 +47,19 @@ void Server::onNewConnection() noexcept
 void Server::onRequestReceived(ServerRequest const& request, ClientConnection* connection) noexcept
 {
     auto resp = ServerResponse{};
-    if (handleRequest(request, resp)) {
-        connection->sendResponse(resp);
+    resp.setStatusCode(Response::StatusCode::NotFound);
+    auto handled = false;
+    auto url = request.url().toString().toUtf8();
+
+    if (mRoutes.find(url) != mRoutes.end()) {
+        handled = mRoutes.at(url)(request, resp);
     }
+
+    if (not handled) {
+        handleRequest(request, resp);
+    }
+
+    connection->sendResponse(resp);
 }
 
 void Server::onResponseSent(Http::ClientConnection* connection)
