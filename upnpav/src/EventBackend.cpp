@@ -45,7 +45,7 @@ std::shared_ptr<EventSubscriptionHandle> EventBackend::subscribeEvents(ServiceDe
     auto const url = QUrl{desc.eventUrl()};
     auto const publisher = url.path();
     auto const cEndp = registerEventCallback(desc);
-    auto const callback = QString{"<%1/%2>"}.arg(callbackHost().toString(), cEndp);
+    auto const callback = QString{"<%1%2>"}.arg(callbackHost().toString(), cEndp);
     auto host = url.host();
     auto const port = url.port();
     if (port != -1) {

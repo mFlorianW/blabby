@@ -16,11 +16,6 @@ constexpr auto serverPort = "BLABBY_EVENT_SERVER_PORT";
 HttpEventServer::HttpEventServer() = default;
 HttpEventServer::~HttpEventServer() = default;
 
-QUrl HttpEventServer::callbackHost() noexcept
-{
-    return QString{"http://%1:%2"}.arg(mServerAddress.toString(), QString::number(mServerPort));
-}
-
 HttpEventServer& HttpEventServer::instance()
 {
     static bool initialized = false;
@@ -47,6 +42,16 @@ HttpEventServer& HttpEventServer::instance()
     }
 
     return server;
+}
+
+QUrl HttpEventServer::callbackHost() noexcept
+{
+    return QString{"http://%1:%2"}.arg(mServerAddress.toString(), QString::number(mServerPort));
+}
+
+QHostAddress HttpEventServer::serverAddress() const noexcept
+{
+    return mServerAddress;
 }
 
 } // namespace UPnPAV

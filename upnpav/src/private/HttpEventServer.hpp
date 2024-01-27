@@ -42,6 +42,12 @@ public:
      */
     QUrl callbackHost() noexcept;
 
+    /**
+     * Gives the raw server adress.
+     * @retun The server address.
+     */
+    QHostAddress serverAddress() const noexcept;
+
 private:
     /**
      * Default destructor

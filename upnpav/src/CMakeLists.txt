@@ -33,7 +33,11 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.cpp
+
+    #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.cpp
+
 )
 
 set(PRIVATE_HEADERS
@@ -63,7 +67,10 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.hpp
+
+    #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.hpp
 )
 
 set(PUBLIC_SRCS
@@ -100,6 +107,8 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.cpp
+
+    #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackend.cpp
 )
@@ -140,6 +149,8 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.hpp
+
+    #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackend.hpp
 )
@@ -157,6 +168,7 @@ target_link_libraries(${PROJECT_NAME}
         Qt6::Core
         Qt6::Network
         Qt6::Xml
+        Blabby::Http
 )
 
 target_include_directories(${PROJECT_NAME}

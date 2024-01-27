@@ -5,10 +5,12 @@
 #pragma once
 
 #include "HttpEventBackend.hpp"
+#include "Server.hpp"
 #include <QObject>
 
 namespace UPnPAV
 {
+class RequestHandler;
 
 class HttpEventBackendShould : public QObject
 {
@@ -36,8 +38,29 @@ private Q_SLOTS:
      */
     void give_callback_host_url();
 
+    /**
+     * @test
+     * Tests that subscription requests are correctly sent.
+     */
+    void send_subscription_request_correctly();
+
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
+    std::unique_ptr<RequestHandler> mReceiver;
+};
+
+class RequestHandler : public Http::Server
+{
+    Q_OBJECT
+public:
+    RequestHandler();
+    ~RequestHandler() override;
+    Q_DISABLE_COPY_MOVE(RequestHandler)
+
+    EventSubscriptionParameters lastSubscriptionRequest() const noexcept;
+
+private:
+    EventSubscriptionParameters mLastEventSubscriptionParams;
 };
 
 } // namespace UPnPAV

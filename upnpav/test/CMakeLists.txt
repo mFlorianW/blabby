@@ -1,4 +1,4 @@
-find_package(Qt6Test 6.5 REQUIRED)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Test)
 
 ###############################################################################
 # Test Browse Result 

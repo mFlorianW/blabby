@@ -25,6 +25,7 @@ QString callbackId(QString const& serviceId)
         return "";
     }
     auto id = splittedServiceId.at(3);
+    id.prepend("/");
     id.append(QStringLiteral("Callback"));
 
     return id;

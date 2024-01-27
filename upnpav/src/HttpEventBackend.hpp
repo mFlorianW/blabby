@@ -6,6 +6,7 @@
 
 #include "EventBackend.hpp"
 #include "blabbyupnpav_export.h"
+#include <QTcpSocket>
 
 namespace UPnPAV
 {
@@ -51,7 +52,7 @@ protected:
         EventSubscriptionParameters const& params) noexcept override;
 
 private:
-    QString mEmptyString;
+    QString mEmptyString = QString{"/callback0"};
     HttpEventServer& mEventServer;
 };
 

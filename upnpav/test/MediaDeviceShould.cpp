@@ -1122,11 +1122,11 @@ void MediaDeviceShould::subscribe_events_of_avtransport_service_on_creation()
 {
     auto const expectParams = EventSubscriptionParameters{
         .publisherPath = QStringLiteral("/test/eventUrl"),
-        .host = "127.0.0.1",
+        .host = "127.0.0.1:27016",
         .callback = QStringLiteral("<http://127.0.0.1/AVTransportCallback>"),
         .timeout = 1800,
     };
-    auto const expCbId = QStringLiteral("AVTransportCallback");
+    auto const expCbId = QStringLiteral("/AVTransportCallback");
     auto mediaDevice = MediaDeviceWithAV{};
 
     QCOMPARE(mediaDevice.eventBacked()->lastRegisteredCallbackId(), expCbId);
