@@ -8,6 +8,7 @@
 #include "blabbyupnpav_export.h"
 #include <QHostAddress>
 #include <QObject>
+#include <private/HttpEventSubscriptionHandle.hpp>
 
 namespace UPnPAV
 {
@@ -57,9 +58,11 @@ private:
 
 private:
     friend class HttpEventBackend;
+    friend struct HttpEventBackendPrivate;
     QHostAddress mServerAddress = QHostAddress{QHostAddress::QHostAddress::AnyIPv4};
     quint16 mServerPort = 0U;
     std::unique_ptr<Http::Server> mHttpServer = nullptr;
+    QHash<QString, std::shared_ptr<HttpEventSubscriptionHandle>> mSubscriptions;
 };
 
 } // namespace UPnPAV
