@@ -158,6 +158,13 @@ public:
      */
     QString const& sid() const noexcept;
 
+    /**
+     * Gives the response of the last received NOTIFY property update.
+     * New data is only valid after receiving the @ref UPnPAV::EventSubscriptionHandle::propertiesChanged signal.
+     * @return The last received NOTIFY data.
+     */
+    QString const& responseBody() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref UPnPAV::EventSubscriptionHandle is subscribed and received the positive
@@ -170,6 +177,12 @@ Q_SIGNALS:
      * @param error The reason why the subscribing of events failed.
      */
     void subscriptionFailed(UPnPAV::SubscriptionError const& error);
+
+    /**
+     * This singal is emitted when the handle receives a NOTIFY message.
+     * @param properties The body of the NOTIFY message.
+     */
+    void propertiesChanged();
 
 protected:
     /**
@@ -191,9 +204,17 @@ protected:
      */
     void setSid(QString const& sid) noexcept;
 
+    /**
+     * Sets the response body for the @ref UPnPAV::EventSubscriptionHandle.
+     * This typically done when a NOTIFY message from a device for this handle is received.
+     * @param responseBody The response body of a NOTIFY message.
+     */
+    void setResponseBody(QString const& responseBody);
+
 private:
     bool mIsSubscribed = false;
     QString mSid;
+    QString mResponseBody;
 };
 
 } // namespace UPnPAV

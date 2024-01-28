@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "HttpEventServer.hpp"
+#include "private/LoggingCategories.hpp"
+#include <QDebug>
 #include <QUrl>
 
 namespace UPnPAV
@@ -41,6 +43,10 @@ HttpEventServer& HttpEventServer::instance()
         }
     }
 
+    server.mHttpServer = std::make_unique<Http::Server>();
+    if (not server.mHttpServer->listen(server.mServerAddress, server.mServerPort)) {
+        qCCritical(upnpavEvent) << "Failed to start HTTP server for receiving events.";
+    }
     return server;
 }
 

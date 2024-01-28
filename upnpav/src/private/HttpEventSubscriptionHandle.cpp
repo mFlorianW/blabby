@@ -43,5 +43,9 @@ void HttpEventSubscriptionHandle::subscribe(EventSubscriptionParameters const& p
         mSubscribeRequestPending = nullptr;
     });
 }
+void HttpEventSubscriptionHandle::setBody(QString const& body) noexcept
+{
+    setResponseBody(body);
+}
 
 } // namespace UPnPAV

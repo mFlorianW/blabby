@@ -14,12 +14,12 @@ namespace UPnPAV
 namespace
 {
 
-EventSubscriptionParameters subscription()
+EventSubscriptionParameters subscription(QString const& callback = QStringLiteral("<http://127.0.0.1:27015/callback0>"))
 {
     static auto const params = EventSubscriptionParameters{
         .publisherPath = QStringLiteral("/test/eventUrl"),
         .host = "127.0.0.1:27016",
-        .callback = QStringLiteral("<http://127.0.0.1:27015/callback0>"),
+        .callback = callback,
         .timeout = 1800,
     };
     return params;
@@ -89,6 +89,37 @@ void HttpEventBackendShould::send_subscription_request_correctly()
     QCOMPARE(mReceiver->lastSubscriptionRequest(), subscription());
     QCOMPARE(subscribeSpy.size(), 1);
     QCOMPARE(handle->sid(), QStringLiteral("uuid:12345"));
+}
+
+void HttpEventBackendShould::receive_notify_requests()
+{
+    // activate subscription otherwise it's not possible to receive events
+    auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+    auto subscribeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::subscribed};
+    auto propChangeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::propertiesChanged};
+
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    QCOMPARE(subscribeSpy.size(), 1);
+
+    auto mgr = QNetworkAccessManager{};
+    auto request = QNetworkRequest{};
+    auto const body = R"(<?xml version="1.0" encoding=" UTF-8"?><note></note>"))";
+    auto content = QByteArray{body};
+    request.setUrl(QUrl{"http://127.0.0.1:27015/callback0"});
+    request.setRawHeader("HOST", "127.0.0.1:27016");
+    request.setRawHeader("CONTENT-TYPE", "text/xml");
+    request.setRawHeader("CONTENT-LENGTH", QString::number(content.size()).toUtf8());
+    request.setRawHeader("NT", "upnp:event");
+    request.setRawHeader("NTS", "upnp:propchange");
+    request.setRawHeader("SID", handle->sid().toUtf8());
+    request.setRawHeader("SEQ", "1");
+
+    auto reply = mgr.sendCustomRequest(request, "NOTIFY", content);
+    auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, 1000);
+    QCOMPARE(reply->error(), QNetworkReply::NoError);
+    QCOMPARE(propChangeSpy.size(), 1);
+    QCOMPARE(handle->responseBody(), body);
 }
 
 } // namespace UPnPAV

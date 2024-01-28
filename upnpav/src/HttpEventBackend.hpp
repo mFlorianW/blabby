@@ -5,12 +5,15 @@
 #pragma once
 
 #include "EventBackend.hpp"
+#include "ServerRequest.hpp"
+#include "ServerResponse.hpp"
 #include "blabbyupnpav_export.h"
 #include <QTcpSocket>
 
 namespace UPnPAV
 {
 class HttpEventServer;
+struct HttpEventBackendPrivate;
 
 /**
  * The HttpEventBackend is the HTTP based implementation of the @ref UPnPAV::EventBackend interface.
@@ -52,8 +55,10 @@ protected:
         EventSubscriptionParameters const& params) noexcept override;
 
 private:
-    QString mEmptyString = QString{"/callback0"};
-    HttpEventServer& mEventServer;
+    bool onNotifyReceived(Http::ServerRequest const& request, Http::ServerResponse& response) noexcept;
+
+private:
+    std::unique_ptr<HttpEventBackendPrivate> d;
 };
 
 } // namespace UPnPAV

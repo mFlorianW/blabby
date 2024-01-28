@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Server.hpp"
 #include "blabbyupnpav_export.h"
 #include <QHostAddress>
 #include <QObject>
@@ -50,13 +51,15 @@ public:
 
 private:
     /**
-     * Default destructor
+     * Default constructor
      */
     HttpEventServer();
 
 private:
+    friend class HttpEventBackend;
     QHostAddress mServerAddress = QHostAddress{QHostAddress::QHostAddress::AnyIPv4};
     quint16 mServerPort = 0U;
+    std::unique_ptr<Http::Server> mHttpServer = nullptr;
 };
 
 } // namespace UPnPAV

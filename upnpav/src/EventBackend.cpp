@@ -40,6 +40,11 @@ void EventSubscriptionHandle::setSid(QString const& sid) noexcept
     mSid = sid;
 }
 
+QString const& EventSubscriptionHandle::responseBody() const noexcept
+{
+    return mResponseBody;
+}
+
 std::shared_ptr<EventSubscriptionHandle> EventBackend::subscribeEvents(ServiceDescription const& desc) noexcept
 {
     auto const url = QUrl{desc.eventUrl()};
@@ -61,6 +66,14 @@ std::shared_ptr<EventSubscriptionHandle> EventBackend::subscribeEvents(ServiceDe
     };
 
     return sendSubscriptionRequest(params);
+}
+
+void EventSubscriptionHandle::setResponseBody(QString const& responseBody)
+{
+    if (mResponseBody != responseBody) {
+        mResponseBody = responseBody;
+        Q_EMIT propertiesChanged();
+    }
 }
 
 } // namespace UPnPAV

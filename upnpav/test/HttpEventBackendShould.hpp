@@ -44,6 +44,12 @@ private Q_SLOTS:
      */
     void send_subscription_request_correctly();
 
+    /**
+     * @test
+     * Tests that the @ref UPnPAV::HttpEventBackend correctly receives NOTIFY requests.
+     */
+    void receive_notify_requests();
+
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
     std::unique_ptr<RequestHandler> mReceiver;

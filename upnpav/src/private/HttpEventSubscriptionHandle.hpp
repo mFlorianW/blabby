@@ -5,6 +5,7 @@
 #pragma once
 
 #include "EventBackend.hpp"
+#include "HttpEventBackend.hpp"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
@@ -47,7 +48,10 @@ protected:
     void subscribe(EventSubscriptionParameters const& params) noexcept;
 
 private:
-    friend class HttpEventBackend;
+    void setBody(QString const& body) noexcept;
+
+private:
+    friend class UPnPAV::HttpEventBackend;
     QHostAddress mHostAddress;
     QNetworkAccessManager mNetworkManager;
     QNetworkReply* mSubscribeRequestPending = nullptr;
