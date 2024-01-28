@@ -4,6 +4,7 @@
 
 #include "HttpEventBackendShould.hpp"
 #include "Descriptions.hpp"
+#include "private/HttpEventServer.hpp"
 #include <QSignalSpy>
 #include <QTcpServer>
 #include <QTest>
@@ -71,6 +72,8 @@ void HttpEventBackendShould::initTestCase()
 
 void HttpEventBackendShould::init()
 {
+    HttpEventServer::instance().mPendingSubscriptions.clear();
+    HttpEventServer::instance().mSubscriptions.clear();
     mEventBackend = std::make_unique<HttpEventBackend>();
 }
 
@@ -120,6 +123,19 @@ void HttpEventBackendShould::receive_notify_requests()
     QCOMPARE(reply->error(), QNetworkReply::NoError);
     QCOMPARE(propChangeSpy.size(), 1);
     QCOMPARE(handle->responseBody(), body);
+}
+
+void HttpEventBackendShould::always_return_the_same_event_handle_for_the_same_service()
+{
+    auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+    auto handle2 = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+
+    QCOMPARE(handle, handle2);
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    QCOMPARE(handle2->isSubscribed(), true);
+
+    auto handle3 = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+    QCOMPARE(handle3, handle);
 }
 
 } // namespace UPnPAV

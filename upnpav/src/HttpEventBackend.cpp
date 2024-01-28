@@ -6,6 +6,7 @@
 #include "private/HttpEventServer.hpp"
 #include "private/HttpEventSubscriptionHandle.hpp"
 #include <QUrl>
+#include <algorithm>
 
 namespace UPnPAV
 {
@@ -16,7 +17,56 @@ struct HttpEventBackendPrivate
     HttpEventServer& mEventServer = HttpEventServer::instance();
     QHash<ServiceDescription, QString> mRegisteredCallbacks;
     QHash<QString, std::shared_ptr<HttpEventSubscriptionHandle>>& mSubscriptions = mEventServer.mSubscriptions;
-    QHash<QObject*, std::shared_ptr<HttpEventSubscriptionHandle>> mPendingSubscriptions;
+    std::vector<HttpEventServer::PendingSubscription>& mPendingSubscriptions = mEventServer.mPendingSubscriptions;
+
+    bool isPending(EventSubscriptionParameters const& params) const noexcept
+    {
+        return std::find_if(mPendingSubscriptions.cbegin(),
+                            mPendingSubscriptions.cend(),
+                            [&params](HttpEventServer::PendingSubscription const& sub) {
+                                return sub.params == params;
+                            }) != mPendingSubscriptions.cend();
+    }
+
+    bool isPending(QObject* handle) const noexcept
+    {
+        return std::find_if(mPendingSubscriptions.cbegin(),
+                            mPendingSubscriptions.cend(),
+                            [&handle](HttpEventServer::PendingSubscription const& sub) {
+                                return sub.handle.get() == handle;
+                            }) != mPendingSubscriptions.cend();
+    }
+
+    std::shared_ptr<HttpEventSubscriptionHandle> pendingSubscriptionRequest(
+        EventSubscriptionParameters const& params) const noexcept
+    {
+        auto iter = std::find_if(mPendingSubscriptions.cbegin(),
+                                 mPendingSubscriptions.cend(),
+                                 [&params](HttpEventServer::PendingSubscription const& sub) {
+                                     return sub.params == params;
+                                 });
+        return iter->handle;
+    }
+
+    std::shared_ptr<HttpEventSubscriptionHandle> pendingSubscriptionRequest(QObject* handle) const noexcept
+    {
+        auto iter = std::find_if(mPendingSubscriptions.cbegin(),
+                                 mPendingSubscriptions.cend(),
+                                 [&handle](HttpEventServer::PendingSubscription const& sub) {
+                                     return sub.handle.get() == handle;
+                                 });
+        return iter->handle;
+    }
+
+    void removePendingRequest(QObject* handle)
+    {
+        mPendingSubscriptions.erase(mPendingSubscriptions.begin(),
+                                    std::remove_if(mPendingSubscriptions.begin(),
+                                                   mPendingSubscriptions.end(),
+                                                   [&handle](HttpEventServer::PendingSubscription const& sub) {
+                                                       return sub.handle.get() == handle;
+                                                   }));
+    }
 };
 
 HttpEventBackend::HttpEventBackend()
@@ -49,16 +99,22 @@ QString const& HttpEventBackend::registerEventCallback(ServiceDescription const&
 std::shared_ptr<EventSubscriptionHandle> HttpEventBackend::sendSubscriptionRequest(
     EventSubscriptionParameters const& params) noexcept
 {
-    auto handle = std::make_shared<HttpEventSubscriptionHandle>(d->mEventServer.serverAddress());
-    connect(handle.get(), &HttpEventSubscriptionHandle::subscribed, this, [this]() {
-        if (d->mPendingSubscriptions.contains(sender())) {
-            auto handle = d->mPendingSubscriptions.value(sender());
-            d->mSubscriptions.insert(handle->sid(), handle);
-        }
-    });
-    handle->subscribe(params);
-    d->mPendingSubscriptions.insert(handle.get(), handle);
-    return handle;
+    if (not d->isPending(params)) {
+        auto handle = std::make_shared<HttpEventSubscriptionHandle>(d->mEventServer.serverAddress());
+        connect(handle.get(), &HttpEventSubscriptionHandle::subscribed, this, [this]() {
+            auto* rawHandle = sender();
+            if (d->isPending(rawHandle)) {
+                auto handle = d->pendingSubscriptionRequest(rawHandle);
+                d->mSubscriptions.insert(handle->sid(), handle);
+                d->removePendingRequest(rawHandle);
+            }
+        });
+        handle->subscribe(params);
+        d->mPendingSubscriptions.emplace_back(handle, params);
+        return handle;
+    }
+
+    return d->pendingSubscriptionRequest(params);
 }
 
 bool HttpEventBackend::onNotifyReceived(Http::ServerRequest const& request, Http::ServerResponse& response) noexcept

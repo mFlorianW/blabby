@@ -50,6 +50,13 @@ private Q_SLOTS:
      */
     void receive_notify_requests();
 
+    /**
+     * @test
+     * Tests that the @ref UPnPAV::HttpEventBackend gives always the same @ref UPnPAV::EventSubscriptionHandle
+     * even when the subscription is not active.
+     */
+    void always_return_the_same_event_handle_for_the_same_service();
+
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
     std::unique_ptr<RequestHandler> mReceiver;
