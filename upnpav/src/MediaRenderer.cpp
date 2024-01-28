@@ -6,6 +6,7 @@
 
 #include "MediaRenderer.hpp"
 #include "DeviceDescription.hpp"
+#include "HttpEventBackend.hpp"
 #include "HttpSoapBackend.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "private/RenderingControlServiceValidator.hpp"
@@ -28,7 +29,7 @@ std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription co
 {
     return std::make_unique<MediaRenderer>(desc,
                                            QSharedPointer<HttpSoapBackend>::create(),
-                                           QSharedPointer<EventBackend>(nullptr));
+                                           QSharedPointer<HttpEventBackend>::create());
 }
 
 } // namespace UPnPAV

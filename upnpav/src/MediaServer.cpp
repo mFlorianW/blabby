@@ -6,6 +6,7 @@
 
 #include "MediaServer.hpp"
 #include "DeviceDescription.hpp"
+#include "HttpEventBackend.hpp"
 #include "HttpSoapBackend.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "PendingSoapCall.hpp"
@@ -27,8 +28,8 @@ MediaServerFactory::~MediaServerFactory() = default;
 std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(DeviceDescription const& deviceDescription)
 {
     return std::make_unique<MediaServer>(deviceDescription,
-                                         QSharedPointer<HttpSoapBackend>{new HttpSoapBackend()},
-                                         QSharedPointer<EventBackend>(nullptr));
+                                         QSharedPointer<HttpSoapBackend>::create(),
+                                         QSharedPointer<HttpEventBackend>::create());
 }
 
 MediaServer::MediaServer(DeviceDescription const& deviceDescription,
