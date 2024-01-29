@@ -15,7 +15,7 @@ struct HttpEventBackendPrivate
 {
     QString mEmptyString;
     HttpEventServer& mEventServer = HttpEventServer::instance();
-    QHash<ServiceDescription, QString> mRegisteredCallbacks;
+    QHash<ServiceDescription, QString>& mRegisteredCallbacks = mEventServer.mRegisteredCallbacks;
     QHash<QString, std::shared_ptr<HttpEventSubscriptionHandle>>& mSubscriptions = mEventServer.mSubscriptions;
     std::vector<HttpEventServer::PendingSubscription>& mPendingSubscriptions = mEventServer.mPendingSubscriptions;
 

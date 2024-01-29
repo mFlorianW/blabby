@@ -70,6 +70,7 @@ private:
     QHostAddress mServerAddress = QHostAddress{QHostAddress::QHostAddress::AnyIPv4};
     quint16 mServerPort = 0U;
     std::unique_ptr<Http::Server> mHttpServer = nullptr;
+    QHash<ServiceDescription, QString> mRegisteredCallbacks;
     QHash<QString, std::shared_ptr<HttpEventSubscriptionHandle>> mSubscriptions;
     std::vector<PendingSubscription> mPendingSubscriptions;
 };

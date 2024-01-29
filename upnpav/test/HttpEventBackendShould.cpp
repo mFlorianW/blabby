@@ -74,6 +74,7 @@ void HttpEventBackendShould::init()
 {
     HttpEventServer::instance().mPendingSubscriptions.clear();
     HttpEventServer::instance().mSubscriptions.clear();
+    HttpEventServer::instance().mRegisteredCallbacks.clear();
     mEventBackend = std::make_unique<HttpEventBackend>();
 }
 
