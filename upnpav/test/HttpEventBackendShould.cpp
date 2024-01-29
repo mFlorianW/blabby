@@ -32,23 +32,23 @@ RequestHandler::RequestHandler()
     : Http::Server{}
 {
     addRoute("/test/eventUrl", [this](Http::ServerRequest const& request, Http::ServerResponse& resp) -> bool {
-        if (request.method() != Http::Request::Method::Subscribe) {
-            resp.setStatusCode(Http::Response::StatusCode::NotFound);
-            return false;
+        if (request.method() == Http::Request::Method::Subscribe) {
+            mLastEventSubscriptionParams.publisherPath = request.url().toString();
+            mLastEventSubscriptionParams.host = request.headers().value("HOST");
+            mLastEventSubscriptionParams.callback = request.headers().value("CALLBACK");
+
+            auto time = request.headers().value("TIMEOUT");
+            const auto indexOfDash = time.indexOf("-");
+            mLastEventSubscriptionParams.timeout = time.remove(0, indexOfDash + 1).toInt();
+
+            // send the subscription ID back.
+            resp.setStatusCode(Http::Response::StatusCode::Ok);
+            resp.setHeader("SID", "uuid:12345");
+            return true;
         }
 
-        mLastEventSubscriptionParams.publisherPath = request.url().toString();
-        mLastEventSubscriptionParams.host = request.headers().value("HOST");
-        mLastEventSubscriptionParams.callback = request.headers().value("CALLBACK");
-
-        auto time = request.headers().value("TIMEOUT");
-        const auto indexOfDash = time.indexOf("-");
-        mLastEventSubscriptionParams.timeout = time.remove(0, indexOfDash + 1).toInt();
-
-        // send the subscription ID back.
-        resp.setStatusCode(Http::Response::StatusCode::Ok);
-        resp.setHeader("SID", "uuid:12345");
-        return true;
+        resp.setStatusCode(Http::Response::StatusCode::NotFound);
+        return false;
     });
 }
 
