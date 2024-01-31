@@ -96,6 +96,12 @@ protected:
     virtual std::shared_ptr<EventSubscriptionHandle> sendSubscriptionRequest(
         EventSubscriptionParameters const& params) noexcept = 0;
 
+    /**
+     * This function is called by the backend to update the response body of the @ref UPnPAV::EventSubscriptionHandle
+     * for the gived SID.
+     * Concrete implementation should call the function when a UPnPAV device sends a property o
+     * This will trigger the emit of the signal @ref UPnPAV::EventSubscriptionHandle::propertiesChanged.
+     */
     void notificationReceived(QByteArray const& sid, QByteArray const& notificationData) noexcept;
 };
 
