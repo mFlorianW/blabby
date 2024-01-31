@@ -72,9 +72,10 @@ void HttpEventBackendShould::initTestCase()
 
 void HttpEventBackendShould::init()
 {
-    HttpEventServer::instance().mPendingSubscriptions.clear();
-    HttpEventServer::instance().mSubscriptions.clear();
+    // cleanup the server states for every test
+    HttpEventServer::instance().mHttpServer->removeRoute("/callback0");
     HttpEventServer::instance().mRegisteredCallbacks.clear();
+
     mEventBackend = std::make_unique<HttpEventBackend>();
 }
 
@@ -98,6 +99,7 @@ void HttpEventBackendShould::send_subscription_request_correctly()
 void HttpEventBackendShould::receive_notify_requests()
 {
     // activate subscription otherwise it's not possible to receive events
+    mEventBackend->registerEventCallback(validAvTransportServiceDescription());
     auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
     auto subscribeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::subscribed};
     auto propChangeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::propertiesChanged};

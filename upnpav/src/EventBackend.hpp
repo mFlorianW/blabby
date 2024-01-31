@@ -93,6 +93,8 @@ protected:
      */
     virtual std::shared_ptr<EventSubscriptionHandle> sendSubscriptionRequest(
         EventSubscriptionParameters const& params) noexcept = 0;
+
+    void notificationReceived(QByteArray const& sid, QByteArray const& notificationData) noexcept;
 };
 
 /**
@@ -169,8 +171,9 @@ Q_SIGNALS:
     /**
      * This signal is emitted when the @ref UPnPAV::EventSubscriptionHandle is subscribed and received the positive
      * response.
+     * @param handle Pointer to the handle which is now subscribed.
      */
-    void subscribed();
+    void subscribed(UPnPAV::EventSubscriptionHandle* handle);
 
     /**
      * This signal is emitted when the event subscription failes.
@@ -212,6 +215,7 @@ protected:
     void setResponseBody(QString const& responseBody);
 
 private:
+    friend class UPnPAV::EventBackend;
     bool mIsSubscribed = false;
     QString mSid;
     QString mResponseBody;
