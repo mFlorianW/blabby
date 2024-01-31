@@ -43,6 +43,23 @@ void HttpEventSubscriptionHandle::subscribe(EventSubscriptionParameters const& p
         mSubscribeRequestPending = nullptr;
     });
 }
+
+void HttpEventSubscriptionHandle::unsubscribe(EventSubscriptionParameters const& params) noexcept
+{
+    if (mUnsubscribeRequestPending != nullptr) {
+        return;
+    }
+    auto req = QNetworkRequest{QUrl{QString{"http://%1/%2"}.arg(params.host, params.publisherPath)}};
+    req.setRawHeader(QByteArray{"HOST"}, params.host.toUtf8());
+    req.setRawHeader(QByteArray{"SID"}, sid().toUtf8());
+
+    mUnsubscribeRequestPending = mNetworkManager.sendCustomRequest(req, QByteArray{"UNSUBSCRIBE"});
+
+    connect(mUnsubscribeRequestPending, &QNetworkReply::finished, mUnsubscribeRequestPending, [this] {
+        emitUnsubscribed();
+    });
+}
+
 void HttpEventSubscriptionHandle::setBody(QString const& body) noexcept
 {
     setResponseBody(body);

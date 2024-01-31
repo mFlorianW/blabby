@@ -57,9 +57,23 @@ private Q_SLOTS:
      */
     void always_return_the_same_event_handle_for_the_same_service();
 
+    /**
+     * @test
+     * Tests that the @ref UPnPAV::HttpEventBackend correctly unsubscribe the events correctly when these
+     * are not longer needed.
+     */
+    void unsubscribe_events_when_not_longer_needed();
+
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
     std::unique_ptr<RequestHandler> mReceiver;
+};
+
+struct UnsubscribeRequestParameters
+{
+    QString publisherPath;
+    QString host;
+    QString sid;
 };
 
 class RequestHandler : public Http::Server
@@ -72,8 +86,11 @@ public:
 
     EventSubscriptionParameters lastSubscriptionRequest() const noexcept;
 
+    UnsubscribeRequestParameters lastUnsubscribeRequest() const noexcept;
+
 private:
     EventSubscriptionParameters mLastEventSubscriptionParams;
+    UnsubscribeRequestParameters mLastUnsubscribeParams;
 };
 
 } // namespace UPnPAV

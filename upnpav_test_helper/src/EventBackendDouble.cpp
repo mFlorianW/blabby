@@ -13,6 +13,13 @@ public:
     {
         setIsSubscribed(status);
     }
+
+protected:
+    void unsubscribe(EventSubscriptionParameters const& params) override
+    {
+        Q_UNUSED(params);
+        emitUnsubscribed();
+    }
 };
 
 namespace

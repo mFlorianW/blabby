@@ -8,8 +8,6 @@
 
 namespace UPnPAV
 {
-namespace
-{
 
 struct EventSubscriptionCacheEntry
 {
@@ -35,6 +33,7 @@ public:
 
     QHash<QObject*, EventSubscriptionCacheEntry> mActiveSubscriptions;
     QHash<QObject*, EventSubscriptionCacheEntry> mPendingSubscriptionRequests;
+    QHash<QObject*, EventSubscriptionCacheEntry> mPendingUnsubscribeRequests;
 
     std::optional<std::shared_ptr<EventSubscriptionHandle>> serviceSubscribed(
         ServiceDescription const& desc) const noexcept
@@ -76,6 +75,14 @@ public:
         auto iter = mActiveSubscriptions.cbegin();
         while (iter != mActiveSubscriptions.cend()) {
             if (iter.value().mHandle.use_count() == 1) {
+                mPendingUnsubscribeRequests.insert(iter.key(), iter.value());
+                QObject::connect(iter->mHandle.get(),
+                                 &EventSubscriptionHandle::unsubscribed,
+                                 iter->mHandle.get(),
+                                 [](EventSubscriptionHandle* handle) {
+                                     EventSubscriptionCache::instance().mPendingUnsubscribeRequests.remove(handle);
+                                 });
+                iter->mHandle->unsubscribe(iter->mParams);
                 iter = QHash<QObject*, EventSubscriptionCacheEntry>::const_iterator{mActiveSubscriptions.erase(iter)};
             } else {
                 ++iter;
@@ -83,8 +90,6 @@ public:
         }
     }
 };
-
-} // namespace
 
 EventBackend::EventBackend() = default;
 
@@ -187,6 +192,10 @@ void EventSubscriptionHandle::setResponseBody(QString const& responseBody)
         mResponseBody = responseBody;
         Q_EMIT propertiesChanged();
     }
+}
+void EventSubscriptionHandle::emitUnsubscribed()
+{
+    Q_EMIT unsubscribed(this, QPrivateSignal{});
 }
 
 } // namespace UPnPAV

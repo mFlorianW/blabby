@@ -18,6 +18,7 @@ namespace UPnPAV
  * Forward declaration
  */
 class EventSubscriptionHandle;
+class EventSubscriptionCache;
 
 /**
  * Parameters for sending a subscription request.
@@ -38,6 +39,7 @@ struct EventSubscriptionParameters
  * The @ref UPnPAV::EventBackend only handles the communication parts of the UPnPAV event mechanisim these are things
  * like sending the subscription requests, receiving subscribtion status and to provide the callback for the UPnPAV
  * devices to send events to a control point.
+ * Every property change and managing the life of the subscription is done via the @ref EventSubscriptionHandle.
  */
 class BLABBYUPNPAV_EXPORT EventBackend : public QObject
 {
@@ -129,7 +131,7 @@ enum class SubscriptionError
 /**
  * A @ref UPnPAV::EventSubscriptionHandle manages an event subscription between an UPnPAV device and the control point.
  * The @ref UPnPAV::EventSubscriptionHandle notifies about the event subscription, incoming events and event timouts.
- * Every concret @ref UPnPAV::EventBackend must implement it's own @ref Http::EventSubscriptionHandle because the
+ * Every concret @ref UPnPAV::EventBackend must implement it's own @ref UPnPAV::EventSubscriptionHandle because the
  * @ref UPnPAV::EventBackend and @ref UPnPAV::EventSubscriptionHandle are very tidly coupled.
  * The implementations in the @ref UPnPAV::EventSubscriptionHandle are useable in every other concrete @ref
  * UPnPAV::EventSubscriptionHandle
@@ -187,6 +189,14 @@ Q_SIGNALS:
      */
     void propertiesChanged();
 
+    /**
+     * This signal is emitted when the handle is not longer subscribed.
+     * Used for internal purposes the signal should never be connected by clients.
+     * param handle A pointer to the handle to identify the handle which is subsribed.
+     * param QPrivateSignal This signal can only emitted by the class itself.
+     */
+    void unsubscribed(UPnPAV::EventSubscriptionHandle* handle, QPrivateSignal);
+
 protected:
     /**
      * Creates an Instance of the @ref UPnPAV::EventSubscriptionHandle
@@ -214,8 +224,22 @@ protected:
      */
     void setResponseBody(QString const& responseBody);
 
+    /**
+     * Starts the unsubscribe process for this subscription.
+     * This function should never be called directly because the function is called by central @ref UPnPAV::EventBackend
+     * cache, when a subscription is not longer needed.
+     * The signal @ref UPnPAV::EventSubscriptionHandle::unsubscribed is emitted when unsubscribed.
+     */
+    virtual void unsubscribe(EventSubscriptionParameters const& params) = 0;
+
+    /**
+     * Allow subclasses to emit the private signal unsubscribed.
+     */
+    void emitUnsubscribed();
+
 private:
     friend class UPnPAV::EventBackend;
+    friend class UPnPAV::EventSubscriptionCache;
     bool mIsSubscribed = false;
     QString mSid;
     QString mResponseBody;

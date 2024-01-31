@@ -45,6 +45,11 @@ RequestHandler::RequestHandler()
             resp.setStatusCode(Http::Response::StatusCode::Ok);
             resp.setHeader("SID", "uuid:12345");
             return true;
+        } else if (request.method() == Http::Request::Method::Unsubscribe) {
+            mLastUnsubscribeParams.sid = request.headers().value("SID");
+            mLastUnsubscribeParams.host = request.headers().value("HOST");
+            mLastUnsubscribeParams.publisherPath = request.url().toString();
+            resp.setStatusCode(Http::Response::StatusCode::Ok);
         }
 
         resp.setStatusCode(Http::Response::StatusCode::NotFound);
@@ -57,6 +62,11 @@ RequestHandler::~RequestHandler() = default;
 EventSubscriptionParameters RequestHandler::lastSubscriptionRequest() const noexcept
 {
     return mLastEventSubscriptionParams;
+}
+
+UnsubscribeRequestParameters RequestHandler::lastUnsubscribeRequest() const noexcept
+{
+    return mLastUnsubscribeParams;
 }
 
 HttpEventBackendShould::~HttpEventBackendShould() = default;
@@ -139,6 +149,23 @@ void HttpEventBackendShould::always_return_the_same_event_handle_for_the_same_se
 
     auto handle3 = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
     QCOMPARE(handle3, handle);
+}
+
+void HttpEventBackendShould::unsubscribe_events_when_not_longer_needed()
+{
+    // The handle need to be freed otherwise the internal cache thinks that
+    // subscription is still needed.
+    {
+        auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+        QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    }
+    // The cache is only cleaned when a EventBackend instance is freed.
+    mEventBackend.reset();
+
+    auto unsubsribeParams = mReceiver->lastUnsubscribeRequest();
+    QTRY_COMPARE_WITH_TIMEOUT(mReceiver->lastUnsubscribeRequest().sid, QStringLiteral("uuid:12345"), 1000);
+    QCOMPARE(mReceiver->lastUnsubscribeRequest().host, QStringLiteral("127.0.0.1:27016"));
+    QCOMPARE(mReceiver->lastUnsubscribeRequest().publisherPath, QStringLiteral("/test/eventUrl"));
 }
 
 } // namespace UPnPAV

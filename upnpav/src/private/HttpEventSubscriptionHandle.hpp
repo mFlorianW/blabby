@@ -47,6 +47,11 @@ protected:
      */
     void subscribe(EventSubscriptionParameters const& params) noexcept;
 
+    /**
+     * @copydoc UPnPAV::EventSubscriptionHandle::unsubscribe
+     */
+    void unsubscribe(EventSubscriptionParameters const& params) noexcept override;
+
 private:
     void setBody(QString const& body) noexcept;
 
@@ -55,6 +60,7 @@ private:
     QHostAddress mHostAddress;
     QNetworkAccessManager mNetworkManager;
     QNetworkReply* mSubscribeRequestPending = nullptr;
+    QNetworkReply* mUnsubscribeRequestPending = nullptr;
 };
 
 }; // namespace UPnPAV
