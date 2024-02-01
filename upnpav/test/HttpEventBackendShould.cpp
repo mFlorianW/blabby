@@ -12,8 +12,11 @@
 
 namespace UPnPAV
 {
+
 namespace
 {
+
+constexpr auto TIMEOUT = quint32{1000};
 
 EventSubscriptionParameters subscription(QString const& callback = QStringLiteral("<http://127.0.0.1:27015/callback0>"))
 {
@@ -44,6 +47,7 @@ RequestHandler::RequestHandler()
             // send the subscription ID back.
             resp.setStatusCode(Http::Response::StatusCode::Ok);
             resp.setHeader("SID", "uuid:12345");
+            resp.setHeader("TIMEOUT", "SECOND-0.100");
             return true;
         } else if (request.method() == Http::Request::Method::Unsubscribe) {
             mLastUnsubscribeParams.sid = request.headers().value("SID");
@@ -62,6 +66,11 @@ RequestHandler::~RequestHandler() = default;
 EventSubscriptionParameters RequestHandler::lastSubscriptionRequest() const noexcept
 {
     return mLastEventSubscriptionParams;
+}
+
+void RequestHandler::clearLastSubscriptionRequest() noexcept
+{
+    mLastEventSubscriptionParams = EventSubscriptionParameters{};
 }
 
 UnsubscribeRequestParameters RequestHandler::lastUnsubscribeRequest() const noexcept
@@ -100,7 +109,7 @@ void HttpEventBackendShould::send_subscription_request_correctly()
     auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
     auto subscribeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::subscribed};
 
-    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, TIMEOUT);
     QCOMPARE(mReceiver->lastSubscriptionRequest(), subscription());
     QCOMPARE(subscribeSpy.size(), 1);
     QCOMPARE(handle->sid(), QStringLiteral("uuid:12345"));
@@ -114,7 +123,7 @@ void HttpEventBackendShould::receive_notify_requests()
     auto subscribeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::subscribed};
     auto propChangeSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::propertiesChanged};
 
-    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, TIMEOUT);
     QCOMPARE(subscribeSpy.size(), 1);
 
     auto mgr = QNetworkAccessManager{};
@@ -132,7 +141,7 @@ void HttpEventBackendShould::receive_notify_requests()
 
     auto reply = mgr.sendCustomRequest(request, "NOTIFY", content);
     auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
-    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(replySpy.size(), 1, TIMEOUT);
     QCOMPARE(reply->error(), QNetworkReply::NoError);
     QCOMPARE(propChangeSpy.size(), 1);
     QCOMPARE(handle->responseBody(), body);
@@ -144,7 +153,7 @@ void HttpEventBackendShould::always_return_the_same_event_handle_for_the_same_se
     auto handle2 = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
 
     QCOMPARE(handle, handle2);
-    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, TIMEOUT);
     QCOMPARE(handle2->isSubscribed(), true);
 
     auto handle3 = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
@@ -157,15 +166,25 @@ void HttpEventBackendShould::unsubscribe_events_when_not_longer_needed()
     // subscription is still needed.
     {
         auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
-        QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, TIMEOUT);
     }
     // The cache is only cleaned when a EventBackend instance is freed.
     mEventBackend.reset();
 
     auto unsubsribeParams = mReceiver->lastUnsubscribeRequest();
-    QTRY_COMPARE_WITH_TIMEOUT(mReceiver->lastUnsubscribeRequest().sid, QStringLiteral("uuid:12345"), 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(mReceiver->lastUnsubscribeRequest().sid, QStringLiteral("uuid:12345"), TIMEOUT);
     QCOMPARE(mReceiver->lastUnsubscribeRequest().host, QStringLiteral("127.0.0.1:27016"));
     QCOMPARE(mReceiver->lastUnsubscribeRequest().publisherPath, QStringLiteral("/test/eventUrl"));
+}
+
+void HttpEventBackendShould::renew_the_subscription()
+{
+    auto handle = mEventBackend->subscribeEvents(validAvTransportServiceDescription());
+
+    QTRY_COMPARE_WITH_TIMEOUT(handle->isSubscribed(), true, TIMEOUT);
+    mReceiver->clearLastSubscriptionRequest();
+
+    QTRY_COMPARE_WITH_TIMEOUT(mReceiver->lastSubscriptionRequest(), subscription(), TIMEOUT);
 }
 
 } // namespace UPnPAV

@@ -13,6 +13,9 @@ HttpEventSubscriptionHandle::HttpEventSubscriptionHandle(QHostAddress hostAddres
     : EventSubscriptionHandle{}
     , mHostAddress{hostAddress}
 {
+    connect(&mSubscriptionRenewTimer, &QTimer::timeout, this, [this] {
+        subscribe(mParams);
+    });
 }
 
 HttpEventSubscriptionHandle::~HttpEventSubscriptionHandle()
@@ -37,10 +40,23 @@ void HttpEventSubscriptionHandle::subscribe(EventSubscriptionParameters const& p
     });
 
     connect(mSubscribeRequestPending, &QNetworkReply::finished, this, [this] {
-        setSid(mSubscribeRequestPending->rawHeader(QByteArray{"SID"}));
-        setIsSubscribed(true);
-        mSubscribeRequestPending->deleteLater();
-        mSubscribeRequestPending = nullptr;
+        if (mSubscribeRequestPending->error() == QNetworkReply::NoError) {
+            auto rawTimeout = mSubscribeRequestPending->rawHeader("TIMEOUT");
+            auto indexOfDash = rawTimeout.indexOf("-");
+            bool conversionOk = false;
+            auto timeout =
+                static_cast<quint32>(rawTimeout.remove(0, indexOfDash + 1).toFloat(&conversionOk) / 2 * 1000);
+            if (not conversionOk) {
+                Q_EMIT subscriptionFailed(SubscriptionError::IncompatibleHeader);
+                return;
+            }
+            mSubscriptionRenewTimer.setInterval(std::chrono::milliseconds{timeout});
+            mSubscriptionRenewTimer.start();
+            setSid(mSubscribeRequestPending->rawHeader(QByteArray{"SID"}));
+            setIsSubscribed(true);
+            mSubscribeRequestPending->deleteLater();
+            mSubscribeRequestPending = nullptr;
+        }
     });
     mParams = params;
 }

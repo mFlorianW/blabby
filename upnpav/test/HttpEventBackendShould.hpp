@@ -64,6 +64,12 @@ private Q_SLOTS:
      */
     void unsubscribe_events_when_not_longer_needed();
 
+    /**
+     * @test
+     * Tests that the subscription created by the @ref UPnPAV::HttpEventBackend renewed in required timeout frame.
+     */
+    void renew_the_subscription();
+
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
     std::unique_ptr<RequestHandler> mReceiver;
@@ -85,6 +91,7 @@ public:
     Q_DISABLE_COPY_MOVE(RequestHandler)
 
     EventSubscriptionParameters lastSubscriptionRequest() const noexcept;
+    void clearLastSubscriptionRequest() noexcept;
 
     UnsubscribeRequestParameters lastUnsubscribeRequest() const noexcept;
 

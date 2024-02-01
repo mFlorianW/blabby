@@ -10,6 +10,7 @@
 #include <QNetworkReply>
 #include <QObject>
 #include <QTcpSocket>
+#include <QTimer>
 
 namespace UPnPAV
 {
@@ -64,6 +65,7 @@ private:
     QNetworkReply* mSubscribeRequestPending = nullptr;
     QNetworkReply* mUnsubscribeRequestPending = nullptr;
     EventSubscriptionParameters mParams;
+    QTimer mSubscriptionRenewTimer;
 };
 
 /**
