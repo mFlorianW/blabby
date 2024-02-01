@@ -42,6 +42,7 @@ void HttpEventSubscriptionHandle::subscribe(EventSubscriptionParameters const& p
         mSubscribeRequestPending->deleteLater();
         mSubscribeRequestPending = nullptr;
     });
+    mParams = params;
 }
 
 void HttpEventSubscriptionHandle::unsubscribe(EventSubscriptionParameters const& params) noexcept
@@ -63,6 +64,14 @@ void HttpEventSubscriptionHandle::unsubscribe(EventSubscriptionParameters const&
 void HttpEventSubscriptionHandle::setBody(QString const& body) noexcept
 {
     setResponseBody(body);
+}
+
+void HttpEventSubscriptionHandleDeleter::operator()(HttpEventSubscriptionHandle* handle)
+{
+    QObject::connect(handle, &HttpEventSubscriptionHandle::unsubscribed, handle, [handle]() {
+        handle->deleteLater();
+    });
+    handle->unsubscribe(handle->mParams);
 }
 
 } // namespace UPnPAV

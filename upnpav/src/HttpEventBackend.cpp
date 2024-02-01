@@ -46,7 +46,9 @@ QString const& HttpEventBackend::registerEventCallback(ServiceDescription const&
 std::shared_ptr<EventSubscriptionHandle> HttpEventBackend::sendSubscriptionRequest(
     EventSubscriptionParameters const& params) noexcept
 {
-    auto handle = std::make_shared<HttpEventSubscriptionHandle>(d->mEventServer.serverAddress());
+    auto handle = std::shared_ptr<HttpEventSubscriptionHandle>(
+        new (std::nothrow) HttpEventSubscriptionHandle{d->mEventServer.serverAddress()},
+        HttpEventSubscriptionHandleDeleter{});
     handle->subscribe(params);
     return handle;
 }

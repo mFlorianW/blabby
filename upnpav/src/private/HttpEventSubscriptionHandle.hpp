@@ -13,6 +13,7 @@
 
 namespace UPnPAV
 {
+class HttpEventSubscriptionHandleDeleter;
 
 /**
  * HTTP implementation of the @ref UPnPAV::EventSubscriptionHandle
@@ -57,10 +58,25 @@ private:
 
 private:
     friend class UPnPAV::HttpEventBackend;
+    friend class UPnPAV::HttpEventSubscriptionHandleDeleter;
     QHostAddress mHostAddress;
     QNetworkAccessManager mNetworkManager;
     QNetworkReply* mSubscribeRequestPending = nullptr;
     QNetworkReply* mUnsubscribeRequestPending = nullptr;
+    EventSubscriptionParameters mParams;
+};
+
+/**
+ * Custom Deleter for the HttpEventSubscriptionHandle
+ * The deleter first unsubscribes the @ref UPnPAV::HttpEventSubscriptionHandle before freeing the object.
+ */
+class HttpEventSubscriptionHandleDeleter
+{
+public:
+    /**
+     * This function is called when a @ref UPnPAV::HttpEventSubscriptionHandle shall be deleted.
+     */
+    void operator()(HttpEventSubscriptionHandle* handle);
 };
 
 }; // namespace UPnPAV

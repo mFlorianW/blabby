@@ -11,7 +11,7 @@ namespace UPnPAV
 
 struct EventSubscriptionCacheEntry
 {
-    std::shared_ptr<EventSubscriptionHandle> mHandle;
+    std::weak_ptr<EventSubscriptionHandle> mHandle;
     EventSubscriptionParameters mParams;
     ServiceDescription mDesc;
     QString mSid = QString{""};
@@ -43,16 +43,16 @@ public:
                                             [&desc](EventSubscriptionCacheEntry const& entry) {
                                                 return entry.mDesc == desc;
                                             });
-        if (activeSub != mActiveSubscriptions.cend()) {
-            return activeSub->mHandle;
+        if (activeSub != mActiveSubscriptions.cend() && not activeSub->mHandle.expired()) {
+            return activeSub->mHandle.lock();
         }
         auto const pendingSub = std::find_if(mPendingSubscriptionRequests.cbegin(),
                                              mPendingSubscriptionRequests.cend(),
                                              [&desc](EventSubscriptionCacheEntry const& entry) {
                                                  return entry.mDesc == desc;
                                              });
-        if (pendingSub != mPendingSubscriptionRequests.cend()) {
-            return pendingSub->mHandle;
+        if (pendingSub != mPendingSubscriptionRequests.cend() && not pendingSub->mHandle.expired()) {
+            return pendingSub->mHandle.lock();
         }
         return std::nullopt;
     }
@@ -64,8 +64,8 @@ public:
                                             [&sid](EventSubscriptionCacheEntry const& entry) {
                                                 return entry.mSid == sid;
                                             });
-        if (activeSub != mActiveSubscriptions.cend()) {
-            return activeSub->mHandle;
+        if (activeSub != mActiveSubscriptions.cend() && not activeSub->mHandle.expired()) {
+            return activeSub->mHandle.lock();
         }
         return std::nullopt;
     }
@@ -74,15 +74,7 @@ public:
     {
         auto iter = mActiveSubscriptions.cbegin();
         while (iter != mActiveSubscriptions.cend()) {
-            if (iter.value().mHandle.use_count() == 1) {
-                mPendingUnsubscribeRequests.insert(iter.key(), iter.value());
-                QObject::connect(iter->mHandle.get(),
-                                 &EventSubscriptionHandle::unsubscribed,
-                                 iter->mHandle.get(),
-                                 [](EventSubscriptionHandle* handle) {
-                                     EventSubscriptionCache::instance().mPendingUnsubscribeRequests.remove(handle);
-                                 });
-                iter->mHandle->unsubscribe(iter->mParams);
+            if (iter.value().mHandle.expired()) {
                 iter = QHash<QObject*, EventSubscriptionCacheEntry>::const_iterator{mActiveSubscriptions.erase(iter)};
             } else {
                 ++iter;
