@@ -20,6 +20,7 @@ class MediaServerPrivate;
 
 class BLABBYUPNPAV_EXPORT MediaServer : public MediaDevice
 {
+    Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:
     /**

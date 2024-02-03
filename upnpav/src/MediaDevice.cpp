@@ -9,17 +9,47 @@
 #include "InvalidDeviceDescription.hpp"
 #include "private/AvTransportServiceValidator.hpp"
 #include "private/ConnectionManagerServiceValidator.hpp"
+#include "private/EventPropertyReader.hpp"
+#include "private/LastChangeReader.hpp"
+#include "private/LoggingCategories.hpp"
 #include "private/MediaDevicePrivate.hpp"
 #include "private/SoapMessageGenerator.hpp"
 
 namespace UPnPAV
 {
 
+namespace
+{
+
+MediaDevice::State deviceState(QString const& rawState)
+{
+    if (rawState == QStringLiteral("STOPPED")) {
+        return MediaDevice::State::Stopped;
+    } else if (rawState == QStringLiteral("PAUSED_PLAYBACK")) {
+        return MediaDevice::State::PausedPlayback;
+    } else if (rawState == QStringLiteral("PAUSED_RECORDING")) {
+        return MediaDevice::State::PausedRecording;
+    } else if (rawState == QStringLiteral("PLAYING")) {
+        return MediaDevice::State::Playing;
+    } else if (rawState == QStringLiteral("RECORDING")) {
+        return MediaDevice::State::Recording;
+    } else if (rawState == QStringLiteral("TRANSITIONING")) {
+        return MediaDevice::State::Transitioning;
+    } else if (rawState == QStringLiteral("NO_MEDIA_PRESENT")) {
+        return MediaDevice::State::NoMediaPresent;
+    }
+
+    qCWarning(upnpavEvent) << "Unknown Transport state" << rawState << "received.";
+    return MediaDevice::State::NoMediaPresent;
+}
+
+} // namespace
+
 MediaDevice::MediaDevice(DeviceDescription deviceDescription,
                          QSharedPointer<SoapBackend> soapBackend,
                          QSharedPointer<EventBackend> eventBackend)
     : d{QScopedPointer<MediaDevicePrivate>(
-          new MediaDevicePrivate{std::move(deviceDescription), std::move(soapBackend), std::move(eventBackend)})}
+          new MediaDevicePrivate{std::move(deviceDescription), std::move(soapBackend), std::move(eventBackend), *this})}
 {
     ConnectionManagerServiceValidator conManagerServiceValidator{d->mDeviceDescription};
     if (!conManagerServiceValidator.validate()) {
@@ -44,7 +74,34 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription,
         d->mAvTransportDescription = avSerVali.serviceDescription();
         d->mAvTransportDescriptionSCPD = avSerVali.scpd();
 
-        d->mEventBackend->subscribeEvents(d->mAvTransportDescription);
+        d->mAvTransportEvents = d->mEventBackend->subscribeEvents(d->mAvTransportDescription);
+        QObject::connect(d->mAvTransportEvents.get(),
+                         &EventSubscriptionHandle::propertiesChanged,
+                         d->mAvTransportEvents.get(),
+                         [this]() {
+                             auto reader = EventPropertyReader{d->mAvTransportEvents->responseBody()};
+                             if (not reader.read()) {
+                                 return;
+                             }
+
+                             auto lastChangeValue = reader.property(QStringLiteral("LastChange"));
+                             if (not lastChangeValue.has_value()) {
+                                 return;
+                             }
+
+                             auto lastChangeReader = LastChangeReader{lastChangeValue.value()};
+                             if (not lastChangeReader.read()) {
+                                 return;
+                             }
+
+                             auto const& instanceVariables = lastChangeReader.instanceVariables();
+                             if (instanceVariables.contains(QStringLiteral("0"))) {
+                                 auto varialbes = instanceVariables.value(QStringLiteral("0"));
+                                 if (varialbes.contains(QStringLiteral("TransportState"))) {
+                                     d->setState(deviceState(varialbes.value(QStringLiteral("TransportState"))));
+                                 }
+                             }
+                         });
     }
 }
 
@@ -58,6 +115,11 @@ QString const& MediaDevice::name() const noexcept
 QUrl const& MediaDevice::iconUrl() const noexcept
 {
     return d->mIconUrl;
+}
+
+MediaDevice::State MediaDevice::state() const noexcept
+{
+    return d->mState;
 }
 
 std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept

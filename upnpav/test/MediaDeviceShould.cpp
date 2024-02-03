@@ -5,6 +5,7 @@
 
 #include "MediaDeviceShould.hpp"
 #include "AvTransportActions.hpp"
+#include "AvTransportEventNotifies.hpp"
 #include "AvTransportStateVariables.hpp"
 #include "ConnectionManagerActions.hpp"
 #include "ConnectionManagerStateVariables.hpp"
@@ -16,6 +17,7 @@
 #include "SCPDAction.hpp"
 #include "SCPDStateVariable.hpp"
 #include "SoapBackendDouble.hpp"
+#include <QSignalSpy>
 #include <QTest>
 
 namespace UPnPAV
@@ -38,7 +40,7 @@ public:
         return mMsgTransmitter->xmlMessageBody();
     }
 
-    QSharedPointer<Doubles::EventBackend> const& eventBacked() const noexcept
+    QSharedPointer<Doubles::EventBackend> const& eventBackend() const noexcept
     {
         return mEventBackend;
     }
@@ -1129,8 +1131,40 @@ void MediaDeviceShould::subscribe_events_of_avtransport_service_on_creation()
     auto const expCbId = QStringLiteral("/AVTransportCallback");
     auto mediaDevice = MediaDeviceWithAV{};
 
-    QCOMPARE(mediaDevice.eventBacked()->lastRegisteredCallbackId(), expCbId);
-    QCOMPARE(mediaDevice.eventBacked()->lastSubscribeEventRequest(), expectParams);
+    QCOMPARE(mediaDevice.eventBackend()->lastRegisteredCallbackId(), expCbId);
+    QCOMPARE(mediaDevice.eventBackend()->lastSubscribeEventRequest(), expectParams);
+}
+
+void MediaDeviceShould::set_device_state_reported_by_the_av_transport_service_data()
+{
+    QTest::addColumn<QString>("TransportState");
+    QTest::addColumn<MediaDevice::State>("ExpectedState");
+    QTest::addColumn<qsizetype>("StateChanged");
+
+    QTest::addRow("Stopped") << "STOPPED" << MediaDevice::State::Stopped << qsizetype{1};
+    QTest::addRow("PausedPlayback") << "PAUSED_PLAYBACK" << MediaDevice::State::PausedPlayback << qsizetype{1};
+    QTest::addRow("PausedRecording") << "PAUSED_RECORDING" << MediaDevice::State::PausedRecording << qsizetype{1};
+    QTest::addRow("Playing") << "PLAYING" << MediaDevice::State::Playing << qsizetype{1};
+    QTest::addRow("Recording") << "RECORDING" << MediaDevice::State::Recording << qsizetype{1};
+    QTest::addRow("Transitioning") << "TRANSITIONING" << MediaDevice::State::Transitioning << qsizetype{1};
+    QTest::addRow("NoMediaPresent") << "NO_MEDIA_PRESENT" << MediaDevice::State::NoMediaPresent << qsizetype{0};
+}
+
+void MediaDeviceShould::set_device_state_reported_by_the_av_transport_service()
+{
+    QFETCH(QString, TransportState);
+    QFETCH(MediaDevice::State, ExpectedState);
+    QFETCH(qsizetype, StateChanged);
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto eventHandle = mediaDevice.eventBackend()->subscribeEvents(validAvTransportServiceDescription());
+    auto handle = std::dynamic_pointer_cast<UPnPAV::Doubles::EventSubscriptionHandle>(eventHandle);
+    QCOMPARE_NE(handle, nullptr);
+    auto stateChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::stateChanged};
+
+    handle->sendNotifyBody(QString{UPnPAV::xmlNotify}.arg(TransportState));
+
+    QCOMPARE(mediaDevice.state(), ExpectedState);
+    QCOMPARE(stateChangedSpy.size(), StateChanged);
 }
 
 } // namespace UPnPAV

@@ -25,8 +25,9 @@ class SoapBackend;
  * This interface defines functions that every upnp media device
  * should support.
  */
-class BLABBYUPNPAV_EXPORT MediaDevice
+class BLABBYUPNPAV_EXPORT MediaDevice : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * Different modes when calling seek on the AVTransport service.
@@ -42,6 +43,22 @@ public:
         TapeIndex,
         Frame,
     };
+    Q_ENUM(SeekMode)
+
+    /**
+     * The different states a MediaDevice can have.
+     */
+    enum class State
+    {
+        Stopped,
+        PausedPlayback,
+        PausedRecording,
+        Playing,
+        Recording,
+        Transitioning,
+        NoMediaPresent
+    };
+    Q_ENUM(State)
 
     /*
      * Deleted move and copy operations
@@ -51,7 +68,7 @@ public:
     /**
      * Default destructor
      */
-    virtual ~MediaDevice();
+    ~MediaDevice() override;
 
     /**
      * Gives the human friendly name of the device.
@@ -67,6 +84,14 @@ public:
      * @return The a Url to an icon of the device.
      */
     virtual QUrl const& iconUrl() const noexcept;
+
+    /**
+     * Gives the current state of the device.
+     * The device will be updated with the lastChange event updates of the AVTransport service.
+     * If the device has no AVTransport service e.g. MediaServer the state will always be @ref
+     * UPnPAV::MediaDevice::State::Idle.
+     */
+    virtual MediaDevice::State state() const noexcept;
 
     /**
      * Calls the GetProtocolInfo on the ConnectionManager Interface of the UPnPAV device.
@@ -239,6 +264,14 @@ public:
      * Before calling the function check if the service exists with @ref<MediaDevice::hasAvTransportService>
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> previous(quint32 instanceId);
+
+Q_SIGNALS:
+    /**
+     * This signal is emitted when the @ref UPnPAV::MediaDevice changes it state. E.g. from Stopped to playing
+     * State changes only occur when the device has an AVTransport service.
+     * Devices without AVTransport service are going to stay in the @ref MediaDevice::State::Stopped.
+     */
+    void stateChanged();
 
 protected:
     MediaDevice(DeviceDescription deviceDescription,

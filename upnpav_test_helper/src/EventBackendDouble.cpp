@@ -6,21 +6,6 @@
 
 namespace UPnPAV::Doubles
 {
-class EventSubscriptionHandle : public UPnPAV::EventSubscriptionHandle
-{
-public:
-    EventSubscriptionHandle(bool status)
-    {
-        setIsSubscribed(status);
-    }
-
-protected:
-    void unsubscribe(EventSubscriptionParameters const& params) override
-    {
-        Q_UNUSED(params);
-        emitUnsubscribed();
-    }
-};
 
 namespace
 {

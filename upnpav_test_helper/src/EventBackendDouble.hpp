@@ -67,4 +67,25 @@ private:
     QHash<QUrl, QString> mCallbackRegistry;
 };
 
+class EventSubscriptionHandle : public UPnPAV::EventSubscriptionHandle
+{
+public:
+    EventSubscriptionHandle(bool status)
+    {
+        setIsSubscribed(status);
+    }
+
+    void sendNotifyBody(QString const& body)
+    {
+        setResponseBody(body);
+    }
+
+protected:
+    void unsubscribe(EventSubscriptionParameters const& params) override
+    {
+        Q_UNUSED(params);
+        emitUnsubscribed();
+    }
+};
+
 } // namespace UPnPAV::Doubles

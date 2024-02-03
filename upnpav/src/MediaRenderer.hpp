@@ -16,6 +16,7 @@ namespace UPnPAV
  */
 class BLABBYUPNPAV_EXPORT MediaRenderer : public MediaDevice
 {
+    Q_OBJECT
 public:
     /**
      * Creates an instance of the MediaRenderer.

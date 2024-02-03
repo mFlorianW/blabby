@@ -37,7 +37,8 @@ set(PRIVATE_SRCS
     #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.cpp
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/EventPropertyReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -71,6 +72,8 @@ set(PRIVATE_HEADERS
     #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/EventPropertyReader.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.hpp
 )
 
 set(PUBLIC_SRCS
@@ -111,6 +114,7 @@ set(PUBLIC_SRCS
     #Eventing
     ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.cpp
 )
 
 set(PUBLIC_HEADERS

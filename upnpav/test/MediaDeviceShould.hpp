@@ -145,6 +145,13 @@ private Q_SLOTS:
      *       when the device has a AVTransport service.
      */
     void subscribe_events_of_avtransport_service_on_creation();
+
+    void set_device_state_reported_by_the_av_transport_service_data();
+    /**
+     * @test The media device should set it's state according to the AVTransport service state
+     *       reported by the lastChange event update.
+     */
+    void set_device_state_reported_by_the_av_transport_service();
 };
 
 } // namespace UPnPAV
