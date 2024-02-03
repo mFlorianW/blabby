@@ -34,6 +34,8 @@ jobs:
         sudo cp elk-full.jar /usr/share/plantuml/elk-full.jar
     - name: checkout
       uses: actions/checkout@v4
+    - name: Build and Install nodejs-llhttp
+      uses: ./.github/actions/llhttp-build
     - name: build docs
       run: |
         cmake --preset github-ci-debug
