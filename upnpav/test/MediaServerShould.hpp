@@ -7,6 +7,7 @@
 #ifndef MEDIASERVERSHOULD_H
 #define MEDIASERVERSHOULD_H
 
+#include "EventBackendDouble.hpp"
 #include <QObject>
 #include <QSharedPointer>
 
@@ -18,7 +19,7 @@ class ServiceControlPointDefinition;
 class SCPDStateVariable;
 class SCPDAction;
 class DeviceDescription;
-class SoapMessageTransmitterDouble;
+class SoapBackendDouble;
 
 class MediaServerShould : public QObject
 {
@@ -38,7 +39,8 @@ private:
 
     MediaServer createMediaServer(DeviceDescription& deviceDescription);
 
-    QSharedPointer<SoapMessageTransmitterDouble> m_soapMessageTransmitter;
+    QSharedPointer<SoapBackendDouble> mSoapBackend;
+    QSharedPointer<Doubles::EventBackend> mEventBackend;
 
 private Q_SLOTS:
 

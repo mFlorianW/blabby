@@ -11,7 +11,7 @@
 #include "DeviceDescription.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaServer.hpp"
-#include "SoapMessageTransmitterDouble.hpp"
+#include "SoapBackendDouble.hpp"
 #include <QDebug>
 #include <QTest>
 
@@ -27,12 +27,12 @@ MediaServerShould::~MediaServerShould() = default;
 
 MediaServer MediaServerShould::createMediaServer(DeviceDescription& deviceDescription)
 {
-    return MediaServer{deviceDescription, m_soapMessageTransmitter};
+    return MediaServer{deviceDescription, mSoapBackend, mEventBackend};
 }
 
 void MediaServerShould::init()
 {
-    m_soapMessageTransmitter = QSharedPointer<SoapMessageTransmitterDouble>{new SoapMessageTransmitterDouble()};
+    mSoapBackend = QSharedPointer<SoapBackendDouble>{new SoapBackendDouble()};
 }
 
 MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> const& services,
@@ -42,7 +42,8 @@ MediaServer MediaServerShould::createMediaServer(QVector<ServiceDescription> con
     IconDescription iconDes{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"};
     return MediaServer{
         DeviceDescription{"", "MediaServerName", "", "", "", QVector<IconDescription>{iconDes}, services, scpds},
-        m_soapMessageTransmitter};
+        mSoapBackend,
+        mEventBackend};
 }
 
 ServiceControlPointDefinition MediaServerShould::createContentDirectorySCPDWithoutStateVariable(
@@ -381,10 +382,8 @@ void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_GetSortCapabili
 
     mediaServer.getSortCapabilities();
 
-    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
-             QString{"Expected: %1 Actual: %2"}
-                 .arg(expectedSoapMessage, m_soapMessageTransmitter->xmlMessageBody())
-                 .toLocal8Bit());
+    QVERIFY2(expectedSoapMessage == mSoapBackend->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}.arg(expectedSoapMessage, mSoapBackend->xmlMessageBody()).toLocal8Bit());
 }
 
 void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
@@ -411,10 +410,8 @@ void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
 
     mediaServer.browse("0", MediaServer::BrowseFlag::MetaData, "*", "");
 
-    QVERIFY2(expectedSoapMessage == m_soapMessageTransmitter->xmlMessageBody(),
-             QString{"Expected: %1 Actual: %2"}
-                 .arg(expectedSoapMessage, m_soapMessageTransmitter->xmlMessageBody())
-                 .toLocal8Bit());
+    QVERIFY2(expectedSoapMessage == mSoapBackend->xmlMessageBody(),
+             QString{"Expected: %1 Actual: %2"}.arg(expectedSoapMessage, mSoapBackend->xmlMessageBody()).toLocal8Bit());
 }
 
 void MediaServerShould::give_a_name()

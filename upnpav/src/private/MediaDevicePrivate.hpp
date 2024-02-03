@@ -6,22 +6,31 @@
 
 #pragma once
 #include "DeviceDescription.hpp"
+#include "EventBackend.hpp"
+#include "MediaDevice.hpp"
 #include "ServiceControlPointDefinition.hpp"
 #include "ServiceDescription.hpp"
-#include "SoapMessageTransmitter.hpp"
+#include "SoapBackend.hpp"
 #include "blabbyupnpav_export.h"
+#include "private/LoggingCategories.hpp"
 #include <QSharedPointer>
 #include <QUrl>
 #include <utility>
+
 namespace UPnPAV
 {
 
 class BLABBYUPNPAV_EXPORT MediaDevicePrivate
 {
 public:
-    MediaDevicePrivate(DeviceDescription deviceDescription, QSharedPointer<SoapMessageTransmitter> transmitter)
-        : mDeviceDescription{std::move(deviceDescription)}
+    MediaDevicePrivate(DeviceDescription deviceDescription,
+                       QSharedPointer<SoapBackend> transmitter,
+                       QSharedPointer<EventBackend> eventBackend,
+                       MediaDevice& device)
+        : q{device}
+        , mDeviceDescription{std::move(deviceDescription)}
         , mSoapMessageTransmitter{std::move(transmitter)}
+        , mEventBackend{std::move(eventBackend)}
     {
     }
 
@@ -29,16 +38,30 @@ public:
 
     Q_DISABLE_COPY_MOVE(MediaDevicePrivate)
 
+    void setState(MediaDevice::State const state) noexcept
+    {
+        if (mState != state) {
+            mState = state;
+            qCDebug(upnpavEvent) << "Device State:" << mState;
+            Q_EMIT q.stateChanged();
+        }
+    }
+
+    MediaDevice& q;
+
     DeviceDescription mDeviceDescription;
     ServiceControlPointDefinition mContentDirectorySCPD;
     ServiceDescription mConnectionManagerDescription;
     ServiceControlPointDefinition mConnectionManagerSCPD;
     ServiceDescription mAvTransportDescription;
     ServiceControlPointDefinition mAvTransportDescriptionSCPD;
-    QSharedPointer<SoapMessageTransmitter> mSoapMessageTransmitter;
+    QSharedPointer<SoapBackend> mSoapMessageTransmitter;
     QString mName{""};
     QUrl mIconUrl{""};
     bool mHasAvTransportService{false};
+    QSharedPointer<EventBackend> mEventBackend;
+    std::shared_ptr<EventSubscriptionHandle> mAvTransportEvents;
+    MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
 };
 
 } // namespace UPnPAV

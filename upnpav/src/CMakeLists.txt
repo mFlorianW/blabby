@@ -33,6 +33,12 @@ set(PRIVATE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.cpp
+
+    #Eventing
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/EventPropertyReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.cpp
 )
 
 set(PRIVATE_HEADERS
@@ -62,6 +68,12 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/RenderingControlServiceValidator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MediaServerObjectBuilder.hpp
+
+    #Eventing
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventServer.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpEventSubscriptionHandle.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/EventPropertyReader.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.hpp
 )
 
 set(PUBLIC_SRCS
@@ -83,8 +95,8 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapCall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SoapBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GetProtocolInfoResponse.cpp
@@ -98,6 +110,11 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.cpp
+
+    #Eventing
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/LastChangeReader.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -119,8 +136,8 @@ set(PUBLIC_HEADERS
     #Device
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServerObject.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BrowseResponse.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapMessageTransmitter.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SoapMessageTransmitter.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackend.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SoapBackend.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/InvalidDeviceDescription.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/PendingSoapCall.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SoapCall.hpp
@@ -136,6 +153,10 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/GetTransportSettingsResponse.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaRenderer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Protocol.hpp
+
+    #Eventing
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventBackend.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/HttpEventBackend.hpp
 )
 
 target_sources(${PROJECT_NAME}
@@ -151,6 +172,7 @@ target_link_libraries(${PROJECT_NAME}
         Qt6::Core
         Qt6::Network
         Qt6::Xml
+        Blabby::Http
 )
 
 target_include_directories(${PROJECT_NAME}

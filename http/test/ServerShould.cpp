@@ -50,7 +50,7 @@ ServerShould::~ServerShould() = default;
 void ServerShould::initTestCase()
 {
     mHtppServer = std::make_unique<TestServer>();
-    QCOMPARE(mHtppServer->listen(QHostAddress::LocalHost, 27016), true);
+    QCOMPARE(mHtppServer->listen(QHostAddress::LocalHost, 27018), true);
 }
 
 void ServerShould::init()
@@ -118,7 +118,7 @@ void ServerShould::give_a_request_with_the_request_method()
     QFETCH(QByteArray, method);
     QFETCH(Request::Method, methodEnum);
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
     auto reply = mHttpClient.sendCustomRequest(req, method);
     auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
 
@@ -131,7 +131,7 @@ void ServerShould::give_a_request_with_the_request_method()
 void ServerShould::give_a_request_with_the_headers()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
     req.setRawHeader(QByteArray{"Test"}, QByteArray{"TestValue"});
     auto reply = mHttpClient.get(req);
 
@@ -144,7 +144,7 @@ void ServerShould::give_a_request_with_the_headers()
 void ServerShould::give_a_request_with_the_request_url()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
     auto reply = mHttpClient.get(req);
 
     QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
@@ -155,7 +155,7 @@ void ServerShould::give_a_request_with_the_request_url()
 void ServerShould::give_a_request_with_the_request_body()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
     auto reply = mHttpClient.sendCustomRequest(req, "GET", QByteArray{"Hello World"});
 
     QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
@@ -166,7 +166,7 @@ void ServerShould::give_a_request_with_the_request_body()
 void ServerShould::send_a_response_to_the_client()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
     auto* reply = mHttpClient.get(req);
     auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
     mHtppServer->setResponse(Response::StatusCode::Ok);
@@ -181,7 +181,7 @@ void ServerShould::send_a_response_to_the_client()
 void ServerShould::register_a_route_with_a_callback_that_is_called()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016/testRoute"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018/testRoute"});
     auto* reply = mHttpClient.get(req);
     auto replySpy = QSignalSpy{reply, &QNetworkReply::finished};
 
@@ -204,7 +204,7 @@ void ServerShould::register_a_route_with_a_callback_that_is_called()
 void ServerShould::remove_route_and_when_called_error_response_is_send()
 {
     auto req = QNetworkRequest{};
-    req.setUrl(QUrl{"http://127.0.0.1:27016/testRoute"});
+    req.setUrl(QUrl{"http://127.0.0.1:27018/testRoute"});
 
     auto callback = [](ServerRequest const& request, ServerResponse& response) {
         Q_UNUSED(request)

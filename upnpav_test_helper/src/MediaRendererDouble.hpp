@@ -10,6 +10,7 @@
 #include "ConnectionManagerActions.hpp"
 #include "Descriptions.hpp"
 #include "DeviceDescription.hpp"
+#include "EventBackend.hpp"
 #include "MediaRenderer.hpp"
 #include "SoapCallDouble.hpp"
 
@@ -41,10 +42,11 @@ struct PlayData
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
-    using UPnPAV::MediaRenderer::MediaRenderer;
+    MediaRendererDouble(DeviceDescription desc,
+                        QSharedPointer<SoapBackend> transmitter,
+                        QSharedPointer<UPnPAV::EventBackend> eventBackend);
     ~MediaRendererDouble() override;
     Q_DISABLE_COPY_MOVE(MediaRendererDouble)
-    MediaRendererDouble(DeviceDescription desc, QSharedPointer<SoapMessageTransmitter> transmitter);
 
     std::unique_ptr<PendingSoapCall> protocolInfo() noexcept override;
 

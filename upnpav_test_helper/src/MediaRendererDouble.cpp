@@ -10,8 +10,10 @@
 namespace UPnPAV::Doubles
 {
 
-MediaRendererDouble::MediaRendererDouble(DeviceDescription desc, QSharedPointer<SoapMessageTransmitter> transmitter)
-    : UPnPAV::MediaRenderer{std::move(desc), std::move(transmitter)}
+MediaRendererDouble::MediaRendererDouble(DeviceDescription desc,
+                                         QSharedPointer<SoapBackend> transmitter,
+                                         QSharedPointer<EventBackend> eventBackend)
+    : UPnPAV::MediaRenderer{std::move(desc), std::move(transmitter), std::move(eventBackend)}
 {
     mProtoInfoCall->setRawMessage(ValidProtoclInfoResponseOfRenderer);
 }

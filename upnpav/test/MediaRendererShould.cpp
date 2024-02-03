@@ -7,10 +7,10 @@
 #include "MediaRendererShould.hpp"
 #include "Descriptions.hpp"
 #include "DeviceDescription.hpp"
-#include "IconDescription.hpp"
+#include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaRenderer.hpp"
-#include "SoapMessageTransmitterDouble.hpp"
+#include "SoapBackendDouble.hpp"
 #include <QTest>
 
 namespace UPnPAV
@@ -18,9 +18,14 @@ namespace UPnPAV
 namespace
 {
 
-QSharedPointer<SoapMessageTransmitterDouble> createSoapMessageTransmitter()
+QSharedPointer<SoapBackendDouble> createSoapBackend()
 {
-    return QSharedPointer<SoapMessageTransmitterDouble>::create();
+    return QSharedPointer<SoapBackendDouble>::create();
+}
+
+QSharedPointer<Doubles::EventBackend> createEventBackend()
+{
+    return QSharedPointer<Doubles::EventBackend>::create();
 }
 
 MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
@@ -40,7 +45,8 @@ MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
             services,
             scpds
         },
-        createSoapMessageTransmitter()
+        createSoapBackend(),
+        createEventBackend()
     };
     // clang-format on
 }
@@ -106,7 +112,7 @@ void MediaRendererShould::throw_an_exception_when_the_rendering_control_descript
 {
     QFETCH(class DeviceDescription, DeviceDescription);
     QVERIFY_THROWS_EXCEPTION(InvalidDeviceDescription,
-                             MediaRenderer{DeviceDescription, createSoapMessageTransmitter()});
+                             MediaRenderer{DeviceDescription, createSoapBackend(), createEventBackend()});
 }
 
 } // namespace UPnPAV

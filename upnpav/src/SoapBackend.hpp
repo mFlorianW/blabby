@@ -4,8 +4,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#ifndef SOAPMESSAGETRANSMITTER_H
-#define SOAPMESSAGETRANSMITTER_H
+#pragma once
 
 #include "ServiceControlPointDefinition.hpp"
 #include "ServiceDescription.hpp"
@@ -18,12 +17,12 @@ class QString;
 namespace UPnPAV
 {
 
-class BLABBYUPNPAV_EXPORT SoapMessageTransmitter
+class BLABBYUPNPAV_EXPORT SoapBackend
 {
 public:
-    virtual ~SoapMessageTransmitter();
+    virtual ~SoapBackend();
 
-    Q_DISABLE_COPY_MOVE(SoapMessageTransmitter)
+    Q_DISABLE_COPY_MOVE(SoapBackend)
 
     virtual QSharedPointer<SoapCall> sendSoapMessage(QString const& url,
                                                      QString const& actionName,
@@ -36,9 +35,7 @@ public:
                                                      QString& xmlBody) noexcept = 0;
 
 protected:
-    SoapMessageTransmitter() = default;
+    SoapBackend() = default;
 };
 
 } // namespace UPnPAV
-
-#endif // SOAPTRANSMITTER_H

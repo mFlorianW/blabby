@@ -39,6 +39,11 @@ private:
     QExplicitlySharedDataPointer<ServiceDescriptionData> d;
 };
 
+BLABBYUPNPAV_EXPORT inline size_t qHash(ServiceDescription const& key, size_t seed)
+{
+    return qHashMulti(seed, key.serviceType(), key.id(), key.scpdUrl(), key.controlUrl(), key.eventUrl());
+};
+
 struct ServiceDescriptionData : public QSharedData
 {
     QString mServiceType;

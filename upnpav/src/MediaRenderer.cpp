@@ -6,15 +6,18 @@
 
 #include "MediaRenderer.hpp"
 #include "DeviceDescription.hpp"
-#include "HttpSoapMessageTransmitter.hpp"
+#include "HttpEventBackend.hpp"
+#include "HttpSoapBackend.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "private/RenderingControlServiceValidator.hpp"
 
 namespace UPnPAV
 {
 
-MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapMessageTransmitter> msgTransmitter)
-    : MediaDevice{desc, msgTransmitter}
+MediaRenderer::MediaRenderer(DeviceDescription desc,
+                             QSharedPointer<SoapBackend> msgTransmitter,
+                             QSharedPointer<EventBackend> eventBackend)
+    : MediaDevice{desc, msgTransmitter, eventBackend}
 {
     auto validator = RenderingControlServiceValidator{desc};
     if (!validator.validate()) {
@@ -24,7 +27,9 @@ MediaRenderer::MediaRenderer(DeviceDescription desc, QSharedPointer<SoapMessageT
 
 std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)
 {
-    return std::make_unique<MediaRenderer>(desc, QSharedPointer<HttpSoapMessageTransmitter>::create());
+    return std::make_unique<MediaRenderer>(desc,
+                                           QSharedPointer<HttpSoapBackend>::create(),
+                                           QSharedPointer<HttpEventBackend>::create());
 }
 
 } // namespace UPnPAV

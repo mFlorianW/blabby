@@ -262,7 +262,7 @@ ServiceDescription validAvTransportServiceDescription() noexcept
         QStringLiteral("urn:upnp-org:serviceId:AVTransport"),
         QStringLiteral("http://127.0.0.1/AVTransport.xml"),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
-        QStringLiteral("http://127.0.0.1/test/eventUrl")
+        QStringLiteral("http://127.0.0.1:27016/test/eventUrl")
     };
     // clang-format on
 

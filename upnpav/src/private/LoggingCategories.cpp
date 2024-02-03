@@ -9,3 +9,4 @@
 Q_LOGGING_CATEGORY(upnpavDevice, "blabby.upnpav.device")
 Q_LOGGING_CATEGORY(upnpavService, "blabby.upnpav.service")
 Q_LOGGING_CATEGORY(upnpavSoapHttp, "blabby.upnpav.soaphttp")
+Q_LOGGING_CATEGORY(upnpavEvent, "blabby.upnpav.event")

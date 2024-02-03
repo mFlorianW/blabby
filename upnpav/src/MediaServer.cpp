@@ -6,10 +6,10 @@
 
 #include "MediaServer.hpp"
 #include "DeviceDescription.hpp"
-#include "HttpSoapMessageTransmitter.hpp"
+#include "HttpEventBackend.hpp"
+#include "HttpSoapBackend.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "PendingSoapCall.hpp"
-#include "SoapMessageTransmitter.hpp"
 #include "private/ContentDirectoryServiceValidator.hpp"
 #include "private/MediaServer_p.hpp"
 #include "private/SoapMessageGenerator.hpp"
@@ -28,13 +28,15 @@ MediaServerFactory::~MediaServerFactory() = default;
 std::unique_ptr<MediaServer> MediaServerFactory::createMediaServer(DeviceDescription const& deviceDescription)
 {
     return std::make_unique<MediaServer>(deviceDescription,
-                                         QSharedPointer<HttpSoapMessageTransmitter>{new HttpSoapMessageTransmitter()});
+                                         QSharedPointer<HttpSoapBackend>::create(),
+                                         QSharedPointer<HttpEventBackend>::create());
 }
 
 MediaServer::MediaServer(DeviceDescription const& deviceDescription,
-                         QSharedPointer<SoapMessageTransmitter> const& soapMessageTransmitter)
-    : MediaDevice{deviceDescription, soapMessageTransmitter}
-    , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapMessageTransmitter))
+                         QSharedPointer<SoapBackend> const& soapBackend,
+                         QSharedPointer<EventBackend> eventBackend)
+    : MediaDevice{deviceDescription, soapBackend, std::move(eventBackend)}
+    , d(std::make_unique<MediaServerPrivate>(deviceDescription, soapBackend))
 {
     ContentDirectoryServiceValidator conDirectoryServiceValidator{deviceDescription};
     if (!conDirectoryServiceValidator.validate()) {

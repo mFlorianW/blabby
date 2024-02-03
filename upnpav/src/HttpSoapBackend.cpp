@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "HttpSoapMessageTransmitter.hpp"
+#include "HttpSoapBackend.hpp"
 #include "private/HttpSoapCall.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
@@ -13,17 +13,17 @@
 namespace UPnPAV
 {
 
-HttpSoapMessageTransmitter::HttpSoapMessageTransmitter()
-    : SoapMessageTransmitter()
+HttpSoapBackend::HttpSoapBackend()
+    : SoapBackend()
 {
 }
 
-HttpSoapMessageTransmitter::~HttpSoapMessageTransmitter() = default;
+HttpSoapBackend::~HttpSoapBackend() = default;
 
-QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString const& url,
-                                                                     QString const& actionName,
-                                                                     QString const& serviceType,
-                                                                     QString const& xmlBody) noexcept
+QSharedPointer<SoapCall> HttpSoapBackend::sendSoapMessage(QString const& url,
+                                                          QString const& actionName,
+                                                          QString const& serviceType,
+                                                          QString const& xmlBody) noexcept
 {
     QByteArray soapHeader = QString{serviceType + "#" + actionName}.toUtf8();
     QNetworkRequest networkRequest{url};
@@ -35,10 +35,10 @@ QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(QString con
     return QSharedPointer<HttpSoapCall>{new (std::nothrow) HttpSoapCall(reply)};
 }
 
-QSharedPointer<SoapCall> HttpSoapMessageTransmitter::sendSoapMessage(ServiceDescription const& desc,
-                                                                     ServiceControlPointDefinition& scpd,
-                                                                     SCPDAction const& action,
-                                                                     QString& xmlBody) noexcept
+QSharedPointer<SoapCall> HttpSoapBackend::sendSoapMessage(ServiceDescription const& desc,
+                                                          ServiceControlPointDefinition& scpd,
+                                                          SCPDAction const& action,
+                                                          QString& xmlBody) noexcept
 {
     QByteArray soapHeader = QString{desc.serviceType() + "#" + action.name()}.toUtf8();
     QNetworkRequest networkRequest{desc.controlUrl()};

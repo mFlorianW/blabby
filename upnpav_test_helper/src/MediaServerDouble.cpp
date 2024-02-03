@@ -8,6 +8,7 @@
 #include "MediaServerDouble.hpp"
 #include "ContentDirectoryActions.hpp"
 #include "Descriptions.hpp"
+#include "EventBackendDouble.hpp"
 #include "PendingSoapCall.hpp"
 #include <QDebug>
 #include <QUrl>
@@ -25,17 +26,17 @@ std::unique_ptr<UPnPAV::MediaServer> MediaServerFactory::createMediaServer(
 }
 
 MediaServer::MediaServer()
-    : UPnPAV::MediaServer(
-          UPnPAV::DeviceDescription{
-              "",
-              "MediaServerName",
-              "",
-              "",
-              "",
-              QVector<UPnPAV::IconDescription>{},
-              {UPnPAV::validContentDirectoryDescription(), UPnPAV::validConnectionManagerDescription()},
-              {UPnPAV::validContentDirectorySCPD(), UPnPAV::validConnectionManagerSCPD()}},
-          QSharedPointer<UPnPAV::SoapMessageTransmitter>(nullptr))
+    : UPnPAV::MediaServer{UPnPAV::DeviceDescription{
+                              "",
+                              "MediaServerName",
+                              "",
+                              "",
+                              "",
+                              QVector<UPnPAV::IconDescription>{},
+                              {UPnPAV::validContentDirectoryDescription(), UPnPAV::validConnectionManagerDescription()},
+                              {UPnPAV::validContentDirectorySCPD(), UPnPAV::validConnectionManagerSCPD()}},
+                          QSharedPointer<SoapBackend>(nullptr),
+                          QSharedPointer<Doubles::EventBackend>::create()}
     , soapCall{QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse())}
 {
 }

@@ -4,11 +4,12 @@
 
 #include "RendererShould.hpp"
 #include "Descriptions.hpp"
+#include "EventBackendDouble.hpp"
 #include "Item.hpp"
 #include "MediaRendererDouble.hpp"
 #include "ProtocolInfoResponse.hpp"
 #include "Renderer.hpp"
-#include "SoapMessageTransmitterDouble.hpp"
+#include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -44,7 +45,8 @@ RendererShould::~RendererShould() = default;
 void RendererShould::request_supported_protocols_on_init()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
 
@@ -56,7 +58,8 @@ void RendererShould::request_supported_protocols_on_init()
 void RendererShould::signal_that_initialization_successful_finished()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto finishedSpy = QSignalSpy{&renderer, &Renderer::initializationFinished};
@@ -70,7 +73,8 @@ void RendererShould::signal_that_initialization_successful_finished()
 void RendererShould::signal_that_initialization_unsuccessful_finished()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto finishedSpy = QSignalSpy{&renderer, &Renderer::initializationFailed};
@@ -86,7 +90,8 @@ void RendererShould::signal_that_initialization_unsuccessful_finished()
 void RendererShould::call_avtransport_uri_on_playback_request()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
 
@@ -104,7 +109,8 @@ void RendererShould::call_avtransport_uri_on_playback_request()
 void RendererShould::call_play_on_successful_avtransporturi_request()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
 
@@ -121,7 +127,8 @@ void RendererShould::call_play_on_successful_avtransporturi_request()
 void RendererShould::signal_the_playback_start_on_successful_play_request()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto playbackStartSpy = QSignalSpy{&renderer, &Renderer::playbackStarted};
@@ -139,7 +146,8 @@ void RendererShould::signal_the_playback_start_on_successful_play_request()
 void RendererShould::not_call_avtransporturi_with_unsupported_items()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
@@ -156,7 +164,8 @@ void RendererShould::not_call_avtransporturi_with_unsupported_items()
 void RendererShould::signal_playback_failed_on_avtransporturi_call_failed()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
@@ -174,7 +183,8 @@ void RendererShould::signal_playback_failed_on_avtransporturi_call_failed()
 void RendererShould::signal_playback_failed_on_playcall_failed()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapMessageTransmitterDouble>::create());
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
     auto upnpRendererRaw = upnpRenderer.get();
     auto renderer = Renderer{std::move(upnpRenderer)};
     auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};

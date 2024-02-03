@@ -15,12 +15,12 @@
 
 namespace UPnPAV
 {
-class SoapMessageTransmitter;
 class DeviceDescription;
 class MediaServerPrivate;
 
 class BLABBYUPNPAV_EXPORT MediaServer : public MediaDevice
 {
+    Q_OBJECT
     Q_DISABLE_COPY_MOVE(MediaServer)
 public:
     /**
@@ -46,7 +46,8 @@ public:
      *         requried functions and values.
      */
     MediaServer(DeviceDescription const& deviceDescription,
-                QSharedPointer<SoapMessageTransmitter> const& soapMessageTransmitter);
+                QSharedPointer<SoapBackend> const& soapBackend,
+                QSharedPointer<EventBackend> eventBackend);
     ~MediaServer() override;
 
     /**

@@ -16,6 +16,7 @@ namespace UPnPAV
  */
 class BLABBYUPNPAV_EXPORT MediaRenderer : public MediaDevice
 {
+    Q_OBJECT
 public:
     /**
      * Creates an instance of the MediaRenderer.
@@ -26,7 +27,9 @@ public:
      * @throws InvalidDeviceDescription when the DeviceDescription doesn't contain the
      *         required functions and state variables.
      */
-    MediaRenderer(DeviceDescription desc, QSharedPointer<SoapMessageTransmitter> msgTransmitter);
+    MediaRenderer(DeviceDescription desc,
+                  QSharedPointer<SoapBackend> msgTransmitter,
+                  QSharedPointer<EventBackend> eventBackend);
 };
 
 /**
