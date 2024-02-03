@@ -8,6 +8,7 @@ var searchData=
   ['next_5',['next',['../classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2',1,'UPnPAV::MediaDevice']]],
   ['nexturi_6',['nextUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#a056400207ca8e13f7e7000ca882fd78b',1,'UPnPAV::GetMediaInfoResponse']]],
   ['nexturimetadata_7',['nextUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a9b60b8c561313a877457e821e3da03ef',1,'UPnPAV::GetMediaInfoResponse']]],
-  ['notificationsubtype_8',['notificationSubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['numberoftracks_9',['numberOfTracks',['../classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374',1,'UPnPAV::GetMediaInfoResponse']]]
+  ['notificationreceived_8',['notificationReceived',['../classUPnPAV_1_1EventBackend.html#a1e1032d12f788e5e6f9fc33a6d1cf46f',1,'UPnPAV::EventBackend']]],
+  ['notificationsubtype_9',['notificationSubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540',1,'UPnPAV::ServiceDiscoveryPackage']]],
+  ['numberoftracks_10',['numberOfTracks',['../classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374',1,'UPnPAV::GetMediaInfoResponse']]]
 ];

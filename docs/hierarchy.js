@@ -17,6 +17,10 @@ var hierarchy =
     [ "UPnPAV::DeviceDescription", "classUPnPAV_1_1DeviceDescription.html", null ],
     [ "UPnPAV::DeviceDescriptionParser", "classUPnPAV_1_1DeviceDescriptionParser.html", null ],
     [ "UPnPAV::ErrorResult", "classUPnPAV_1_1ErrorResult.html", null ],
+    [ "UPnPAV::EventPropertyReader", "classUPnPAV_1_1EventPropertyReader.html", null ],
+    [ "UPnPAV::EventSubscriptionCache", "classUPnPAV_1_1EventSubscriptionCache.html", null ],
+    [ "UPnPAV::EventSubscriptionCacheEntry", "structUPnPAV_1_1EventSubscriptionCacheEntry.html", null ],
+    [ "UPnPAV::EventSubscriptionParameters", "structUPnPAV_1_1EventSubscriptionParameters.html", null ],
     [ "UPnPAV::GetCurrentConnectionIdsResponse", "classUPnPAV_1_1GetCurrentConnectionIdsResponse.html", null ],
     [ "UPnPAV::GetCurrentConnectionInfoResponse", "classUPnPAV_1_1GetCurrentConnectionInfoResponse.html", null ],
     [ "UPnPAV::GetDeviceCapabilitiesResponse", "classUPnPAV_1_1GetDeviceCapabilitiesResponse.html", null ],
@@ -25,13 +29,12 @@ var hierarchy =
     [ "UPnPAV::GetProtocolInfoResponse", "classUPnPAV_1_1GetProtocolInfoResponse.html", null ],
     [ "UPnPAV::GetTransportInfoResponse", "classUPnPAV_1_1GetTransportInfoResponse.html", null ],
     [ "UPnPAV::GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", null ],
+    [ "UPnPAV::HttpEventBackendPrivate", "structUPnPAV_1_1HttpEventBackendPrivate.html", null ],
+    [ "UPnPAV::HttpEventSubscriptionHandleDeleter", "classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html", null ],
     [ "UPnPAV::IconDescription", "classUPnPAV_1_1IconDescription.html", null ],
     [ "Multimedia::Item", "classMultimedia_1_1Item.html", null ],
     [ "Multimedia::ItemBuilder", "classMultimedia_1_1ItemBuilder.html", null ],
-    [ "UPnPAV::MediaDevice", "classUPnPAV_1_1MediaDevice.html", [
-      [ "UPnPAV::MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", null ],
-      [ "UPnPAV::MediaServer", "classUPnPAV_1_1MediaServer.html", null ]
-    ] ],
+    [ "UPnPAV::LastChangeReader", "classUPnPAV_1_1LastChangeReader.html", null ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
     [ "UPnPAV::MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
@@ -53,6 +56,9 @@ var hierarchy =
       [ "UPnPAV::PackageParseError", "classUPnPAV_1_1PackageParseError.html", null ]
     ] ],
     [ "QObject", null, [
+      [ "Http::ClientConnection", "classHttp_1_1ClientConnection.html", null ],
+      [ "Http::RequestDeserializer", "classHttp_1_1RequestDeserializer.html", null ],
+      [ "Http::ResponseSerializer", "classHttp_1_1ResponseSerializer.html", null ],
       [ "Multimedia::Provider", "classMultimedia_1_1Provider.html", [
         [ "Provider::MediaServer::Provider", "classProvider_1_1MediaServer_1_1Provider.html", null ]
       ] ],
@@ -68,11 +74,22 @@ var hierarchy =
       [ "UPnPAV::DescriptionFetcherBackend", "classUPnPAV_1_1DescriptionFetcherBackend.html", [
         [ "UPnPAV::HttpDescriptionFetcherBackend", "classUPnPAV_1_1HttpDescriptionFetcherBackend.html", null ]
       ] ],
+      [ "UPnPAV::EventBackend", "classUPnPAV_1_1EventBackend.html", [
+        [ "UPnPAV::HttpEventBackend", "classUPnPAV_1_1HttpEventBackend.html", null ]
+      ] ],
+      [ "UPnPAV::EventSubscriptionHandle", "classUPnPAV_1_1EventSubscriptionHandle.html", [
+        [ "UPnPAV::HttpEventSubscriptionHandle", "classUPnPAV_1_1HttpEventSubscriptionHandle.html", null ]
+      ] ],
+      [ "UPnPAV::HttpEventServer", "classUPnPAV_1_1HttpEventServer.html", null ],
       [ "UPnPAV::IServiceProvider", "classUPnPAV_1_1IServiceProvider.html", [
         [ "UPnPAV::ServiceProvider", "classUPnPAV_1_1ServiceProvider.html", null ]
       ] ],
       [ "UPnPAV::IServiceProviderFactory", "classUPnPAV_1_1IServiceProviderFactory.html", [
         [ "UPnPAV::ServiceProviderFactory", "classUPnPAV_1_1ServiceProviderFactory.html", null ]
+      ] ],
+      [ "UPnPAV::MediaDevice", "classUPnPAV_1_1MediaDevice.html", [
+        [ "UPnPAV::MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", null ],
+        [ "UPnPAV::MediaServer", "classUPnPAV_1_1MediaServer.html", null ]
       ] ],
       [ "UPnPAV::PendingSoapCall", "classUPnPAV_1_1PendingSoapCall.html", null ],
       [ "UPnPAV::ResponseReader", "classUPnPAV_1_1ResponseReader.html", null ],
@@ -94,6 +111,8 @@ var hierarchy =
       ] ]
     ] ],
     [ "QSharedData", null, [
+      [ "Http::ServerRequestData", "structHttp_1_1ServerRequestData.html", null ],
+      [ "Http::ServerResponseData", "structHttp_1_1ServerResponseData.html", null ],
       [ "Multimedia::ItemData", "structMultimedia_1_1ItemData.html", null ],
       [ "UPnPAV::GetDeviceCapabilitiesResponseData", "structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html", null ],
       [ "UPnPAV::GetMediaInfoResponseData", "structUPnPAV_1_1GetMediaInfoResponseData.html", null ],
@@ -106,17 +125,23 @@ var hierarchy =
       [ "UPnPAV::ServiceControlPointDefinitionData", "structUPnPAV_1_1ServiceControlPointDefinitionData.html", null ],
       [ "UPnPAV::ServiceDescriptionData", "structUPnPAV_1_1ServiceDescriptionData.html", null ]
     ] ],
+    [ "QTcpServer", null, [
+      [ "Http::Server", "classHttp_1_1Server.html", null ]
+    ] ],
     [ "UPnPAV::SCPDAction", "classUPnPAV_1_1SCPDAction.html", null ],
     [ "UPnPAV::SCPDArgument", "classUPnPAV_1_1SCPDArgument.html", null ],
     [ "UPnPAV::SCPDStateVariable", "classUPnPAV_1_1SCPDStateVariable.html", null ],
+    [ "Http::ServerPrivate", "structHttp_1_1ServerPrivate.html", null ],
+    [ "Http::ServerRequest", "classHttp_1_1ServerRequest.html", null ],
+    [ "Http::ServerResponse", "classHttp_1_1ServerResponse.html", null ],
     [ "UPnPAV::ServiceControlPointDefinition", "classUPnPAV_1_1ServiceControlPointDefinition.html", null ],
     [ "UPnPAV::ServiceControlPointDefinitionParser", "classUPnPAV_1_1ServiceControlPointDefinitionParser.html", null ],
     [ "UPnPAV::ServiceDescription", "classUPnPAV_1_1ServiceDescription.html", null ],
     [ "UPnPAV::ServiceDiscoveryPackage", "classUPnPAV_1_1ServiceDiscoveryPackage.html", null ],
     [ "UPnPAV::ServiceProviderError", "classUPnPAV_1_1ServiceProviderError.html", null ],
-    [ "UPnPAV::SoapMessageGenerator", "classUPnPAV_1_1SoapMessageGenerator.html", null ],
-    [ "UPnPAV::SoapMessageTransmitter", "classUPnPAV_1_1SoapMessageTransmitter.html", [
-      [ "UPnPAV::HttpSoapMessageTransmitter", "classUPnPAV_1_1HttpSoapMessageTransmitter.html", null ]
+    [ "UPnPAV::SoapBackend", "classUPnPAV_1_1SoapBackend.html", [
+      [ "UPnPAV::HttpSoapBackend", "classUPnPAV_1_1HttpSoapBackend.html", null ]
     ] ],
+    [ "UPnPAV::SoapMessageGenerator", "classUPnPAV_1_1SoapMessageGenerator.html", null ],
     [ "Multimedia::SourcePrivate", "structMultimedia_1_1SourcePrivate.html", null ]
 ];

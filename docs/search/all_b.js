@@ -16,6 +16,7 @@ var searchData=
   ['nosuchsession_13',['NoSuchSession',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032adb0ad3bb56a8ea47507c47d85a407d8e',1,'UPnPAV::PendingSoapCall']]],
   ['notencrypted_14',['NotEncrypted',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0502e258cc2efb9f1a333c2fd2cb1363',1,'UPnPAV::PendingSoapCall']]],
   ['notes_15',['General Notes',['../index.html#autotoc_md0',1,'']]],
-  ['notificationsubtype_16',['notificationSubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540',1,'UPnPAV::ServiceDiscoveryPackage']]],
-  ['numberoftracks_17',['numberOfTracks',['../classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374',1,'UPnPAV::GetMediaInfoResponse']]]
+  ['notificationreceived_16',['notificationReceived',['../classUPnPAV_1_1EventBackend.html#a1e1032d12f788e5e6f9fc33a6d1cf46f',1,'UPnPAV::EventBackend']]],
+  ['notificationsubtype_17',['notificationSubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540',1,'UPnPAV::ServiceDiscoveryPackage']]],
+  ['numberoftracks_18',['numberOfTracks',['../classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374',1,'UPnPAV::GetMediaInfoResponse']]]
 ];

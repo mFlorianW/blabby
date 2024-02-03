@@ -4,6 +4,7 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "BrowseResponse.hpp", "BrowseResponse_8hpp_source.html", null ],
     [ "DescriptionFetcherBackend.hpp", "DescriptionFetcherBackend_8hpp_source.html", null ],
     [ "DeviceDescription.hpp", "DeviceDescription_8hpp_source.html", null ],
+    [ "EventBackend.hpp", "EventBackend_8hpp_source.html", null ],
     [ "GetCurrentConnectionIdsResponse.hpp", "GetCurrentConnectionIdsResponse_8hpp_source.html", null ],
     [ "GetCurrentConnectionInfoResponse.hpp", "GetCurrentConnectionInfoResponse_8hpp_source.html", null ],
     [ "GetDeviceCapabilitiesResponse.hpp", "GetDeviceCapabilitiesResponse_8hpp_source.html", null ],
@@ -12,7 +13,8 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "GetProtocolInfoResponse.hpp", "GetProtocolInfoResponse_8hpp_source.html", null ],
     [ "GetTransportInfoResponse.hpp", "GetTransportInfoResponse_8hpp_source.html", null ],
     [ "GetTransportSettingsResponse.hpp", "GetTransportSettingsResponse_8hpp_source.html", null ],
-    [ "HttpSoapMessageTransmitter.hpp", "HttpSoapMessageTransmitter_8hpp_source.html", null ],
+    [ "HttpEventBackend.hpp", "HttpEventBackend_8hpp_source.html", null ],
+    [ "HttpSoapBackend.hpp", "HttpSoapBackend_8hpp_source.html", null ],
     [ "IconDescription.hpp", "IconDescription_8hpp_source.html", null ],
     [ "InvalidDeviceDescription.hpp", "InvalidDeviceDescription_8hpp_source.html", null ],
     [ "IServiceProvider.hpp", "IServiceProvider_8hpp_source.html", null ],
@@ -30,6 +32,6 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "ServiceDiscoveryBackend.hpp", "ServiceDiscoveryBackend_8hpp_source.html", null ],
     [ "ServiceProvider.hpp", "ServiceProvider_8hpp_source.html", null ],
     [ "ServiceProviderError.hpp", "ServiceProviderError_8hpp_source.html", null ],
-    [ "SoapCall.hpp", "SoapCall_8hpp_source.html", null ],
-    [ "SoapMessageTransmitter.hpp", "SoapMessageTransmitter_8hpp_source.html", null ]
+    [ "SoapBackend.hpp", "SoapBackend_8hpp_source.html", null ],
+    [ "SoapCall.hpp", "SoapCall_8hpp_source.html", null ]
 ];

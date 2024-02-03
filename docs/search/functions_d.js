@@ -16,7 +16,9 @@ var searchData=
   ['positioninfo_13',['positionInfo',['../classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e',1,'UPnPAV::MediaDevice']]],
   ['pressedchanged_14',['pressedChanged',['../classShell_1_1AbstractInteractiveControl.html#a4aed6649d979c992d0fe272cf8e85aa1',1,'Shell::AbstractInteractiveControl']]],
   ['previous_15',['previous',['../classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408',1,'UPnPAV::MediaDevice']]],
-  ['protocolinfo_16',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694',1,'UPnPAV::MediaDevice']]],
-  ['provider_17',['Provider',['../classProvider_1_1MediaServer_1_1Provider.html#a521b18f5fd449b938ced5beab7f83822',1,'Provider::MediaServer::Provider']]],
-  ['providerloader_18',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
+  ['propertieschanged_16',['propertiesChanged',['../classUPnPAV_1_1EventSubscriptionHandle.html#a3fb46082ec394c56fc6f796faa39484b',1,'UPnPAV::EventSubscriptionHandle']]],
+  ['property_17',['property',['../classUPnPAV_1_1EventPropertyReader.html#af6eff59f17703800c6c28152b27e177f',1,'UPnPAV::EventPropertyReader']]],
+  ['protocolinfo_18',['protocolInfo',['../classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694',1,'UPnPAV::MediaDevice']]],
+  ['provider_19',['Provider',['../classProvider_1_1MediaServer_1_1Provider.html#a521b18f5fd449b938ced5beab7f83822',1,'Provider::MediaServer::Provider']]],
+  ['providerloader_20',['ProviderLoader',['../classMultimedia_1_1ProviderLoader.html#aab29fae252012c0804f1675ff3ee275c',1,'Multimedia::ProviderLoader']]]
 ];

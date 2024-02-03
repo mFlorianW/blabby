@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1MediaDevice.html',''); 
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
+<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classUPnPAV_1_1MediaDevice-members.html">List of all members</a>  </div>
@@ -121,8 +122,8 @@ Inheritance diagram for UPnPAV::MediaDevice:</div>
  <div class="center">
   <img src="classUPnPAV_1_1MediaDevice.png" usemap="#UPnPAV::MediaDevice_map" alt=""/>
   <map id="UPnPAV::MediaDevice_map" name="UPnPAV::MediaDevice_map">
-<area href="classUPnPAV_1_1MediaRenderer.html" alt="UPnPAV::MediaRenderer" shape="rect" coords="0,56,155,80"/>
-<area href="classUPnPAV_1_1MediaServer.html" alt="UPnPAV::MediaServer" shape="rect" coords="165,56,320,80"/>
+<area href="classUPnPAV_1_1MediaRenderer.html" alt="UPnPAV::MediaRenderer" shape="rect" coords="0,112,155,136"/>
+<area href="classUPnPAV_1_1MediaServer.html" alt="UPnPAV::MediaServer" shape="rect" coords="165,112,320,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -141,15 +142,34 @@ Public Types</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:aa4cfab37879a56986a53fb2a7b45ab4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcbf3d24ef2196d7428eae45a934439e" id="r_afcbf3d24ef2196d7428eae45a934439e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">State</a> { <br />
+&#160;&#160;<b>Stopped</b>
+, <b>PausedPlayback</b>
+, <b>PausedRecording</b>
+, <b>Playing</b>
+, <br />
+&#160;&#160;<b>Recording</b>
+, <b>Transitioning</b>
+, <b>NoMediaPresent</b>
+<br />
+ }</td></tr>
+<tr class="separator:afcbf3d24ef2196d7428eae45a934439e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+Signals</h2></td></tr>
+<tr class="memitem:abd77c7c26e6e10e96af5e674971c0163" id="r_abd77c7c26e6e10e96af5e674971c0163"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">stateChanged</a> ()</td></tr>
+<tr class="separator:abd77c7c26e6e10e96af5e674971c0163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4584e047571c3323dc804f9f1a0c9eda" id="r_a4584e047571c3323dc804f9f1a0c9eda"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a4584e047571c3323dc804f9f1a0c9eda">~MediaDevice</a> ()</td></tr>
-<tr class="separator:a4584e047571c3323dc804f9f1a0c9eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d45f0b56d0167c4e6508972455dda46" id="r_a5d45f0b56d0167c4e6508972455dda46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a5d45f0b56d0167c4e6508972455dda46">~MediaDevice</a> () override</td></tr>
+<tr class="separator:a5d45f0b56d0167c4e6508972455dda46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dd0f8deb9fc6fcd9811e323ded55f5c" id="r_a1dd0f8deb9fc6fcd9811e323ded55f5c"><td class="memItemLeft" align="right" valign="top">virtual QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a1dd0f8deb9fc6fcd9811e323ded55f5c">name</a> () const noexcept</td></tr>
 <tr class="separator:a1dd0f8deb9fc6fcd9811e323ded55f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61da8db08c3b3d379fb52d35471eb28a" id="r_a61da8db08c3b3d379fb52d35471eb28a"><td class="memItemLeft" align="right" valign="top">virtual QUrl const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a61da8db08c3b3d379fb52d35471eb28a">iconUrl</a> () const noexcept</td></tr>
 <tr class="separator:a61da8db08c3b3d379fb52d35471eb28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ea37234b42a641654e2a169e439f131" id="r_a9ea37234b42a641654e2a169e439f131"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a9ea37234b42a641654e2a169e439f131">state</a> () const noexcept</td></tr>
+<tr class="separator:a9ea37234b42a641654e2a169e439f131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70d9122ec8dd0b43e0c0459a4761f694" id="r_a70d9122ec8dd0b43e0c0459a4761f694"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694">protocolInfo</a> () noexcept</td></tr>
 <tr class="separator:a70d9122ec8dd0b43e0c0459a4761f694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af666bf6c8a0b6c30745684ee30c05a83" id="r_af666bf6c8a0b6c30745684ee30c05a83"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83">currentConnectionIds</a> () noexcept</td></tr>
@@ -183,9 +203,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac30f6f42c5cf03376f3d1f39e33b2d2f" id="r_ac30f6f42c5cf03376f3d1f39e33b2d2f"><td class="memItemLeft" align="right" valign="top"><a id="ac30f6f42c5cf03376f3d1f39e33b2d2f" name="ac30f6f42c5cf03376f3d1f39e33b2d2f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MediaDevice</b> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1SoapMessageTransmitter.html">SoapMessageTransmitter</a> &gt; msgTransmitter)</td></tr>
-<tr class="separator:ac30f6f42c5cf03376f3d1f39e33b2d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39a1ad231b7f28fd8a04df218266365" id="r_ac39a1ad231b7f28fd8a04df218266365"><td class="memItemLeft" align="right" valign="top"><a id="ac39a1ad231b7f28fd8a04df218266365" name="ac39a1ad231b7f28fd8a04df218266365"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MediaDevice</b> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1SoapBackend.html">SoapBackend</a> &gt; soapBackend, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1EventBackend.html">EventBackend</a> &gt; eventBackend)</td></tr>
+<tr class="separator:ac39a1ad231b7f28fd8a04df218266365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This interface defines functions that every upnp media device should support. </p>
@@ -205,9 +225,32 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afcbf3d24ef2196d7428eae45a934439e" name="afcbf3d24ef2196d7428eae45a934439e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcbf3d24ef2196d7428eae45a934439e">&#9670;&#160;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">UPnPAV::MediaDevice::State</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The different states a <a class="el" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a> can have. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a4584e047571c3323dc804f9f1a0c9eda" name="a4584e047571c3323dc804f9f1a0c9eda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4584e047571c3323dc804f9f1a0c9eda">&#9670;&#160;</a></span>~MediaDevice()</h2>
+<a id="a5d45f0b56d0167c4e6508972455dda46" name="a5d45f0b56d0167c4e6508972455dda46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d45f0b56d0167c4e6508972455dda46">&#9670;&#160;</a></span>~MediaDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -224,11 +267,11 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Deleted move and copy operations Default destructor </p>
+<p>Default destructor </p>
 
 </div>
 </div>
@@ -702,6 +745,58 @@ The function can only be called if the device has an AVTransport service. Before
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. The optional will be null if the device doesn't have support for the AVTransport service.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The function can only be called if the device has an AVTransport service. Before calling the function check if the service exists with <a class="el" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">MediaDevice::hasAvTransportService</a>&gt; </dd></dl>
+
+</div>
+</div>
+<a id="a9ea37234b42a641654e2a169e439f131" name="a9ea37234b42a641654e2a169e439f131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ea37234b42a641654e2a169e439f131">&#9670;&#160;</a></span>state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a> UPnPAV::MediaDevice::state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the current state of the device. The device will be updated with the lastChange event updates of the AVTransport service. If the device has no AVTransport service e.g. <a class="el" href="classUPnPAV_1_1MediaServer.html">MediaServer</a> the state will always be UPnPAV::MediaDevice::State::Idle. </p>
+
+</div>
+</div>
+<a id="abd77c7c26e6e10e96af5e674971c0163" name="abd77c7c26e6e10e96af5e674971c0163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd77c7c26e6e10e96af5e674971c0163">&#9670;&#160;</a></span>stateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::MediaDevice::stateChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a> changes it state. E.g. from Stopped to playing State changes only occur when the device has an AVTransport service. Devices without AVTransport service are going to stay in the MediaDevice::State::Stopped. </p>
 
 </div>
 </div>

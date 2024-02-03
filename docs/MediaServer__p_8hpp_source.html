@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('MediaServer__p_8hpp_source.html',''); 
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;DeviceDescription.hpp&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;ServiceControlPointDefinition.hpp&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;ServiceDescription.hpp&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;SoapMessageTransmitter.hpp&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;SoapBackend.hpp&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;blabbyupnpav_export.h&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;QUrl&gt;</span></div>
@@ -137,7 +137,7 @@ $(document).ready(function(){initNavTree('MediaServer__p_8hpp_source.html',''); 
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaServerPrivate.html">   21</a></span><span class="keyword">class </span>BLABBYUPNPAV_EXPORT <a class="code hl_class" href="classUPnPAV_1_1MediaServerPrivate.html">MediaServerPrivate</a></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaServerPrivate.html">MediaServerPrivate</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt;SoapMessageTransmitter&gt; transmitter)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaServerPrivate.html">MediaServerPrivate</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt;SoapBackend&gt; transmitter)</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        : mDeviceDescription(std::move(deviceDescription))</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        , mSoapMessageTransmitter(std::move(transmitter))</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    {</div>
@@ -146,7 +146,7 @@ $(document).ready(function(){initNavTree('MediaServer__p_8hpp_source.html',''); 
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> mDeviceDescription;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> mContentDirectoryServiceDescription;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> mContentDirectorySCPD;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    QSharedPointer&lt;SoapMessageTransmitter&gt; mSoapMessageTransmitter;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    QSharedPointer&lt;SoapBackend&gt; mSoapMessageTransmitter;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>};</div>
 </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>

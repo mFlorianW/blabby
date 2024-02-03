@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['validate_0',['validate',['../classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6',1,'UPnPAV::BaseValidator::validate()'],['../classUPnPAV_1_1ScpdActionListValidator.html#a3c6cc3b1246711ae331abd940e96b6e5',1,'UPnPAV::ScpdActionListValidator::validate()'],['../classUPnPAV_1_1ScpdStateVariableValidator.html#a8573a46ffd02ff09e63099e72fdccd7a',1,'UPnPAV::ScpdStateVariableValidator::validate()'],['../classUPnPAV_1_1ServiceDescriptionValidator.html#ae3570e88f10654904e677283746e3f26',1,'UPnPAV::ServiceDescriptionValidator::validate()'],['../classUPnPAV_1_1ServiceValidatorBase.html#a291716b3498777b96dc64014979208e3',1,'UPnPAV::ServiceValidatorBase::validate()']]],
-  ['version_1',['version',['../classMultimedia_1_1Provider.html#a51d0f53c4e52c834eb89d6c3c6cdf5f5',1,'Multimedia::Provider']]]
+  ['unsubscribe_0',['unsubscribe',['../classUPnPAV_1_1EventSubscriptionHandle.html#aaa3d95d5a686d91e1dd560dabce24b7a',1,'UPnPAV::EventSubscriptionHandle::unsubscribe()'],['../classUPnPAV_1_1HttpEventSubscriptionHandle.html#a5256eab101df84e11ab7ebe39b3a9f53',1,'UPnPAV::HttpEventSubscriptionHandle::unsubscribe()']]],
+  ['unsubscribed_1',['unsubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#a777a848ceb8d4ef8e4f15b1d62bdcf8e',1,'UPnPAV::EventSubscriptionHandle']]],
+  ['url_2',['url',['../classHttp_1_1ServerRequest.html#a9ec09ad3e75598f29704f877a0b56c8b',1,'Http::ServerRequest']]]
 ];
