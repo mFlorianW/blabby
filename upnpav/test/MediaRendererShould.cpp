@@ -12,11 +12,35 @@
 #include "MediaRenderer.hpp"
 #include "SoapBackendDouble.hpp"
 #include <QTest>
+#include <utility>
 
 namespace UPnPAV
 {
 namespace
 {
+
+class TestMediaRenderer : public MediaRenderer
+{
+    Q_OBJECT
+public:
+    TestMediaRenderer(DeviceDescription deviceDescription,
+                      QSharedPointer<SoapBackendDouble> msgTransmitter,
+                      QSharedPointer<Doubles::EventBackend> eventBackend)
+        : MediaRenderer{deviceDescription, msgTransmitter, eventBackend}
+        , mMsgTransmitter{std::move(msgTransmitter)}
+        , mEventBackend{std::move(eventBackend)}
+    {
+    }
+
+    QString lastSoapCall() const noexcept
+    {
+        return mMsgTransmitter->xmlMessageBody();
+    }
+
+private:
+    QSharedPointer<SoapBackendDouble> mMsgTransmitter;
+    QSharedPointer<Doubles::EventBackend> mEventBackend;
+};
 
 QSharedPointer<SoapBackendDouble> createSoapBackend()
 {
@@ -28,11 +52,11 @@ QSharedPointer<Doubles::EventBackend> createEventBackend()
     return QSharedPointer<Doubles::EventBackend>::create();
 }
 
-MediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
-                                  QVector<ServiceControlPointDefinition> const& scpds)
+TestMediaRenderer createMediaRenderer(QVector<ServiceDescription> const& services,
+                                      QVector<ServiceControlPointDefinition> const& scpds)
 {
     // clang-format off
-    return MediaRenderer
+    return TestMediaRenderer
     {
         DeviceDescription
         {
@@ -115,6 +139,30 @@ void MediaRendererShould::throw_an_exception_when_the_rendering_control_descript
                              MediaRenderer{DeviceDescription, createSoapBackend(), createEventBackend()});
 }
 
+void MediaRendererShould::send_correct_soap_message_when_calling_get_volume()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:GetVolume xmlns:u=\"urn:schemas-upnp-org:service:RenderingControl:1\">"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Channel>Master</Channel>"
+                                         "</u:GetVolume>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    auto const call = mediaRenderer.volume(quint32{2}, QStringLiteral("Master"));
+
+    QCOMPARE(call.has_value(), true);
+    QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaRendererShould);
+
+#include "MediaRendererShould.moc"
