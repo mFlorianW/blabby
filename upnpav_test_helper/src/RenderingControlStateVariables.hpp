@@ -20,4 +20,6 @@ SCPDStateVariable a_ARG_TYPE_InstanceIDVariable() noexcept;
 
 SCPDStateVariable a_ARG_TYPE_PresetNameVariable() noexcept;
 
+SCPDStateVariable volume() noexcept;
+
 } // namespace UPnPAV

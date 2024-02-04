@@ -342,6 +342,7 @@ QVector<SCPDStateVariable> validRenderingControlStateVariables() noexcept
         a_ARG_TYPE_ChannelVariable(),
         a_ARG_TYPE_InstanceIDVariable(),
         a_ARG_TYPE_PresetNameVariable(),
+        volume(),
     };
     return vars;
 }
