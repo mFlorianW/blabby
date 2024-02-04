@@ -21,5 +21,9 @@ private Q_SLOTS:
     void throw_an_exception_when_the_device_description_has_no_rendering_control();
     void throw_an_exception_when_the_rendering_control_description_is_not_correct_data();
     void throw_an_exception_when_the_rendering_control_description_is_not_correct();
+    /**
+     * @test The media renderer should send the correct message when calling get volume.
+     */
+    void send_correct_soap_message_when_calling_get_volume();
 };
 } // namespace UPnPAV

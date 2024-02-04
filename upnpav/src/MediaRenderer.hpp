@@ -11,6 +11,8 @@
 
 namespace UPnPAV
 {
+class MediaRendererPrivate;
+
 /**
  * The MediaRenderer is facade for UPnPAV MediaRenderer device.
  */
@@ -30,6 +32,25 @@ public:
     MediaRenderer(DeviceDescription desc,
                   QSharedPointer<SoapBackend> msgTransmitter,
                   QSharedPointer<EventBackend> eventBackend);
+
+    //! @cond Doxygen_Suppress
+    ~MediaRenderer() override;
+    Q_DISABLE_COPY_MOVE(MediaRenderer)
+    //! @endcond
+
+    /**
+     * Calls the GetVolume function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies.
+     * @param channel The channel which volume level shall be adjusted.
+     * @return PendingSoapCall with the result or an error.
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> volume(quint32 instanceId, QString const& channel) const noexcept;
+
+private:
+    std::unique_ptr<MediaRendererPrivate> d;
 };
 
 /**
