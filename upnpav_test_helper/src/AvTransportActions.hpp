@@ -32,4 +32,6 @@ SCPDAction createSeekAction() noexcept;
 SCPDAction createNextAction() noexcept;
 
 SCPDAction createPreviousAction() noexcept;
+
+SCPDAction createPauseAction() noexcept;
 } // namespace UPnPAV

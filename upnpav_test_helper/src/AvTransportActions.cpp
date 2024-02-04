@@ -439,4 +439,24 @@ SCPDAction createPreviousAction() noexcept
     return action;
 }
 
+SCPDAction createPauseAction() noexcept
+{
+    // clang-format off
+    static auto const action = SCPDAction
+    {
+        QStringLiteral("Pause"),
+        {
+            SCPDArgument
+            {
+                QStringLiteral("InstanceID"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_INSTANCE_ID")
+            },
+        }
+    };
+    // clang-format on
+
+    return action;
+}
+
 } // namespace UPnPAV

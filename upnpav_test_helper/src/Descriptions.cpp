@@ -232,7 +232,8 @@ QVector<SCPDAction> validAvTranportActions() noexcept
         createPlayAction(),
         createSeekAction(),
         createNextAction(),
-        createPreviousAction()
+        createPreviousAction(),
+        createPauseAction()
     };
     // clang-format on
 
