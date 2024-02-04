@@ -152,6 +152,12 @@ private Q_SLOTS:
      *       reported by the lastChange event update.
      */
     void set_device_state_reported_by_the_av_transport_service();
+
+    /**
+     * @test The media device should generate and send the correct soap message
+     *       when pause is called.
+     */
+    void should_send_the_correct_soap_message_when_calling_pause();
 };
 
 } // namespace UPnPAV

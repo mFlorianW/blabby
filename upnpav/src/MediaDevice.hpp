@@ -265,6 +265,20 @@ public:
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> previous(quint32 instanceId);
 
+    /**
+     * Calls the pause function on the media device.
+     * The pause function is an optional function of the AVTransport server.
+     * If the device doesn't support the pause function an nullopt will be returned.
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies.
+     *                   Default 0.
+     * @return PendingSoapCall with the result or an error.
+     *
+     * @note
+     * The function can only be called if the device has an AVTransport service.
+     * Before calling the function check if the service exists with @ref UPnPAV::MediaDevice::hasAvTransportService
+     */
+    virtual std::optional<std::unique_ptr<PendingSoapCall>> pause(quint32 instanceId = 0) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref UPnPAV::MediaDevice changes it state. E.g. from Stopped to playing

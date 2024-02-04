@@ -364,4 +364,24 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::pause(quint32 instanceId) noexcept
+{
+    if (not hasAvTransportService()) {
+        return std::nullopt;
+    }
+
+    auto const arg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const action = d->mAvTransportDescriptionSCPD.action("Pause");
+    if (action.name().isEmpty()) {
+        return std::nullopt;
+    }
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
+                                                                action.name(),
+                                                                d->mAvTransportDescription.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 } // namespace UPnPAV
