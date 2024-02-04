@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structUPnPAV_1_1ConnectionInfo.html":[5,0,4,4],
 "structUPnPAV_1_1EventSubscriptionCacheEntry.html":[5,0,4,15],
 "structUPnPAV_1_1EventSubscriptionParameters.html":[5,0,4,17],
 "structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html":[5,0,4,21],

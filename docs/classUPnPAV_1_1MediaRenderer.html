@@ -129,6 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8d7c89abc381b1c77e6878d534fb41f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad01134621ee2b6b8d250e4392eb0a17d" id="r_ad01134621ee2b6b8d250e4392eb0a17d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">volume</a> (quint32 instanceId, QString const &amp;channel) const noexcept</td></tr>
 <tr class="separator:ad01134621ee2b6b8d250e4392eb0a17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5eccffd9e9a443a2f21022e625360e3" id="r_ab5eccffd9e9a443a2f21022e625360e3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3">setVolume</a> (quint32 instanceId, QString const &amp;channel, quint32 <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">volume</a>) noexcept</td></tr>
+<tr class="separator:ab5eccffd9e9a443a2f21022e625360e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classUPnPAV_1_1MediaDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classUPnPAV_1_1MediaDevice')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></td></tr>
 <tr class="memitem:a5d45f0b56d0167c4e6508972455dda46 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a5d45f0b56d0167c4e6508972455dda46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a5d45f0b56d0167c4e6508972455dda46">~MediaDevice</a> () override</td></tr>
 <tr class="separator:a5d45f0b56d0167c4e6508972455dda46 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,6 +261,58 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab5eccffd9e9a443a2f21022e625360e3" name="ab5eccffd9e9a443a2f21022e625360e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5eccffd9e9a443a2f21022e625360e3">&#9670;&#160;</a></span>setVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt; UPnPAV::MediaRenderer::setVolume </td>
+          <td>(</td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>instanceId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>volume</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calls the SetVolume function on the rendering control service of the <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> This an optional function and not every <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> supports this function. If the function is not supported a std::nullopt is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instanceId</td><td>Identifies the virtual instance of the AVTransport service to which the action applies. </td></tr>
+    <tr><td class="paramname">channel</td><td>The channel that volume shall be adjusted. </td></tr>
+    <tr><td class="paramname">volume</td><td>The volume level for the channel. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
+
+</div>
+</div>
 <a id="ad01134621ee2b6b8d250e4392eb0a17d" name="ad01134621ee2b6b8d250e4392eb0a17d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad01134621ee2b6b8d250e4392eb0a17d">&#9670;&#160;</a></span>volume()</h2>
 
