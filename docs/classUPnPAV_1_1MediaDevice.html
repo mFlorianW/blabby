@@ -200,6 +200,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba9ddc7e1cab54f5aeb11813a33363a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27cf1f7a611584a02f2b88627c78c408" id="r_a27cf1f7a611584a02f2b88627c78c408"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408">previous</a> (quint32 instanceId)</td></tr>
 <tr class="separator:a27cf1f7a611584a02f2b88627c78c408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4926f7dca9658bae32f244aae98e965" id="r_ae4926f7dca9658bae32f244aae98e965"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965">pause</a> (quint32 instanceId=0) noexcept</td></tr>
+<tr class="separator:ae4926f7dca9658bae32f244aae98e965"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -508,6 +510,40 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The function can only be called if the device has an AVTransport service. Before calling the function check if the service exists with <a class="el" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">MediaDevice::hasAvTransportService</a>&gt; </dd></dl>
+
+</div>
+</div>
+<a id="ae4926f7dca9658bae32f244aae98e965" name="ae4926f7dca9658bae32f244aae98e965"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4926f7dca9658bae32f244aae98e965">&#9670;&#160;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt; UPnPAV::MediaDevice::pause </td>
+          <td>(</td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>instanceId</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calls the pause function on the media device. The pause function is an optional function of the AVTransport server. If the device doesn't support the pause function an nullopt will be returned. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instanceId</td><td>Identifies the virtual instance of the AVTransport service to which the action applies. Default 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The function can only be called if the device has an AVTransport service. Before calling the function check if the service exists with <a class="el" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">UPnPAV::MediaDevice::hasAvTransportService</a> </dd></dl>
 
 </div>
 </div>

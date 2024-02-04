@@ -28,6 +28,7 @@ var classUPnPAV_1_1MediaDevice =
     [ "mediaInfo", "classUPnPAV_1_1MediaDevice.html#a57633fba8cfb183410d0db44266c7171", null ],
     [ "name", "classUPnPAV_1_1MediaDevice.html#a1dd0f8deb9fc6fcd9811e323ded55f5c", null ],
     [ "next", "classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2", null ],
+    [ "pause", "classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965", null ],
     [ "play", "classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce", null ],
     [ "positionInfo", "classUPnPAV_1_1MediaDevice.html#a3432dac80ea68fd26e5c7986df73ee1e", null ],
     [ "previous", "classUPnPAV_1_1MediaDevice.html#a27cf1f7a611584a02f2b88627c78c408", null ],

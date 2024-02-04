@@ -1,12 +1,13 @@
 var NAVTREEINDEX2 =
 {
 "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4daa029a98f4018d535b7cd3568e8d264be":[5,0,4,44,0,4],
-"classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce":[5,0,4,44,11],
+"classUPnPAV_1_1MediaDevice.html#aabf3c343c16a0655f3a40d03616923ce":[5,0,4,44,12],
 "classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2":[5,0,4,44,10],
-"classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163":[5,0,4,44,18],
-"classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c":[5,0,4,44,20],
-"classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e":[5,0,4,44,19],
-"classUPnPAV_1_1MediaDevice.html#af17f241984a5ae675ebb2296e62d65e9":[5,0,4,44,16],
+"classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163":[5,0,4,44,19],
+"classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965":[5,0,4,44,11],
+"classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c":[5,0,4,44,21],
+"classUPnPAV_1_1MediaDevice.html#aed513cb5218a1ebeb2785f15d4eba18e":[5,0,4,44,20],
+"classUPnPAV_1_1MediaDevice.html#af17f241984a5ae675ebb2296e62d65e9":[5,0,4,44,17],
 "classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83":[5,0,4,44,3],
 "classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e":[5,0,4,44,1],
 "classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439ea299187349499c3b55704737fbc4e2d59":[5,0,4,44,1,2],
@@ -166,8 +167,8 @@ var NAVTREEINDEX2 =
 "dir_de5b03c9e251d763a573c2ccd217de59.html":[6,0,0],
 "dir_f39be2b6a107974bdd2beaa5404f2474.html":[6,0,2],
 "files.html":[6,0],
-"functions.html":[5,3,0],
 "functions.html":[5,3,0,0],
+"functions.html":[5,3,0],
 "functions_b.html":[5,3,0,1],
 "functions_c.html":[5,3,0,2],
 "functions_d.html":[5,3,0,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "structUPnPAV_1_1ConnectionInfo.html":[5,0,4,4],
 "structUPnPAV_1_1EventSubscriptionCacheEntry.html":[5,0,4,15],
 "structUPnPAV_1_1EventSubscriptionParameters.html":[5,0,4,17],
-"structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html":[5,0,4,21],
-"structUPnPAV_1_1GetMediaInfoResponseData.html":[5,0,4,23]
+"structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html":[5,0,4,21]
 };

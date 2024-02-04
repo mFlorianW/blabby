@@ -11,7 +11,7 @@ var searchData=
   ['serialize_8',['serialize',['../classHttp_1_1ResponseSerializer.html#a0e1965b3bd77209df26b64bb0a04dd54',1,'Http::ResponseSerializer']]],
   ['server_9',['Server',['../classHttp_1_1Server.html#a33f924dd1dc108df51e919feffbd6667',1,'Http::Server']]],
   ['serveraddress_10',['serverAddress',['../classUPnPAV_1_1HttpEventServer.html#a0cbb1ba4f993b3b3801f6001123bc90d',1,'UPnPAV::HttpEventServer']]],
-  ['serverrequest_11',['serverrequest',['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()'],['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()']]],
+  ['serverrequest_11',['serverrequest',['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()'],['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()']]],
   ['serverresponse_12',['ServerResponse',['../classHttp_1_1ServerResponse.html#a8531856a3b512a6ad1fed60ddf21bd37',1,'Http::ServerResponse']]],
   ['serviceconnected_13',['serviceConnected',['../classUPnPAV_1_1IServiceProvider.html#ab67b87b9eccb91a7458adacf628642b4',1,'UPnPAV::IServiceProvider']]],
   ['servicedescriptionvalidator_14',['ServiceDescriptionValidator',['../classUPnPAV_1_1ServiceDescriptionValidator.html#a3c1e10ee6ad07ad31443a824661fa408',1,'UPnPAV::ServiceDescriptionValidator']]],

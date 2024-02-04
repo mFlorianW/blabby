@@ -220,27 +220,31 @@ $(document).ready(function(){initNavTree('MediaDevice_8hpp_source.html',''); ini
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; previous(quint32 instanceId);</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">  274</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">stateChanged</a>();</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription,</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                QSharedPointer&lt;SoapBackend&gt; soapBackend,</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>                QSharedPointer&lt;EventBackend&gt; eventBackend);</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    QScopedPointer&lt;MediaDevicePrivate&gt; d;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>};</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keyword">virtual</span> std::optional&lt;std::unique_ptr&lt;PendingSoapCall&gt;&gt; pause(quint32 instanceId = 0) noexcept;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">  288</a></span>    <span class="keywordtype">void</span> stateChanged();</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>protected:</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaDevice.html">MediaDevice</a>(<a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription,</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                QSharedPointer&lt;<a class="code hl_class" href="classUPnPAV_1_1SoapBackend.html">SoapBackend</a>&gt; soapBackend,</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>                QSharedPointer&lt;<a class="code hl_class" href="classUPnPAV_1_1EventBackend.html">EventBackend</a>&gt; eventBackend);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>private:</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    QScopedPointer&lt;<a class="code hl_class" href="classUPnPAV_1_1MediaDevicePrivate.html">MediaDevicePrivate</a>&gt; d;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>};</div>
 </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>} <span class="comment">// namespace UPnPAV</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1DeviceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescription.html">UPnPAV::DeviceDescription</a></div><div class="ttdef"><b>Definition</b> DeviceDescription.hpp:23</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1EventBackend_html"><div class="ttname"><a href="classUPnPAV_1_1EventBackend.html">UPnPAV::EventBackend</a></div><div class="ttdef"><b>Definition</b> EventBackend.hpp:45</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaDevicePrivate_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevicePrivate.html">UPnPAV::MediaDevicePrivate</a></div><div class="ttdef"><b>Definition</b> MediaDevicePrivate.hpp:24</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></div><div class="ttdef"><b>Definition</b> MediaDevice.hpp:29</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_a5d45f0b56d0167c4e6508972455dda46"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#a5d45f0b56d0167c4e6508972455dda46">UPnPAV::MediaDevice::~MediaDevice</a></div><div class="ttdeci">~MediaDevice() override</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_aa4cfab37879a56986a53fb2a7b45ab4d"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">UPnPAV::MediaDevice::SeekMode</a></div><div class="ttdeci">SeekMode</div><div class="ttdef"><b>Definition</b> MediaDevice.hpp:36</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_abd77c7c26e6e10e96af5e674971c0163"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">UPnPAV::MediaDevice::stateChanged</a></div><div class="ttdeci">void stateChanged()</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaDevice_html_afcbf3d24ef2196d7428eae45a934439e"><div class="ttname"><a href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">UPnPAV::MediaDevice::State</a></div><div class="ttdeci">State</div><div class="ttdef"><b>Definition</b> MediaDevice.hpp:52</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1PendingSoapCall_html"><div class="ttname"><a href="classUPnPAV_1_1PendingSoapCall.html">UPnPAV::PendingSoapCall</a></div><div class="ttdef"><b>Definition</b> PendingSoapCall.hpp:19</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1SoapBackend_html"><div class="ttname"><a href="classUPnPAV_1_1SoapBackend.html">UPnPAV::SoapBackend</a></div><div class="ttdef"><b>Definition</b> SoapBackend.hpp:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

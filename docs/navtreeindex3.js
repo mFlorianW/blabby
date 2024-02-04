@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structUPnPAV_1_1GetMediaInfoResponseData.html":[5,0,4,23],
 "structUPnPAV_1_1GetPositionInfoResponseData.html":[5,0,4,25],
 "structUPnPAV_1_1GetTransportInfoResponseData.html":[5,0,4,28],
 "structUPnPAV_1_1GetTransportSettingsResponseData.html":[5,0,4,30],
