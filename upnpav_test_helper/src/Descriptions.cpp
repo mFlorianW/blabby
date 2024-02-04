@@ -351,6 +351,7 @@ QVector<SCPDAction> validRenderingControlActions() noexcept
     static auto actions = QVector<SCPDAction>{
         listPresetsAction(),
         selectPresetAction(),
+        getVolumeAction(),
     };
     return actions;
 }

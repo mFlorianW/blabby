@@ -36,4 +36,25 @@ SCPDAction selectPresetAction() noexcept
     return action;
 }
 
+SCPDAction getVolumeAction() noexcept
+{
+    // clang-format off
+    static auto action = SCPDAction{
+        QStringLiteral("GetVolume"),
+        {
+            SCPDArgument{QStringLiteral("InstanceID"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_InstanceID")},
+            SCPDArgument{QStringLiteral("Channel"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_Channel")},
+            SCPDArgument{QStringLiteral("CurrentVolume"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("Volume")},
+        }
+    };
+    // clang-format on
+    return action;
+}
+
 } // namespace UPnPAV
