@@ -93,6 +93,7 @@ var annotated_dup =
       [ "MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
       [ "MediaRenderer", "classUPnPAV_1_1MediaRenderer.html", "classUPnPAV_1_1MediaRenderer" ],
       [ "MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", "classUPnPAV_1_1MediaRendererFactory" ],
+      [ "MediaRendererPrivate", "classUPnPAV_1_1MediaRendererPrivate.html", null ],
       [ "MediaServer", "classUPnPAV_1_1MediaServer.html", "classUPnPAV_1_1MediaServer" ],
       [ "MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
       [ "MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", "classUPnPAV_1_1MediaServerObject" ],

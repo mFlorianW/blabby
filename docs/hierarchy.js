@@ -37,6 +37,7 @@ var hierarchy =
     [ "UPnPAV::LastChangeReader", "classUPnPAV_1_1LastChangeReader.html", null ],
     [ "UPnPAV::MediaDevicePrivate", "classUPnPAV_1_1MediaDevicePrivate.html", null ],
     [ "UPnPAV::MediaRendererFactory", "classUPnPAV_1_1MediaRendererFactory.html", null ],
+    [ "UPnPAV::MediaRendererPrivate", "classUPnPAV_1_1MediaRendererPrivate.html", null ],
     [ "UPnPAV::MediaServerFactory", "classUPnPAV_1_1MediaServerFactory.html", null ],
     [ "UPnPAV::MediaServerObject", "classUPnPAV_1_1MediaServerObject.html", null ],
     [ "UPnPAV::MediaServerObjectBuilder", "classUPnPAV_1_1MediaServerObjectBuilder.html", null ],
