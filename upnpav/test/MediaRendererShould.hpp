@@ -25,5 +25,10 @@ private Q_SLOTS:
      * @test The media renderer should send the correct message when calling get volume.
      */
     void send_correct_soap_message_when_calling_get_volume();
+
+    /**
+     * @test The media renderer should send the correct message when calling set volume.
+     */
+    void send_correct_soap_message_when_calling_set_volume();
 };
 } // namespace UPnPAV
