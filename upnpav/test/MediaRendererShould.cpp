@@ -161,6 +161,29 @@ void MediaRendererShould::send_correct_soap_message_when_calling_get_volume()
     QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
 }
 
+void MediaRendererShould::send_correct_soap_message_when_calling_set_volume()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:SetVolume xmlns:u=\"urn:schemas-upnp-org:service:RenderingControl:1\">"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Channel>Master</Channel>"
+                                         "<DesiredVolume>98</DesiredVolume>"
+                                         "</u:SetVolume>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    auto const call = mediaRenderer.setVolume(quint32{2}, QStringLiteral("Master"), quint32{98});
+
+    QCOMPARE(call.has_value(), true);
+    QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::MediaRendererShould);

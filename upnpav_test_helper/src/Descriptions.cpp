@@ -352,6 +352,7 @@ QVector<SCPDAction> validRenderingControlActions() noexcept
         listPresetsAction(),
         selectPresetAction(),
         getVolumeAction(),
+        setVolumeAction(),
     };
     return actions;
 }

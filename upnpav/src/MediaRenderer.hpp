@@ -49,6 +49,20 @@ public:
      */
     std::optional<std::unique_ptr<PendingSoapCall>> volume(quint32 instanceId, QString const& channel) const noexcept;
 
+    /**
+     * Calls the SetVolume function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the AVTransport service to which the action applies.
+     * @param channel The channel that volume shall be adjusted.
+     * @param volume The volume level for the channel.
+     * @return PendingSoapCall with the result or an error.
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> setVolume(quint32 instanceId,
+                                                              QString const& channel,
+                                                              quint32 volume) noexcept;
+
 private:
     std::unique_ptr<MediaRendererPrivate> d;
 };

@@ -15,4 +15,6 @@ SCPDAction listPresetsAction() noexcept;
 SCPDAction selectPresetAction() noexcept;
 
 SCPDAction getVolumeAction() noexcept;
+
+SCPDAction setVolumeAction() noexcept;
 } // namespace UPnPAV

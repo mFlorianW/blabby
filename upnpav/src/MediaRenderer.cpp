@@ -52,6 +52,28 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::volume(quint32 in
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::setVolume(quint32 instanceId,
+                                                                         QString const& channel,
+                                                                         quint32 volume) noexcept
+{
+    auto const action = d->mRenderingControlSCPD.action("SetVolume");
+    if (action.name().isEmpty()) {
+        return std::nullopt;
+    }
+    auto const instanceIdArg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const channelArg = Argument{.name = "Channel", .value = channel};
+    auto const volumeArg = Argument{.name = "DesiredVolume", .value = QString::number(volume)};
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action,
+                                                    d->mRenderingControlService.serviceType(),
+                                                    {instanceIdArg, channelArg, volumeArg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService.controlUrl(),
+                                                                action.name(),
+                                                                d->mRenderingControlService.serviceType(),
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
 std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)
 {
     return std::make_unique<MediaRenderer>(desc,
