@@ -47,7 +47,7 @@ bool LastChangeReader::read() noexcept
     return true;
 }
 
-InstanceVariables const& LastChangeReader::instanceVariables() noexcept
+InstanceVariables const& LastChangeReader::instanceVariables() const noexcept
 {
     return mInstanceVariables;
 }

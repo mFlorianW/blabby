@@ -37,7 +37,7 @@ public:
      * The return varialbes is only valid after @UPnPAV::LastChangeReader::read was succesful called.
      * @return The extracted LastChange data
      */
-    InstanceVariables const& instanceVariables() noexcept;
+    InstanceVariables const& instanceVariables() const noexcept;
 
     /**
      * Gives the instance ids with the corresponding volume variables.
