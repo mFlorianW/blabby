@@ -70,4 +70,14 @@ SCPDStateVariable a_ARG_TYPE_PresetNameVariable() noexcept
     return var;
 }
 
+SCPDStateVariable volume() noexcept
+{
+    static auto var = SCPDStateVariable{
+        false,
+        QStringLiteral("Volume"),
+        SCPDStateVariable::Ui4,
+    };
+    return var;
+}
+
 } // namespace UPnPAV
