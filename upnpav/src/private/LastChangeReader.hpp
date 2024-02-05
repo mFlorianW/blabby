@@ -39,9 +39,21 @@ public:
      */
     InstanceVariables const& instanceVariables() noexcept;
 
+    /**
+     * Gives the instance ids with the corresponding volume variables.
+     * The volume variables are handled differentialy because the volume keyword occurs multiple times in the last
+     * change event because the volume is reported for every channel, e.g. Master, Left/Right front etc.
+     *
+     * The volume variables are only valid for RenderingControl services for all other services this variable will be
+     * empty. The channel attribute is the key of the returned hash map and the value contains the volume.
+     * @return A hash map containing the volumes for every instance ID.
+     */
+    InstanceVariables const& instanceVolumeVariables() const noexcept;
+
 private:
     QString mLastChange;
     InstanceVariables mInstanceVariables;
+    InstanceVariables mInstanceVolumeVariables;
 };
 
 } // namespace UPnPAV
