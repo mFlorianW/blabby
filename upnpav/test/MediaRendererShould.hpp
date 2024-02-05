@@ -30,5 +30,10 @@ private Q_SLOTS:
      * @test The media renderer should send the correct message when calling set volume.
      */
     void send_correct_soap_message_when_calling_set_volume();
+
+    /**
+     * @test The media renderer should handle volume and notifies about these changes.
+     */
+    void notify_volume_changes_when_receiving_upnp_events();
 };
 } // namespace UPnPAV
