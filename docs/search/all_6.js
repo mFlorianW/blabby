@@ -15,5 +15,6 @@ var searchData=
   ['gettransportinforesponse_12',['gettransportinforesponse',['../classUPnPAV_1_1GetTransportInfoResponse.html',1,'UPnPAV::GetTransportInfoResponse'],['../classUPnPAV_1_1GetTransportInfoResponse.html#a4bdcdff907b7074f9690957bd0e86e39',1,'UPnPAV::GetTransportInfoResponse::GetTransportInfoResponse()']]],
   ['gettransportinforesponsedata_13',['GetTransportInfoResponseData',['../structUPnPAV_1_1GetTransportInfoResponseData.html',1,'UPnPAV']]],
   ['gettransportsettingsresponse_14',['gettransportsettingsresponse',['../classUPnPAV_1_1GetTransportSettingsResponse.html',1,'UPnPAV::GetTransportSettingsResponse'],['../classUPnPAV_1_1GetTransportSettingsResponse.html#a0790ffcc481c33413c2a3b047293b2c8',1,'UPnPAV::GetTransportSettingsResponse::GetTransportSettingsResponse()']]],
-  ['gettransportsettingsresponsedata_15',['GetTransportSettingsResponseData',['../structUPnPAV_1_1GetTransportSettingsResponseData.html',1,'UPnPAV']]]
+  ['gettransportsettingsresponsedata_15',['GetTransportSettingsResponseData',['../structUPnPAV_1_1GetTransportSettingsResponseData.html',1,'UPnPAV']]],
+  ['getvolumeresponse_16',['getvolumeresponse',['../classUPnPAV_1_1GetVolumeResponse.html',1,'UPnPAV::GetVolumeResponse'],['../classUPnPAV_1_1GetVolumeResponse.html#aebffca15ec138112a4de8cd957ef6350',1,'UPnPAV::GetVolumeResponse::GetVolumeResponse()']]]
 ];

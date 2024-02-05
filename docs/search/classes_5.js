@@ -12,5 +12,6 @@ var searchData=
   ['gettransportinforesponse_9',['GetTransportInfoResponse',['../classUPnPAV_1_1GetTransportInfoResponse.html',1,'UPnPAV']]],
   ['gettransportinforesponsedata_10',['GetTransportInfoResponseData',['../structUPnPAV_1_1GetTransportInfoResponseData.html',1,'UPnPAV']]],
   ['gettransportsettingsresponse_11',['GetTransportSettingsResponse',['../classUPnPAV_1_1GetTransportSettingsResponse.html',1,'UPnPAV']]],
-  ['gettransportsettingsresponsedata_12',['GetTransportSettingsResponseData',['../structUPnPAV_1_1GetTransportSettingsResponseData.html',1,'UPnPAV']]]
+  ['gettransportsettingsresponsedata_12',['GetTransportSettingsResponseData',['../structUPnPAV_1_1GetTransportSettingsResponseData.html',1,'UPnPAV']]],
+  ['getvolumeresponse_13',['GetVolumeResponse',['../classUPnPAV_1_1GetVolumeResponse.html',1,'UPnPAV']]]
 ];

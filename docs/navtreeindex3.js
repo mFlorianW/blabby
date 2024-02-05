@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"structMultimedia_1_1ProviderVersion.html":[5,0,1,6],
+"structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5":[5,0,1,6,0],
+"structMultimedia_1_1SourcePrivate.html":[5,0,1,10],
+"structUPnPAV_1_1Argument.html":[5,0,4,0],
 "structUPnPAV_1_1ConnectionInfo.html":[5,0,4,4],
 "structUPnPAV_1_1EventSubscriptionCacheEntry.html":[5,0,4,15],
 "structUPnPAV_1_1EventSubscriptionParameters.html":[5,0,4,17],
@@ -8,12 +12,12 @@ var NAVTREEINDEX3 =
 "structUPnPAV_1_1GetPositionInfoResponseData.html":[5,0,4,25],
 "structUPnPAV_1_1GetTransportInfoResponseData.html":[5,0,4,28],
 "structUPnPAV_1_1GetTransportSettingsResponseData.html":[5,0,4,30],
-"structUPnPAV_1_1HttpEventBackendPrivate.html":[5,0,4,33],
-"structUPnPAV_1_1Protocol.html":[5,0,4,56],
-"structUPnPAV_1_1SCPDActionData.html":[5,0,4,60],
-"structUPnPAV_1_1SCPDArgumentData.html":[5,0,4,63],
-"structUPnPAV_1_1SCPDStateVariableData.html":[5,0,4,65],
-"structUPnPAV_1_1ServiceControlPointDefinitionData.html":[5,0,4,68],
-"structUPnPAV_1_1ServiceDescriptionData.html":[5,0,4,71],
+"structUPnPAV_1_1HttpEventBackendPrivate.html":[5,0,4,34],
+"structUPnPAV_1_1Protocol.html":[5,0,4,57],
+"structUPnPAV_1_1SCPDActionData.html":[5,0,4,61],
+"structUPnPAV_1_1SCPDArgumentData.html":[5,0,4,64],
+"structUPnPAV_1_1SCPDStateVariableData.html":[5,0,4,66],
+"structUPnPAV_1_1ServiceControlPointDefinitionData.html":[5,0,4,69],
+"structUPnPAV_1_1ServiceDescriptionData.html":[5,0,4,72],
 "upnpav_2src_2private_2LoggingCategories_8hpp_source.html":[6,0,4,0,0,12]
 };

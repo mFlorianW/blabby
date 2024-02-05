@@ -76,6 +76,7 @@ var annotated_dup =
       [ "GetTransportInfoResponseData", "structUPnPAV_1_1GetTransportInfoResponseData.html", null ],
       [ "GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", "classUPnPAV_1_1GetTransportSettingsResponse" ],
       [ "GetTransportSettingsResponseData", "structUPnPAV_1_1GetTransportSettingsResponseData.html", null ],
+      [ "GetVolumeResponse", "classUPnPAV_1_1GetVolumeResponse.html", "classUPnPAV_1_1GetVolumeResponse" ],
       [ "HttpDescriptionFetcherBackend", "classUPnPAV_1_1HttpDescriptionFetcherBackend.html", null ],
       [ "HttpEventBackend", "classUPnPAV_1_1HttpEventBackend.html", "classUPnPAV_1_1HttpEventBackend" ],
       [ "HttpEventBackendPrivate", "structUPnPAV_1_1HttpEventBackendPrivate.html", null ],

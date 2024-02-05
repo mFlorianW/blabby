@@ -13,6 +13,7 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "GetProtocolInfoResponse.hpp", "GetProtocolInfoResponse_8hpp_source.html", null ],
     [ "GetTransportInfoResponse.hpp", "GetTransportInfoResponse_8hpp_source.html", null ],
     [ "GetTransportSettingsResponse.hpp", "GetTransportSettingsResponse_8hpp_source.html", null ],
+    [ "GetVolumeResponse.hpp", "GetVolumeResponse_8hpp_source.html", null ],
     [ "HttpEventBackend.hpp", "HttpEventBackend_8hpp_source.html", null ],
     [ "HttpSoapBackend.hpp", "HttpSoapBackend_8hpp_source.html", null ],
     [ "IconDescription.hpp", "IconDescription_8hpp_source.html", null ],
