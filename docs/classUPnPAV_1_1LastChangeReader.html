@@ -120,8 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8d18e2a172c1ee3c9d16427628ddf5ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fd22de6591fa91278031edcb472c572" id="r_a4fd22de6591fa91278031edcb472c572"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1LastChangeReader.html#a4fd22de6591fa91278031edcb472c572">read</a> () noexcept</td></tr>
 <tr class="separator:a4fd22de6591fa91278031edcb472c572"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53a32aaa5fc712503ac47309d40fc095" id="r_a53a32aaa5fc712503ac47309d40fc095"><td class="memItemLeft" align="right" valign="top">InstanceVariables const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1LastChangeReader.html#a53a32aaa5fc712503ac47309d40fc095">instanceVariables</a> () noexcept</td></tr>
-<tr class="separator:a53a32aaa5fc712503ac47309d40fc095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1ecd8a9351f819fe4b4080f029ef1b" id="r_a8e1ecd8a9351f819fe4b4080f029ef1b"><td class="memItemLeft" align="right" valign="top">InstanceVariables const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1LastChangeReader.html#a8e1ecd8a9351f819fe4b4080f029ef1b">instanceVariables</a> () const noexcept</td></tr>
+<tr class="separator:a8e1ecd8a9351f819fe4b4080f029ef1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab387b1e2e9c445cd5717503743fd1c0a" id="r_ab387b1e2e9c445cd5717503743fd1c0a"><td class="memItemLeft" align="right" valign="top">InstanceVariables const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1LastChangeReader.html#ab387b1e2e9c445cd5717503743fd1c0a">instanceVolumeVariables</a> () const noexcept</td></tr>
+<tr class="separator:ab387b1e2e9c445cd5717503743fd1c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Reads all the instance ID elemets with the varialbes. The "LastChange" data is typically recveied from NOTFIY message of some UPnPAV services. </p>
@@ -159,8 +161,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a53a32aaa5fc712503ac47309d40fc095" name="a53a32aaa5fc712503ac47309d40fc095"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53a32aaa5fc712503ac47309d40fc095">&#9670;&#160;</a></span>instanceVariables()</h2>
+<a id="a8e1ecd8a9351f819fe4b4080f029ef1b" name="a8e1ecd8a9351f819fe4b4080f029ef1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1ecd8a9351f819fe4b4080f029ef1b">&#9670;&#160;</a></span>instanceVariables()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +174,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">InstanceVariables const  &amp; UPnPAV::LastChangeReader::instanceVariables </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -182,6 +184,33 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Gives the instance ids with the variables. The return varialbes is only valid after @UPnPAV<a class="el" href="classUPnPAV_1_1LastChangeReader.html#a4fd22de6591fa91278031edcb472c572">LastChangeReader::read</a> was succesful called. </p><dl class="section return"><dt>Returns</dt><dd>The extracted LastChange data </dd></dl>
+
+</div>
+</div>
+<a id="ab387b1e2e9c445cd5717503743fd1c0a" name="ab387b1e2e9c445cd5717503743fd1c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab387b1e2e9c445cd5717503743fd1c0a">&#9670;&#160;</a></span>instanceVolumeVariables()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">InstanceVariables const  &amp; UPnPAV::LastChangeReader::instanceVolumeVariables </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the instance ids with the corresponding volume variables. The volume variables are handled differentialy because the volume keyword occurs multiple times in the last change event because the volume is reported for every channel, e.g. Master, Left/Right front etc.</p>
+<p>The volume variables are only valid for RenderingControl services for all other services this variable will be empty. The channel attribute is the key of the returned hash map and the value contains the volume. </p><dl class="section return"><dt>Returns</dt><dd>A hash map containing the volumes for every instance ID. </dd></dl>
 
 </div>
 </div>

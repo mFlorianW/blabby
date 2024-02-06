@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"structHttp_1_1ServerResponseData.html":[5,0,0,8],
+"structMultimedia_1_1ItemData.html":[5,0,1,2],
 "structMultimedia_1_1ProviderVersion.html":[5,0,1,6],
 "structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5":[5,0,1,6,0],
 "structMultimedia_1_1SourcePrivate.html":[5,0,1,10],

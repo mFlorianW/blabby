@@ -37,7 +37,7 @@ var searchData=
   ['settrailingelement_34',['setTrailingElement',['../classShell_1_1AbstractListEntry.html#a3c01493ee9754bface727e829a818ad6',1,'Shell::AbstractListEntry']]],
   ['setvolume_35',['setVolume',['../classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3',1,'UPnPAV::MediaRenderer']]],
   ['sid_36',['sid',['../classUPnPAV_1_1EventSubscriptionHandle.html#a197c20ae285a2d5b1a351cf422929497',1,'UPnPAV::EventSubscriptionHandle']]],
-  ['source_37',['source',['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source()'],['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()']]],
+  ['source_37',['source',['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()'],['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source()']]],
   ['sourceadded_38',['sourceAdded',['../classMultimedia_1_1Provider.html#a5090d72b28c7d0d16e07798940328dd7',1,'Multimedia::Provider']]],
   ['sourcechanged_39',['sourceChanged',['../classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5',1,'Shell::AbstractIconButton']]],
   ['sourcename_40',['sourceName',['../classMultimedia_1_1Source.html#afbb9eeef3718e7b60fd1b8539154433d',1,'Multimedia::Source']]],

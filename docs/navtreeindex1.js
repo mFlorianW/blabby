@@ -230,9 +230,10 @@ var NAVTREEINDEX1 =
 "classUPnPAV_1_1IconDescription.html":[5,0,4,40],
 "classUPnPAV_1_1InvalidDeviceDescription.html":[5,0,4,41],
 "classUPnPAV_1_1LastChangeReader.html":[5,0,4,44],
-"classUPnPAV_1_1LastChangeReader.html#a4fd22de6591fa91278031edcb472c572":[5,0,4,44,2],
-"classUPnPAV_1_1LastChangeReader.html#a53a32aaa5fc712503ac47309d40fc095":[5,0,4,44,1],
+"classUPnPAV_1_1LastChangeReader.html#a4fd22de6591fa91278031edcb472c572":[5,0,4,44,3],
 "classUPnPAV_1_1LastChangeReader.html#a8d18e2a172c1ee3c9d16427628ddf5ed":[5,0,4,44,0],
+"classUPnPAV_1_1LastChangeReader.html#a8e1ecd8a9351f819fe4b4080f029ef1b":[5,0,4,44,1],
+"classUPnPAV_1_1LastChangeReader.html#ab387b1e2e9c445cd5717503743fd1c0a":[5,0,4,44,2],
 "classUPnPAV_1_1MediaDevice.html":[5,0,4,45],
 "classUPnPAV_1_1MediaDevice.html#a0dc7d849bf444ca617367d812ada2a05":[5,0,4,45,4],
 "classUPnPAV_1_1MediaDevice.html#a1dd0f8deb9fc6fcd9811e323ded55f5c":[5,0,4,45,9],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900":[5,0,4,45,6],
 "classUPnPAV_1_1MediaDevice.html#a9ea37234b42a641654e2a169e439f131":[5,0,4,45,18],
 "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d":[5,0,4,45,0],
-"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da1ca5f0fe1fbb37aa50bda66adbb2965b":[5,0,4,45,0,2],
-"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da3b37dfffeeaf4992ce6b4ea267f541c5":[5,0,4,45,0,1]
+"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da1ca5f0fe1fbb37aa50bda66adbb2965b":[5,0,4,45,0,2]
 };

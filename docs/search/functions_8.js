@@ -7,10 +7,11 @@ var searchData=
   ['initializationfinished_4',['initializationFinished',['../classMultimedia_1_1Renderer.html#a678fa5ee1249efc0d905dcbfffe463d5',1,'Multimedia::Renderer']]],
   ['initialize_5',['initialize',['../classMultimedia_1_1Renderer.html#a1c64fe68ba1cc7b1ff2df1cd72f11c32',1,'Multimedia::Renderer']]],
   ['instance_6',['instance',['../classUPnPAV_1_1HttpEventServer.html#a7f8c22b681b664c874d9b4b6317c94ea',1,'UPnPAV::HttpEventServer']]],
-  ['instancevariables_7',['instanceVariables',['../classUPnPAV_1_1LastChangeReader.html#a53a32aaa5fc712503ac47309d40fc095',1,'UPnPAV::LastChangeReader']]],
-  ['ishovered_8',['isHovered',['../classShell_1_1AbstractInteractiveControl.html#a0ab3d15374cb61a51b739432f2341b85',1,'Shell::AbstractInteractiveControl']]],
-  ['ispressed_9',['isPressed',['../classShell_1_1AbstractInteractiveControl.html#abf482a71f7d809737fc4608bd7b81ae6',1,'Shell::AbstractInteractiveControl']]],
-  ['issubscribed_10',['isSubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#aba13d4335df5c939a026bd05a8c737fd',1,'UPnPAV::EventSubscriptionHandle']]],
-  ['isvalid_11',['isValid',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa7fc94ed1c205533f1c845d234549de1',1,'UPnPAV::MediaServerObjectBuilder']]],
-  ['item_12',['item',['../classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3',1,'Multimedia::Item::Item()'],['../classMultimedia_1_1Item.html#a5d4069639b26817c58fa444c60fed76d',1,'Multimedia::Item::Item(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString iconUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))']]]
+  ['instancevariables_7',['instanceVariables',['../classUPnPAV_1_1LastChangeReader.html#a8e1ecd8a9351f819fe4b4080f029ef1b',1,'UPnPAV::LastChangeReader']]],
+  ['instancevolumevariables_8',['instanceVolumeVariables',['../classUPnPAV_1_1LastChangeReader.html#ab387b1e2e9c445cd5717503743fd1c0a',1,'UPnPAV::LastChangeReader']]],
+  ['ishovered_9',['isHovered',['../classShell_1_1AbstractInteractiveControl.html#a0ab3d15374cb61a51b739432f2341b85',1,'Shell::AbstractInteractiveControl']]],
+  ['ispressed_10',['isPressed',['../classShell_1_1AbstractInteractiveControl.html#abf482a71f7d809737fc4608bd7b81ae6',1,'Shell::AbstractInteractiveControl']]],
+  ['issubscribed_11',['isSubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#aba13d4335df5c939a026bd05a8c737fd',1,'UPnPAV::EventSubscriptionHandle']]],
+  ['isvalid_12',['isValid',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa7fc94ed1c205533f1c845d234549de1',1,'UPnPAV::MediaServerObjectBuilder']]],
+  ['item_13',['item',['../classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3',1,'Multimedia::Item::Item()'],['../classMultimedia_1_1Item.html#a5d4069639b26817c58fa444c60fed76d',1,'Multimedia::Item::Item(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString iconUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))']]]
 ];

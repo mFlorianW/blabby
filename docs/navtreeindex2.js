@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da3b37dfffeeaf4992ce6b4ea267f541c5":[5,0,4,45,0,1],
 "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da45a7d822524aea2f862dcbe5b1647c21":[5,0,4,45,0,0],
 "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da479e2ad94d4e1c369751c03ab3f7dcb3":[5,0,4,45,0,5],
 "classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4da522e2eaa832da21680898d8c020e969e":[5,0,4,45,0,3],
@@ -24,9 +25,10 @@ var NAVTREEINDEX2 =
 "classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439eac9dbb2b7c84159b632d71e512eba8428":[5,0,4,45,1,3],
 "classUPnPAV_1_1MediaDevicePrivate.html":[5,0,4,46],
 "classUPnPAV_1_1MediaRenderer.html":[5,0,4,47],
+"classUPnPAV_1_1MediaRenderer.html#a0b7be269645d87179d4b6b106b759f24":[5,0,4,47,1],
 "classUPnPAV_1_1MediaRenderer.html#a8d7c89abc381b1c77e6878d534fb41f1":[5,0,4,47,0],
-"classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3":[5,0,4,47,1],
-"classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d":[5,0,4,47,2],
+"classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3":[5,0,4,47,2],
+"classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d":[5,0,4,47,3],
 "classUPnPAV_1_1MediaRendererFactory.html":[5,0,4,48],
 "classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d":[5,0,4,48,3],
 "classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f":[5,0,4,48,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "shell_2src_2Blabby_2Controls_2LoggingCategories_8hpp_source.html":[6,0,3,0,0,0,7],
 "shell_2src_2LoggingCategories_8hpp_source.html":[6,0,3,0,1],
 "structHttp_1_1ServerPrivate.html":[5,0,0,4],
-"structHttp_1_1ServerRequestData.html":[5,0,0,6],
-"structHttp_1_1ServerResponseData.html":[5,0,0,8],
-"structMultimedia_1_1ItemData.html":[5,0,1,2]
+"structHttp_1_1ServerRequestData.html":[5,0,0,6]
 };
