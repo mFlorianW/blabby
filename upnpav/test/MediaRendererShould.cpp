@@ -10,9 +10,10 @@
 #include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaRenderer.hpp"
+#include "RenderingControlNotifies.hpp"
 #include "SoapBackendDouble.hpp"
+#include <QSignalSpy>
 #include <QTest>
-#include <utility>
 
 namespace UPnPAV
 {
@@ -35,6 +36,11 @@ public:
     QString lastSoapCall() const noexcept
     {
         return mMsgTransmitter->xmlMessageBody();
+    }
+
+    QSharedPointer<Doubles::EventBackend> const& eventBackend() const noexcept
+    {
+        return mEventBackend;
     }
 
 private:
@@ -182,6 +188,22 @@ void MediaRendererShould::send_correct_soap_message_when_calling_set_volume()
 
     QCOMPARE(call.has_value(), true);
     QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
+}
+
+void MediaRendererShould::notify_volume_changes_when_receiving_upnp_events()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto eventHandle = mediaRenderer.eventBackend()->subscribeEvents(validRenderingControlServiceDescription());
+    auto handle = std::dynamic_pointer_cast<UPnPAV::Doubles::EventSubscriptionHandle>(eventHandle);
+    QCOMPARE_NE(handle, nullptr);
+    auto masterVolumeChangedSpy = QSignalSpy{&mediaRenderer, &MediaRenderer::masterVolumeChanged};
+
+    handle->sendNotifyBody(renderingControlNotifiy);
+
+    QCOMPARE(masterVolumeChangedSpy.size(), 1);
+    QCOMPARE(masterVolumeChangedSpy.at(0).at(0).toUInt(), 89);
 }
 
 } // namespace UPnPAV

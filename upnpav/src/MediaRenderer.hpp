@@ -63,6 +63,12 @@ public:
                                                               QString const& channel,
                                                               quint32 volume) noexcept;
 
+Q_SIGNALS:
+    /**
+     * This signal is emitted when the master volume is changed.
+     */
+    void masterVolumeChanged(quint32 volume);
+
 private:
     std::unique_ptr<MediaRendererPrivate> d;
 };

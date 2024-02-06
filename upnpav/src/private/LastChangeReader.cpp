@@ -22,14 +22,23 @@ bool LastChangeReader::read() noexcept
         if (token == QXmlStreamReader::StartElement && xmlReader.name() == QStringLiteral("InstanceID")) {
             auto const instanceId = xmlReader.attributes().value("val").toString();
             auto variables = Variables{};
+            auto volumeVariables = Variables{};
             while (not xmlReader.atEnd() && not xmlReader.hasError() &&
                    not(xmlReader.name() == QStringLiteral("/InstanceID"))) {
                 static_cast<void>(xmlReader.readNextStartElement());
-                if (xmlReader.isStartElement()) {
+                if (xmlReader.isStartElement() && xmlReader.name() != QStringLiteral("Volume")) {
                     variables.insert(xmlReader.name().toString(), xmlReader.attributes().value("val").toString());
+                }
+                if (xmlReader.isStartElement() && xmlReader.name() == QStringLiteral("Volume")) {
+                    auto attributes = xmlReader.attributes();
+                    volumeVariables.insert(attributes.value(QStringLiteral("channel")).toString(),
+                                           attributes.value("val").toString());
                 }
             }
             mInstanceVariables.insert(instanceId, variables);
+            if (not volumeVariables.isEmpty()) {
+                mInstanceVolumeVariables.insert(instanceId, volumeVariables);
+            }
         }
     }
     if (xmlReader.hasError()) {
@@ -38,9 +47,14 @@ bool LastChangeReader::read() noexcept
     return true;
 }
 
-InstanceVariables const& LastChangeReader::instanceVariables() noexcept
+InstanceVariables const& LastChangeReader::instanceVariables() const noexcept
 {
     return mInstanceVariables;
+}
+
+InstanceVariables const& LastChangeReader::instanceVolumeVariables() const noexcept
+{
+    return mInstanceVolumeVariables;
 }
 
 } // namespace UPnPAV
