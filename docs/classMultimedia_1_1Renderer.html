@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1Renderer.html','');
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classMultimedia_1_1Renderer-members.html">List of all members</a>  </div>
@@ -121,6 +122,14 @@ Inheritance diagram for Multimedia::Renderer:</div>
   <img src="classMultimedia_1_1Renderer.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a8f31aa8c7ff1652f9b81e63baf4d258c" id="r_a8f31aa8c7ff1652f9b81e63baf4d258c"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> { <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428">Playing</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a">Paused</a>
+ }</td></tr>
+<tr class="separator:a8f31aa8c7ff1652f9b81e63baf4d258c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a678fa5ee1249efc0d905dcbfffe463d5" id="r_a678fa5ee1249efc0d905dcbfffe463d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a678fa5ee1249efc0d905dcbfffe463d5">initializationFinished</a> ()</td></tr>
@@ -131,6 +140,9 @@ Signals</h2></td></tr>
 <tr class="separator:a4d9c585a77e9adafc3cdea6da8fdb1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4fedace5a1c9aaec7f39c47bafd310b" id="r_ad4fedace5a1c9aaec7f39c47bafd310b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">playbackFailed</a> (QString const &amp;errorMsg)</td></tr>
 <tr class="separator:ad4fedace5a1c9aaec7f39c47bafd310b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77a2b2d2a7a1f0a45b6eb3ed83b1eac8" id="r_a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"><td class="memItemLeft" align="right" valign="top"><a id="a77a2b2d2a7a1f0a45b6eb3ed83b1eac8" name="a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>stateChanged</b> ()</td></tr>
+<tr class="separator:a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -146,10 +158,44 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaca18abc3f13d5187fe897dac5a1c2d" id="r_aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">playback</a> (<a class="el" href="classMultimedia_1_1Item.html">Item</a> const &amp;item) noexcept</td></tr>
 <tr class="separator:aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02f55813b4b8f1f810ba2c07a1351223" id="r_a02f55813b4b8f1f810ba2c07a1351223"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Renderer::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223">state</a> () const noexcept</td></tr>
+<tr class="separator:a02f55813b4b8f1f810ba2c07a1351223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A Mulitmedia::MediaRenderer represents a hardware device that can control and play Mulitmedia::MediaItem </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a8f31aa8c7ff1652f9b81e63baf4d258c" name="a8f31aa8c7ff1652f9b81e63baf4d258c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f31aa8c7ff1652f9b81e63baf4d258c">&#9670;&#160;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Multimedia::Renderer::State</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The state a <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can have. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2" name="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2"></a>Stopped&#160;</td><td class="fielddoc"><p>Default state and the state when the Mulitmedia::Renderer is not active playing </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428" name="a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428"></a>Playing&#160;</td><td class="fielddoc"><p>This is the state when the Mulitmedia::MediaRenderer is active playing a Mulitmedia::Item. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a" name="a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a"></a>Paused&#160;</td><td class="fielddoc"><p>This is state when the Mulitmedia::MediaRenderer active playing is paused. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a12dc28926d2b0045d8911fada2165f98" name="a12dc28926d2b0045d8911fada2165f98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a12dc28926d2b0045d8911fada2165f98">&#9670;&#160;</a></span>Renderer()</h2>
 
@@ -409,6 +455,33 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This signal is emitted when the <a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">Multimedia::Renderer::playback</a> call finished successful. </p>
+
+</div>
+</div>
+<a id="a02f55813b4b8f1f810ba2c07a1351223" name="a02f55813b4b8f1f810ba2c07a1351223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02f55813b4b8f1f810ba2c07a1351223">&#9670;&#160;</a></span>state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Renderer::State</a> Multimedia::Renderer::state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the state for the Mulitmedia::Renderer. </p><dl class="section see"><dt>See also</dt><dd>The <a class="el" href="classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223">Multimedia::Renderer::state</a> for the meaing of the states. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The current state of the Mulitmedia::MediaRenderer. </dd></dl>
 
 </div>
 </div>

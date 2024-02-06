@@ -1,5 +1,10 @@
 var NAVTREEINDEX3 =
 {
+"providers_2media__server_2src_2private_2LoggingCategories_8hpp_source.html":[6,0,2,0,0,0,0],
+"shell_2src_2Blabby_2Controls_2LoggingCategories_8hpp_source.html":[6,0,3,0,0,0,7],
+"shell_2src_2LoggingCategories_8hpp_source.html":[6,0,3,0,1],
+"structHttp_1_1ServerPrivate.html":[5,0,0,4],
+"structHttp_1_1ServerRequestData.html":[5,0,0,6],
 "structHttp_1_1ServerResponseData.html":[5,0,0,8],
 "structMultimedia_1_1ItemData.html":[5,0,1,2],
 "structMultimedia_1_1ProviderVersion.html":[5,0,1,6],
