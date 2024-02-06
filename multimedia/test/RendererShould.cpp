@@ -200,6 +200,39 @@ void RendererShould::signal_playback_failed_on_playcall_failed()
     QCOMPARE(playbackFailedSpy.at(0).at(0).toString().isEmpty(), false);
 }
 
+void RendererShould::map_upnp_devices_to_renderer_device_states_data()
+{
+    QTest::addColumn<MediaDevice::State>("state");
+    QTest::addColumn<Renderer::State>("expectedState");
+    QTest::addColumn<bool>("stateChanged");
+
+    QTest::newRow("Stopped") << MediaDevice::State::Stopped << Renderer::State::Stopped << false;
+    QTest::newRow("PausedPlayback") << MediaDevice::State::PausedPlayback << Renderer::State::Paused << true;
+    QTest::newRow("PausedRecording") << MediaDevice::State::PausedRecording << Renderer::State::Stopped << false;
+    QTest::newRow("Playing") << MediaDevice::State::Playing << Renderer::State::Playing << true;
+    QTest::newRow("Recording") << MediaDevice::State::Recording << Renderer::State::Stopped << false;
+    QTest::newRow("Transitioning") << MediaDevice::State::Transitioning << Renderer::State::Stopped << false;
+    QTest::newRow("NoMediaPresent") << MediaDevice::State::NoMediaPresent << Renderer::State::Stopped << false;
+}
+
+void RendererShould::map_upnp_devices_to_renderer_device_states()
+{
+    QFETCH(MediaDevice::State, state);
+    QFETCH(Renderer::State, expectedState);
+    QFETCH(bool, stateChanged);
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    auto renderer = Renderer{std::move(upnpRenderer)};
+    auto stateChangedSpy = QSignalSpy{&renderer, &Renderer::stateChanged};
+
+    upnpRendererRaw->setDeviceState(state);
+
+    QCOMPARE(stateChangedSpy.isEmpty(), not stateChanged);
+    QCOMPARE(renderer.state(), expectedState);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)
