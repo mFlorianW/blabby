@@ -83,4 +83,17 @@ QSharedPointer<SoapCallDouble> MediaRendererDouble::playCall() const noexcept
     return mPlayCall;
 }
 
+MediaDevice::State MediaRendererDouble::state() const noexcept
+{
+    return mState;
+}
+
+void MediaRendererDouble::setDeviceState(MediaDevice::State state) noexcept
+{
+    if (mState != state) {
+        mState = state;
+        Q_EMIT stateChanged();
+    }
+}
+
 } // namespace UPnPAV::Doubles

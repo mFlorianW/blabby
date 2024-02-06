@@ -67,6 +67,17 @@ public:
 
     QSharedPointer<SoapCallDouble> playCall() const noexcept;
 
+    /**
+     * @copydoc UPnPAV::MediaDevice::state
+     */
+    MediaDevice::State state() const noexcept override;
+
+    /**
+     * Sets the state for @ref UPnPAV::Doubles::MediaRenderer.
+     * @param state The new state for the @ref UPnPAV::Doubles::MediaRenderer.
+     */
+    void setDeviceState(MediaDevice::State state) noexcept;
+
 private:
     QSharedPointer<SoapCallDouble> mProtoInfoCall =
         QSharedPointer<SoapCallDouble>::create(UPnPAV::validConnectionManagerSCPD(), UPnPAV::GetProtocolInfo());
@@ -79,6 +90,7 @@ private:
         QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createPlayAction());
     bool mIsPlayCalled = false;
     PlayData mPlayData;
+    MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
 };
 
 } // namespace UPnPAV::Doubles
