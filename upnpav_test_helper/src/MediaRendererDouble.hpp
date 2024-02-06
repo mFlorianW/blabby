@@ -23,20 +23,14 @@ struct AvTransportUriData
     QString uri;
     QString uriMetaData;
 
-    friend bool operator==(AvTransportUriData const& lhs, AvTransportUriData const& rhs)
-    {
-        return ((lhs.instanceId == rhs.instanceId) and (lhs.uri == rhs.uri) and (lhs.uriMetaData == rhs.uriMetaData));
-    }
+    friend bool operator==(AvTransportUriData const& lhs, AvTransportUriData const& rhs) = default;
 };
 
 struct PlayData
 {
     quint32 instanceId = quint32{1234};
 
-    friend bool operator==(PlayData const& lhs, PlayData const& rhs)
-    {
-        return ((lhs.instanceId == rhs.instanceId));
-    }
+    friend bool operator==(PlayData const& lhs, PlayData const& rhs) = default;
 };
 
 class MediaRendererDouble : public UPnPAV::MediaRenderer
