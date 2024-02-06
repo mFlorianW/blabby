@@ -23,6 +23,26 @@ class BLABBYMULTIMEDIA_EXPORT Renderer : public QObject
     Q_OBJECT
 public:
     /**
+     * The state a @ref Multimedia::Renderer can have.
+     */
+    enum class State
+    {
+        /**
+         * Default state and the state when the @ref Mulitmedia::Renderer is not active playing
+         */
+        Stopped,
+        /**
+         * This is the state when the @ref Mulitmedia::MediaRenderer is active playing a @ref Mulitmedia::Item.
+         */
+        Playing,
+        /**
+         * This is state when the @ref Mulitmedia::MediaRenderer active playing is paused.
+         */
+        Paused,
+    };
+    Q_ENUM(State)
+
+    /**
      * Creates an instance of the Renderer
      * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
      */
@@ -68,6 +88,13 @@ public:
      */
     void playback(Item const& item) noexcept;
 
+    /**
+     * Gives the state for the @ref Mulitmedia::Renderer.
+     * @see The @ref Multimedia::Renderer::state for the meaing of the states.
+     * @return The current state of the @ref Mulitmedia::MediaRenderer.
+     */
+    Renderer::State state() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -89,12 +116,15 @@ Q_SIGNALS:
      */
     void playbackFailed(QString const& errorMsg);
 
+    void stateChanged();
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
 
 private:
     bool isPlayableItem(Item const& item) const noexcept;
+    void setState(UPnPAV::MediaRenderer::State state) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;
@@ -103,6 +133,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
+    Renderer::State mState = Renderer::State::Stopped;
 };
 
 }; // namespace Multimedia

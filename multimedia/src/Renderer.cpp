@@ -21,6 +21,10 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
     : mRenderer{std::move(mediaRenderer)}
 {
     Q_ASSERT(mRenderer != nullptr);
+
+    connect(mRenderer.get(), &MediaRenderer::stateChanged, this, [this]() {
+        setState(mRenderer->state());
+    });
 }
 
 Renderer::~Renderer() = default;
@@ -105,6 +109,26 @@ void Renderer::onPlayCallFinished() noexcept
         Q_EMIT playbackFailed(QString{"Failed to call play. Error code: %1. Error description: %2"}.arg(
             QVariant::fromValue<PendingSoapCall::ErrorCode>(mPlayCall->errorCode()).toString(),
             mPlayCall->errorDescription()));
+    }
+}
+
+Renderer::State Renderer::state() const noexcept
+{
+    return mState;
+}
+
+void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
+{
+    auto newState = State::Stopped;
+    if (state == MediaRenderer::State::Playing) {
+        newState = State::Playing;
+    } else if (state == MediaRenderer::State::PausedPlayback) {
+        newState = State::Paused;
+    }
+
+    if (mState != newState) {
+        mState = newState;
+        Q_EMIT stateChanged();
     }
 }
 
