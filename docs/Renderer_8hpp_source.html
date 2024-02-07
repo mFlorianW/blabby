@@ -171,28 +171,28 @@ $(document).ready(function(){initNavTree('Renderer_8hpp_source.html',''); initRe
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">  117</a></span>    <span class="keywordtype">void</span> playbackFailed(QString const&amp; errorMsg);</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">void</span> stateChanged();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>private Q_SLOTS:</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordtype">void</span> onSetAvTransportUriFinished() noexcept;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">void</span> onPlayCallFinished() noexcept;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">  123</a></span>    <span class="keywordtype">void</span> stateChanged();</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>private:</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">bool</span> isPlayableItem(<a class="code hl_class" href="classMultimedia_1_1Item.html">Item</a> const&amp; item) const noexcept;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">void</span> setState(UPnPAV::MediaRenderer::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> state) noexcept;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>private Q_SLOTS:</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">void</span> onSetAvTransportUriFinished() noexcept;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">void</span> onPlayCallFinished() noexcept;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>private:</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    std::unique_ptr&lt;UPnPAV::MediaRenderer&gt; mRenderer;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mProtoInfoCall;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mSetAvTransportUriCall;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mPlayCall;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    QStringList mSupportedTypes;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    QVector&lt;UPnPAV::Protocol&gt; mProtocols;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_class" href="classMultimedia_1_1Renderer.html">Renderer</a>::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> mState = <a class="code hl_class" href="classMultimedia_1_1Renderer.html">Renderer</a>::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a>::Stopped;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>};</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">bool</span> isPlayableItem(<a class="code hl_class" href="classMultimedia_1_1Item.html">Item</a> const&amp; item) const noexcept;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">void</span> setState(UPnPAV::MediaRenderer::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> state) noexcept;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>private:</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    std::unique_ptr&lt;UPnPAV::MediaRenderer&gt; mRenderer;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mProtoInfoCall;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mSetAvTransportUriCall;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    std::unique_ptr&lt;UPnPAV::PendingSoapCall&gt; mPlayCall;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    QStringList mSupportedTypes;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    QVector&lt;UPnPAV::Protocol&gt; mProtocols;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <a class="code hl_class" href="classMultimedia_1_1Renderer.html">Renderer</a>::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> mState = <a class="code hl_class" href="classMultimedia_1_1Renderer.html">Renderer</a>::<a class="code hl_enumeration" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a>::Stopped;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
 </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}; <span class="comment">// namespace Multimedia</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}; <span class="comment">// namespace Multimedia</span></div>
 <div class="ttc" id="aclassMultimedia_1_1Item_html"><div class="ttname"><a href="classMultimedia_1_1Item.html">Multimedia::Item</a></div><div class="ttdef"><b>Definition</b> Item.hpp:44</div></div>
 <div class="ttc" id="aclassMultimedia_1_1Renderer_html"><div class="ttname"><a href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a></div><div class="ttdef"><b>Definition</b> Renderer.hpp:22</div></div>
 <div class="ttc" id="aclassMultimedia_1_1Renderer_html_a808fe64beedb20ae4a04fe4e05395acb"><div class="ttname"><a href="classMultimedia_1_1Renderer.html#a808fe64beedb20ae4a04fe4e05395acb">Multimedia::Renderer::~Renderer</a></div><div class="ttdeci">~Renderer() override</div></div>

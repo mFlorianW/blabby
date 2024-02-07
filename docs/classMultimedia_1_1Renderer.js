@@ -15,5 +15,6 @@ var classMultimedia_1_1Renderer =
     [ "playback", "classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d", null ],
     [ "playbackFailed", "classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b", null ],
     [ "playbackStarted", "classMultimedia_1_1Renderer.html#a4d9c585a77e9adafc3cdea6da8fdb1ad", null ],
-    [ "state", "classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223", null ]
+    [ "state", "classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223", null ],
+    [ "stateChanged", "classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8", null ]
 ];
