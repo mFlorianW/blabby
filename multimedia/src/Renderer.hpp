@@ -116,6 +116,10 @@ Q_SIGNALS:
      */
     void playbackFailed(QString const& errorMsg);
 
+    /**
+     * This signal is emitted when the Renderer detects a state change of @ref UPnPAV::MediaRenderer
+     * The actual state then can be requested with @ref Renderer::state.
+     */
     void stateChanged();
 
 private Q_SLOTS:
