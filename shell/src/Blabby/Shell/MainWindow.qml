@@ -166,6 +166,14 @@ Item {
                 width: parent.width
                 height: 109
 
+                MediaPlayer {
+                    id: mediaPlayer
+                    anchors.top: mediaControlArea.top
+                    anchors.topMargin: 25
+                    anchors.left: mediaControlArea.left
+                    anchors.leftMargin: 530
+                }
+
                 IconButton {
                     id: rendererButton
                     source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/renderer.svg"

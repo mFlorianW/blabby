@@ -13,6 +13,7 @@ qt_add_qml_module(${PROJECT_NAME}
         MainWindow.qml
         Menu.qml
         RendererDialog.qml
+        MediaPlayer.qml
     RESOURCES
         ../../icons/24x24/burgermenu.svg
         ../../icons/24x24/navigate_back.svg

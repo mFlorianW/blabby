@@ -10,4 +10,11 @@ import Blabby.Singleton 1.0
 
 Item {
     id: mediaPlayer
+
+    IconButton {
+        id: playerStateButton
+        anchors.centerIn: parent
+        style: AbstractIconButton.Style.Tonal
+        source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg"
+    }
 }
