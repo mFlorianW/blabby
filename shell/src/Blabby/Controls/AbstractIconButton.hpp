@@ -29,7 +29,30 @@ class AbstractIconButton : public AbstractInteractiveControl
      */
     Q_PROPERTY(bool border READ border WRITE setBorder NOTIFY borderChanged)
 
+    /**
+     * The style of the @ref Shell::AbstractIconButton
+     * Default: Default
+     */
+    Q_PROPERTY(Shell::AbstractIconButton::Style style READ style WRITE setStyle NOTIFY styleChanged)
+
 public:
+    /**
+     * Different Styles of the @ref Shell::AbstractIconButton
+     */
+    enum class Style
+    {
+        /**
+         * The default style.
+         */
+        Default,
+
+        /**
+         * In this style the @ref Shell::AbstractIconButton will have a background per default.
+         */
+        Tonal,
+    };
+    Q_ENUM(Style)
+
     /**
      * Inherited Constructors
      */
@@ -70,6 +93,18 @@ public:
      */
     void setBorder(bool border) noexcept;
 
+    /**
+     * Gives the style of the @ref Shell::AbstractIconButton.
+     * @return The style of the button
+     */
+    AbstractIconButton::Style style() const noexcept;
+
+    /**
+     * Sets the new style of the button
+     * @param style The new style of the @ref Shell::AbstractIconButton
+     */
+    void setStyle(AbstractIconButton::Style style) noexcept;
+
 Q_SIGNALS:
     /**
      * The signal is emitted source for the icon of the button is changed.
@@ -81,8 +116,14 @@ Q_SIGNALS:
      */
     void borderChanged();
 
+    /**
+     * This singal is emitted when the style of the IconButton is changed.
+     */
+    void styleChanged();
+
 private:
     QUrl mIconSource;
     bool mBorder{false};
+    Style mStyle = Style::Default;
 };
 } // namespace Shell

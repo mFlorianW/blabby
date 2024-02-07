@@ -16,6 +16,18 @@ AbstractIconButton {
     implicitWidth: 48
 
     Rectangle {
+        id: background
+        width: 40
+        height: 40
+        radius: width * 0.5
+        anchors.centerIn: parent
+        color: Theme.colors.surfaceContainerHeighest
+        border.color: iconButton.border ? Theme.colors.outline : "transparent"
+        border.width: iconButton.border ? 1 : 0
+        visible: iconButton.style === AbstractIconButton.Style.Tonal
+    }
+
+    Rectangle {
         id: stateLayer
         width: 40
         height: 40
