@@ -107,11 +107,6 @@ Q_SIGNALS:
     void initializationFailed(QString const& errorMsg);
 
     /**
-     * This signal is emitted when the @ref Multimedia::Renderer::playback call finished successful.
-     */
-    void playbackStarted();
-
-    /**
      * This signal is emitted when the @ref Multimedia::Renderer::playback call has a failure.
      */
     void playbackFailed(QString const& errorMsg);

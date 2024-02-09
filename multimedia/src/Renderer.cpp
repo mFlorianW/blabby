@@ -103,9 +103,7 @@ void Renderer::onSetAvTransportUriFinished() noexcept
 
 void Renderer::onPlayCallFinished() noexcept
 {
-    if (mPlayCall and not mPlayCall->hasError()) {
-        Q_EMIT playbackStarted();
-    } else if (mPlayCall and mPlayCall->hasError()) {
+    if (mPlayCall and mPlayCall->hasError()) {
         Q_EMIT playbackFailed(QString{"Failed to call play. Error code: %1. Error description: %2"}.arg(
             QVariant::fromValue<PendingSoapCall::ErrorCode>(mPlayCall->errorCode()).toString(),
             mPlayCall->errorDescription()));

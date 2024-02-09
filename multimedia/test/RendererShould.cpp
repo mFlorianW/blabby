@@ -124,25 +124,6 @@ void RendererShould::call_play_on_successful_avtransporturi_request()
     QCOMPARE(upnpRendererRaw->playData(), expData);
 }
 
-void RendererShould::signal_the_playback_start_on_successful_play_request()
-{
-    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapBackendDouble>::create(),
-                                                              QSharedPointer<Doubles::EventBackend>::create());
-    auto upnpRendererRaw = upnpRenderer.get();
-    auto renderer = Renderer{std::move(upnpRenderer)};
-    auto playbackStartSpy = QSignalSpy{&renderer, &Renderer::playbackStarted};
-    upnpRendererRaw->protocolInfoCall()->setRawMessage(ValidProtoclInfoResponseOfRenderer);
-
-    renderer.initialize();
-    Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();
-    renderer.playback(createPlayableMediaItem());
-    Q_EMIT upnpRendererRaw->avTransportUriCall()->finished();
-    Q_EMIT upnpRendererRaw->playCall()->finished();
-
-    QCOMPARE(playbackStartSpy.size(), 1);
-}
-
 void RendererShould::not_call_avtransporturi_with_unsupported_items()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
