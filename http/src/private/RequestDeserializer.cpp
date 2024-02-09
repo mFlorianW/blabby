@@ -51,6 +51,7 @@ void RequestDeserializer::readRequest()
     llhttp_errno error = llhttp_execute(&parser, mRequest.data(), mRequest.size());
     if (error != HPE_OK) {
         qCCritical(httpServer) << "Failed to read request. Error:" << llhttp_errno_name(error);
+        qCDebug(httpServer) << "Message:\n" << mRequest.data();
     }
 
     llhttp_finish(&parser);
