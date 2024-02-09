@@ -214,6 +214,20 @@ void RendererShould::map_upnp_devices_to_renderer_device_states()
     QCOMPARE(renderer.state(), expectedState);
 }
 
+void RendererShould::stop_request_the_playback()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    renderer.stop();
+
+    QCOMPARE(upnpRendererRaw->isStopCalled(), true);
+    QCOMPARE(upnpRendererRaw->stopData(), {.instaneId = 0});
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

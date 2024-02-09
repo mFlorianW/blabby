@@ -5,6 +5,8 @@
 #include "Renderer.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "PendingSoapCall.hpp"
+#include "private/LoggingCategories.hpp"
+#include <QDebug>
 #include <QVariant>
 
 using namespace UPnPAV;
@@ -107,6 +109,24 @@ void Renderer::onPlayCallFinished() noexcept
         Q_EMIT playbackFailed(QString{"Failed to call play. Error code: %1. Error description: %2"}.arg(
             QVariant::fromValue<PendingSoapCall::ErrorCode>(mPlayCall->errorCode()).toString(),
             mPlayCall->errorDescription()));
+    }
+}
+
+void Renderer::stop() noexcept
+{
+    if (not mRenderer->hasAvTransportService()) {
+        qCCritical(mmRenderer) << "Stop call is not possible. Error: Renderer doesn't have AvTransport service";
+        return;
+    }
+
+    auto stopCall = mRenderer->stop(0);
+    if (stopCall.has_value()) {
+        mStopCall = std::move(stopCall.value());
+        connect(mStopCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
+            if (mStopCall->hasError()) {
+                qCCritical(mmRenderer) << "Stop request failed with error:" << mStopCall->errorDescription();
+            }
+        });
     }
 }
 

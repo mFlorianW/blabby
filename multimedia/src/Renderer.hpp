@@ -83,10 +83,17 @@ public:
      * Starts the playback of the passed @ref Multimedia::Item.
      * First checks that both @ref Multimedia::Renderer and @ref Multimedia::Item are compatible
      * Afterwards it calls the setAvTransportUri on the Renderer.
-     * The signal @ref Multimedia::Renderer::playbackStarted is emitted on success.
      * The signal @ref Multimedia::Renderer::playbackFailed with the error information is emitted on failure.
      */
     void playback(Item const& item) noexcept;
+
+    /**
+     * Stop the current playback.
+     * If the playback is not active nothing happens.
+     * On success the signal @ref Multimedia::Renderer::stateChanged is emitted.
+     * The new state then should be be stopped.
+     */
+    void stop() noexcept;
 
     /**
      * Gives the state for the @ref Mulitmedia::Renderer.
@@ -130,6 +137,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mProtoInfoCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetAvTransportUriCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::Stopped;
