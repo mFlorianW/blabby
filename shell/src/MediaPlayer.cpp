@@ -17,6 +17,11 @@ MediaPlayer::~MediaPlayer() = default;
 
 void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer) noexcept
 {
+    // disconnect the old signals before setting a new renderer or clear it.
+    if (mRenderer != nullptr) {
+        disconnect(mRenderer.get(), nullptr, nullptr, nullptr);
+    }
+
     mRenderer = renderer;
     if (mRenderer != nullptr) {
         connect(mRenderer.get(), &Renderer::playbackStarted, this, &MediaPlayer::playbackStarted);
