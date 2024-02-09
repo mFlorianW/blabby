@@ -16,11 +16,35 @@ namespace Shell
 class MediaPlayer : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(Shell::MediaPlayer::PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
+
 public:
     /*
      * Inherited QObject constructors
      */
     using QObject::QObject;
+
+    /**
+     * The @ref Shell::MediaPlayer::PlaybackState are the states the @ref Shell::MediaPlayer can have.
+     */
+    enum PlaybackState
+    {
+        /**
+         * The @ref Shell::MediaPlayer is playing something
+         */
+        Playing,
+
+        /**
+         * The @ref Shell::MediaPlayer is paused
+         */
+        Paused,
+
+        /**
+         * The @ref Shell::MediaPlayer is stopped
+         */
+        Stopped,
+    };
+    Q_ENUM(PlaybackState)
 
     /**
      * Default destructor
@@ -44,14 +68,25 @@ public:
      */
     Q_INVOKABLE void play(Multimedia::Item const& item);
 
+    /**
+     * Gives the current @ref Shell::MediaPlayer::PlaybackState of the @ref Shell::MediaPlayer.
+     * The default state is stopped
+     * @return The state of the @ref Shell::MediaPlayer.
+     */
+    PlaybackState playbackState() const noexcept;
+
 Q_SIGNALS:
     /**
-     * This signal is emitted when the playback started
+     * This signal is emitted when the @ref Shell::MediaPlayer changes it's @ref Shell::MediaPlayer::PlaybackState
      */
-    void playbackStarted();
+    void playbackStateChanged();
+
+private:
+    void setPlaybackState(Multimedia::Renderer::State state);
 
 private:
     std::shared_ptr<Multimedia::Renderer> mRenderer = nullptr;
+    PlaybackState mState = PlaybackState::Stopped;
 };
 
 } // namespace Shell

@@ -51,15 +51,18 @@ void MediaPlayerShould::init()
 
 void MediaPlayerShould::start_playback_on_play_request()
 {
-    auto playbackStartedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStarted};
+    auto playbackStartedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStateChanged};
 
     mPlayer->play(createPlayableMediaItem());
     QCOMPARE(mUpnpRenderer->isSetAvTransportUriCalled(), true);
     Q_EMIT mUpnpRenderer->avTransportUriCall()->finished();
     QCOMPARE(mUpnpRenderer->isPlayCalled(), true);
     Q_EMIT mUpnpRenderer->playCall()->finished();
+    // Simulate the device state change to playing
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
 
     QCOMPARE(playbackStartedSpy.size(), 1);
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
 }
 
 } // namespace Shell

@@ -24,7 +24,9 @@ void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& rende
 
     mRenderer = renderer;
     if (mRenderer != nullptr) {
-        connect(mRenderer.get(), &Renderer::playbackStarted, this, &MediaPlayer::playbackStarted);
+        connect(mRenderer.get(), &Multimedia::Renderer::stateChanged, this, [this]() {
+            setPlaybackState(mRenderer->state());
+        });
         mRenderer->initialize();
     }
 }
@@ -36,6 +38,26 @@ void MediaPlayer::play(Multimedia::Item const& item)
         return;
     }
     mRenderer->playback(item);
+}
+
+MediaPlayer::PlaybackState MediaPlayer::playbackState() const noexcept
+{
+    return mState;
+}
+
+void MediaPlayer::setPlaybackState(Multimedia::Renderer::State state)
+{
+    auto pstate = PlaybackState::Stopped;
+    if (state == Multimedia::Renderer::State::Playing) {
+        pstate = PlaybackState::Playing;
+    } else if (state == Multimedia::Renderer::State::Paused) {
+        pstate = PlaybackState::Paused;
+    }
+
+    if (mState != pstate) {
+        mState = pstate;
+        Q_EMIT playbackStateChanged();
+    }
 }
 
 } // namespace Shell
