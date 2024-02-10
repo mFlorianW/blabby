@@ -49,9 +49,9 @@ void MediaPlayerShould::init()
     Q_EMIT mUpnpRenderer->protocolInfoCall()->finished();
 }
 
-void MediaPlayerShould::start_playback_on_play_request()
+void MediaPlayerShould::start_stop_playback_on_play_request()
 {
-    auto playbackStartedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStateChanged};
+    auto playbackChangedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStateChanged};
 
     mPlayer->play(createPlayableMediaItem());
     QCOMPARE(mUpnpRenderer->isSetAvTransportUriCalled(), true);
@@ -61,8 +61,17 @@ void MediaPlayerShould::start_playback_on_play_request()
     // Simulate the device state change to playing
     mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
 
-    QCOMPARE(playbackStartedSpy.size(), 1);
+    QCOMPARE(playbackChangedSpy.size(), 1);
     QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
+
+    playbackChangedSpy.clear();
+    mPlayer->stop();
+    QCOMPARE(mUpnpRenderer->isStopCalled(), true);
+    Q_EMIT mUpnpRenderer->stopCall()->finished();
+    // Simulate the device state change to stopped
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
+
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Stopped);
 }
 
 } // namespace Shell

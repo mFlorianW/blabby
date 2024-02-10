@@ -40,6 +40,15 @@ void MediaPlayer::play(Multimedia::Item const& item)
     mRenderer->playback(item);
 }
 
+void MediaPlayer::stop() noexcept
+{
+    if (mRenderer == nullptr) {
+        qCCritical(shell) << "Failed to stop playback. No render device set.";
+        return;
+    }
+    mRenderer->stop();
+}
+
 MediaPlayer::PlaybackState MediaPlayer::playbackState() const noexcept
 {
     return mState;

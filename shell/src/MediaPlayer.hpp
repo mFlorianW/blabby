@@ -69,6 +69,13 @@ public:
     Q_INVOKABLE void play(Multimedia::Item const& item);
 
     /**
+     * Stops the current playback.
+     * If no playback is active nothing happens
+     * The new state is reported with the @ref Shell::MediaPlayer::playbackStateChanged.
+     */
+    Q_INVOKABLE void stop() noexcept;
+
+    /**
      * Gives the current @ref Shell::MediaPlayer::PlaybackState of the @ref Shell::MediaPlayer.
      * The default state is stopped
      * @return The state of the @ref Shell::MediaPlayer.
