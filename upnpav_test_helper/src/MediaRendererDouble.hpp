@@ -33,6 +33,12 @@ struct PlayData
     friend bool operator==(PlayData const& lhs, PlayData const& rhs) = default;
 };
 
+struct StopData
+{
+    quint32 instaneId = quint32{1234};
+    friend bool operator==(StopData const& lhs, StopData const& rhs) = default;
+};
+
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
@@ -78,19 +84,48 @@ public:
      */
     void setDeviceState(MediaDevice::State state) noexcept;
 
+    /**
+     * @return The data of the last stop call.
+     */
+    StopData stopData() const noexcept;
+
+    /**
+     * @return True the Stop was called otherwise false
+     */
+    bool isStopCalled() const noexcept;
+
+    /**
+     * @return Gives the stopCall object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> stopCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::stop
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> stop(quint32 instanceId) noexcept override;
+
 private:
+    // State
+    MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
+    // ProtocolInfo
     QSharedPointer<SoapCallDouble> mProtoInfoCall =
         QSharedPointer<SoapCallDouble>::create(UPnPAV::validConnectionManagerSCPD(), UPnPAV::GetProtocolInfo());
     bool mIsProtocolInfoCalled = false;
+    // AVTransportUri
     QSharedPointer<SoapCallDouble> mSetAvTransportUriCall =
         QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createSetAVTransportURIAction());
     bool mIsSetAvTranstportUriCalled = false;
     AvTransportUriData mSetAvTransportUriData;
+    // Play
     QSharedPointer<SoapCallDouble> mPlayCall =
         QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createPlayAction());
     bool mIsPlayCalled = false;
     PlayData mPlayData;
-    MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
+    // Stop
+    bool mIsStopCalled = false;
+    StopData mStopData;
+    QSharedPointer<SoapCallDouble> mStopCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createStopAction());
 };
 
 } // namespace UPnPAV::Doubles

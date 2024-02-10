@@ -96,4 +96,26 @@ void MediaRendererDouble::setDeviceState(MediaDevice::State state) noexcept
     }
 }
 
+StopData MediaRendererDouble::stopData() const noexcept
+{
+    return mStopData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::stopCall() const noexcept
+{
+    return mStopCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::stop(quint32 instanceId) noexcept
+{
+    mIsStopCalled = true;
+    mStopData = StopData{.instaneId = instanceId};
+    return std::make_unique<PendingSoapCall>(mStopCall);
+}
+
+bool MediaRendererDouble::isStopCalled() const noexcept
+{
+    return mIsStopCalled;
+}
+
 } // namespace UPnPAV::Doubles
