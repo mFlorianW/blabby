@@ -43,10 +43,18 @@ void MediaPlayerShould::init()
     mUpnpRenderer = upnpRenderer.get();
     auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
     mPlayer = std::make_shared<MediaPlayer>();
-    mPlayer->setRenderer(renderer);
 
+    // Testing that the media player requests the device state on initialization
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
+    mPlayer->setRenderer(renderer);
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
+
+    // Test that the media player requests the protocol info initialization
     QCOMPARE(mUpnpRenderer->isProtocolInfoCalled(), true);
     Q_EMIT mUpnpRenderer->protocolInfoCall()->finished();
+
+    // Set renderer back to default state
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
 }
 
 void MediaPlayerShould::start_stop_playback_on_play_request()

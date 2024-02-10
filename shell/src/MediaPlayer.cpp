@@ -28,6 +28,7 @@ void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& rende
             setPlaybackState(mRenderer->state());
         });
         mRenderer->initialize();
+        setPlaybackState(mRenderer->state());
     }
 }
 
