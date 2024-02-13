@@ -39,6 +39,12 @@ struct StopData
     friend bool operator==(StopData const& lhs, StopData const& rhs) = default;
 };
 
+struct PauseData
+{
+    quint32 instaneId = quint32{1234};
+    friend bool operator==(PauseData const& lhs, PauseData const& rhs) = default;
+};
+
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
@@ -104,6 +110,33 @@ public:
      */
     std::optional<std::unique_ptr<PendingSoapCall>> stop(quint32 instanceId) noexcept override;
 
+    /**
+     * @return The data of the last pause call.
+     */
+    PauseData pauseData() const noexcept;
+
+    /**
+     * Activates or disables the pause function.
+     * Without enabling the pause function the MediaRenderer behaves like a device without pause function.
+     * @param enabled True activates the pause function, false deactivates the pauses function.
+     */
+    void setPauseEnabled(bool enabled) noexcept;
+
+    /**
+     * @return True the pause was called otherwise false
+     */
+    bool isPauseCalled() const noexcept;
+
+    /**
+     * @return Gives the pause object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> pauseCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::pause
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> pause(quint32 instanceId) noexcept override;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -126,6 +159,12 @@ private:
     StopData mStopData;
     QSharedPointer<SoapCallDouble> mStopCall =
         QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createStopAction());
+    // Pause
+    bool mIsPauseCalled = false;
+    bool mPauseEnabled = false;
+    PauseData mPauseData;
+    QSharedPointer<SoapCallDouble> mPauseCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createPauseAction());
 };
 
 } // namespace UPnPAV::Doubles

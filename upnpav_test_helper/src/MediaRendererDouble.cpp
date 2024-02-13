@@ -118,4 +118,35 @@ bool MediaRendererDouble::isStopCalled() const noexcept
     return mIsStopCalled;
 }
 
+PauseData MediaRendererDouble::pauseData() const noexcept
+{
+    return mPauseData;
+}
+
+void MediaRendererDouble::setPauseEnabled(bool enabled) noexcept
+{
+    mPauseEnabled = enabled;
+}
+
+bool MediaRendererDouble::isPauseCalled() const noexcept
+{
+    return mIsPauseCalled;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::pauseCall() const noexcept
+{
+    return mPauseCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::pause(quint32 instanceId) noexcept
+{
+    if (not mPauseEnabled) {
+        return std::nullopt;
+    }
+
+    mIsPauseCalled = true;
+    mPauseData = {.instaneId = instanceId};
+    return std::make_unique<PendingSoapCall>(mPauseCall);
+}
+
 } // namespace UPnPAV::Doubles
