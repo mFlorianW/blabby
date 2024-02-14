@@ -83,6 +83,25 @@ QSharedPointer<SoapCallDouble> MediaRendererDouble::playCall() const noexcept
     return mPlayCall;
 }
 
+void MediaRendererDouble::reset() noexcept
+{
+    // ProtocolInfo
+    mIsProtocolInfoCalled = false;
+    // AVTransportUri
+    mIsSetAvTranstportUriCalled = false;
+    mSetAvTransportUriData = {};
+    // Play
+    mIsPlayCalled = false;
+    mPlayData = {};
+    // Stop
+    mIsStopCalled = false;
+    mStopData = {};
+    // Pause
+    mIsPauseCalled = false;
+    mPauseEnabled = false;
+    mPauseData = {};
+}
+
 MediaDevice::State MediaRendererDouble::state() const noexcept
 {
     return mState;

@@ -80,6 +80,12 @@ public:
     QSharedPointer<SoapCallDouble> playCall() const noexcept;
 
     /**
+     * Resets all the internal states set all call data to default.
+     * @note The state is not touched.
+     */
+    void reset() noexcept;
+
+    /**
      * @copydoc UPnPAV::MediaDevice::state
      */
     MediaDevice::State state() const noexcept override;
