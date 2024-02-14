@@ -37,4 +37,17 @@ void AbstractIconButton::setBorder(bool border) noexcept
     }
 }
 
+AbstractIconButton::Style AbstractIconButton::style() const noexcept
+{
+    return mStyle;
+}
+
+void AbstractIconButton::setStyle(AbstractIconButton::Style style) noexcept
+{
+    if (mStyle != style) {
+        mStyle = style;
+        Q_EMIT styleChanged();
+    }
+}
+
 } // namespace Shell

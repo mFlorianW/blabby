@@ -124,25 +124,6 @@ void RendererShould::call_play_on_successful_avtransporturi_request()
     QCOMPARE(upnpRendererRaw->playData(), expData);
 }
 
-void RendererShould::signal_the_playback_start_on_successful_play_request()
-{
-    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
-                                                              QSharedPointer<SoapBackendDouble>::create(),
-                                                              QSharedPointer<Doubles::EventBackend>::create());
-    auto upnpRendererRaw = upnpRenderer.get();
-    auto renderer = Renderer{std::move(upnpRenderer)};
-    auto playbackStartSpy = QSignalSpy{&renderer, &Renderer::playbackStarted};
-    upnpRendererRaw->protocolInfoCall()->setRawMessage(ValidProtoclInfoResponseOfRenderer);
-
-    renderer.initialize();
-    Q_EMIT upnpRendererRaw->protocolInfoCall()->finished();
-    renderer.playback(createPlayableMediaItem());
-    Q_EMIT upnpRendererRaw->avTransportUriCall()->finished();
-    Q_EMIT upnpRendererRaw->playCall()->finished();
-
-    QCOMPARE(playbackStartSpy.size(), 1);
-}
-
 void RendererShould::not_call_avtransporturi_with_unsupported_items()
 {
     auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
@@ -200,22 +181,22 @@ void RendererShould::signal_playback_failed_on_playcall_failed()
     QCOMPARE(playbackFailedSpy.at(0).at(0).toString().isEmpty(), false);
 }
 
-void RendererShould::map_upnp_devices_to_renderer_device_states_data()
+void RendererShould::map_upnp_devices_states_to_renderer_device_states_data()
 {
     QTest::addColumn<MediaDevice::State>("state");
     QTest::addColumn<Renderer::State>("expectedState");
     QTest::addColumn<bool>("stateChanged");
 
-    QTest::newRow("Stopped") << MediaDevice::State::Stopped << Renderer::State::Stopped << false;
+    QTest::newRow("Stopped") << MediaDevice::State::Stopped << Renderer::State::Stopped << true;
     QTest::newRow("PausedPlayback") << MediaDevice::State::PausedPlayback << Renderer::State::Paused << true;
-    QTest::newRow("PausedRecording") << MediaDevice::State::PausedRecording << Renderer::State::Stopped << false;
+    QTest::newRow("PausedRecording") << MediaDevice::State::PausedRecording << Renderer::State::NoMedia << false;
     QTest::newRow("Playing") << MediaDevice::State::Playing << Renderer::State::Playing << true;
-    QTest::newRow("Recording") << MediaDevice::State::Recording << Renderer::State::Stopped << false;
-    QTest::newRow("Transitioning") << MediaDevice::State::Transitioning << Renderer::State::Stopped << false;
-    QTest::newRow("NoMediaPresent") << MediaDevice::State::NoMediaPresent << Renderer::State::Stopped << false;
+    QTest::newRow("Recording") << MediaDevice::State::Recording << Renderer::State::NoMedia << false;
+    QTest::newRow("Transitioning") << MediaDevice::State::Transitioning << Renderer::State::NoMedia << false;
+    QTest::newRow("NoMediaPresent") << MediaDevice::State::NoMediaPresent << Renderer::State::NoMedia << false;
 }
 
-void RendererShould::map_upnp_devices_to_renderer_device_states()
+void RendererShould::map_upnp_devices_states_to_renderer_device_states()
 {
     QFETCH(MediaDevice::State, state);
     QFETCH(Renderer::State, expectedState);
@@ -231,6 +212,65 @@ void RendererShould::map_upnp_devices_to_renderer_device_states()
 
     QCOMPARE(stateChangedSpy.isEmpty(), not stateChanged);
     QCOMPARE(renderer.state(), expectedState);
+}
+
+void RendererShould::stop_request_the_playback()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    renderer.stop();
+
+    QCOMPARE(upnpRendererRaw->isStopCalled(), true);
+    QCOMPARE(upnpRendererRaw->stopData(), {.instaneId = 0});
+}
+
+void RendererShould::send_pause_request()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    upnpRendererRaw->setPauseEnabled(true);
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    renderer.stop();
+
+    QCOMPARE(upnpRendererRaw->isPauseCalled(), true);
+    QCOMPARE(upnpRendererRaw->pauseData(), {.instaneId = 0});
+}
+
+void RendererShould::resume_the_playback_when_the_states_are_stop_and_pause()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    upnpRendererRaw->setDeviceState(MediaDevice::State::Stopped);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), true);
+    QCOMPARE(upnpRendererRaw->playData(), {.instanceId = 0});
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), false);
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::PausedPlayback);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), true);
+    QCOMPARE(upnpRendererRaw->playData(), {.instanceId = 0});
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::NoMediaPresent);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), false);
 }
 
 } // namespace Multimedia

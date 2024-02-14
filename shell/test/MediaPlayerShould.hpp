@@ -24,17 +24,8 @@ private:
     UPnPAV::Doubles::MediaRendererDouble* mUpnpRenderer;
     std::shared_ptr<MediaPlayer> mPlayer;
 private Q_SLOTS:
-    /**
-     * Setups for every test a @ref Shell::MediaPlayer instance.
-     * In the tests the @ref Shell::MediaPlayer can be asccessed with mPlayer.
-     * The simulated @ref UPnPAV::MediaRenderer is accessable with mUpnpRenderer.
-     */
     void init();
 
-    /**
-     * Tests that a passed playable MediaItem to the @ref Shell::MediaPlayer is correctly forwarded
-     * and the playback start is correctly reported.
-     */
-    void start_playback_on_play_request();
+    void start_stop_and_resume_playback_on_play_request();
 };
 } // namespace Shell

@@ -28,7 +28,11 @@ public:
     enum class State
     {
         /**
-         * Default state and the state when the @ref Mulitmedia::Renderer is not active playing
+         * The default state of the Renderer or when the UPnPAV has no media set.
+         */
+        NoMedia,
+        /**
+         * The state when the @ref Mulitmedia::Renderer is not active playing
          */
         Stopped,
         /**
@@ -83,10 +87,30 @@ public:
      * Starts the playback of the passed @ref Multimedia::Item.
      * First checks that both @ref Multimedia::Renderer and @ref Multimedia::Item are compatible
      * Afterwards it calls the setAvTransportUri on the Renderer.
-     * The signal @ref Multimedia::Renderer::playbackStarted is emitted on success.
      * The signal @ref Multimedia::Renderer::playbackFailed with the error information is emitted on failure.
      */
     void playback(Item const& item) noexcept;
+
+    /**
+     * Stops or pause the current playback.
+     * Pause is the preferred way to stop the playback but not every device support this feature.
+     * So the pause is called when the device supports it in all other cases stop is called.
+     * If the playback is not active nothing happens.
+     * On success the signal @ref Multimedia::Renderer::stateChanged is emitted.
+     * The new state then should be be stopped or paused.
+     */
+    void stop() noexcept;
+
+    /**
+     * Resumes the playback when the @ref Multimedia::Renderer has the state
+     * @ref Mulitmedia::Renderer::State::Stopped
+     * or
+     * @ref Mulitmedia::Renderer::State::Paused.
+     * If the device is in the stopped state the playback starts all over again and for the pause state
+     * the track resumes at the pause state.
+     * In all other cases the function does nothing.
+     */
+    void resume() noexcept;
 
     /**
      * Gives the state for the @ref Mulitmedia::Renderer.
@@ -105,11 +129,6 @@ Q_SIGNALS:
      * This signal is emitted when the @ref Multimedia::Renderer::initialize call has a failure.
      */
     void initializationFailed(QString const& errorMsg);
-
-    /**
-     * This signal is emitted when the @ref Multimedia::Renderer::playback call finished successful.
-     */
-    void playbackStarted();
 
     /**
      * This signal is emitted when the @ref Multimedia::Renderer::playback call has a failure.
@@ -135,9 +154,11 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mProtoInfoCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetAvTransportUriCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
-    Renderer::State mState = Renderer::State::Stopped;
+    Renderer::State mState = Renderer::State::NoMedia;
 };
 
 }; // namespace Multimedia

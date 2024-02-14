@@ -43,23 +43,54 @@ void MediaPlayerShould::init()
     mUpnpRenderer = upnpRenderer.get();
     auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
     mPlayer = std::make_shared<MediaPlayer>();
-    mPlayer->setRenderer(renderer);
 
+    // Testing that the media player requests the device state on initialization
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
+    mPlayer->setRenderer(renderer);
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
+
+    // Test that the media player requests the protocol info initialization
     QCOMPARE(mUpnpRenderer->isProtocolInfoCalled(), true);
     Q_EMIT mUpnpRenderer->protocolInfoCall()->finished();
+
+    // Set renderer back to default state
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
 }
 
-void MediaPlayerShould::start_playback_on_play_request()
+void MediaPlayerShould::start_stop_and_resume_playback_on_play_request()
 {
-    auto playbackStartedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStarted};
+    auto playbackChangedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStateChanged};
 
     mPlayer->play(createPlayableMediaItem());
     QCOMPARE(mUpnpRenderer->isSetAvTransportUriCalled(), true);
     Q_EMIT mUpnpRenderer->avTransportUriCall()->finished();
     QCOMPARE(mUpnpRenderer->isPlayCalled(), true);
     Q_EMIT mUpnpRenderer->playCall()->finished();
+    // Simulate the device state change to playing
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
 
-    QCOMPARE(playbackStartedSpy.size(), 1);
+    QCOMPARE(playbackChangedSpy.size(), 1);
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
+
+    mUpnpRenderer->reset();
+    playbackChangedSpy.clear();
+    mPlayer->stop();
+    QCOMPARE(mUpnpRenderer->isStopCalled(), true);
+    Q_EMIT mUpnpRenderer->stopCall()->finished();
+    // Simulate the device state change to stopped
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
+
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Stopped);
+
+    mUpnpRenderer->reset();
+    playbackChangedSpy.clear();
+    mPlayer->resume();
+    QCOMPARE(mUpnpRenderer->isPlayCalled(), true);
+    Q_EMIT mUpnpRenderer->playCall()->finished();
+    // Simulate the device state change to Playing
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
+
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
 }
 
 } // namespace Shell

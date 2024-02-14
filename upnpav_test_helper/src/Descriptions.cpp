@@ -453,8 +453,10 @@ DeviceDescription validRendererDeviceDescription() noexcept
                              QString(""),
                              QString(""),
                              {IconDescription{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
-                             {validRenderingControlServiceDescription(), validConnectionManagerDescription()},
-                             {validRenderingControlSCPD(), validConnectionManagerSCPD()}};
+                             {validRenderingControlServiceDescription(),
+                              validConnectionManagerDescription(),
+                              validAvTransportServiceDescription()},
+                             {validRenderingControlSCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()}};
 }
 
 } // namespace UPnPAV

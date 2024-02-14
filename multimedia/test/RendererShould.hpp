@@ -22,12 +22,14 @@ private Q_SLOTS:
     void signal_that_initialization_unsuccessful_finished();
     void call_avtransport_uri_on_playback_request();
     void call_play_on_successful_avtransporturi_request();
-    void signal_the_playback_start_on_successful_play_request();
     void not_call_avtransporturi_with_unsupported_items();
     void signal_playback_failed_on_avtransporturi_call_failed();
     void signal_playback_failed_on_playcall_failed();
-    void map_upnp_devices_to_renderer_device_states_data();
-    void map_upnp_devices_to_renderer_device_states();
+    void map_upnp_devices_states_to_renderer_device_states_data();
+    void map_upnp_devices_states_to_renderer_device_states();
+    void stop_request_the_playback();
+    void send_pause_request();
+    void resume_the_playback_when_the_states_are_stop_and_pause();
 };
 
 } // namespace Multimedia

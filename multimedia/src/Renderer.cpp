@@ -5,6 +5,8 @@
 #include "Renderer.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "PendingSoapCall.hpp"
+#include "private/LoggingCategories.hpp"
+#include <QDebug>
 #include <QVariant>
 
 using namespace UPnPAV;
@@ -103,12 +105,42 @@ void Renderer::onSetAvTransportUriFinished() noexcept
 
 void Renderer::onPlayCallFinished() noexcept
 {
-    if (mPlayCall and not mPlayCall->hasError()) {
-        Q_EMIT playbackStarted();
-    } else if (mPlayCall and mPlayCall->hasError()) {
+    if (mPlayCall and mPlayCall->hasError()) {
         Q_EMIT playbackFailed(QString{"Failed to call play. Error code: %1. Error description: %2"}.arg(
             QVariant::fromValue<PendingSoapCall::ErrorCode>(mPlayCall->errorCode()).toString(),
             mPlayCall->errorDescription()));
+    }
+}
+
+void Renderer::stop() noexcept
+{
+    if (not mRenderer->hasAvTransportService()) {
+        qCCritical(mmRenderer) << "Stop call is not possible. Error: Renderer doesn't have AvTransport service";
+        return;
+    }
+
+    auto stopCall = mRenderer->pause(0);
+    if (not stopCall.has_value()) {
+        stopCall = mRenderer->stop(0);
+    }
+
+    if (stopCall.has_value()) {
+        mStopCall = std::move(stopCall.value());
+        connect(mStopCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
+            if (mStopCall->hasError()) {
+                qCCritical(mmRenderer) << "Stop request failed with error:" << mStopCall->errorDescription();
+            }
+        });
+    }
+}
+
+void Renderer::resume() noexcept
+{
+    if (mState == State::Stopped or mState == State::Paused) {
+        auto resumeCall = mRenderer->play(0);
+        if (resumeCall.has_value()) {
+            mResumeCall = std::move(resumeCall.value());
+        }
     }
 }
 
@@ -119,11 +151,13 @@ Renderer::State Renderer::state() const noexcept
 
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
 {
-    auto newState = State::Stopped;
+    auto newState = State::NoMedia;
     if (state == MediaRenderer::State::Playing) {
         newState = State::Playing;
     } else if (state == MediaRenderer::State::PausedPlayback) {
         newState = State::Paused;
+    } else if (state == MediaRenderer::State::Stopped) {
+        newState = State::Stopped;
     }
 
     if (mState != newState) {

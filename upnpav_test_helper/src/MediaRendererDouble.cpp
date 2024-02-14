@@ -83,6 +83,25 @@ QSharedPointer<SoapCallDouble> MediaRendererDouble::playCall() const noexcept
     return mPlayCall;
 }
 
+void MediaRendererDouble::reset() noexcept
+{
+    // ProtocolInfo
+    mIsProtocolInfoCalled = false;
+    // AVTransportUri
+    mIsSetAvTranstportUriCalled = false;
+    mSetAvTransportUriData = {};
+    // Play
+    mIsPlayCalled = false;
+    mPlayData = {};
+    // Stop
+    mIsStopCalled = false;
+    mStopData = {};
+    // Pause
+    mIsPauseCalled = false;
+    mPauseEnabled = false;
+    mPauseData = {};
+}
+
 MediaDevice::State MediaRendererDouble::state() const noexcept
 {
     return mState;
@@ -94,6 +113,59 @@ void MediaRendererDouble::setDeviceState(MediaDevice::State state) noexcept
         mState = state;
         Q_EMIT stateChanged();
     }
+}
+
+StopData MediaRendererDouble::stopData() const noexcept
+{
+    return mStopData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::stopCall() const noexcept
+{
+    return mStopCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::stop(quint32 instanceId) noexcept
+{
+    mIsStopCalled = true;
+    mStopData = StopData{.instaneId = instanceId};
+    return std::make_unique<PendingSoapCall>(mStopCall);
+}
+
+bool MediaRendererDouble::isStopCalled() const noexcept
+{
+    return mIsStopCalled;
+}
+
+PauseData MediaRendererDouble::pauseData() const noexcept
+{
+    return mPauseData;
+}
+
+void MediaRendererDouble::setPauseEnabled(bool enabled) noexcept
+{
+    mPauseEnabled = enabled;
+}
+
+bool MediaRendererDouble::isPauseCalled() const noexcept
+{
+    return mIsPauseCalled;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::pauseCall() const noexcept
+{
+    return mPauseCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::pause(quint32 instanceId) noexcept
+{
+    if (not mPauseEnabled) {
+        return std::nullopt;
+    }
+
+    mIsPauseCalled = true;
+    mPauseData = {.instaneId = instanceId};
+    return std::make_unique<PendingSoapCall>(mPauseCall);
 }
 
 } // namespace UPnPAV::Doubles
