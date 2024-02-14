@@ -17,6 +17,6 @@ Item {
         anchors.centerIn: parent
         style: AbstractIconButton.Style.Tonal
         source: Singleton.mediaPlayer.playbackState === Obj.MediaPlayer.Playing ? "qrc:/qt/qml/Blabby/Shell/icons/24x24/pause.svg" : "qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg"
-        onClicked: Singleton.mediaPlayer.playbackState === Obj.MediaPlayer.Playing ? Singleton.mediaPlayer.stop() : undefined
+        onClicked: Singleton.mediaPlayer.playbackState === Obj.MediaPlayer.Playing ? Singleton.mediaPlayer.stop() : Singleton.mediaPlayer.resume()
     }
 }

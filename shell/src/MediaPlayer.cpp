@@ -50,6 +50,15 @@ void MediaPlayer::stop() noexcept
     mRenderer->stop();
 }
 
+void MediaPlayer::resume() noexcept
+{
+    if (mRenderer == nullptr) {
+        qCCritical(shell) << "Failed to resume playback. No render device set.";
+        return;
+    }
+    mRenderer->resume();
+}
+
 MediaPlayer::PlaybackState MediaPlayer::playbackState() const noexcept
 {
     return mState;

@@ -57,7 +57,7 @@ void MediaPlayerShould::init()
     mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
 }
 
-void MediaPlayerShould::start_stop_playback_on_play_request()
+void MediaPlayerShould::start_stop_and_resume_playback_on_play_request()
 {
     auto playbackChangedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::playbackStateChanged};
 
@@ -72,6 +72,7 @@ void MediaPlayerShould::start_stop_playback_on_play_request()
     QCOMPARE(playbackChangedSpy.size(), 1);
     QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
 
+    mUpnpRenderer->reset();
     playbackChangedSpy.clear();
     mPlayer->stop();
     QCOMPARE(mUpnpRenderer->isStopCalled(), true);
@@ -80,6 +81,16 @@ void MediaPlayerShould::start_stop_playback_on_play_request()
     mUpnpRenderer->setDeviceState(MediaDevice::State::Stopped);
 
     QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Stopped);
+
+    mUpnpRenderer->reset();
+    playbackChangedSpy.clear();
+    mPlayer->resume();
+    QCOMPARE(mUpnpRenderer->isPlayCalled(), true);
+    Q_EMIT mUpnpRenderer->playCall()->finished();
+    // Simulate the device state change to Playing
+    mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
+
+    QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
 }
 
 } // namespace Shell

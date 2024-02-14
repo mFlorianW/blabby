@@ -26,6 +26,6 @@ private:
 private Q_SLOTS:
     void init();
 
-    void start_stop_playback_on_play_request();
+    void start_stop_and_resume_playback_on_play_request();
 };
 } // namespace Shell

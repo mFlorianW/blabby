@@ -76,6 +76,13 @@ public:
     Q_INVOKABLE void stop() noexcept;
 
     /**
+     * Resumes the playback.
+     * This has only an effect when the underlying renderer is in the correct state for
+     * resuming the playback.
+     */
+    Q_INVOKABLE void resume() noexcept;
+
+    /**
      * Gives the current @ref Shell::MediaPlayer::PlaybackState of the @ref Shell::MediaPlayer.
      * The default state is stopped
      * @return The state of the @ref Shell::MediaPlayer.
