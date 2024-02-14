@@ -141,11 +141,13 @@ Renderer::State Renderer::state() const noexcept
 
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
 {
-    auto newState = State::Stopped;
+    auto newState = State::NoMedia;
     if (state == MediaRenderer::State::Playing) {
         newState = State::Playing;
     } else if (state == MediaRenderer::State::PausedPlayback) {
         newState = State::Paused;
+    } else if (state == MediaRenderer::State::Stopped) {
+        newState = State::Stopped;
     }
 
     if (mState != newState) {

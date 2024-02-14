@@ -28,7 +28,11 @@ public:
     enum class State
     {
         /**
-         * Default state and the state when the @ref Mulitmedia::Renderer is not active playing
+         * The default state of the Renderer or when the UPnPAV has no media set.
+         */
+        NoMedia,
+        /**
+         * The state when the @ref Mulitmedia::Renderer is not active playing
          */
         Stopped,
         /**
@@ -142,7 +146,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
-    Renderer::State mState = Renderer::State::Stopped;
+    Renderer::State mState = Renderer::State::NoMedia;
 };
 
 }; // namespace Multimedia
