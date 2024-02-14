@@ -134,6 +134,16 @@ void Renderer::stop() noexcept
     }
 }
 
+void Renderer::resume() noexcept
+{
+    if (mState == State::Stopped or mState == State::Paused) {
+        auto resumeCall = mRenderer->play(0);
+        if (resumeCall.has_value()) {
+            mResumeCall = std::move(resumeCall.value());
+        }
+    }
+}
+
 Renderer::State Renderer::state() const noexcept
 {
     return mState;

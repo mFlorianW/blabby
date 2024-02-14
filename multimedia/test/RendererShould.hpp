@@ -29,6 +29,7 @@ private Q_SLOTS:
     void map_upnp_devices_states_to_renderer_device_states();
     void stop_request_the_playback();
     void send_pause_request();
+    void resume_the_playback_when_the_states_are_stop_and_pause();
 };
 
 } // namespace Multimedia

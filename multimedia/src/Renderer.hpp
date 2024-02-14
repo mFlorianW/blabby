@@ -102,6 +102,17 @@ public:
     void stop() noexcept;
 
     /**
+     * Resumes the playback when the @ref Multimedia::Renderer has the state
+     * @ref Mulitmedia::Renderer::State::Stopped
+     * or
+     * @ref Mulitmedia::Renderer::State::Paused.
+     * If the device is in the stopped state the playback starts all over again and for the pause state
+     * the track resumes at the pause state.
+     * In all other cases the function does nothing.
+     */
+    void resume() noexcept;
+
+    /**
      * Gives the state for the @ref Mulitmedia::Renderer.
      * @see The @ref Multimedia::Renderer::state for the meaing of the states.
      * @return The current state of the @ref Mulitmedia::MediaRenderer.
@@ -144,6 +155,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetAvTransportUriCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;

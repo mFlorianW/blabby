@@ -243,6 +243,36 @@ void RendererShould::send_pause_request()
     QCOMPARE(upnpRendererRaw->pauseData(), {.instaneId = 0});
 }
 
+void RendererShould::resume_the_playback_when_the_states_are_stop_and_pause()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    upnpRendererRaw->setDeviceState(MediaDevice::State::Stopped);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), true);
+    QCOMPARE(upnpRendererRaw->playData(), {.instanceId = 0});
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), false);
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::PausedPlayback);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), true);
+    QCOMPARE(upnpRendererRaw->playData(), {.instanceId = 0});
+
+    upnpRendererRaw->reset();
+    upnpRendererRaw->setDeviceState(MediaDevice::State::NoMediaPresent);
+    renderer.resume();
+    QCOMPARE(upnpRendererRaw->isPlayCalled(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)
