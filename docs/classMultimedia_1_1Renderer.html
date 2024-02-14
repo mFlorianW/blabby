@@ -124,7 +124,8 @@ Inheritance diagram for Multimedia::Renderer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a8f31aa8c7ff1652f9b81e63baf4d258c" id="r_a8f31aa8c7ff1652f9b81e63baf4d258c"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> { <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>
+<tr class="memitem:a8f31aa8c7ff1652f9b81e63baf4d258c" id="r_a8f31aa8c7ff1652f9b81e63baf4d258c"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">State</a> { <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258ca7299794937a8fabd7db1d778989e24f1">NoMedia</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>
 , <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428">Playing</a>
 , <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a">Paused</a>
  }</td></tr>
@@ -136,8 +137,6 @@ Signals</h2></td></tr>
 <tr class="separator:a678fa5ee1249efc0d905dcbfffe463d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace8ffdc00a3f8074bd6ab9671cccf91c" id="r_ace8ffdc00a3f8074bd6ab9671cccf91c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ace8ffdc00a3f8074bd6ab9671cccf91c">initializationFailed</a> (QString const &amp;errorMsg)</td></tr>
 <tr class="separator:ace8ffdc00a3f8074bd6ab9671cccf91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d9c585a77e9adafc3cdea6da8fdb1ad" id="r_a4d9c585a77e9adafc3cdea6da8fdb1ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a4d9c585a77e9adafc3cdea6da8fdb1ad">playbackStarted</a> ()</td></tr>
-<tr class="separator:a4d9c585a77e9adafc3cdea6da8fdb1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4fedace5a1c9aaec7f39c47bafd310b" id="r_ad4fedace5a1c9aaec7f39c47bafd310b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">playbackFailed</a> (QString const &amp;errorMsg)</td></tr>
 <tr class="separator:ad4fedace5a1c9aaec7f39c47bafd310b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77a2b2d2a7a1f0a45b6eb3ed83b1eac8" id="r_a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">stateChanged</a> ()</td></tr>
@@ -157,6 +156,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaca18abc3f13d5187fe897dac5a1c2d" id="r_aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">playback</a> (<a class="el" href="classMultimedia_1_1Item.html">Item</a> const &amp;item) noexcept</td></tr>
 <tr class="separator:aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81202aa757ab8b84c9358ad0f565e22b" id="r_a81202aa757ab8b84c9358ad0f565e22b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a81202aa757ab8b84c9358ad0f565e22b">stop</a> () noexcept</td></tr>
+<tr class="separator:a81202aa757ab8b84c9358ad0f565e22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24cb54837ce022b1b1e406f57c3c0bc1" id="r_a24cb54837ce022b1b1e406f57c3c0bc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a24cb54837ce022b1b1e406f57c3c0bc1">resume</a> () noexcept</td></tr>
+<tr class="separator:a24cb54837ce022b1b1e406f57c3c0bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02f55813b4b8f1f810ba2c07a1351223" id="r_a02f55813b4b8f1f810ba2c07a1351223"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Renderer::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223">state</a> () const noexcept</td></tr>
 <tr class="separator:a02f55813b4b8f1f810ba2c07a1351223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -184,7 +187,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The state a <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can have. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2" name="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2"></a>Stopped&#160;</td><td class="fielddoc"><p>Default state and the state when the Mulitmedia::Renderer is not active playing </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258ca7299794937a8fabd7db1d778989e24f1" name="a8f31aa8c7ff1652f9b81e63baf4d258ca7299794937a8fabd7db1d778989e24f1"></a>NoMedia&#160;</td><td class="fielddoc"><p>The default state of the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> or when the UPnPAV has no media set. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2" name="a8f31aa8c7ff1652f9b81e63baf4d258cac23e2b09ebe6bf4cb5e2a9abe85c0be2"></a>Stopped&#160;</td><td class="fielddoc"><p>The state when the Mulitmedia::Renderer is not active playing </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428" name="a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428"></a>Playing&#160;</td><td class="fielddoc"><p>This is the state when the Mulitmedia::MediaRenderer is active playing a Mulitmedia::Item. </p>
 </td></tr>
@@ -400,7 +405,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Starts the playback of the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. First checks that both <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> and <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> are compatible Afterwards it calls the setAvTransportUri on the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. The signal <a class="el" href="classMultimedia_1_1Renderer.html#a4d9c585a77e9adafc3cdea6da8fdb1ad">Multimedia::Renderer::playbackStarted</a> is emitted on success. The signal <a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">Multimedia::Renderer::playbackFailed</a> with the error information is emitted on failure. </p>
+<p>Starts the playback of the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. First checks that both <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> and <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> are compatible Afterwards it calls the setAvTransportUri on the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. The signal <a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">Multimedia::Renderer::playbackFailed</a> with the error information is emitted on failure. </p>
 
 </div>
 </div>
@@ -431,8 +436,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4d9c585a77e9adafc3cdea6da8fdb1ad" name="a4d9c585a77e9adafc3cdea6da8fdb1ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d9c585a77e9adafc3cdea6da8fdb1ad">&#9670;&#160;</a></span>playbackStarted</h2>
+<a id="a24cb54837ce022b1b1e406f57c3c0bc1" name="a24cb54837ce022b1b1e406f57c3c0bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24cb54837ce022b1b1e406f57c3c0bc1">&#9670;&#160;</a></span>resume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -441,7 +446,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Multimedia::Renderer::playbackStarted </td>
+          <td class="memname">void Multimedia::Renderer::resume </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -449,11 +454,11 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This signal is emitted when the <a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">Multimedia::Renderer::playback</a> call finished successful. </p>
+<p>Resumes the playback when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> has the state Mulitmedia::Renderer::State::Stopped or Mulitmedia::Renderer::State::Paused. If the device is in the stopped state the playback starts all over again and for the pause state the track resumes at the pause state. In all other cases the function does nothing. </p>
 
 </div>
 </div>
@@ -507,6 +512,32 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This signal is emitted when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> detects a state change of <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> The actual state then can be requested with <a class="el" href="classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223">Renderer::state</a>. </p>
+
+</div>
+</div>
+<a id="a81202aa757ab8b84c9358ad0f565e22b" name="a81202aa757ab8b84c9358ad0f565e22b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81202aa757ab8b84c9358ad0f565e22b">&#9670;&#160;</a></span>stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Stops or pause the current playback. Pause is the preferred way to stop the playback but not every device support this feature. So the pause is called when the device supports it in all other cases stop is called. If the playback is not active nothing happens. On success the signal <a class="el" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">Multimedia::Renderer::stateChanged</a> is emitted. The new state then should be be stopped or paused. </p>
 
 </div>
 </div>

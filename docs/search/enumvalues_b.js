@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['readerror_0',['ReadError',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a687c33ac6cec8c70dfcf2cf0216bf552',1,'UPnPAV::PendingSoapCall']]],
-  ['recording_1',['Recording',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac5564d2e8b8e0ae08bf4363f2b947166',1,'UPnPAV::GetTransportInfoResponse']]],
-  ['recordqualitynotsupported_2',['RecordQualityNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a4f1b5a95a744a5d4ce2635226d217dc1',1,'UPnPAV::PendingSoapCall']]],
-  ['resourcenotfound_3',['ResourceNotFound',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a481a3f3d9088b09047fe12fc86061fe1',1,'UPnPAV::PendingSoapCall']]]
+  ['paused_0',['paused',['../classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9a241e68be75556435ed49d142b2c2ad0c',1,'Shell::MediaPlayer::Paused'],['../classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a',1,'Multimedia::Renderer::Paused']]],
+  ['pausedplayback_1',['PausedPlayback',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa2c9f21d58b1c917addccafb9bedf4f2e',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['pausedrecording_2',['PausedRecording',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa299187349499c3b55704737fbc4e2d59',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['playing_3',['playing',['../classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9af4a09fb5ea5fb8db2a9348603425b2de',1,'Shell::MediaPlayer::Playing'],['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac9dbb2b7c84159b632d71e512eba8428',1,'UPnPAV::GetTransportInfoResponse::Playing'],['../classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cac9dbb2b7c84159b632d71e512eba8428',1,'Multimedia::Renderer::Playing']]],
+  ['playmodenotsupported_4',['PlayModeNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0cb4ba0d256a8a83a5c0297fbb130188',1,'UPnPAV::PendingSoapCall']]],
+  ['playspeednotsupported_5',['PlaySpeedNotSupported',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a05dc2b977bb18522b7b6e8ea896c8a86',1,'UPnPAV::PendingSoapCall']]]
 ];

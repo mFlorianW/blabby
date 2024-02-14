@@ -106,8 +106,10 @@ $(document).ready(function(){initNavTree('classShell_1_1MediaPlayer.html',''); i
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="classShell_1_1MediaPlayer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Shell::MediaPlayer Class Reference</div></div>
 </div><!--header-->
@@ -119,10 +121,18 @@ Inheritance diagram for Shell::MediaPlayer:</div>
   <img src="classShell_1_1MediaPlayer.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:acd2be972665dd55c5ff0a1050c1f60a9" id="r_acd2be972665dd55c5ff0a1050c1f60a9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">PlaybackState</a> { <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9af4a09fb5ea5fb8db2a9348603425b2de">Playing</a>
+, <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9a241e68be75556435ed49d142b2c2ad0c">Paused</a>
+, <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9a70f22ef7696c84ca94afcedd378c17d4">Stopped</a>
+ }</td></tr>
+<tr class="separator:acd2be972665dd55c5ff0a1050c1f60a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:acf4f31b22f7d981da996f8500ee023f3" id="r_acf4f31b22f7d981da996f8500ee023f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#acf4f31b22f7d981da996f8500ee023f3">playbackStarted</a> ()</td></tr>
-<tr class="separator:acf4f31b22f7d981da996f8500ee023f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5003b8ca9cd2f52b19857a55fa27f6" id="r_a3c5003b8ca9cd2f52b19857a55fa27f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#a3c5003b8ca9cd2f52b19857a55fa27f6">playbackStateChanged</a> ()</td></tr>
+<tr class="separator:a3c5003b8ca9cd2f52b19857a55fa27f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -132,7 +142,43 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab60ce053da542179ee8d8966b0d11068"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d715f0d1e837b303db43542b0e744dd" id="r_a6d715f0d1e837b303db43542b0e744dd"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#a6d715f0d1e837b303db43542b0e744dd">play</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;item)</td></tr>
 <tr class="separator:a6d715f0d1e837b303db43542b0e744dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac500cb88af4e7458a085f95f496b4fbc" id="r_ac500cb88af4e7458a085f95f496b4fbc"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#ac500cb88af4e7458a085f95f496b4fbc">stop</a> () noexcept</td></tr>
+<tr class="separator:ac500cb88af4e7458a085f95f496b4fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acda8f4fe426b95c54e7ec69e1f1dc54e" id="r_acda8f4fe426b95c54e7ec69e1f1dc54e"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#acda8f4fe426b95c54e7ec69e1f1dc54e">resume</a> () noexcept</td></tr>
+<tr class="separator:acda8f4fe426b95c54e7ec69e1f1dc54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4022fa583bebef0a1666073d7c0c481" id="r_ab4022fa583bebef0a1666073d7c0c481"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">PlaybackState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaPlayer.html#ab4022fa583bebef0a1666073d7c0c481">playbackState</a> () const noexcept</td></tr>
+<tr class="separator:ab4022fa583bebef0a1666073d7c0c481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a63322bade338b7f1d64727c35889d099" id="r_a63322bade338b7f1d64727c35889d099"><td class="memItemLeft" align="right" valign="top"><a id="a63322bade338b7f1d64727c35889d099" name="a63322bade338b7f1d64727c35889d099"></a>
+<a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">Shell::MediaPlayer::PlaybackState</a>&#160;</td><td class="memItemRight" valign="bottom"><b>playbackState</b></td></tr>
+<tr class="separator:a63322bade338b7f1d64727c35889d099"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="acd2be972665dd55c5ff0a1050c1f60a9" name="acd2be972665dd55c5ff0a1050c1f60a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2be972665dd55c5ff0a1050c1f60a9">&#9670;&#160;</a></span>PlaybackState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">Shell::MediaPlayer::PlaybackState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">Shell::MediaPlayer::PlaybackState</a> are the states the <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a> can have. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acd2be972665dd55c5ff0a1050c1f60a9af4a09fb5ea5fb8db2a9348603425b2de" name="acd2be972665dd55c5ff0a1050c1f60a9af4a09fb5ea5fb8db2a9348603425b2de"></a>Playing&#160;</td><td class="fielddoc"><p>The <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a> is playing something </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acd2be972665dd55c5ff0a1050c1f60a9a241e68be75556435ed49d142b2c2ad0c" name="acd2be972665dd55c5ff0a1050c1f60a9a241e68be75556435ed49d142b2c2ad0c"></a>Paused&#160;</td><td class="fielddoc"><p>The <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a> is paused </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acd2be972665dd55c5ff0a1050c1f60a9a70f22ef7696c84ca94afcedd378c17d4" name="acd2be972665dd55c5ff0a1050c1f60a9a70f22ef7696c84ca94afcedd378c17d4"></a>Stopped&#160;</td><td class="fielddoc"><p>The <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a> is stopped </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6e9b7b4aa333b4568f1f66f74a304483" name="a6e9b7b4aa333b4568f1f66f74a304483"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e9b7b4aa333b4568f1f66f74a304483">&#9670;&#160;</a></span>~MediaPlayer()</h2>
@@ -176,12 +222,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Starts the play for the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. The signal <a class="el" href="classShell_1_1MediaPlayer.html#acf4f31b22f7d981da996f8500ee023f3">playbackStarted</a> is emitted when the playback is successful started. </p>
+<p>Starts the play for the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. The signal playbackStarted is emitted when the playback is successful started. </p>
 
 </div>
 </div>
-<a id="acf4f31b22f7d981da996f8500ee023f3" name="acf4f31b22f7d981da996f8500ee023f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf4f31b22f7d981da996f8500ee023f3">&#9670;&#160;</a></span>playbackStarted</h2>
+<a id="ab4022fa583bebef0a1666073d7c0c481" name="ab4022fa583bebef0a1666073d7c0c481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4022fa583bebef0a1666073d7c0c481">&#9670;&#160;</a></span>playbackState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +236,33 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Shell::MediaPlayer::playbackStarted </td>
+          <td class="memname"><a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">MediaPlayer::PlaybackState</a> Shell::MediaPlayer::playbackState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the current <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">Shell::MediaPlayer::PlaybackState</a> of the <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a>. The default state is stopped </p><dl class="section return"><dt>Returns</dt><dd>The state of the <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a3c5003b8ca9cd2f52b19857a55fa27f6" name="a3c5003b8ca9cd2f52b19857a55fa27f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c5003b8ca9cd2f52b19857a55fa27f6">&#9670;&#160;</a></span>playbackStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaPlayer::playbackStateChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -202,7 +274,33 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This signal is emitted when the playback started </p>
+<p>This signal is emitted when the <a class="el" href="classShell_1_1MediaPlayer.html">Shell::MediaPlayer</a> changes it's <a class="el" href="classShell_1_1MediaPlayer.html#acd2be972665dd55c5ff0a1050c1f60a9">Shell::MediaPlayer::PlaybackState</a> </p>
+
+</div>
+</div>
+<a id="acda8f4fe426b95c54e7ec69e1f1dc54e" name="acda8f4fe426b95c54e7ec69e1f1dc54e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acda8f4fe426b95c54e7ec69e1f1dc54e">&#9670;&#160;</a></span>resume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaPlayer::resume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Resumes the playback. This has only an effect when the underlying renderer is in the correct state for resuming the playback. </p>
 
 </div>
 </div>
@@ -235,6 +333,32 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ac500cb88af4e7458a085f95f496b4fbc" name="ac500cb88af4e7458a085f95f496b4fbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac500cb88af4e7458a085f95f496b4fbc">&#9670;&#160;</a></span>stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaPlayer::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Stops the current playback. If no playback is active nothing happens The new state is reported with the <a class="el" href="classShell_1_1MediaPlayer.html#a3c5003b8ca9cd2f52b19857a55fa27f6">Shell::MediaPlayer::playbackStateChanged</a>. </p>
 
 </div>
 </div>

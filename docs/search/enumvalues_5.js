@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['humaninterventionrequired_0',['HumanInterventionRequired',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0c94c5899381d882be674e7b3575d63c',1,'UPnPAV::PendingSoapCall']]]
+  ['formatnotsupportedforplayback_0',['FormatNotSupportedForPlayback',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032abe6a4fb6eda87fa34c9bee65320ad663',1,'UPnPAV::PendingSoapCall']]],
+  ['formatnotsupportedforrecording_1',['FormatNotSupportedForRecording',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a290c3e66eb33c2653a9fe39ad4458b4e',1,'UPnPAV::PendingSoapCall']]]
 ];
