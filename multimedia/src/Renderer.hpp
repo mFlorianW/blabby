@@ -88,10 +88,12 @@ public:
     void playback(Item const& item) noexcept;
 
     /**
-     * Stop the current playback.
+     * Stops or pause the current playback.
+     * Pause is the preferred way to stop the playback but not every device support this feature.
+     * So the pause is called when the device supports it in all other cases stop is called.
      * If the playback is not active nothing happens.
      * On success the signal @ref Multimedia::Renderer::stateChanged is emitted.
-     * The new state then should be be stopped.
+     * The new state then should be be stopped or paused.
      */
     void stop() noexcept;
 

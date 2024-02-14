@@ -119,7 +119,11 @@ void Renderer::stop() noexcept
         return;
     }
 
-    auto stopCall = mRenderer->stop(0);
+    auto stopCall = mRenderer->pause(0);
+    if (not stopCall.has_value()) {
+        stopCall = mRenderer->stop(0);
+    }
+
     if (stopCall.has_value()) {
         mStopCall = std::move(stopCall.value());
         connect(mStopCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
