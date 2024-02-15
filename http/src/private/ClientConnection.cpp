@@ -59,6 +59,13 @@ void ClientConnection::readRequest() noexcept
         mReader = nullptr;
         Q_EMIT requestReceived(mRequest, this);
     });
+    connect(mReader.get(), &RequestDeserializer::requestReadFailed, this, [this] {
+        stopThread(mReadThread);
+        mRequest = mReader->serverRequest();
+        mReader = nullptr;
+
+        Q_EMIT requestReceivedFailed(mRequest, this);
+    });
     connect(&mReadThread, &QThread::started, mReader.get(), &RequestDeserializer::readRequest);
     mReadThread.start();
     qCDebug(httpServer) << "Read request for connection:" << mSocket->peerAddress().toString() << mSocket->peerPort();

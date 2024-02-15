@@ -85,6 +85,7 @@ public:
 
 protected:
     void handleRequest(ServerRequest const& request, ServerResponse& response) override;
+    void handleFailedRequest(ServerRequest const& request, ServerResponse& response) noexcept override;
 
 private:
     bool mHandleRequestCalled = false;

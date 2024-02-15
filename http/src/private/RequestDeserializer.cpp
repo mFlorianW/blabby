@@ -43,6 +43,7 @@ void RequestDeserializer::readRequest()
     settings.on_header_value = onHeaderValue;
     settings.on_url = onUrl;
     settings.on_body = onBody;
+    settings.on_message_complete = onMessageComplete;
 
     llhttp_t parser;
     llhttp_init(&parser, HTTP_REQUEST, &settings);
@@ -54,8 +55,12 @@ void RequestDeserializer::readRequest()
         qCDebug(httpServer) << "Message:\n" << mRequest.data();
     }
 
-    llhttp_finish(&parser);
-    Q_EMIT requestRead();
+    if (mMessageComplete) {
+        llhttp_finish(&parser);
+        Q_EMIT requestRead();
+    } else {
+        Q_EMIT requestReadFailed();
+    }
 }
 
 int RequestDeserializer::onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept
@@ -110,6 +115,16 @@ int RequestDeserializer::onBody(llhttp_t* parser, char const* at, std::size_t le
     {
         auto locker = QMutexLocker{&reader->mMutex};
         reader->mServerRequest.d->mBody = QByteArray{at, static_cast<qsizetype>(length)};
+    }
+    return 0;
+}
+
+int RequestDeserializer::onMessageComplete(llhttp_t* parser) noexcept
+{
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        reader->mMessageComplete = true;
     }
     return 0;
 }

@@ -27,6 +27,11 @@ void TestServer::handleRequest(ServerRequest const& request, ServerResponse& res
     response.setBody({"Hello World"});
 }
 
+void TestServer::handleFailedRequest(ServerRequest const& request, ServerResponse& response) noexcept
+{
+    handleRequest(request, response);
+}
+
 ServerRequest TestServer::serverRequest() const noexcept
 {
     return mLastRequest;

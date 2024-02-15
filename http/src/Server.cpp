@@ -33,11 +33,18 @@ void Server::handleRequest(ServerRequest const& request, ServerResponse& resp)
     Q_UNUSED(resp)
 }
 
+void Server::handleFailedRequest(ServerRequest const& request, ServerResponse& response) noexcept
+{
+    Q_UNUSED(request)
+    Q_UNUSED(response)
+}
+
 void Server::onNewConnection() noexcept
 {
     while (hasPendingConnections()) {
         auto con = std::make_unique<ClientConnection>(nextPendingConnection());
         connect(con.get(), &ClientConnection::requestReceived, this, &Server::onRequestReceived);
+        connect(con.get(), &ClientConnection::requestReceivedFailed, this, &Server::onRequestReceivedFailed);
         connect(con.get(), &ClientConnection::responseSent, this, &Server::onResponseSent);
         con->readRequest();
         d->mClients.insert({con.get(), std::move(con)});
@@ -59,6 +66,14 @@ void Server::onRequestReceived(ServerRequest const& request, ClientConnection* c
         handleRequest(request, resp);
     }
 
+    connection->sendResponse(resp);
+}
+
+void Server::onRequestReceivedFailed(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept
+{
+    auto resp = ServerResponse{};
+    handleFailedRequest(request, resp);
+    resp.setStatusCode(Response::StatusCode::BadRequest);
     connection->sendResponse(resp);
 }
 

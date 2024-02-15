@@ -58,18 +58,25 @@ Q_SIGNALS:
      */
     void requestRead();
 
+    /**
+     * This signal is emitted when it's failed to read the request
+     */
+    void requestReadFailed();
+
 private:
     static int onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept;
+    static int onMessageComplete(llhttp_t* parser) noexcept;
 
 private:
     mutable QMutex mMutex;
     ServerRequest mServerRequest;
     QByteArray mRequest;
     Headers::iterator mLastHeader;
+    bool mMessageComplete = false;
 };
 
 } // namespace Http
