@@ -230,6 +230,46 @@ void ServerShould::remove_route_and_when_called_error_response_is_send()
     reply->deleteLater();
 }
 
+void ServerShould::handle_chunked_client_http_requests()
+{
+    // QNetworkRequest seems not to support chunked sending
+    QTcpSocket socket;
+    socket.connectToHost(QHostAddress::LocalHost, 27018);
+
+    QCOMPARE(socket.waitForConnected(timeout), true);
+
+    // Create POST request
+    QString request = QStringLiteral("POST / HTTP/1.1\r\n"
+                                     "Host: example.com\r\n"
+                                     "Content-Type: text/plain\r\n"
+                                     "Transfer-Encoding: chunked\r\n"
+                                     "\r\n");
+
+    // Create the chunks of the request body and write them to the buffer
+    auto const chunk1 = QByteArray{"5\r\nHello\r\n"};
+    auto const chunk2 = QByteArray{"6\r\n World\r\n"};
+    auto const chunk3 = QByteArray{"0\r\n\r\n"};
+
+    socket.write(request.toUtf8());
+    socket.waitForBytesWritten(timeout);
+    QTest::qWait(100);
+    socket.write(chunk1);
+    socket.waitForBytesWritten(timeout);
+    QTest::qWait(100);
+    socket.write(chunk2);
+    socket.waitForBytesWritten(timeout);
+    QTest::qWait(100);
+    socket.write(chunk3);
+    socket.waitForBytesWritten(timeout);
+    QTest::qWait(100);
+
+    // Check for a response, don't care what the server response
+    // but it should response.
+    QTRY_COMPARE_NE_WITH_TIMEOUT(socket.bytesAvailable(), 0, timeout);
+    // Check the http body to see if it is correctly parsed
+    QCOMPARE(mHtppServer->serverRequest().body(), QStringLiteral("Hello World"));
+}
+
 } // namespace Http
 
 QTEST_MAIN(Http::ServerShould)
