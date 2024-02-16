@@ -125,6 +125,8 @@ Inheritance diagram for Http::ClientConnection:</div>
 Signals</h2></td></tr>
 <tr class="memitem:aae9d371154b6a576d40748f78fa7093b" id="r_aae9d371154b6a576d40748f78fa7093b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1ClientConnection.html#aae9d371154b6a576d40748f78fa7093b">requestReceived</a> (<a class="el" href="classHttp_1_1ServerRequest.html">Http::ServerRequest</a> const &amp;request, <a class="el" href="classHttp_1_1ClientConnection.html">Http::ClientConnection</a> *connection)</td></tr>
 <tr class="separator:aae9d371154b6a576d40748f78fa7093b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce6b6c5a41233caff90ef2484a18492" id="r_a6ce6b6c5a41233caff90ef2484a18492"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1ClientConnection.html#a6ce6b6c5a41233caff90ef2484a18492">requestReceivedFailed</a> (<a class="el" href="classHttp_1_1ServerRequest.html">Http::ServerRequest</a> const &amp;request, <a class="el" href="classHttp_1_1ClientConnection.html">Http::ClientConnection</a> *connection)</td></tr>
+<tr class="separator:a6ce6b6c5a41233caff90ef2484a18492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b332bb76c7d2d15ad54d9df49b07e8e" id="r_a7b332bb76c7d2d15ad54d9df49b07e8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1ClientConnection.html#a7b332bb76c7d2d15ad54d9df49b07e8e">responseSent</a> (<a class="el" href="classHttp_1_1ClientConnection.html">Http::ClientConnection</a> *connection)</td></tr>
 <tr class="separator:a7b332bb76c7d2d15ad54d9df49b07e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -276,6 +278,49 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">request</td><td>The parsed server request from the client. </td></tr>
     <tr><td class="paramname">connection</td><td>The client connection that has finished reading the request. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6ce6b6c5a41233caff90ef2484a18492" name="a6ce6b6c5a41233caff90ef2484a18492"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce6b6c5a41233caff90ef2484a18492">&#9670;&#160;</a></span>requestReceivedFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Http::ClientConnection::requestReceivedFailed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classHttp_1_1ServerRequest.html">Http::ServerRequest</a> const &amp;&#160;</td>
+          <td class="paramname"><em>request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classHttp_1_1ClientConnection.html">Http::ClientConnection</a> *&#160;</td>
+          <td class="paramname"><em>connection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when an error during the HTTP request parsing occurs. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>The request with parameters that could be parsed so far. </td></tr>
+    <tr><td class="paramname">connection</td><td>The connection for that the parsing failed. </td></tr>
   </table>
   </dd>
 </dl>

@@ -12,5 +12,6 @@ var searchData=
   ['activemediasourcechanged_9',['activeMediaSourceChanged',['../classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a',1,'Shell::MediaSourceModel']]],
   ['activerenderer_10',['activeRenderer',['../classShell_1_1MediaRendererModel.html#a107372237f31cb44ec30ae5162012cde',1,'Shell::MediaRendererModel']]],
   ['activerendererchanged_11',['activeRendererChanged',['../classShell_1_1MediaRendererModel.html#afe3283e5585fbb6d48ecdf8615aeeb28',1,'Shell::MediaRendererModel']]],
-  ['addroute_12',['addRoute',['../classHttp_1_1Server.html#acdf0067948b2a1523424a686ceae23db',1,'Http::Server']]]
+  ['addroute_12',['addRoute',['../classHttp_1_1Server.html#acdf0067948b2a1523424a686ceae23db',1,'Http::Server']]],
+  ['appendrequestdata_13',['appendRequestData',['../classHttp_1_1RequestDeserializer.html#a9d55e9b90f9d4e87359cc6e4cee74321',1,'Http::RequestDeserializer']]]
 ];

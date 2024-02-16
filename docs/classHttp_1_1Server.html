@@ -142,6 +142,8 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a5583ce67e7181203f926fe8ebcfb9859" id="r_a5583ce67e7181203f926fe8ebcfb9859"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1Server.html#a5583ce67e7181203f926fe8ebcfb9859">handleRequest</a> (<a class="el" href="classHttp_1_1ServerRequest.html">ServerRequest</a> const &amp;request, <a class="el" href="classHttp_1_1ServerResponse.html">ServerResponse</a> &amp;response)</td></tr>
 <tr class="separator:a5583ce67e7181203f926fe8ebcfb9859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a398d5734975a1bf7b82e1465a53d7e60" id="r_a398d5734975a1bf7b82e1465a53d7e60"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1Server.html#a398d5734975a1bf7b82e1465a53d7e60">handleFailedRequest</a> (<a class="el" href="classHttp_1_1ServerRequest.html">ServerRequest</a> const &amp;request, <a class="el" href="classHttp_1_1ServerResponse.html">ServerResponse</a> &amp;response) noexcept</td></tr>
+<tr class="separator:a398d5734975a1bf7b82e1465a53d7e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a351749e639b2070b23758a82b4100938" id="r_a351749e639b2070b23758a82b4100938"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1Server.html#a351749e639b2070b23758a82b4100938">onNewConnection</a> () noexcept</td></tr>
 <tr class="separator:a351749e639b2070b23758a82b4100938"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -250,6 +252,49 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Calling the route function multiple time with the same route will overwrite previous added route. </dd></dl>
+
+</div>
+</div>
+<a id="a398d5734975a1bf7b82e1465a53d7e60" name="a398d5734975a1bf7b82e1465a53d7e60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a398d5734975a1bf7b82e1465a53d7e60">&#9670;&#160;</a></span>handleFailedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Http::Server::handleFailedRequest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classHttp_1_1ServerRequest.html">ServerRequest</a> const &amp;&#160;</td>
+          <td class="paramname"><em>request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classHttp_1_1ServerResponse.html">ServerResponse</a> &amp;&#160;</td>
+          <td class="paramname"><em>response</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Virtual function for failed requests. Concrete server implementations can override this function to handle failed requests. The server will force the HTTP response code to "BadRequest". </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>The request that the server receives. </td></tr>
+    <tr><td class="paramname">response</td><td>The response which is send from the server back to the client. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

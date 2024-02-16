@@ -131,6 +131,8 @@ Public Slots</h2></td></tr>
 Signals</h2></td></tr>
 <tr class="memitem:acafadfe7a3df8345e2efc59fd81c0092" id="r_acafadfe7a3df8345e2efc59fd81c0092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1RequestDeserializer.html#acafadfe7a3df8345e2efc59fd81c0092">requestRead</a> ()</td></tr>
 <tr class="separator:acafadfe7a3df8345e2efc59fd81c0092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70d768b66cae8a702cd5a91bd39dd4f8" id="r_a70d768b66cae8a702cd5a91bd39dd4f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1RequestDeserializer.html#a70d768b66cae8a702cd5a91bd39dd4f8">requestReadFailed</a> ()</td></tr>
+<tr class="separator:a70d768b66cae8a702cd5a91bd39dd4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -140,6 +142,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0595b8ecb679ec714efe7a121c9c68f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9746d9d162ba6dadbfec65c8b81cd9f0" id="r_a9746d9d162ba6dadbfec65c8b81cd9f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classHttp_1_1ServerRequest.html">ServerRequest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0">serverRequest</a> () const noexcept</td></tr>
 <tr class="separator:a9746d9d162ba6dadbfec65c8b81cd9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d55e9b90f9d4e87359cc6e4cee74321" id="r_a9d55e9b90f9d4e87359cc6e4cee74321"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttp_1_1RequestDeserializer.html#a9d55e9b90f9d4e87359cc6e4cee74321">appendRequestData</a> (QByteArray const &amp;request) noexcept</td></tr>
+<tr class="separator:a9d55e9b90f9d4e87359cc6e4cee74321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Http::RequestReader is worker object for asynchronous receiving of HTTP requests. An instance is automatically created when the <a class="el" href="classHttp_1_1ClientConnection.html">Http::ClientConnection</a> starts to read the request. </p>
@@ -195,6 +199,38 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9d55e9b90f9d4e87359cc6e4cee74321" name="a9d55e9b90f9d4e87359cc6e4cee74321"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d55e9b90f9d4e87359cc6e4cee74321">&#9670;&#160;</a></span>appendRequestData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Http::RequestDeserializer::appendRequestData </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray const &amp;&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Appends the request data for this connection for parsing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>The request data which shall be append. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af73a8ab07924806fb3d9d747d7abb2dd" name="af73a8ab07924806fb3d9d747d7abb2dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af73a8ab07924806fb3d9d747d7abb2dd">&#9670;&#160;</a></span>readRequest</h2>
 
@@ -244,6 +280,32 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This signal is emitted when the Http::RequestReader has read the complete request. </p>
+
+</div>
+</div>
+<a id="a70d768b66cae8a702cd5a91bd39dd4f8" name="a70d768b66cae8a702cd5a91bd39dd4f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70d768b66cae8a702cd5a91bd39dd4f8">&#9670;&#160;</a></span>requestReadFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Http::RequestDeserializer::requestReadFailed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when it's failed to read the request </p>
 
 </div>
 </div>

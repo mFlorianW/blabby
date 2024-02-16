@@ -20,7 +20,7 @@ var searchData=
   ['server_17',['server',['../classHttp_1_1Server.html#a33f924dd1dc108df51e919feffbd6667',1,'Http::Server::Server()'],['../classHttp_1_1Server.html',1,'Http::Server']]],
   ['serveraddress_18',['serverAddress',['../classUPnPAV_1_1HttpEventServer.html#a0cbb1ba4f993b3b3801f6001123bc90d',1,'UPnPAV::HttpEventServer']]],
   ['serverprivate_19',['ServerPrivate',['../structHttp_1_1ServerPrivate.html',1,'Http']]],
-  ['serverrequest_20',['serverrequest',['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()'],['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()'],['../classHttp_1_1ServerRequest.html',1,'Http::ServerRequest']]],
+  ['serverrequest_20',['serverrequest',['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()'],['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()'],['../classHttp_1_1ServerRequest.html',1,'Http::ServerRequest']]],
   ['serverrequestdata_21',['ServerRequestData',['../structHttp_1_1ServerRequestData.html',1,'Http']]],
   ['serverresponse_22',['serverresponse',['../classHttp_1_1ServerResponse.html',1,'Http::ServerResponse'],['../classHttp_1_1ServerResponse.html#a8531856a3b512a6ad1fed60ddf21bd37',1,'Http::ServerResponse::ServerResponse()']]],
   ['serverresponsedata_23',['ServerResponseData',['../structHttp_1_1ServerResponseData.html',1,'Http']]],
@@ -64,7 +64,7 @@ var searchData=
   ['soapbackend_61',['SoapBackend',['../classUPnPAV_1_1SoapBackend.html',1,'UPnPAV']]],
   ['soapcall_62',['SoapCall',['../classUPnPAV_1_1SoapCall.html',1,'UPnPAV']]],
   ['soapmessagegenerator_63',['SoapMessageGenerator',['../classUPnPAV_1_1SoapMessageGenerator.html',1,'UPnPAV']]],
-  ['source_64',['source',['../classProvider_1_1MediaServer_1_1Source.html',1,'Provider::MediaServer::Source'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()'],['../classShell_1_1AbstractIconButton.html#a82ae6e377625c51df8e867c43e584b67',1,'Shell::AbstractIconButton::source'],['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source() const noexcept'],['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classMultimedia_1_1Source.html',1,'Multimedia::Source']]],
+  ['source_64',['source',['../classProvider_1_1MediaServer_1_1Source.html',1,'Provider::MediaServer::Source'],['../classShell_1_1AbstractIconButton.html#a0c0dfd9395e4e672e6afaca19ce0e07c',1,'Shell::AbstractIconButton::source()'],['../classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15',1,'Multimedia::Source::Source()'],['../classProvider_1_1MediaServer_1_1Source.html#aa71f5778c88be647b0ed5d142013d1ea',1,'Provider::MediaServer::Source::Source()'],['../classShell_1_1AbstractIconButton.html#a82ae6e377625c51df8e867c43e584b67',1,'Shell::AbstractIconButton::source'],['../classMultimedia_1_1Source.html',1,'Multimedia::Source']]],
   ['sourceadded_65',['sourceAdded',['../classMultimedia_1_1Provider.html#a5090d72b28c7d0d16e07798940328dd7',1,'Multimedia::Provider']]],
   ['sourcechanged_66',['sourceChanged',['../classShell_1_1AbstractIconButton.html#a5ec3170fa53ce32d1fb4e5ae3c0666c5',1,'Shell::AbstractIconButton']]],
   ['sourcename_67',['sourceName',['../classMultimedia_1_1Source.html#afbb9eeef3718e7b60fd1b8539154433d',1,'Multimedia::Source']]],
@@ -85,6 +85,6 @@ var searchData=
   ['subscribeevents_82',['subscribeEvents',['../classUPnPAV_1_1EventBackend.html#ad0eb1251574511451cdf1329872f8a1a',1,'UPnPAV::EventBackend']]],
   ['subscriptionfailed_83',['subscriptionFailed',['../classUPnPAV_1_1EventSubscriptionHandle.html#ada80dc552436e95b85e41040054975a5',1,'UPnPAV::EventSubscriptionHandle']]],
   ['supportedtypes_84',['supportedTypes',['../classMultimedia_1_1Item.html#afc0bccf226ef8822c4fd660706766309',1,'Multimedia::Item']]],
-  ['switchstate_85',['switchstate',['../classShell_1_1AbstractSwitch.html#a89bb4d98643852fdbf588cb340935cba',1,'Shell::AbstractSwitch::switchState'],['../classShell_1_1AbstractSwitch.html#a72dc03d15cde996850172b4c9afdb0ab',1,'Shell::AbstractSwitch::switchState() const noexcept'],['../classShell_1_1AbstractSwitch.html#a201eba1455c1b7b6d5e6a02a336b7395',1,'Shell::AbstractSwitch::SwitchState']]],
+  ['switchstate_85',['switchstate',['../classShell_1_1AbstractSwitch.html#a201eba1455c1b7b6d5e6a02a336b7395',1,'Shell::AbstractSwitch::SwitchState'],['../classShell_1_1AbstractSwitch.html#a89bb4d98643852fdbf588cb340935cba',1,'Shell::AbstractSwitch::switchState'],['../classShell_1_1AbstractSwitch.html#a72dc03d15cde996850172b4c9afdb0ab',1,'Shell::AbstractSwitch::switchState() const noexcept']]],
   ['switchstatechanged_86',['switchStateChanged',['../classShell_1_1AbstractSwitch.html#a650cc9dcc53ea6b10e11cbb97a9735e7',1,'Shell::AbstractSwitch']]]
 ];
