@@ -50,18 +50,31 @@ void ClientConnection::readRequest() noexcept
     if (mSocket->bytesAvailable() == 0) {
         return;
     }
-    auto request = mSocket->readAll();
-    mReader = std::make_unique<RequestDeserializer>(request);
-    mReader->moveToThread(&mReadThread);
-    connect(mReader.get(), &RequestDeserializer::requestRead, this, [this] {
-        stopThread(mReadThread);
-        mRequest = mReader->serverRequest();
-        mReader = nullptr;
-        Q_EMIT requestReceived(mRequest, this);
-    });
-    connect(&mReadThread, &QThread::started, mReader.get(), &RequestDeserializer::readRequest);
-    mReadThread.start();
-    qCDebug(httpServer) << "Read request for connection:" << mSocket->peerAddress().toString() << mSocket->peerPort();
+
+    // No data received so far start reader thread.
+    if (not mReadThread.isRunning()) {
+        auto request = mSocket->readAll();
+        mReader = std::make_unique<RequestDeserializer>(request);
+        mReader->moveToThread(&mReadThread);
+        connect(mReader.get(), &RequestDeserializer::requestRead, this, [this] {
+            stopThread(mReadThread);
+            mRequest = mReader->serverRequest();
+            mReader = nullptr;
+            Q_EMIT requestReceived(mRequest, this);
+        });
+        connect(mReader.get(), &RequestDeserializer::requestReadFailed, this, [this] {
+            stopThread(mReadThread);
+            mRequest = mReader->serverRequest();
+            mReader = nullptr;
+            Q_EMIT requestReceivedFailed(mRequest, this);
+        });
+        connect(&mReadThread, &QThread::started, mReader.get(), &RequestDeserializer::readRequest);
+        mReadThread.start();
+        qCDebug(httpServer) << "Read request for connection:" << mSocket->peerAddress().toString()
+                            << mSocket->peerPort();
+    } else {
+        mReader->appendRequestData(mSocket->readAll());
+    }
 }
 
 void ClientConnection::sendResponse(ServerResponse const& serverResponse) noexcept

@@ -69,6 +69,8 @@ private Q_SLOTS:
      */
     void remove_route_and_when_called_error_response_is_send();
 
+    void handle_chunked_client_http_requests();
+
 private:
     std::unique_ptr<TestServer> mHtppServer;
     QNetworkAccessManager mHttpClient;
@@ -85,6 +87,7 @@ public:
 
 protected:
     void handleRequest(ServerRequest const& request, ServerResponse& response) override;
+    void handleFailedRequest(ServerRequest const& request, ServerResponse& response) noexcept override;
 
 private:
     bool mHandleRequestCalled = false;

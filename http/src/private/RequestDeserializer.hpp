@@ -9,6 +9,7 @@
 #include <QMutex>
 #include <QObject>
 #include <QTcpSocket>
+#include <QWaitCondition>
 #include <llhttp.h>
 
 namespace Http
@@ -45,6 +46,12 @@ public:
      */
     ServerRequest serverRequest() const noexcept;
 
+    /**
+     * Appends the request data for this connection for parsing.
+     * @param request The request data which shall be append.
+     */
+    void appendRequestData(QByteArray const& request) noexcept;
+
 public Q_SLOTS:
     /**
      * Starts the request reading
@@ -58,18 +65,26 @@ Q_SIGNALS:
      */
     void requestRead();
 
+    /**
+     * This signal is emitted when it's failed to read the request
+     */
+    void requestReadFailed();
+
 private:
     static int onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onHeader(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onHeaderValue(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onUrl(llhttp_t* parser, char const* at, std::size_t length) noexcept;
     static int onBody(llhttp_t* parser, char const* at, std::size_t length) noexcept;
+    static int onMessageComplete(llhttp_t* parser) noexcept;
 
 private:
     mutable QMutex mMutex;
     ServerRequest mServerRequest;
-    QByteArray mRequest;
     Headers::iterator mLastHeader;
+    bool mMessageComplete = false;
+    QVector<QByteArray> mChunks;
+    QWaitCondition mBufferEmpty;
 };
 
 } // namespace Http

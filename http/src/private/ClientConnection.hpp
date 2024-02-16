@@ -70,6 +70,13 @@ Q_SIGNALS:
     void requestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection);
 
     /**
+     * This signal is emitted when an error during the HTTP request parsing occurs.
+     * @param request The request with parameters that could be parsed so far.
+     * @param connection The connection for that the parsing failed.
+     */
+    void requestReceivedFailed(Http::ServerRequest const& request, Http::ClientConnection* connection);
+
+    /**
      * This signal is emitted when a @ref Http::ServerResponse is send to the client.
      * @param connection The connection for that the response was send.
      */

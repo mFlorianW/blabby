@@ -76,12 +76,22 @@ protected:
     virtual void handleRequest(ServerRequest const& request, ServerResponse& response);
 
     /**
+     * Virtual function for failed requests.
+     * Concrete server implementations can override this function to handle failed requests.
+     * The server will force the HTTP response code to "BadRequest".
+     * @param request The request that the server receives.
+     * @param response The response which is send from the server back to the client.
+     */
+    virtual void handleFailedRequest(ServerRequest const& request, ServerResponse& response) noexcept;
+
+    /**
      * This slot is called for every new connection.
      */
     void onNewConnection() noexcept;
 
 private Q_SLOTS:
     void onRequestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
+    void onRequestReceivedFailed(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
     void onResponseSent(Http::ClientConnection* connection);
 
 private:

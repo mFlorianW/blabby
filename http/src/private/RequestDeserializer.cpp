@@ -20,8 +20,8 @@ Request::Method convertMethod(QByteArray const& rawMethod);
 
 RequestDeserializer::RequestDeserializer(QByteArray rawRequest)
     : QObject{}
-    , mRequest{std::move(rawRequest)}
 {
+    mChunks.push_back(rawRequest);
 }
 
 RequestDeserializer::~RequestDeserializer() = default;
@@ -32,9 +32,15 @@ ServerRequest RequestDeserializer::serverRequest() const noexcept
     return mServerRequest;
 }
 
+void RequestDeserializer::appendRequestData(QByteArray const& request) noexcept
+{
+    auto locker = QMutexLocker{&mMutex};
+    mChunks.push_back(request);
+    mBufferEmpty.wakeAll();
+}
+
 void RequestDeserializer::readRequest()
 {
-
     llhttp_settings_t settings;
     llhttp_settings_init(&settings);
 
@@ -43,19 +49,34 @@ void RequestDeserializer::readRequest()
     settings.on_header_value = onHeaderValue;
     settings.on_url = onUrl;
     settings.on_body = onBody;
+    settings.on_message_complete = onMessageComplete;
 
     llhttp_t parser;
     llhttp_init(&parser, HTTP_REQUEST, &settings);
     parser.data = this;
 
-    llhttp_errno error = llhttp_execute(&parser, mRequest.data(), mRequest.size());
-    if (error != HPE_OK) {
-        qCCritical(httpServer) << "Failed to read request. Error:" << llhttp_errno_name(error);
-        qCDebug(httpServer) << "Message:\n" << mRequest.data();
+    while (not mMessageComplete) {
+        {
+            QMutexLocker lockguard{&mMutex};
+            if (mChunks.isEmpty()) {
+                mBufferEmpty.wait(&mMutex);
+            }
+        }
+        auto request = mChunks.first();
+        llhttp_errno error = llhttp_execute(&parser, request.data(), request.size());
+        if (error != HPE_OK) {
+            qCCritical(httpServer) << "Failed to read request. Error:" << llhttp_errno_name(error);
+            break;
+        }
+        mChunks.removeFirst();
     }
 
-    llhttp_finish(&parser);
-    Q_EMIT requestRead();
+    if (mMessageComplete) {
+        llhttp_finish(&parser);
+        Q_EMIT requestRead();
+    } else {
+        Q_EMIT requestReadFailed();
+    }
 }
 
 int RequestDeserializer::onMethod(llhttp_t* parser, char const* at, std::size_t length) noexcept
@@ -109,7 +130,21 @@ int RequestDeserializer::onBody(llhttp_t* parser, char const* at, std::size_t le
     auto reader = static_cast<RequestDeserializer*>(parser->data);
     {
         auto locker = QMutexLocker{&reader->mMutex};
-        reader->mServerRequest.d->mBody = QByteArray{at, static_cast<qsizetype>(length)};
+        if (reader->mServerRequest.d->mBody.isEmpty()) {
+            reader->mServerRequest.d->mBody.reserve(static_cast<qsizetype>(parser->content_length) +
+                                                    static_cast<qsizetype>(length));
+        }
+        reader->mServerRequest.d->mBody.append(QByteArray{at, static_cast<qsizetype>(length)});
+    }
+    return 0;
+}
+
+int RequestDeserializer::onMessageComplete(llhttp_t* parser) noexcept
+{
+    auto reader = static_cast<RequestDeserializer*>(parser->data);
+    {
+        auto locker = QMutexLocker{&reader->mMutex};
+        reader->mMessageComplete = true;
     }
     return 0;
 }
