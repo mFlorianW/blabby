@@ -86,6 +86,14 @@ protected:
      * @param The coordinate of the mouse pointer when the event occurs.
      */
     virtual void handleRelease(QPointF) noexcept;
+
+    /**
+     * This function is called when the mouse move event occurs.
+     * @param The coordinate of the mouse pointer when the event occurs.
+     */
+    virtual void handleMove(QPointF) noexcept;
+
+    void mouseMoveEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void hoverEnterEvent(QHoverEvent* event) override;
