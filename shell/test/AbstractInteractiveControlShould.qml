@@ -29,7 +29,7 @@ Item {
         SignalSpy {
             id: pressedSpy
             target: abstractControl
-            signalName: "pressed"
+            signalName: "pressedChanged"
         }
 
         /**
@@ -39,9 +39,10 @@ Item {
             pressedSpy.clear();
             abstractControlTest.mousePress(abstractControl);
             compare(pressedSpy.count, 1);
-            compare(abstractControl.controlState, AbstractInteractiveControl.Pressed);
+            compare(abstractControl.pressed, true);
             abstractControlTest.mouseRelease(abstractControl);
-            compare(pressedSpy.count, 1);
+            compare(pressedSpy.count, 2);
+            compare(abstractControl.pressed, false);
         }
 
         /**
@@ -57,13 +58,12 @@ Item {
          * Tests that the hover state is correctly set when the mouse enters the control.
          */
         function test_set_hover_state_when_mouse_hovers_the_control() {
-            abstractControl.controlState = AbstractInteractiveControl.Inactive;
             abstractControlTest.mouseMove(abstractControl, 1000, 1000);
-            compare(abstractControl.controlState, AbstractInteractiveControl.Inactive);
+            compare(abstractControl.hovered, false);
             abstractControlTest.mouseMove(abstractControl);
-            compare(abstractControl.controlState, AbstractInteractiveControl.Hovered);
+            compare(abstractControl.hovered, true);
             abstractControlTest.mouseMove(abstractControl, 1000, 1000);
-            compare(abstractControl.controlState, AbstractInteractiveControl.Inactive);
+            compare(abstractControl.hovered, false);
         }
     }
 }
