@@ -26,6 +26,7 @@ target_link_libraries(test_shell_qmltests
         Qt6::QuickTest
         BlabbyShell::Object
 )
+add_test(test_shell_qmltests ${EXECUTABLE_OUTPUT_PATH}/test_shell_qmltests)
 ###############################################################################
 # Test MediaPlayer
 ###############################################################################
