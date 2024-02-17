@@ -81,6 +81,11 @@ Q_SIGNALS:
     void controlStateChanged();
 
 protected:
+    /**
+     * This function is called when the mouse release event occurs.
+     * @param The coordinate of the mouse pointer when the event occurs.
+     */
+    virtual void handleRelease(QPointF) noexcept;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void hoverEnterEvent(QHoverEvent* event) override;
