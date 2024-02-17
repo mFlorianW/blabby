@@ -33,6 +33,15 @@ void AbstractInteractiveControl::handleRelease(QPointF) noexcept
 {
 }
 
+void AbstractInteractiveControl::handleMove(QPointF) noexcept
+{
+}
+
+void AbstractInteractiveControl::mouseMoveEvent(QMouseEvent* event)
+{
+    handleMove(event->position());
+}
+
 void AbstractInteractiveControl::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
