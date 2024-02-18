@@ -119,6 +119,11 @@ public:
      */
     Renderer::State state() const noexcept;
 
+    /**
+     * @return The master volume of the active instance id.
+     */
+    quint32 volume() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -141,6 +146,11 @@ Q_SIGNALS:
      */
     void stateChanged();
 
+    /**
+     * This singal is emitted when the \"Master\" volume of the renderer for the current active intance id is changed.
+     */
+    void volumeChanged();
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
@@ -148,6 +158,7 @@ private Q_SLOTS:
 private:
     bool isPlayableItem(Item const& item) const noexcept;
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
+    void setVolume(quint32 volume) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;
@@ -160,6 +171,7 @@ private:
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;
+    quint32 mVolume = 0;
 };
 
 }; // namespace Multimedia
