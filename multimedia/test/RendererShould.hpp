@@ -30,6 +30,7 @@ private Q_SLOTS:
     void stop_request_the_playback();
     void send_pause_request();
     void resume_the_playback_when_the_states_are_stop_and_pause();
+    void request_master_volume_on_init_for_instance_id_0();
 };
 
 } // namespace Multimedia

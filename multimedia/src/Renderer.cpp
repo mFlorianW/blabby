@@ -56,6 +56,16 @@ void Renderer::initialize() noexcept
 
         Q_EMIT initializationFinished();
     });
+
+    auto call = mRenderer->volume(0, "Master");
+    if (call.has_value()) {
+        mVolumeCall = std::move(call.value());
+        connect(mVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
+            if (mVolumeCall->hasError()) {
+                qCCritical(mmRenderer) << "Failed to request the \"Master\" channel volume for instance id 0";
+            }
+        });
+    }
 }
 
 void Renderer::playback(Item const& item) noexcept
