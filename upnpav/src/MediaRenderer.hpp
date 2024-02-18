@@ -47,7 +47,8 @@ public:
      * @param channel The channel which volume level shall be adjusted.
      * @return PendingSoapCall with the result or an error.
      */
-    std::optional<std::unique_ptr<PendingSoapCall>> volume(quint32 instanceId, QString const& channel) const noexcept;
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> volume(quint32 instanceId,
+                                                                                 QString const& channel) noexcept;
 
     /**
      * Calls the SetVolume function on the rendering control service of the MediaRenderer
