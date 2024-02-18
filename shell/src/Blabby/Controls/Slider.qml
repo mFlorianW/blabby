@@ -25,7 +25,7 @@ AbstractSlider {
     Rectangle {
         id: valueBackground
         height: 4
-        width: slider.visualPosition
+        width: Math.min(slider.visualPosition, (slider.width - valueCircle.width))
         color: Theme.colors.primary
         radius: 10
         anchors.verticalCenter: slider.verticalCenter
@@ -33,7 +33,7 @@ AbstractSlider {
 
     Rectangle {
         id: valueCircle
-        x: slider.visualPosition
+        x: Math.min(slider.visualPosition, (slider.width - valueCircle.width))
         height: 20
         width: height
         radius: 360

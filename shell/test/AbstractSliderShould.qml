@@ -55,5 +55,15 @@ Item {
             compare(slider.value, 100);
             compare(slider.visualPosition, 200);
         }
+
+        function test_handleMouseMovesWhenPressed() {
+            compare(slider.visualPosition, 0);
+            compare(slider.value, 0);
+            mousePress(slider, 0, 0);
+            mouseMove(slider, 100, 0, Qt.LeftButton);
+            mouseRelease(slider, 100, 0);
+            compare(slider.value, 25);
+            compare(slider.visualPosition, 100);
+        }
     }
 }
