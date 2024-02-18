@@ -48,6 +48,7 @@ qreal AbstractSlider::value() const noexcept
 
 void AbstractSlider::setValue(qreal value) noexcept
 {
+    value = std::ceil(value / mStepSize) * mStepSize;
     if (not qFuzzyCompare(mValue, value)) {
         mValue = value;
         Q_EMIT valueChanged();
@@ -57,6 +58,20 @@ void AbstractSlider::setValue(qreal value) noexcept
             mVisualPositon = vpos;
             Q_EMIT visualPositionChanged();
         }
+    }
+}
+
+qreal AbstractSlider::stepSize() const noexcept
+{
+    return mStepSize;
+}
+
+void AbstractSlider::setStepSize(qreal stepSize) noexcept
+{
+    if (not qFuzzyCompare(mStepSize, stepSize)) {
+        mStepSize = stepSize;
+        Q_EMIT stepSizeChanged();
+        setValue(mValue);
     }
 }
 

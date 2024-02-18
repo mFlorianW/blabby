@@ -25,6 +25,7 @@ Item {
         function cleanup() {
             slider.value = 0;
             slider.width = 400;
+            slider.stepSize = 1;
         }
 
         function test_positionValueOnClick() {
@@ -62,6 +63,17 @@ Item {
             mousePress(slider, 0, 0);
             mouseMove(slider, 100, 0, Qt.LeftButton);
             mouseRelease(slider, 100, 0);
+            compare(slider.value, 25);
+            compare(slider.visualPosition, 100);
+        }
+
+        function test_handleStepsize() {
+            compare(slider.visualPosition, 0);
+            compare(slider.value, 0);
+            mouseClick(slider, 55, 0);
+            compare(slider.value, 14);
+            compare(slider.visualPosition, 56);
+            slider.stepSize = 25;
             compare(slider.value, 25);
             compare(slider.visualPosition, 100);
         }

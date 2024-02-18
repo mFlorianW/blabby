@@ -31,6 +31,11 @@ class AbstractSlider : public AbstractInteractiveControl
     Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged)
 
     /**
+     * The step size of the slider. Default 1.0
+     */
+    Q_PROPERTY(qreal stepSize READ stepSize WRITE setStepSize NOTIFY stepSizeChanged)
+
+    /**
      * The readonly property the visual position of slider.
      * It's used for interal purpose only
      */
@@ -81,6 +86,17 @@ public:
      * @param value The new value of the slider.
      */
     void setValue(qreal value) noexcept;
+
+    /**
+     * @return Gives the step size of the slider.
+     */
+    qreal stepSize() const noexcept;
+
+    /**
+     * Sets the new step size of the slider.
+     * @param stepSize The new step size.
+     */
+    void setStepSize(qreal stepSize) noexcept;
 
     /**
      * @return Gives the visual position of the slider.
