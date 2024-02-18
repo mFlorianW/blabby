@@ -116,6 +116,7 @@ Q_SIGNALS:
 
 protected:
     void handleRelease(QPointF point) noexcept override;
+    void handleMove(QPointF point) noexcept override;
 
 private Q_SLOTS:
     void onWidthChanged() noexcept;

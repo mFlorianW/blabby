@@ -71,6 +71,17 @@ void AbstractSlider::handleRelease(QPointF point) noexcept
     setValue(newValue);
 }
 
+void AbstractSlider::handleMove(QPointF point) noexcept
+{
+    if (isPressed()) {
+        auto const vpos = getVisualPosition(point);
+        if (not qFuzzyCompare(mVisualPositon, vpos)) {
+            mVisualPositon = vpos;
+            Q_EMIT visualPositionChanged();
+        }
+    }
+}
+
 void AbstractSlider::onWidthChanged() noexcept
 {
     mVisualPositon = mValue / mTo * width();
