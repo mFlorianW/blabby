@@ -8,6 +8,7 @@
 #include "Item.hpp"
 #include "Renderer.hpp"
 #include "SoapBackendDouble.hpp"
+#include "VolumeResponse.hpp"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -255,6 +256,28 @@ void RendererShould::request_master_volume_on_init_for_instance_id_0()
     QCOMPARE(mUpnpRendererRaw->isVolumeCalled(), true);
     auto const expData = VolumeData{.instanceId = 0, .channel = "Master"};
     QCOMPARE(mUpnpRendererRaw->volumeData(), expData);
+}
+
+void RendererShould::give_master_volume_and_notify_about_changes()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto volumeChangedSpy = QSignalSpy{&renderer, &Renderer::volumeChanged};
+
+    renderer.initialize();
+
+    // Set a valid response for the call.
+    mUpnpRendererRaw->volumeCall()->setRawMessage(UPnPAV::ValidGetVolumeResponse);
+    Q_EMIT mUpnpRendererRaw->volumeCall()->finished();
+
+    QCOMPARE(renderer.volume(), 98);
+    QCOMPARE(volumeChangedSpy.size(), 1);
+
+    // Simulate event volume update
+    volumeChangedSpy.clear();
+    Q_EMIT mUpnpRendererRaw->masterVolumeChanged(85);
+    QCOMPARE(renderer.volume(), 85);
+    QCOMPARE(volumeChangedSpy.size(), 1);
 }
 
 } // namespace Multimedia
