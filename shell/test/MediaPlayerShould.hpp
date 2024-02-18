@@ -27,5 +27,6 @@ private Q_SLOTS:
     void init();
 
     void start_stop_and_resume_playback_on_play_request();
+    void forwared_the_volume_of_the_used_renderer();
 };
 } // namespace Shell
