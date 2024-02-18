@@ -27,6 +27,8 @@ void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& rende
         connect(mRenderer.get(), &Multimedia::Renderer::stateChanged, this, [this]() {
             setPlaybackState(mRenderer->state());
         });
+        connect(mRenderer.get(), &Multimedia::Renderer::initializationFinished, this, &MediaPlayer::volumeChanged);
+        connect(mRenderer.get(), &Multimedia::Renderer::volumeChanged, this, &MediaPlayer::volumeChanged);
         mRenderer->initialize();
         setPlaybackState(mRenderer->state());
     }
@@ -62,6 +64,14 @@ void MediaPlayer::resume() noexcept
 MediaPlayer::PlaybackState MediaPlayer::playbackState() const noexcept
 {
     return mState;
+}
+
+quint32 MediaPlayer::volume() const noexcept
+{
+    if (mRenderer == nullptr) {
+        return 0;
+    }
+    return mRenderer->volume();
 }
 
 void MediaPlayer::setPlaybackState(Multimedia::Renderer::State state)
