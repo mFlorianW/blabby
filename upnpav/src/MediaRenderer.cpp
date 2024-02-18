@@ -67,7 +67,7 @@ MediaRenderer::MediaRenderer(DeviceDescription desc,
 MediaRenderer::~MediaRenderer() = default;
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::volume(quint32 instanceId,
-                                                                      QString const& channel) const noexcept
+                                                                      QString const& channel) noexcept
 {
     auto const action = d->mRenderingControlSCPD.action("GetVolume");
     if (action.name().isEmpty()) {
