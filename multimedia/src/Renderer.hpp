@@ -156,6 +156,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;

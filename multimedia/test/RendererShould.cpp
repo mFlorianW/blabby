@@ -273,6 +273,22 @@ void RendererShould::resume_the_playback_when_the_states_are_stop_and_pause()
     QCOMPARE(upnpRendererRaw->isPlayCalled(), false);
 }
 
+void RendererShould::request_master_volume_on_init_for_instance_id_0()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(),
+                                                              QSharedPointer<SoapBackendDouble>::create(),
+                                                              QSharedPointer<Doubles::EventBackend>::create());
+    auto upnpRendererRaw = upnpRenderer.get();
+    upnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(upnpRenderer)};
+
+    renderer.initialize();
+
+    QCOMPARE(upnpRendererRaw->isVolumeCalled(), true);
+    auto const expData = VolumeData{.instanceId = 0, .channel = "Master"};
+    QCOMPARE(upnpRendererRaw->volumeData(), expData);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)
