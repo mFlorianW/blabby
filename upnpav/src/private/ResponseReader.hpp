@@ -24,6 +24,7 @@ public:
         StateVariableNotFound,
         Error
     };
+    Q_ENUM(ReadResult)
 
     enum class ElementReadResult
     {
@@ -31,6 +32,7 @@ public:
         ConversionError,
         Error,
     };
+    Q_ENUM(ElementReadResult)
 
     ResponseReader(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action);
     ~ResponseReader() noexcept override;
@@ -47,6 +49,16 @@ Q_SIGNALS:
                               UPnPAV::ResponseReader::ElementReadResult result);
     void signedIntValueRead(QString const& TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result);
     void stringValueRead(QString const& TokenName, QString& value, UPnPAV::ResponseReader::ElementReadResult result);
+
+    /**
+     * This signal is emitted when a uint16 value is read.
+     * @tokenName The xml name of the token.
+     * @value The value of the token.
+     * @result The status if the element is correctly read and converted.
+     */
+    void readUnsignedInt16Value(QString const& tokenName,
+                                quint16 value,
+                                UPnPAV::ResponseReader::ElementReadResult result);
 
 private:
     SCPDStateVariable::DataType dataType(QString const& argName) noexcept;
