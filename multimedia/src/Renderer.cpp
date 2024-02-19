@@ -30,7 +30,7 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
     });
 
     connect(mRenderer.get(), &MediaRenderer::masterVolumeChanged, this, [this](quint32 volume) {
-        setVolume(volume);
+        updateVolume(volume);
     });
 }
 
@@ -71,7 +71,7 @@ void Renderer::initialize() noexcept
                                        << mVolumeCall->errorDescription();
                 return;
             }
-            setVolume(mVolumeCall->resultAs<UPnPAV::GetVolumeResponse>()->volume());
+            updateVolume(mVolumeCall->resultAs<UPnPAV::GetVolumeResponse>()->volume());
         });
     }
 }
@@ -189,7 +189,7 @@ void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
     }
 }
 
-void Renderer::setVolume(quint32 volume) noexcept
+void Renderer::updateVolume(quint32 volume) noexcept
 {
     if (mVolume != volume) {
         mVolume = volume;

@@ -158,7 +158,7 @@ private Q_SLOTS:
 private:
     bool isPlayableItem(Item const& item) const noexcept;
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
-    void setVolume(quint32 volume) noexcept;
+    void updateVolume(quint32 volume) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;
