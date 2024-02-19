@@ -60,9 +60,9 @@ public:
      * @param volume The volume level for the channel.
      * @return PendingSoapCall with the result or an error.
      */
-    std::optional<std::unique_ptr<PendingSoapCall>> setVolume(quint32 instanceId,
-                                                              QString const& channel,
-                                                              quint32 volume) noexcept;
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> setVolume(quint32 instanceId,
+                                                                                    QString const& channel,
+                                                                                    quint32 volume) noexcept;
 
 Q_SIGNALS:
     /**
