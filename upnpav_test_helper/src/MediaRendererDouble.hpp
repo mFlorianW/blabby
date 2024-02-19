@@ -51,6 +51,14 @@ struct VolumeData
     friend bool operator==(VolumeData const& lhs, VolumeData const& rhs) = default;
 };
 
+struct SetVolumeData
+{
+    quint32 instanceId = quint32{1234};
+    QString channel;
+    quint16 volume;
+    friend bool operator==(SetVolumeData const& lhs, SetVolumeData const& rhs) = default;
+};
+
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
@@ -177,6 +185,28 @@ public:
     [[nodiscard]] std::optional<std::unique_ptr<PendingSoapCall>> volume(quint32 instanceId,
                                                                          QString const& channel) noexcept override;
 
+    /**
+     * @return The data of the last set volume call.
+     */
+    [[nodiscard]] SetVolumeData setVolumeData() const noexcept;
+
+    /**
+     * @return True the volume was called otherwise false
+     */
+    [[nodiscard]] bool isSetVolumeCalled() const noexcept;
+
+    /**
+     * @return Gives the volume call object e.g. to finish it.
+     */
+    [[nodiscard]] QSharedPointer<SoapCallDouble> setVolumeCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::volume
+     */
+    [[nodiscard]] std::optional<std::unique_ptr<PendingSoapCall>> setVolume(quint32 instanceId,
+                                                                            QString const& channel,
+                                                                            quint32 volume) noexcept override;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -211,6 +241,11 @@ private:
     VolumeData mVolumeData;
     QSharedPointer<SoapCallDouble> mVolumeCall =
         QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), getVolumeAction());
+    // Volumue
+    bool mIsSetVolumeCalled = false;
+    SetVolumeData mSetVolumeData;
+    QSharedPointer<SoapCallDouble> mSetVolumeCall =
+        QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setVolumeAction());
 };
 
 } // namespace UPnPAV::Doubles
