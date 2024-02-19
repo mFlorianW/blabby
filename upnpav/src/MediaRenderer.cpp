@@ -100,9 +100,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::setVolume(quint32
     auto xmlMessage = msgGen.generateXmlMessageBody(action,
                                                     d->mRenderingControlService.serviceType(),
                                                     {instanceIdArg, channelArg, volumeArg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService.controlUrl(),
-                                                                action.name(),
-                                                                d->mRenderingControlService.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService,
+                                                                d->mRenderingControlSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
