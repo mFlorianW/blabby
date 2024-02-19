@@ -172,6 +172,19 @@ quint32 Renderer::volume() const noexcept
     return mVolume;
 }
 
+void Renderer::setVolume(quint32 volume) noexcept
+{
+    auto call = mRenderer->setVolume(0, "Master", volume);
+    if (call.has_value()) {
+        mSetVolumeCall = std::move(call.value());
+        connect(mSetVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this] {
+            if (mSetVolumeCall->hasError()) {
+                qCCritical(mmRenderer) << "Failed to set set volume. Error:" << mSetVolumeCall->errorDescription();
+            }
+        });
+    }
+}
+
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
 {
     auto newState = State::NoMedia;

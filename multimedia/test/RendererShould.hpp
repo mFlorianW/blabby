@@ -34,6 +34,7 @@ private Q_SLOTS:
     void resume_the_playback_when_the_states_are_stop_and_pause();
     void request_master_volume_on_init_for_instance_id_0();
     void give_master_volume_and_notify_about_changes();
+    void set_volume_of_upnpav_media_renderer();
 
 private:
     std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;
