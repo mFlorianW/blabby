@@ -280,6 +280,20 @@ void RendererShould::give_master_volume_and_notify_about_changes()
     QCOMPARE(volumeChangedSpy.size(), 1);
 }
 
+void RendererShould::set_volume_of_upnpav_media_renderer()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    renderer.initialize();
+
+    renderer.setVolume(25);
+
+    QCOMPARE(mUpnpRendererRaw->isSetVolumeCalled(), true);
+    auto expData = SetVolumeData{.instanceId = 0, .channel = "Master", .volume = 25};
+    QCOMPARE(mUpnpRendererRaw->setVolumeData(), expData);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

@@ -124,6 +124,13 @@ public:
      */
     quint32 volume() const noexcept;
 
+    /**
+     * Sets the volume for "Master" channel in UPnPAV renderer.
+     * The result of volume is automatically propagated by the UPnPAV event system.
+     * @param volume The volume for the "Master" channel.
+     */
+    void setVolume(quint32 volume) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -168,6 +175,7 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;
