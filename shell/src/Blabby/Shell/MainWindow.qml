@@ -197,6 +197,9 @@ Item {
                     anchors.rightMargin: 20
                     width: 188
                     value: Singleton.mediaPlayer.volume
+                    onValueChanged: {
+                        Singleton.mediaPlayer.volume = value;
+                    }
                 }
             }
         }
