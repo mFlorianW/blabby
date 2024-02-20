@@ -94,6 +94,9 @@ public:
      */
     PlaybackState playbackState() const noexcept;
 
+    /**
+     * @return Gives the current volume level.
+     */
     quint32 volume() const noexcept;
 
 Q_SIGNALS:
@@ -102,6 +105,9 @@ Q_SIGNALS:
      */
     void playbackStateChanged();
 
+    /**
+     * This signal is emitted when the volume of the @ref Shell::MediaPlayer changes.
+     */
     void volumeChanged();
 
 private:
