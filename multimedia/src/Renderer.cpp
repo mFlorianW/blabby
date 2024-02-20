@@ -4,6 +4,7 @@
 
 #include "Renderer.hpp"
 #include "GetProtocolInfoResponse.hpp"
+#include "GetVolumeResponse.hpp"
 #include "PendingSoapCall.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
@@ -26,6 +27,10 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
 
     connect(mRenderer.get(), &MediaRenderer::stateChanged, this, [this]() {
         setState(mRenderer->state());
+    });
+
+    connect(mRenderer.get(), &MediaRenderer::masterVolumeChanged, this, [this](quint32 volume) {
+        updateVolume(volume);
     });
 }
 
@@ -56,6 +61,19 @@ void Renderer::initialize() noexcept
 
         Q_EMIT initializationFinished();
     });
+
+    auto call = mRenderer->volume(0, "Master");
+    if (call.has_value()) {
+        mVolumeCall = std::move(call.value());
+        connect(mVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
+            if (mVolumeCall->hasError()) {
+                qCCritical(mmRenderer) << "Failed to request the \"Master\" channel volume for instance id 0. Error:"
+                                       << mVolumeCall->errorDescription();
+                return;
+            }
+            updateVolume(mVolumeCall->resultAs<UPnPAV::GetVolumeResponse>()->volume());
+        });
+    }
 }
 
 void Renderer::playback(Item const& item) noexcept
@@ -149,6 +167,24 @@ Renderer::State Renderer::state() const noexcept
     return mState;
 }
 
+quint32 Renderer::volume() const noexcept
+{
+    return mVolume;
+}
+
+void Renderer::setVolume(quint32 volume) noexcept
+{
+    auto call = mRenderer->setVolume(0, "Master", volume);
+    if (call.has_value()) {
+        mSetVolumeCall = std::move(call.value());
+        connect(mSetVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this] {
+            if (mSetVolumeCall->hasError()) {
+                qCCritical(mmRenderer) << "Failed to set set volume. Error:" << mSetVolumeCall->errorDescription();
+            }
+        });
+    }
+}
+
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
 {
     auto newState = State::NoMedia;
@@ -163,6 +199,15 @@ void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
     if (mState != newState) {
         mState = newState;
         Q_EMIT stateChanged();
+    }
+}
+
+void Renderer::updateVolume(quint32 volume) noexcept
+{
+    if (mVolume != volume) {
+        mVolume = volume;
+        Q_EMIT volumeChanged();
+        qCDebug(mmRenderer) << "Volume received:" << mVolume;
     }
 }
 

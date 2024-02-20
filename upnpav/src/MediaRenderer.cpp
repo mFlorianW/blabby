@@ -67,7 +67,7 @@ MediaRenderer::MediaRenderer(DeviceDescription desc,
 MediaRenderer::~MediaRenderer() = default;
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::volume(quint32 instanceId,
-                                                                      QString const& channel) const noexcept
+                                                                      QString const& channel) noexcept
 {
     auto const action = d->mRenderingControlSCPD.action("GetVolume");
     if (action.name().isEmpty()) {
@@ -78,9 +78,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::volume(quint32 in
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage =
         msgGen.generateXmlMessageBody(action, d->mRenderingControlService.serviceType(), {instanceIdArg, channelArg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService.controlUrl(),
-                                                                action.name(),
-                                                                d->mRenderingControlService.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService,
+                                                                d->mRenderingControlSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -100,9 +100,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::setVolume(quint32
     auto xmlMessage = msgGen.generateXmlMessageBody(action,
                                                     d->mRenderingControlService.serviceType(),
                                                     {instanceIdArg, channelArg, volumeArg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService.controlUrl(),
-                                                                action.name(),
-                                                                d->mRenderingControlService.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService,
+                                                                d->mRenderingControlSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }

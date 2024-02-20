@@ -11,6 +11,7 @@
 #include "MediaRendererDouble.hpp"
 #include "Renderer.hpp"
 #include "SoapBackendDouble.hpp"
+#include "VolumeResponse.hpp"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -44,9 +45,16 @@ void MediaPlayerShould::init()
     auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
     mPlayer = std::make_shared<MediaPlayer>();
 
+    // Set initial volume configuration
+    mUpnpRenderer->setVolumeEnabled(true);
+    mUpnpRenderer->volumeCall()->setRawMessage(QString{ValidGetVolumeResponse});
+
     // Testing that the media player requests the device state on initialization
     mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
     mPlayer->setRenderer(renderer);
+
+    // Finish the volume call
+    Q_EMIT mUpnpRenderer->volumeCall()->finished();
     QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
 
     // Test that the media player requests the protocol info initialization
@@ -91,6 +99,25 @@ void MediaPlayerShould::start_stop_and_resume_playback_on_play_request()
     mUpnpRenderer->setDeviceState(MediaDevice::State::Playing);
 
     QCOMPARE(mPlayer->playbackState(), MediaPlayer::PlaybackState::Playing);
+}
+
+void MediaPlayerShould::forwared_the_volume_of_the_used_renderer()
+{
+    auto volumeChangedSpy = QSignalSpy{mPlayer.get(), &MediaPlayer::volumeChanged};
+    QCOMPARE(mPlayer->property("volume").toUInt(), quint32{98});
+
+    // simulate volume change
+    Q_EMIT mUpnpRenderer->masterVolumeChanged(85);
+    QCOMPARE(volumeChangedSpy.size(), 1);
+    QCOMPARE(mPlayer->property("volume").toUInt(), quint32{85});
+}
+
+void MediaPlayerShould::forwared_set_the_volume_to_the_used_renderer()
+{
+    mPlayer->setProperty("volume", 98);
+
+    QCOMPARE(mUpnpRenderer->isSetVolumeCalled(), true);
+    QCOMPARE(mUpnpRenderer->setVolumeData().volume, 98);
 }
 
 } // namespace Shell

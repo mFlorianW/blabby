@@ -23,6 +23,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/24x24/close.svg
         ../../icons/24x24/renderer.svg
         ../../icons/24x24/pause.svg
+        ../../icons/24x24/volume.svg
 )
 add_library(BlabbyShell::Qml ALIAS ${PROJECT_NAME})
 add_library(BlabbyShell::QmlPlugin ALIAS ${PROJECT_NAME}plugin)

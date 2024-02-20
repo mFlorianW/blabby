@@ -14,6 +14,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         Dialog.qml
         FadeBehavior.qml
         Switch.qml
+        Slider.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractClock.hpp
@@ -31,6 +32,8 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractSwitch.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractSlider.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractSlider.hpp
 )
 add_library(BlabbyShell::Controls ALIAS ${PROJECT_NAME}Controls)
 add_library(BlabbyShell::ControlsPlugin ALIAS ${PROJECT_NAME}Controlsplugin)

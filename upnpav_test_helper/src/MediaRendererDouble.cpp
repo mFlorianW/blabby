@@ -168,4 +168,64 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::pause(quint
     return std::make_unique<PendingSoapCall>(mPauseCall);
 }
 
+VolumeData MediaRendererDouble::volumeData() const noexcept
+{
+    return mVolumeData;
+}
+
+void MediaRendererDouble::setVolumeEnabled(bool enabled) noexcept
+{
+    mVolumeEnabled = enabled;
+}
+
+bool MediaRendererDouble::isVolumeCalled() const noexcept
+{
+    return mIsVolumeCalled;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::volumeCall() const noexcept
+{
+    return mVolumeCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::volume(quint32 instanceId,
+                                                                            QString const& channel) noexcept
+{
+    if (not mVolumeEnabled) {
+        return std::nullopt;
+    }
+    mVolumeData = {.instanceId = instanceId, .channel = channel};
+    mIsVolumeCalled = true;
+    return std::make_unique<PendingSoapCall>(mVolumeCall);
+}
+
+SetVolumeData MediaRendererDouble::setVolumeData() const noexcept
+{
+    return mSetVolumeData;
+}
+
+bool MediaRendererDouble::isSetVolumeCalled() const noexcept
+{
+    return mIsSetVolumeCalled;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::setVolumeCall() const noexcept
+{
+
+    return mSetVolumeCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setVolume(quint32 instanceId,
+                                                                               QString const& channel,
+                                                                               quint32 volume) noexcept
+{
+    if (not mVolumeEnabled) {
+        return std::nullopt;
+    }
+
+    mSetVolumeData = {.instanceId = instanceId, .channel = channel, .volume = static_cast<quint16>(volume)};
+    mIsSetVolumeCalled = true;
+    return std::make_unique<PendingSoapCall>(mSetVolumeCall);
+}
+
 } // namespace UPnPAV::Doubles

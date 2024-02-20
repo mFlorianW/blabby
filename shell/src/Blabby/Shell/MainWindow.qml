@@ -182,6 +182,25 @@ Item {
                     anchors.rightMargin: 242
                     onClicked: rendererDialog.visible = !rendererDialog.visible
                 }
+
+                Image {
+                    id: volumeImage
+                    anchors.verticalCenter: mediaControlArea.verticalCenter
+                    anchors.left: rendererButton.right
+                    source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/volume.svg"
+                }
+
+                Slider {
+                    id: volumeControl
+                    anchors.verticalCenter: mediaControlArea.verticalCenter
+                    anchors.right: mediaControlArea.right
+                    anchors.rightMargin: 20
+                    width: 188
+                    value: Singleton.mediaPlayer.volume
+                    onValueChanged: {
+                        Singleton.mediaPlayer.volume = value;
+                    }
+                }
             }
         }
     }
