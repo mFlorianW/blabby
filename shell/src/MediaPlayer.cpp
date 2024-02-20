@@ -74,6 +74,16 @@ quint32 MediaPlayer::volume() const noexcept
     return mRenderer->volume();
 }
 
+void MediaPlayer::setVolume(quint32 volume) const noexcept
+{
+    if (mRenderer == nullptr) {
+        qCCritical(shell) << "Failed to set volume. No render device set.";
+        return;
+    }
+
+    mRenderer->setVolume(volume);
+}
+
 void MediaPlayer::setPlaybackState(Multimedia::Renderer::State state)
 {
     auto pstate = PlaybackState::Stopped;
