@@ -112,6 +112,14 @@ void MediaPlayerShould::forwared_the_volume_of_the_used_renderer()
     QCOMPARE(mPlayer->property("volume").toUInt(), quint32{85});
 }
 
+void MediaPlayerShould::forwared_set_the_volume_to_the_used_renderer()
+{
+    mPlayer->setProperty("volume", 98);
+
+    QCOMPARE(mUpnpRenderer->isSetVolumeCalled(), true);
+    QCOMPARE(mUpnpRenderer->setVolumeData().volume, 98);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaPlayerShould)

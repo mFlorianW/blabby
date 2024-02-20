@@ -21,7 +21,7 @@ class MediaPlayer : public QObject
     /**
      * This property holds the current volume of the media player
      */
-    Q_PROPERTY(quint32 volume READ volume NOTIFY volumeChanged)
+    Q_PROPERTY(quint32 volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
 public:
     /*
@@ -98,6 +98,11 @@ public:
      * @return Gives the current volume level.
      */
     quint32 volume() const noexcept;
+
+    /**
+     * Sets the volume for the playback.
+     */
+    void setVolume(quint32 volume) const noexcept;
 
 Q_SIGNALS:
     /**
