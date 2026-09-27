@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -38,9 +38,9 @@ int MediaRendererModel::rowCount(QModelIndex const& parent) const noexcept
 QHash<int, QByteArray> MediaRendererModel::roleNames() const noexcept
 {
     static auto const roles = QHash<int, QByteArray>{
-        std::make_pair(static_cast<int>(DisplayRole::MediaRendererTitle), QByteArray{"mediaRendererTitle"}),
-        std::make_pair(static_cast<int>(DisplayRole::MediaRendererIconUrl), QByteArray{"mediaRendererIconUrl"}),
-        std::make_pair(static_cast<int>(DisplayRole::MediaRendererActive), QByteArray{"mediaRendererActive"}),
+        std::make_pair(static_cast<int>(DisplayRole::Name), QByteArray{"name"}),
+        std::make_pair(static_cast<int>(DisplayRole::PlaybackState), QByteArray{"playbackState"}),
+        std::make_pair(static_cast<int>(DisplayRole::Active), QByteArray{"active"}),
     };
     return roles;
 }
@@ -55,11 +55,11 @@ QVariant MediaRendererModel::data(QModelIndex const& index, int role) const noex
 
     auto const renderer = mRenderers.at(index.row());
     auto const dispRole = static_cast<DisplayRole>(role);
-    if (dispRole == DisplayRole::MediaRendererTitle) {
+    if (dispRole == DisplayRole::Name) {
         return renderer->name();
-    } else if (dispRole == DisplayRole::MediaRendererIconUrl) {
-        return renderer->iconUrl();
-    } else if (dispRole == DisplayRole::MediaRendererActive) {
+    } else if (dispRole == DisplayRole::PlaybackState) {
+        return static_cast<int>(renderer->state());
+    } else if (dispRole == DisplayRole::Active) {
         return renderer == mActiveRenderer;
     }
     return {};
@@ -72,42 +72,86 @@ std::shared_ptr<Multimedia::Renderer> MediaRendererModel::activeRenderer() const
 
 void MediaRendererModel::activateRenderer(QModelIndex const& index)
 {
-    if (index.isValid() and index.row() >= mRenderers.size()) {
+    if (not index.isValid() or index.row() >= mRenderers.size()) {
         qCritical(shell) << "Failed to set active Renderer. Error: invalid index:" << index.row()
                          << "Renderers size:" << mRenderers.size();
         return;
     }
 
     auto const renderer = mRenderers.at(index.row());
-    if (mActiveRenderer != renderer) {
-        mActiveRenderer = renderer;
-        qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
-        Q_EMIT activeRendererChanged();
-        Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::MediaRendererActive)});
+    if (mActiveRenderer == renderer) {
+        return;
     }
+
+    auto const previousIndex = indexOf(mActiveRenderer.get());
+    mActiveRenderer = renderer;
+    qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
+    Q_EMIT activeRendererChanged();
+    if (previousIndex.isValid()) {
+        Q_EMIT dataChanged(previousIndex, previousIndex, {static_cast<int>(DisplayRole::Active)});
+    }
+    Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::Active)});
 }
 
 void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const& renderer)
 {
-    auto const newIndex = static_cast<int>(mRenderers.size());
-    beginInsertRows(index(newIndex), newIndex, newIndex);
-    mRenderers.push_back(std::move(renderer));
+    // upper_bound keeps Renderers with equal names in the order they appeared.
+    auto const pos = std::upper_bound(mRenderers.cbegin(),
+                                      mRenderers.cend(),
+                                      renderer,
+                                      [](std::shared_ptr<Renderer> const& lhs, std::shared_ptr<Renderer> const& rhs) {
+                                          return lhs->name().compare(rhs->name(), Qt::CaseInsensitive) < 0;
+                                      });
+    auto const newIndex = static_cast<int>(std::distance(mRenderers.cbegin(), pos));
+    beginInsertRows(QModelIndex{}, newIndex, newIndex);
+    mRenderers.insert(newIndex, renderer);
     endInsertRows();
+
+    connect(renderer.get(), &Renderer::stateChanged, this, [this, rendererPtr = renderer.get()]() {
+        onRendererStateChanged(rendererPtr);
+    });
 }
 
 void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer)
 {
-    auto sourceIndex = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [&](std::shared_ptr<Renderer> const& src) {
-        return src == renderer;
-    });
-    if (sourceIndex != mRenderers.cend()) {
-        auto const idx = static_cast<int>(std::distance(mRenderers.cbegin(), sourceIndex));
-        beginRemoveRows(index(idx), idx, idx);
-        mRenderers.remove(static_cast<int>(idx));
-        qCDebug(shell) << "Remove MediaRenderer index:" << idx << "from renderers. Address:" << renderer.get()
-                       << "iter:" << sourceIndex->get();
-        endRemoveRows();
+    auto const idx = indexOf(renderer.get());
+    if (not idx.isValid()) {
+        return;
     }
+
+    disconnect(renderer.get(), nullptr, this, nullptr);
+    beginRemoveRows(QModelIndex{}, idx.row(), idx.row());
+    mRenderers.remove(idx.row());
+    qCDebug(shell) << "Remove MediaRenderer index:" << idx.row() << "from renderers. Address:" << renderer.get();
+    endRemoveRows();
+
+    if (mActiveRenderer == renderer) {
+        mActiveRenderer = nullptr;
+        Q_EMIT activeRendererChanged();
+    }
+}
+
+void MediaRendererModel::onRendererStateChanged(Multimedia::Renderer const* renderer)
+{
+    auto const idx = indexOf(renderer);
+    if (idx.isValid()) {
+        Q_EMIT dataChanged(idx, idx, {static_cast<int>(DisplayRole::PlaybackState)});
+    }
+}
+
+QModelIndex MediaRendererModel::indexOf(Multimedia::Renderer const* renderer) const noexcept
+{
+    if (renderer == nullptr) {
+        return {};
+    }
+
+    auto const iter = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [renderer](auto const& other) {
+        return other.get() == renderer;
+    });
+    if (iter == mRenderers.cend()) {
+        return {};
+    }
+    return index(static_cast<int>(std::distance(mRenderers.cbegin(), iter)));
 }
 
 } // namespace Shell

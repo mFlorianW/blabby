@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -14,15 +14,17 @@ namespace Shell
 {
 
 /**
- * This model provides a list based access to all discovered UPnPAV MediaRenderers on the network.
+ * This model provides a list based access to all Online @ref Multimedia::Renderer on the network.
+ * The rows are ordered alphabetically by the name of the @ref Multimedia::Renderer.
  */
 class MediaRendererModel : public QAbstractListModel
 {
     Q_OBJECT
 
     /**
-     * This property holds the active @ref Multimedia::Renderer for playback.
-     * The active @ref Multimedia::Renderer is set via the @ref MediaRendererModel::activateRenderer
+     * This property holds the Active Renderer, the @ref Multimedia::Renderer that is used for playback.
+     * The Active Renderer is set via the @ref MediaRendererModel::activateRenderer and is nullptr
+     * until a @ref Multimedia::Renderer is activated or when the Active Renderer disconnects.
      */
     Q_PROPERTY(std::shared_ptr<Multimedia::Renderer> activeRenderer READ activeRenderer NOTIFY activeRendererChanged)
 
@@ -32,9 +34,18 @@ public:
      */
     enum class DisplayRole
     {
-        MediaRendererTitle = Qt::UserRole + 1,
-        MediaRendererIconUrl,
-        MediaRendererActive
+        /**
+         * The name of the @ref Multimedia::Renderer.
+         */
+        Name = Qt::UserRole + 1,
+        /**
+         * The Playback State of the @ref Multimedia::Renderer as integer value of @ref Multimedia::Renderer::State.
+         */
+        PlaybackState,
+        /**
+         * True when the @ref Multimedia::Renderer is the Active Renderer.
+         */
+        Active
     };
     Q_ENUM(DisplayRole)
 
@@ -82,16 +93,16 @@ public:
     std::shared_ptr<Multimedia::Renderer> activeRenderer() const noexcept;
 
     /**
-     * Marks the @ref Multimedia::Renderer under the passed @ref QModelIndex as active.
+     * Makes the @ref Multimedia::Renderer under the passed @ref QModelIndex the Active Renderer.
      * Active means in this case that the renderer is used for playback.
-     * If the index is invalid or not @ref Multimedia::Renderer was found for that index nothing happens.
+     * The playback of the previous Active Renderer is not touched.
+     * If the index is invalid or the @ref Multimedia::Renderer is already active nothing happens.
      */
     Q_INVOKABLE void activateRenderer(QModelIndex const& index);
 
 Q_SIGNALS:
     /**
-     * This signal is emitted when the active @ref Multimedia::Renderer is changed with @ref
-     * Multimedia::activeRendererChanged.
+     * This signal is emitted when the Active Renderer is changed or cleared.
      */
     void activeRendererChanged();
 
@@ -100,6 +111,9 @@ private Q_SLOTS:
     void onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
 private:
+    void onRendererStateChanged(Multimedia::Renderer const* renderer);
+    QModelIndex indexOf(Multimedia::Renderer const* renderer) const noexcept;
+
     std::unique_ptr<Multimedia::RendererProvider> mProvider;
     QVector<std::shared_ptr<Multimedia::Renderer>> mRenderers;
     std::shared_ptr<Multimedia::Renderer> mActiveRenderer = nullptr;
