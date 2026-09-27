@@ -9,7 +9,7 @@ on:
 
 jobs:
   Clang-Tidy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -34,7 +34,7 @@ jobs:
     - name: Generate Compile Commands and Build
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug --target all -- -j
+        cmake --build --preset github-ci-debug --target all -- -j$(nproc)
     - name: Static Code Analysis
       run: |
         files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -E "(.*)\.(h|cpp|hpp)$") || true

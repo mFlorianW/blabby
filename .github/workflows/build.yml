@@ -10,7 +10,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
+    env:
+      CC: gcc-15
+      CXX: g++-15
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -19,7 +22,7 @@ jobs:
         cache: 'true'
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install doxygen
+        sudo apt update && sudo apt install -y doxygen
     - name: checkout
       uses: actions/checkout@v4
     - name: Build and Install nodejs-llhttp
@@ -27,7 +30,7 @@ jobs:
     - name: build and test
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug -- -j
+        cmake --build --preset github-ci-debug -- -j$(nproc)
         ctest --preset github-test --output-on-failure
       env:
         QT_QPA_PLATFORM: offscreen

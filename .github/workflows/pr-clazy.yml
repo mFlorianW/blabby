@@ -9,7 +9,7 @@ on:
 
 jobs:
   Clazy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
