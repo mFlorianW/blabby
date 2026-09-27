@@ -9,22 +9,16 @@ on:
 
 jobs:
   Clang-Tidy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
         version: '6.5.*'
         cache: 'true'
-    - name: WORKAROUND FOR https://github.com/actions/runner-images/issues/8659
-      run: |
-        echo "TEMPORARY WORKAROUND FOR GITHUB RUNNER BUG #8659\n\nRemoving GCC 13 as it breaks Clang14"
-        sudo rm -f /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
-        sudo apt-get update
-        sudo apt-get install -y --allow-downgrades libc6=2.35-* libc6-dev=2.35-* libstdc++6=12.3.0-* libgcc-s1=12.3.0-*
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install clang-tidy-14 doxygen
+        sudo apt update && sudo apt install clang-tidy doxygen
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -34,7 +28,7 @@ jobs:
     - name: Generate Compile Commands and Build
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug --target all -- -j
+        cmake --build --preset github-ci-debug --target all -- -j$(nproc)
     - name: Static Code Analysis
       run: |
         files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -E "(.*)\.(h|cpp|hpp)$") || true
@@ -52,7 +46,7 @@ jobs:
         request_changes: true
     - name: Publish Static Code Results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       with:
         name: clang-tidy-results@${{ github.sha }}.yml
         path: clang-tidy-fixes.yml

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -44,7 +44,7 @@ GetProtocolInfoResponse::GetProtocolInfoResponse(QString const& xmlResponse,
                                                  ServiceControlPointDefinition scpd,
                                                  SCPDAction action)
 {
-    auto reader = ResponseReader{std::move(xmlResponse), std::move(scpd), std::move(action)};
+    auto reader = ResponseReader{xmlResponse, std::move(scpd), std::move(action)};
     QObject::connect(
         &reader,
         &ResponseReader::stringValueRead,

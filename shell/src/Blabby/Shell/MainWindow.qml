@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -174,6 +174,15 @@ Item {
                     anchors.leftMargin: 530
                 }
 
+                Slider {
+                    id: progressionControl
+                    width: 375
+                    anchors.top: mediaPlayer.bottom
+                    anchors.topMargin: 23
+                    anchors.left: mediaControlArea.left
+                    anchors.leftMargin: 340
+                }
+
                 IconButton {
                     id: rendererButton
                     source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/renderer.svg"
@@ -181,6 +190,25 @@ Item {
                     anchors.right: mediaControlArea.right
                     anchors.rightMargin: 242
                     onClicked: rendererDialog.visible = !rendererDialog.visible
+                }
+
+                Image {
+                    id: volumeImage
+                    anchors.verticalCenter: mediaControlArea.verticalCenter
+                    anchors.left: rendererButton.right
+                    source: "qrc:/qt/qml/Blabby/Shell/icons/24x24/volume.svg"
+                }
+
+                Slider {
+                    id: volumeControl
+                    anchors.verticalCenter: mediaControlArea.verticalCenter
+                    anchors.right: mediaControlArea.right
+                    anchors.rightMargin: 20
+                    width: 188
+                    value: Singleton.mediaPlayer.volume
+                    onValueChanged: {
+                        Singleton.mediaPlayer.volume = value;
+                    }
                 }
             }
         }

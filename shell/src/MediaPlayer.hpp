@@ -18,6 +18,11 @@ class MediaPlayer : public QObject
     Q_OBJECT
     Q_PROPERTY(Shell::MediaPlayer::PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
 
+    /**
+     * This property holds the current volume of the media player
+     */
+    Q_PROPERTY(quint32 volume READ volume WRITE setVolume NOTIFY volumeChanged)
+
 public:
     /*
      * Inherited QObject constructors
@@ -89,11 +94,26 @@ public:
      */
     PlaybackState playbackState() const noexcept;
 
+    /**
+     * @return Gives the current volume level.
+     */
+    quint32 volume() const noexcept;
+
+    /**
+     * Sets the volume for the playback.
+     */
+    void setVolume(quint32 volume) const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Shell::MediaPlayer changes it's @ref Shell::MediaPlayer::PlaybackState
      */
     void playbackStateChanged();
+
+    /**
+     * This signal is emitted when the volume of the @ref Shell::MediaPlayer changes.
+     */
+    void volumeChanged();
 
 private:
     void setPlaybackState(Multimedia::Renderer::State state);

@@ -46,6 +46,9 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
                 } else if (type == SCPDStateVariable::DataType::String) {
                     auto val = xmlReader.readElementText();
                     Q_EMIT stringValueRead(xmlReader.name().toString(), val, ElementReadResult::Ok);
+                } else if (type == SCPDStateVariable::DataType::Ui2) {
+                    auto val = static_cast<quint16>(xmlReader.readElementText().toUInt());
+                    Q_EMIT readUnsignedInt16Value(xmlReader.name().toString(), val, ElementReadResult::Ok);
                 } else {
                     readResult = ReadResult::StateVariableNotFound;
                     break;

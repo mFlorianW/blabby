@@ -29,6 +29,19 @@ bool AbstractInteractiveControl::isPressed() const noexcept
     return mPressState;
 }
 
+void AbstractInteractiveControl::handleRelease(QPointF) noexcept
+{
+}
+
+void AbstractInteractiveControl::handleMove(QPointF) noexcept
+{
+}
+
+void AbstractInteractiveControl::mouseMoveEvent(QMouseEvent* event)
+{
+    handleMove(event->position());
+}
+
 void AbstractInteractiveControl::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -41,6 +54,7 @@ void AbstractInteractiveControl::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
         mPressState = false;
+        handleRelease(event->position());
         Q_EMIT pressedChanged();
         Q_EMIT clicked();
     }

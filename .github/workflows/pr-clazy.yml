@@ -9,19 +9,13 @@ on:
 
 jobs:
   Clazy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
         version: '6.5.*'
         cache: 'true'
-    - name: WORKAROUND FOR https://github.com/actions/runner-images/issues/8659
-      run: |
-        echo "TEMPORARY WORKAROUND FOR GITHUB RUNNER BUG #8659\n\nRemoving GCC 13 as it breaks Clang14"
-        sudo rm -f /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
-        sudo apt-get update
-        sudo apt-get install -y --allow-downgrades libc6=2.35-* libc6-dev=2.35-* libstdc++6=12.3.0-* libgcc-s1=12.3.0-*
     - name: Install Dependencies
       run: |
         sudo apt update && sudo apt install clazy doxygen
@@ -45,23 +39,19 @@ jobs:
           touch clazy.log
         fi
     - name: Publish Clazy Fixes
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       with:
         name: clazy-fixes@${{ github.sha }}.yml
         path: clazy-fixes.yml
     - name: Publish Clazy Log
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       with:
         name: clazy.log@${{ github.sha }}.yml
         path: clazy.log
     - name: Check Clazy Warnings
       run: |
-        if [ -e clazy.log ]; then
-          filesize=$(stat -c '%s' clazy.log)
-          if [ $filesize -gt 0 ]; then
-            echo "clazy warnings found."
-            exit 1
-          else
-            exit 0
-          fi
+        # clazy also logs its progress ("[1/24] Processing file ..."), only diagnostics fail the check.
+        if [ -e clazy.log ] && grep -qE '(warning|error):' clazy.log; then
+          echo "clazy warnings found."
+          exit 1
         fi

@@ -13,9 +13,9 @@ GetVolumeResponse::GetVolumeResponse(QString xmlResponse, ServiceControlPointDef
 {
     auto reader = ResponseReader{xmlResponse, scpd, action};
     QObject::connect(&reader,
-                     &ResponseReader::unsignedIntValueRead,
+                     &ResponseReader::readUnsignedInt16Value,
                      &reader,
-                     [&](QString const& elementName, quint32 value, ResponseReader::ElementReadResult result) {
+                     [&](QString const& elementName, quint16 value, ResponseReader::ElementReadResult result) {
                          if (elementName == QStringLiteral("CurrentVolume") and
                              result == ResponseReader::ElementReadResult::Ok) {
                              mVolume = value;
@@ -28,6 +28,7 @@ GetVolumeResponse::GetVolumeResponse(QString xmlResponse, ServiceControlPointDef
     auto const result = reader.read();
     if (result != ResponseReader::ReadResult::Ok) {
         qCCritical(upnpavDevice) << "Failed to read GetVolume. Response was:" << reader.response();
+        qCCritical(upnpavDevice) << "Failed to read GetVolume. Error code:" << result;
         return;
     }
 }

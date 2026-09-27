@@ -75,7 +75,7 @@ SCPDStateVariable volume() noexcept
     static auto var = SCPDStateVariable{
         false,
         QStringLiteral("Volume"),
-        SCPDStateVariable::Ui4,
+        SCPDStateVariable::Ui2,
     };
     return var;
 }

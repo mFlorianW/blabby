@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "MediaRendererDouble.hpp"
 #include <QObject>
 
 namespace Multimedia
@@ -17,6 +18,7 @@ public:
     ~RendererShould() override;
     Q_DISABLE_COPY_MOVE(RendererShould)
 private Q_SLOTS:
+    void init();
     void request_supported_protocols_on_init();
     void signal_that_initialization_successful_finished();
     void signal_that_initialization_unsuccessful_finished();
@@ -30,6 +32,13 @@ private Q_SLOTS:
     void stop_request_the_playback();
     void send_pause_request();
     void resume_the_playback_when_the_states_are_stop_and_pause();
+    void request_master_volume_on_init_for_instance_id_0();
+    void give_master_volume_and_notify_about_changes();
+    void set_volume_of_upnpav_media_renderer();
+
+private:
+    std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;
+    UPnPAV::Doubles::MediaRendererDouble* mUpnpRendererRaw = nullptr;
 };
 
 } // namespace Multimedia

@@ -13,7 +13,7 @@ add_subdirectory(Blabby/Theme)
 ################################################################################
 # Build blabby
 ################################################################################
-add_library(${PROJECT_NAME}Object SHARED)
+add_library(${PROJECT_NAME}Object OBJECT)
 add_library(BlabbyShell::Object ALIAS ${PROJECT_NAME}Object)
 
 target_sources(${PROJECT_NAME}Object

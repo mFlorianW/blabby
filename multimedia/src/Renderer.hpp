@@ -119,6 +119,18 @@ public:
      */
     Renderer::State state() const noexcept;
 
+    /**
+     * @return The master volume of the active instance id.
+     */
+    quint32 volume() const noexcept;
+
+    /**
+     * Sets the volume for "Master" channel in UPnPAV renderer.
+     * The result of volume is automatically propagated by the UPnPAV event system.
+     * @param volume The volume for the "Master" channel.
+     */
+    void setVolume(quint32 volume) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -141,6 +153,11 @@ Q_SIGNALS:
      */
     void stateChanged();
 
+    /**
+     * This singal is emitted when the \"Master\" volume of the renderer for the current active intance id is changed.
+     */
+    void volumeChanged();
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
@@ -148,6 +165,7 @@ private Q_SLOTS:
 private:
     bool isPlayableItem(Item const& item) const noexcept;
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
+    void updateVolume(quint32 volume) noexcept;
 
 private:
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;
@@ -156,9 +174,12 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mPlayCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mStopCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;
+    quint32 mVolume = 0;
 };
 
 }; // namespace Multimedia

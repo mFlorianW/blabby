@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #pragma once
 
 #include "EventBackend.hpp"
+#include <QHash>
 #include <QUrl>
 
 namespace UPnPAV::Doubles

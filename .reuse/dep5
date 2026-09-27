@@ -3,7 +3,7 @@ Upstream-Name: Blabby
 Upstream-Contact: Florian Weßel <florianwessel@gmx.net>
 Source: https://github.com/mFlorianW/blabby
 
-Files: .github/* .pre-commit-config.yaml *CMakeLists.txt *.cmake.in CMakePresets.json .clang-format .clang-tidy *.svg docs/*.in format.sh configuration/*.cmake configuration/*.sh docs/style/README.md
+Files: *.md .github/* .pre-commit-config.yaml *CMakeLists.txt *.cmake.in CMakePresets.json .clang-format .clang-tidy *.svg docs/*.in format.sh configuration/*.cmake configuration/*.sh docs/style/README.md
 Copyright: 2020 - 2024 All contributors
 License: GPL-2.0-or-later
 
