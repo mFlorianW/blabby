@@ -45,7 +45,7 @@ jobs:
           touch clazy.log
         fi
     - name: Publish Clazy Fixes
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       with:
         name: clazy-fixes@${{ github.sha }}.yml
         path: clazy-fixes.yml

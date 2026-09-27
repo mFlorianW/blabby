@@ -76,7 +76,7 @@ jobs:
       env:
         QT_QPA_PLATFORM: offscreen
     - name: Publish Test Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       if: success() || failure()
       with:
         name: test-results@${{ matrix.commits }}.xml
