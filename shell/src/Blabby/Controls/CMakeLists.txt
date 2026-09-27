@@ -7,13 +7,16 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
     VERSION
         1.0
     QML_FILES
+        Card.qml
         IconButton.qml
+        IconBadge.qml
         Icon.qml
         Dialog.qml
         FadeBehavior.qml
         NavigationRail.qml
         NavigationRailItem.qml
         ScreenHeader.qml
+        StatusLabel.qml
         StyledText.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.cpp
