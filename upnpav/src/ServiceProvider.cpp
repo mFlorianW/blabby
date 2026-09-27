@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -28,15 +28,17 @@ namespace UPnPAV
 
 ServiceProvider::ServiceProvider() = default;
 
-ServiceProvider::ServiceProvider(const QString searchTarget,
+ServiceProvider::ServiceProvider(QString const searchTarget,
                                  std::shared_ptr<ServiceDiscoveryBackend> serviceDiscoverybackend,
-                                 std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend)
+                                 std::unique_ptr<DescriptionFetcherBackend> descriptionFetcherBackend,
+                                 std::unique_ptr<Clock> clock)
     : IServiceProvider{}
     , m_searchTarget{searchTarget}
     , mServiceDiscoveryBackend{std::move(serviceDiscoverybackend)}
     , m_serviceDiscovery{std::make_unique<ServiceDiscovery>(mServiceDiscoveryBackend.get())}
     , mDescriptionFetcherBackend{std::move(descriptionFetcherBackend)}
     , m_descriptionFetcher{std::make_unique<DescriptionFetcher>(mDescriptionFetcherBackend.get())}
+    , mClock{std::move(clock)}
 {
     (void)connect(m_serviceDiscovery.get(),
                   &ServiceDiscovery::dataReceived,
@@ -46,6 +48,7 @@ ServiceProvider::ServiceProvider(const QString searchTarget,
                   &DescriptionFetcher::descriptionFetched,
                   this,
                   &ServiceProvider::handleFetchedDescription);
+    (void)connect(mClock.get(), &Clock::wokeUp, this, &ServiceProvider::handleExpiredDevices);
 }
 
 ServiceProvider::~ServiceProvider() = default;
@@ -72,12 +75,57 @@ bool ServiceProvider::validateDestination(QNetworkDatagram const& datagram)
 
 void ServiceProvider::handleByeByePackage(ServiceDiscoveryPackage const& package)
 {
-    m_knownDevices.removeAll(package.deviceId());
-    Q_EMIT serviceDisconnected(package.deviceId());
+    disconnectDevice(package.deviceId());
+    scheduleNextExpiry();
+}
+
+void ServiceProvider::disconnectDevice(QString const& deviceId)
+{
+    m_knownDevices.removeAll(deviceId);
+    mDeviceExpiries.remove(deviceId);
+    Q_EMIT serviceDisconnected(deviceId);
+}
+
+void ServiceProvider::refreshExpiry(ServiceDiscoveryPackage const& package)
+{
+    auto const maxAge = package.maxAge();
+    if (not maxAge.has_value()) {
+        return;
+    }
+    mDeviceExpiries.insert(package.deviceId(), mClock->now() + maxAge.value());
+    scheduleNextExpiry();
+}
+
+void ServiceProvider::scheduleNextExpiry()
+{
+    if (mDeviceExpiries.isEmpty()) {
+        return;
+    }
+    mClock->wakeUpAt(*std::min_element(mDeviceExpiries.cbegin(), mDeviceExpiries.cend()));
+}
+
+void ServiceProvider::handleExpiredDevices()
+{
+    auto const now = mClock->now();
+    auto expiredDevices = QVector<QString>{};
+    for (auto iter = mDeviceExpiries.cbegin(); iter != mDeviceExpiries.cend(); ++iter) {
+        if (iter.value() <= now) {
+            expiredDevices.append(iter.key());
+        }
+    }
+
+    for (auto const& device : std::as_const(expiredDevices)) {
+        qCDebug(upnpavService) << "Announcement of device" << device << "for search target" << m_searchTarget
+                               << "expired.";
+        disconnectDevice(device);
+    }
+    scheduleNextExpiry();
 }
 
 void ServiceProvider::handlePackage(ServiceDiscoveryPackage const& package)
 {
+    refreshExpiry(package);
+
     // We already know the device we can ignore the message.
     if (m_knownDevices.contains(package.deviceId())) {
         qCDebug(upnpavService) << "Ignoring dicover package for device with search target" << m_searchTarget

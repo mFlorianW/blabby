@@ -33,8 +33,20 @@ _Avoid_: URL, address
 ### Playing media
 
 **Renderer**:
-A device on the network that plays Playables and exposes their playback state and volume.
-_Avoid_: Speaker, player, sink
+A device Blabby knows about that plays Playables and exposes their playback state and volume. A Renderer is remembered once seen and is recognised by its device identity when it reappears, even under a new name or address.
+_Avoid_: Speaker, player, sink, device
+
+**Availability**:
+Whether a Renderer is currently reachable on the network: Online or Offline. Only an Online Renderer can play.
+_Avoid_: Status, connection state
+
+**Forget**:
+The user removing an Offline Renderer from the Renderers Blabby remembers. A forgotten Renderer that comes back Online is remembered again as if newly seen.
+_Avoid_: Delete, remove
+
+**Active Renderer**:
+The one Renderer that Blabby currently sends playback to and controls. At most one Renderer is active at a time; there is none until the user picks one, and none again when the Active Renderer goes Offline.
+_Avoid_: Selected renderer, current renderer, output, target
 
 **Playback State**:
 The current condition of a Renderer: No Media, Stopped, Playing or Paused.

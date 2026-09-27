@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -65,6 +65,52 @@ private Q_SLOTS:
      * @test The ServiceProvider shall handle ssdp::bye message.
      */
     void handle_sddp_bye_messages_and_inform_clients_about_the_disconnect();
+
+    /**
+     * @test The ServiceProvider shall report a device as disconnected when it isn't re-announced
+     *       within the max-age of its last announcement.
+     */
+    void report_a_device_as_disconnected_when_its_announcement_expires();
+
+    /**
+     * @test Every announcement of a device shall restart its expiry.
+     */
+    void extend_the_expiry_when_a_device_is_announced_again();
+
+    /**
+     * @test An expired device shall be reported as disconnected only once, a later ssdp:byebye is ignored.
+     */
+    void report_an_expired_device_as_disconnected_only_once();
+
+    /**
+     * @test A device that said ssdp:byebye shall not be reported again when its announcement expires.
+     */
+    void not_report_a_device_that_said_byebye_again_when_its_announcement_expires();
+
+    /**
+     * @test An expired device that is announced again shall be handled like a new device.
+     */
+    void request_the_device_description_again_when_an_expired_device_is_announced();
+
+    /**
+     * @test Every search response of a device shall restart its expiry.
+     */
+    void extend_the_expiry_when_a_device_answers_a_search_again();
+
+    /**
+     * @test An expired device that is announced again shall be reported as connected again.
+     */
+    void report_an_expired_device_as_connected_again_when_it_is_announced();
+
+    /**
+     * @test A max-age that can't be represented shall be treated as not valid.
+     */
+    void not_expire_devices_with_an_out_of_range_max_age();
+
+    /**
+     * @test Devices whose announcement has no valid max-age shall never expire.
+     */
+    void not_expire_devices_without_a_valid_max_age();
 
     /**
      * @test The ServiceProvider should ignore SSDP messages when the have the wrong dest ip

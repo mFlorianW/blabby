@@ -22,6 +22,8 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/Descriptions.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackendDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackendDouble.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClockDouble.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClockDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackendDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackendDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestableMediaServerProviderFactory.cpp

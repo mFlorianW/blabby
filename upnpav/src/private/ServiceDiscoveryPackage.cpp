@@ -1,17 +1,18 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "ServiceDiscoveryPackage.hpp"
+#include <QRegularExpression>
 
 namespace UPnPAV
 {
 
 ServiceDiscoveryPackage::ServiceDiscoveryPackage(QByteArray const& rawData)
 {
-    auto rawDataSplitted = QString{rawData}.split("\r\n");
+    auto const rawDataSplitted = QString{rawData}.split("\r\n");
 
     for (auto const& entry : rawDataSplitted) {
         if (entry.startsWith(QStringLiteral("LOCATION:"))) {
@@ -24,6 +25,8 @@ ServiceDiscoveryPackage::ServiceDiscoveryPackage(QByteArray const& rawData)
             m_notificationSubType = convertSubTypeString(nts);
         } else if (entry.startsWith(QStringLiteral("ST: ")) or entry.startsWith(QStringLiteral("NT: "))) {
             mSearchTarget = extracEntryValue(entry);
+        } else if (entry.startsWith(QStringLiteral("CACHE-CONTROL:"), Qt::CaseInsensitive)) {
+            mMaxAge = extractMaxAge(entry);
         }
     }
 
@@ -50,6 +53,27 @@ SsdpSubType ServiceDiscoveryPackage::notificationSubType() const
 QString const& ServiceDiscoveryPackage::searchTarget() const
 {
     return mSearchTarget;
+}
+
+std::optional<std::chrono::seconds> ServiceDiscoveryPackage::maxAge() const
+{
+    return mMaxAge;
+}
+
+std::optional<std::chrono::seconds> ServiceDiscoveryPackage::extractMaxAge(QString const& entry)
+{
+    static auto const maxAgeRegex =
+        QRegularExpression{QStringLiteral(R"(max-age\s*=\s*(\d+))"), QRegularExpression::CaseInsensitiveOption};
+    auto const match = maxAgeRegex.match(entry);
+    if (not match.hasMatch()) {
+        return std::nullopt;
+    }
+    auto valid = false;
+    auto const maxAge = match.captured(1).toUInt(&valid);
+    if (not valid) {
+        return std::nullopt;
+    }
+    return std::chrono::seconds{maxAge};
 }
 
 QString ServiceDiscoveryPackage::extracEntryValue(QString const& entry)
