@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -172,6 +172,15 @@ Item {
                     anchors.topMargin: 25
                     anchors.left: mediaControlArea.left
                     anchors.leftMargin: 530
+                }
+
+                Slider {
+                    id: progressionControl
+                    width: 375
+                    anchors.top: mediaPlayer.bottom
+                    anchors.topMargin: 23
+                    anchors.left: mediaControlArea.left
+                    anchors.leftMargin: 340
                 }
 
                 IconButton {
