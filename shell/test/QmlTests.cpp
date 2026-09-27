@@ -1,8 +1,10 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <QtQuickTest>
-QUICK_TEST_MAIN(QmlTests)
+#include "QmlTestsSetup.hpp"
+#include <QtQuickTest/quicktest.h>
+
+QUICK_TEST_MAIN_WITH_SETUP(QmlTests, Shell::QmlTestsSetup)

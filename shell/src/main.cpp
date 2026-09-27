@@ -6,6 +6,7 @@
 
 #include "MediaPlayer.hpp"
 #include "QmlSingletonRegistry.hpp"
+#include "Renderer.hpp"
 #include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QQuickView>
@@ -21,6 +22,11 @@ void registerQmlTypes()
                                                    "Singleton",
                                                    &QmlSingletonRegistry::createQmlRegistry);
     qmlRegisterUncreatableType<Shell::MediaPlayer>("Blabby.Objects", 1, 0, "MediaPlayer", "");
+    qmlRegisterUncreatableType<Multimedia::Renderer>("Blabby.Objects",
+                                                     1,
+                                                     0,
+                                                     "Renderer",
+                                                     "Renderers are provided by the MediaRendererModel");
 }
 
 } // namespace Shell
