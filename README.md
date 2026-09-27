@@ -22,6 +22,11 @@ Still in a very very very early development phase. That means:
 - Navigation of UPnPAV MediaServer
 - Playback on UPnPAV MediaRenderer
 
+# Runtime Requirements
+Blabby uses the Roboto font, which is not bundled with the application.
+The font must be installed on the system, e.g. with the package `fonts-roboto` on Debian based distributions
+or `ttf-roboto` on Arch Linux.
+
 # Build
 Blabby uses CMakePresets for building. 
 The build presets have the same as the configure presets.

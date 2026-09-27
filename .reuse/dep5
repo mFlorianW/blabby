@@ -10,3 +10,7 @@ License: GPL-2.0-or-later
 Files: docs/style/delete_me.css docs/style/delete_me.html docs/style/header.html
 Copyright: 2022 - 2023 jothepro
 License: MIT
+
+Files: shell/src/icons/material/*.svg
+Copyright: Google LLC
+License: Apache-2.0

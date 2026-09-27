@@ -12,10 +12,12 @@ find_package(Qt6Test 6.5 REQUIRED)
 ###############################################################################
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControlShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractInteractiveControlShould.qml COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractListEntryShould.qml
-    ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractListEntryShould.qml COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AbstractSliderShould.qml
-    ${CMAKE_CURRENT_BINARY_DIR}/tst_AbstractSliderShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/NavigationRailItemShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_NavigationRailItemShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/NavigationRailShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_NavigationRailShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ScreenHeaderShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_ScreenHeaderShould.qml COPYONLY)
 
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests

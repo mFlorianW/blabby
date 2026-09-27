@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -21,9 +21,7 @@ AbstractIconButton {
         height: 40
         radius: width * 0.5
         anchors.centerIn: parent
-        color: Theme.colors.surfaceContainerHeighest
-        border.color: iconButton.border ? Theme.colors.outline : "transparent"
-        border.width: iconButton.border ? 1 : 0
+        color: Theme.colors.surfaceContainerHighest
         visible: iconButton.style === AbstractIconButton.Style.Tonal
     }
 
@@ -33,15 +31,27 @@ AbstractIconButton {
         height: 40
         radius: width * 0.5
         anchors.centerIn: parent
-        color: "transparent"
-        border.color: iconButton.border ? Theme.colors.outline : "transparent"
-        border.width: iconButton.border ? 1 : 0
+        color: Theme.colors.colorOnSurfaceVariant
+        opacity: 0
     }
 
-    Image {
+    Rectangle {
+        id: outline
+        width: 40
+        height: 40
+        radius: width * 0.5
+        anchors.centerIn: parent
+        color: "transparent"
+        border.color: Theme.colors.outline
+        border.width: 1
+        visible: iconButton.border
+    }
+
+    Icon {
         id: icon
         anchors.centerIn: iconButton
         source: iconButton.source
+        color: Theme.colors.colorOnSurfaceVariant
         width: 24
         height: 24
     }
@@ -60,8 +70,8 @@ AbstractIconButton {
             when: iconButton.hovered === true
             PropertyChanges {
                 target: stateLayer
-                color: Theme.stateColors.onSurfaceVariant.opacity08
-                opacity: 0.08
+                color: Theme.colors.colorOnSurfaceVariant
+                opacity: Theme.stateLayer.hoverOpacity
             }
         },
         State {
@@ -69,7 +79,7 @@ AbstractIconButton {
             //when: iconButton.controlState === AbstractIconButton.ControlState.Inactive // && iconButton.hovered === false
             PropertyChanges {
                 target: stateLayer
-                color: "transparent"
+                opacity: 0
             }
         },
         State {
@@ -77,8 +87,8 @@ AbstractIconButton {
             //when: iconButton.controlState === AbstractIconButton.ControlState.Active
             PropertyChanges {
                 target: stateLayer
-                color: Theme.stateColors.onSurfaceVariant.opacity12
-                opacity: 0.12
+                color: Theme.colors.colorOnSurfaceVariant
+                opacity: Theme.stateLayer.pressedOpacity
             }
         }
     ]
