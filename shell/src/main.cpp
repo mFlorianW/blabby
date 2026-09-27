@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -33,7 +33,9 @@ int main(int argc, char* argv[])
     Shell::registerQmlTypes();
 
     QQuickView mainView;
-    mainView.setMinimumSize(QSize{1280, 800});
+    mainView.setResizeMode(QQuickView::SizeRootObjectToView);
+    mainView.setMinimumSize(QSize{800, 480});
+    mainView.resize(QSize{1280, 720});
     mainView.setSource(QUrl("qrc:/qt/qml/Blabby/Shell/MainWindow.qml"));
     mainView.show();
 

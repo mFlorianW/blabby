@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -55,11 +55,10 @@ AbstractDialog {
             anchors.verticalCenter: header.verticalCenter
             anchors.left: header.left
             anchors.leftMargin: 17
-            height: header.heigt
             font.family: Theme.fonts.titleLarge.family
             font.pixelSize: Theme.fonts.titleLarge.size
-            font.bold: Theme.fonts.titleLarge.bold
-            color: Theme.fonts.titleLarge.color
+            font.weight: Theme.fonts.titleLarge.weight
+            color: Theme.colors.colorOnSurface
             text: dialog.title
         }
 
