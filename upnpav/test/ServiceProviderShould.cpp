@@ -1,10 +1,11 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "ServiceProviderShould.hpp"
+#include "ClockDouble.hpp"
 #include "DescriptionFetcherBackendDouble.hpp"
 #include "IServiceProvider.hpp"
 #include "ServiceDiscoveryBackendDouble.hpp"
@@ -45,6 +46,31 @@ constexpr char const* validNotifyMessage = "NOTIFY * HTTP/1.1\r\n"
                                            "NTS: ssdp:alive\r\n"
                                            "SERVER: OS/version UPnP/1.0 product/version\r\n"
                                            "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
+
+constexpr char const* notifyMessageWithMaxAge1800 = "NOTIFY * HTTP/1.1\r\n"
+                                                    "HOST: 239.255.255.250:1900\r\n"
+                                                    "CACHE-CONTROL: max-age = 1800\r\n"
+                                                    "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                                                    "NT: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                                    "NTS: ssdp:alive\r\n"
+                                                    "SERVER: OS/version UPnP/1.0 product/version\r\n"
+                                                    "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
+
+constexpr char const* searchResponseWithMaxAge1800 = "HTTP/1.1 200 OK\r\n"
+                                                     "CACHE-CONTROL: max-age=1800\r\n"
+                                                     "EXT:\r\n"
+                                                     "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                                                     "SERVER: Linux UPnP/1.0\r\n"
+                                                     "ST: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                                     "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
+
+constexpr char const* notifyMessageWithOutOfRangeMaxAge = "NOTIFY * HTTP/1.1\r\n"
+                                                          "HOST: 239.255.255.250:1900\r\n"
+                                                          "CACHE-CONTROL: max-age = 99999999999999999999\r\n"
+                                                          "LOCATION: http://127.0.0.1:8000/desc.xml\r\n"
+                                                          "NT: urn:schemas-upnp-org:device:MediaServer:1\r\n"
+                                                          "NTS: ssdp:alive\r\n"
+                                                          "USN: uuid:4d696e69-444c-164e-9d41-b827eb54e939\r\n";
 
 constexpr char const* validByeMessage = "NOTIFY * HTTP/1.1 \r\n"
                                         "HOST: 239.255.255.250:1900 \r\n"
@@ -148,6 +174,126 @@ void ServiceProviderShould::handle_sddp_bye_messages_and_inform_clients_about_th
     m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(ssdpBye);
 
     QVERIFY2(signalSpy.count() == 1, "The signal MediaServer::Disconnected must be sendout.");
+}
+
+void ServiceProviderShould::report_a_device_as_disconnected_when_its_announcement_expires()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800));
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1799});
+    QCOMPARE(disconnectSpy.size(), 0);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1});
+    QCOMPARE(disconnectSpy.size(), 1);
+    QCOMPARE(disconnectSpy.at(0).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
+}
+
+void ServiceProviderShould::extend_the_expiry_when_a_device_is_announced_again()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    auto const announcement = createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1000});
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1000});
+    QCOMPARE(disconnectSpy.size(), 0);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{800});
+    QCOMPARE(disconnectSpy.size(), 1);
+}
+
+void ServiceProviderShould::report_an_expired_device_as_disconnected_only_once()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800));
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validByeMessage));
+
+    QCOMPARE(disconnectSpy.size(), 1);
+}
+
+void ServiceProviderShould::not_report_a_device_that_said_byebye_again_when_its_announcement_expires()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800));
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validByeMessage));
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+
+    QCOMPARE(disconnectSpy.size(), 1);
+}
+
+void ServiceProviderShould::request_the_device_description_again_when_an_expired_device_is_announced()
+{
+    auto const announcement = createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+
+    QCOMPARE(m_providerFactory->descriptionFetcherBackendDouble->descriptionRequestCalls, 2);
+}
+
+void ServiceProviderShould::extend_the_expiry_when_a_device_answers_a_search_again()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    auto searchResponse = createServiceDiscoveryReceiveMessage(searchResponseWithMaxAge1800);
+    searchResponse.setDestination(QHostAddress{QHostAddress::LocalHost}, 40000);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(searchResponse);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1000});
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(searchResponse);
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1000});
+    QCOMPARE(disconnectSpy.size(), 0);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{800});
+    QCOMPARE(disconnectSpy.size(), 1);
+}
+
+void ServiceProviderShould::report_an_expired_device_as_connected_again_when_it_is_announced()
+{
+    QSignalSpy connectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceConnected};
+    auto const announcement = createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithoutServices();
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithoutServices();
+
+    QCOMPARE(connectSpy.size(), 2);
+    QCOMPARE(connectSpy.at(1).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
+}
+
+void ServiceProviderShould::not_expire_devices_with_an_out_of_range_max_age()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithOutOfRangeMaxAge));
+
+    m_providerFactory->clockDouble->advance(std::chrono::hours{24});
+
+    QCOMPARE(disconnectSpy.size(), 0);
+}
+
+void ServiceProviderShould::not_expire_devices_without_a_valid_max_age()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validNotifyMessage));
+
+    m_providerFactory->clockDouble->advance(std::chrono::hours{24});
+
+    QCOMPARE(disconnectSpy.size(), 0);
 }
 
 void ServiceProviderShould::ignore_message_with_wrong_ip_and_port_notify_error()

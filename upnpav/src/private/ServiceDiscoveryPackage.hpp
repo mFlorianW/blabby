@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -11,6 +11,8 @@
 #include <QException>
 #include <QString>
 #include <QUrl>
+#include <chrono>
+#include <optional>
 
 class QByteArray;
 namespace UPnPAV
@@ -71,6 +73,12 @@ public:
      */
     QString const& searchTarget() const;
 
+    /**
+     * @return The time the announcement is valid, taken from the CACHE-CONTROL max-age directive.
+     *         Empty when the package has no valid max-age.
+     */
+    std::optional<std::chrono::seconds> maxAge() const;
+
 private:
     /**
      * Extracs the value of a entry in the NOTIFY message. The value
@@ -101,11 +109,17 @@ private:
      */
     static SsdpSubType convertSubTypeString(QString const& subtype);
 
+    /**
+     * Extracts the max-age value of a CACHE-CONTROL entry.
+     */
+    static std::optional<std::chrono::seconds> extractMaxAge(QString const& entry);
+
 private:
     QUrl m_locationUrl;
     QString m_deviceUsn;
     SsdpSubType m_notificationSubType{SsdpSubType::Unknown};
     QString mSearchTarget;
+    std::optional<std::chrono::seconds> mMaxAge;
 };
 
 class PackageParseError final : public QException

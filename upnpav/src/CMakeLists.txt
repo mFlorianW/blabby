@@ -89,6 +89,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/DescriptionFetcherBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderError.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Clock.cpp
 
     #Device
     ${CMAKE_CURRENT_SOURCE_DIR}/MediaServer.cpp
@@ -132,6 +133,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/ServiceDiscoveryBackend.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/IServiceProvider.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ServiceProviderError.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Clock.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/IServiceProvider.hpp
 
     #Device
