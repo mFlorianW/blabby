@@ -445,10 +445,10 @@ ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
     return desc;
 }
 
-DeviceDescription validRendererDeviceDescription() noexcept
+DeviceDescription validRendererDeviceDescription(QString const& friendlyName) noexcept
 {
     return DeviceDescription{QString(""),
-                             QStringLiteral("MediaRenderer"),
+                             friendlyName,
                              QString(""),
                              QString(""),
                              QString(""),

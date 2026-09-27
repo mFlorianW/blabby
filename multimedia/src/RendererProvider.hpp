@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -30,9 +30,10 @@ public:
      * @param The @UPnPAV::IServiceProvider interface that is used to find the devices on the network.
      * @param The @UPnPAV::MediaRendererFactory creates @UPnPAV::MediaRenderer instances.
      */
-    RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> serviceProider =
-                         UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString("")),
-                     UPnPAV::MediaRendererFactory mrendererFab = UPnPAV::MediaRendererFactory{});
+    RendererProvider(
+        std::unique_ptr<UPnPAV::IServiceProvider> serviceProvider =
+            UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString("")),
+        std::unique_ptr<UPnPAV::MediaRendererFactory> rendererFab = std::make_unique<UPnPAV::MediaRendererFactory>());
     /**
      * Default destructor
      */
@@ -68,7 +69,7 @@ private Q_SLOTS:
 
 private:
     std::unique_ptr<UPnPAV::IServiceProvider> mSp;
-    UPnPAV::MediaRendererFactory mRendererFab;
+    std::unique_ptr<UPnPAV::MediaRendererFactory> mRendererFab;
     QHash<QString, std::shared_ptr<Renderer>> mRenderers;
 };
 } // namespace Multimedia

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -78,7 +78,8 @@ ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept;
 
 ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept;
 
-DeviceDescription validRendererDeviceDescription() noexcept;
+DeviceDescription validRendererDeviceDescription(
+    QString const& friendlyName = QStringLiteral("MediaRenderer")) noexcept;
 
 } // namespace UPnPAV
 
