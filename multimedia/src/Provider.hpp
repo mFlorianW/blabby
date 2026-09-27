@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -92,13 +92,13 @@ Q_SIGNALS:
      * This signal shall be emitted when ever a source is added to provider.
      * As an example a new MediaServer appears on the network, a USB-Stick got mounted etc.
      */
-    void sourceAdded(std::shared_ptr<Source> const& source);
+    void sourceAdded(std::shared_ptr<Multimedia::Source> const& source);
 
     /**
      * This signal shall be emitted when ever a source is removed in the provider.
      * As an exmaple a MediaServer disappears on the network or USB-Stick got removed etc.
      */
-    void sourceRemoved(std::shared_ptr<Source> const& source);
+    void sourceRemoved(std::shared_ptr<Multimedia::Source> const& source);
 
 protected:
     Provider(QString name, ProviderVersion version);
