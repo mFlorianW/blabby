@@ -18,16 +18,25 @@ Item {
         id: renderers
         ListElement {
             name: "Bathroom"
+            manufacturer: "Sonos"
+            modelName: "One"
+            address: "192.168.1.40"
             playbackState: Renderer.NoMedia
             active: false
         }
         ListElement {
             name: "Kitchen"
+            manufacturer: "Denon"
+            modelName: "HEOS 1"
+            address: "192.168.1.42"
             playbackState: Renderer.Playing
             active: true
         }
         ListElement {
             name: "Living Room"
+            manufacturer: ""
+            modelName: ""
+            address: "192.168.1.43"
             playbackState: Renderer.Stopped
             active: false
         }
@@ -136,6 +145,16 @@ Item {
         }
 
         /**
+         * Tests that each card shows the manufacturer, model and address of its Renderer.
+         */
+        function test_show_the_details_of_each_renderer() {
+            renderersViewTest.compare(renderersViewTest.card(1).manufacturer, "Denon");
+            renderersViewTest.compare(renderersViewTest.card(1).modelName, "HEOS 1");
+            renderersViewTest.compare(renderersViewTest.card(1).address, "192.168.1.42");
+            renderersViewTest.compare(renderersViewTest.card(2).details, "192.168.1.43");
+        }
+
+        /**
          * Tests that tapping a card emits activated with the index of the Renderer.
          */
         function test_emit_activated_with_the_index_of_the_tapped_card() {
@@ -199,6 +218,9 @@ Item {
             renderersViewTest.compare(emptyState.visible, true);
             noRenderers.append({
                 "name": "Kitchen",
+                "manufacturer": "Denon",
+                "modelName": "HEOS 1",
+                "address": "192.168.1.42",
                 "playbackState": Renderer.NoMedia,
                 "active": false
             });
