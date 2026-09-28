@@ -84,17 +84,27 @@ Item {
             signalName: "itemActivated"
         }
 
+        SignalSpy {
+            id: backRequestedSpy
+            target: libraryView
+            signalName: "backRequested"
+        }
+
         function init() {
             libraryView.sources = sources;
             libraryView.items = items;
             libraryView.hasActiveSource = true;
             libraryView.activeSourceName = "NAS";
+            libraryView.busy = false;
+            libraryView.atRoot = true;
+            libraryView.containerTitle = "";
             libraryViewTest.child("sourcePicker").visible = false;
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
             sourcePickedSpy.clear();
             itemActivatedSpy.clear();
+            backRequestedSpy.clear();
         }
 
         /**
@@ -244,6 +254,89 @@ Item {
             libraryViewTest.mouseClick(libraryViewTest.tile(2));
             libraryViewTest.compare(itemActivatedSpy.count, 1);
             libraryViewTest.compare(itemActivatedSpy.signalArguments[0][0], 2);
+        }
+
+        /**
+         * Tests that the root Container shows neither the back button nor a Container title.
+         */
+        function test_show_neither_back_button_nor_title_at_the_root() {
+            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+        }
+
+        /**
+         * Tests that below the root the back button and the title of the current Container are shown.
+         */
+        function test_show_back_button_and_title_below_the_root() {
+            libraryView.atRoot = false;
+            libraryView.containerTitle = "Albums";
+            const backButton = libraryViewTest.child("backButton");
+            libraryViewTest.compare(backButton.visible, true);
+            libraryViewTest.verify(backButton.width >= 44);
+            libraryViewTest.verify(backButton.height >= 44);
+            const title = libraryViewTest.child("containerTitle");
+            libraryViewTest.compare(title.visible, true);
+            libraryViewTest.compare(title.text, "Albums");
+        }
+
+        /**
+         * Tests that neither the back button nor a title is shown without an Active Source.
+         */
+        function test_show_neither_back_button_nor_title_without_an_active_source() {
+            libraryView.atRoot = false;
+            libraryView.containerTitle = "Albums";
+            libraryView.hasActiveSource = false;
+            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+        }
+
+        /**
+         * Tests that tapping the back button emits backRequested.
+         */
+        function test_emit_backRequested_when_the_back_button_is_tapped() {
+            libraryView.atRoot = false;
+            const backButton = libraryViewTest.child("backButton");
+            // The header lays out the back button beside the Source pill on the next polish.
+            libraryViewTest.verify(libraryViewTest.waitForPolish(backButton.parent));
+            libraryViewTest.mouseClick(backButton);
+            libraryViewTest.compare(backRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that a busy indicator replaces the grid while a Container opens.
+         */
+        function test_show_a_busy_indicator_instead_of_the_grid_while_busy() {
+            const indicator = libraryViewTest.child("containerBusyIndicator");
+            libraryViewTest.compare(indicator.visible, false);
+
+            libraryView.busy = true;
+            libraryViewTest.compare(indicator.visible, true);
+            libraryViewTest.compare(indicator.running, true);
+            libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("emptyState").visible, false);
+        }
+
+        /**
+         * Tests that the busy indicator is shown instead of "Nothing in here" while an empty Container is left.
+         */
+        function test_show_the_busy_indicator_instead_of_the_empty_state_while_busy() {
+            libraryView.items = noItems;
+            libraryView.busy = true;
+            libraryViewTest.compare(libraryViewTest.child("containerBusyIndicator").visible, true);
+            libraryViewTest.compare(libraryViewTest.child("emptyState").visible, false);
+        }
+
+        /**
+         * Tests that an empty Container shows "Nothing in here" without an action.
+         */
+        function test_show_nothing_in_here_for_an_empty_container() {
+            libraryView.items = noItems;
+            const emptyState = libraryViewTest.child("emptyState");
+            libraryViewTest.compare(emptyState.visible, true);
+            libraryViewTest.compare(emptyState.title, "Nothing in here");
+            libraryViewTest.compare(emptyState.actionText, "");
+            libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("sourcePill").visible, true);
         }
     }
 }

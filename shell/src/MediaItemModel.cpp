@@ -73,17 +73,28 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
             disconnect(mMediaSrc.get(), nullptr, this, nullptr);
         }
 
+        auto const wasBusy = isBusy();
+        auto const wasAtRoot = isAtRoot();
         beginResetModel();
         mMediaSrc = mediaSrc;
+        mContainerTitles.clear();
+        mPendingNavigation = PendingNavigation::None;
+        mPendingContainerTitle.clear();
         endResetModel();
 
         if (mMediaSrc != nullptr) {
-            connect(mMediaSrc.get(), &Multimedia::Source::navigationFinished, this, [this] {
-                beginResetModel();
-                endResetModel();
-            });
+            connect(mMediaSrc.get(),
+                    &Multimedia::Source::navigationFinished,
+                    this,
+                    &MediaItemModel::onNavigationFinished);
         }
         Q_EMIT mediaSourceChanged();
+        if (wasBusy) {
+            Q_EMIT busyChanged();
+        }
+        if (not wasAtRoot) {
+            Q_EMIT containerChanged();
+        }
     }
 }
 
@@ -91,6 +102,10 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
 {
     if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to activate MediaItem. Error: MediaSource is not set.";
+        return;
+    }
+
+    if (isBusy()) {
         return;
     }
 
@@ -102,26 +117,52 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
 
     auto const& item = items.at(idx);
     if (item.type() == Multimedia::ItemType::Container) {
-        mMediaSrc->navigateTo(item.path());
+        // Copy the path, the Source may replace its Items while navigating.
+        auto const path = item.path();
+        startNavigation(PendingNavigation::Open, item.mainText());
+        mMediaSrc->navigateTo(path);
     }
 }
 
-void MediaItemModel::navigateBack() const noexcept
+void MediaItemModel::navigateBack() noexcept
 {
     if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to navigate back. Error: MediaSource is not set.";
         return;
     }
+
+    if (isBusy() or isAtRoot()) {
+        return;
+    }
+
+    startNavigation(PendingNavigation::Back);
     mMediaSrc->navigateBack();
 }
 
-void MediaItemModel::navigateForward() const noexcept
+void MediaItemModel::startNavigation(PendingNavigation navigation, QString const& containerTitle) noexcept
 {
-    if (mMediaSrc == nullptr) {
-        qCritical(shell) << "Failed to navigate forward. Error: MediaSource is not set.";
-        return;
+    mPendingNavigation = navigation;
+    mPendingContainerTitle = containerTitle;
+    Q_EMIT busyChanged();
+}
+
+void MediaItemModel::onNavigationFinished() noexcept
+{
+    beginResetModel();
+    endResetModel();
+
+    auto const navigation = std::exchange(mPendingNavigation, PendingNavigation::None);
+    if (navigation == PendingNavigation::Open) {
+        mContainerTitles.append(std::exchange(mPendingContainerTitle, {}));
+        Q_EMIT containerChanged();
+    } else if (navigation == PendingNavigation::Back) {
+        mContainerTitles.removeLast();
+        Q_EMIT containerChanged();
     }
-    mMediaSrc->navigateForward();
+
+    if (navigation != PendingNavigation::None) {
+        Q_EMIT busyChanged();
+    }
 }
 
 QString MediaItemModel::mediaSourceName() const noexcept
@@ -143,6 +184,21 @@ QString MediaItemModel::mediaSourceIconUrl() const noexcept
 bool MediaItemModel::hasMediaSource() const noexcept
 {
     return mMediaSrc != nullptr;
+}
+
+bool MediaItemModel::isBusy() const noexcept
+{
+    return mPendingNavigation != PendingNavigation::None;
+}
+
+QString MediaItemModel::containerTitle() const noexcept
+{
+    return mContainerTitles.isEmpty() ? QString{} : mContainerTitles.last();
+}
+
+bool MediaItemModel::isAtRoot() const noexcept
+{
+    return mContainerTitles.isEmpty();
 }
 
 } // namespace Shell

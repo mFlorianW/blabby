@@ -11,6 +11,8 @@ import Blabby.Theme
  * The screen to browse the media of the Active Source.
  * The Items of the current Container are shown as tiles in a grid that reflows to the available width.
  * A Source pill in the header shows the Active Source and opens the Source picker.
+ * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
+ * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
 Item {
@@ -37,9 +39,39 @@ Item {
     property string activeSourceName
 
     /**
+     * True while a Container opens, a busy indicator replaces the grid meanwhile.
+     */
+    property bool busy: false
+
+    /**
+     * True while the current Container is the root Container of the Active Source.
+     */
+    property bool atRoot: true
+
+    /**
+     * The title of the current Container, shown above the grid below the root Container.
+     */
+    property string containerTitle
+
+    /**
      * True when there is at least one Source to pick.
      */
     readonly property bool hasSources: sourcePicker.count > 0
+
+    /**
+     * True while the Items of a Container below the root Container are browsed.
+     */
+    readonly property bool belowRoot: libraryView.hasActiveSource && !libraryView.atRoot
+
+    /**
+     * True when the current Container has been opened and holds no Items.
+     */
+    readonly property bool containerEmpty: libraryView.hasActiveSource && !libraryView.busy && grid.count === 0
+
+    /**
+     * The edge below which the grid and the empty state start, below the Container title when it is shown.
+     */
+    readonly property var contentTop: containerTitleText.visible ? containerTitleText.bottom : header.bottom
 
     /**
      * This signal is emitted when the user picks the Source at index in the Source picker.
@@ -50,6 +82,11 @@ Item {
      * This signal is emitted when the user taps the tile of the Item at index.
      */
     signal itemActivated(int index)
+
+    /**
+     * This signal is emitted when the user taps the back button to return to the parent Container.
+     */
+    signal backRequested
 
     /**
      * The smallest width of a tile, used to calculate the number of columns.
@@ -75,6 +112,15 @@ Item {
         title: qsTr("Library")
         subtitle: qsTr("Browse the media on your network")
 
+        IconButton {
+            id: backButton
+            objectName: "backButton"
+            source: "qrc:/qt/qml/Blabby/Shell/icons/material/arrow_back.svg"
+            anchors.verticalCenter: sourcePill.verticalCenter
+            visible: libraryView.belowRoot
+            onClicked: libraryView.backRequested()
+        }
+
         PillButton {
             id: sourcePill
             objectName: "sourcePill"
@@ -85,18 +131,31 @@ Item {
         }
     }
 
+    StyledText {
+        id: containerTitleText
+        objectName: "containerTitle"
+        anchors.top: header.bottom
+        anchors.topMargin: 24
+        anchors.left: header.left
+        anchors.right: header.right
+        text: libraryView.containerTitle
+        color: Theme.colors.colorOnSurface
+        textStyle: Theme.fonts.titleLarge
+        visible: libraryView.belowRoot
+    }
+
     EmptyState {
         id: emptyState
         objectName: "emptyState"
-        anchors.top: header.bottom
+        anchors.top: libraryView.contentTop
         anchors.bottom: libraryView.bottom
         anchors.left: libraryView.left
         anchors.right: libraryView.right
-        iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/library_music.svg"
-        title: libraryView.hasSources ? qsTr("Choose a Source") : qsTr("No Sources found")
-        hint: libraryView.hasSources ? qsTr("Pick the Source whose media you want to browse") : qsTr("Make sure your media servers are switched on and on the same network")
-        actionText: libraryView.hasSources ? qsTr("Choose Source") : ""
-        visible: !libraryView.hasActiveSource
+        iconSource: libraryView.hasActiveSource ? "qrc:/qt/qml/Blabby/Shell/icons/material/folder.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/library_music.svg"
+        title: libraryView.hasActiveSource ? qsTr("Nothing in here") : libraryView.hasSources ? qsTr("Choose a Source") : qsTr("No Sources found")
+        hint: libraryView.hasActiveSource ? "" : libraryView.hasSources ? qsTr("Pick the Source whose media you want to browse") : qsTr("Make sure your media servers are switched on and on the same network")
+        actionText: !libraryView.hasActiveSource && libraryView.hasSources ? qsTr("Choose Source") : ""
+        visible: !libraryView.hasActiveSource || libraryView.containerEmpty
         onActionClicked: sourcePicker.visible = true
     }
 
@@ -114,7 +173,7 @@ Item {
          */
         readonly property real tileWidth: grid.cellWidth - libraryView.tileSpacing
 
-        anchors.top: header.bottom
+        anchors.top: libraryView.contentTop
         anchors.topMargin: 24
         anchors.bottom: libraryView.bottom
         anchors.left: header.left
@@ -125,7 +184,7 @@ Item {
         cellWidth: grid.width / grid.columns
         cellHeight: grid.tileWidth + 8 + Theme.fonts.titleMedium.lineHeight + libraryView.rowSpacing
         boundsBehavior: Flickable.StopAtBounds
-        visible: libraryView.hasActiveSource
+        visible: libraryView.hasActiveSource && !libraryView.busy && !libraryView.containerEmpty
 
         delegate: Item {
             id: cell
@@ -146,6 +205,17 @@ Item {
                 onClicked: libraryView.itemActivated(cell.index)
             }
         }
+    }
+
+    BusyIndicator {
+        id: containerBusyIndicator
+        objectName: "containerBusyIndicator"
+        anchors.centerIn: grid
+        width: 48
+        height: 48
+        strokeWidth: 4
+        color: Theme.colors.primary
+        running: libraryView.hasActiveSource && libraryView.busy
     }
 
     Rectangle {

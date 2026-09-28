@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -43,12 +43,18 @@ TestSource::~TestSource() = default;
 void TestSource::navigateTo(QString const& path) noexcept
 {
     mLastNavigationPath = path;
-    if (path == QStringLiteral("0")) {
-        mMediaItems = mItems[QStringLiteral("0")];
-    } else if (path == QStringLiteral("1")) {
-        mMediaItems = mItems[QStringLiteral("1")];
-    } else if (path == QStringLiteral("2")) {
-        mMediaItems = mItems[QStringLiteral("2")];
+    ++mNavigationCount;
+    if (mHoldNavigations) {
+        mPendingPath = path;
+        return;
+    }
+    finishNavigation(path);
+}
+
+void TestSource::finishNavigation(QString const& path) noexcept
+{
+    if (mItems.contains(path)) {
+        mMediaItems = mItems[path];
     } else {
         qCCritical(testMediaSource) << "Path not found. Error: Invalied Path" << path << "passed";
     }
@@ -58,6 +64,21 @@ void TestSource::navigateTo(QString const& path) noexcept
 QString const& TestSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
+}
+
+qsizetype TestSource::navigationCount() const noexcept
+{
+    return mNavigationCount;
+}
+
+void TestSource::setHoldNavigations(bool hold) noexcept
+{
+    mHoldNavigations = hold;
+}
+
+void TestSource::finishPendingNavigation() noexcept
+{
+    finishNavigation(mPendingPath);
 }
 
 } // namespace Multimedia::TestHelper

@@ -32,6 +32,22 @@ class MediaItemModel : public QAbstractListModel
      * This property is true while a @ref Multimedia::MediaSource is set, i.e. there is an Active Source.
      */
     Q_PROPERTY(bool hasMediaSource READ hasMediaSource NOTIFY mediaSourceChanged)
+
+    /**
+     * This property is true while a Container is opening, until its Items arrive.
+     * Activations and navigating back are ignored meanwhile.
+     */
+    Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
+
+    /**
+     * This property holds the title of the current Container, empty at the root Container.
+     */
+    Q_PROPERTY(QString containerTitle READ containerTitle NOTIFY containerChanged)
+
+    /**
+     * This property is true while the current Container is the root Container of the Active Source.
+     */
+    Q_PROPERTY(bool atRoot READ isAtRoot NOTIFY containerChanged)
 public:
     enum class DisplayRole
     {
@@ -90,21 +106,17 @@ public:
 
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
-     * If the @ref Multimedia::MediaItem is a container item then the container will be opened.
-     * Activating a playable item does nothing.
+     * Activating a Container opens it. Activating a Playable does nothing, and so does any activation while
+     * @ref isBusy().
      * @param idx The index of the @ref Multimedia::MediaItem that shall be activated.
      */
     Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
 
     /**
-     * Navigates the @ref Shell::MediaItemModel to the previous layer if possible.
+     * Navigates the @ref Shell::MediaItemModel back to the parent Container.
+     * Does nothing at the root Container or while @ref isBusy().
      */
-    Q_INVOKABLE void navigateBack() const noexcept;
-
-    /**
-     * Navigates the @ref Shell::MediaItemModel to the last visited layer if possible.
-     */
-    Q_INVOKABLE void navigateForward() const noexcept;
+    Q_INVOKABLE void navigateBack() noexcept;
 
     /**
      * Gives the name of the active @ref Multimedia::MediaSource.
@@ -125,14 +137,56 @@ public:
      */
     bool hasMediaSource() const noexcept;
 
+    /**
+     * Gives true while a Container is opening.
+     */
+    bool isBusy() const noexcept;
+
+    /**
+     * Gives the title of the current Container, an empty string at the root Container.
+     */
+    QString containerTitle() const noexcept;
+
+    /**
+     * Gives true while the current Container is the root Container.
+     */
+    bool isAtRoot() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.
      */
     void mediaSourceChanged();
 
+    /**
+     * This signal is emitted when the busy state changes.
+     */
+    void busyChanged();
+
+    /**
+     * This signal is emitted when the current Container changes to another level, i.e. its title or the root flag.
+     */
+    void containerChanged();
+
 private:
+    /**
+     * The navigation that the model requested and whose Items haven't arrived yet.
+     */
+    enum class PendingNavigation
+    {
+        None,
+        Open,
+        Back,
+    };
+
+    void startNavigation(PendingNavigation navigation, QString const& containerTitle = {}) noexcept;
+    void onNavigationFinished() noexcept;
+
     std::shared_ptr<Multimedia::Source> mMediaSrc;
+    // The titles of the Containers opened from the root, the last one is the current Container.
+    QStringList mContainerTitles;
+    PendingNavigation mPendingNavigation{PendingNavigation::None};
+    QString mPendingContainerTitle;
 };
 
 } // namespace Shell

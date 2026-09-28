@@ -213,6 +213,145 @@ void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_sourc
     QCOMPARE(miModel.property("mediaSourceIconUrl").toString(), QStringLiteral("http:/localhost/1234.png"));
 }
 
+void MediaItemModelShould::be_busy_until_the_items_of_the_opened_container_arrive()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setHoldNavigations(true);
+    auto busyChangedSpy = QSignalSpy{&miModel, &MediaItemModel::busyChanged};
+    QCOMPARE(miModel.property("busy").toBool(), false);
+
+    miModel.activateMediaItem(2);
+    QCOMPARE(miModel.property("busy").toBool(), true);
+    QCOMPARE(busyChangedSpy.size(), 1);
+
+    mediaSrc->finishPendingNavigation();
+    QCOMPARE(miModel.property("busy").toBool(), false);
+    QCOMPARE(busyChangedSpy.size(), 2);
+    QCOMPARE(miModel.rowCount({}), 3);
+}
+
+void MediaItemModelShould::ignore_activations_while_busy()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setHoldNavigations(true);
+    auto const navigationCount = mediaSrc->navigationCount();
+
+    miModel.activateMediaItem(2);
+    miModel.activateMediaItem(2);
+
+    QCOMPARE(mediaSrc->navigationCount(), navigationCount + 1);
+}
+
+void MediaItemModelShould::ignore_navigating_back_while_busy()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2);
+    mediaSrc->setHoldNavigations(true);
+    auto const navigationCount = mediaSrc->navigationCount();
+
+    miModel.activateMediaItem(2);
+    miModel.navigateBack();
+
+    QCOMPARE(mediaSrc->navigationCount(), navigationCount + 1);
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("2"));
+}
+
+void MediaItemModelShould::be_at_the_root_without_a_container_title_until_a_container_is_opened()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+    QCOMPARE(miModel.property("containerTitle").toString(), QString{});
+}
+
+void MediaItemModelShould::give_the_title_of_the_current_container()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setHoldNavigations(true);
+    auto containerChangedSpy = QSignalSpy{&miModel, &MediaItemModel::containerChanged};
+
+    miModel.activateMediaItem(2);
+    // The title changes only when the Items of the Container are there.
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+    QCOMPARE(containerChangedSpy.size(), 0);
+
+    mediaSrc->finishPendingNavigation();
+    QCOMPARE(miModel.property("atRoot").toBool(), false);
+    QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container1"));
+    QCOMPARE(containerChangedSpy.size(), 1);
+
+    miModel.activateMediaItem(2);
+    mediaSrc->finishPendingNavigation();
+    QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container2"));
+}
+
+void MediaItemModelShould::return_to_the_parent_container_title_when_navigating_back()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2);
+    miModel.activateMediaItem(2);
+
+    miModel.navigateBack();
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("1"));
+    QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container1"));
+    QCOMPARE(miModel.property("atRoot").toBool(), false);
+
+    miModel.navigateBack();
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("0"));
+    QCOMPARE(miModel.property("containerTitle").toString(), QString{});
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+    QCOMPARE(miModel.rowCount({}), 5);
+}
+
+void MediaItemModelShould::ignore_navigating_back_at_the_root()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    auto const navigationCount = mediaSrc->navigationCount();
+
+    miModel.navigateBack();
+
+    QCOMPARE(mediaSrc->navigationCount(), navigationCount);
+    QCOMPARE(miModel.property("busy").toBool(), false);
+}
+
+void MediaItemModelShould::start_at_the_root_when_the_media_source_changes()
+{
+    auto miModel = MediaItemModel{};
+    auto previousSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(previousSrc);
+    miModel.activateMediaItem(2);
+    previousSrc->setHoldNavigations(true);
+    miModel.activateMediaItem(2);
+
+    miModel.setMediaSource(mediaSrc);
+
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+    QCOMPARE(miModel.property("containerTitle").toString(), QString{});
+    QCOMPARE(miModel.property("busy").toBool(), false);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaItemModelShould)

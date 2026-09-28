@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -49,8 +49,10 @@ void Source::onBrowseRequestFinished() noexcept
     auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
     mMediaItems.clear();
     for (auto const& obj : result->objects()) {
-        auto const type = obj.typeClass().contains("storageFolder") ? Multimedia::ItemType::Container
-                                                                    : Multimedia::ItemType::Playable;
+        // Every UPnP container class (folders, albums, artists, genres, playlists, ...) derives from object.container.
+        auto const type = obj.typeClass().startsWith(QStringLiteral("object.container"))
+                              ? Multimedia::ItemType::Container
+                              : Multimedia::ItemType::Playable;
         mMediaItems.emplace_back(Multimedia::ItemBuilder{}
                                      .withItemType(type)
                                      .withMainText(obj.title())
