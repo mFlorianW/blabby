@@ -46,8 +46,12 @@ Rectangle {
             items: Singleton.mediaItemModel
             hasActiveSource: Singleton.mediaItemModel.hasMediaSource
             activeSourceName: Singleton.mediaItemModel.mediaSourceName
+            busy: Singleton.mediaItemModel.busy
+            atRoot: Singleton.mediaItemModel.atRoot
+            containerTitle: Singleton.mediaItemModel.containerTitle
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
-            // Tiles aren't activated yet: the Library stays on the root Container until it can navigate back.
+            onItemActivated: index => Singleton.mediaItemModel.activateMediaItem(index)
+            onBackRequested: Singleton.mediaItemModel.navigateBack()
         }
 
         RenderersView {
