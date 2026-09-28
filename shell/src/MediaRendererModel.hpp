@@ -52,7 +52,19 @@ public:
         /**
          * True when the @ref Multimedia::Renderer is the Active Renderer.
          */
-        Active
+        Active,
+        /**
+         * The manufacturer of the @ref Multimedia::Renderer, empty when the device doesn't name one.
+         */
+        Manufacturer,
+        /**
+         * The model name of the @ref Multimedia::Renderer, empty when the device doesn't name one.
+         */
+        ModelName,
+        /**
+         * The network address of the @ref Multimedia::Renderer, empty when it is unknown.
+         */
+        Address
     };
     Q_ENUM(DisplayRole)
 

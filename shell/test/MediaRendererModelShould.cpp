@@ -28,6 +28,9 @@ constexpr auto livingRoomUsn = QLatin1StringView{"uuid:livingroom"};
 constexpr auto nameRole = static_cast<int>(MediaRendererModel::DisplayRole::Name);
 constexpr auto playbackStateRole = static_cast<int>(MediaRendererModel::DisplayRole::PlaybackState);
 constexpr auto activeRole = static_cast<int>(MediaRendererModel::DisplayRole::Active);
+constexpr auto manufacturerRole = static_cast<int>(MediaRendererModel::DisplayRole::Manufacturer);
+constexpr auto modelNameRole = static_cast<int>(MediaRendererModel::DisplayRole::ModelName);
+constexpr auto addressRole = static_cast<int>(MediaRendererModel::DisplayRole::Address);
 } // namespace
 
 MediaRendererModelShould::~MediaRendererModelShould() = default;
@@ -35,7 +38,12 @@ MediaRendererModelShould::~MediaRendererModelShould() = default;
 void MediaRendererModelShould::init()
 {
     auto sProvider = std::make_unique<ServiceProviderDouble>();
-    sProvider->addDeviceDescription(kitchenUsn, validRendererDeviceDescription(QStringLiteral("Kitchen")));
+    sProvider->addDeviceDescription(kitchenUsn,
+                                    validRendererDeviceDescription(QStringLiteral("Kitchen"),
+                                                                   QStringLiteral("Denon"),
+                                                                   QStringLiteral("HEOS 1"),
+                                                                   kitchenUsn,
+                                                                   QStringLiteral("192.168.1.42")));
     sProvider->addDeviceDescription(bathroomUsn, validRendererDeviceDescription(QStringLiteral("Bathroom")));
     sProvider->addDeviceDescription(livingRoomUsn, validRendererDeviceDescription(QStringLiteral("living room")));
     mServiceProvider = sProvider.get();
@@ -70,6 +78,9 @@ void MediaRendererModelShould::give_correct_display_roles_for_the_ui()
         std::make_pair(nameRole, QByteArray{"name"}),
         std::make_pair(playbackStateRole, QByteArray{"playbackState"}),
         std::make_pair(activeRole, QByteArray{"active"}),
+        std::make_pair(manufacturerRole, QByteArray{"manufacturer"}),
+        std::make_pair(modelNameRole, QByteArray{"modelName"}),
+        std::make_pair(addressRole, QByteArray{"address"}),
     };
 
     auto const roleNames = mModel->roleNames();
@@ -132,6 +143,23 @@ void MediaRendererModelShould::notify_about_a_changed_playback_state()
     QCOMPARE(dataChangedSpy.at(0).at(1).value<QModelIndex>().row(), 1);
     QCOMPARE(dataChangedSpy.at(0).at(2).value<QList<int>>(), QList<int>({playbackStateRole}));
     QCOMPARE(mModel->data(mModel->index(1), playbackStateRole).toInt(), static_cast<int>(Renderer::State::Paused));
+}
+
+void MediaRendererModelShould::give_the_manufacturer_model_and_address_of_the_renderer()
+{
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+
+    QCOMPARE(name(1), QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->data(mModel->index(1), manufacturerRole).toString(), QStringLiteral("Denon"));
+    QCOMPARE(mModel->data(mModel->index(1), modelNameRole).toString(), QStringLiteral("HEOS 1"));
+    QCOMPARE(mModel->data(mModel->index(1), addressRole).toString(), QStringLiteral("192.168.1.42"));
+
+    QCOMPARE(name(0), QStringLiteral("Bathroom"));
+    QCOMPARE(mModel->data(mModel->index(0), manufacturerRole).toString(), QString{});
+    QCOMPARE(mModel->data(mModel->index(0), modelNameRole).toString(), QString{});
+    QCOMPARE(mModel->data(mModel->index(0), addressRole).toString(), QString{});
 }
 
 void MediaRendererModelShould::order_the_renderers_alphabetically_by_name()

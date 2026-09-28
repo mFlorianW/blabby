@@ -43,6 +43,9 @@ QHash<int, QByteArray> MediaRendererModel::roleNames() const noexcept
         std::make_pair(static_cast<int>(DisplayRole::Name), QByteArray{"name"}),
         std::make_pair(static_cast<int>(DisplayRole::PlaybackState), QByteArray{"playbackState"}),
         std::make_pair(static_cast<int>(DisplayRole::Active), QByteArray{"active"}),
+        std::make_pair(static_cast<int>(DisplayRole::Manufacturer), QByteArray{"manufacturer"}),
+        std::make_pair(static_cast<int>(DisplayRole::ModelName), QByteArray{"modelName"}),
+        std::make_pair(static_cast<int>(DisplayRole::Address), QByteArray{"address"}),
     };
     return roles;
 }
@@ -63,6 +66,12 @@ QVariant MediaRendererModel::data(QModelIndex const& index, int role) const noex
         return static_cast<int>(renderer->state());
     } else if (dispRole == DisplayRole::Active) {
         return renderer == mActiveRenderer;
+    } else if (dispRole == DisplayRole::Manufacturer) {
+        return renderer->manufacturer();
+    } else if (dispRole == DisplayRole::ModelName) {
+        return renderer->modelName();
+    } else if (dispRole == DisplayRole::Address) {
+        return renderer->address();
     }
     return {};
 }

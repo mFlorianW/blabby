@@ -40,6 +40,7 @@ private Q_SLOTS:
     void decrease_the_rowCount_on_disconnected_mediarenderer();
     void give_the_name_and_playback_state_of_the_renderer();
     void notify_about_a_changed_playback_state();
+    void give_the_manufacturer_model_and_address_of_the_renderer();
     void order_the_renderers_alphabetically_by_name();
     void keep_the_renderers_ordered_when_renderers_appear_and_disappear();
     void have_no_active_renderer_at_start();

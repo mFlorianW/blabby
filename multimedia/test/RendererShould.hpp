@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -35,6 +35,7 @@ private Q_SLOTS:
     void request_master_volume_on_init_for_instance_id_0();
     void give_master_volume_and_notify_about_changes();
     void set_volume_of_upnpav_media_renderer();
+    void give_the_identity_manufacturer_model_and_address_of_the_renderer();
 
 private:
     std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;
