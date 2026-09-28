@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -13,6 +13,10 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>()}
 {
+    // The Library shows the Items of the Active Source.
+    connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
+        mItemModel.setMediaSource(mSourceModel.activeMediaSource());
+    });
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;

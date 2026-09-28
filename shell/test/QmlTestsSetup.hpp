@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Item.hpp"
 #include "Renderer.hpp"
 #include <QObject>
 #include <QQmlEngine>
@@ -23,6 +24,7 @@ public Q_SLOTS:
     {
         Q_UNUSED(engine)
         qmlRegisterUncreatableType<Multimedia::Renderer>("Blabby.Objects", 1, 0, "Renderer", "");
+        qmlRegisterUncreatableMetaObject(Multimedia::staticMetaObject, "Blabby.Objects", 1, 0, "ItemType", "");
     }
 };
 

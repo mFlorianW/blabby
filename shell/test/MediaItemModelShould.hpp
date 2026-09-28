@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -25,7 +25,10 @@ private Q_SLOTS:
     void give_the_correct_title_for_valid_index();
     void navigate_when_a_container_item_is_activated();
     void update_the_media_items_when_navigation_is_finished();
-    void emit_playRequest_when_a_playable_item_is_activated();
+    void do_nothing_when_a_playable_item_is_activated();
+    void give_the_item_type_of_the_item();
+    void tell_whether_a_media_source_is_set();
+    void stop_following_the_previous_media_source_when_the_media_source_changes();
     void navigate_the_back_the_active_media_source();
     void give_the_default_icon_url_when_the_media_item_has_no_icon();
     void give_the_name_and_icon_url_for_the_active_media_source();

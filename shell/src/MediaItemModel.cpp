@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -29,6 +29,7 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const noexcept
     static auto const roles = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
         std::make_pair(static_cast<int>(DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+        std::make_pair(static_cast<int>(DisplayRole::MediaItemType), QByteArray{"mediaItemType"}),
     };
     return roles;
 }
@@ -58,6 +59,8 @@ QVariant MediaItemModel::data(QModelIndex const& index, int role) const noexcept
                        ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
                        : QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg");
         }
+    } else if (dispRole == DisplayRole::MediaItemType) {
+        return static_cast<int>(item.type());
     }
 
     return {};
@@ -67,7 +70,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
 {
     if (mMediaSrc != mediaSrc) {
         if (mMediaSrc != nullptr) {
-            disconnect(mediaSrc.get());
+            disconnect(mMediaSrc.get(), nullptr, this, nullptr);
         }
 
         beginResetModel();
@@ -75,7 +78,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
         endResetModel();
 
         if (mMediaSrc != nullptr) {
-            connect(mMediaSrc.get(), &Multimedia::Source::navigationFinished, this, [&] {
+            connect(mMediaSrc.get(), &Multimedia::Source::navigationFinished, this, [this] {
                 beginResetModel();
                 endResetModel();
             });
@@ -100,8 +103,6 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
     auto const& item = items.at(idx);
     if (item.type() == Multimedia::ItemType::Container) {
         mMediaSrc->navigateTo(item.path());
-    } else {
-        Q_EMIT playRequest(item);
     }
 }
 
@@ -137,6 +138,11 @@ QString MediaItemModel::mediaSourceIconUrl() const noexcept
         return mMediaSrc->iconUrl();
     }
     return {};
+}
+
+bool MediaItemModel::hasMediaSource() const noexcept
+{
+    return mMediaSrc != nullptr;
 }
 
 } // namespace Shell

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -13,6 +13,8 @@
 
 namespace Multimedia
 {
+// The only Q_NAMESPACE of Multimedia, further enums for QML are added here with Q_ENUM_NS.
+Q_NAMESPACE_EXPORT(BLABBYMULTIMEDIA_EXPORT)
 
 /**
  * The type of the MediaItem
@@ -22,6 +24,7 @@ enum class BLABBYMULTIMEDIA_EXPORT ItemType
     Container, ///< Container type, e.g. folder on a media server album etc.
     Playable ///< Playable type, a concrete item that can be played on a @ref UPnPAV::MediaRenderer
 };
+Q_ENUM_NS(ItemType)
 
 /**
  * Declaration for the data of an item to store it with only once.

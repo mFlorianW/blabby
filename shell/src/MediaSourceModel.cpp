@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -69,12 +69,17 @@ QVariant MediaSourceModel::data(QModelIndex const& index, int role) const noexce
 
 void MediaSourceModel::activateMediaSource(qsizetype idx)
 {
-    if (idx >= mSources.size()) {
+    if (idx < 0 or idx >= mSources.size()) {
         qCCritical(shell) << "Failed to activate MediaSource. Error: invalid index passed";
         return;
     }
 
-    mActiveSource = mSources.at(idx);
+    auto const& source = mSources.at(idx);
+    if (mActiveSource == source) {
+        return;
+    }
+
+    mActiveSource = source;
     Q_EMIT activeMediaSourceChanged();
 }
 
