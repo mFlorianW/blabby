@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -17,9 +17,9 @@ MediaPlayer::~MediaPlayer() = default;
 
 void MediaPlayer::setRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer) noexcept
 {
-    // disconnect the old signals before setting a new renderer or clear it.
+    // disconnect only the own connections, others like the MediaRendererModel keep observing the Renderer.
     if (mRenderer != nullptr) {
-        disconnect(mRenderer.get(), nullptr, nullptr, nullptr);
+        disconnect(mRenderer.get(), nullptr, this, nullptr);
     }
 
     mRenderer = renderer;
