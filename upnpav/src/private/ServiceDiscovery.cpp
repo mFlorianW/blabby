@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -35,10 +35,11 @@ void ServiceDiscovery::sendSearchRequest(QString const& searchTarget)
     auto searchPayload = QString{"M-SEARCH * HTTP/1.1\r\n"
                                  "Host: 239.255.255.250:1900\r\n"
                                  "Man: \"ssdp:discover\"\r\n"
-                                 "MX: 3\r\n"
-                                 "ST: %1\r\n"
+                                 "MX: %1\r\n"
+                                 "ST: %2\r\n"
                                  "User-Agent: Linux/1.0 UPnP/1.0 test/0.1.0\r\n"
                                  "\r\n"}
+                             .arg(SearchWindow.count())
                              .arg(searchTarget);
 
     QNetworkDatagram searchDatagram{searchPayload.toUtf8()};

@@ -176,6 +176,37 @@ void ServiceProviderShould::handle_sddp_bye_messages_and_inform_clients_about_th
     QVERIFY2(signalSpy.count() == 1, "The signal MediaServer::Disconnected must be sendout.");
 }
 
+void ServiceProviderShould::report_the_end_of_a_search_after_the_mx_window()
+{
+    QSignalSpy searchFinishedSpy{m_mediaServerProvider.get(), &IServiceProvider::searchFinished};
+
+    m_mediaServerProvider->startSearch();
+    m_providerFactory->clockDouble->advance(std::chrono::milliseconds{2999});
+    QCOMPARE(searchFinishedSpy.size(), 0);
+
+    m_providerFactory->clockDouble->advance(std::chrono::milliseconds{1});
+    QCOMPARE(searchFinishedSpy.size(), 1);
+
+    m_providerFactory->clockDouble->advance(std::chrono::hours{1});
+    QCOMPARE(searchFinishedSpy.size(), 1);
+}
+
+void ServiceProviderShould::report_the_end_of_a_search_while_devices_are_known()
+{
+    QSignalSpy searchFinishedSpy{m_mediaServerProvider.get(), &IServiceProvider::searchFinished};
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800));
+
+    m_mediaServerProvider->startSearch();
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{3});
+    QCOMPARE(searchFinishedSpy.size(), 1);
+    QCOMPARE(disconnectSpy.size(), 0);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1797});
+    QCOMPARE(disconnectSpy.size(), 1);
+}
+
 void ServiceProviderShould::report_a_device_as_disconnected_when_its_announcement_expires()
 {
     QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};

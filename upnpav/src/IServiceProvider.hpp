@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -37,6 +37,7 @@ public:
 
     /**
      * Starts a search.
+     * The end of the search is reported with the @ref IServiceProvider::searchFinished signal.
      */
     virtual void startSearch() const noexcept = 0;
 
@@ -60,6 +61,12 @@ Q_SIGNALS:
      * @param uniqueServiceName
      */
     void serviceDisconnected(QString const& uniqueServiceName);
+
+    /**
+     * This signal is emitted when the devices on the network had the time to answer a search,
+     * that is when the MX window of the search request is over.
+     */
+    void searchFinished();
 
     /**
      * This signal is emitted when an error occur during the service discovery.

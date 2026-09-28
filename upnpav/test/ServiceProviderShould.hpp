@@ -67,6 +67,16 @@ private Q_SLOTS:
     void handle_sddp_bye_messages_and_inform_clients_about_the_disconnect();
 
     /**
+     * @test The ServiceProvider shall report the end of a search when the MX window of the search request is over.
+     */
+    void report_the_end_of_a_search_after_the_mx_window();
+
+    /**
+     * @test The end of a search shall be reported while device announcements are expiring as well.
+     */
+    void report_the_end_of_a_search_while_devices_are_known();
+
+    /**
      * @test The ServiceProvider shall report a device as disconnected when it isn't re-announced
      *       within the max-age of its last announcement.
      */
