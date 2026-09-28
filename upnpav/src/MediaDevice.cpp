@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -115,6 +115,26 @@ QString const& MediaDevice::name() const noexcept
 QUrl const& MediaDevice::iconUrl() const noexcept
 {
     return d->mIconUrl;
+}
+
+QString const& MediaDevice::udn() const noexcept
+{
+    return d->mDeviceDescription.udn();
+}
+
+QString const& MediaDevice::manufacturer() const noexcept
+{
+    return d->mDeviceDescription.manufacturer();
+}
+
+QString const& MediaDevice::modelName() const noexcept
+{
+    return d->mDeviceDescription.modelName();
+}
+
+QString const& MediaDevice::address() const noexcept
+{
+    return d->mDeviceDescription.address();
 }
 
 MediaDevice::State MediaDevice::state() const noexcept

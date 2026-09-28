@@ -445,18 +445,23 @@ ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
     return desc;
 }
 
-DeviceDescription validRendererDeviceDescription(QString const& friendlyName) noexcept
+DeviceDescription validRendererDeviceDescription(QString const& friendlyName,
+                                                QString const& manufacturer,
+                                                QString const& modelName,
+                                                QString const& udn,
+                                                QString const& address) noexcept
 {
     return DeviceDescription{QString(""),
                              friendlyName,
-                             QString(""),
-                             QString(""),
-                             QString(""),
+                             manufacturer,
+                             modelName,
+                             udn,
                              {IconDescription{"", 0, 0, 24, "http://localhost:8200/icons/sm.png"}},
                              {validRenderingControlServiceDescription(),
                               validConnectionManagerDescription(),
                               validAvTransportServiceDescription()},
-                             {validRenderingControlSCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()}};
+                             {validRenderingControlSCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()},
+                             address};
 }
 
 } // namespace UPnPAV

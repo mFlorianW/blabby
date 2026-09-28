@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -73,6 +73,30 @@ public:
      * @return The icon url of the @ref Multimedia::Renderer.
      */
     QString iconUrl() const noexcept;
+
+    /**
+     * Gives the identity of the @ref Multimedia::Renderer, the unique device name (UDN) of the device.
+     * @return The identity of the @ref Multimedia::Renderer.
+     */
+    QString const& identity() const noexcept;
+
+    /**
+     * Gives the manufacturer of the @ref Multimedia::Renderer.
+     * @return The manufacturer or an empty string when the device doesn't name one.
+     */
+    QString const& manufacturer() const noexcept;
+
+    /**
+     * Gives the model name of the @ref Multimedia::Renderer.
+     * @return The model name or an empty string when the device doesn't name one.
+     */
+    QString const& modelName() const noexcept;
+
+    /**
+     * Gives the network address of the @ref Multimedia::Renderer.
+     * @return The address or an empty string when the address is unknown.
+     */
+    QString const& address() const noexcept;
 
     /**
      * Initializes the @ref Mulitmedia::Renderer.

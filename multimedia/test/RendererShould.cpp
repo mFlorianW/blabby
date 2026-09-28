@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -292,6 +292,23 @@ void RendererShould::set_volume_of_upnpav_media_renderer()
     QCOMPARE(mUpnpRendererRaw->isSetVolumeCalled(), true);
     auto expData = SetVolumeData{.instanceId = 0, .channel = "Master", .volume = 25};
     QCOMPARE(mUpnpRendererRaw->setVolumeData(), expData);
+}
+
+void RendererShould::give_the_identity_manufacturer_model_and_address_of_the_renderer()
+{
+    auto renderer = Renderer{std::make_unique<MediaRendererDouble>(
+        validRendererDeviceDescription(QStringLiteral("Kitchen"),
+                                       QStringLiteral("Denon"),
+                                       QStringLiteral("HEOS 1"),
+                                       QStringLiteral("uuid:kitchen"),
+                                       QStringLiteral("192.168.1.42")),
+        QSharedPointer<SoapBackendDouble>::create(),
+        QSharedPointer<Doubles::EventBackend>::create())};
+
+    QCOMPARE(renderer.identity(), QStringLiteral("uuid:kitchen"));
+    QCOMPARE(renderer.manufacturer(), QStringLiteral("Denon"));
+    QCOMPARE(renderer.modelName(), QStringLiteral("HEOS 1"));
+    QCOMPARE(renderer.address(), QStringLiteral("192.168.1.42"));
 }
 
 } // namespace Multimedia

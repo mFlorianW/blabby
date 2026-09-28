@@ -597,6 +597,46 @@ void ServiceProviderShould::parse_devices_description_with_services()
     }
 }
 
+void ServiceProviderShould::derive_the_device_address_from_the_description_location()
+{
+    QSignalSpy signalspy{m_mediaServerProvider.get(), &IServiceProvider::serviceConnected};
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validNotifyMessage));
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithoutServices();
+
+    QCOMPARE(signalspy.size(), 1);
+    auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
+    QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+}
+
+void ServiceProviderShould::keep_the_device_address_after_fetching_the_service_definitions()
+{
+    QSignalSpy signalspy{m_mediaServerProvider.get(), &IServiceProvider::serviceConnected};
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validNotifyMessage));
+    m_providerFactory->descriptionFetcherBackendDouble->sendOneDeviceOneService();
+
+    QCOMPARE(signalspy.size(), 1);
+    auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
+    QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+}
+
+void ServiceProviderShould::derive_the_address_of_an_embedded_device_from_the_description_location()
+{
+    QSignalSpy signalspy{m_mediaServerProvider.get(), &IServiceProvider::serviceConnected};
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(validNotifyMessage));
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithEmbeddedDevicesAndWithoutServices();
+
+    QCOMPARE(signalspy.size(), 1);
+    QCOMPARE(signalspy.at(0).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e959"));
+    auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
+    QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+}
+
 void ServiceProviderShould::ignore_broken_device_description_notify_error()
 {
     QSignalSpy signalSpy(m_mediaServerProvider.get(), &IServiceProvider::error);

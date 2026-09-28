@@ -8,7 +8,7 @@ import Blabby.Objects
 import Blabby.Theme
 
 /**
- * A card that shows a Renderer with its name and Playback State.
+ * A card that shows a Renderer with its name, details (manufacturer, model and address) and Playback State.
  * The card is highlighted while the Renderer is the Active Renderer.
  */
 Card {
@@ -18,6 +18,27 @@ Card {
      * The name of the Renderer.
      */
     property string name
+
+    /**
+     * The manufacturer of the Renderer, empty when unknown.
+     */
+    property string manufacturer
+
+    /**
+     * The model name of the Renderer, empty when unknown.
+     */
+    property string modelName
+
+    /**
+     * The network address of the Renderer, empty when unknown.
+     */
+    property string address
+
+    /**
+     * The details that tell similarly named Renderers apart: manufacturer, model and address
+     * separated by dots, missing or blank fields are omitted.
+     */
+    readonly property string details: [rendererCard.manufacturer, rendererCard.modelName, rendererCard.address].map(field => field.trim()).filter(field => field !== "").join(" · ")
 
     /**
      * The Playback State of the Renderer, a value of Renderer.State.
@@ -57,7 +78,7 @@ Card {
         }
     }
 
-    implicitHeight: 88
+    implicitHeight: 100
 
     IconBadge {
         id: badge
@@ -82,6 +103,16 @@ Card {
             text: rendererCard.name
             color: rendererCard.contentColor
             textStyle: Theme.fonts.titleMedium
+        }
+
+        StyledText {
+            id: detailsText
+            objectName: "details"
+            width: textColumn.width
+            text: rendererCard.details
+            color: Theme.colors.colorOnSurfaceVariant
+            textStyle: Theme.fonts.bodyMedium
+            visible: rendererCard.details !== ""
         }
 
         StatusLabel {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -44,6 +44,26 @@ QString const& Renderer::name() const noexcept
 QString Renderer::iconUrl() const noexcept
 {
     return mRenderer->iconUrl().toString();
+}
+
+QString const& Renderer::identity() const noexcept
+{
+    return mRenderer->udn();
+}
+
+QString const& Renderer::manufacturer() const noexcept
+{
+    return mRenderer->manufacturer();
+}
+
+QString const& Renderer::modelName() const noexcept
+{
+    return mRenderer->modelName();
+}
+
+QString const& Renderer::address() const noexcept
+{
+    return mRenderer->address();
 }
 
 void Renderer::initialize() noexcept

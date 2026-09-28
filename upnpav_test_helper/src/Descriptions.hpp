@@ -78,8 +78,11 @@ ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept;
 
 ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept;
 
-DeviceDescription validRendererDeviceDescription(
-    QString const& friendlyName = QStringLiteral("MediaRenderer")) noexcept;
+DeviceDescription validRendererDeviceDescription(QString const& friendlyName = QStringLiteral("MediaRenderer"),
+                                                QString const& manufacturer = QString{},
+                                                QString const& modelName = QString{},
+                                                QString const& udn = QString{},
+                                                QString const& address = QString{}) noexcept;
 
 } // namespace UPnPAV
 

@@ -41,7 +41,7 @@ Item {
     /**
      * The height of a card, the implicit height of the RendererCard.
      */
-    readonly property real cardHeight: 88
+    readonly property real cardHeight: 100
 
     /**
      * The space between two cards.
@@ -107,6 +107,9 @@ Item {
             id: cell
             required property int index
             required property string name
+            required property string manufacturer
+            required property string modelName
+            required property string address
             required property int playbackState
             required property bool active
 
@@ -121,6 +124,9 @@ Item {
                 anchors.top: cell.top
                 height: renderersView.cardHeight
                 name: cell.name
+                manufacturer: cell.manufacturer
+                modelName: cell.modelName
+                address: cell.address
                 playbackState: cell.playbackState
                 selected: cell.active
                 onClicked: renderersView.activated(cell.index)
