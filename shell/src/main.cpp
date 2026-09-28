@@ -6,6 +6,7 @@
 
 #include "MediaPlayer.hpp"
 #include "QmlSingletonRegistry.hpp"
+#include "Item.hpp"
 #include "Renderer.hpp"
 #include <QGuiApplication>
 #include <QLoggingCategory>
@@ -27,6 +28,12 @@ void registerQmlTypes()
                                                      0,
                                                      "Renderer",
                                                      "Renderers are provided by the MediaRendererModel");
+    qmlRegisterUncreatableMetaObject(Multimedia::staticMetaObject,
+                                     "Blabby.Objects",
+                                     1,
+                                     0,
+                                     "ItemType",
+                                     "ItemType is an enum of the Items in the MediaItemModel");
 }
 
 } // namespace Shell

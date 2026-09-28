@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -27,11 +27,20 @@ class MediaItemModel : public QAbstractListModel
      * This property holds the icon URL of the active @ref Multimedia::MediaSource
      */
     Q_PROPERTY(QString mediaSourceIconUrl READ mediaSourceIconUrl NOTIFY mediaSourceChanged)
+
+    /**
+     * This property is true while a @ref Multimedia::MediaSource is set, i.e. there is an Active Source.
+     */
+    Q_PROPERTY(bool hasMediaSource READ hasMediaSource NOTIFY mediaSourceChanged)
 public:
     enum class DisplayRole
     {
         MediaItemTitle = Qt::UserRole + 1,
-        MediaItemIconUrl
+        MediaItemIconUrl,
+        /**
+         * The type of the @ref Multimedia::Item as integer value of @ref Multimedia::ItemType.
+         */
+        MediaItemType,
     };
     Q_ENUM(DisplayRole)
 
@@ -82,7 +91,7 @@ public:
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
      * If the @ref Multimedia::MediaItem is a container item then the container will be opened.
-     * For a playable item the signal @ref playRequest will be emitted.
+     * Activating a playable item does nothing.
      * @param idx The index of the @ref Multimedia::MediaItem that shall be activated.
      */
     Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
@@ -111,12 +120,12 @@ public:
      */
     QString mediaSourceIconUrl() const noexcept;
 
-Q_SIGNALS:
     /**
-     * This signal is emitted when a playabale MediaItem is activated.
+     * Gives true while a @ref Multimedia::MediaSource is set.
      */
-    void playRequest(Multimedia::Item const& mediaItem);
+    bool hasMediaSource() const noexcept;
 
+Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.
      */

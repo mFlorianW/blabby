@@ -22,6 +22,10 @@ Rectangle {
         anchors.left: shell.left
         model: [
             {
+                "text": qsTr("Library"),
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/library_music.svg"
+            },
+            {
                 "text": qsTr("Renderers"),
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
             }
@@ -35,6 +39,16 @@ Rectangle {
         anchors.left: rail.right
         anchors.right: shell.right
         currentIndex: rail.currentIndex
+
+        LibraryView {
+            id: libraryView
+            sources: Singleton.mediaSourceModel
+            items: Singleton.mediaItemModel
+            hasActiveSource: Singleton.mediaItemModel.hasMediaSource
+            activeSourceName: Singleton.mediaItemModel.mediaSourceName
+            onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
+            // Tiles aren't activated yet: the Library stays on the root Container until it can navigate back.
+        }
 
         RenderersView {
             id: renderersView

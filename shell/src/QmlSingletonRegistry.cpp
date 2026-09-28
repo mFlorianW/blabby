@@ -24,6 +24,10 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
 {
+    // The Library shows the Items of the Active Source.
+    connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
+        mItemModel.setMediaSource(mSourceModel.activeMediaSource());
+    });
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;

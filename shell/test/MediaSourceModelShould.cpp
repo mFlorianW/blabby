@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -130,6 +130,33 @@ void MediaSourceModelShould::set_the_active_media_source_property_correctly()
     QCOMPARE(mediaSourceActivatedSpy.size(), 1);
     QCOMPARE(model.activeMediaSource(), expectedSrc);
     QCOMPARE(model.property("activeMediaSource").value<std::shared_ptr<Multimedia::Source>>(), expectedSrc);
+}
+
+void MediaSourceModelShould::ignore_activating_the_active_media_source_again()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
+    auto loaderRaw = loader.get();
+    auto model = MediaSourceModel{std::move(loader)};
+    model.activateMediaSource(0);
+    auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+
+    model.activateMediaSource(0);
+
+    QCOMPARE(mediaSourceActivatedSpy.size(), 0);
+    QCOMPARE(model.activeMediaSource(), loaderRaw->providers().at(0)->sources().at(0));
+}
+
+void MediaSourceModelShould::ignore_activating_an_invalid_index()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
+    auto model = MediaSourceModel{std::move(loader)};
+    auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+
+    model.activateMediaSource(-1);
+    model.activateMediaSource(1);
+
+    QCOMPARE(mediaSourceActivatedSpy.size(), 0);
+    QCOMPARE(model.activeMediaSource(), nullptr);
 }
 
 } // namespace Shell

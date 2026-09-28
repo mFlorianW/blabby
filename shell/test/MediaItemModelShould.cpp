@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -36,6 +36,7 @@ void MediaItemModelShould::give_the_correct_display_roles()
     auto const expRoles = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
         std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemType), QByteArray{"mediaItemType"}),
     };
 
     auto const roles = miModel.roleNames();
@@ -109,18 +110,62 @@ void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
     QCOMPARE(title2, QStringLiteral("Container2"));
 }
 
-void MediaItemModelShould::emit_playRequest_when_a_playable_item_is_activated()
+void MediaItemModelShould::do_nothing_when_a_playable_item_is_activated()
 {
     auto miModel = MediaItemModel{};
     auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
-    auto playRequestSpy = QSignalSpy{&miModel, &MediaItemModel::playRequest};
+    auto modelResetSpy = QSignalSpy{&miModel, &MediaItemModel::modelReset};
 
     miModel.activateMediaItem(1);
 
-    QCOMPARE(playRequestSpy.size(), 1);
-    QCOMPARE(playRequestSpy.at(0).at(0).value<Multimedia::Item>().mainText(), QStringLiteral("MediaItem2"));
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("0"));
+    QCOMPARE(modelResetSpy.size(), 0);
+    QCOMPARE(miModel.rowCount({}), 5);
+}
+
+void MediaItemModelShould::give_the_item_type_of_the_item()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    auto const typeRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemType);
+
+    QCOMPARE(miModel.data(miModel.index(1), typeRole).toInt(), static_cast<int>(Multimedia::ItemType::Playable));
+    QCOMPARE(miModel.data(miModel.index(2), typeRole).toInt(), static_cast<int>(Multimedia::ItemType::Container));
+}
+
+void MediaItemModelShould::tell_whether_a_media_source_is_set()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    QCOMPARE(miModel.property("hasMediaSource").toBool(), false);
+
+    miModel.setMediaSource(mediaSrc);
+    QCOMPARE(miModel.property("hasMediaSource").toBool(), true);
+
+    miModel.setMediaSource(nullptr);
+    QCOMPARE(miModel.property("hasMediaSource").toBool(), false);
+}
+
+void MediaItemModelShould::stop_following_the_previous_media_source_when_the_media_source_changes()
+{
+    auto miModel = MediaItemModel{};
+    auto previousSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(previousSrc);
+    miModel.setMediaSource(mediaSrc);
+    auto modelResetSpy = QSignalSpy{&miModel, &MediaItemModel::modelReset};
+
+    previousSrc->navigateTo(QStringLiteral("1"));
+    QCOMPARE(modelResetSpy.size(), 0);
+
+    mediaSrc->navigateTo(QStringLiteral("1"));
+    QCOMPARE(modelResetSpy.size(), 1);
+    QCOMPARE(miModel.rowCount({}), 3);
 }
 
 void MediaItemModelShould::navigate_the_back_the_active_media_source()
