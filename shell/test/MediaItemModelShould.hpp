@@ -32,6 +32,14 @@ private Q_SLOTS:
     void navigate_the_back_the_active_media_source();
     void give_the_default_icon_url_when_the_media_item_has_no_icon();
     void give_the_name_and_icon_url_for_the_active_media_source();
+    void be_busy_until_the_items_of_the_opened_container_arrive();
+    void ignore_activations_while_busy();
+    void ignore_navigating_back_while_busy();
+    void be_at_the_root_without_a_container_title_until_a_container_is_opened();
+    void give_the_title_of_the_current_container();
+    void return_to_the_parent_container_title_when_navigating_back();
+    void ignore_navigating_back_at_the_root();
+    void start_at_the_root_when_the_media_source_changes();
 };
 
 } // namespace Shell
