@@ -18,6 +18,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         FadeBehavior.qml
         NavigationRail.qml
         NavigationRailItem.qml
+        PillButton.qml
         ScreenHeader.qml
         StatusLabel.qml
         StyledText.qml

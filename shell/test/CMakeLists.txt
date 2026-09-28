@@ -35,6 +35,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RendererCardShould.qml
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RenderersViewShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_RenderersViewShould.qml COPYONLY)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PillButtonShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_PillButtonShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibraryViewShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_LibraryViewShould.qml COPYONLY)
+
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests
     PRIVATE

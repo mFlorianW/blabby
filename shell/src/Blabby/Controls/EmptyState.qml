@@ -7,7 +7,7 @@ import Blabby.Controls
 import Blabby.Theme
 
 /**
- * The placeholder of an empty screen with an icon, a title and a hint, centred in the available space.
+ * The placeholder of an empty screen with an icon, a title, a hint and an optional action, centred in the available space.
  * A busy empty state shows a busy indicator in place of the icon, e.g. while searching.
  */
 Item {
@@ -32,6 +32,17 @@ Item {
      * True while the content of the screen is loaded, e.g. while searching.
      */
     property bool busy: false
+
+    /**
+     * The label of a button below the hint that lets the user resolve the empty state.
+     * No button is shown when it is empty.
+     */
+    property string actionText
+
+    /**
+     * This signal is emitted when the user clicks the action button.
+     */
+    signal actionClicked
 
     Column {
         id: content
@@ -85,6 +96,25 @@ Item {
             color: Theme.colors.colorOnSurfaceVariant
             textStyle: Theme.fonts.bodyMedium
             visible: emptyState.hint !== ""
+        }
+
+        Item {
+            id: actionSpacer
+            width: content.width
+            height: 8
+            visible: actionButton.visible
+        }
+
+        Button {
+            id: actionButton
+            objectName: "action"
+            anchors.horizontalCenter: content.horizontalCenter
+            // Taller than the default button to be a large enough touch target.
+            height: 48
+            variant: Button.Filled
+            text: emptyState.actionText
+            visible: emptyState.actionText !== ""
+            onClicked: emptyState.actionClicked()
         }
     }
 }

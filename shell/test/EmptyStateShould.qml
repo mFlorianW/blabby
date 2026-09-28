@@ -24,9 +24,17 @@ Item {
         name: "EmptyStateShould"
         when: windowShown
 
+        SignalSpy {
+            id: actionClickedSpy
+            target: emptyState
+            signalName: "actionClicked"
+        }
+
         function init() {
             emptyState.busy = false;
             emptyState.hint = "Make sure your speakers are switched on";
+            emptyState.actionText = "";
+            actionClickedSpy.clear();
         }
 
         /**
@@ -65,6 +73,28 @@ Item {
             emptyStateTest.compare(emptyStateTest.child("icon").visible, false);
             emptyStateTest.compare(emptyStateTest.child("busyIndicator").visible, true);
             emptyStateTest.compare(emptyStateTest.child("busyIndicator").running, true);
+        }
+
+        /**
+         * Tests that no action button is shown without an action text.
+         */
+        function test_hide_the_action_without_an_action_text() {
+            emptyStateTest.compare(emptyStateTest.child("action").visible, false);
+        }
+
+        /**
+         * Tests that the action button shows the action text and emits actionClicked when clicked.
+         */
+        function test_emit_actionClicked_when_the_action_is_clicked() {
+            emptyState.actionText = "Choose a Source";
+            const action = emptyStateTest.child("action");
+            emptyStateTest.compare(action.visible, true);
+            emptyStateTest.compare(action.text, "Choose a Source");
+            emptyStateTest.compare(action.variant, Button.Filled);
+            emptyStateTest.verify(action.height >= 44);
+            emptyStateTest.waitForRendering(emptyState);
+            emptyStateTest.mouseClick(action);
+            emptyStateTest.compare(actionClickedSpy.count, 1);
         }
 
         /**
