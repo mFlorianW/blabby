@@ -31,12 +31,38 @@ constexpr auto activeRole = static_cast<int>(MediaRendererModel::DisplayRole::Ac
 constexpr auto manufacturerRole = static_cast<int>(MediaRendererModel::DisplayRole::Manufacturer);
 constexpr auto modelNameRole = static_cast<int>(MediaRendererModel::DisplayRole::ModelName);
 constexpr auto addressRole = static_cast<int>(MediaRendererModel::DisplayRole::Address);
+constexpr auto availabilityRole = static_cast<int>(MediaRendererModel::DisplayRole::Availability);
+
+RememberedRenderer rememberedKitchen()
+{
+    return RememberedRenderer{.identity = kitchenUsn,
+                              .name = QStringLiteral("Old Kitchen"),
+                              .manufacturer = QStringLiteral("Denon"),
+                              .modelName = QStringLiteral("HEOS 1"),
+                              .address = QStringLiteral("192.168.1.10")};
+}
+
+RememberedRenderer rememberedAttic()
+{
+    return RememberedRenderer{.identity = QStringLiteral("uuid:attic"),
+                              .name = QStringLiteral("Attic"),
+                              .manufacturer = {},
+                              .modelName = {},
+                              .address = QStringLiteral("192.168.1.11")};
+}
 } // namespace
 
 MediaRendererModelShould::~MediaRendererModelShould() = default;
 
 void MediaRendererModelShould::init()
 {
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>();
+    restart();
+}
+
+void MediaRendererModelShould::restart()
+{
+    mModel.reset();
     auto sProvider = std::make_unique<ServiceProviderDouble>();
     sProvider->addDeviceDescription(kitchenUsn,
                                     validRendererDeviceDescription(QStringLiteral("Kitchen"),
@@ -44,12 +70,16 @@ void MediaRendererModelShould::init()
                                                                    QStringLiteral("HEOS 1"),
                                                                    kitchenUsn,
                                                                    QStringLiteral("192.168.1.42")));
-    sProvider->addDeviceDescription(bathroomUsn, validRendererDeviceDescription(QStringLiteral("Bathroom")));
-    sProvider->addDeviceDescription(livingRoomUsn, validRendererDeviceDescription(QStringLiteral("living room")));
+    sProvider->addDeviceDescription(
+        bathroomUsn,
+        validRendererDeviceDescription(QStringLiteral("Bathroom"), QString{}, QString{}, bathroomUsn, QString{}));
+    sProvider->addDeviceDescription(
+        livingRoomUsn,
+        validRendererDeviceDescription(QStringLiteral("living room"), QString{}, QString{}, livingRoomUsn, QString{}));
     mServiceProvider = sProvider.get();
     auto rendererFactory = std::make_unique<MediaRendererDoubleFactory>();
     mRendererFactory = rendererFactory.get();
-    auto rProvider = std::make_unique<RendererProvider>(std::move(sProvider), std::move(rendererFactory));
+    auto rProvider = std::make_unique<RendererProvider>(mStore, std::move(sProvider), std::move(rendererFactory));
     mModel = std::make_unique<MediaRendererModel>(std::move(rProvider));
 }
 
@@ -72,6 +102,11 @@ bool MediaRendererModelShould::isActive(int row) const
     return mModel->data(mModel->index(row), activeRole).toBool();
 }
 
+Renderer::Availability MediaRendererModelShould::availability(int row) const
+{
+    return static_cast<Renderer::Availability>(mModel->data(mModel->index(row), availabilityRole).toInt());
+}
+
 void MediaRendererModelShould::give_correct_display_roles_for_the_ui()
 {
     auto const expRoles = QHash<int, QByteArray>{
@@ -81,6 +116,7 @@ void MediaRendererModelShould::give_correct_display_roles_for_the_ui()
         std::make_pair(manufacturerRole, QByteArray{"manufacturer"}),
         std::make_pair(modelNameRole, QByteArray{"modelName"}),
         std::make_pair(addressRole, QByteArray{"address"}),
+        std::make_pair(availabilityRole, QByteArray{"availability"}),
     };
 
     auto const roleNames = mModel->roleNames();
@@ -103,17 +139,23 @@ void MediaRendererModelShould::increase_the_rowCount_on_new_connected_mediarende
     QCOMPARE(rowCount, 1);
 }
 
-void MediaRendererModelShould::decrease_the_rowCount_on_disconnected_mediarenderer()
+void MediaRendererModelShould::keep_a_disconnected_renderer_listed_as_offline()
 {
     auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
-
     Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
-    auto rowCount = mModel->rowCount();
-    QCOMPARE(rowCount, 1);
+    auto dataChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::dataChanged};
 
     Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
-    rowCount = mModel->rowCount();
-    QCOMPARE(rowCount, 0);
+
+    QCOMPARE(mModel->rowCount(), 1);
+    QCOMPARE(availability(0), Renderer::Availability::Offline);
+    QCOMPARE(name(0), QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->data(mModel->index(0), addressRole).toString(), QStringLiteral("192.168.1.42"));
+    auto const availabilityChanged = std::any_of(dataChangedSpy.cbegin(), dataChangedSpy.cend(), [](auto const& args) {
+        return args.at(0).template value<QModelIndex>().row() == 0 and
+               args.at(2).template value<QList<int>>().contains(availabilityRole);
+    });
+    QVERIFY(availabilityChanged);
 }
 
 void MediaRendererModelShould::give_the_name_and_playback_state_of_the_renderer()
@@ -183,15 +225,14 @@ void MediaRendererModelShould::keep_the_renderers_ordered_when_renderers_appear_
     Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
 
     Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
-    QCOMPARE(rendererNames(), (QStringList{QStringLiteral("Bathroom"), QStringLiteral("living room")}));
+    QCOMPARE(rendererNames(),
+             (QStringList{QStringLiteral("Bathroom"), QStringLiteral("living room"), QStringLiteral("Kitchen")}));
 
     auto rowsInsertedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::rowsInserted};
     Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
     QCOMPARE(rendererNames(),
              (QStringList{QStringLiteral("Bathroom"), QStringLiteral("Kitchen"), QStringLiteral("living room")}));
-    QCOMPARE(rowsInsertedSpy.size(), 1);
-    QCOMPARE(rowsInsertedSpy.at(0).at(1).toInt(), 1);
-    QCOMPARE(rowsInsertedSpy.at(0).at(2).toInt(), 1);
+    QCOMPARE(rowsInsertedSpy.size(), 0);
 }
 
 void MediaRendererModelShould::have_no_active_renderer_at_start()
@@ -287,6 +328,7 @@ void MediaRendererModelShould::clear_the_active_renderer_when_it_disconnects()
 
     QCOMPARE(activeRendererChangedSpy.size(), 1);
     QCOMPARE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(isActive(0), false);
 }
 
 void MediaRendererModelShould::keep_the_active_renderer_when_another_renderer_disconnects()
@@ -341,6 +383,122 @@ void MediaRendererModelShould::ignore_a_rescan_while_scanning()
     QCOMPARE(mServiceProvider->searchCount(), 1);
     QCOMPARE(mModel->isScanning(), true);
     QCOMPARE(scanningChangedSpy.size(), 0);
+}
+
+void MediaRendererModelShould::give_the_availability_of_the_renderer()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(availability(0), Renderer::Availability::Online);
+}
+
+void MediaRendererModelShould::list_the_remembered_renderers_as_offline_at_start()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+
+    QCOMPARE(mModel->rowCount(), 1);
+    QCOMPARE(availability(0), Renderer::Availability::Offline);
+    QCOMPARE(name(0), QStringLiteral("Old Kitchen"));
+    QCOMPARE(mModel->data(mModel->index(0), manufacturerRole).toString(), QStringLiteral("Denon"));
+    QCOMPARE(mModel->data(mModel->index(0), modelNameRole).toString(), QStringLiteral("HEOS 1"));
+    QCOMPARE(mModel->data(mModel->index(0), addressRole).toString(), QStringLiteral("192.168.1.10"));
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+}
+
+void MediaRendererModelShould::bring_a_remembered_renderer_online_with_refreshed_details_when_it_is_discovered_again()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    auto rowsInsertedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::rowsInserted};
+    auto dataChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::dataChanged};
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(mModel->rowCount(), 1);
+    QCOMPARE(rowsInsertedSpy.size(), 0);
+    QCOMPARE_GE(dataChangedSpy.size(), 1);
+    QCOMPARE(availability(0), Renderer::Availability::Online);
+    QCOMPARE(name(0), QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->data(mModel->index(0), addressRole).toString(), QStringLiteral("192.168.1.42"));
+    auto expRemembered = rememberedKitchen();
+    expRemembered.name = QStringLiteral("Kitchen");
+    expRemembered.address = QStringLiteral("192.168.1.42");
+    QCOMPARE(mStore->load(), QList{expRemembered});
+}
+
+void MediaRendererModelShould::remember_the_discovered_renderers_across_a_restart()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+
+    restart();
+
+    QCOMPARE(rendererNames(), (QStringList{QStringLiteral("Bathroom"), QStringLiteral("Kitchen")}));
+    QCOMPARE(availability(0), Renderer::Availability::Offline);
+    QCOMPARE(availability(1), Renderer::Availability::Offline);
+    QCOMPARE(mModel->data(mModel->index(1), manufacturerRole).toString(), QStringLiteral("Denon"));
+    QCOMPARE(mModel->data(mModel->index(1), modelNameRole).toString(), QStringLiteral("HEOS 1"));
+    QCOMPARE(mModel->data(mModel->index(1), addressRole).toString(), QStringLiteral("192.168.1.42"));
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(rendererNames(), (QStringList{QStringLiteral("Kitchen"), QStringLiteral("Bathroom")}));
+    QCOMPARE(availability(0), Renderer::Availability::Online);
+}
+
+void MediaRendererModelShould::keep_the_last_known_address_of_an_offline_renderer_across_a_restart()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+
+    restart();
+
+    QCOMPARE(mModel->data(mModel->index(0), addressRole).toString(), QStringLiteral("192.168.1.42"));
+}
+
+void MediaRendererModelShould::order_online_renderers_before_offline_ones_and_alphabetically_within_each()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen(), rememberedAttic()});
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+
+    Q_EMIT mServiceProvider->serviceConnected(livingRoomUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+
+    auto const expNames = QStringList{
+        QStringLiteral("Bathroom"), QStringLiteral("living room"), QStringLiteral("Attic"), QStringLiteral("Old Kitchen")};
+    QCOMPARE(rendererNames(), expNames);
+}
+
+void MediaRendererModelShould::move_a_renderer_behind_the_online_ones_when_it_goes_offline()
+{
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    Q_EMIT mServiceProvider->serviceConnected(livingRoomUsn);
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+    auto rowsMovedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::rowsMoved};
+
+    Q_EMIT mServiceProvider->serviceDisconnected(bathroomUsn);
+
+    QCOMPARE(rendererNames(),
+             (QStringList{QStringLiteral("Kitchen"), QStringLiteral("living room"), QStringLiteral("Bathroom")}));
+    QCOMPARE(rowsMovedSpy.size(), 1);
+    QCOMPARE(availability(2), Renderer::Availability::Offline);
+}
+
+void MediaRendererModelShould::ignore_activating_an_offline_renderer()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+    auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+
+    mModel->activateRenderer(mModel->index(0));
+
+    QCOMPARE(activeRendererChangedSpy.size(), 0);
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(isActive(0), false);
 }
 
 } // namespace Shell

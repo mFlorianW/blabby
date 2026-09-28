@@ -24,6 +24,7 @@ private Q_SLOTS:
     void inform_about_connected_renderer_and_give_the_renderer();
     void inform_about_disconnectd_renderer();
     void inform_about_the_end_of_a_discovery();
+    void save_the_remembered_renderers_only_when_they_changed();
 };
 
 } // namespace Multimedia

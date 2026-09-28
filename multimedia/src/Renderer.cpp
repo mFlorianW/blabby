@@ -94,7 +94,7 @@ void Renderer::goOnline(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
 
     auto const wasOffline = availability() == Availability::Offline;
     auto const remembered = rememberedOf(*mediaRenderer);
-    goOffline();
+    dropDevice();
     mRenderer = std::move(mediaRenderer);
     connectDevice();
     setState(mRenderer->state());
@@ -117,6 +117,19 @@ void Renderer::goOffline() noexcept
         return;
     }
 
+    dropDevice();
+    Q_EMIT availabilityChanged();
+    updateVolume(0);
+
+    if (mState != State::NoMedia) {
+        mState = State::NoMedia;
+        Q_EMIT stateChanged();
+    }
+}
+
+void Renderer::dropDevice() noexcept
+{
+    // The pending calls are dropped before the device they belong to.
     mProtoInfoCall.reset();
     mSetAvTransportUriCall.reset();
     mPlayCall.reset();
@@ -126,13 +139,6 @@ void Renderer::goOffline() noexcept
     mSetVolumeCall.reset();
     mRenderer.reset();
     mProtocols.clear();
-    Q_EMIT availabilityChanged();
-    updateVolume(0);
-
-    if (mState != State::NoMedia) {
-        mState = State::NoMedia;
-        Q_EMIT stateChanged();
-    }
 }
 
 void Renderer::connectDevice() noexcept

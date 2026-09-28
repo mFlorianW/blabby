@@ -9,6 +9,7 @@
 #include "IServiceProvider.hpp"
 #include "MediaRenderer.hpp"
 #include "Renderer.hpp"
+#include "RendererStore.hpp"
 #include "ServiceProvider.hpp"
 #include "blabbymultimedia_export.h"
 #include <QHash>
@@ -20,6 +21,8 @@ namespace Multimedia
 /**
  * Discovers all MediaRenderer devices on the network and handles the connect and disconnect that
  * devices on the network.
+ * Every @ref Multimedia::Renderer that was seen is remembered in the @ref Multimedia::RendererStore, is Offline
+ * after a restart until it's discovered again and stays known as Offline when it leaves the network.
  */
 class BLABBYMULTIMEDIA_EXPORT RendererProvider : public QObject
 {
@@ -27,10 +30,13 @@ class BLABBYMULTIMEDIA_EXPORT RendererProvider : public QObject
 public:
     /**
      * Creates an instance of the RendererProvider
-     * @param The @UPnPAV::IServiceProvider interface that is used to find the devices on the network.
-     * @param The @UPnPAV::MediaRendererFactory creates @UPnPAV::MediaRenderer instances.
+     * The remembered @ref Multimedia::Renderer are loaded from the store as Offline Renderers.
+     * @param store The @ref Multimedia::RendererStore that keeps the remembered Renderers.
+     * @param serviceProvider The @UPnPAV::IServiceProvider interface that is used to find the devices on the network.
+     * @param rendererFab The @UPnPAV::MediaRendererFactory creates @UPnPAV::MediaRenderer instances.
      */
-    RendererProvider(
+    explicit RendererProvider(
+        std::shared_ptr<RendererStore> store,
         std::unique_ptr<UPnPAV::IServiceProvider> serviceProvider =
             UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString("")),
         std::unique_ptr<UPnPAV::MediaRendererFactory> rendererFab = std::make_unique<UPnPAV::MediaRendererFactory>());
@@ -51,16 +57,23 @@ public:
      */
     void discover();
 
+    /**
+     * Gives all known @ref Multimedia::Renderer, the remembered and the discovered ones, Online or Offline.
+     * @return The known Renderers.
+     */
+    QList<std::shared_ptr<Renderer>> const& renderers() const noexcept;
+
 Q_SIGNALS:
     /**
-     * This signal is emitted when the @ref Multimedia::RendererProvider dicovers a new @ref MultiMedia::Renderer
-     * appears on the network.
+     * This signal is emitted when the @ref Multimedia::RendererProvider discovers a @ref MultiMedia::Renderer
+     * on the network. A known @ref Multimedia::Renderer is recognised by its identity and is Online again when
+     * the signal is emitted, an unknown one is added to the known Renderers.
      */
     void rendererConnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
     /**
      * This signal is emitted when the @ref Multimedia::RendererProvider detects that a @ref Multimedia::Renderer
-     * disapears on the Network.
+     * disapears on the Network. The @ref Multimedia::Renderer is Offline and stays known.
      */
     void rendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
 
@@ -74,8 +87,13 @@ private Q_SLOTS:
     void onRendererDisconnected(QString const& usn) noexcept;
 
 private:
+    std::shared_ptr<Renderer> knownRenderer(QString const& identity) const noexcept;
+    void saveKnownRenderers() noexcept;
+
+    std::shared_ptr<RendererStore> mStore;
     std::unique_ptr<UPnPAV::IServiceProvider> mSp;
     std::unique_ptr<UPnPAV::MediaRendererFactory> mRendererFab;
-    QHash<QString, std::shared_ptr<Renderer>> mRenderers;
+    QList<std::shared_ptr<Renderer>> mRenderers;
+    QHash<QString, std::shared_ptr<Renderer>> mOnlineRenderers;
 };
 } // namespace Multimedia

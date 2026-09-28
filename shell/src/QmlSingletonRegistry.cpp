@@ -1,17 +1,28 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "QmlSingletonRegistry.hpp"
+#include "JsonRendererStore.hpp"
+#include <QStandardPaths>
 
 namespace Shell
 {
 
+namespace
+{
+std::shared_ptr<Multimedia::RendererStore> createRendererStore()
+{
+    auto const dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    return std::make_shared<Multimedia::JsonRendererStore>(dataDir + QStringLiteral("/renderers.json"));
+}
+} // namespace
+
 QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
-    , mRendererModel{std::make_unique<Multimedia::RendererProvider>()}
+    , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
 {
 }
 

@@ -254,6 +254,7 @@ private:
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
     void updateVolume(quint32 volume) noexcept;
     void connectDevice() noexcept;
+    void dropDevice() noexcept;
 
 private:
     RememberedRenderer mRemembered;

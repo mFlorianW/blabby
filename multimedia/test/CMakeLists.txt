@@ -79,6 +79,7 @@ target_sources(test_multimedia_rendererprovider
 target_link_libraries(test_multimedia_rendererprovider
     Qt6::Test
     Blabby::Multimedia
+    Blabby::MultimediaTestHelper
     Blabby::UPnPAVTestHelper
 )
 add_test(test_multimedia_rendererprovider ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_rendererprovider)
