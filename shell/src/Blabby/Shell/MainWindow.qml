@@ -39,6 +39,8 @@ Rectangle {
         RenderersView {
             id: renderersView
             model: Singleton.mediaRendererModel
+            scanning: Singleton.mediaRendererModel.scanning
+            onRescanRequested: Singleton.mediaRendererModel.rescan()
             onActivated: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
         }
     }
