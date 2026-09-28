@@ -10,6 +10,7 @@ import Blabby.Theme
 /**
  * A card that shows a Renderer with its name, details (manufacturer, model and address) and Playback State.
  * The card is highlighted while the Renderer is the Active Renderer.
+ * An Offline Renderer shows Offline instead of the Playback State with its last known details and can't be tapped.
  */
 Card {
     id: rendererCard
@@ -46,10 +47,23 @@ Card {
     property int playbackState: Renderer.NoMedia
 
     /**
+     * The Availability of the Renderer, a value of Renderer.Availability.
+     */
+    property int availability: Renderer.Online
+
+    /**
      * How the Playback State is shown: its text, the optional icon and the emphasis.
-     * No Media shows nothing.
+     * No Media shows nothing, an Offline Renderer shows Offline in place of its Playback State.
      */
     readonly property var playbackStatePresentation: {
+        if (rendererCard.availability === Renderer.Offline) {
+            return {
+                "text": qsTr("Offline"),
+                "iconSource": "",
+                "emphasis": false
+            };
+        }
+
         switch (rendererCard.playbackState) {
         case Renderer.Playing:
             return {
@@ -79,6 +93,7 @@ Card {
     }
 
     implicitHeight: 100
+    enabled: rendererCard.availability === Renderer.Online
 
     IconBadge {
         id: badge

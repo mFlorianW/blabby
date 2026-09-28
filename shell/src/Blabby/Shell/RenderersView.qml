@@ -7,14 +7,15 @@ import Blabby.Controls
 
 /**
  * The screen to choose the Renderer that plays the music.
- * Every Online Renderer is shown as a card in a grid that reflows to the available width.
+ * Every known Renderer is shown as a card in a grid that reflows to the available width, Offline ones can't be tapped.
  * Without Renderers an empty state tells whether the network is still searched or nothing was found.
  */
 Item {
     id: renderersView
 
     /**
-     * The Renderers to show, a model with the roles "name", "playbackState" and "active".
+     * The Renderers to show, a model with the roles "name", "manufacturer", "modelName", "address",
+     * "playbackState", "active" and "availability".
      */
     property alias model: grid.model
 
@@ -112,6 +113,7 @@ Item {
             required property string address
             required property int playbackState
             required property bool active
+            required property int availability
 
             width: grid.cellWidth
             height: grid.cellHeight
@@ -129,6 +131,7 @@ Item {
                 address: cell.address
                 playbackState: cell.playbackState
                 selected: cell.active
+                availability: cell.availability
                 onClicked: renderersView.activated(cell.index)
             }
         }
