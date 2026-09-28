@@ -13,6 +13,7 @@
 #include <QHash>
 #include <QObject>
 #include <memory>
+#include <optional>
 
 class QNetworkDatagram;
 
@@ -49,7 +50,7 @@ private Q_SLOTS:
     void handleFetchedDescription(QString const& description, QUrl const& url);
     void handleFetchedDeviceDescription(QString const& deviceDescription, QUrl const& url);
     void handleFetchSCPDDescription(QString const& scpdDescription, QUrl const& url);
-    void handleExpiredDevices();
+    void handleWakeUp();
 
 private:
     void handleByeByePackage(ServiceDiscoveryPackage const& package);
@@ -57,7 +58,9 @@ private:
     void handleparsedDeviceDescription(DeviceDescription const& deviceDescription);
     void disconnectDevice(QString const& deviceId);
     void refreshExpiry(ServiceDiscoveryPackage const& package);
-    void scheduleNextExpiry();
+    void handleExpiredDevices();
+    void handleFinishedSearch();
+    void scheduleNextWakeUp() const;
 
     static bool validateDestination(QNetworkDatagram const& datagram);
 
@@ -80,6 +83,7 @@ private:
 
     QVector<QString> m_knownDevices;
     QHash<QString, Clock::TimePoint> mDeviceExpiries;
+    mutable std::optional<Clock::TimePoint> mSearchEnd;
     QVector<QUrl> m_pendingDeviceDescription;
 
     QHash<QString, TempDeviceDescription> m_tempDeviceDescriptions;

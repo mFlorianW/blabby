@@ -22,6 +22,7 @@ RendererProvider::RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> ser
 
     connect(mSp.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &RendererProvider::onRendererDiscovered);
     connect(mSp.get(), &UPnPAV::IServiceProvider::serviceDisconnected, this, &RendererProvider::onRendererDisconnected);
+    connect(mSp.get(), &UPnPAV::IServiceProvider::searchFinished, this, &RendererProvider::discoveryFinished);
 }
 
 RendererProvider::~RendererProvider() = default;

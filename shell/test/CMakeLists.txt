@@ -24,6 +24,12 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/IconBadgeShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_IconBadgeShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/StatusLabelShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_StatusLabelShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/BusyIndicatorShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_BusyIndicatorShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ButtonShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_ButtonShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/EmptyStateShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_EmptyStateShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RendererCardShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_RendererCardShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RenderersViewShould.qml

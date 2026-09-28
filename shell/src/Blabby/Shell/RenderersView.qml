@@ -8,6 +8,7 @@ import Blabby.Controls
 /**
  * The screen to choose the Renderer that plays the music.
  * Every Online Renderer is shown as a card in a grid that reflows to the available width.
+ * Without Renderers an empty state tells whether the network is still searched or nothing was found.
  */
 Item {
     id: renderersView
@@ -18,9 +19,19 @@ Item {
     property alias model: grid.model
 
     /**
+     * True while the network is scanned for Renderers.
+     */
+    property bool scanning: false
+
+    /**
      * This signal is emitted when the user taps the card of the Renderer at index.
      */
     signal activated(int index)
+
+    /**
+     * This signal is emitted when the user asks for a new scan of the network.
+     */
+    signal rescanRequested
 
     /**
      * The smallest width of a card, used to calculate the number of columns.
@@ -45,6 +56,30 @@ Item {
         anchors.margins: 24
         title: qsTr("Renderers")
         subtitle: qsTr("Choose where your music plays")
+
+        Button {
+            id: rescanButton
+            objectName: "rescanButton"
+            variant: Button.Outlined
+            text: qsTr("Rescan network")
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/refresh.svg"
+            busy: renderersView.scanning
+            onClicked: renderersView.rescanRequested()
+        }
+    }
+
+    EmptyState {
+        id: emptyState
+        objectName: "emptyState"
+        anchors.top: header.bottom
+        anchors.bottom: renderersView.bottom
+        anchors.left: renderersView.left
+        anchors.right: renderersView.right
+        iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
+        busy: renderersView.scanning
+        title: renderersView.scanning ? qsTr("Searching…") : qsTr("No renderers found")
+        hint: renderersView.scanning ? "" : qsTr("Make sure your speakers are switched on and on the same network")
+        visible: grid.count === 0
     }
 
     GridView {

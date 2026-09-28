@@ -48,7 +48,7 @@ ServiceProvider::ServiceProvider(QString const searchTarget,
                   &DescriptionFetcher::descriptionFetched,
                   this,
                   &ServiceProvider::handleFetchedDescription);
-    (void)connect(mClock.get(), &Clock::wokeUp, this, &ServiceProvider::handleExpiredDevices);
+    (void)connect(mClock.get(), &Clock::wokeUp, this, &ServiceProvider::handleWakeUp);
 }
 
 ServiceProvider::~ServiceProvider() = default;
@@ -61,6 +61,8 @@ void ServiceProvider::setSearchTarget(QString const& searchTarget) noexcept
 void ServiceProvider::startSearch() const noexcept
 {
     m_serviceDiscovery->sendSearchRequest(m_searchTarget);
+    mSearchEnd = mClock->now() + ServiceDiscovery::SearchWindow;
+    scheduleNextWakeUp();
 }
 
 DeviceDescription ServiceProvider::rootDeviceDescription(QString const& usn) const noexcept
@@ -76,7 +78,7 @@ bool ServiceProvider::validateDestination(QNetworkDatagram const& datagram)
 void ServiceProvider::handleByeByePackage(ServiceDiscoveryPackage const& package)
 {
     disconnectDevice(package.deviceId());
-    scheduleNextExpiry();
+    scheduleNextWakeUp();
 }
 
 void ServiceProvider::disconnectDevice(QString const& deviceId)
@@ -93,15 +95,36 @@ void ServiceProvider::refreshExpiry(ServiceDiscoveryPackage const& package)
         return;
     }
     mDeviceExpiries.insert(package.deviceId(), mClock->now() + maxAge.value());
-    scheduleNextExpiry();
+    scheduleNextWakeUp();
 }
 
-void ServiceProvider::scheduleNextExpiry()
+void ServiceProvider::scheduleNextWakeUp() const
 {
-    if (mDeviceExpiries.isEmpty()) {
+    auto nextWakeUp = mSearchEnd;
+    if (not mDeviceExpiries.isEmpty()) {
+        auto const nextExpiry = *std::min_element(mDeviceExpiries.cbegin(), mDeviceExpiries.cend());
+        nextWakeUp = nextWakeUp.has_value() ? std::min(nextWakeUp.value(), nextExpiry) : nextExpiry;
+    }
+    if (nextWakeUp.has_value()) {
+        mClock->wakeUpAt(nextWakeUp.value());
+    }
+}
+
+void ServiceProvider::handleWakeUp()
+{
+    handleFinishedSearch();
+    handleExpiredDevices();
+    scheduleNextWakeUp();
+}
+
+void ServiceProvider::handleFinishedSearch()
+{
+    if (not mSearchEnd.has_value() or mSearchEnd.value() > mClock->now()) {
         return;
     }
-    mClock->wakeUpAt(*std::min_element(mDeviceExpiries.cbegin(), mDeviceExpiries.cend()));
+    mSearchEnd.reset();
+    qCDebug(upnpavService) << "Search for search target" << m_searchTarget << "finished.";
+    Q_EMIT searchFinished();
 }
 
 void ServiceProvider::handleExpiredDevices()
@@ -119,7 +142,6 @@ void ServiceProvider::handleExpiredDevices()
                                << "expired.";
         disconnectDevice(device);
     }
-    scheduleNextExpiry();
 }
 
 void ServiceProvider::handlePackage(ServiceDiscoveryPackage const& package)

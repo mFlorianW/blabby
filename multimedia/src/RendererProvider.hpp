@@ -47,6 +47,7 @@ public:
     /**
      * Starts an MediaRenderer discovery
      * All connected MediaRenderer are reported with the @ref Multimedia::RendererProvider::rendererConnected signal.
+     * The end of the discovery is reported with the @ref Multimedia::RendererProvider::discoveryFinished signal.
      */
     void discover();
 
@@ -62,6 +63,11 @@ Q_SIGNALS:
      * disapears on the Network.
      */
     void rendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
+
+    /**
+     * This signal is emitted when the MediaRenderer on the network had the time to answer a discovery.
+     */
+    void discoveryFinished();
 
 private Q_SLOTS:
     void onRendererDiscovered(QString const& usn) noexcept;

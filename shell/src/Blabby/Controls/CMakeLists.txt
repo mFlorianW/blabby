@@ -7,7 +7,10 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
     VERSION
         1.0
     QML_FILES
+        BusyIndicator.qml
+        Button.qml
         Card.qml
+        EmptyState.qml
         IconButton.qml
         IconBadge.qml
         Icon.qml

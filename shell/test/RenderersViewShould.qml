@@ -4,6 +4,7 @@
 
 import QtQuick
 import QtTest
+import Blabby.Controls
 import Blabby.Objects
 import Blabby.Shell
 
@@ -11,7 +12,7 @@ Item {
     id: root
     // The window width of 1280 px minus the navigation rail.
     width: 1200
-    height: 640
+    height: 1280
 
     ListModel {
         id: renderers
@@ -32,11 +33,24 @@ Item {
         }
     }
 
+    ListModel {
+        id: noRenderers
+    }
+
     RenderersView {
         id: renderersView
         width: root.width
-        height: root.height
+        height: 640
         model: renderers
+    }
+
+    // Placed below the view with Renderers to not overlap it.
+    RenderersView {
+        id: emptyView
+        y: renderersView.height
+        width: root.width
+        height: renderersView.height
+        model: noRenderers
     }
 
     TestCase {
@@ -50,9 +64,28 @@ Item {
             signalName: "activated"
         }
 
+        SignalSpy {
+            id: rescanRequestedSpy
+            target: renderersView
+            signalName: "rescanRequested"
+        }
+
         function init() {
             renderersView.width = root.width;
+            renderersView.scanning = false;
+            emptyView.scanning = false;
+            noRenderers.clear();
             activatedSpy.clear();
+            rescanRequestedSpy.clear();
+        }
+
+        /**
+         * Gives the child of the view with the objectName and fails the test when it doesn't exist.
+         */
+        function child(view, objectName) {
+            const item = renderersViewTest.findChild(view, objectName);
+            renderersViewTest.verify(item, objectName);
+            return item;
         }
 
         /**
@@ -109,6 +142,67 @@ Item {
             renderersViewTest.mouseClick(renderersViewTest.card(2));
             renderersViewTest.compare(activatedSpy.count, 1);
             renderersViewTest.compare(activatedSpy.signalArguments[0][0], 2);
+        }
+
+        /**
+         * Tests that the rescan button emits rescanRequested and is busy while scanning.
+         */
+        function test_request_a_rescan_with_the_rescan_button() {
+            const rescanButton = renderersViewTest.child(renderersView, "rescanButton");
+            renderersViewTest.compare(rescanButton.variant, Button.Outlined);
+            renderersViewTest.compare(rescanButton.busy, false);
+            renderersViewTest.mouseClick(rescanButton);
+            renderersViewTest.compare(rescanRequestedSpy.count, 1);
+
+            renderersView.scanning = true;
+            renderersViewTest.compare(rescanButton.busy, true);
+            renderersViewTest.mouseClick(rescanButton);
+            renderersViewTest.compare(rescanRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that no empty state is shown while there are Renderers.
+         */
+        function test_hide_the_empty_state_when_there_are_renderers() {
+            renderersViewTest.compare(renderersViewTest.child(renderersView, "emptyState").visible, false);
+        }
+
+        /**
+         * Tests that the empty state shows the searching variant while scanning.
+         */
+        function test_show_searching_while_scanning_without_renderers() {
+            emptyView.scanning = true;
+            const emptyState = renderersViewTest.child(emptyView, "emptyState");
+            renderersViewTest.compare(emptyState.visible, true);
+            renderersViewTest.compare(emptyState.busy, true);
+            renderersViewTest.compare(emptyState.title, "Searching…");
+            renderersViewTest.compare(emptyState.hint, "");
+        }
+
+        /**
+         * Tests that the empty state shows the not found variant when no scan is running.
+         */
+        function test_show_not_found_without_renderers() {
+            const emptyState = renderersViewTest.child(emptyView, "emptyState");
+            renderersViewTest.compare(emptyState.visible, true);
+            renderersViewTest.compare(emptyState.busy, false);
+            renderersViewTest.compare(emptyState.title, "No renderers found");
+            renderersViewTest.compare(emptyState.hint, "Make sure your speakers are switched on and on the same network");
+        }
+
+        /**
+         * Tests that the empty state disappears as soon as a Renderer appears.
+         */
+        function test_hide_the_empty_state_when_a_renderer_appears() {
+            emptyView.scanning = true;
+            const emptyState = renderersViewTest.child(emptyView, "emptyState");
+            renderersViewTest.compare(emptyState.visible, true);
+            noRenderers.append({
+                "name": "Kitchen",
+                "playbackState": Renderer.NoMedia,
+                "active": false
+            });
+            renderersViewTest.tryCompare(emptyState, "visible", false);
         }
     }
 }

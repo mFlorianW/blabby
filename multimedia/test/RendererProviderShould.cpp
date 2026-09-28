@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -56,6 +56,19 @@ void RendererProviderShould::inform_about_disconnectd_renderer()
     Q_EMIT sProvRaw->serviceDisconnected(usn);
     QCOMPARE(rendererDisconnectSpy.size(), 1);
     QCOMPARE_NE(rendererDisconnectSpy.at(0).at(0).value<std::shared_ptr<Renderer>>(), nullptr);
+}
+
+void RendererProviderShould::inform_about_the_end_of_a_discovery()
+{
+    auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
+    auto sProvRaw = sProv.get();
+    auto prov = RendererProvider{std::move(sProv)};
+    auto discoveryFinishedSpy = QSignalSpy{&prov, &RendererProvider::discoveryFinished};
+    prov.discover();
+
+    Q_EMIT sProvRaw->searchFinished();
+
+    QCOMPARE(discoveryFinishedSpy.size(), 1);
 }
 
 } // namespace Multimedia

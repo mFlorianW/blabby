@@ -23,7 +23,9 @@ MediaRendererModel::MediaRendererModel(std::unique_ptr<RendererProvider> provide
             &RendererProvider::rendererDisconnected,
             this,
             &MediaRendererModel::onRendererDisconnected);
+    connect(mProvider.get(), &RendererProvider::discoveryFinished, this, &MediaRendererModel::onDiscoveryFinished);
 
+    mScanning = true;
     mProvider->discover();
 }
 
@@ -93,6 +95,23 @@ void MediaRendererModel::activateRenderer(QModelIndex const& index)
     Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::Active)});
 }
 
+bool MediaRendererModel::isScanning() const noexcept
+{
+    return mScanning;
+}
+
+void MediaRendererModel::rescan()
+{
+    if (mScanning) {
+        return;
+    }
+
+    qCDebug(shell) << "Rescan the network for Renderers.";
+    mScanning = true;
+    Q_EMIT scanningChanged();
+    mProvider->discover();
+}
+
 void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const& renderer)
 {
     // upper_bound keeps Renderers with equal names in the order they appeared.
@@ -129,6 +148,16 @@ void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Rend
         mActiveRenderer = nullptr;
         Q_EMIT activeRendererChanged();
     }
+}
+
+void MediaRendererModel::onDiscoveryFinished()
+{
+    if (not mScanning) {
+        return;
+    }
+
+    mScanning = false;
+    Q_EMIT scanningChanged();
 }
 
 void MediaRendererModel::onRendererStateChanged(Multimedia::Renderer const* renderer)
