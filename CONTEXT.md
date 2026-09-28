@@ -60,6 +60,30 @@ _Avoid_: Status, transport state
 The Playable a Renderer is currently playing, paused or stopped on, as reported by the Renderer, no matter which controller started it. "Now Playing" is only the name of the screen that shows it.
 _Avoid_: Now playing (as a domain term), current song, current item
 
+**Queue**:
+The ordered list of Playables that Blabby plays one after another. There is exactly one Queue; it belongs to Blabby, not to a Renderer, and is always played on the Active Renderer.
+_Avoid_: Playlist, play queue, tracklist
+
+**Current Entry**:
+The Playable the Queue is on. Blabby remembers the last position it saw for it, even when another controller takes over the Renderer. It is not necessarily the Current Track: the Current Track is what the Renderer reports, the Current Entry is what the Queue wants played.
+_Avoid_: Current track (for the Queue), queue position
+
+**Queue State**:
+Whether the Queue is Running or Idle, independent of the Active Renderer's Playback State. A Running Queue stays Running when another controller takes over the Renderer; it becomes Idle when it ends, is cleared, the user pauses or stops it in Blabby, or the Active Renderer goes Offline. Starting an Idle Queue continues its Current Entry at the last known position.
+_Avoid_: Playing (for the Queue), active
+
+**Hand Over**:
+What happens to a Running Queue when the Active Renderer changes: the previous Renderer is stopped and the new one plays the Current Entry at its last known position, or from its start when the new Renderer cannot seek. An Idle Queue is not handed over; it waits for the user to start it.
+_Avoid_: Transfer, move, switch
+
+**Repeat**:
+How the Queue continues after its Current Entry finishes: Off, All (the Queue starts over after its last entry) or One (the Current Entry plays again). Repeat belongs to the Queue, not to a Renderer.
+_Avoid_: Loop, play mode
+
+**Shuffle**:
+Playing the Queue in a random order without changing the order in which its entries are listed. Shuffle belongs to the Queue, not to a Renderer.
+_Avoid_: Random, play mode
+
 **Volume**:
 The loudness of a Renderer's master channel.
 _Avoid_: Gain, level
