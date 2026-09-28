@@ -14,6 +14,10 @@ _Avoid_: Plugin (when meaning the domain concept), backend
 A named, browsable collection of Items offered by a Provider, such as a MediaServer on the network or a mounted USB stick.
 _Avoid_: Library, repository
 
+**Active Source**:
+The one Source whose Items the user is currently browsing. At most one Source is active at a time; there is none until the user picks one, and none again when the Active Source disappears.
+_Avoid_: Current source, selected source, open source
+
 **Item**:
 A single entry inside a Source, either a Container or a Playable.
 _Avoid_: Entry, element, track (for Containers)
