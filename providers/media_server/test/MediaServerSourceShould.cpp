@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -27,6 +27,19 @@ std::unique_ptr<UPnPAV::Doubles::MediaServer> createMediaServer()
         QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse());
     mediaServer->soapCall = soapCall;
     return mediaServer;
+}
+
+QString didlWithOneObject(QString const& element, QString const& typeClass)
+{
+    return QStringLiteral("&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; "
+                          "xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; "
+                          "xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;"
+                          "&lt;%1 id=&quot;1&quot; parentID=&quot;0&quot; restricted=&quot;1&quot;&gt;"
+                          "&lt;dc:title&gt;Object&lt;/dc:title&gt;"
+                          "&lt;upnp:class&gt;%2&lt;/upnp:class&gt;"
+                          "&lt;/%1&gt;"
+                          "&lt;/DIDL-Lite&gt;")
+        .arg(element, typeClass);
 }
 
 } // namespace
@@ -140,6 +153,49 @@ void SourceShould::give_a_default_icon_when_no_icon_is_set()
     auto const expIconUrl = QStringLiteral("qrc:/mediaserverprovider/icons/24x24/PC.svg");
 
     QCOMPARE(mediaServerSource.iconUrl(), expIconUrl);
+}
+
+void SourceShould::classify_objects_by_their_class_data()
+{
+    QTest::addColumn<QString>("element");
+    QTest::addColumn<QString>("typeClass");
+    QTest::addColumn<Multimedia::ItemType>("expectedType");
+
+    auto const container = QStringLiteral("container");
+    auto const item = QStringLiteral("item");
+    QTest::newRow("container") << container << QStringLiteral("object.container") << Multimedia::ItemType::Container;
+    QTest::newRow("storage folder") << container << QStringLiteral("object.container.storageFolder")
+                                    << Multimedia::ItemType::Container;
+    QTest::newRow("album") << container << QStringLiteral("object.container.album.musicAlbum")
+                           << Multimedia::ItemType::Container;
+    QTest::newRow("artist") << container << QStringLiteral("object.container.person.musicArtist")
+                            << Multimedia::ItemType::Container;
+    QTest::newRow("genre") << container << QStringLiteral("object.container.genre.musicGenre")
+                           << Multimedia::ItemType::Container;
+    QTest::newRow("playlist") << container << QStringLiteral("object.container.playlistContainer")
+                              << Multimedia::ItemType::Container;
+    QTest::newRow("music track") << item << QStringLiteral("object.item.audioItem.musicTrack")
+                                 << Multimedia::ItemType::Playable;
+    QTest::newRow("video") << item << QStringLiteral("object.item.videoItem.movie") << Multimedia::ItemType::Playable;
+    QTest::newRow("item mentioning a storage folder")
+        << item << QStringLiteral("object.item.storageFolder") << Multimedia::ItemType::Playable;
+}
+
+void SourceShould::classify_objects_by_their_class()
+{
+    QFETCH(QString, element);
+    QFETCH(QString, typeClass);
+    QFETCH(Multimedia::ItemType, expectedType);
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    mediaServer->soapCall->setRawMessage(
+        QString{UPnPAV::xmlResponse}.arg(didlWithOneObject(element, typeClass), "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).type(), expectedType);
 }
 
 } // namespace Provider::MediaServer
