@@ -13,16 +13,30 @@ using namespace Multimedia;
 namespace Shell
 {
 
+namespace
+{
+/**
+ * Online Renderers come before Offline ones, each ordered alphabetically by name.
+ */
+bool isOrderedBefore(Renderer const& lhs, Renderer const& rhs)
+{
+    if (lhs.availability() != rhs.availability()) {
+        return lhs.availability() == Renderer::Availability::Online;
+    }
+    return lhs.name().compare(rhs.name(), Qt::CaseInsensitive) < 0;
+}
+} // namespace
+
 MediaRendererModel::MediaRendererModel(std::unique_ptr<RendererProvider> provider)
     : mProvider{std::move(provider)}
 {
     Q_ASSERT(mProvider != nullptr);
 
+    for (auto const& renderer : mProvider->renderers()) {
+        addRenderer(renderer);
+    }
+
     connect(mProvider.get(), &RendererProvider::rendererConnected, this, &MediaRendererModel::onRendererConnected);
-    connect(mProvider.get(),
-            &RendererProvider::rendererDisconnected,
-            this,
-            &MediaRendererModel::onRendererDisconnected);
     connect(mProvider.get(), &RendererProvider::discoveryFinished, this, &MediaRendererModel::onDiscoveryFinished);
 
     mScanning = true;
@@ -46,6 +60,7 @@ QHash<int, QByteArray> MediaRendererModel::roleNames() const noexcept
         std::make_pair(static_cast<int>(DisplayRole::Manufacturer), QByteArray{"manufacturer"}),
         std::make_pair(static_cast<int>(DisplayRole::ModelName), QByteArray{"modelName"}),
         std::make_pair(static_cast<int>(DisplayRole::Address), QByteArray{"address"}),
+        std::make_pair(static_cast<int>(DisplayRole::Availability), QByteArray{"availability"}),
     };
     return roles;
 }
@@ -72,6 +87,8 @@ QVariant MediaRendererModel::data(QModelIndex const& index, int role) const noex
         return renderer->modelName();
     } else if (dispRole == DisplayRole::Address) {
         return renderer->address();
+    } else if (dispRole == DisplayRole::Availability) {
+        return static_cast<int>(renderer->availability());
     }
     return {};
 }
@@ -91,6 +108,11 @@ void MediaRendererModel::activateRenderer(QModelIndex const& index)
 
     auto const renderer = mRenderers.at(index.row());
     if (mActiveRenderer == renderer) {
+        return;
+    }
+
+    if (renderer->availability() == Renderer::Availability::Offline) {
+        qCWarning(shell) << "Failed to set active Renderer. Error: Renderer" << renderer->name() << "is Offline.";
         return;
     }
 
@@ -123,40 +145,29 @@ void MediaRendererModel::rescan()
 
 void MediaRendererModel::onRendererConnected(std::shared_ptr<Renderer> const& renderer)
 {
-    // upper_bound keeps Renderers with equal names in the order they appeared.
-    auto const pos = std::upper_bound(mRenderers.cbegin(),
-                                      mRenderers.cend(),
-                                      renderer,
-                                      [](std::shared_ptr<Renderer> const& lhs, std::shared_ptr<Renderer> const& rhs) {
-                                          return lhs->name().compare(rhs->name(), Qt::CaseInsensitive) < 0;
-                                      });
-    auto const newIndex = static_cast<int>(std::distance(mRenderers.cbegin(), pos));
-    beginInsertRows(QModelIndex{}, newIndex, newIndex);
-    mRenderers.insert(newIndex, renderer);
-    endInsertRows();
-
-    connect(renderer.get(), &Renderer::stateChanged, this, [this, rendererPtr = renderer.get()]() {
-        onRendererStateChanged(rendererPtr);
-    });
+    // A known Renderer that is discovered again is already listed and was moved on its Availability change.
+    if (not indexOf(renderer.get()).isValid()) {
+        addRenderer(renderer);
+    }
 }
 
-void MediaRendererModel::onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer)
+void MediaRendererModel::addRenderer(std::shared_ptr<Renderer> const& renderer)
 {
-    auto const idx = indexOf(renderer.get());
-    if (not idx.isValid()) {
-        return;
-    }
+    auto const newRow = sortedRow(renderer.get());
+    beginInsertRows(QModelIndex{}, newRow, newRow);
+    mRenderers.insert(newRow, renderer);
+    endInsertRows();
 
-    disconnect(renderer.get(), nullptr, this, nullptr);
-    beginRemoveRows(QModelIndex{}, idx.row(), idx.row());
-    mRenderers.remove(idx.row());
-    qCDebug(shell) << "Remove MediaRenderer index:" << idx.row() << "from renderers. Address:" << renderer.get();
-    endRemoveRows();
-
-    if (mActiveRenderer == renderer) {
-        mActiveRenderer = nullptr;
-        Q_EMIT activeRendererChanged();
-    }
+    auto* const rendererPtr = renderer.get();
+    connect(rendererPtr, &Renderer::stateChanged, this, [this, rendererPtr]() {
+        onRendererStateChanged(rendererPtr);
+    });
+    connect(rendererPtr, &Renderer::availabilityChanged, this, [this, rendererPtr]() {
+        onRendererChanged(rendererPtr);
+    });
+    connect(rendererPtr, &Renderer::detailsChanged, this, [this, rendererPtr]() {
+        onRendererChanged(rendererPtr);
+    });
 }
 
 void MediaRendererModel::onDiscoveryFinished()
@@ -174,6 +185,56 @@ void MediaRendererModel::onRendererStateChanged(Multimedia::Renderer const* rend
     auto const idx = indexOf(renderer);
     if (idx.isValid()) {
         Q_EMIT dataChanged(idx, idx, {static_cast<int>(DisplayRole::PlaybackState)});
+    }
+}
+
+void MediaRendererModel::onRendererChanged(Multimedia::Renderer const* renderer)
+{
+    auto const oldRow = indexOf(renderer).row();
+    if (oldRow < 0) {
+        return;
+    }
+
+    auto const newRow = sortedRow(renderer);
+    if (newRow != oldRow) {
+        // For moves downwards the destination is the row before which the moved row is placed in the old order.
+        beginMoveRows(QModelIndex{}, oldRow, oldRow, QModelIndex{}, newRow > oldRow ? newRow + 1 : newRow);
+        mRenderers.move(oldRow, newRow);
+        endMoveRows();
+    }
+
+    auto const idx = index(newRow);
+    Q_EMIT dataChanged(idx,
+                       idx,
+                       {static_cast<int>(DisplayRole::Name),
+                        static_cast<int>(DisplayRole::Manufacturer),
+                        static_cast<int>(DisplayRole::ModelName),
+                        static_cast<int>(DisplayRole::Address),
+                        static_cast<int>(DisplayRole::Availability)});
+
+    if (mActiveRenderer.get() == renderer and renderer->availability() == Renderer::Availability::Offline) {
+        clearActiveRenderer();
+    }
+}
+
+int MediaRendererModel::sortedRow(Multimedia::Renderer const* renderer) const noexcept
+{
+    // The Renderer goes behind all other Renderers that are ordered before or equally to it,
+    // so equally ordered Renderers stay in the order they appeared.
+    auto const row = std::count_if(mRenderers.cbegin(), mRenderers.cend(), [renderer](auto const& other) {
+        return other.get() != renderer and not isOrderedBefore(*renderer, *other);
+    });
+    return static_cast<int>(row);
+}
+
+void MediaRendererModel::clearActiveRenderer()
+{
+    auto const previousIndex = indexOf(mActiveRenderer.get());
+    mActiveRenderer = nullptr;
+    qCDebug(shell) << "Clear the Active Renderer.";
+    Q_EMIT activeRendererChanged();
+    if (previousIndex.isValid()) {
+        Q_EMIT dataChanged(previousIndex, previousIndex, {static_cast<int>(DisplayRole::Active)});
     }
 }
 

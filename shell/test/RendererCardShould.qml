@@ -6,6 +6,7 @@ import QtQuick
 import QtTest
 import Blabby.Objects
 import Blabby.Shell
+import Blabby.Theme
 
 Item {
     id: root
@@ -24,6 +25,7 @@ Item {
         when: windowShown
 
         function init() {
+            rendererCard.availability = Renderer.Online;
             rendererCard.playbackState = Renderer.NoMedia;
             rendererCard.manufacturer = "";
             rendererCard.modelName = "";
@@ -154,6 +156,40 @@ Item {
             rendererCardTest.compare(details.elide, Text.ElideRight);
             rendererCardTest.verify(details.truncated);
             rendererCardTest.verify(details.width <= rendererCard.width);
+        }
+
+        /**
+         * Tests that an Online card is enabled and not dimmed.
+         */
+        function test_be_enabled_when_online() {
+            rendererCardTest.compare(rendererCard.enabled, true);
+            rendererCardTest.compare(rendererCard.opacity, 1);
+        }
+
+        /**
+         * Tests that an Offline card shows Offline instead of the Playback State, is dimmed and disabled.
+         */
+        function test_show_offline_and_be_disabled_when_offline() {
+            rendererCard.playbackState = Renderer.Playing;
+            rendererCard.availability = Renderer.Offline;
+            const playbackState = rendererCardTest.findChild(rendererCard, "playbackState");
+            rendererCardTest.compare(playbackState.visible, true);
+            rendererCardTest.compare(playbackState.text, "Offline");
+            rendererCardTest.compare(playbackState.emphasis, false);
+            rendererCardTest.compare(playbackState.iconSource, "");
+            rendererCardTest.compare(rendererCard.enabled, false);
+            rendererCardTest.compare(rendererCard.opacity, Theme.disabledOpacity);
+        }
+
+        /**
+         * Tests that an Offline card keeps showing the last known details.
+         */
+        function test_show_the_last_known_details_when_offline() {
+            rendererCard.availability = Renderer.Offline;
+            rendererCard.address = "192.168.1.42";
+            const details = rendererCardTest.findChild(rendererCard, "details");
+            rendererCardTest.compare(details.visible, true);
+            rendererCardTest.compare(details.text, "192.168.1.42");
         }
 
         /**

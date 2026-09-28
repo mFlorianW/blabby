@@ -14,8 +14,8 @@ namespace Shell
 {
 
 /**
- * This model provides a list based access to all Online @ref Multimedia::Renderer on the network.
- * The rows are ordered alphabetically by the name of the @ref Multimedia::Renderer.
+ * This model provides a list based access to all known @ref Multimedia::Renderer, Online and Offline.
+ * The Online @ref Multimedia::Renderer come before the Offline ones, each ordered alphabetically by name.
  */
 class MediaRendererModel : public QAbstractListModel
 {
@@ -24,7 +24,7 @@ class MediaRendererModel : public QAbstractListModel
     /**
      * This property holds the Active Renderer, the @ref Multimedia::Renderer that is used for playback.
      * The Active Renderer is set via the @ref MediaRendererModel::activateRenderer and is nullptr
-     * until a @ref Multimedia::Renderer is activated or when the Active Renderer disconnects.
+     * until a @ref Multimedia::Renderer is activated or when the Active Renderer goes Offline.
      */
     Q_PROPERTY(std::shared_ptr<Multimedia::Renderer> activeRenderer READ activeRenderer NOTIFY activeRendererChanged)
 
@@ -63,13 +63,19 @@ public:
         ModelName,
         /**
          * The network address of the @ref Multimedia::Renderer, empty when it is unknown.
+         * The last known address for an Offline @ref Multimedia::Renderer.
          */
-        Address
+        Address,
+        /**
+         * The Availability of the @ref Multimedia::Renderer as integer value of @ref Multimedia::Renderer::Availability.
+         */
+        Availability,
     };
     Q_ENUM(DisplayRole)
 
     /**
      * Creates an instance of the @ref Shell::MediaRendererModel.
+     * The model starts with the known @ref Multimedia::Renderer of the provider.
      * @param provider The provider to handle connected and diconnected @ref Multimedia::Renderer.
      */
     MediaRendererModel(std::unique_ptr<Multimedia::RendererProvider> provider);
@@ -115,7 +121,7 @@ public:
      * Makes the @ref Multimedia::Renderer under the passed @ref QModelIndex the Active Renderer.
      * Active means in this case that the renderer is used for playback.
      * The playback of the previous Active Renderer is not touched.
-     * If the index is invalid or the @ref Multimedia::Renderer is already active nothing happens.
+     * If the index is invalid, the @ref Multimedia::Renderer is Offline or already active nothing happens.
      */
     Q_INVOKABLE void activateRenderer(QModelIndex const& index);
 
@@ -143,11 +149,14 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onRendererConnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
-    void onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
     void onDiscoveryFinished();
 
 private:
+    void addRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer);
     void onRendererStateChanged(Multimedia::Renderer const* renderer);
+    void onRendererChanged(Multimedia::Renderer const* renderer);
+    int sortedRow(Multimedia::Renderer const* renderer) const noexcept;
+    void clearActiveRenderer();
     QModelIndex indexOf(Multimedia::Renderer const* renderer) const noexcept;
 
     std::unique_ptr<Multimedia::RendererProvider> mProvider;

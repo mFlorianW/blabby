@@ -8,6 +8,7 @@
 
 #include "Item.hpp"
 #include "MediaRenderer.hpp"
+#include "RendererStore.hpp"
 #include "blabbymultimedia_export.h"
 #include <QObject>
 
@@ -47,10 +48,32 @@ public:
     Q_ENUM(State)
 
     /**
-     * Creates an instance of the Renderer
+     * Whether a @ref Multimedia::Renderer is currently reachable on the network.
+     */
+    enum class Availability
+    {
+        /**
+         * The @ref Multimedia::Renderer is reachable and can play.
+         */
+        Online,
+        /**
+         * The @ref Multimedia::Renderer is not reachable, only its last known details are known.
+         */
+        Offline,
+    };
+    Q_ENUM(Availability)
+
+    /**
+     * Creates an Online instance of the Renderer
      * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
      */
     Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer);
+
+    /**
+     * Creates an Offline instance of a remembered Renderer
+     * @param remembered The last known details of the @ref Multimedia::Renderer.
+     */
+    explicit Renderer(RememberedRenderer remembered);
 
     /**
      * Default destructor
@@ -97,6 +120,36 @@ public:
      * @return The address or an empty string when the address is unknown.
      */
     QString const& address() const noexcept;
+
+    /**
+     * Gives the details of the @ref Multimedia::Renderer that are remembered across restarts.
+     * @return The identity and the last known name, manufacturer, model name and address.
+     */
+    RememberedRenderer const& remembered() const noexcept;
+
+    /**
+     * Gives the Availability of the @ref Multimedia::Renderer.
+     * @return Online when the @ref Multimedia::Renderer is reachable, otherwise Offline.
+     */
+    Renderer::Availability availability() const noexcept;
+
+    /**
+     * Makes the @ref Multimedia::Renderer Online with the passed device, e.g. when it's discovered again.
+     * The details are refreshed from the device, the device must have the identity of the @ref Multimedia::Renderer.
+     * An initialized @ref Multimedia::Renderer is initialized again for the new device.
+     * The signals @ref Multimedia::Renderer::availabilityChanged and @ref Multimedia::Renderer::detailsChanged
+     * are emitted when the Availability or the details changed.
+     * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
+     */
+    void goOnline(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer);
+
+    /**
+     * Makes the @ref Multimedia::Renderer Offline, e.g. when it leaves the network.
+     * The last known details are kept, the Playback State becomes No Media, the volume 0 and all requests are ignored
+     * until the @ref Multimedia::Renderer is Online again.
+     * The signal @ref Multimedia::Renderer::availabilityChanged is emitted when the Availability changed.
+     */
+    void goOffline() noexcept;
 
     /**
      * Initializes the @ref Mulitmedia::Renderer.
@@ -182,6 +235,16 @@ Q_SIGNALS:
      */
     void volumeChanged();
 
+    /**
+     * This signal is emitted when the @ref Multimedia::Renderer goes Online or Offline.
+     */
+    void availabilityChanged();
+
+    /**
+     * This signal is emitted when the name, manufacturer, model name or address changed.
+     */
+    void detailsChanged();
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
@@ -190,8 +253,11 @@ private:
     bool isPlayableItem(Item const& item) const noexcept;
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
     void updateVolume(quint32 volume) noexcept;
+    void connectDevice() noexcept;
+    void dropDevice() noexcept;
 
 private:
+    RememberedRenderer mRemembered;
     std::unique_ptr<UPnPAV::MediaRenderer> mRenderer;
     std::unique_ptr<UPnPAV::PendingSoapCall> mProtoInfoCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetAvTransportUriCall;
@@ -204,6 +270,7 @@ private:
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;
     quint32 mVolume = 0;
+    bool mInitialized = false;
 };
 
 }; // namespace Multimedia

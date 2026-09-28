@@ -37,6 +37,27 @@ Item createUnplayableMediaItem()
         .build();
 }
 
+std::unique_ptr<MediaRendererDouble> createKitchenDevice(QString const& name = QStringLiteral("Kitchen"),
+                                                         QString const& address = QStringLiteral("192.168.1.42"))
+{
+    return std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(name,
+                                                                                QStringLiteral("Denon"),
+                                                                                QStringLiteral("HEOS 1"),
+                                                                                QStringLiteral("uuid:kitchen"),
+                                                                                address),
+                                                 QSharedPointer<SoapBackendDouble>::create(),
+                                                 QSharedPointer<Doubles::EventBackend>::create());
+}
+
+RememberedRenderer rememberedKitchen()
+{
+    return RememberedRenderer{.identity = QStringLiteral("uuid:kitchen"),
+                              .name = QStringLiteral("Old Kitchen"),
+                              .manufacturer = QStringLiteral("Denon"),
+                              .modelName = QStringLiteral("HEOS 1"),
+                              .address = QStringLiteral("192.168.1.10")};
+}
+
 } // namespace
 
 RendererShould::~RendererShould() = default;
@@ -309,6 +330,125 @@ void RendererShould::give_the_identity_manufacturer_model_and_address_of_the_ren
     QCOMPARE(renderer.manufacturer(), QStringLiteral("Denon"));
     QCOMPARE(renderer.modelName(), QStringLiteral("HEOS 1"));
     QCOMPARE(renderer.address(), QStringLiteral("192.168.1.42"));
+}
+
+void RendererShould::be_online_when_created_for_a_device()
+{
+    auto renderer = Renderer{createKitchenDevice()};
+
+    QCOMPARE(renderer.availability(), Renderer::Availability::Online);
+}
+
+void RendererShould::be_offline_with_the_remembered_details_when_created_from_a_remembered_renderer()
+{
+    auto renderer = Renderer{rememberedKitchen()};
+
+    QCOMPARE(renderer.availability(), Renderer::Availability::Offline);
+    QCOMPARE(renderer.remembered(), rememberedKitchen());
+    QCOMPARE(renderer.identity(), QStringLiteral("uuid:kitchen"));
+    QCOMPARE(renderer.name(), QStringLiteral("Old Kitchen"));
+    QCOMPARE(renderer.manufacturer(), QStringLiteral("Denon"));
+    QCOMPARE(renderer.modelName(), QStringLiteral("HEOS 1"));
+    QCOMPARE(renderer.address(), QStringLiteral("192.168.1.10"));
+}
+
+void RendererShould::go_online_with_the_refreshed_details_of_the_device()
+{
+    auto renderer = Renderer{rememberedKitchen()};
+    auto availabilityChangedSpy = QSignalSpy{&renderer, &Renderer::availabilityChanged};
+    auto detailsChangedSpy = QSignalSpy{&renderer, &Renderer::detailsChanged};
+
+    renderer.goOnline(createKitchenDevice(QStringLiteral("Kitchen"), QStringLiteral("192.168.1.42")));
+
+    QCOMPARE(renderer.availability(), Renderer::Availability::Online);
+    QCOMPARE(availabilityChangedSpy.size(), 1);
+    QCOMPARE(detailsChangedSpy.size(), 1);
+    QCOMPARE(renderer.name(), QStringLiteral("Kitchen"));
+    QCOMPARE(renderer.address(), QStringLiteral("192.168.1.42"));
+}
+
+void RendererShould::go_offline_and_keep_the_last_known_details()
+{
+    auto renderer = Renderer{createKitchenDevice()};
+    auto availabilityChangedSpy = QSignalSpy{&renderer, &Renderer::availabilityChanged};
+
+    renderer.goOffline();
+    renderer.goOffline();
+
+    QCOMPARE(renderer.availability(), Renderer::Availability::Offline);
+    QCOMPARE(availabilityChangedSpy.size(), 1);
+    QCOMPARE(renderer.name(), QStringLiteral("Kitchen"));
+    QCOMPARE(renderer.address(), QStringLiteral("192.168.1.42"));
+}
+
+void RendererShould::give_no_playback_state_while_offline()
+{
+    auto device = createKitchenDevice();
+    auto* deviceRaw = device.get();
+    auto renderer = Renderer{std::move(device)};
+    deviceRaw->setDeviceState(MediaDevice::State::Playing);
+    auto stateChangedSpy = QSignalSpy{&renderer, &Renderer::stateChanged};
+
+    renderer.goOffline();
+
+    QCOMPARE(renderer.state(), Renderer::State::NoMedia);
+    QCOMPARE(stateChangedSpy.size(), 1);
+}
+
+void RendererShould::ignore_playback_requests_while_offline()
+{
+    auto renderer = Renderer{rememberedKitchen()};
+    auto playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+
+    renderer.initialize();
+    renderer.playback(createPlayableMediaItem());
+    renderer.stop();
+    renderer.resume();
+    renderer.setVolume(25);
+
+    QCOMPARE(renderer.volume(), quint32{0});
+    QCOMPARE(renderer.iconUrl(), QString{});
+    QCOMPARE(playbackFailedSpy.size(), 1);
+}
+
+void RendererShould::initialize_again_when_an_initialized_renderer_goes_online_again()
+{
+    auto renderer = Renderer{createKitchenDevice()};
+    renderer.initialize();
+    renderer.goOffline();
+    auto device = createKitchenDevice();
+    auto* deviceRaw = device.get();
+
+    renderer.goOnline(std::move(device));
+
+    QCOMPARE(deviceRaw->isProtocolInfoCalled(), true);
+}
+
+void RendererShould::not_initialize_an_uninitialized_renderer_when_it_goes_online()
+{
+    auto renderer = Renderer{rememberedKitchen()};
+    auto device = createKitchenDevice();
+    auto* deviceRaw = device.get();
+
+    renderer.goOnline(std::move(device));
+
+    QCOMPARE(deviceRaw->isProtocolInfoCalled(), false);
+}
+
+void RendererShould::give_no_volume_while_offline()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    mUpnpRendererRaw->volumeCall()->setRawMessage(QString{ValidGetVolumeResponse});
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    renderer.initialize();
+    Q_EMIT mUpnpRendererRaw->volumeCall()->finished();
+    QCOMPARE_NE(renderer.volume(), quint32{0});
+    auto volumeChangedSpy = QSignalSpy{&renderer, &Renderer::volumeChanged};
+
+    renderer.goOffline();
+
+    QCOMPARE(renderer.volume(), quint32{0});
+    QCOMPARE(volumeChangedSpy.size(), 1);
 }
 
 } // namespace Multimedia

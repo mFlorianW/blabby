@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -118,6 +118,22 @@ void MediaPlayerShould::forwared_set_the_volume_to_the_used_renderer()
 
     QCOMPARE(mUpnpRenderer->isSetVolumeCalled(), true);
     QCOMPARE(mUpnpRenderer->setVolumeData().volume, 98);
+}
+
+void MediaPlayerShould::keep_other_connections_of_the_previous_renderer_when_switching_renderers()
+{
+    auto upnpRenderer = std::make_unique<MediaRendererDouble>(UPnPAV::validRendererDeviceDescription(),
+                                                              QSharedPointer<UPnPAV::SoapBackendDouble>::create(),
+                                                              QSharedPointer<UPnPAV::Doubles::EventBackend>::create());
+    auto* upnpRendererRaw = upnpRenderer.get();
+    auto const previousRenderer = std::make_shared<Renderer>(std::move(upnpRenderer));
+    mPlayer->setRenderer(previousRenderer);
+    auto stateChangedSpy = QSignalSpy{previousRenderer.get(), &Renderer::stateChanged};
+
+    mPlayer->setRenderer(nullptr);
+    upnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+
+    QCOMPARE(stateChangedSpy.size(), 1);
 }
 
 } // namespace Shell

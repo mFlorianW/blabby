@@ -23,6 +23,7 @@ Item {
             address: "192.168.1.40"
             playbackState: Renderer.NoMedia
             active: false
+            availability: Renderer.Online
         }
         ListElement {
             name: "Kitchen"
@@ -31,6 +32,7 @@ Item {
             address: "192.168.1.42"
             playbackState: Renderer.Playing
             active: true
+            availability: Renderer.Online
         }
         ListElement {
             name: "Living Room"
@@ -39,6 +41,16 @@ Item {
             address: "192.168.1.43"
             playbackState: Renderer.Stopped
             active: false
+            availability: Renderer.Online
+        }
+        ListElement {
+            name: "Attic"
+            manufacturer: ""
+            modelName: ""
+            address: "192.168.1.44"
+            playbackState: Renderer.NoMedia
+            active: false
+            availability: Renderer.Offline
         }
     }
 
@@ -164,6 +176,18 @@ Item {
         }
 
         /**
+         * Tests that the card of an Offline Renderer is disabled and tapping it emits no activated.
+         */
+        function test_not_activate_an_offline_renderer() {
+            const offlineCard = renderersViewTest.card(3);
+            renderersViewTest.compare(renderersViewTest.card(0).availability, Renderer.Online);
+            renderersViewTest.compare(offlineCard.availability, Renderer.Offline);
+            renderersViewTest.compare(offlineCard.enabled, false);
+            renderersViewTest.mouseClick(offlineCard);
+            renderersViewTest.compare(activatedSpy.count, 0);
+        }
+
+        /**
          * Tests that the rescan button emits rescanRequested and is busy while scanning.
          */
         function test_request_a_rescan_with_the_rescan_button() {
@@ -222,7 +246,8 @@ Item {
                 "modelName": "HEOS 1",
                 "address": "192.168.1.42",
                 "playbackState": Renderer.NoMedia,
-                "active": false
+                "active": false,
+                "availability": Renderer.Online
             });
             renderersViewTest.tryCompare(emptyState, "visible", false);
         }

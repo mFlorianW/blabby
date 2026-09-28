@@ -11,13 +11,24 @@
 namespace Multimedia
 {
 
-RendererProvider::RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> serviceProvider,
+RendererProvider::RendererProvider(std::shared_ptr<RendererStore> store,
+                                   std::unique_ptr<UPnPAV::IServiceProvider> serviceProvider,
                                    std::unique_ptr<UPnPAV::MediaRendererFactory> rendererFab)
-    : mSp{std::move(serviceProvider)}
+    : mStore{std::move(store)}
+    , mSp{std::move(serviceProvider)}
     , mRendererFab{std::move(rendererFab)}
 {
+    Q_ASSERT(mStore != nullptr);
     Q_ASSERT(mSp != nullptr);
     Q_ASSERT(mRendererFab != nullptr);
+
+    auto const rememberedRenderers = mStore->load();
+    for (auto const& remembered : rememberedRenderers) {
+        if (knownRenderer(remembered.identity) == nullptr) {
+            mRenderers.append(std::make_shared<Renderer>(remembered));
+        }
+    }
+
     mSp->setSearchTarget(QStringLiteral("urn:schemas-upnp-org:device:MediaRenderer:1"));
 
     connect(mSp.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &RendererProvider::onRendererDiscovered);
@@ -32,13 +43,30 @@ void RendererProvider::discover()
     mSp->startSearch();
 }
 
+QList<std::shared_ptr<Renderer>> const& RendererProvider::renderers() const noexcept
+{
+    return mRenderers;
+}
+
 void RendererProvider::onRendererDiscovered(QString const& usn) noexcept
 {
     try {
         auto const desc = mSp->rootDeviceDescription(usn);
         auto upnpRenderer = mRendererFab->create(desc);
-        auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
-        mRenderers.insert(usn, renderer);
+        auto renderer = knownRenderer(upnpRenderer->udn());
+        auto changed = true;
+        if (renderer != nullptr) {
+            auto const previous = renderer->remembered();
+            renderer->goOnline(std::move(upnpRenderer));
+            changed = renderer->remembered() != previous;
+        } else {
+            renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
+            mRenderers.append(renderer);
+        }
+        mOnlineRenderers.insert(usn, renderer);
+        if (changed) {
+            saveKnownRenderers();
+        }
         Q_EMIT rendererConnected(renderer);
     } catch (UPnPAV::InvalidDeviceDescription const& exception) {
         qCCritical(mmRenderer) << "Failed to create Renderer. Error:" << exception.what();
@@ -47,11 +75,29 @@ void RendererProvider::onRendererDiscovered(QString const& usn) noexcept
 
 void RendererProvider::onRendererDisconnected(QString const& usn) noexcept
 {
-    if (mRenderers.contains(usn)) {
-        auto const renderer = mRenderers.value(usn);
-        mRenderers.remove(usn);
+    auto const renderer = mOnlineRenderers.take(usn);
+    if (renderer != nullptr) {
+        renderer->goOffline();
         Q_EMIT rendererDisconnected(renderer);
     }
+}
+
+std::shared_ptr<Renderer> RendererProvider::knownRenderer(QString const& identity) const noexcept
+{
+    auto const iter = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [&identity](auto const& renderer) {
+        return renderer->identity() == identity;
+    });
+    return iter != mRenderers.cend() ? *iter : nullptr;
+}
+
+void RendererProvider::saveKnownRenderers() noexcept
+{
+    auto remembered = QList<RememberedRenderer>{};
+    remembered.reserve(mRenderers.size());
+    for (auto const& renderer : std::as_const(mRenderers)) {
+        remembered.append(renderer->remembered());
+    }
+    mStore->save(remembered);
 }
 
 } // namespace Multimedia

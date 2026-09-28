@@ -18,13 +18,131 @@ namespace Multimedia
 namespace
 {
 constexpr auto defaultInstanceId = quint32{0};
+
+RememberedRenderer rememberedOf(UPnPAV::MediaRenderer const& device)
+{
+    return RememberedRenderer{.identity = device.udn(),
+                              .name = device.name(),
+                              .manufacturer = device.manufacturer(),
+                              .modelName = device.modelName(),
+                              .address = device.address()};
 }
+} // namespace
 
 Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
     : mRenderer{std::move(mediaRenderer)}
 {
     Q_ASSERT(mRenderer != nullptr);
+    mRemembered = rememberedOf(*mRenderer);
+    connectDevice();
+}
 
+Renderer::Renderer(RememberedRenderer remembered)
+    : mRemembered{std::move(remembered)}
+{
+}
+
+Renderer::~Renderer() = default;
+
+QString const& Renderer::name() const noexcept
+{
+    return mRemembered.name;
+}
+
+QString Renderer::iconUrl() const noexcept
+{
+    if (mRenderer == nullptr) {
+        return {};
+    }
+    return mRenderer->iconUrl().toString();
+}
+
+QString const& Renderer::identity() const noexcept
+{
+    return mRemembered.identity;
+}
+
+QString const& Renderer::manufacturer() const noexcept
+{
+    return mRemembered.manufacturer;
+}
+
+QString const& Renderer::modelName() const noexcept
+{
+    return mRemembered.modelName;
+}
+
+QString const& Renderer::address() const noexcept
+{
+    return mRemembered.address;
+}
+
+RememberedRenderer const& Renderer::remembered() const noexcept
+{
+    return mRemembered;
+}
+
+Renderer::Availability Renderer::availability() const noexcept
+{
+    return mRenderer != nullptr ? Availability::Online : Availability::Offline;
+}
+
+void Renderer::goOnline(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
+{
+    Q_ASSERT(mediaRenderer != nullptr);
+    Q_ASSERT(mediaRenderer->udn() == mRemembered.identity);
+
+    auto const wasOffline = availability() == Availability::Offline;
+    auto const remembered = rememberedOf(*mediaRenderer);
+    dropDevice();
+    mRenderer = std::move(mediaRenderer);
+    connectDevice();
+    setState(mRenderer->state());
+    if (mInitialized) {
+        initialize();
+    }
+
+    if (wasOffline) {
+        Q_EMIT availabilityChanged();
+    }
+    if (mRemembered != remembered) {
+        mRemembered = remembered;
+        Q_EMIT detailsChanged();
+    }
+}
+
+void Renderer::goOffline() noexcept
+{
+    if (mRenderer == nullptr) {
+        return;
+    }
+
+    dropDevice();
+    Q_EMIT availabilityChanged();
+    updateVolume(0);
+
+    if (mState != State::NoMedia) {
+        mState = State::NoMedia;
+        Q_EMIT stateChanged();
+    }
+}
+
+void Renderer::dropDevice() noexcept
+{
+    // The pending calls are dropped before the device they belong to.
+    mProtoInfoCall.reset();
+    mSetAvTransportUriCall.reset();
+    mPlayCall.reset();
+    mStopCall.reset();
+    mResumeCall.reset();
+    mVolumeCall.reset();
+    mSetVolumeCall.reset();
+    mRenderer.reset();
+    mProtocols.clear();
+}
+
+void Renderer::connectDevice() noexcept
+{
     connect(mRenderer.get(), &MediaRenderer::stateChanged, this, [this]() {
         setState(mRenderer->state());
     });
@@ -34,40 +152,15 @@ Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
     });
 }
 
-Renderer::~Renderer() = default;
-
-QString const& Renderer::name() const noexcept
-{
-    return mRenderer->name();
-}
-
-QString Renderer::iconUrl() const noexcept
-{
-    return mRenderer->iconUrl().toString();
-}
-
-QString const& Renderer::identity() const noexcept
-{
-    return mRenderer->udn();
-}
-
-QString const& Renderer::manufacturer() const noexcept
-{
-    return mRenderer->manufacturer();
-}
-
-QString const& Renderer::modelName() const noexcept
-{
-    return mRenderer->modelName();
-}
-
-QString const& Renderer::address() const noexcept
-{
-    return mRenderer->address();
-}
-
 void Renderer::initialize() noexcept
 {
+    if (mRenderer == nullptr) {
+        qCWarning(mmRenderer) << "Failed to initialize Renderer" << mRemembered.name << "Error: it is Offline";
+        return;
+    }
+
+    mInitialized = true;
+
     mProtoInfoCall = mRenderer->protocolInfo();
     connect(mProtoInfoCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
         if (mProtoInfoCall->hasError()) {
@@ -98,6 +191,11 @@ void Renderer::initialize() noexcept
 
 void Renderer::playback(Item const& item) noexcept
 {
+    if (mRenderer == nullptr) {
+        Q_EMIT playbackFailed(QStringLiteral("The Renderer is Offline."));
+        return;
+    }
+
     if (not isPlayableItem(item)) {
         Q_EMIT playbackFailed(QString("Unsupported item passed. Now fitting protocol found."));
         return;
@@ -152,6 +250,11 @@ void Renderer::onPlayCallFinished() noexcept
 
 void Renderer::stop() noexcept
 {
+    if (mRenderer == nullptr) {
+        qCWarning(mmRenderer) << "Stop call is not possible. Error: Renderer is Offline";
+        return;
+    }
+
     if (not mRenderer->hasAvTransportService()) {
         qCCritical(mmRenderer) << "Stop call is not possible. Error: Renderer doesn't have AvTransport service";
         return;
@@ -174,7 +277,7 @@ void Renderer::stop() noexcept
 
 void Renderer::resume() noexcept
 {
-    if (mState == State::Stopped or mState == State::Paused) {
+    if (mRenderer != nullptr and (mState == State::Stopped or mState == State::Paused)) {
         auto resumeCall = mRenderer->play(0);
         if (resumeCall.has_value()) {
             mResumeCall = std::move(resumeCall.value());
@@ -194,6 +297,11 @@ quint32 Renderer::volume() const noexcept
 
 void Renderer::setVolume(quint32 volume) noexcept
 {
+    if (mRenderer == nullptr) {
+        qCWarning(mmRenderer) << "Failed to set volume. Error: Renderer is Offline";
+        return;
+    }
+
     auto call = mRenderer->setVolume(0, "Master", volume);
     if (call.has_value()) {
         mSetVolumeCall = std::move(call.value());

@@ -6,6 +6,7 @@
 
 #include "RendererProviderShould.hpp"
 #include "Descriptions.hpp"
+#include "InMemoryRendererStore.hpp"
 #include "RendererProvider.hpp"
 #include "ServiceProviderDouble.hpp"
 #include <QSignalSpy>
@@ -20,7 +21,7 @@ void RendererProviderShould::send_find_request_for_media_renderer_on_discover()
 {
     auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
     auto sProvRaw = sProv.get();
-    auto prov = RendererProvider{std::move(sProv)};
+    auto prov = RendererProvider{std::make_shared<TestHelper::InMemoryRendererStore>(), std::move(sProv)};
 
     prov.discover();
 
@@ -34,7 +35,7 @@ void RendererProviderShould::inform_about_connected_renderer_and_give_the_render
     auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
     sProv->addDeviceDescription(usn, UPnPAV::validRendererDeviceDescription());
     auto sProvRaw = sProv.get();
-    auto prov = RendererProvider{std::move(sProv)};
+    auto prov = RendererProvider{std::make_shared<TestHelper::InMemoryRendererStore>(), std::move(sProv)};
     auto rendererConnectSpy = QSignalSpy{&prov, &RendererProvider::rendererConnected};
 
     Q_EMIT sProvRaw->serviceConnected(usn);
@@ -49,7 +50,7 @@ void RendererProviderShould::inform_about_disconnectd_renderer()
     auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
     sProv->addDeviceDescription(usn, UPnPAV::validRendererDeviceDescription());
     auto sProvRaw = sProv.get();
-    auto prov = RendererProvider{std::move(sProv)};
+    auto prov = RendererProvider{std::make_shared<TestHelper::InMemoryRendererStore>(), std::move(sProv)};
     auto rendererDisconnectSpy = QSignalSpy{&prov, &RendererProvider::rendererDisconnected};
 
     Q_EMIT sProvRaw->serviceConnected(usn);
@@ -62,13 +63,40 @@ void RendererProviderShould::inform_about_the_end_of_a_discovery()
 {
     auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
     auto sProvRaw = sProv.get();
-    auto prov = RendererProvider{std::move(sProv)};
+    auto prov = RendererProvider{std::make_shared<TestHelper::InMemoryRendererStore>(), std::move(sProv)};
     auto discoveryFinishedSpy = QSignalSpy{&prov, &RendererProvider::discoveryFinished};
     prov.discover();
 
     Q_EMIT sProvRaw->searchFinished();
 
     QCOMPARE(discoveryFinishedSpy.size(), 1);
+}
+
+void RendererProviderShould::save_the_remembered_renderers_only_when_they_changed()
+{
+    auto const usn = QStringLiteral("uuid:kitchen");
+    auto store = std::make_shared<TestHelper::InMemoryRendererStore>();
+    auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
+    sProv->addDeviceDescription(usn,
+                                UPnPAV::validRendererDeviceDescription(
+                                    QStringLiteral("Kitchen"), QString{}, QString{}, usn, QStringLiteral("192.168.1.42")));
+    auto* sProvRaw = sProv.get();
+    auto prov = RendererProvider{store, std::move(sProv)};
+
+    Q_EMIT sProvRaw->serviceConnected(usn);
+    QCOMPARE(store->saveCount(), 1);
+
+    Q_EMIT sProvRaw->serviceDisconnected(usn);
+    Q_EMIT sProvRaw->serviceConnected(usn);
+    QCOMPARE(store->saveCount(), 1);
+
+    sProvRaw->addDeviceDescription(usn,
+                                   UPnPAV::validRendererDeviceDescription(
+                                       QStringLiteral("Kitchen"), QString{}, QString{}, usn, QStringLiteral("192.168.1.43")));
+    Q_EMIT sProvRaw->serviceDisconnected(usn);
+    Q_EMIT sProvRaw->serviceConnected(usn);
+    QCOMPARE(store->saveCount(), 2);
+    QCOMPARE(store->load().at(0).address, QStringLiteral("192.168.1.43"));
 }
 
 } // namespace Multimedia
