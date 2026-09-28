@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -12,11 +12,12 @@ namespace Multimedia
 {
 
 RendererProvider::RendererProvider(std::unique_ptr<UPnPAV::IServiceProvider> serviceProvider,
-                                   UPnPAV::MediaRendererFactory mRendererFab)
+                                   std::unique_ptr<UPnPAV::MediaRendererFactory> rendererFab)
     : mSp{std::move(serviceProvider)}
-    , mRendererFab{std::move(mRendererFab)}
+    , mRendererFab{std::move(rendererFab)}
 {
-    Q_ASSERT(serviceProvider == nullptr);
+    Q_ASSERT(mSp != nullptr);
+    Q_ASSERT(mRendererFab != nullptr);
     mSp->setSearchTarget(QStringLiteral("urn:schemas-upnp-org:device:MediaRenderer:1"));
 
     connect(mSp.get(), &UPnPAV::IServiceProvider::serviceConnected, this, &RendererProvider::onRendererDiscovered);
@@ -34,7 +35,7 @@ void RendererProvider::onRendererDiscovered(QString const& usn) noexcept
 {
     try {
         auto const desc = mSp->rootDeviceDescription(usn);
-        auto upnpRenderer = mRendererFab.create(desc);
+        auto upnpRenderer = mRendererFab->create(desc);
         auto renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
         mRenderers.insert(usn, renderer);
         Q_EMIT rendererConnected(renderer);

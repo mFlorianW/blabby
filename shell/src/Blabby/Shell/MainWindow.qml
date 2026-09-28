@@ -8,6 +8,7 @@ import QtQuick
 import QtQuick.Layouts
 import Blabby.Shell
 import Blabby.Controls
+import Blabby.Singleton
 import Blabby.Theme
 
 Rectangle {
@@ -37,6 +38,8 @@ Rectangle {
 
         RenderersView {
             id: renderersView
+            model: Singleton.mediaRendererModel
+            onActivated: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
         }
     }
 }

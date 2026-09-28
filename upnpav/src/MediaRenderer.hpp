@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -117,7 +117,7 @@ public:
      *         required functions and state variables.
      * @return The freestore allocated @ref UPnPAV::MediaRenderer
      */
-    std::unique_ptr<MediaRenderer> create(DeviceDescription const& desc);
+    virtual std::unique_ptr<MediaRenderer> create(DeviceDescription const& desc);
 };
 
 } // namespace UPnPAV

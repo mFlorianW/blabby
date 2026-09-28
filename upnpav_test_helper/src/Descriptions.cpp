@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -391,7 +391,7 @@ ServiceDescription scpdUrlMissingInRenderingControlDescription() noexcept
     {
         QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
         QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
-        QStringLiteral(""),
+        QString(),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
         QStringLiteral("http://127.0.0.1/test/eventUrl")
     };
@@ -408,7 +408,7 @@ ServiceDescription eventUrlMissingInRenderingControlDescription() noexcept
         QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
         QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
-        QStringLiteral("")
+        QString()
     };
     // clang-format on
     return desc;
@@ -423,7 +423,7 @@ ServiceDescription controlUrlMissingInRenderingControlDescription() noexcept
         QStringLiteral("urn:upnp-org:serviceId:RenderingControl"),
         QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
-        QStringLiteral("")
+        QString()
     };
     // clang-format on
     return desc;
@@ -435,7 +435,7 @@ ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
     static auto const desc = ServiceDescription
     {
         QStringLiteral("urn:schemas-upnp-org:service:RenderingControl:1"),
-        QStringLiteral(""),
+        QString(),
         QStringLiteral("http://127.0.0.1/RenderingControl.xml"),
         QStringLiteral("http://127.0.0.1/test/controlUrl"),
         QStringLiteral("http://127.0.0.1/test/eventUrl")
@@ -445,10 +445,10 @@ ServiceDescription serviceUrlMissingInRenderingControlDescription() noexcept
     return desc;
 }
 
-DeviceDescription validRendererDeviceDescription() noexcept
+DeviceDescription validRendererDeviceDescription(QString const& friendlyName) noexcept
 {
     return DeviceDescription{QString(""),
-                             QStringLiteral("MediaRenderer"),
+                             friendlyName,
                              QString(""),
                              QString(""),
                              QString(""),

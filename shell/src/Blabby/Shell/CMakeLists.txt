@@ -7,6 +7,7 @@ qt_add_qml_module(${PROJECT_NAME}
     STATIC
     QML_FILES
         MainWindow.qml
+        RendererCard.qml
         RenderersView.qml
     RESOURCES
         ../../icons/24x24/folder.svg

@@ -54,6 +54,11 @@ QtObject {
     }
 
     /**
+     * Opacity of a disabled control.
+     */
+    readonly property real disabledOpacity: 0.38
+
+    /**
      * Material 3 type scale.
      */
     readonly property QtObject fonts: QtObject {
