@@ -98,3 +98,18 @@ target_link_libraries(test_multimedia_renderer
     Blabby::UPnPAVTestHelper
 )
 add_test(test_multimedia_renderer ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_renderer)
+
+###############################################################################
+# Test JsonRendererStore
+###############################################################################
+add_executable(test_multimedia_jsonrendererstore)
+target_sources(test_multimedia_jsonrendererstore
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonRendererStoreShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonRendererStoreShould.hpp
+)
+target_link_libraries(test_multimedia_jsonrendererstore
+    Qt6::Test
+    Blabby::Multimedia
+)
+add_test(test_multimedia_jsonrendererstore ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_jsonrendererstore)
