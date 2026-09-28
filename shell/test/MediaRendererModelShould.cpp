@@ -276,6 +276,45 @@ void MediaRendererModelShould::keep_the_active_renderer_when_another_renderer_di
     QCOMPARE(isActive(0), true);
 }
 
+void MediaRendererModelShould::be_scanning_after_start_until_the_discovery_is_finished()
+{
+    auto scanningChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::scanningChanged};
+    QCOMPARE(mModel->property("scanning").toBool(), true);
+
+    Q_EMIT mServiceProvider->searchFinished();
+
+    QCOMPARE(mModel->isScanning(), false);
+    QCOMPARE(scanningChangedSpy.size(), 1);
+}
+
+void MediaRendererModelShould::start_a_new_discovery_on_rescan()
+{
+    Q_EMIT mServiceProvider->searchFinished();
+    auto scanningChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::scanningChanged};
+
+    mModel->rescan();
+
+    QCOMPARE(mServiceProvider->searchCount(), 2);
+    QCOMPARE(mModel->isScanning(), true);
+    QCOMPARE(scanningChangedSpy.size(), 1);
+
+    Q_EMIT mServiceProvider->searchFinished();
+
+    QCOMPARE(mModel->isScanning(), false);
+    QCOMPARE(scanningChangedSpy.size(), 2);
+}
+
+void MediaRendererModelShould::ignore_a_rescan_while_scanning()
+{
+    auto scanningChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::scanningChanged};
+
+    mModel->rescan();
+
+    QCOMPARE(mServiceProvider->searchCount(), 1);
+    QCOMPARE(mModel->isScanning(), true);
+    QCOMPARE(scanningChangedSpy.size(), 0);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaRendererModelShould)

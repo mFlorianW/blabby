@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -24,7 +24,7 @@ void ServiceProviderDouble::setSearchTarget(QString const& searchTarget) noexcep
 
 void ServiceProviderDouble::startSearch() const noexcept
 {
-    mSearchRequested = true;
+    ++mSearchCount;
 }
 
 UPnPAV::DeviceDescription ServiceProviderDouble::rootDeviceDescription(QString const& usn) const noexcept
@@ -47,7 +47,12 @@ QString const& ServiceProviderDouble::searchTarget() const noexcept
 
 bool ServiceProviderDouble::isSearchTriggered() const noexcept
 {
-    return mSearchRequested;
+    return mSearchCount > 0;
+}
+
+int ServiceProviderDouble::searchCount() const noexcept
+{
+    return mSearchCount;
 }
 
 std::unique_ptr<UPnPAV::IServiceProvider> ServiceProviderFactory::createServiceProvider(QString const& searchTarget)

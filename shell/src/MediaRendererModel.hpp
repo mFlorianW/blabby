@@ -28,6 +28,13 @@ class MediaRendererModel : public QAbstractListModel
      */
     Q_PROPERTY(std::shared_ptr<Multimedia::Renderer> activeRenderer READ activeRenderer NOTIFY activeRendererChanged)
 
+    /**
+     * This property is true while a discovery of @ref Multimedia::Renderer on the network is running.
+     * A discovery is started on creation and by @ref MediaRendererModel::rescan and ends when the
+     * @ref Multimedia::Renderer on the network had the time to answer it.
+     */
+    Q_PROPERTY(bool scanning READ isScanning NOTIFY scanningChanged)
+
 public:
     /**
      * DisplayRole definitions for the UI
@@ -100,15 +107,32 @@ public:
      */
     Q_INVOKABLE void activateRenderer(QModelIndex const& index);
 
+    /**
+     * Gives true while a discovery of @ref Multimedia::Renderer is running.
+     */
+    bool isScanning() const noexcept;
+
+    /**
+     * Starts a new discovery of @ref Multimedia::Renderer on the network.
+     * Nothing happens while a discovery is already running.
+     */
+    Q_INVOKABLE void rescan();
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
      */
     void activeRendererChanged();
 
+    /**
+     * This signal is emitted when a discovery starts or ends.
+     */
+    void scanningChanged();
+
 private Q_SLOTS:
     void onRendererConnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
     void onRendererDisconnected(std::shared_ptr<Multimedia::Renderer> const& renderer);
+    void onDiscoveryFinished();
 
 private:
     void onRendererStateChanged(Multimedia::Renderer const* renderer);
@@ -117,6 +141,7 @@ private:
     std::unique_ptr<Multimedia::RendererProvider> mProvider;
     QVector<std::shared_ptr<Multimedia::Renderer>> mRenderers;
     std::shared_ptr<Multimedia::Renderer> mActiveRenderer = nullptr;
+    bool mScanning = false;
 };
 
 } // namespace Shell
