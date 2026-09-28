@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -21,12 +21,14 @@ DeviceDescription::DeviceDescription(QString deviceType,
                                      QString udn,
                                      QVector<IconDescription> icons,
                                      QVector<ServiceDescription> services,
-                                     QVector<ServiceControlPointDefinition> scpds)
+                                     QVector<ServiceControlPointDefinition> scpds,
+                                     QString address)
     : m_deviceType(std::move(deviceType))
     , m_friendlyName(std::move(friendlyName))
     , m_manufacturer(std::move(manufacturer))
     , m_modelName(std::move(modelName))
     , m_udn(std::move(udn))
+    , m_address(std::move(address))
     , m_icons(std::move(icons))
     , m_services(std::move(services))
     , m_scpds(std::move(scpds))
@@ -61,6 +63,11 @@ QString const& DeviceDescription::modelName() const noexcept
 QString const& DeviceDescription::udn() const noexcept
 {
     return m_udn;
+}
+
+QString const& DeviceDescription::address() const noexcept
+{
+    return m_address;
 }
 
 std::optional<ServiceDescription> DeviceDescription::service(QString const& serviceName) const noexcept

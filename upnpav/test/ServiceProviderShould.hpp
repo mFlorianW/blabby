@@ -172,6 +172,23 @@ private Q_SLOTS:
     void parse_devices_description_with_services();
 
     /**
+     * @test The ServiceProvider should derive the address of a device from the location of its
+     * device description.
+     */
+    void derive_the_device_address_from_the_description_location();
+
+    /**
+     * @test The ServiceProvider should keep the address of a device when the service control point
+     * definitions of its services are fetched.
+     */
+    void keep_the_device_address_after_fetching_the_service_definitions();
+
+    /**
+     * @test The ServiceProvider should give embedded devices the address of the description location.
+     */
+    void derive_the_address_of_an_embedded_device_from_the_description_location();
+
+    /**
      * @test The ServiceProvider should repot an error when the received xml
      * can't be parsed entirely.
      */

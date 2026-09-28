@@ -293,7 +293,8 @@ void ServiceProvider::handleFetchSCPDDescription(QString const& scpdDescription,
                                             foundIter.value().deviceDescriptions.udn(),
                                             foundIter.value().deviceDescriptions.icons(),
                                             foundIter.value().deviceDescriptions.services(),
-                                            foundIter.value().scpds};
+                                            foundIter.value().scpds,
+                                            foundIter.value().deviceDescriptions.address()};
 
         qCDebug(upnpavService) << "Service with unique device name:" << deviceDescription.udn() << "connected.";
         m_deviceDescriptions.insert(deviceDescription.udn(), deviceDescription);
