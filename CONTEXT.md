@@ -56,9 +56,17 @@ _Avoid_: Selected renderer, current renderer, output, target
 The current condition of a Renderer: No Media, Stopped, Playing or Paused.
 _Avoid_: Status, transport state
 
+**Current Track**:
+The Playable a Renderer is currently playing, paused or stopped on, as reported by the Renderer, no matter which controller started it. "Now Playing" is only the name of the screen that shows it.
+_Avoid_: Now playing (as a domain term), current song, current item
+
 **Volume**:
 The loudness of a Renderer's master channel.
 _Avoid_: Gain, level
+
+**Mute**:
+Whether a Renderer's master channel is silenced, independent of its Volume.
+_Avoid_: Silence, volume zero
 
 ### UPnP AV
 
