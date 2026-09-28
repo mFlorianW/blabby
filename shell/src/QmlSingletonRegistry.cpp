@@ -46,7 +46,7 @@ QObject* QmlSingletonRegistry::createQmlRegistry(QQmlEngine* engine, QJSEngine* 
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    return new QmlSingletonRegistry{};
+    return new QmlSingletonRegistry{}; // NOLINT cppcoreguidelines-owning-memory
 }
 
 } // namespace Shell
