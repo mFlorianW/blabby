@@ -5,6 +5,20 @@ SPDX-License-Identifier: GPL-2.0-or-later
 -->
 # Agent instructions
 
+## Building and testing
+Build and test through the CMake presets in `CMakePresets.json`, not with ad-hoc `cmake -S/-B` calls:
+
+```sh
+cmake --preset debug
+cmake --build --preset debug
+QT_QPA_PLATFORM=offscreen ctest --preset test          # or: ... ctest --preset test -R <test>
+```
+
+Use the `github-ci-debug` / `github-test` presets to reproduce CI.
+
+Run everything that opens a UI (the QML tests, the shell app) headless with `QT_QPA_PLATFORM=offscreen`, so no
+windows show up on the developer's desktop.
+
 ## Finishing a ticket
 When implementing a GitHub issue (e.g. via /implement):
 
