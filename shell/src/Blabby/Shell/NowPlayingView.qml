@@ -13,7 +13,8 @@ import Blabby.Theme
  * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
  * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
  * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
- * toast tells so.
+ * toast tells so. A large Play/Pause button pauses, or stops a Renderer that can't pause, and resumes or plays; it
+ * shows a busy ring while the Renderer is transitioning. Failed control calls are told in a toast.
  */
 Item {
     id: nowPlayingView
@@ -64,6 +65,21 @@ Item {
     property string trackFormat
 
     /**
+     * True when the Active Renderer can pause, otherwise the Play/Pause button stops it.
+     */
+    property bool canPause: true
+
+    /**
+     * True while the Active Renderer is transitioning, e.g. loading or buffering.
+     */
+    property bool transitioning: false
+
+    /**
+     * True while the Active Renderer is Playing.
+     */
+    readonly property bool playing: nowPlayingView.playbackState === Renderer.Playing
+
+    /**
      * True while the Current Track is shown, i.e. the Active Renderer has media.
      */
     readonly property bool showsTrack: nowPlayingView.hasActiveRenderer && nowPlayingView.playbackState !== Renderer.NoMedia
@@ -72,6 +88,25 @@ Item {
      * This signal is emitted when the user asks to choose the Active Renderer.
      */
     signal chooseRendererRequested
+
+    /**
+     * This signal is emitted when the user asks to pause, stop, resume or play the Active Renderer.
+     */
+    signal togglePlaybackRequested
+
+    /**
+     * Tells the user in a toast that a control call to the Renderer with the name failed.
+     * @param action The action of the failed call, a value of Renderer.Action.
+     */
+    function showControlFailed(rendererName: string, action: int) {
+        const messages = {
+            [Renderer.Play]: qsTr("Couldn't play %1"),
+            [Renderer.Resume]: qsTr("Couldn't resume %1"),
+            [Renderer.Pause]: qsTr("Couldn't pause %1"),
+            [Renderer.Stop]: qsTr("Couldn't stop %1")
+        };
+        toast.show(messages[action].arg(rendererName));
+    }
 
     /**
      * Tells the user in a toast that the Active Renderer with the name went Offline.
@@ -208,6 +243,65 @@ Item {
                 color: Theme.colors.colorOnSurfaceVariant
                 textStyle: Theme.fonts.bodyLarge
                 visible: albumAndYear.text !== ""
+            }
+
+            Item {
+                id: controlsSpacing
+                width: details.width
+                height: 20
+            }
+
+            AbstractInteractiveControl {
+                id: playPauseButton
+                objectName: "playPauseButton"
+                width: 128
+                height: 96
+                onClicked: nowPlayingView.togglePlaybackRequested()
+
+                Rectangle {
+                    id: playPauseContainer
+                    objectName: "container"
+                    anchors.fill: playPauseButton
+                    // The button is rounder while not playing, as in the design.
+                    radius: nowPlayingView.playing ? 28 : 48
+                    color: Theme.colors.primary
+
+                    Behavior on radius {
+                        NumberAnimation {
+                            duration: 200
+                            easing.type: Easing.OutQuad
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: playPauseStateLayer
+                    anchors.fill: playPauseContainer
+                    radius: playPauseContainer.radius
+                    color: Theme.colors.colorOnPrimary
+                    opacity: playPauseButton.pressed ? Theme.stateLayer.pressedOpacity : playPauseButton.hovered ? Theme.stateLayer.hoverOpacity : 0
+                }
+
+                Icon {
+                    id: playPauseIcon
+                    objectName: "icon"
+                    anchors.centerIn: playPauseButton
+                    width: 44
+                    height: 44
+                    source: !nowPlayingView.playing ? "qrc:/qt/qml/Blabby/Shell/icons/material/play_arrow.svg" : nowPlayingView.canPause ? "qrc:/qt/qml/Blabby/Shell/icons/material/pause.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/stop.svg"
+                    color: Theme.colors.colorOnPrimary
+                }
+
+                BusyIndicator {
+                    id: busyRing
+                    objectName: "busyRing"
+                    anchors.centerIn: playPauseButton
+                    width: 72
+                    height: 72
+                    strokeWidth: 4
+                    color: Theme.colors.colorOnPrimary
+                    running: nowPlayingView.transitioning
+                }
             }
         }
     }

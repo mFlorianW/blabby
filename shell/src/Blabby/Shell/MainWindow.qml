@@ -69,15 +69,22 @@ Rectangle {
             trackAlbum: Singleton.activeRendererController.trackAlbum
             trackYear: Singleton.activeRendererController.trackYear
             trackFormat: Singleton.activeRendererController.trackFormat
+            canPause: Singleton.activeRendererController.canPause
+            transitioning: Singleton.activeRendererController.transitioning
             onChooseRendererRequested: {
                 shell.returnToPlaying = true;
                 rail.currentIndex = shell.renderersDestination;
             }
 
+            onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
+
             Connections {
                 target: Singleton.activeRendererController
                 function onActiveRendererWentOffline(rendererName: string) {
                     nowPlayingView.showActiveRendererWentOffline(rendererName);
+                }
+                function onControlFailed(rendererName: string, action: int) {
+                    nowPlayingView.showControlFailed(rendererName, action);
                 }
             }
         }

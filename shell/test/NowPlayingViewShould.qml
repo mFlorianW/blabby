@@ -30,6 +30,12 @@ Item {
             signalName: "chooseRendererRequested"
         }
 
+        SignalSpy {
+            id: togglePlaybackRequestedSpy
+            target: nowPlayingView
+            signalName: "togglePlaybackRequested"
+        }
+
         function init() {
             nowPlayingView.hasActiveRenderer = true;
             nowPlayingView.rendererName = "Kitchen";
@@ -40,8 +46,11 @@ Item {
             nowPlayingView.trackAlbum = "Low Tide Sessions";
             nowPlayingView.trackYear = "2024";
             nowPlayingView.trackFormat = "FLAC · 24-bit / 96 kHz";
+            nowPlayingView.canPause = true;
+            nowPlayingView.transitioning = false;
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
+            togglePlaybackRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
         }
@@ -233,11 +242,113 @@ Item {
         }
 
         /**
+         * Tests that the Play/Pause button shows the pause icon and the playing shape while Playing.
+         */
+        function test_show_the_pause_icon_while_playing() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const button = nowPlayingViewTest.child("playPauseButton");
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(button, "icon").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/pause.svg"));
+            nowPlayingViewTest.tryCompare(nowPlayingViewTest.findChild(button, "container"), "radius", 28);
+        }
+
+        /**
+         * Tests that the Play/Pause button shows the stop icon while Playing on a Renderer that can't pause.
+         */
+        function test_show_the_stop_icon_while_playing_on_a_renderer_that_cannot_pause() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.canPause = false;
+            const button = nowPlayingViewTest.child("playPauseButton");
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(button, "icon").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/stop.svg"));
+        }
+
+        function test_show_the_play_icon_while_not_playing_data() {
+            return [
+                {
+                    tag: "Paused",
+                    state: Renderer.Paused
+                },
+                {
+                    tag: "Stopped",
+                    state: Renderer.Stopped
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Play/Pause button shows the play icon and the round shape while Paused or Stopped.
+         */
+        function test_show_the_play_icon_while_not_playing(data) {
+            nowPlayingView.playbackState = data.state;
+            const button = nowPlayingViewTest.child("playPauseButton");
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(button, "icon").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/play_arrow.svg"));
+            nowPlayingViewTest.tryCompare(nowPlayingViewTest.findChild(button, "container"), "radius", 48);
+        }
+
+        /**
+         * Tests that the Play/Pause button shows a busy ring while the Renderer is transitioning.
+         */
+        function test_show_a_busy_ring_while_transitioning() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const busyRing = nowPlayingViewTest.findChild(nowPlayingViewTest.child("playPauseButton"), "busyRing");
+            nowPlayingViewTest.verify(busyRing);
+            nowPlayingViewTest.compare(busyRing.visible, false);
+            nowPlayingView.transitioning = true;
+            nowPlayingViewTest.compare(busyRing.visible, true);
+        }
+
+        /**
+         * Tests that the Play/Pause button asks to toggle the playback.
+         */
+        function test_ask_to_toggle_the_playback_with_the_play_pause_button() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const button = nowPlayingViewTest.child("playPauseButton");
+            nowPlayingViewTest.verify(button.width >= 44 && button.height >= 44);
+            nowPlayingViewTest.mouseClick(button);
+            nowPlayingViewTest.compare(togglePlaybackRequestedSpy.count, 1);
+        }
+
+        function test_show_a_toast_when_a_control_call_failed_data() {
+            return [
+                {
+                    tag: "Play",
+                    action: Renderer.Play,
+                    message: "Couldn't play Kitchen"
+                },
+                {
+                    tag: "Resume",
+                    action: Renderer.Resume,
+                    message: "Couldn't resume Kitchen"
+                },
+                {
+                    tag: "Pause",
+                    action: Renderer.Pause,
+                    message: "Couldn't pause Kitchen"
+                },
+                {
+                    tag: "Stop",
+                    action: Renderer.Stop,
+                    message: "Couldn't stop Kitchen"
+                }
+            ];
+        }
+
+        /**
+         * Tests that a toast tells which control call on which Renderer failed.
+         */
+        function test_show_a_toast_when_a_control_call_failed(data) {
+            const toast = nowPlayingViewTest.child("toast");
+            nowPlayingView.showControlFailed("Kitchen", data.action);
+            nowPlayingViewTest.tryCompare(toast, "visible", true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, data.message);
+        }
+
+        /**
          * Tests that a toast tells that the Active Renderer went Offline.
          */
         function test_show_a_toast_when_the_active_renderer_went_offline() {
             const toast = nowPlayingViewTest.child("toast");
-            nowPlayingViewTest.compare(toast.visible, false);
+            // A toast of a previous test fades out.
+            nowPlayingViewTest.tryCompare(toast, "visible", false);
             nowPlayingView.hasActiveRenderer = false;
             nowPlayingView.rendererName = "";
             nowPlayingView.showActiveRendererWentOffline("Kitchen");
