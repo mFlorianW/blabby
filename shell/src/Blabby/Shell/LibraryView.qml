@@ -24,7 +24,8 @@ Item {
     property alias sources: sourcePicker.model
 
     /**
-     * The Items of the current Container, a model with the roles "mediaItemTitle" and "mediaItemType".
+     * The Items of the current Container, a model with the roles "mediaItemTitle", "mediaItemType",
+     * "mediaItemSecondaryText" and "mediaItemArtworkUrl".
      */
     property alias items: grid.model
 
@@ -182,7 +183,8 @@ Item {
         anchors.rightMargin: 24 - libraryView.tileSpacing
         clip: true
         cellWidth: grid.width / grid.columns
-        cellHeight: grid.tileWidth + 8 + Theme.fonts.titleMedium.lineHeight + libraryView.rowSpacing
+        // Every cell leaves room for the secondary text, so the rows stay aligned.
+        cellHeight: grid.tileWidth + 8 + Theme.fonts.titleMedium.lineHeight + Theme.fonts.bodyMedium.lineHeight + libraryView.rowSpacing
         boundsBehavior: Flickable.StopAtBounds
         visible: libraryView.hasActiveSource && !libraryView.busy && !libraryView.containerEmpty
 
@@ -191,6 +193,8 @@ Item {
             required property int index
             required property string mediaItemTitle
             required property int mediaItemType
+            required property string mediaItemSecondaryText
+            required property string mediaItemArtworkUrl
 
             width: grid.cellWidth
             height: grid.cellHeight
@@ -202,6 +206,8 @@ Item {
                 width: grid.tileWidth
                 title: cell.mediaItemTitle
                 itemType: cell.mediaItemType
+                secondaryText: cell.mediaItemSecondaryText
+                artworkUrl: cell.mediaItemArtworkUrl
                 onClicked: libraryView.itemActivated(cell.index)
             }
         }

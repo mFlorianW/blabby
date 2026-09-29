@@ -34,26 +34,38 @@ Item {
         id: items
         ListElement {
             mediaItemTitle: "Music"
+            mediaItemArtworkUrl: ""
+            mediaItemSecondaryText: ""
             mediaItemType: ItemType.Container
         }
         ListElement {
             mediaItemTitle: "A song with a really very long title that does not fit on the tile"
+            mediaItemArtworkUrl: ""
+            mediaItemSecondaryText: "Ben Klock featuring a really very long list of artists that does not fit"
             mediaItemType: ItemType.Playable
         }
         ListElement {
             mediaItemTitle: "Video"
+            mediaItemArtworkUrl: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
+            mediaItemSecondaryText: ""
             mediaItemType: ItemType.Container
         }
         ListElement {
             mediaItemTitle: "Pictures"
+            mediaItemArtworkUrl: "qrc:/qt/qml/Blabby/Shell/icons/material/missing.svg"
+            mediaItemSecondaryText: ""
             mediaItemType: ItemType.Container
         }
         ListElement {
             mediaItemTitle: "Playlists"
+            mediaItemArtworkUrl: ""
+            mediaItemSecondaryText: ""
             mediaItemType: ItemType.Container
         }
         ListElement {
             mediaItemTitle: "Podcasts"
+            mediaItemArtworkUrl: ""
+            mediaItemSecondaryText: ""
             mediaItemType: ItemType.Container
         }
     }
@@ -225,6 +237,61 @@ Item {
             libraryViewTest.compare(libraryViewTest.findChild(container, "glyph").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/folder.svg"));
             const playable = libraryViewTest.tile(1);
             libraryViewTest.compare(libraryViewTest.findChild(playable, "glyph").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"));
+        }
+
+        /**
+         * Tests that a tile with artwork shows the artwork instead of the placeholder glyph.
+         */
+        function test_show_the_artwork_instead_of_the_placeholder() {
+            const tile = libraryViewTest.tile(2);
+            const artwork = libraryViewTest.findChild(tile, "artwork");
+            libraryViewTest.verify(artwork);
+            libraryViewTest.compare(tile.artworkUrl, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"));
+            libraryViewTest.tryCompare(artwork, "visible", true);
+            libraryViewTest.compare(libraryViewTest.findChild(tile, "glyph").visible, false);
+            libraryViewTest.compare(artwork.width, artwork.height);
+            libraryViewTest.compare(artwork.width, tile.width);
+        }
+
+        /**
+         * Tests that a tile without artwork, or with artwork that can't be loaded, shows the placeholder glyph.
+         */
+        function test_show_the_placeholder_without_artwork() {
+            for (const index of [0, 3]) {
+                const tile = libraryViewTest.tile(index);
+                libraryViewTest.tryCompare(libraryViewTest.findChild(tile, "glyph"), "visible", true);
+                libraryViewTest.compare(libraryViewTest.findChild(tile, "artwork").visible, false);
+            }
+        }
+
+        /**
+         * Tests that a tile shows the secondary text below the title only when there is one.
+         */
+        function test_show_the_secondary_text_only_when_present() {
+            const withArtist = libraryViewTest.findChild(libraryViewTest.tile(1), "secondaryText");
+            libraryViewTest.verify(withArtist);
+            libraryViewTest.compare(withArtist.visible, true);
+            libraryViewTest.compare(withArtist.text, "Ben Klock featuring a really very long list of artists that does not fit");
+            libraryViewTest.compare(libraryViewTest.findChild(libraryViewTest.tile(0), "secondaryText").visible, false);
+        }
+
+        /**
+         * Tests that a too long secondary text is elided instead of overflowing the tile.
+         */
+        function test_elide_a_too_long_secondary_text() {
+            const tile = libraryViewTest.tile(1);
+            const secondaryText = libraryViewTest.findChild(tile, "secondaryText");
+            libraryViewTest.compare(secondaryText.elide, Text.ElideRight);
+            libraryViewTest.verify(secondaryText.truncated);
+            libraryViewTest.verify(secondaryText.width <= tile.width);
+        }
+
+        /**
+         * Tests that a tile fits into its grid cell, also with the secondary text.
+         */
+        function test_fit_the_tile_with_the_secondary_text_into_its_cell() {
+            const grid = libraryViewTest.child("itemGrid");
+            libraryViewTest.verify(libraryViewTest.tile(1).height <= grid.cellHeight - libraryView.rowSpacing);
         }
 
         /**
