@@ -435,6 +435,11 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
     return std::make_unique<PendingSoapCall>(soapCall);
 }
 
+bool MediaDevice::canPause() const noexcept
+{
+    return hasAvTransportService() and not d->mAvTransportDescriptionSCPD.action("Pause").name().isEmpty();
+}
+
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::pause(quint32 instanceId) noexcept
 {
     if (not hasAvTransportService()) {

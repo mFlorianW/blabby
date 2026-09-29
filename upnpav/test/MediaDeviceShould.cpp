@@ -1264,6 +1264,14 @@ void MediaDeviceShould::drop_the_metadata_of_the_previous_track_for_a_new_track_
     QCOMPARE(mediaDevice.currentTrackMetaData(), QString{});
 }
 
+void MediaDeviceShould::tell_whether_it_can_pause()
+{
+    QCOMPARE(MediaDeviceWithAV{}.canPause(), true);
+    QCOMPARE(MediaDeviceWithoutAV{createAvTransportDeviceDescriptionWithoutAction(createPauseAction())}.canPause(),
+             false);
+    QCOMPARE(MediaDeviceWithoutAV{}.canPause(), false);
+}
+
 void MediaDeviceShould::tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable()
 {
     auto mediaDevice = MediaDeviceWithAV{};

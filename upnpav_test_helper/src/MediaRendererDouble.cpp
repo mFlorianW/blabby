@@ -168,6 +168,11 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::pause(quint
     return std::make_unique<PendingSoapCall>(mPauseCall);
 }
 
+bool MediaRendererDouble::canPause() const noexcept
+{
+    return mPauseEnabled;
+}
+
 VolumeData MediaRendererDouble::volumeData() const noexcept
 {
     return mVolumeData;

@@ -189,6 +189,11 @@ private Q_SLOTS:
      * @test The media device drops the metadata of the previous track when an event reports only a new track URI.
      */
     void drop_the_metadata_of_the_previous_track_for_a_new_track_uri();
+
+    /**
+     * @test The media device tells whether its AVTransport service offers Pause.
+     */
+    void tell_whether_it_can_pause();
 };
 
 } // namespace UPnPAV

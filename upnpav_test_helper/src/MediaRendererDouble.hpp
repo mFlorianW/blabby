@@ -165,6 +165,11 @@ public:
     std::optional<std::unique_ptr<PendingSoapCall>> pause(quint32 instanceId) noexcept override;
 
     /**
+     * @copydoc UPnPAV::MediaDevice::canPause
+     */
+    bool canPause() const noexcept override;
+
+    /**
      * @return The data of the last volume call.
      */
     [[nodiscard]] VolumeData volumeData() const noexcept;

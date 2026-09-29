@@ -70,6 +70,11 @@ private Q_SLOTS:
     void give_the_album_and_the_year_of_the_current_track();
     void give_the_format_of_the_current_track_data();
     void give_the_format_of_the_current_track();
+    void tell_whether_it_can_pause();
+    void keep_the_playback_state_while_transitioning();
+    void report_a_failed_playback_control_call_data();
+    void report_a_failed_playback_control_call();
+    void tell_while_a_playback_control_call_is_pending();
 
 private:
     std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);

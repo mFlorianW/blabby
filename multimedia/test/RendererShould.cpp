@@ -825,6 +825,102 @@ void RendererShould::give_the_format_of_the_current_track()
     QCOMPARE(renderer.currentTrack().format, expectedFormat);
 }
 
+void RendererShould::tell_whether_it_can_pause()
+{
+    auto renderer = Renderer{createKitchenDevice()};
+    QCOMPARE(renderer.canPause(), false);
+
+    mUpnpRendererRaw->setPauseEnabled(true);
+    auto pausingRenderer = Renderer{std::move(mUpnpRenderer)};
+    QCOMPARE(pausingRenderer.canPause(), true);
+
+    QCOMPARE(Renderer{rememberedKitchen()}.canPause(), false);
+}
+
+void RendererShould::keep_the_playback_state_while_transitioning()
+{
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto stateChangedSpy = QSignalSpy{&renderer, &Renderer::stateChanged};
+    auto transitioningChangedSpy = QSignalSpy{&renderer, &Renderer::transitioningChanged};
+
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Transitioning);
+
+    QCOMPARE(renderer.state(), Renderer::State::Playing);
+    QCOMPARE(renderer.isTransitioning(), true);
+    QCOMPARE(transitioningChangedSpy.size(), 1);
+    QCOMPARE(stateChangedSpy.size(), 0);
+
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::PausedPlayback);
+
+    QCOMPARE(renderer.state(), Renderer::State::Paused);
+    QCOMPARE(renderer.isTransitioning(), false);
+    QCOMPARE(transitioningChangedSpy.size(), 2);
+}
+
+void RendererShould::report_a_failed_playback_control_call_data()
+{
+    QTest::addColumn<MediaDevice::State>("state");
+    QTest::addColumn<bool>("pauseEnabled");
+    QTest::addColumn<Renderer::Action>("action");
+
+    QTest::newRow("Pause") << MediaDevice::State::Playing << true << Renderer::Action::Pause;
+    QTest::newRow("Stop") << MediaDevice::State::Playing << false << Renderer::Action::Stop;
+    QTest::newRow("Resume") << MediaDevice::State::PausedPlayback << true << Renderer::Action::Resume;
+    QTest::newRow("Play") << MediaDevice::State::Stopped << true << Renderer::Action::Play;
+}
+
+void RendererShould::report_a_failed_playback_control_call()
+{
+    QFETCH(MediaDevice::State, state);
+    QFETCH(bool, pauseEnabled);
+    QFETCH(Renderer::Action, action);
+    mUpnpRendererRaw->setPauseEnabled(pauseEnabled);
+    mUpnpRendererRaw->setDeviceState(state);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto const stateBefore = renderer.state();
+    auto controlFailedSpy = QSignalSpy{&renderer, &Renderer::controlFailed};
+
+    auto call = QSharedPointer<SoapCallDouble>{};
+    if (action == Renderer::Action::Pause) {
+        renderer.stop();
+        call = mUpnpRendererRaw->pauseCall();
+    } else if (action == Renderer::Action::Stop) {
+        renderer.stop();
+        call = mUpnpRendererRaw->stopCall();
+    } else {
+        renderer.resume();
+        call = mUpnpRendererRaw->playCall();
+    }
+    call->setErrorState(true);
+    Q_EMIT call->finished();
+
+    QCOMPARE(controlFailedSpy.size(), 1);
+    QCOMPARE(controlFailedSpy.at(0).at(0).value<Renderer::Action>(), action);
+    QCOMPARE(renderer.state(), stateBefore);
+    QCOMPARE(renderer.isPlaybackControlPending(), false);
+}
+
+void RendererShould::tell_while_a_playback_control_call_is_pending()
+{
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    QCOMPARE(renderer.isPlaybackControlPending(), false);
+
+    renderer.stop();
+    QCOMPARE(renderer.isPlaybackControlPending(), true);
+
+    Q_EMIT mUpnpRendererRaw->stopCall()->finished();
+    QCOMPARE(renderer.isPlaybackControlPending(), false);
+
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Stopped);
+    renderer.resume();
+    QCOMPARE(renderer.isPlaybackControlPending(), true);
+
+    Q_EMIT mUpnpRendererRaw->playCall()->finished();
+    QCOMPARE(renderer.isPlaybackControlPending(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

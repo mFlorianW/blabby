@@ -105,6 +105,30 @@ public:
     Q_ENUM(Availability)
 
     /**
+     * The control calls of a @ref Multimedia::Renderer that can fail, see @ref Multimedia::Renderer::controlFailed.
+     */
+    enum class Action
+    {
+        /**
+         * Playing a Stopped Renderer from the start of the Current Track.
+         */
+        Play,
+        /**
+         * Resuming a Paused Renderer where it left off.
+         */
+        Resume,
+        /**
+         * Pausing a Playing Renderer.
+         */
+        Pause,
+        /**
+         * Stopping a Playing Renderer that can't pause.
+         */
+        Stop,
+    };
+    Q_ENUM(Action)
+
+    /**
      * Creates an Online instance of the Renderer
      * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
      * @param clock The clock that drives the polling of the position.
@@ -222,8 +246,15 @@ public:
      * If the playback is not active nothing happens.
      * On success the signal @ref Multimedia::Renderer::stateChanged is emitted.
      * The new state then should be be stopped or paused.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Pause or Stop.
      */
     void stop() noexcept;
+
+    /**
+     * Gives whether the @ref Multimedia::Renderer can pause, otherwise @ref Multimedia::Renderer::stop stops it.
+     * @return True when the @ref Multimedia::Renderer can pause.
+     */
+    bool canPause() const noexcept;
 
     /**
      * Resumes the playback when the @ref Multimedia::Renderer has the state
@@ -233,8 +264,22 @@ public:
      * If the device is in the stopped state the playback starts all over again and for the pause state
      * the track resumes at the pause state.
      * In all other cases the function does nothing.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Play or Resume.
      */
     void resume() noexcept;
+
+    /**
+     * Gives whether a call of @ref Multimedia::Renderer::stop or @ref Multimedia::Renderer::resume is pending.
+     * @return True while such a call is pending.
+     */
+    bool isPlaybackControlPending() const noexcept;
+
+    /**
+     * Gives whether the device is transitioning, e.g. loading or buffering. Transitioning isn't a Playback State, the
+     * @ref Multimedia::Renderer keeps its previous Playback State meanwhile.
+     * @return True while the device is transitioning.
+     */
+    bool isTransitioning() const noexcept;
 
     /**
      * Gives the state for the @ref Mulitmedia::Renderer.
@@ -320,6 +365,17 @@ Q_SIGNALS:
      */
     void currentTrackChanged();
 
+    /**
+     * This signal is emitted when the device starts or stops transitioning.
+     */
+    void transitioningChanged();
+
+    /**
+     * This signal is emitted when a control call failed. The reported state stays the real state of the device.
+     * @param action The action of the failed call.
+     */
+    void controlFailed(Multimedia::Renderer::Action action);
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
@@ -339,6 +395,9 @@ private:
     void onPositionInfoFinished() noexcept;
     void updatePolling() noexcept;
     void onClockWokeUp() noexcept;
+    void setTransitioning(bool transitioning) noexcept;
+    std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
+                                                           Renderer::Action action) noexcept;
 
 private:
     RememberedRenderer mRemembered;
@@ -363,6 +422,8 @@ private:
     Renderer::State mState = Renderer::State::NoMedia;
     quint32 mVolume = 0;
     bool mInitialized = false;
+    bool mTransitioning = false;
+    bool mPlaybackControlPending = false;
 };
 
 }; // namespace Multimedia

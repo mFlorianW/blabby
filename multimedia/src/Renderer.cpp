@@ -248,6 +248,7 @@ void Renderer::goOffline() noexcept
     updatePolling();
     updateVolume(0);
     updateCurrentTrack(QString{}, QString{});
+    setTransitioning(false);
     if (mState != State::NoMedia) {
         mState = State::NoMedia;
         Q_EMIT stateChanged();
@@ -269,6 +270,7 @@ void Renderer::dropDevice() noexcept
     mSetVolumeCall.reset();
     mPositionInfoCall.reset();
     mPositionInfoPending = false;
+    mPlaybackControlPending = false;
     mRenderer.reset();
     mProtocols.clear();
 }
@@ -425,29 +427,57 @@ void Renderer::stop() noexcept
         return;
     }
 
+    auto action = Action::Pause;
     auto stopCall = mRenderer->pause(0);
     if (not stopCall.has_value()) {
+        action = Action::Stop;
         stopCall = mRenderer->stop(0);
     }
 
     if (stopCall.has_value()) {
-        mStopCall = goOfflineWhenUnreachable(std::move(stopCall.value()));
-        connect(mStopCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
-            if (mStopCall->hasError()) {
-                qCCritical(mmRenderer) << "Stop request failed with error:" << mStopCall->errorDescription();
-            }
-        });
+        mStopCall = watchPlaybackControl(goOfflineWhenUnreachable(std::move(stopCall.value())), action);
     }
+}
+
+bool Renderer::canPause() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canPause();
 }
 
 void Renderer::resume() noexcept
 {
     if (mRenderer != nullptr and (mState == State::Stopped or mState == State::Paused)) {
+        auto const action = mState == State::Paused ? Action::Resume : Action::Play;
         auto resumeCall = mRenderer->play(0);
         if (resumeCall.has_value()) {
-            mResumeCall = goOfflineWhenUnreachable(std::move(resumeCall.value()));
+            mResumeCall = watchPlaybackControl(goOfflineWhenUnreachable(std::move(resumeCall.value())), action);
         }
     }
+}
+
+bool Renderer::isPlaybackControlPending() const noexcept
+{
+    return mPlaybackControlPending;
+}
+
+bool Renderer::isTransitioning() const noexcept
+{
+    return mTransitioning;
+}
+
+std::unique_ptr<UPnPAV::PendingSoapCall> Renderer::watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
+                                                                 Renderer::Action action) noexcept
+{
+    mPlaybackControlPending = true;
+    connect(call.get(), &UPnPAV::PendingSoapCall::finished, this, [this, action, callPtr = call.get()]() {
+        mPlaybackControlPending = false;
+        if (callPtr->hasError()) {
+            qCWarning(mmRenderer) << action << "request of" << mRemembered.name
+                                  << "failed with error:" << callPtr->errorDescription();
+            Q_EMIT controlFailed(action);
+        }
+    });
+    return call;
 }
 
 Renderer::State Renderer::state() const noexcept
@@ -480,6 +510,12 @@ void Renderer::setVolume(quint32 volume) noexcept
 
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
 {
+    // Transitioning is a transient detail of the device, the Playback State stays as it was meanwhile.
+    setTransitioning(state == MediaRenderer::State::Transitioning);
+    if (mTransitioning) {
+        return;
+    }
+
     auto newState = State::NoMedia;
     if (state == MediaRenderer::State::Playing) {
         newState = State::Playing;
@@ -496,6 +532,14 @@ void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
             requestPositionInfo();
         }
         updatePolling();
+    }
+}
+
+void Renderer::setTransitioning(bool transitioning) noexcept
+{
+    if (mTransitioning != transitioning) {
+        mTransitioning = transitioning;
+        Q_EMIT transitioningChanged();
     }
 }
 

@@ -322,6 +322,12 @@ public:
      */
     virtual std::optional<std::unique_ptr<PendingSoapCall>> pause(quint32 instanceId = 0) noexcept;
 
+    /**
+     * Gives whether the AVTransport service of the device offers the optional Pause function.
+     * @return True when @ref UPnPAV::MediaDevice::pause can be called, otherwise false.
+     */
+    virtual bool canPause() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref UPnPAV::MediaDevice changes it state. E.g. from Stopped to playing
