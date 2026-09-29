@@ -11,8 +11,9 @@ import Blabby.Theme
  * The Playing screen that shows what the Active Renderer plays.
  * A Renderer pill in the header shows the Active Renderer and asks to choose another one.
  * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
- * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title and its
- * artist when known. When the Active Renderer went Offline a toast tells so.
+ * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
+ * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
+ * toast tells so.
  */
 Item {
     id: nowPlayingView
@@ -46,6 +47,21 @@ Item {
      * The URL of the artwork of the Current Track, empty when unknown.
      */
     property url artworkUrl
+
+    /**
+     * The album of the Current Track, empty when unknown.
+     */
+    property string trackAlbum
+
+    /**
+     * The year of the Current Track, empty when unknown.
+     */
+    property string trackYear
+
+    /**
+     * The format of the Current Track, e.g. "FLAC · 24-bit / 96 kHz", empty when unknown.
+     */
+    property string trackFormat
 
     /**
      * True while the Current Track is shown, i.e. the Active Renderer has media.
@@ -131,6 +147,40 @@ Item {
             anchors.leftMargin: 48
             spacing: 8
 
+            Rectangle {
+                id: formatChip
+                objectName: "formatChip"
+                width: formatRow.implicitWidth + 24
+                height: 32
+                radius: 8
+                color: "transparent"
+                border.color: Theme.colors.outlineVariant
+                border.width: 1
+                visible: nowPlayingView.trackFormat !== ""
+
+                Row {
+                    id: formatRow
+                    anchors.centerIn: formatChip
+                    spacing: 6
+
+                    Icon {
+                        anchors.verticalCenter: formatRow.verticalCenter
+                        width: 18
+                        height: 18
+                        source: "qrc:/qt/qml/Blabby/Shell/icons/material/graphic_eq.svg"
+                        color: Theme.colors.primary
+                    }
+
+                    StyledText {
+                        objectName: "formatText"
+                        anchors.verticalCenter: formatRow.verticalCenter
+                        text: nowPlayingView.trackFormat
+                        color: Theme.colors.colorOnSurfaceVariant
+                        textStyle: Theme.fonts.labelLarge
+                    }
+                }
+            }
+
             StyledText {
                 id: title
                 objectName: "trackTitle"
@@ -148,6 +198,16 @@ Item {
                 color: Theme.colors.colorOnSurface
                 textStyle: Theme.fonts.titleLarge
                 visible: nowPlayingView.trackArtist !== ""
+            }
+
+            StyledText {
+                id: albumAndYear
+                objectName: "trackAlbumAndYear"
+                width: details.width
+                text: [nowPlayingView.trackAlbum, nowPlayingView.trackYear].filter(part => part !== "").join(" · ")
+                color: Theme.colors.colorOnSurfaceVariant
+                textStyle: Theme.fonts.bodyLarge
+                visible: albumAndYear.text !== ""
             }
         }
     }

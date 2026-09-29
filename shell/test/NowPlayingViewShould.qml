@@ -37,6 +37,9 @@ Item {
             nowPlayingView.trackTitle = "Harbour Lights";
             nowPlayingView.trackArtist = "The Quiet Ferries";
             nowPlayingView.artworkUrl = "";
+            nowPlayingView.trackAlbum = "Low Tide Sessions";
+            nowPlayingView.trackYear = "2024";
+            nowPlayingView.trackFormat = "FLAC · 24-bit / 96 kHz";
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
@@ -167,6 +170,66 @@ Item {
             nowPlayingViewTest.compare(glyph.visible, true);
             nowPlayingViewTest.compare(glyph.source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"));
             nowPlayingViewTest.compare(nowPlayingViewTest.findChild(artwork, "artwork").visible, false);
+        }
+
+        function test_show_the_known_parts_of_album_and_year_data() {
+            return [
+                {
+                    tag: "album and year",
+                    album: "Low Tide Sessions",
+                    year: "2024",
+                    expected: "Low Tide Sessions · 2024"
+                },
+                {
+                    tag: "album only",
+                    album: "Low Tide Sessions",
+                    year: "",
+                    expected: "Low Tide Sessions"
+                },
+                {
+                    tag: "year only",
+                    album: "",
+                    year: "2024",
+                    expected: "2024"
+                },
+                {
+                    tag: "neither album nor year",
+                    album: "",
+                    year: "",
+                    expected: ""
+                }
+            ];
+        }
+
+        /**
+         * Tests that "album · year" shows only the known parts and is hidden when both are unknown.
+         */
+        function test_show_the_known_parts_of_album_and_year(data) {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.trackAlbum = data.album;
+            nowPlayingView.trackYear = data.year;
+            const albumAndYear = nowPlayingViewTest.child("trackAlbumAndYear");
+            nowPlayingViewTest.compare(albumAndYear.text, data.expected);
+            nowPlayingViewTest.compare(albumAndYear.visible, data.expected !== "");
+        }
+
+        /**
+         * Tests that the format chip shows the format of the Current Track.
+         */
+        function test_show_the_format_chip() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const chip = nowPlayingViewTest.child("formatChip");
+            nowPlayingViewTest.compare(chip.visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(chip, "formatText").text, "FLAC · 24-bit / 96 kHz");
+        }
+
+        /**
+         * Tests that the format chip is hidden without a format.
+         */
+        function test_hide_the_format_chip_without_a_format() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.trackFormat = "";
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("formatChip").visible, false);
         }
 
         /**

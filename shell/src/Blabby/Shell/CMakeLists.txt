@@ -21,6 +21,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/dns.svg
         ../../icons/material/expand_more.svg
         ../../icons/material/folder.svg
+        ../../icons/material/graphic_eq.svg
         ../../icons/material/library_music.svg
         ../../icons/material/music_note.svg
         ../../icons/material/play_circle.svg
