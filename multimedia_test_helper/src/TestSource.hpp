@@ -39,6 +39,11 @@ public:
      */
     void finishPendingNavigation() noexcept;
 
+    /**
+     * Fails the navigation held back by @ref setHoldNavigations(bool), the Items stay unchanged.
+     */
+    void failPendingNavigation() noexcept;
+
 private:
     void finishNavigation(QString const& path) noexcept;
 

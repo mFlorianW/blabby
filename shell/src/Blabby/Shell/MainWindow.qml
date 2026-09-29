@@ -52,6 +52,13 @@ Rectangle {
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
             onItemActivated: index => Singleton.mediaItemModel.activateMediaItem(index)
             onBackRequested: Singleton.mediaItemModel.navigateBack()
+
+            Connections {
+                target: Singleton.mediaItemModel
+                function onContainerOpenFailed(containerTitle: string) {
+                    libraryView.showContainerOpenFailed(containerTitle);
+                }
+            }
         }
 
         RenderersView {

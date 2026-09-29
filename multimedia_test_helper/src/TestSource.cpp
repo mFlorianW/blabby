@@ -84,4 +84,9 @@ void TestSource::finishPendingNavigation() noexcept
     finishNavigation(mPendingPath);
 }
 
+void TestSource::failPendingNavigation() noexcept
+{
+    Q_EMIT navigationFailed(mPendingPath);
+}
+
 } // namespace Multimedia::TestHelper

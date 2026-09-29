@@ -12,7 +12,8 @@ import Blabby.Theme
  * The Items of the current Container are shown as tiles in a grid that reflows to the available width.
  * A Source pill in the header shows the Active Source and opens the Source picker.
  * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
- * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid.
+ * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
+ * be opened the current Container stays and a toast tells so.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
 Item {
@@ -88,6 +89,13 @@ Item {
      * This signal is emitted when the user taps the back button to return to the parent Container.
      */
     signal backRequested
+
+    /**
+     * Tells the user in a toast that the Container with the title couldn't be opened.
+     */
+    function showContainerOpenFailed(containerTitle: string) {
+        toast.show(qsTr("Couldn't open %1").arg(containerTitle));
+    }
 
     /**
      * The smallest width of a tile, used to calculate the number of columns.
@@ -222,6 +230,15 @@ Item {
         strokeWidth: 4
         color: Theme.colors.primary
         running: libraryView.hasActiveSource && libraryView.busy
+    }
+
+    Toast {
+        id: toast
+        objectName: "toast"
+        anchors.horizontalCenter: libraryView.horizontalCenter
+        anchors.bottom: libraryView.bottom
+        anchors.bottomMargin: 24
+        maximumWidth: libraryView.width - 48
     }
 
     SourcePicker {

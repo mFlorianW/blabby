@@ -34,7 +34,7 @@ class MediaItemModel : public QAbstractListModel
     Q_PROPERTY(bool hasMediaSource READ hasMediaSource NOTIFY mediaSourceChanged)
 
     /**
-     * This property is true while a Container is opening, until its Items arrive.
+     * This property is true while a Container is opening, until its Items arrive or opening it fails.
      * Activations and navigating back are ignored meanwhile.
      */
     Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
@@ -175,6 +175,14 @@ Q_SIGNALS:
      */
     void containerChanged();
 
+    /**
+     * This signal is emitted when opening a Container, or returning to the parent Container, failed.
+     * The model stays on the current Container with its Items.
+     * @param containerTitle The title of the Container that couldn't be opened, the name of the
+     *                       @ref Multimedia::MediaSource for its root Container.
+     */
+    void containerOpenFailed(QString const& containerTitle);
+
 private:
     /**
      * The navigation that the model requested and whose Items haven't arrived yet.
@@ -188,6 +196,8 @@ private:
 
     void startNavigation(PendingNavigation navigation, QString const& containerTitle = {}) noexcept;
     void onNavigationFinished() noexcept;
+    void onNavigationFailed() noexcept;
+    QString parentContainerTitle() const noexcept;
 
     std::shared_ptr<Multimedia::Source> mMediaSrc;
     // The titles of the Containers opened from the root, the last one is the current Container.

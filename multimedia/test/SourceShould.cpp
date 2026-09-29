@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -19,7 +19,7 @@ MediaSourceShould::~MediaSourceShould() = default;
 
 void MediaSourceShould::give_the_name_of_media_source()
 {
-    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("")};
+    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QString{}};
     auto const expName = QStringLiteral("MusicBox");
 
     QVERIFY2(mediaSource.sourceName() == expName,
@@ -121,6 +121,25 @@ void MediaSourceShould::navigate_forward_to_previous_layer()
     mediaSource.navigateBack();
     QCOMPARE(navSignalSpy.size(), 1);
     QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+}
+
+void MediaSourceShould::keep_the_navigation_history_when_navigating_back_fails()
+{
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("http://localhost/musicbox.png")};
+    mediaSource.navigateTo(QStringLiteral("1"));
+    mediaSource.navigateTo(QStringLiteral("2"));
+    mediaSource.setHoldNavigations(true);
+    mediaSource.navigateBack();
+    mediaSource.failPendingNavigation();
+    mediaSource.setHoldNavigations(false);
+
+    mediaSource.navigateBack();
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("1"));
+
+    // A navigation after the failed one is recorded as usual.
+    mediaSource.navigateTo(QStringLiteral("2"));
+    mediaSource.navigateBack();
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("1"));
 }
 
 } // namespace Multimedia

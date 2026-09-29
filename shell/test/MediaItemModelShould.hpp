@@ -40,6 +40,9 @@ private Q_SLOTS:
     void return_to_the_parent_container_title_when_navigating_back();
     void ignore_navigating_back_at_the_root();
     void start_at_the_root_when_the_media_source_changes();
+    void keep_the_current_container_when_opening_a_container_fails();
+    void keep_the_container_below_the_root_when_opening_a_container_fails();
+    void keep_the_current_container_when_navigating_back_fails();
 };
 
 } // namespace Shell

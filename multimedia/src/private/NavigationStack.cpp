@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -28,6 +28,12 @@ NavigationStack::NavigationStack(Source& source)
         }
         mNavigationAction = false;
     });
+    QObject::connect(&mSource, &Source::navigationFailed, &mSource, [this] {
+        if (mNavigationAction) {
+            mNavigationIndex = mPreviousNavigationIndex;
+        }
+        mNavigationAction = false;
+    });
 }
 
 NavigationStack::~NavigationStack() = default;
@@ -43,6 +49,7 @@ void NavigationStack::navigateBack()
         return;
     }
 
+    mPreviousNavigationIndex = mNavigationIndex;
     if (mNavigationIndex > qsizetype{0} and mPathStack.size() > qsizetype{0}) {
         --mNavigationIndex;
     }
@@ -57,6 +64,7 @@ void NavigationStack::navigateForward()
         return;
     }
 
+    mPreviousNavigationIndex = mNavigationIndex;
     ++mNavigationIndex;
     if (mNavigationIndex < mPathStack.size()) {
         auto const path = mPathStack.at(mNavigationIndex);

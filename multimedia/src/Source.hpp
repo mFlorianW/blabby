@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -70,10 +70,11 @@ public:
 
     /**
      * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
-     * If it fails to navigate to the given path nothing shall happen.
      * This @ref navigateTo(QString) must only be implemented when the source navigatable.
      * The default implementation does nothing.
      * The source shall emit the @ref navigationFinished(QString) singal when the navigation is succesful finished.
+     * If it fails to navigate to the given path the source shall emit the @ref navigationFailed(QString) signal
+     * instead, and keep its @ref mediaItems() unchanged.
      * @param path The target path to navigate to.
      */
     virtual void navigateTo(QString const& path) noexcept;
@@ -88,6 +89,12 @@ Q_SIGNALS:
      * @param The target path of the navigation.
      */
     void navigationFinished(QString const& path);
+
+    /**
+     * This signal is emitted when the navigation failed, the @ref mediaItems() are unchanged.
+     * @param path The target path of the navigation.
+     */
+    void navigationFailed(QString const& path);
 
 protected:
     /**
