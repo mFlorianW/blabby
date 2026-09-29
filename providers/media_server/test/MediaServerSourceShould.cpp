@@ -261,6 +261,29 @@ void SourceShould::map_the_album_art_and_the_artist_to_the_item()
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedSecondaryText);
 }
 
+void SourceShould::report_a_failed_browse_and_keep_the_items()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneContainer, "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    Q_EMIT mediaServerRaw->soapCall->finished();
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    auto const navFailedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFailed};
+
+    mediaServerSource.navigateTo(QStringLiteral("12"));
+    // The failed Browse carries a valid DIDL result, which must not replace the Items.
+    mediaServerRaw->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(UPnPAV::didlOnlyOneItem, "1", "1", "1"));
+    mediaServerRaw->soapCall->setErrorState(true);
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(navFinishedSpy.size(), 0);
+    QCOMPARE(navFailedSpy.size(), 1);
+    QCOMPARE(navFailedSpy.at(0).at(0).toString(), QStringLiteral("12"));
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), QStringLiteral("MyMusic"));
+}
+
 } // namespace Provider::MediaServer
 
 QTEST_MAIN(Provider::MediaServer::SourceShould);

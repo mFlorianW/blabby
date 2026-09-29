@@ -61,6 +61,8 @@ void Source::onBrowseRequestFinished() noexcept
         qCritical(mediaServerSource) << "Browse reqeust failed with error: Error Code:"
                                      << mBrowseRequest.mRequest->errorCode()
                                      << "Error Message:" << mBrowseRequest.mRequest->errorDescription();
+        Q_EMIT navigationFailed(mBrowseRequest.mPath);
+        return;
     }
 
     auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();

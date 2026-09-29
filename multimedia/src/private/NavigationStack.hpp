@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -33,6 +33,8 @@ private:
     QString mPath;
     QStringList mPathStack;
     qsizetype mNavigationIndex{0};
+    // The navigation index before navigating back or forward, restored when that navigation fails.
+    qsizetype mPreviousNavigationIndex{0};
     bool mNavigationAction{false};
 };
 

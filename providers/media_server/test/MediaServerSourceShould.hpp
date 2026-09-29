@@ -32,6 +32,7 @@ private Q_SLOTS:
     void request_the_album_art_the_artist_and_the_creator();
     void map_the_album_art_and_the_artist_to_the_item_data();
     void map_the_album_art_and_the_artist_to_the_item();
+    void report_a_failed_browse_and_keep_the_items();
 };
 
 } // namespace Provider::MediaServer
