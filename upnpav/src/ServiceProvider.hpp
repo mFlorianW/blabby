@@ -42,6 +42,8 @@ public:
 
     void startSearch() const noexcept override;
 
+    void disconnectService(QString const& usn) noexcept override;
+
     DeviceDescription rootDeviceDescription(QString const& usn) const noexcept override;
 
 private Q_SLOTS:

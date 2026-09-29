@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -204,6 +204,19 @@ void MediaRendererShould::notify_volume_changes_when_receiving_upnp_events()
 
     QCOMPARE(masterVolumeChangedSpy.size(), 1);
     QCOMPARE(masterVolumeChangedSpy.at(0).at(0).toUInt(), 89);
+}
+
+void MediaRendererShould::tell_that_it_is_unreachable_when_the_rendering_control_event_publisher_is_unreachable()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto handle = mediaRenderer.eventBackend()->subscribeEvents(validRenderingControlServiceDescription());
+    auto unreachableSpy = QSignalSpy{&mediaRenderer, &MediaRenderer::unreachable};
+
+    Q_EMIT handle->subscriptionFailed(SubscriptionError::PublisherUnreachable);
+
+    QCOMPARE(unreachableSpy.size(), 1);
 }
 
 } // namespace UPnPAV

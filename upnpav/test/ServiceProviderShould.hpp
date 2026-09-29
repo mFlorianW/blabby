@@ -111,6 +111,8 @@ private Q_SLOTS:
      * @test An expired device that is announced again shall be reported as connected again.
      */
     void report_an_expired_device_as_connected_again_when_it_is_announced();
+    void report_a_disconnected_device_as_connected_again_when_it_is_announced();
+    void not_report_an_unknown_device_as_disconnected();
 
     /**
      * @test A max-age that can't be represented shall be treated as not valid.

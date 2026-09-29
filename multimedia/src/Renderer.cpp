@@ -8,6 +8,7 @@
 #include "PendingSoapCall.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
+#include <QPointer>
 #include <QVariant>
 
 using namespace UPnPAV;
@@ -118,13 +119,14 @@ void Renderer::goOffline() noexcept
     }
 
     dropDevice();
-    Q_EMIT availabilityChanged();
     updateVolume(0);
-
     if (mState != State::NoMedia) {
         mState = State::NoMedia;
         Q_EMIT stateChanged();
     }
+
+    // Emitted last, the receivers may react on the Offline Renderer right away, e.g. by disconnecting it.
+    Q_EMIT availabilityChanged();
 }
 
 void Renderer::dropDevice() noexcept
@@ -150,6 +152,35 @@ void Renderer::connectDevice() noexcept
     connect(mRenderer.get(), &MediaRenderer::masterVolumeChanged, this, [this](quint32 volume) {
         updateVolume(volume);
     });
+
+    connect(mRenderer.get(), &MediaRenderer::unreachable, this, &Renderer::onDeviceUnreachable);
+}
+
+std::unique_ptr<UPnPAV::PendingSoapCall> Renderer::goOfflineWhenUnreachable(
+    std::unique_ptr<UPnPAV::PendingSoapCall> call) noexcept
+{
+    connect(call.get(), &UPnPAV::PendingSoapCall::finished, this, [this, callPtr = call.get()]() {
+        if (callPtr->errorCode() == PendingSoapCall::ErrorCode::DeviceUnreachable) {
+            onDeviceUnreachable();
+        }
+    });
+    return call;
+}
+
+void Renderer::onDeviceUnreachable() noexcept
+{
+    // Going Offline drops the device and its pending calls, which must not happen while one of them is emitting.
+    // The device may also be replaced in the meantime, then the Renderer is Online with the new device.
+    QMetaObject::invokeMethod(
+        this,
+        [this, device = QPointer<MediaRenderer>{mRenderer.get()}]() {
+            if (device.isNull() or device.get() != mRenderer.get()) {
+                return;
+            }
+            qCWarning(mmRenderer) << "Renderer" << mRemembered.name << "is Offline. Error: the device doesn't answer";
+            goOffline();
+        },
+        Qt::QueuedConnection);
 }
 
 void Renderer::initialize() noexcept
@@ -161,7 +192,7 @@ void Renderer::initialize() noexcept
 
     mInitialized = true;
 
-    mProtoInfoCall = mRenderer->protocolInfo();
+    mProtoInfoCall = goOfflineWhenUnreachable(mRenderer->protocolInfo());
     connect(mProtoInfoCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
         if (mProtoInfoCall->hasError()) {
             Q_EMIT initializationFailed(QString{"Failed to request the supported protocols. Error: %1"}.arg(
@@ -177,7 +208,7 @@ void Renderer::initialize() noexcept
 
     auto call = mRenderer->volume(0, "Master");
     if (call.has_value()) {
-        mVolumeCall = std::move(call.value());
+        mVolumeCall = goOfflineWhenUnreachable(std::move(call.value()));
         connect(mVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
             if (mVolumeCall->hasError()) {
                 qCCritical(mmRenderer) << "Failed to request the \"Master\" channel volume for instance id 0. Error:"
@@ -203,7 +234,7 @@ void Renderer::playback(Item const& item) noexcept
 
     auto uriCall = mRenderer->setAvTransportUri(quint32{0}, item.playUrl());
     if (uriCall.has_value()) {
-        mSetAvTransportUriCall = std::move(uriCall.value());
+        mSetAvTransportUriCall = goOfflineWhenUnreachable(std::move(uriCall.value()));
         connect(mSetAvTransportUriCall.get(),
                 &UPnPAV::PendingSoapCall::finished,
                 this,
@@ -229,7 +260,7 @@ void Renderer::onSetAvTransportUriFinished() noexcept
     if (mSetAvTransportUriCall and not mSetAvTransportUriCall->hasError()) {
         auto playCall = mRenderer->play(defaultInstanceId);
         if (playCall.has_value()) {
-            mPlayCall = std::move(playCall.value());
+            mPlayCall = goOfflineWhenUnreachable(std::move(playCall.value()));
             connect(mPlayCall.get(), &UPnPAV::PendingSoapCall::finished, this, &Renderer::onPlayCallFinished);
         }
     } else if (mSetAvTransportUriCall and mSetAvTransportUriCall->hasError()) {
@@ -266,7 +297,7 @@ void Renderer::stop() noexcept
     }
 
     if (stopCall.has_value()) {
-        mStopCall = std::move(stopCall.value());
+        mStopCall = goOfflineWhenUnreachable(std::move(stopCall.value()));
         connect(mStopCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
             if (mStopCall->hasError()) {
                 qCCritical(mmRenderer) << "Stop request failed with error:" << mStopCall->errorDescription();
@@ -280,7 +311,7 @@ void Renderer::resume() noexcept
     if (mRenderer != nullptr and (mState == State::Stopped or mState == State::Paused)) {
         auto resumeCall = mRenderer->play(0);
         if (resumeCall.has_value()) {
-            mResumeCall = std::move(resumeCall.value());
+            mResumeCall = goOfflineWhenUnreachable(std::move(resumeCall.value()));
         }
     }
 }
@@ -304,7 +335,7 @@ void Renderer::setVolume(quint32 volume) noexcept
 
     auto call = mRenderer->setVolume(0, "Master", volume);
     if (call.has_value()) {
-        mSetVolumeCall = std::move(call.value());
+        mSetVolumeCall = goOfflineWhenUnreachable(std::move(call.value()));
         connect(mSetVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this] {
             if (mSetVolumeCall->hasError()) {
                 qCCritical(mmRenderer) << "Failed to set set volume. Error:" << mSetVolumeCall->errorDescription();

@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -271,6 +271,18 @@ void PendingSoapCallShould::
     QVERIFY2(
         expectedString == testObject->rawMessage(),
         QString{"Expected: %1 \nActual: %2"}.arg(expectedString, testObject->rawMessage().toLocal8Bit()).toLocal8Bit());
+}
+
+void PendingSoapCallShould::give_device_unreachable_when_the_device_did_not_answer()
+{
+    auto soapCallDouble = QSharedPointer<SoapCallDouble>::create();
+    soapCallDouble->setDeviceUnreachable();
+    auto pendingSoapCall = PendingSoapCall{soapCallDouble};
+
+    Q_EMIT soapCallDouble->finished();
+
+    QCOMPARE(pendingSoapCall.hasError(), true);
+    QCOMPARE(pendingSoapCall.errorCode(), PendingSoapCall::ErrorCode::DeviceUnreachable);
 }
 
 } // namespace UPnPAV

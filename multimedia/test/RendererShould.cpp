@@ -317,14 +317,14 @@ void RendererShould::set_volume_of_upnpav_media_renderer()
 
 void RendererShould::give_the_identity_manufacturer_model_and_address_of_the_renderer()
 {
-    auto renderer = Renderer{std::make_unique<MediaRendererDouble>(
-        validRendererDeviceDescription(QStringLiteral("Kitchen"),
-                                       QStringLiteral("Denon"),
-                                       QStringLiteral("HEOS 1"),
-                                       QStringLiteral("uuid:kitchen"),
-                                       QStringLiteral("192.168.1.42")),
-        QSharedPointer<SoapBackendDouble>::create(),
-        QSharedPointer<Doubles::EventBackend>::create())};
+    auto renderer =
+        Renderer{std::make_unique<MediaRendererDouble>(validRendererDeviceDescription(QStringLiteral("Kitchen"),
+                                                                                      QStringLiteral("Denon"),
+                                                                                      QStringLiteral("HEOS 1"),
+                                                                                      QStringLiteral("uuid:kitchen"),
+                                                                                      QStringLiteral("192.168.1.42")),
+                                                       QSharedPointer<SoapBackendDouble>::create(),
+                                                       QSharedPointer<Doubles::EventBackend>::create())};
 
     QCOMPARE(renderer.identity(), QStringLiteral("uuid:kitchen"));
     QCOMPARE(renderer.manufacturer(), QStringLiteral("Denon"));
@@ -449,6 +449,98 @@ void RendererShould::give_no_volume_while_offline()
 
     QCOMPARE(renderer.volume(), quint32{0});
     QCOMPARE(volumeChangedSpy.size(), 1);
+}
+
+void RendererShould::go_offline_when_the_device_does_not_answer_a_call_data()
+{
+    QTest::addColumn<QString>("call");
+
+    QTest::newRow("GetProtocolInfo") << QStringLiteral("GetProtocolInfo");
+    QTest::newRow("GetVolume") << QStringLiteral("GetVolume");
+    QTest::newRow("SetVolume") << QStringLiteral("SetVolume");
+    QTest::newRow("SetAVTransportURI") << QStringLiteral("SetAVTransportURI");
+    QTest::newRow("Play") << QStringLiteral("Play");
+    QTest::newRow("Pause") << QStringLiteral("Pause");
+}
+
+void RendererShould::go_offline_when_the_device_does_not_answer_a_call()
+{
+    QFETCH(QString, call);
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    mUpnpRendererRaw->setPauseEnabled(true);
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    renderer.initialize();
+    Q_EMIT mUpnpRendererRaw->protocolInfoCall()->finished();
+    auto soapCall = QSharedPointer<SoapCallDouble>{};
+    if (call == QStringLiteral("GetProtocolInfo")) {
+        soapCall = mUpnpRendererRaw->protocolInfoCall();
+    } else if (call == QStringLiteral("GetVolume")) {
+        soapCall = mUpnpRendererRaw->volumeCall();
+    } else if (call == QStringLiteral("SetVolume")) {
+        renderer.setVolume(25);
+        soapCall = mUpnpRendererRaw->setVolumeCall();
+    } else if (call == QStringLiteral("SetAVTransportURI")) {
+        renderer.playback(createPlayableMediaItem());
+        soapCall = mUpnpRendererRaw->avTransportUriCall();
+    } else if (call == QStringLiteral("Play")) {
+        renderer.playback(createPlayableMediaItem());
+        Q_EMIT mUpnpRendererRaw->avTransportUriCall()->finished();
+        soapCall = mUpnpRendererRaw->playCall();
+    } else if (call == QStringLiteral("Pause")) {
+        renderer.stop();
+        soapCall = mUpnpRendererRaw->pauseCall();
+    }
+    QCOMPARE(renderer.availability(), Renderer::Availability::Online);
+    auto availabilityChangedSpy = QSignalSpy{&renderer, &Renderer::availabilityChanged};
+
+    soapCall->setDeviceUnreachable();
+    Q_EMIT soapCall->finished();
+
+    QTRY_COMPARE(renderer.availability(), Renderer::Availability::Offline);
+    QCOMPARE(availabilityChangedSpy.size(), 1);
+}
+
+void RendererShould::stay_online_when_the_device_answers_a_call_with_an_error()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    renderer.initialize();
+    Q_EMIT mUpnpRendererRaw->protocolInfoCall()->finished();
+    renderer.playback(createPlayableMediaItem());
+    auto playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+
+    mUpnpRendererRaw->avTransportUriCall()->setErrorState(true);
+    Q_EMIT mUpnpRendererRaw->avTransportUriCall()->finished();
+    QCoreApplication::processEvents();
+
+    QCOMPARE(playbackFailedSpy.size(), 1);
+    QCOMPARE(renderer.availability(), Renderer::Availability::Online);
+}
+
+void RendererShould::go_offline_when_the_event_publisher_of_the_device_is_unreachable()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    Q_EMIT mUpnpRendererRaw->unreachable();
+
+    QTRY_COMPARE(renderer.availability(), Renderer::Availability::Offline);
+}
+
+void RendererShould::stay_online_when_a_dropped_device_was_unreachable()
+{
+    auto renderer = Renderer{createKitchenDevice()};
+    renderer.initialize();
+    auto device = createKitchenDevice();
+    auto* deviceRaw = device.get();
+    renderer.goOnline(std::move(device));
+    auto protocolInfoCall = deviceRaw->protocolInfoCall();
+    protocolInfoCall->setDeviceUnreachable();
+    Q_EMIT protocolInfoCall->finished();
+    renderer.goOnline(createKitchenDevice());
+
+    QCoreApplication::processEvents();
+
+    QCOMPARE(renderer.availability(), Renderer::Availability::Online);
 }
 
 } // namespace Multimedia

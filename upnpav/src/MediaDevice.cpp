@@ -75,6 +75,7 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription,
         d->mAvTransportDescriptionSCPD = avSerVali.scpd();
 
         d->mAvTransportEvents = d->mEventBackend->subscribeEvents(d->mAvTransportDescription);
+        reportUnreachablePublisher(*d->mAvTransportEvents);
         QObject::connect(d->mAvTransportEvents.get(),
                          &EventSubscriptionHandle::propertiesChanged,
                          d->mAvTransportEvents.get(),
@@ -106,6 +107,15 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription,
 }
 
 MediaDevice::~MediaDevice() = default;
+
+void MediaDevice::reportUnreachablePublisher(EventSubscriptionHandle const& events) noexcept
+{
+    connect(&events, &EventSubscriptionHandle::subscriptionFailed, this, [this](SubscriptionError const& error) {
+        if (error == SubscriptionError::PublisherUnreachable) {
+            Q_EMIT unreachable();
+        }
+    });
+}
 
 QString const& MediaDevice::name() const noexcept
 {

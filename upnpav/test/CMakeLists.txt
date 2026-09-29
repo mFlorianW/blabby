@@ -285,6 +285,23 @@ target_link_libraries(test_upnpav_http_eventbackend
 add_test(test_upnpav_http_eventbackend ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_http_eventbackend)
 
 ###############################################################################
+# Test HttpSoapBackend
+###############################################################################
+add_executable(test_upnpav_http_soapbackend)
+target_sources(test_upnpav_http_soapbackend
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackendShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/HttpSoapBackendShould.hpp
+)
+target_link_libraries(test_upnpav_http_soapbackend
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_http_soapbackend ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_http_soapbackend)
+
+###############################################################################
 # Test GetVolumeResponse
 ###############################################################################
 add_executable(test_upnpav_get_volume_response)

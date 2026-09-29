@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "HttpEventBackendShould.hpp"
+#include "ClosedPort.hpp"
 #include "Descriptions.hpp"
 #include "private/HttpEventServer.hpp"
 #include <QSignalSpy>
@@ -41,7 +42,7 @@ RequestHandler::RequestHandler()
             mLastEventSubscriptionParams.callback = request.headers().value("CALLBACK");
 
             auto time = request.headers().value("TIMEOUT");
-            const auto indexOfDash = time.indexOf("-");
+            auto const indexOfDash = time.indexOf("-");
             mLastEventSubscriptionParams.timeout = time.remove(0, indexOfDash + 1).toInt();
 
             // send the subscription ID back.
@@ -185,6 +186,22 @@ void HttpEventBackendShould::renew_the_subscription()
     mReceiver->clearLastSubscriptionRequest();
 
     QTRY_COMPARE_WITH_TIMEOUT(mReceiver->lastSubscriptionRequest(), subscription(), TIMEOUT);
+}
+
+void HttpEventBackendShould::signal_an_unreachable_publisher_when_the_subscription_fails()
+{
+    auto const available = validAvTransportServiceDescription();
+    auto const unreachable = ServiceDescription{available.serviceType(),
+                                                available.id(),
+                                                available.scpdUrl(),
+                                                available.controlUrl(),
+                                                QStringLiteral("http://127.0.0.1:%1/test/eventUrl").arg(closedPort())};
+
+    auto handle = mEventBackend->subscribeEvents(unreachable);
+    auto failedSpy = QSignalSpy{handle.get(), &EventSubscriptionHandle::subscriptionFailed};
+
+    QTRY_COMPARE_WITH_TIMEOUT(failedSpy.size(), 1, TIMEOUT);
+    QCOMPARE(failedSpy.at(0).at(0).value<SubscriptionError>(), SubscriptionError::PublisherUnreachable);
 }
 
 } // namespace UPnPAV

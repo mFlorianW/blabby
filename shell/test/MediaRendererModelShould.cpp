@@ -331,6 +331,25 @@ void MediaRendererModelShould::clear_the_active_renderer_when_it_disconnects()
     QCOMPARE(isActive(0), false);
 }
 
+void MediaRendererModelShould::clear_the_active_renderer_when_its_device_does_not_answer()
+{
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+    auto* device = mRendererFactory->renderer(QStringLiteral("Kitchen"));
+    device->setVolumeEnabled(true);
+    auto volumeCall = device->setVolumeCall();
+    mModel->activeRenderer()->setVolume(25);
+
+    volumeCall->setDeviceUnreachable();
+    Q_EMIT volumeCall->finished();
+
+    QTRY_VERIFY(mModel->activeRenderer() == nullptr);
+    QCOMPARE(activeRendererChangedSpy.size(), 1);
+    QCOMPARE(isActive(0), false);
+}
+
 void MediaRendererModelShould::keep_the_active_renderer_when_another_renderer_disconnects()
 {
     auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
@@ -467,8 +486,10 @@ void MediaRendererModelShould::order_online_renderers_before_offline_ones_and_al
     Q_EMIT mServiceProvider->serviceConnected(livingRoomUsn);
     Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
 
-    auto const expNames = QStringList{
-        QStringLiteral("Bathroom"), QStringLiteral("living room"), QStringLiteral("Attic"), QStringLiteral("Old Kitchen")};
+    auto const expNames = QStringList{QStringLiteral("Bathroom"),
+                                      QStringLiteral("living room"),
+                                      QStringLiteral("Attic"),
+                                      QStringLiteral("Old Kitchen")};
     QCOMPARE(rendererNames(), expNames);
 }
 

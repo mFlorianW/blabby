@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "HttpEventSubscriptionHandle.hpp"
+#include "NetworkReachability.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QCoreApplication>
 #include <QUrl>
@@ -70,6 +71,9 @@ void HttpEventSubscriptionHandle::subscribe(EventSubscriptionParameters const& p
 
         if (reply->error() != QNetworkReply::NoError) {
             qCCritical(upnpavEvent) << "Event subscription" << reply->url() << "failed. Error:" << reply->error();
+            if (isDeviceUnreachable(reply->error())) {
+                Q_EMIT subscriptionFailed(SubscriptionError::PublisherUnreachable);
+            }
             return;
         }
 

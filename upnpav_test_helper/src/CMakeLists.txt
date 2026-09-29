@@ -10,6 +10,7 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/SoapBackendDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestSoapCall.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClosedPort.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerActions.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionManagerStateVariables.cpp

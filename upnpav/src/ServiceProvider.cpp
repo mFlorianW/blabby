@@ -75,6 +75,14 @@ bool ServiceProvider::validateDestination(QNetworkDatagram const& datagram)
     return (datagram.destinationAddress() == QHostAddress{"239.255.255.250"}) && (datagram.destinationPort() == 1900);
 }
 
+void ServiceProvider::disconnectService(QString const& usn) noexcept
+{
+    if (m_knownDevices.contains(usn)) {
+        disconnectDevice(usn);
+        scheduleNextWakeUp();
+    }
+}
+
 void ServiceProvider::handleByeByePackage(ServiceDiscoveryPackage const& package)
 {
     disconnectDevice(package.deviceId());

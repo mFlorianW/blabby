@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -29,6 +29,8 @@ private Q_SLOTS:
     void give_Error_Description_When_Call_Finished_With_Error();
 
     void return_An_Object_That_is_Constructable_With_QString_That_Returns_The_Message_When_Call_Finished();
+
+    void give_device_unreachable_when_the_device_did_not_answer();
 };
 
 } // namespace UPnPAV

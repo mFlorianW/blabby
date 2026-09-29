@@ -24,6 +24,12 @@ public:
     void startSearch() const noexcept override;
 
     UPnPAV::DeviceDescription rootDeviceDescription(QString const& usn) const noexcept override;
+
+    /**
+     * Records the service and emits @ref UPnPAV::IServiceProvider::serviceDisconnected like the real provider.
+     */
+    void disconnectService(QString const& usn) noexcept override;
+    QStringList const& disconnectedServices() const noexcept;
     void addDeviceDescription(QString const& usn, UPnPAV::DeviceDescription const& desc) noexcept;
 
     QString const& searchTarget() const noexcept;
@@ -35,6 +41,7 @@ private:
     QString mSearchTarget;
     mutable int mSearchCount{0};
     QHash<QString, UPnPAV::DeviceDescription> mDevices;
+    QStringList mDisconnectedServices;
 };
 
 class ServiceProviderFactory : public UPnPAV::IServiceProviderFactory

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -31,6 +31,16 @@ public:
      * @return True call finished successful, otherwise false.
      */
     virtual bool hasFinishedSuccesful() const noexcept = 0;
+
+    /**
+     * Tells if the SOAP call failed because the device didn't answer, e.g. because it left the network.
+     * A device that answers with an error is reachable.
+     *
+     * @note The return value is only valid when finished signal was emitted.
+     *
+     * @return True the device is unreachable, otherwise false.
+     */
+    virtual bool isDeviceUnreachable() const noexcept = 0;
 
     /**
      * Raw answer of the error code.

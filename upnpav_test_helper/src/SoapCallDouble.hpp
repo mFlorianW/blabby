@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -30,8 +30,15 @@ public:
     void setRawMessage(QString const& rawMessage);
     QString rawMessage() const noexcept override;
 
+    /**
+     * Lets the call fail like a call to a device that didn't answer.
+     */
+    void setDeviceUnreachable();
+    bool isDeviceUnreachable() const noexcept override;
+
 private:
     bool m_errorState{false};
+    bool m_deviceUnreachable{false};
     QString m_rawMessage{""};
 };
 

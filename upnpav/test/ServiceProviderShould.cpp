@@ -305,6 +305,36 @@ void ServiceProviderShould::report_an_expired_device_as_connected_again_when_it_
     QCOMPARE(connectSpy.at(1).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
 }
 
+void ServiceProviderShould::report_a_disconnected_device_as_connected_again_when_it_is_announced()
+{
+    QSignalSpy connectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceConnected};
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+    auto const usn = QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939");
+    auto const announcement = createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithoutServices();
+
+    m_mediaServerProvider->disconnectService(usn);
+    QCOMPARE(disconnectSpy.size(), 1);
+    QCOMPARE(disconnectSpy.at(0).at(0).toString(), usn);
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(announcement);
+    m_providerFactory->descriptionFetcherBackendDouble->sendDeviceWithoutServices();
+    QCOMPARE(connectSpy.size(), 2);
+
+    m_providerFactory->clockDouble->advance(std::chrono::seconds{1800});
+    QCOMPARE(disconnectSpy.size(), 2);
+}
+
+void ServiceProviderShould::not_report_an_unknown_device_as_disconnected()
+{
+    QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
+
+    m_mediaServerProvider->disconnectService(QStringLiteral("uuid:unknown"));
+
+    QCOMPARE(disconnectSpy.size(), 0);
+}
+
 void ServiceProviderShould::not_expire_devices_with_an_out_of_range_max_age()
 {
     QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};

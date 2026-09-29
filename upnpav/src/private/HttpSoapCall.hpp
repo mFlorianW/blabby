@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -24,6 +24,8 @@ public:
     HttpSoapCall(QSharedPointer<QNetworkReply> const& reply, ServiceControlPointDefinition scpd, SCPDAction action);
 
     bool hasFinishedSuccesful() const noexcept override;
+
+    bool isDeviceUnreachable() const noexcept override;
 
     QString rawMessage() const noexcept override;
 

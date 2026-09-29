@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -158,6 +158,16 @@ private Q_SLOTS:
      *       when pause is called.
      */
     void should_send_the_correct_soap_message_when_calling_pause();
+
+    /**
+     * @test The media device tells that it's unreachable when the AVTransport event publisher is unreachable.
+     */
+    void tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable();
+
+    /**
+     * @test The media device doesn't tell that it's unreachable when a reachable publisher rejects the subscription.
+     */
+    void not_tell_that_it_is_unreachable_when_the_publisher_rejects_the_subscription();
 };
 
 } // namespace UPnPAV
