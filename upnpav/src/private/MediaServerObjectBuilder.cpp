@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -41,6 +41,24 @@ MediaServerObjectBuilder& MediaServerObjectBuilder::withSupportedProtocols(
     QVector<Protocol> const& supportedProtocols) noexcept
 {
     mObj.mSupportedProtocols = supportedProtocols;
+    return *this;
+}
+
+MediaServerObjectBuilder& MediaServerObjectBuilder::withAlbumArtUrl(QString const& albumArtUrl) noexcept
+{
+    mObj.mAlbumArtUrl = albumArtUrl;
+    return *this;
+}
+
+MediaServerObjectBuilder& MediaServerObjectBuilder::withArtist(QString const& artist) noexcept
+{
+    mObj.mArtist = artist;
+    return *this;
+}
+
+MediaServerObjectBuilder& MediaServerObjectBuilder::withCreator(QString const& creator) noexcept
+{
+    mObj.mCreator = creator;
     return *this;
 }
 

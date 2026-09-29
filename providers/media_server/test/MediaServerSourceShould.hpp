@@ -29,6 +29,9 @@ private Q_SLOTS:
     void give_a_default_icon_when_no_icon_is_set();
     void classify_objects_by_their_class_data();
     void classify_objects_by_their_class();
+    void request_the_album_art_the_artist_and_the_creator();
+    void map_the_album_art_and_the_artist_to_the_item_data();
+    void map_the_album_art_and_the_artist_to_the_item();
 };
 
 } // namespace Provider::MediaServer

@@ -57,13 +57,13 @@ public:
      * @param type The Type of the media item.
      * @param mainText The main text of the media item. E.g. song name in of a playable item.
      * @param secondaryText The secondary text of the item. E.g. in case of a playable item the artist.
-     * @param iconUrl The URL for icon of the media item.
+     * @param artworkUrl The URL of the artwork of the media item, e.g. the album art.
      * @param path The path of the media item, the path is used for the navigation in the source.
      */
     Item(ItemType type,
          QString mainText,
          QString secondaryText = QString(""),
-         QString iconUrl = QString(""),
+         QString artworkUrl = QString(""),
          QString path = QString(""));
 
     /**
@@ -89,11 +89,11 @@ public:
     QString const& secondaryText() const noexcept;
 
     /**
-     * Give an icon url for that item.
-     * The icon is optional and if the item doesn't have an icon an empty QString is returned.
-     * @return The url for the icon of the media item.
+     * Gives the URL of the artwork of the item, e.g. the album art.
+     * The artwork is optional and if the item doesn't have an artwork an empty QString is returned.
+     * @return The URL of the artwork of the media item.
      */
-    QString const& iconUrl() const noexcept;
+    QString const& artworkUrl() const noexcept;
 
     /**
      * Gives the path of that item.
@@ -166,11 +166,11 @@ public:
     ItemBuilder& withSecondaryText(QString const& text) noexcept;
 
     /**
-     * Sets the icon URL of the @ref Multimedia::Item
-     * @param iconUrl The icon URL of the @ref Multimedia::Item
+     * Sets the artwork URL of the @ref Multimedia::Item
+     * @param artworkUrl The artwork URL of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
      */
-    ItemBuilder& withIconUrl(QString const& iconUrl) noexcept;
+    ItemBuilder& withArtworkUrl(QString const& artworkUrl) noexcept;
 
     /**
      * Sets the path of the @ref Multimedia::Item
@@ -208,7 +208,7 @@ struct ItemData : public QSharedData
     ItemType mType{ItemType::Container};
     QString mMainText;
     QString mSecondaryText;
-    QString mIconUrl;
+    QString mArtworkUrl;
     QString mPath;
     QString mPlayUrl;
     QVector<UPnPAV::Protocol> mSupportedTypes;
@@ -217,13 +217,13 @@ struct ItemData : public QSharedData
     ItemData(ItemType type,
              QString mainText,
              QString secondaryText = QString(""),
-             QString iconUrl = QString(""),
+             QString artworkUrl = QString(""),
              QString path = QString(""))
         : QSharedData{}
         , mType{type}
         , mMainText{std::move(mainText)}
         , mSecondaryText{std::move(secondaryText)}
-        , mIconUrl{std::move(iconUrl)}
+        , mArtworkUrl{std::move(artworkUrl)}
         , mPath{std::move(path)}
     {
     }

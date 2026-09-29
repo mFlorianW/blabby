@@ -28,8 +28,9 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const noexcept
 {
     static auto const roles = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
-        std::make_pair(static_cast<int>(DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+        std::make_pair(static_cast<int>(DisplayRole::MediaItemArtworkUrl), QByteArray{"mediaItemArtworkUrl"}),
         std::make_pair(static_cast<int>(DisplayRole::MediaItemType), QByteArray{"mediaItemType"}),
+        std::make_pair(static_cast<int>(DisplayRole::MediaItemSecondaryText), QByteArray{"mediaItemSecondaryText"}),
     };
     return roles;
 }
@@ -52,15 +53,12 @@ QVariant MediaItemModel::data(QModelIndex const& index, int role) const noexcept
     auto const dispRole = static_cast<DisplayRole>(role);
     if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
-    } else if (dispRole == DisplayRole::MediaItemIconUrl) {
-        auto const iconUrl = item.iconUrl();
-        if (iconUrl.isEmpty()) {
-            return item.type() == Multimedia::ItemType::Container
-                       ? QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg")
-                       : QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg");
-        }
+    } else if (dispRole == DisplayRole::MediaItemArtworkUrl) {
+        return item.artworkUrl();
     } else if (dispRole == DisplayRole::MediaItemType) {
         return static_cast<int>(item.type());
+    } else if (dispRole == DisplayRole::MediaItemSecondaryText) {
+        return item.secondaryText();
     }
 
     return {};

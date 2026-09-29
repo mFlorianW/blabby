@@ -30,7 +30,7 @@ private Q_SLOTS:
     void tell_whether_a_media_source_is_set();
     void stop_following_the_previous_media_source_when_the_media_source_changes();
     void navigate_the_back_the_active_media_source();
-    void give_the_default_icon_url_when_the_media_item_has_no_icon();
+    void give_the_artwork_url_and_the_secondary_text_of_the_item();
     void give_the_name_and_icon_url_for_the_active_media_source();
     void be_busy_until_the_items_of_the_opened_container_arrive();
     void ignore_activations_while_busy();

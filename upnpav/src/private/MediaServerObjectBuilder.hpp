@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -59,6 +59,27 @@ public:
      * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
      */
     MediaServerObjectBuilder& withSupportedProtocols(QVector<Protocol> const& supportedProtocols) noexcept;
+
+    /**
+     * Sets the album art URL of the MediaObject
+     * @param albumArtUrl The album art URL of the @ref UPnPAV::MediaServerObject
+     * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
+     */
+    MediaServerObjectBuilder& withAlbumArtUrl(QString const& albumArtUrl) noexcept;
+
+    /**
+     * Sets the artist of the MediaObject
+     * @param artist The artist of the @ref UPnPAV::MediaServerObject
+     * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
+     */
+    MediaServerObjectBuilder& withArtist(QString const& artist) noexcept;
+
+    /**
+     * Sets the creator of the MediaObject
+     * @param creator The creator of the @ref UPnPAV::MediaServerObject
+     * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
+     */
+    MediaServerObjectBuilder& withCreator(QString const& creator) noexcept;
 
     /**
      * Checks if the required parameters are correctly set. This can be helpfull

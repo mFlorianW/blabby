@@ -12,6 +12,23 @@
 namespace Provider::MediaServer
 {
 
+namespace
+{
+/**
+ * The optional properties a browse asks for, without a filter servers may omit them.
+ * The resources carry the play URL, the album art, the artist and the creator are shown on the tiles.
+ */
+constexpr auto BrowseFilter = QLatin1StringView{"res,upnp:albumArtURI,upnp:artist,dc:creator"};
+
+/**
+ * Gives the secondary text of an object: its artist or, without an artist, its creator.
+ */
+QString secondaryText(UPnPAV::MediaServerObject const& obj)
+{
+    return obj.artist().isEmpty() ? obj.creator() : obj.artist();
+}
+} // namespace
+
 Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
     : Multimedia::Source{mediaServer->name(),
                          mediaServer->iconUrl().isEmpty()
@@ -32,7 +49,7 @@ void Source::navigateTo(QString const& path) noexcept
 void Source::navigate(QString const& path) noexcept
 {
     mBrowseRequest = {
-        .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, QString(""), QString("")),
+        .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, BrowseFilter, QString("")),
         .mPath = path,
     };
     connect(mBrowseRequest.mRequest.get(), &UPnPAV::PendingSoapCall::finished, this, &Source::onBrowseRequestFinished);
@@ -56,6 +73,8 @@ void Source::onBrowseRequestFinished() noexcept
         mMediaItems.emplace_back(Multimedia::ItemBuilder{}
                                      .withItemType(type)
                                      .withMainText(obj.title())
+                                     .withSecondaryText(secondaryText(obj))
+                                     .withArtworkUrl(obj.albumArtUrl())
                                      .withPath(obj.id())
                                      .withPlayUrl(obj.playUrl())
                                      .withSupportedTypes(obj.supportedProtocols())

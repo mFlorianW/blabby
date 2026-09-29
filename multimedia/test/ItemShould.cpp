@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -47,15 +47,14 @@ void ItemShould::give_the_main_and_secondary_text()
              QString("The secondaryText text \"%1\" is not the expected one %2").arg(mText, expSecText).toLocal8Bit());
 }
 
-void ItemShould::give_the_icon_url()
+void ItemShould::give_the_artwork_url()
 {
-    auto const expIconUrl = QStringLiteral("http://exmaple.com/Blubdi.png");
-    auto const item = Item{ItemType::Container, QString{""}, QString{""}, expIconUrl};
+    auto const expArtworkUrl = QStringLiteral("http://exmaple.com/Blubdi.png");
+    auto const item = Item{ItemType::Container, QString{""}, QString{""}, expArtworkUrl};
+    auto const builtItem = ItemBuilder{}.withArtworkUrl(expArtworkUrl).build();
 
-    auto const iconUrl = item.iconUrl();
-
-    QVERIFY2(iconUrl == expIconUrl,
-             QString("The icon URL \"%1\" is not the expected one %2").arg(iconUrl, expIconUrl).toLocal8Bit());
+    QCOMPARE(item.artworkUrl(), expArtworkUrl);
+    QCOMPARE(builtItem.artworkUrl(), expArtworkUrl);
 }
 
 void ItemShould::give_the_path()

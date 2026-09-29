@@ -52,11 +52,18 @@ public:
     enum class DisplayRole
     {
         MediaItemTitle = Qt::UserRole + 1,
-        MediaItemIconUrl,
+        /**
+         * The URL of the artwork of the @ref Multimedia::Item, e.g. the album art, empty when it has none.
+         */
+        MediaItemArtworkUrl,
         /**
          * The type of the @ref Multimedia::Item as integer value of @ref Multimedia::ItemType.
          */
         MediaItemType,
+        /**
+         * The secondary text of the @ref Multimedia::Item, e.g. the artist, empty when it has none.
+         */
+        MediaItemSecondaryText,
     };
     Q_ENUM(DisplayRole)
 

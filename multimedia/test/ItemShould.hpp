@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -21,7 +21,7 @@ public:
 private Q_SLOTS:
     void give_the_type();
     void give_the_main_and_secondary_text();
-    void give_the_icon_url();
+    void give_the_artwork_url();
     void give_the_path();
     void give_the_play_url();
     void give_supported_types();

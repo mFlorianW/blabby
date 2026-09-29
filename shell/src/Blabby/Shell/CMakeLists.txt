@@ -13,7 +13,6 @@ qt_add_qml_module(${PROJECT_NAME}
         RenderersView.qml
         SourcePicker.qml
     RESOURCES
-        ../../icons/24x24/folder.svg
         ../../icons/24x24/play_arrow.svg
         ../../icons/24x24/close.svg
         ../../icons/material/arrow_back.svg
