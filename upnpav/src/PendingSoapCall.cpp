@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -42,7 +42,11 @@ void PendingSoapCall::onSoapCallFinished()
 {
     m_rawMessage = m_soapCall->rawMessage();
 
-    if (!m_soapCall->hasFinishedSuccesful()) {
+    if (m_soapCall->isDeviceUnreachable()) {
+        m_errorState = true;
+        m_errorCode = ErrorCode::DeviceUnreachable;
+        m_errorDescription = QStringLiteral("The device didn't answer.");
+    } else if (!m_soapCall->hasFinishedSuccesful()) {
         ErrorResult errorResult{m_rawMessage};
         m_errorState = true;
         m_errorCode = convertErrorCode(errorResult.errorCode());

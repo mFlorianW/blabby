@@ -20,6 +20,7 @@ namespace UPnPAV
 class MediaDevicePrivate;
 class DeviceDescription;
 class SoapBackend;
+class EventSubscriptionHandle;
 
 /**
  * This interface defines functions that every upnp media device
@@ -315,10 +316,22 @@ Q_SIGNALS:
      */
     void stateChanged();
 
+    /**
+     * This signal is emitted when the @ref UPnPAV::MediaDevice doesn't answer anymore, e.g. because it left the
+     * network. A device that answers with an error is reachable.
+     */
+    void unreachable();
+
 protected:
     MediaDevice(DeviceDescription deviceDescription,
                 QSharedPointer<SoapBackend> soapBackend,
                 QSharedPointer<EventBackend> eventBackend);
+
+    /**
+     * Emits @ref UPnPAV::MediaDevice::unreachable when the publisher of the passed event subscription is unreachable.
+     * @param events The event subscription of a service of the @ref UPnPAV::MediaDevice.
+     */
+    void reportUnreachablePublisher(EventSubscriptionHandle const& events) noexcept;
 
 private:
     QScopedPointer<MediaDevicePrivate> d;

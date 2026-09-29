@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -132,6 +132,12 @@ enum class SubscriptionError
      * with a HTTP 500-series error code.
      */
     UnableToAcceptSubscription = 500,
+
+    /**
+     * The publisher didn't answer the subscription request, e.g. because it left the network.
+     * This is not an HTTP status code.
+     */
+    PublisherUnreachable = -1,
 };
 
 /**

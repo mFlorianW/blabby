@@ -1,6 +1,6 @@
 // Copyright 2019 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -25,6 +25,8 @@ public:
         Unknown = 0,
         ///< SoapCall finished successful.
         NoError = 200,
+        ///< The device didn't answer, e.g. because it left the network. This is not a UPnP error code.
+        DeviceUnreachable = -1,
         ///< No action by that name at this service.
         InvalidAction = 401,
         ///< Not enough in args, too many in args, no in arg by that name, one or more in args are of the wrong data

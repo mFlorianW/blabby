@@ -63,6 +63,7 @@ set(PRIVATE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ServiceValidatorBase.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/SoapMessageGenerator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/HttpSoapCall.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/NetworkReachability.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ErrorResult.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/AvTransportServiceValidator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/ResponseReader.hpp

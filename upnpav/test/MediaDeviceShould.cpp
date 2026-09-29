@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -1165,6 +1165,28 @@ void MediaDeviceShould::set_device_state_reported_by_the_av_transport_service()
 
     QCOMPARE(mediaDevice.state(), ExpectedState);
     QCOMPARE(stateChangedSpy.size(), StateChanged);
+}
+
+void MediaDeviceShould::tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = mediaDevice.eventBackend()->subscribeEvents(validAvTransportServiceDescription());
+    auto unreachableSpy = QSignalSpy{&mediaDevice, &MediaDevice::unreachable};
+
+    Q_EMIT handle->subscriptionFailed(SubscriptionError::PublisherUnreachable);
+
+    QCOMPARE(unreachableSpy.size(), 1);
+}
+
+void MediaDeviceShould::not_tell_that_it_is_unreachable_when_the_publisher_rejects_the_subscription()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = mediaDevice.eventBackend()->subscribeEvents(validAvTransportServiceDescription());
+    auto unreachableSpy = QSignalSpy{&mediaDevice, &MediaDevice::unreachable};
+
+    Q_EMIT handle->subscriptionFailed(SubscriptionError::CallBackOrNtError);
+
+    QCOMPARE(unreachableSpy.size(), 0);
 }
 
 void MediaDeviceShould::should_send_the_correct_soap_message_when_calling_pause()

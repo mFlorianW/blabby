@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -69,6 +69,12 @@ private Q_SLOTS:
      * Tests that the subscription created by the @ref UPnPAV::HttpEventBackend renewed in required timeout frame.
      */
     void renew_the_subscription();
+
+    /**
+     * @test
+     * Tests that a subscription to a publisher that doesn't answer fails because the publisher is unreachable.
+     */
+    void signal_an_unreachable_publisher_when_the_subscription_fails();
 
 private:
     std::unique_ptr<HttpEventBackend> mEventBackend;
