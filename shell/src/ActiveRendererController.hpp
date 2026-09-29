@@ -115,6 +115,16 @@ class ActiveRendererController : public QObject
      */
     Q_PROPERTY(bool canControlVolume READ canControlVolume NOTIFY activeRendererChanged)
 
+    /**
+     * This property is true while the Active Renderer is muted, false without an Active Renderer.
+     */
+    Q_PROPERTY(bool muted READ isMuted NOTIFY muteChanged)
+
+    /**
+     * This property is true when the Mute of the Active Renderer can be controlled.
+     */
+    Q_PROPERTY(bool canControlMute READ canControlMute NOTIFY activeRendererChanged)
+
 public:
     /**
      * Creates an instance of the @ref Shell::ActiveRendererController that follows the Active Renderer of the model.
@@ -245,6 +255,22 @@ public:
      */
     Q_INVOKABLE void setVolume(int volume) noexcept;
 
+    /**
+     * Gives true while the Active Renderer is muted.
+     */
+    bool isMuted() const noexcept;
+
+    /**
+     * Gives true when the Mute of the Active Renderer can be controlled.
+     */
+    bool canControlMute() const noexcept;
+
+    /**
+     * Mutes or unmutes the Active Renderer, independent of its Volume.
+     * @param muted True mutes, false unmutes.
+     */
+    Q_INVOKABLE void setMuted(bool muted) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
@@ -276,6 +302,11 @@ Q_SIGNALS:
      * This signal is emitted when the Volume changes, also when the Active Renderer is changed or cleared.
      */
     void volumeChanged();
+
+    /**
+     * This signal is emitted when the Mute changes, also when the Active Renderer is changed or cleared.
+     */
+    void muteChanged();
 
     /**
      * This signal is emitted when the Active Renderer starts or stops transitioning, also when the Active Renderer is

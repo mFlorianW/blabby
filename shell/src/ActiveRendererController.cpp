@@ -150,6 +150,23 @@ void ActiveRendererController::setVolume(int volume) noexcept
     }
 }
 
+bool ActiveRendererController::isMuted() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->isMuted();
+}
+
+bool ActiveRendererController::canControlMute() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canControlMute();
+}
+
+void ActiveRendererController::setMuted(bool muted) noexcept
+{
+    if (mRenderer != nullptr) {
+        mRenderer->setMuted(muted);
+    }
+}
+
 CurrentTrack ActiveRendererController::currentTrack() const noexcept
 {
     if (mRenderer == nullptr) {
@@ -178,6 +195,7 @@ void ActiveRendererController::onActiveRendererChanged()
         connect(mRenderer.get(), &Renderer::currentTrackChanged, this, &ActiveRendererController::currentTrackChanged);
         connect(mRenderer.get(), &Renderer::positionChanged, this, &ActiveRendererController::positionChanged);
         connect(mRenderer.get(), &Renderer::volumeChanged, this, &ActiveRendererController::volumeChanged);
+        connect(mRenderer.get(), &Renderer::muteChanged, this, &ActiveRendererController::muteChanged);
         connect(mRenderer.get(), &Renderer::durationChanged, this, &ActiveRendererController::durationChanged);
         connect(mRenderer.get(),
                 &Renderer::transitioningChanged,
@@ -196,6 +214,7 @@ void ActiveRendererController::onActiveRendererChanged()
     Q_EMIT positionChanged();
     Q_EMIT durationChanged();
     Q_EMIT volumeChanged();
+    Q_EMIT muteChanged();
 
     if (previous != nullptr and mRenderer == nullptr and previous->availability() == Renderer::Availability::Offline) {
         qCDebug(shell) << "The Active Renderer" << previous->name() << "went Offline.";

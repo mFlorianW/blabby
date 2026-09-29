@@ -390,6 +390,31 @@ void ActiveRendererControllerShould::set_the_volume_of_the_active_renderer()
     QCOMPARE(kitchen()->setVolumeData().volume, 33);
 }
 
+void ActiveRendererControllerShould::give_the_mute_of_the_active_renderer()
+{
+    QCOMPARE(mController->property("canControlMute").toBool(), false);
+    kitchen()->setMuteEnabled(true);
+    activate(QStringLiteral("Kitchen"));
+    auto muteChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::muteChanged};
+
+    Q_EMIT kitchen()->masterMuteChanged(true);
+
+    QCOMPARE(muteChangedSpy.size(), 1);
+    QCOMPARE(mController->property("muted").toBool(), true);
+    QCOMPARE(mController->property("canControlMute").toBool(), true);
+}
+
+void ActiveRendererControllerShould::set_the_mute_of_the_active_renderer()
+{
+    kitchen()->setMuteEnabled(true);
+    activate(QStringLiteral("Kitchen"));
+
+    mController->setMuted(true);
+
+    QCOMPARE(kitchen()->setMuteData().has_value(), true);
+    QCOMPARE(kitchen()->setMuteData().value_or(SetMuteData{}).mute, true);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::ActiveRendererControllerShould)

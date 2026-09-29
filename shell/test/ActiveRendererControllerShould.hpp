@@ -55,6 +55,8 @@ private Q_SLOTS:
     void seek_in_the_current_track_of_the_active_renderer();
     void give_the_volume_of_the_active_renderer();
     void set_the_volume_of_the_active_renderer();
+    void give_the_mute_of_the_active_renderer();
+    void set_the_mute_of_the_active_renderer();
 };
 
 } // namespace Shell
