@@ -13,6 +13,7 @@
 #include <QHash>
 #include <QPointer>
 #include <QRegularExpression>
+#include <QTime>
 #include <QUrl>
 #include <QVariant>
 #include <algorithm>
@@ -119,6 +120,23 @@ QString formatOf(QString const& uri, QVector<Resource> const& resources)
         return name;
     }
     return QStringLiteral("%1 · %2").arg(name, details.join(QStringLiteral(" / ")));
+}
+
+std::chrono::milliseconds toDuration(QTime const& time)
+{
+    return std::chrono::milliseconds{QTime{0, 0}.msecsTo(time)};
+}
+
+/**
+ * Gives the target of a seek by relative time, e.g. 1:02:03.
+ */
+QString relTimeTarget(std::chrono::milliseconds position)
+{
+    auto const seconds = std::chrono::duration_cast<std::chrono::seconds>(position).count();
+    return QStringLiteral("%1:%2:%3")
+        .arg(seconds / 3600)
+        .arg((seconds / 60) % 60, 2, 10, QLatin1Char{'0'})
+        .arg(seconds % 60, 2, 10, QLatin1Char{'0'});
 }
 
 CurrentTrack currentTrackOf(QString const& uri, QString metaData)
@@ -248,6 +266,8 @@ void Renderer::goOffline() noexcept
     updatePolling();
     updateVolume(0);
     updateCurrentTrack(QString{}, QString{});
+    setPosition(std::chrono::milliseconds{0});
+    setDuration(std::nullopt);
     setTransitioning(false);
     if (mState != State::NoMedia) {
         mState = State::NoMedia;
@@ -270,6 +290,9 @@ void Renderer::dropDevice() noexcept
     mSetVolumeCall.reset();
     mPositionInfoCall.reset();
     mPositionInfoPending = false;
+    mPositionInfoOutdated = false;
+    mSeekPending = false;
+    mSeekCall.reset();
     mPlaybackControlPending = false;
     mRenderer.reset();
     mProtocols.clear();
@@ -605,6 +628,8 @@ void Renderer::requestPositionInfo() noexcept
         return;
     }
     mPositionInfoPending = true;
+    // Requested while a seek is in flight, the position info may tell the position before the seek.
+    mPositionInfoOutdated = mSeekPending;
     mPositionInfoCall = goOfflineWhenUnreachable(std::move(call.value()));
     connect(mPositionInfoCall.get(), &PendingSoapCall::finished, this, &Renderer::onPositionInfoFinished);
 }
@@ -618,8 +643,84 @@ void Renderer::onPositionInfoFinished() noexcept
         return;
     }
 
+    if (mPositionInfoOutdated) {
+        // Requested before a seek finished, the position info tells the position before the seek.
+        mPositionInfoOutdated = false;
+        if (not mSeekPending) {
+            requestPositionInfo();
+        }
+        return;
+    }
+
     auto const response = mPositionInfoCall->resultAs<GetPositionInfoResponse>();
     updateCurrentTrack(response->trackUri(), response->trackMetaData());
+    auto const duration = toDuration(response->trackDuration());
+    setDuration(duration > std::chrono::milliseconds{0} ? std::optional{duration} : std::nullopt);
+    setPosition(toDuration(response->relTime()));
+}
+
+std::chrono::milliseconds Renderer::position() const noexcept
+{
+    return mPosition;
+}
+
+std::optional<std::chrono::milliseconds> Renderer::duration() const noexcept
+{
+    return mDuration;
+}
+
+bool Renderer::canSeek() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canSeek(MediaDevice::SeekMode::RelTime) and mDuration.has_value();
+}
+
+void Renderer::seek(std::chrono::milliseconds position) noexcept
+{
+    if (mRenderer == nullptr) {
+        qCWarning(mmRenderer) << "Failed to seek. Error: Renderer is Offline";
+        return;
+    }
+
+    auto call = mRenderer->seek(defaultInstanceId, MediaDevice::SeekMode::RelTime, relTimeTarget(position));
+    if (not call.has_value()) {
+        return;
+    }
+    mSeekPending = true;
+    mPositionInfoOutdated = mPositionInfoPending;
+    mSeekCall = goOfflineWhenUnreachable(std::move(call.value()));
+    connect(mSeekCall.get(), &PendingSoapCall::finished, this, [this]() {
+        mSeekPending = false;
+        if (mSeekCall->hasError()) {
+            qCWarning(mmRenderer) << "Seek request of" << mRemembered.name
+                                  << "failed with error:" << mSeekCall->errorDescription();
+            Q_EMIT controlFailed(Action::Seek);
+            return;
+        }
+        if (not mPositionTracked) {
+            return;
+        }
+        if (mPositionInfoPending) {
+            mPositionInfoOutdated = true;
+        } else {
+            requestPositionInfo();
+        }
+    });
+}
+
+void Renderer::setPosition(std::chrono::milliseconds position) noexcept
+{
+    if (mPosition != position) {
+        mPosition = position;
+        Q_EMIT positionChanged();
+    }
+}
+
+void Renderer::setDuration(std::optional<std::chrono::milliseconds> duration) noexcept
+{
+    if (mDuration != duration) {
+        mDuration = duration;
+        Q_EMIT durationChanged();
+    }
 }
 
 void Renderer::updatePolling() noexcept

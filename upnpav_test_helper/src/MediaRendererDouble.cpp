@@ -276,4 +276,32 @@ void MediaRendererDouble::finishPositionInfoCall(QString const& response) noexce
     Q_EMIT mPositionInfoCall->finished();
 }
 
+void MediaRendererDouble::setRelTimeSeekEnabled(bool enabled) noexcept
+{
+    mRelTimeSeekEnabled = enabled;
+}
+
+bool MediaRendererDouble::canSeek(SeekMode mode) const noexcept
+{
+    return mRelTimeSeekEnabled and mode == SeekMode::RelTime;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::seek(quint32 instanceId,
+                                                                          SeekMode mode,
+                                                                          QString const& target)
+{
+    mSeekData = SeekData{.instanceId = instanceId, .mode = mode, .target = target};
+    return std::make_unique<PendingSoapCall>(mSeekCall);
+}
+
+std::optional<SeekData> MediaRendererDouble::seekData() const noexcept
+{
+    return mSeekData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::seekCall() const noexcept
+{
+    return mSeekCall;
+}
+
 } // namespace UPnPAV::Doubles

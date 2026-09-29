@@ -14,6 +14,7 @@
 #include "private/LoggingCategories.hpp"
 #include "private/MediaDevicePrivate.hpp"
 #include "private/SoapMessageGenerator.hpp"
+#include <algorithm>
 
 namespace UPnPAV
 {
@@ -438,6 +439,17 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
 bool MediaDevice::canPause() const noexcept
 {
     return hasAvTransportService() and not d->mAvTransportDescriptionSCPD.action("Pause").name().isEmpty();
+}
+
+bool MediaDevice::canSeek(SeekMode mode) const noexcept
+{
+    if (not hasAvTransportService()) {
+        return false;
+    }
+
+    auto const& variables = d->mAvTransportDescriptionSCPD.serviceStateTable();
+    auto const seekMode = std::ranges::find(variables, QStringLiteral("A_ARG_TYPE_SeekMode"), &SCPDStateVariable::name);
+    return seekMode != variables.cend() and seekMode->allowedValues().contains(seekUnit(mode));
 }
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::pause(quint32 instanceId) noexcept

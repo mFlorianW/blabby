@@ -194,6 +194,11 @@ private Q_SLOTS:
      * @test The media device tells whether its AVTransport service offers Pause.
      */
     void tell_whether_it_can_pause();
+
+    /**
+     * @test The media device tells which seek modes its AVTransport service allows.
+     */
+    void tell_the_allowed_seek_modes();
 };
 
 } // namespace UPnPAV

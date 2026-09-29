@@ -12,6 +12,8 @@
 #include "RendererStore.hpp"
 #include "blabbymultimedia_export.h"
 #include <QObject>
+#include <chrono>
+#include <optional>
 
 namespace Multimedia
 {
@@ -125,6 +127,10 @@ public:
          * Stopping a Playing Renderer that can't pause.
          */
         Stop,
+        /**
+         * Seeking in the Current Track.
+         */
+        Seek,
     };
     Q_ENUM(Action)
 
@@ -323,6 +329,34 @@ public:
      */
     bool isPositionTracked() const noexcept;
 
+    /**
+     * Gives the position in the Current Track, taken from the position info. It's 0 while Offline.
+     * @return The position in the Current Track.
+     */
+    std::chrono::milliseconds position() const noexcept;
+
+    /**
+     * Gives the duration of the Current Track, taken from the position info.
+     * @return The duration, unset when unknown, e.g. for a stream, or while Offline.
+     */
+    std::optional<std::chrono::milliseconds> duration() const noexcept;
+
+    /**
+     * Gives whether the @ref Multimedia::Renderer can seek in the Current Track: its device allows seeking by
+     * relative time and the duration of the Current Track is known.
+     * @return True when the @ref Multimedia::Renderer can seek.
+     */
+    bool canSeek() const noexcept;
+
+    /**
+     * Seeks to the position in the Current Track by relative time.
+     * While the position is tracked the position info is requested right away after the seek finished,
+     * a position info requested before or while the seek is in flight is ignored.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Seek.
+     * @param position The position to seek to.
+     */
+    void seek(std::chrono::milliseconds position) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -366,6 +400,17 @@ Q_SIGNALS:
     void currentTrackChanged();
 
     /**
+     * This signal is emitted when the position in the Current Track changed.
+     */
+    void positionChanged();
+
+    /**
+     * This signal is emitted when the duration of the Current Track changed, and with it maybe whether the
+     * @ref Multimedia::Renderer can seek.
+     */
+    void durationChanged();
+
+    /**
      * This signal is emitted when the device starts or stops transitioning.
      */
     void transitioningChanged();
@@ -396,6 +441,8 @@ private:
     void updatePolling() noexcept;
     void onClockWokeUp() noexcept;
     void setTransitioning(bool transitioning) noexcept;
+    void setPosition(std::chrono::milliseconds position) noexcept;
+    void setDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
     std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
                                                            Renderer::Action action) noexcept;
 
@@ -411,6 +458,11 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mPositionInfoCall;
     bool mPositionInfoPending = false;
+    bool mPositionInfoOutdated = false;
+    bool mSeekPending = false;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSeekCall;
+    std::chrono::milliseconds mPosition{0};
+    std::optional<std::chrono::milliseconds> mDuration;
     std::unique_ptr<UPnPAV::Clock> mClock;
     bool mPositionTracked = false;
     bool mPolling = false;

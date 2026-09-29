@@ -75,6 +75,16 @@ private Q_SLOTS:
     void report_a_failed_playback_control_call_data();
     void report_a_failed_playback_control_call();
     void tell_while_a_playback_control_call_is_pending();
+    void give_the_position_and_the_duration_of_the_polled_position_info();
+    void give_no_duration_for_a_stream_data();
+    void give_no_duration_for_a_stream();
+    void give_no_position_and_duration_while_offline();
+    void seek_by_relative_time();
+    void refresh_the_position_info_after_a_seek();
+    void ignore_a_position_requested_before_a_seek_finished();
+    void ignore_positions_polled_while_a_seek_is_in_flight();
+    void report_a_failed_seek();
+    void tell_whether_it_can_seek();
 
 private:
     std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);

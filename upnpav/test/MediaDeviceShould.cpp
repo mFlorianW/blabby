@@ -19,6 +19,7 @@
 #include "SCPDStateVariable.hpp"
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
+#include <algorithm>
 #include <QTest>
 
 namespace UPnPAV
@@ -1270,6 +1271,36 @@ void MediaDeviceShould::tell_whether_it_can_pause()
     QCOMPARE(MediaDeviceWithoutAV{createAvTransportDeviceDescriptionWithoutAction(createPauseAction())}.canPause(),
              false);
     QCOMPARE(MediaDeviceWithoutAV{}.canPause(), false);
+}
+
+void MediaDeviceShould::tell_the_allowed_seek_modes()
+{
+    auto variables = validAvTransportStateVariables();
+    std::ranges::replace(variables,
+                         createA_ARG_TYPE_SeekModeVariable(),
+                         SCPDStateVariable{false,
+                                           QStringLiteral("A_ARG_TYPE_SeekMode"),
+                                           SCPDStateVariable::DataType::String,
+                                           QString{},
+                                           {QStringLiteral("TRACK_NR"), QStringLiteral("REL_TIME")}});
+    auto const device = MediaDeviceWithoutAV{DeviceDescription{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription(), validConnectionManagerDescription(), validAvTransportServiceDescription()},
+        {validContentDirectorySCPD(),
+         validConnectionManagerSCPD(),
+         ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validAvTranportActions()}}}};
+
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::RelTime), true);
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::TrackNr), true);
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::AbsTime), false);
+    // The valid description only allows TRACK_NR.
+    QCOMPARE(MediaDeviceWithAV{}.canSeek(MediaDevice::SeekMode::RelTime), false);
+    QCOMPARE(MediaDeviceWithoutAV{}.canSeek(MediaDevice::SeekMode::TrackNr), false);
 }
 
 void MediaDeviceShould::tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable()

@@ -328,6 +328,14 @@ public:
      */
     virtual bool canPause() const noexcept;
 
+    /**
+     * Gives whether the AVTransport service of the device allows the seek mode, i.e. it is an allowed value of its
+     * A_ARG_TYPE_SeekMode state variable.
+     * @param mode The seek mode.
+     * @return True when @ref UPnPAV::MediaDevice::seek can be called with the seek mode, otherwise false.
+     */
+    virtual bool canSeek(SeekMode mode) const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref UPnPAV::MediaDevice changes it state. E.g. from Stopped to playing

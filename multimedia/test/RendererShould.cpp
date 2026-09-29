@@ -921,6 +921,148 @@ void RendererShould::tell_while_a_playback_control_call_is_pending()
     QCOMPARE(renderer.isPlaybackControlPending(), false);
 }
 
+void RendererShould::give_the_position_and_the_duration_of_the_polled_position_info()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    auto positionChangedSpy = QSignalSpy{renderer.get(), &Renderer::positionChanged};
+    auto durationChangedSpy = QSignalSpy{renderer.get(), &Renderer::durationChanged};
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{102'000});
+    QCOMPARE(renderer->duration(), std::optional{std::chrono::milliseconds{271'000}});
+    QCOMPARE(positionChangedSpy.size(), 1);
+    QCOMPARE(durationChangedSpy.size(), 1);
+
+    mClock->advance(std::chrono::seconds{1});
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:43"));
+
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{103'000});
+    QCOMPARE(positionChangedSpy.size(), 2);
+    QCOMPARE(durationChangedSpy.size(), 1);
+}
+
+void RendererShould::give_no_duration_for_a_stream_data()
+{
+    QTest::addColumn<QString>("duration");
+
+    QTest::newRow("zero") << "0:00:00";
+    QTest::newRow("not implemented") << "NOT_IMPLEMENTED";
+}
+
+void RendererShould::give_no_duration_for_a_stream()
+{
+    QFETCH(QString, duration);
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", duration, "0:12:05"));
+
+    QCOMPARE(renderer->duration(), std::nullopt);
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{725'000});
+}
+
+void RendererShould::give_no_position_and_duration_while_offline()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+
+    renderer->goOffline();
+
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{0});
+    QCOMPARE(renderer->duration(), std::nullopt);
+}
+
+void RendererShould::seek_by_relative_time()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    renderer.seek(std::chrono::milliseconds{3'723'400});
+
+    auto const expected = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "1:02:03"};
+    QCOMPARE(mUpnpRendererRaw->seekData(), std::optional{expected});
+}
+
+void RendererShould::refresh_the_position_info_after_a_seek()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = createTrackedRenderer(MediaDevice::State::PausedPlayback);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+
+    renderer->seek(std::chrono::seconds{200});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+    Q_EMIT mUpnpRendererRaw->seekCall()->finished();
+
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+}
+
+void RendererShould::ignore_a_position_requested_before_a_seek_finished()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    renderer->seek(std::chrono::seconds{200});
+    Q_EMIT mUpnpRendererRaw->seekCall()->finished();
+    auto positionChangedSpy = QSignalSpy{renderer.get(), &Renderer::positionChanged};
+
+    // The position info requested before the seek finished tells the old position.
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+    QCOMPARE(positionChangedSpy.size(), 0);
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:03:20"));
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{200'000});
+}
+
+void RendererShould::ignore_positions_polled_while_a_seek_is_in_flight()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+    renderer->seek(std::chrono::seconds{200});
+    auto positionChangedSpy = QSignalSpy{renderer.get(), &Renderer::positionChanged};
+
+    // A poll that answers before the seek finished tells the old position.
+    mClock->advance(std::chrono::seconds{1});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:43"));
+    QCOMPARE(positionChangedSpy.size(), 0);
+
+    Q_EMIT mUpnpRendererRaw->seekCall()->finished();
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 3);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:03:20"));
+    QCOMPARE(renderer->position(), std::chrono::milliseconds{200'000});
+}
+
+void RendererShould::report_a_failed_seek()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto controlFailedSpy = QSignalSpy{&renderer, &Renderer::controlFailed};
+
+    renderer.seek(std::chrono::seconds{20});
+    mUpnpRendererRaw->seekCall()->setErrorState(true);
+    Q_EMIT mUpnpRendererRaw->seekCall()->finished();
+
+    QCOMPARE(controlFailedSpy.size(), 1);
+    QCOMPARE(controlFailedSpy.at(0).at(0).value<Renderer::Action>(), Renderer::Action::Seek);
+}
+
+void RendererShould::tell_whether_it_can_seek()
+{
+    mUpnpRendererRaw->setRelTimeSeekEnabled(true);
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    auto durationChangedSpy = QSignalSpy{renderer.get(), &Renderer::durationChanged};
+    // Without a duration there is nothing to seek in.
+    QCOMPARE(renderer->canSeek(), false);
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, "", "0:04:31", "0:01:42"));
+    QCOMPARE(renderer->canSeek(), true);
+    QCOMPARE(durationChangedSpy.size(), 1);
+
+    auto withoutRelTime = Renderer{createKitchenDevice()};
+    QCOMPARE(withoutRelTime.canSeek(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

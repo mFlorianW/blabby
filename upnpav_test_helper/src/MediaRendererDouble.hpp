@@ -59,6 +59,14 @@ struct SetVolumeData
     friend bool operator==(SetVolumeData const& lhs, SetVolumeData const& rhs) = default;
 };
 
+struct SeekData
+{
+    quint32 instanceId = quint32{1234};
+    MediaDevice::SeekMode mode = MediaDevice::SeekMode::TrackNr;
+    QString target;
+    friend bool operator==(SeekData const& lhs, SeekData const& rhs) = default;
+};
+
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
@@ -250,6 +258,34 @@ public:
      */
     void finishPositionInfoCall(QString const& response) noexcept;
 
+    /**
+     * Allows or forbids seeking by relative time, other seek modes are never allowed.
+     * @param enabled True allows seeking by relative time.
+     */
+    void setRelTimeSeekEnabled(bool enabled) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::canSeek
+     */
+    bool canSeek(SeekMode mode) const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::seek
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> seek(quint32 instanceId,
+                                                         SeekMode mode,
+                                                         QString const& target) override;
+
+    /**
+     * @return The data of the last seek call, unset when seek wasn't called.
+     */
+    std::optional<SeekData> seekData() const noexcept;
+
+    /**
+     * @return Gives the seek call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> seekCall() const noexcept;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -292,6 +328,11 @@ private:
     // Current track
     QString mCurrentTrackUri;
     QString mCurrentTrackMetaData;
+    // Seek
+    bool mRelTimeSeekEnabled = false;
+    std::optional<SeekData> mSeekData;
+    QSharedPointer<SoapCallDouble> mSeekCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createSeekAction());
     // Position info
     qsizetype mPositionInfoCallCount = 0;
     QSharedPointer<SoapCallDouble> mPositionInfoCall =
