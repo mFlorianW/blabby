@@ -23,6 +23,7 @@ std::shared_ptr<Multimedia::RendererStore> createRendererStore()
 QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
+    , mActiveRendererController{mRendererModel}
 {
     // The Library shows the Items of the Active Source.
     connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
@@ -47,9 +48,9 @@ MediaRendererModel* QmlSingletonRegistry::mediaRendererModel() noexcept
     return &mRendererModel;
 }
 
-MediaPlayer* QmlSingletonRegistry::mediaPlayer() noexcept
+ActiveRendererController* QmlSingletonRegistry::activeRendererController() noexcept
 {
-    return &mMediaPlayer;
+    return &mActiveRendererController;
 }
 
 QObject* QmlSingletonRegistry::createQmlRegistry(QQmlEngine* engine, QJSEngine* scriptEngine)

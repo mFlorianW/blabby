@@ -9,6 +9,7 @@ qt_add_qml_module(${PROJECT_NAME}
         LibraryTile.qml
         LibraryView.qml
         MainWindow.qml
+        NowPlayingView.qml
         RendererCard.qml
         RenderersView.qml
         SourcePicker.qml
@@ -22,6 +23,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/folder.svg
         ../../icons/material/library_music.svg
         ../../icons/material/music_note.svg
+        ../../icons/material/play_circle.svg
         ../../icons/material/refresh.svg
         ../../icons/material/speaker.svg
 )

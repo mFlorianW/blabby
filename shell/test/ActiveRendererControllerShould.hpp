@@ -1,0 +1,43 @@
+// SPDX-FileCopyrightText: 2026 All contributors
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#pragma once
+
+#include "ActiveRendererController.hpp"
+#include "MediaRendererDoubleFactory.hpp"
+#include "MediaRendererModel.hpp"
+#include "ServiceProviderDouble.hpp"
+#include <QObject>
+#include <memory>
+
+namespace Shell
+{
+class ActiveRendererControllerShould : public QObject
+{
+    Q_OBJECT
+public:
+    using QObject::QObject;
+    ~ActiveRendererControllerShould() override;
+    Q_DISABLE_COPY_MOVE(ActiveRendererControllerShould)
+
+private:
+    void activate(QString const& name);
+
+    UPnPAV::Doubles::ServiceProviderDouble* mServiceProvider = nullptr;
+    UPnPAV::Doubles::MediaRendererDoubleFactory* mRendererFactory = nullptr;
+    std::unique_ptr<MediaRendererModel> mModel = nullptr;
+    std::unique_ptr<ActiveRendererController> mController = nullptr;
+
+private Q_SLOTS:
+    void init();
+    void have_no_active_renderer_at_start();
+    void follow_the_active_renderer();
+    void give_the_playback_state_of_the_active_renderer();
+    void notify_about_a_changed_playback_state_of_the_active_renderer();
+    void follow_a_switch_to_another_active_renderer();
+    void ignore_playback_state_changes_of_the_previous_active_renderer();
+    void report_the_active_renderer_going_offline();
+};
+
+} // namespace Shell

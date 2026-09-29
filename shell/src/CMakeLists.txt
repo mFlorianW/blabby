@@ -18,6 +18,8 @@ add_library(BlabbyShell::Object ALIAS ${PROJECT_NAME}Object)
 
 target_sources(${PROJECT_NAME}Object
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererController.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.cpp
@@ -28,8 +30,6 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModel.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaPlayer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaPlayer.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object

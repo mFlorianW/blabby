@@ -15,12 +15,29 @@ Rectangle {
     id: shell
     color: Theme.colors.surface
 
+    /**
+     * The indexes of the destinations in the navigation rail.
+     */
+    readonly property int playingDestination: 0
+    readonly property int libraryDestination: 1
+    readonly property int renderersDestination: 2
+
+    /**
+     * True while the Renderers screen was opened from the Playing screen, picking a Renderer returns to it then.
+     */
+    property bool returnToPlaying: false
+
     NavigationRail {
         id: rail
         anchors.top: shell.top
         anchors.bottom: shell.bottom
         anchors.left: shell.left
+        currentIndex: shell.libraryDestination
         model: [
+            {
+                "text": qsTr("Playing"),
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/play_circle.svg"
+            },
             {
                 "text": qsTr("Library"),
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/library_music.svg"
@@ -30,6 +47,7 @@ Rectangle {
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
             }
         ]
+        onActivated: shell.returnToPlaying = false
     }
 
     StackLayout {
@@ -39,6 +57,24 @@ Rectangle {
         anchors.left: rail.right
         anchors.right: shell.right
         currentIndex: rail.currentIndex
+
+        NowPlayingView {
+            id: nowPlayingView
+            hasActiveRenderer: Singleton.activeRendererController.hasActiveRenderer
+            rendererName: Singleton.activeRendererController.rendererName
+            playbackState: Singleton.activeRendererController.playbackState
+            onChooseRendererRequested: {
+                shell.returnToPlaying = true;
+                rail.currentIndex = shell.renderersDestination;
+            }
+
+            Connections {
+                target: Singleton.activeRendererController
+                function onActiveRendererWentOffline(rendererName: string) {
+                    nowPlayingView.showActiveRendererWentOffline(rendererName);
+                }
+            }
+        }
 
         LibraryView {
             id: libraryView
@@ -66,7 +102,13 @@ Rectangle {
             model: Singleton.mediaRendererModel
             scanning: Singleton.mediaRendererModel.scanning
             onRescanRequested: Singleton.mediaRendererModel.rescan()
-            onActivated: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
+            onActivated: index => {
+                Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0));
+                if (shell.returnToPlaying) {
+                    shell.returnToPlaying = false;
+                    rail.currentIndex = shell.playingDestination;
+                }
+            }
             onForgetRequested: index => Singleton.mediaRendererModel.forgetRenderer(Singleton.mediaRendererModel.index(index, 0))
         }
     }

@@ -1,11 +1,11 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "ActiveRendererController.hpp"
 #include "MediaItemModel.hpp"
-#include "MediaPlayer.hpp"
 #include "MediaRendererModel.hpp"
 #include "MediaSourceModel.hpp"
 #include <QObject>
@@ -38,9 +38,9 @@ class QmlSingletonRegistry : public QObject
     Q_PROPERTY(Shell::MediaRendererModel* mediaRendererModel READ mediaRendererModel CONSTANT)
 
     /**
-     * Gives the MediaPlayer
+     * Gives the ActiveRendererController
      */
-    Q_PROPERTY(Shell::MediaPlayer* mediaPlayer READ mediaPlayer CONSTANT)
+    Q_PROPERTY(Shell::ActiveRendererController* activeRendererController READ activeRendererController CONSTANT)
 
 public:
     /**
@@ -78,12 +78,12 @@ public:
     MediaRendererModel* mediaRendererModel() noexcept;
 
     /**
-     * Gives a pointer to the QMLEngine for the @ref Shell::MediaPlayer singleton.
+     * Gives a pointer to the QMLEngine for the @ref Shell::ActiveRendererController singleton.
      * The pointer has the same lifetime as the @ref Shell::QmlSingletonRegistry instance.
      * @note The callee doesn't take the ownership of the returned pointer.
-     * @return A pointer to the @ref Shell::MediaItemModel instance
+     * @return A pointer to the @ref Shell::ActiveRendererController instance
      */
-    MediaPlayer* mediaPlayer() noexcept;
+    ActiveRendererController* activeRendererController() noexcept;
 
     /**
      * Callback for the QML engine for creating an instance of the @ref Shell::QmlSingletonRegistry
@@ -106,7 +106,7 @@ private:
     MediaSourceModel mSourceModel;
     MediaItemModel mItemModel;
     MediaRendererModel mRendererModel;
-    MediaPlayer mMediaPlayer;
+    ActiveRendererController mActiveRendererController;
 };
 
 } // namespace Shell
