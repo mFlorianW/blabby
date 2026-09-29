@@ -63,6 +63,9 @@ Rectangle {
             hasActiveRenderer: Singleton.activeRendererController.hasActiveRenderer
             rendererName: Singleton.activeRendererController.rendererName
             playbackState: Singleton.activeRendererController.playbackState
+            trackTitle: Singleton.activeRendererController.trackTitle
+            trackArtist: Singleton.activeRendererController.trackArtist
+            artworkUrl: Singleton.activeRendererController.artworkUrl
             onChooseRendererRequested: {
                 shell.returnToPlaying = true;
                 rail.currentIndex = shell.renderersDestination;

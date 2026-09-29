@@ -34,6 +34,9 @@ Item {
             nowPlayingView.hasActiveRenderer = true;
             nowPlayingView.rendererName = "Kitchen";
             nowPlayingView.playbackState = Renderer.NoMedia;
+            nowPlayingView.trackTitle = "Harbour Lights";
+            nowPlayingView.trackArtist = "The Quiet Ferries";
+            nowPlayingView.artworkUrl = "";
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
@@ -102,6 +105,68 @@ Item {
             nowPlayingViewTest.compare(pill.text, "Kitchen");
             nowPlayingViewTest.mouseClick(pill);
             nowPlayingViewTest.compare(chooseRendererRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the title and the artist of the Current Track are shown while the Active Renderer has media.
+         */
+        function test_show_the_title_and_the_artist_of_the_current_track() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("track").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("trackTitle").text, "Harbour Lights");
+            const artist = nowPlayingViewTest.child("trackArtist");
+            nowPlayingViewTest.compare(artist.visible, true);
+            nowPlayingViewTest.compare(artist.text, "The Quiet Ferries");
+        }
+
+        /**
+         * Tests that the artist is hidden when it is unknown.
+         */
+        function test_hide_an_unknown_artist() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.trackArtist = "";
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("trackArtist").visible, false);
+        }
+
+        /**
+         * Tests that a Stopped Renderer shows its Current Track.
+         */
+        function test_show_the_current_track_of_a_stopped_renderer() {
+            nowPlayingView.playbackState = Renderer.Stopped;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("track").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("emptyState").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("trackTitle").text, "Harbour Lights");
+        }
+
+        /**
+         * Tests that no Current Track is shown while the Active Renderer has no media.
+         */
+        function test_show_no_current_track_without_media() {
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("track").visible, false);
+        }
+
+        /**
+         * Tests that the artwork of the Current Track is shown instead of the placeholder glyph.
+         */
+        function test_show_the_artwork_of_the_current_track() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.artworkUrl = "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg";
+            const artwork = nowPlayingViewTest.child("trackArtwork");
+            nowPlayingViewTest.tryCompare(nowPlayingViewTest.findChild(artwork, "artwork"), "visible", true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(artwork, "glyph").visible, false);
+            nowPlayingViewTest.compare(artwork.width, artwork.height);
+        }
+
+        /**
+         * Tests that a tinted placeholder with a note glyph is shown when the Current Track has no artwork.
+         */
+        function test_show_a_placeholder_without_artwork() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const artwork = nowPlayingViewTest.child("trackArtwork");
+            const glyph = nowPlayingViewTest.findChild(artwork, "glyph");
+            nowPlayingViewTest.compare(glyph.visible, true);
+            nowPlayingViewTest.compare(glyph.source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"));
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(artwork, "artwork").visible, false);
         }
 
         /**

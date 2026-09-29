@@ -5,12 +5,14 @@
 import QtQuick
 import Blabby.Controls
 import Blabby.Objects
+import Blabby.Theme
 
 /**
  * The Playing screen that shows what the Active Renderer plays.
  * A Renderer pill in the header shows the Active Renderer and asks to choose another one.
  * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
- * plays on it. When the Active Renderer went Offline a toast tells so.
+ * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title and its
+ * artist when known. When the Active Renderer went Offline a toast tells so.
  */
 Item {
     id: nowPlayingView
@@ -29,6 +31,26 @@ Item {
      * The Playback State of the Active Renderer, a value of Renderer.State.
      */
     property int playbackState: Renderer.NoMedia
+
+    /**
+     * The title of the Current Track.
+     */
+    property string trackTitle
+
+    /**
+     * The artist of the Current Track, empty when unknown.
+     */
+    property string trackArtist
+
+    /**
+     * The URL of the artwork of the Current Track, empty when unknown.
+     */
+    property url artworkUrl
+
+    /**
+     * True while the Current Track is shown, i.e. the Active Renderer has media.
+     */
+    readonly property bool showsTrack: nowPlayingView.hasActiveRenderer && nowPlayingView.playbackState !== Renderer.NoMedia
 
     /**
      * This signal is emitted when the user asks to choose the Active Renderer.
@@ -72,8 +94,62 @@ Item {
         title: nowPlayingView.hasActiveRenderer ? qsTr("Nothing playing on %1").arg(nowPlayingView.rendererName) : qsTr("Choose a Renderer")
         hint: nowPlayingView.hasActiveRenderer ? "" : qsTr("Pick the Renderer whose playback you want to control")
         actionText: nowPlayingView.hasActiveRenderer ? "" : qsTr("Choose Renderer")
-        visible: !nowPlayingView.hasActiveRenderer || nowPlayingView.playbackState === Renderer.NoMedia
+        visible: !nowPlayingView.showsTrack
         onActionClicked: nowPlayingView.chooseRendererRequested()
+    }
+
+    Item {
+        id: track
+        objectName: "track"
+        anchors.top: header.bottom
+        anchors.bottom: nowPlayingView.bottom
+        anchors.left: nowPlayingView.left
+        anchors.right: nowPlayingView.right
+        anchors.topMargin: 24
+        anchors.bottomMargin: 32
+        anchors.leftMargin: 24
+        anchors.rightMargin: 40
+        visible: nowPlayingView.showsTrack
+
+        Artwork {
+            id: artwork
+            objectName: "trackArtwork"
+            anchors.left: track.left
+            anchors.verticalCenter: track.verticalCenter
+            width: Math.min(track.height, track.width * 0.42)
+            height: artwork.width
+            radius: 28
+            source: nowPlayingView.artworkUrl
+            glyphSource: "qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"
+        }
+
+        Column {
+            id: details
+            anchors.left: artwork.right
+            anchors.right: track.right
+            anchors.verticalCenter: track.verticalCenter
+            anchors.leftMargin: 48
+            spacing: 8
+
+            StyledText {
+                id: title
+                objectName: "trackTitle"
+                width: details.width
+                text: nowPlayingView.trackTitle
+                color: Theme.colors.colorOnSurface
+                textStyle: Theme.fonts.displayMedium
+            }
+
+            StyledText {
+                id: artist
+                objectName: "trackArtist"
+                width: details.width
+                text: nowPlayingView.trackArtist
+                color: Theme.colors.colorOnSurface
+                textStyle: Theme.fonts.titleLarge
+                visible: nowPlayingView.trackArtist !== ""
+            }
+        }
     }
 
     Toast {
