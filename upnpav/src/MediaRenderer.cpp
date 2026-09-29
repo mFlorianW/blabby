@@ -63,6 +63,13 @@ MediaRenderer::MediaRenderer(DeviceDescription desc,
                         d->setMasterVolume(volumes.value(QStringLiteral("Master")));
                     }
                 }
+                auto const& instanceMutes = lastChangeReader.instanceMuteVariables();
+                if (instanceMutes.contains(QStringLiteral("0"))) {
+                    auto mutes = instanceMutes.value(QStringLiteral("0"));
+                    if (mutes.contains(QStringLiteral("Master"))) {
+                        d->setMasterMute(mutes.value(QStringLiteral("Master")));
+                    }
+                }
             });
 }
 
@@ -131,6 +138,51 @@ VolumeRange MediaRenderer::volumeRange() const noexcept
 bool MediaRenderer::canSetVolume() const noexcept
 {
     return not d->mRenderingControlSCPD.action("SetVolume").name().isEmpty();
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::mute(quint32 instanceId, QString const& channel) noexcept
+{
+    auto const action = d->mRenderingControlSCPD.action("GetMute");
+    if (action.name().isEmpty()) {
+        return std::nullopt;
+    }
+    auto const instanceIdArg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const channelArg = Argument{.name = "Channel", .value = channel};
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage =
+        msgGen.generateXmlMessageBody(action, d->mRenderingControlService.serviceType(), {instanceIdArg, channelArg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService,
+                                                                d->mRenderingControlSCPD,
+                                                                action,
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::setMute(quint32 instanceId,
+                                                                       QString const& channel,
+                                                                       bool mute) noexcept
+{
+    auto const action = d->mRenderingControlSCPD.action("SetMute");
+    if (action.name().isEmpty()) {
+        return std::nullopt;
+    }
+    auto const instanceIdArg = Argument{.name = "InstanceID", .value = QString::number(instanceId)};
+    auto const channelArg = Argument{.name = "Channel", .value = channel};
+    auto const muteArg = Argument{.name = "DesiredMute", .value = mute ? QStringLiteral("1") : QStringLiteral("0")};
+    auto msgGen = SoapMessageGenerator{};
+    auto xmlMessage = msgGen.generateXmlMessageBody(action,
+                                                    d->mRenderingControlService.serviceType(),
+                                                    {instanceIdArg, channelArg, muteArg});
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mRenderingControlService,
+                                                                d->mRenderingControlSCPD,
+                                                                action,
+                                                                xmlMessage);
+    return std::make_unique<PendingSoapCall>(soapCall);
+}
+
+bool MediaRenderer::canSetMute() const noexcept
+{
+    return not d->mRenderingControlSCPD.action("SetMute").name().isEmpty();
 }
 
 std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)

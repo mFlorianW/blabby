@@ -135,6 +135,14 @@ public:
          * Changing the Volume.
          */
         ChangeVolume,
+        /**
+         * Muting.
+         */
+        Mute,
+        /**
+         * Unmuting.
+         */
+        Unmute,
     };
     Q_ENUM(Action)
 
@@ -329,6 +337,25 @@ public:
     quint32 volumeMaximum() const noexcept;
 
     /**
+     * Gives the Mute of the "Master" channel, independent of the Volume. It's false while Offline.
+     * @return True while the @ref Multimedia::Renderer is muted.
+     */
+    bool isMuted() const noexcept;
+
+    /**
+     * Mutes or unmutes the "Master" channel. The result is propagated by the UPnPAV event system.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Mute or Unmute.
+     * @param muted True mutes, false unmutes.
+     */
+    void setMuted(bool muted) noexcept;
+
+    /**
+     * Gives whether the Mute can be controlled.
+     * @return True when the device offers setting the Mute.
+     */
+    bool canControlMute() const noexcept;
+
+    /**
      * Gives the Current Track of the @ref Multimedia::Renderer.
      * The Current Track is taken from the events of the device right away and from its position info while the
      * position is tracked. It's empty while Offline.
@@ -407,6 +434,11 @@ Q_SIGNALS:
     void volumeChanged();
 
     /**
+     * This signal is emitted when the Mute of the "Master" channel changed.
+     */
+    void muteChanged();
+
+    /**
      * This signal is emitted when the @ref Multimedia::Renderer goes Online or Offline.
      */
     void availabilityChanged();
@@ -464,6 +496,7 @@ private:
     void onClockWokeUp() noexcept;
     void setTransitioning(bool transitioning) noexcept;
     void sendVolume(quint32 volume) noexcept;
+    void updateMute(bool muted) noexcept;
     void setPosition(std::chrono::milliseconds position) noexcept;
     void setDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
     std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
@@ -484,6 +517,9 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedPositionInfoCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedSetVolumeCall;
     bool mSetVolumePending = false;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mMuteCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSetMuteCall;
+    bool mMuted = false;
     quint32 mSentVolume = 0;
     std::optional<quint32> mRequestedVolume;
     bool mPositionInfoPending = false;

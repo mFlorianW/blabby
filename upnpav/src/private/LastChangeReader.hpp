@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -50,10 +50,18 @@ public:
      */
     InstanceVariables const& instanceVolumeVariables() const noexcept;
 
+    /**
+     * Gives the instance ids with the corresponding Mute variables, like the volume variables the Mute is reported
+     * for every channel. The channel attribute is the key of the returned hash map and the value contains the Mute.
+     * @return A hash map containing the Mute of every channel for every instance ID.
+     */
+    InstanceVariables const& instanceMuteVariables() const noexcept;
+
 private:
     QString mLastChange;
     InstanceVariables mInstanceVariables;
     InstanceVariables mInstanceVolumeVariables;
+    InstanceVariables mInstanceMuteVariables;
 };
 
 } // namespace UPnPAV

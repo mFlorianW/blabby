@@ -43,5 +43,9 @@ private Q_SLOTS:
     void give_the_volume_range_of_the_rendering_control();
     void give_the_default_volume_range_without_a_range();
     void tell_whether_the_volume_can_be_set();
+    void send_correct_soap_message_when_calling_get_mute();
+    void send_correct_soap_message_when_calling_set_mute();
+    void notify_mute_changes_when_receiving_upnp_events();
+    void tell_whether_the_mute_can_be_set();
 };
 } // namespace UPnPAV

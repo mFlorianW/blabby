@@ -89,6 +89,12 @@ private Q_SLOTS:
     void not_send_a_requested_volume_that_was_already_sent();
     void report_a_failed_volume_change();
     void give_the_volume_range_and_whether_the_volume_can_be_controlled();
+    void request_the_mute_on_init_and_follow_mute_changes();
+    void set_the_mute_of_the_master_channel();
+    void report_a_failed_mute_change_data();
+    void report_a_failed_mute_change();
+    void tell_whether_the_mute_can_be_controlled();
+    void give_no_mute_while_offline();
 
 private:
     std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);

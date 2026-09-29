@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -39,6 +39,17 @@ public:
         }
     }
 
+    void setMasterMute(QString const& rawMute) noexcept
+    {
+        auto const value = QStringView{rawMute}.trimmed();
+        auto const mute = value == u"1" or value.compare(u"true", Qt::CaseInsensitive) == 0 or
+                          value.compare(u"yes", Qt::CaseInsensitive) == 0;
+        if (mMasterMute != mute) {
+            mMasterMute = mute;
+            Q_EMIT mMediaRenderer.masterMuteChanged(mute);
+        }
+    }
+
     MediaRenderer& mMediaRenderer;
     DeviceDescription mDeviceDescription;
     ServiceDescription mRenderingControlService;
@@ -47,6 +58,7 @@ public:
     QSharedPointer<EventBackend> mEventBackend;
     std::shared_ptr<EventSubscriptionHandle> mRenderControlEvents;
     quint32 mMasterVolume = 0U;
+    std::optional<bool> mMasterMute;
 };
 
 } // namespace UPnPAV

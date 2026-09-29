@@ -67,6 +67,14 @@ struct SeekData
     friend bool operator==(SeekData const& lhs, SeekData const& rhs) = default;
 };
 
+struct SetMuteData
+{
+    quint32 instanceId = quint32{1234};
+    QString channel;
+    bool mute = false;
+    friend bool operator==(SetMuteData const& lhs, SetMuteData const& rhs) = default;
+};
+
 class MediaRendererDouble : public UPnPAV::MediaRenderer
 {
 public:
@@ -306,6 +314,43 @@ public:
      */
     bool canSetVolume() const noexcept override;
 
+    /**
+     * Activates or disables the Mute functions, without them the MediaRenderer behaves like a device without Mute.
+     */
+    void setMuteEnabled(bool enabled) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::mute
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> mute(quint32 instanceId, QString const& channel) noexcept override;
+
+    /**
+     * @return Gives the GetMute call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> muteCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::setMute
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> setMute(quint32 instanceId,
+                                                            QString const& channel,
+                                                            bool mute) noexcept override;
+
+    /**
+     * @return The data of the last SetMute call, unset when SetMute wasn't called.
+     */
+    std::optional<SetMuteData> setMuteData() const noexcept;
+
+    /**
+     * @return Gives the SetMute call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> setMuteCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::canSetMute
+     */
+    bool canSetMute() const noexcept override;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -347,6 +392,13 @@ private:
     VolumeRange mVolumeRange;
     QSharedPointer<SoapCallDouble> mSetVolumeCall =
         QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setVolumeAction());
+    // Mute
+    bool mMuteEnabled = false;
+    std::optional<SetMuteData> mSetMuteData;
+    QSharedPointer<SoapCallDouble> mMuteCall =
+        QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), getMuteAction());
+    QSharedPointer<SoapCallDouble> mSetMuteCall =
+        QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setMuteAction());
     // Current track
     QString mCurrentTrackUri;
     QString mCurrentTrackMetaData;

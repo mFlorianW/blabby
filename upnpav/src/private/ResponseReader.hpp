@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -60,9 +60,18 @@ Q_SIGNALS:
                                 quint16 value,
                                 UPnPAV::ResponseReader::ElementReadResult result);
 
+    /**
+     * This signal is emitted when a boolean value is read.
+     * @tokenName The xml name of the token.
+     * @value The value of the token.
+     * @result The status if the element is correctly read and converted.
+     */
+    void boolValueRead(QString const& tokenName, bool value, UPnPAV::ResponseReader::ElementReadResult result);
+
 private:
     SCPDStateVariable::DataType dataType(QString const& argName) noexcept;
     void readUnsignedIntValue(QString const& argName, QString const& rawValue) noexcept;
+    void readBoolValue(QString const& argName, QString const& rawValue) noexcept;
     void readSignedIntValue(QString const& argName, QString const& rawValue) noexcept;
 
 private:

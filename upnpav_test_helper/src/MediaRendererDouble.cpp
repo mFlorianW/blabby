@@ -325,4 +325,51 @@ bool MediaRendererDouble::canSetVolume() const noexcept
     return mVolumeEnabled;
 }
 
+void MediaRendererDouble::setMuteEnabled(bool enabled) noexcept
+{
+    mMuteEnabled = enabled;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::mute(quint32 instanceId,
+                                                                          QString const& channel) noexcept
+{
+    Q_UNUSED(instanceId)
+    Q_UNUSED(channel)
+    if (not mMuteEnabled) {
+        return std::nullopt;
+    }
+    return std::make_unique<PendingSoapCall>(mMuteCall);
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::muteCall() const noexcept
+{
+    return mMuteCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setMute(quint32 instanceId,
+                                                                             QString const& channel,
+                                                                             bool mute) noexcept
+{
+    if (not mMuteEnabled) {
+        return std::nullopt;
+    }
+    mSetMuteData = SetMuteData{.instanceId = instanceId, .channel = channel, .mute = mute};
+    return std::make_unique<PendingSoapCall>(mSetMuteCall);
+}
+
+std::optional<SetMuteData> MediaRendererDouble::setMuteData() const noexcept
+{
+    return mSetMuteData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::setMuteCall() const noexcept
+{
+    return mSetMuteCall;
+}
+
+bool MediaRendererDouble::canSetMute() const noexcept
+{
+    return mMuteEnabled;
+}
+
 } // namespace UPnPAV::Doubles

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "Renderer.hpp"
+#include "GetMuteResponse.hpp"
 #include "GetPositionInfoResponse.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "GetVolumeResponse.hpp"
@@ -265,6 +266,7 @@ void Renderer::goOffline() noexcept
     dropDevice();
     updatePolling();
     updateVolume(0);
+    updateMute(false);
     updateCurrentTrack(QString{}, QString{});
     setPosition(std::chrono::milliseconds{0});
     setDuration(std::nullopt);
@@ -291,6 +293,8 @@ void Renderer::dropDevice() noexcept
     mFinishedSetVolumeCall.reset();
     mSetVolumePending = false;
     mRequestedVolume.reset();
+    mMuteCall.reset();
+    mSetMuteCall.reset();
     mPositionInfoCall.reset();
     mFinishedPositionInfoCall.reset();
     mPositionInfoPending = false;
@@ -311,6 +315,8 @@ void Renderer::connectDevice() noexcept
     connect(mRenderer.get(), &MediaRenderer::masterVolumeChanged, this, [this](quint32 volume) {
         updateVolume(volume);
     });
+
+    connect(mRenderer.get(), &MediaRenderer::masterMuteChanged, this, &Renderer::updateMute);
 
     connect(mRenderer.get(), &MediaRenderer::currentTrackChanged, this, [this]() {
         updateCurrentTrack(mRenderer->currentTrackUri(), mRenderer->currentTrackMetaData());
@@ -379,6 +385,19 @@ void Renderer::initialize() noexcept
                 return;
             }
             updateVolume(mVolumeCall->resultAs<UPnPAV::GetVolumeResponse>()->volume());
+        });
+    }
+
+    auto muteCall = mRenderer->mute(defaultInstanceId, "Master");
+    if (muteCall.has_value()) {
+        mMuteCall = goOfflineWhenUnreachable(std::move(muteCall.value()));
+        connect(mMuteCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this]() {
+            if (mMuteCall->hasError()) {
+                qCWarning(mmRenderer) << "Failed to request the \"Master\" channel Mute. Error:"
+                                      << mMuteCall->errorDescription();
+                return;
+            }
+            updateMute(mMuteCall->resultAs<UPnPAV::GetMuteResponse>()->mute());
         });
     }
 }
@@ -556,6 +575,44 @@ void Renderer::sendVolume(quint32 volume) noexcept
             sendVolume(mRequestedVolume.value());
         }
     });
+}
+
+bool Renderer::isMuted() const noexcept
+{
+    return mMuted;
+}
+
+void Renderer::setMuted(bool muted) noexcept
+{
+    if (mRenderer == nullptr) {
+        qCWarning(mmRenderer) << "Failed to set Mute. Error: Renderer is Offline";
+        return;
+    }
+
+    auto call = mRenderer->setMute(defaultInstanceId, "Master", muted);
+    if (not call.has_value()) {
+        return;
+    }
+    mSetMuteCall = goOfflineWhenUnreachable(std::move(call.value()));
+    connect(mSetMuteCall.get(), &PendingSoapCall::finished, this, [this, muted] {
+        if (mSetMuteCall->hasError()) {
+            qCWarning(mmRenderer) << "Failed to set Mute. Error:" << mSetMuteCall->errorDescription();
+            Q_EMIT controlFailed(muted ? Action::Mute : Action::Unmute);
+        }
+    });
+}
+
+bool Renderer::canControlMute() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canSetMute();
+}
+
+void Renderer::updateMute(bool muted) noexcept
+{
+    if (mMuted != muted) {
+        mMuted = muted;
+        Q_EMIT muteChanged();
+    }
 }
 
 bool Renderer::canControlVolume() const noexcept

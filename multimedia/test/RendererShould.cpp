@@ -6,6 +6,7 @@
 #include "Descriptions.hpp"
 #include "EventBackendDouble.hpp"
 #include "Item.hpp"
+#include "MuteResponse.hpp"
 #include "PositionInfoResponse.hpp"
 #include "Renderer.hpp"
 #include "SoapBackendDouble.hpp"
@@ -1124,6 +1125,87 @@ void RendererShould::give_the_volume_range_and_whether_the_volume_can_be_control
 
     renderer.goOffline();
     QCOMPARE(renderer.canControlVolume(), false);
+}
+
+void RendererShould::request_the_mute_on_init_and_follow_mute_changes()
+{
+    mUpnpRendererRaw->setMuteEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto muteChangedSpy = QSignalSpy{&renderer, &Renderer::muteChanged};
+    QCOMPARE(renderer.isMuted(), false);
+
+    renderer.initialize();
+    mUpnpRendererRaw->muteCall()->setRawMessage(getMuteResponse(QStringLiteral("1")));
+    Q_EMIT mUpnpRendererRaw->muteCall()->finished();
+
+    QCOMPARE(renderer.isMuted(), true);
+    QCOMPARE(muteChangedSpy.size(), 1);
+
+    Q_EMIT mUpnpRendererRaw->masterMuteChanged(false);
+    QCOMPARE(renderer.isMuted(), false);
+    QCOMPARE(muteChangedSpy.size(), 2);
+}
+
+void RendererShould::set_the_mute_of_the_master_channel()
+{
+    mUpnpRendererRaw->setMuteEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    renderer.setMuted(true);
+
+    auto const expected = SetMuteData{.instanceId = 0, .channel = QStringLiteral("Master"), .mute = true};
+    QCOMPARE(mUpnpRendererRaw->setMuteData(), std::optional{expected});
+}
+
+void RendererShould::report_a_failed_mute_change_data()
+{
+    QTest::addColumn<bool>("mute");
+    QTest::addColumn<Renderer::Action>("action");
+
+    QTest::newRow("Mute") << true << Renderer::Action::Mute;
+    QTest::newRow("Unmute") << false << Renderer::Action::Unmute;
+}
+
+void RendererShould::report_a_failed_mute_change()
+{
+    QFETCH(bool, mute);
+    QFETCH(Renderer::Action, action);
+    mUpnpRendererRaw->setMuteEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    Q_EMIT mUpnpRendererRaw->masterMuteChanged(not mute);
+    auto controlFailedSpy = QSignalSpy{&renderer, &Renderer::controlFailed};
+
+    renderer.setMuted(mute);
+    mUpnpRendererRaw->setMuteCall()->setErrorState(true);
+    Q_EMIT mUpnpRendererRaw->setMuteCall()->finished();
+
+    QCOMPARE(controlFailedSpy.size(), 1);
+    QCOMPARE(controlFailedSpy.at(0).at(0).value<Renderer::Action>(), action);
+    QCOMPARE(renderer.isMuted(), not mute);
+}
+
+void RendererShould::tell_whether_the_mute_can_be_controlled()
+{
+    QCOMPARE(Renderer{createKitchenDevice()}.canControlMute(), false);
+    mUpnpRendererRaw->setMuteEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    QCOMPARE(renderer.canControlMute(), true);
+
+    renderer.goOffline();
+    QCOMPARE(renderer.canControlMute(), false);
+}
+
+void RendererShould::give_no_mute_while_offline()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    Q_EMIT mUpnpRendererRaw->masterMuteChanged(true);
+    auto muteChangedSpy = QSignalSpy{&renderer, &Renderer::muteChanged};
+
+    renderer.goOffline();
+
+    QCOMPARE(renderer.isMuted(), false);
+    QCOMPARE(muteChangedSpy.size(), 1);
 }
 
 } // namespace Multimedia

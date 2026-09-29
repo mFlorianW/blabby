@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -49,6 +49,8 @@ ResponseReader::ReadResult ResponseReader::read() noexcept
                 } else if (type == SCPDStateVariable::DataType::Ui2) {
                     auto val = static_cast<quint16>(xmlReader.readElementText().toUInt());
                     Q_EMIT readUnsignedInt16Value(xmlReader.name().toString(), val, ElementReadResult::Ok);
+                } else if (type == SCPDStateVariable::DataType::Bool) {
+                    readBoolValue(xmlReader.name().toString(), xmlReader.readElementText());
                 } else {
                     readResult = ReadResult::StateVariableNotFound;
                     break;
@@ -76,6 +78,19 @@ SCPDStateVariable::DataType ResponseReader::dataType(QString const& argName) noe
         return argFound->dataType();
     }
     return SCPDStateVariable::DataType::Unknown;
+}
+
+void ResponseReader::readBoolValue(QString const& argName, QString const& rawValue) noexcept
+{
+    // UPnP allows 0, false and no for false and 1, true and yes for true.
+    auto const value = rawValue.trimmed().toLower();
+    if (value == QStringLiteral("1") or value == QStringLiteral("true") or value == QStringLiteral("yes")) {
+        Q_EMIT boolValueRead(argName, true, ElementReadResult::Ok);
+    } else if (value == QStringLiteral("0") or value == QStringLiteral("false") or value == QStringLiteral("no")) {
+        Q_EMIT boolValueRead(argName, false, ElementReadResult::Ok);
+    } else {
+        Q_EMIT boolValueRead(argName, false, ElementReadResult::ConversionError);
+    }
 }
 
 void ResponseReader::readUnsignedIntValue(QString const& argName, QString const& rawValue) noexcept

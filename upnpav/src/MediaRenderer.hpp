@@ -95,11 +95,48 @@ public:
      */
     [[nodiscard]] virtual bool canSetVolume() const noexcept;
 
+    /**
+     * Calls the GetMute function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the rendering control service to which the action applies.
+     * @param channel The channel whose Mute is requested.
+     * @return PendingSoapCall with the result or an error.
+     */
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> mute(quint32 instanceId,
+                                                                               QString const& channel) noexcept;
+
+    /**
+     * Calls the SetMute function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the rendering control service to which the action applies.
+     * @param channel The channel that shall be muted or unmuted.
+     * @param mute True mutes the channel, false unmutes it.
+     * @return PendingSoapCall with the result or an error.
+     */
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> setMute(quint32 instanceId,
+                                                                                  QString const& channel,
+                                                                                  bool mute) noexcept;
+
+    /**
+     * Gives whether the rendering control service offers SetMute.
+     * @return True when @ref UPnPAV::MediaRenderer::setMute can be called, otherwise false.
+     */
+    [[nodiscard]] virtual bool canSetMute() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the master volume is changed.
      */
     void masterVolumeChanged(quint32 volume);
+
+    /**
+     * This signal is emitted when the Mute of the master channel is changed.
+     */
+    void masterMuteChanged(bool mute);
 
 private:
     std::unique_ptr<MediaRendererPrivate> d;
