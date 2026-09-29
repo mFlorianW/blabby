@@ -60,6 +60,7 @@ Rectangle {
             scanning: Singleton.mediaRendererModel.scanning
             onRescanRequested: Singleton.mediaRendererModel.rescan()
             onActivated: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
+            onForgetRequested: index => Singleton.mediaRendererModel.forgetRenderer(Singleton.mediaRendererModel.index(index, 0))
         }
     }
 }
