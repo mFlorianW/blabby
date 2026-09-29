@@ -14,7 +14,9 @@ import Blabby.Theme
  * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
  * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
  * toast tells so. A large Play/Pause button pauses, or stops a Renderer that can't pause, and resumes or plays; it
- * shows a busy ring while the Renderer is transitioning. Failed control calls are told in a toast.
+ * shows a busy ring while the Renderer is transitioning. A seek bar shows the elapsed and the total time and seeks on
+ * release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
+ * stream without a duration. Failed control calls are told in a toast.
  */
 Item {
     id: nowPlayingView
@@ -75,9 +77,39 @@ Item {
     property bool transitioning: false
 
     /**
+     * The position in the Current Track in milliseconds.
+     */
+    property real position: 0
+
+    /**
+     * True when the duration of the Current Track is known, it's unknown e.g. for a stream.
+     */
+    property bool hasDuration: false
+
+    /**
+     * The duration of the Current Track in milliseconds.
+     */
+    property real duration: 0
+
+    /**
+     * True when the Active Renderer can seek in the Current Track.
+     */
+    property bool canSeek: false
+
+    /**
+     * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
+     */
+    property real seekTarget: -1
+
+    /**
      * True while the Active Renderer is Playing.
      */
     readonly property bool playing: nowPlayingView.playbackState === Renderer.Playing
+
+    /**
+     * True while the Active Renderer is Stopped.
+     */
+    readonly property bool stopped: nowPlayingView.playbackState === Renderer.Stopped
 
     /**
      * True while the Current Track is shown, i.e. the Active Renderer has media.
@@ -95,6 +127,34 @@ Item {
     signal togglePlaybackRequested
 
     /**
+     * This signal is emitted when the user asks to seek to the position in milliseconds.
+     */
+    signal seekRequested(real position)
+
+    /**
+     * Shows the position again instead of the target of a requested seek, e.g. because the seek failed.
+     */
+    function cancelSeek() {
+        nowPlayingView.seekTarget = -1;
+    }
+
+    /**
+     * Gives the time in milliseconds as m:ss, or h:mm:ss from an hour on.
+     */
+    function formatTime(milliseconds: real): string {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor(totalSeconds / 60) % 60;
+        const seconds = String(totalSeconds % 60).padStart(2, "0");
+        if (hours > 0) {
+            return `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`;
+        }
+        return `${minutes}:${seconds}`;
+    }
+
+    onPositionChanged: nowPlayingView.cancelSeek()
+
+    /**
      * Tells the user in a toast that a control call to the Renderer with the name failed.
      * @param action The action of the failed call, a value of Renderer.Action.
      */
@@ -103,8 +163,12 @@ Item {
             [Renderer.Play]: qsTr("Couldn't play %1"),
             [Renderer.Resume]: qsTr("Couldn't resume %1"),
             [Renderer.Pause]: qsTr("Couldn't pause %1"),
-            [Renderer.Stop]: qsTr("Couldn't stop %1")
+            [Renderer.Stop]: qsTr("Couldn't stop %1"),
+            [Renderer.Seek]: qsTr("Couldn't seek on %1")
         };
+        if (action === Renderer.Seek) {
+            nowPlayingView.cancelSeek();
+        }
         toast.show(messages[action].arg(rendererName));
     }
 
@@ -243,6 +307,61 @@ Item {
                 color: Theme.colors.colorOnSurfaceVariant
                 textStyle: Theme.fonts.bodyLarge
                 visible: albumAndYear.text !== ""
+            }
+
+            Item {
+                id: seekBarSpacing
+                width: details.width
+                height: 20
+            }
+
+            Column {
+                id: seekBar
+                width: details.width
+                spacing: 4
+
+                Slider {
+                    id: seekSlider
+                    objectName: "seekSlider"
+                    width: seekBar.width
+                    from: 0
+                    to: nowPlayingView.duration
+                    value: nowPlayingView.seekTarget >= 0 ? nowPlayingView.seekTarget : nowPlayingView.stopped ? 0 : nowPlayingView.position
+                    interactive: nowPlayingView.canSeek && !nowPlayingView.stopped
+                    valueIndicatorEnabled: true
+                    valueIndicatorText: nowPlayingView.formatTime(seekSlider.pressedValue)
+                    visible: nowPlayingView.hasDuration
+                    onCommitted: value => {
+                        nowPlayingView.seekTarget = value;
+                        nowPlayingView.seekRequested(value);
+                    }
+                }
+
+                Item {
+                    id: times
+                    width: seekBar.width
+                    height: elapsedTime.height
+
+                    StyledText {
+                        id: elapsedTime
+                        objectName: "elapsedTime"
+                        anchors.left: times.left
+                        // The elapsed time keeps the playing position while seeking.
+                        text: nowPlayingView.formatTime(nowPlayingView.stopped ? 0 : nowPlayingView.position)
+                        color: Theme.colors.colorOnSurfaceVariant
+                        textStyle: Theme.fonts.labelLarge
+                    }
+
+                    StyledText {
+                        id: totalTime
+                        objectName: "totalTime"
+                        anchors.right: times.right
+                        text: nowPlayingView.formatTime(nowPlayingView.duration)
+                        color: Theme.colors.colorOnSurfaceVariant
+                        textStyle: Theme.fonts.labelLarge
+                        visible: nowPlayingView.hasDuration
+                    }
+                }
             }
 
             Item {

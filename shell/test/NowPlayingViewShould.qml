@@ -31,6 +31,12 @@ Item {
         }
 
         SignalSpy {
+            id: seekRequestedSpy
+            target: nowPlayingView
+            signalName: "seekRequested"
+        }
+
+        SignalSpy {
             id: togglePlaybackRequestedSpy
             target: nowPlayingView
             signalName: "togglePlaybackRequested"
@@ -48,11 +54,25 @@ Item {
             nowPlayingView.trackFormat = "FLAC · 24-bit / 96 kHz";
             nowPlayingView.canPause = true;
             nowPlayingView.transitioning = false;
+            nowPlayingView.position = 102000;
+            nowPlayingView.hasDuration = true;
+            nowPlayingView.duration = 271000;
+            nowPlayingView.canSeek = true;
+            nowPlayingView.cancelSeek();
+            seekRequestedSpy.clear();
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
+        }
+
+        /**
+         * Shows the Current Track in the Playback State and waits until its layout is done, so clicks hit.
+         */
+        function showTrack(playbackState) {
+            nowPlayingView.playbackState = playbackState;
+            nowPlayingViewTest.waitForRendering(nowPlayingView);
         }
 
         /**
@@ -300,7 +320,7 @@ Item {
          * Tests that the Play/Pause button asks to toggle the playback.
          */
         function test_ask_to_toggle_the_playback_with_the_play_pause_button() {
-            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingViewTest.showTrack(Renderer.Playing);
             const button = nowPlayingViewTest.child("playPauseButton");
             nowPlayingViewTest.verify(button.width >= 44 && button.height >= 44);
             nowPlayingViewTest.mouseClick(button);
@@ -328,6 +348,11 @@ Item {
                     tag: "Stop",
                     action: Renderer.Stop,
                     message: "Couldn't stop Kitchen"
+                },
+                {
+                    tag: "Seek",
+                    action: Renderer.Seek,
+                    message: "Couldn't seek on Kitchen"
                 }
             ];
         }
@@ -340,6 +365,120 @@ Item {
             nowPlayingView.showControlFailed("Kitchen", data.action);
             nowPlayingViewTest.tryCompare(toast, "visible", true);
             nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, data.message);
+        }
+
+        /**
+         * Tests that the seek bar shows the elapsed and the total time and advances with every position update.
+         */
+        function test_show_the_elapsed_and_the_total_time() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.compare(slider.visible, true);
+            nowPlayingViewTest.compare(slider.value, 102000);
+            nowPlayingViewTest.compare(slider.to, 271000);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "1:42");
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("totalTime").text, "4:31");
+            nowPlayingView.position = 103000;
+            nowPlayingViewTest.compare(slider.value, 103000);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "1:43");
+        }
+
+        /**
+         * Tests that times of an hour and longer show the hours.
+         */
+        function test_show_the_hours_of_long_durations() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.duration = 3723000;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("totalTime").text, "1:02:03");
+        }
+
+        /**
+         * Tests that dragging shows the target in the bubble, keeps the elapsed time and seeks once on release,
+         * the bar stays at the target until the next position update.
+         */
+        function test_seek_once_on_release() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.compare(slider.interactive, true);
+            nowPlayingViewTest.mousePress(slider, slider.width / 4, slider.height / 2);
+            nowPlayingViewTest.mouseMove(slider, slider.width / 2, slider.height / 2);
+            const indicator = nowPlayingViewTest.findChild(slider, "valueIndicator");
+            nowPlayingViewTest.compare(indicator.visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(indicator, "valueIndicatorText").text, "2:15");
+            nowPlayingView.position = 103000;
+            nowPlayingViewTest.fuzzyCompare(slider.visualValue, 135500, 1000);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "1:43");
+            nowPlayingViewTest.compare(seekRequestedSpy.count, 0);
+            nowPlayingViewTest.mouseRelease(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.compare(seekRequestedSpy.count, 1);
+            const target = seekRequestedSpy.signalArguments[0][0];
+            nowPlayingViewTest.fuzzyCompare(target, 135500, 1000);
+            nowPlayingViewTest.compare(slider.visualValue, target);
+            nowPlayingView.position = 136000;
+            nowPlayingViewTest.compare(slider.visualValue, 136000);
+        }
+
+        /**
+         * Tests that a tap on the seek bar seeks to that point.
+         */
+        function test_seek_with_a_tap() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.mouseClick(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.compare(seekRequestedSpy.count, 1);
+            nowPlayingViewTest.fuzzyCompare(seekRequestedSpy.signalArguments[0][0], 135500, 1000);
+        }
+
+        /**
+         * Tests that the seek bar snaps back and a toast is shown when the seek failed.
+         */
+        function test_snap_back_when_the_seek_failed() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.mouseClick(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.fuzzyCompare(slider.visualValue, 135500, 1000);
+            nowPlayingView.showControlFailed("Kitchen", Renderer.Seek);
+            nowPlayingViewTest.compare(slider.visualValue, 102000);
+            const toast = nowPlayingViewTest.child("toast");
+            nowPlayingViewTest.tryCompare(toast, "visible", true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, "Couldn't seek on Kitchen");
+        }
+
+        /**
+         * Tests that the seek bar only shows the position when the Renderer can't seek.
+         */
+        function test_show_a_display_only_seek_bar_without_seeking() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.canSeek = false;
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.compare(slider.visible, true);
+            nowPlayingViewTest.compare(slider.interactive, false);
+        }
+
+        /**
+         * Tests that only the elapsed time is shown for a stream without a duration.
+         */
+        function test_show_only_the_elapsed_time_without_a_duration() {
+            nowPlayingView.playbackState = Renderer.Playing;
+            nowPlayingView.hasDuration = false;
+            nowPlayingView.duration = 0;
+            nowPlayingView.canSeek = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("seekSlider").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("totalTime").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "1:42");
+        }
+
+        /**
+         * Tests that a Stopped Renderer shows 0:00 of the total time and can't seek.
+         */
+        function test_show_the_start_without_seeking_while_stopped() {
+            nowPlayingView.playbackState = Renderer.Stopped;
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.compare(slider.value, 0);
+            nowPlayingViewTest.compare(slider.interactive, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "0:00");
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("totalTime").text, "4:31");
         }
 
         /**

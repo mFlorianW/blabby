@@ -71,12 +71,17 @@ Rectangle {
             trackFormat: Singleton.activeRendererController.trackFormat
             canPause: Singleton.activeRendererController.canPause
             transitioning: Singleton.activeRendererController.transitioning
+            position: Singleton.activeRendererController.position
+            hasDuration: Singleton.activeRendererController.hasDuration
+            duration: Singleton.activeRendererController.duration
+            canSeek: Singleton.activeRendererController.canSeek
             onChooseRendererRequested: {
                 shell.returnToPlaying = true;
                 rail.currentIndex = shell.renderersDestination;
             }
 
             onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
+            onSeekRequested: position => Singleton.activeRendererController.seek(position)
 
             Connections {
                 target: Singleton.activeRendererController
