@@ -13,7 +13,8 @@ namespace Shell
 
 /**
  * The @ref Shell::ActiveRendererController follows the Active Renderer of a @ref Shell::MediaRendererModel and gives
- * the Playing screen what it shows of it. Without an Active Renderer it has no name and its Playback State is No Media.
+ * the Playing screen what it shows of it. Without an Active Renderer it has no name, its Playback State is No Media
+ * and it has no Current Track. The position of the Active Renderer is tracked, the one of the previous is not.
  */
 class ActiveRendererController : public QObject
 {
@@ -33,6 +34,21 @@ class ActiveRendererController : public QObject
      * This property holds the Playback State of the Active Renderer, No Media without an Active Renderer.
      */
     Q_PROPERTY(Multimedia::Renderer::State playbackState READ playbackState NOTIFY playbackStateChanged)
+
+    /**
+     * This property holds the title of the Current Track, empty without an Active Renderer.
+     */
+    Q_PROPERTY(QString trackTitle READ trackTitle NOTIFY currentTrackChanged)
+
+    /**
+     * This property holds the artist of the Current Track, empty when unknown.
+     */
+    Q_PROPERTY(QString trackArtist READ trackArtist NOTIFY currentTrackChanged)
+
+    /**
+     * This property holds the URL of the artwork of the Current Track, empty when unknown.
+     */
+    Q_PROPERTY(QString artworkUrl READ artworkUrl NOTIFY currentTrackChanged)
 
 public:
     /**
@@ -66,6 +82,21 @@ public:
      */
     Multimedia::Renderer::State playbackState() const noexcept;
 
+    /**
+     * Gives the title of the Current Track, empty without an Active Renderer.
+     */
+    QString trackTitle() const noexcept;
+
+    /**
+     * Gives the artist of the Current Track, empty when unknown.
+     */
+    QString trackArtist() const noexcept;
+
+    /**
+     * Gives the URL of the artwork of the Current Track, empty when unknown.
+     */
+    QString artworkUrl() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
@@ -78,6 +109,11 @@ Q_SIGNALS:
     void playbackStateChanged();
 
     /**
+     * This signal is emitted when the Current Track changes, also when the Active Renderer is changed or cleared.
+     */
+    void currentTrackChanged();
+
+    /**
      * This signal is emitted when the Active Renderer went Offline and is no longer the Active Renderer.
      * @param rendererName The name of the Renderer that went Offline.
      */
@@ -85,6 +121,7 @@ Q_SIGNALS:
 
 private:
     void onActiveRendererChanged();
+    Multimedia::CurrentTrack currentTrack() const noexcept;
 
     MediaRendererModel const& mModel;
     std::shared_ptr<Multimedia::Renderer> mRenderer = nullptr;

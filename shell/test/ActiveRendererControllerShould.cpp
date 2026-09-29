@@ -5,6 +5,7 @@
 #include "ActiveRendererControllerShould.hpp"
 #include "Descriptions.hpp"
 #include "InMemoryRendererStore.hpp"
+#include "PositionInfoResponse.hpp"
 #include "RendererProvider.hpp"
 #include <QSignalSpy>
 #include <QTest>
@@ -147,6 +148,60 @@ void ActiveRendererControllerShould::report_the_active_renderer_going_offline()
     QCOMPARE(mController->hasActiveRenderer(), false);
     QCOMPARE(mController->rendererName(), QString{});
     QCOMPARE(mController->playbackState(), Renderer::State::NoMedia);
+}
+
+void ActiveRendererControllerShould::track_the_position_of_the_active_renderer_only()
+{
+    auto* kitchen = mRendererFactory->renderer(QStringLiteral("Kitchen"));
+    auto* bathroom = mRendererFactory->renderer(QStringLiteral("Bathroom"));
+
+    activate(QStringLiteral("Kitchen"));
+    // A tracked Renderer requests its position info right away.
+    QCOMPARE(kitchen->positionInfoCallCount(), 1);
+    QCOMPARE(bathroom->positionInfoCallCount(), 0);
+    kitchen->finishPositionInfoCall(positionInfoResponse(QStringLiteral("http://192.168.0.3/1.flac")));
+
+    activate(QStringLiteral("Bathroom"));
+    QCOMPARE(bathroom->positionInfoCallCount(), 1);
+    // An untracked Renderer doesn't request its position info after a Playback State change.
+    kitchen->setDeviceState(MediaDevice::State::Stopped);
+    QCOMPARE(kitchen->positionInfoCallCount(), 1);
+}
+
+void ActiveRendererControllerShould::give_the_current_track_of_the_active_renderer()
+{
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(QStringLiteral("http://192.168.0.3/1.flac"),
+                          QStringLiteral(R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" )"
+                                         R"(xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">)"
+                                         R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title>)"
+                                         R"(<upnp:artist>The Quiet Ferries</upnp:artist>)"
+                                         R"(<upnp:albumArtURI>http://192.168.0.3/1.jpg</upnp:albumArtURI>)"
+                                         R"(</item></DIDL-Lite>)"));
+    auto currentTrackChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::currentTrackChanged};
+
+    activate(QStringLiteral("Kitchen"));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(mController->property("trackTitle").toString(), QStringLiteral("Harbour Lights"));
+    QCOMPARE(mController->property("trackArtist").toString(), QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(mController->property("artworkUrl").toString(), QStringLiteral("http://192.168.0.3/1.jpg"));
+
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(QStringLiteral("http://192.168.0.3/Tide.flac"), QString{});
+    QCOMPARE(currentTrackChangedSpy.size(), 2);
+    QCOMPARE(mController->property("trackTitle").toString(), QStringLiteral("Tide"));
+    QCOMPARE(mController->property("trackArtist").toString(), QString{});
+}
+
+void ActiveRendererControllerShould::give_no_current_track_without_an_active_renderer()
+{
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(QStringLiteral("http://192.168.0.3/Tide.flac"), QString{});
+
+    QCOMPARE(mController->property("trackTitle").toString(), QString{});
+    QCOMPARE(mController->property("trackArtist").toString(), QString{});
+    QCOMPARE(mController->property("artworkUrl").toString(), QString{});
 }
 
 } // namespace Shell

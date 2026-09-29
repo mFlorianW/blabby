@@ -38,6 +38,9 @@ private Q_SLOTS:
     void follow_a_switch_to_another_active_renderer();
     void ignore_playback_state_changes_of_the_previous_active_renderer();
     void report_the_active_renderer_going_offline();
+    void track_the_position_of_the_active_renderer_only();
+    void give_the_current_track_of_the_active_renderer();
+    void give_no_current_track_without_an_active_renderer();
 };
 
 } // namespace Shell
