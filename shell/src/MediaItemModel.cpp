@@ -85,6 +85,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
                     &Multimedia::Source::navigationFinished,
                     this,
                     &MediaItemModel::onNavigationFinished);
+            connect(mMediaSrc.get(), &Multimedia::Source::navigationFailed, this, &MediaItemModel::onNavigationFailed);
         }
         Q_EMIT mediaSourceChanged();
         if (wasBusy) {
@@ -133,7 +134,7 @@ void MediaItemModel::navigateBack() noexcept
         return;
     }
 
-    startNavigation(PendingNavigation::Back);
+    startNavigation(PendingNavigation::Back, parentContainerTitle());
     mMediaSrc->navigateBack();
 }
 
@@ -154,6 +155,7 @@ void MediaItemModel::onNavigationFinished() noexcept
         mContainerTitles.append(std::exchange(mPendingContainerTitle, {}));
         Q_EMIT containerChanged();
     } else if (navigation == PendingNavigation::Back) {
+        mPendingContainerTitle.clear();
         mContainerTitles.removeLast();
         Q_EMIT containerChanged();
     }
@@ -161,6 +163,17 @@ void MediaItemModel::onNavigationFinished() noexcept
     if (navigation != PendingNavigation::None) {
         Q_EMIT busyChanged();
     }
+}
+
+void MediaItemModel::onNavigationFailed() noexcept
+{
+    auto const navigation = std::exchange(mPendingNavigation, PendingNavigation::None);
+    if (navigation == PendingNavigation::None) {
+        return;
+    }
+
+    Q_EMIT busyChanged();
+    Q_EMIT containerOpenFailed(std::exchange(mPendingContainerTitle, {}));
 }
 
 QString MediaItemModel::mediaSourceName() const noexcept
@@ -192,6 +205,12 @@ bool MediaItemModel::isBusy() const noexcept
 QString MediaItemModel::containerTitle() const noexcept
 {
     return mContainerTitles.isEmpty() ? QString{} : mContainerTitles.last();
+}
+
+QString MediaItemModel::parentContainerTitle() const noexcept
+{
+    // The root Container has no title of its own, it's named after the Source.
+    return mContainerTitles.size() > 1 ? mContainerTitles.at(mContainerTitles.size() - 2) : mMediaSrc->sourceName();
 }
 
 bool MediaItemModel::isAtRoot() const noexcept

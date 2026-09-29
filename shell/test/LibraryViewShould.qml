@@ -111,6 +111,7 @@ Item {
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
             libraryViewTest.child("sourcePicker").close();
+            libraryViewTest.child("toast").hide();
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
@@ -407,6 +408,23 @@ Item {
             libraryViewTest.compare(emptyState.actionText, "");
             libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
             libraryViewTest.compare(libraryViewTest.child("sourcePill").visible, true);
+        }
+
+        /**
+         * Tests that a Container that couldn't be opened is reported by a toast, while the current Container stays.
+         */
+        function test_show_a_toast_when_a_container_could_not_be_opened() {
+            libraryView.atRoot = false;
+            libraryView.containerTitle = "Albums";
+            const toast = libraryViewTest.child("toast");
+            libraryViewTest.compare(toast.visible, false);
+
+            libraryView.showContainerOpenFailed("Artists");
+            libraryViewTest.tryCompare(toast, "visible", true);
+            libraryViewTest.compare(libraryViewTest.findChild(toast, "message").text, "Couldn't open Artists");
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").text, "Albums");
+            libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, true);
+            libraryViewTest.compare(libraryViewTest.tile(0).visible, true);
         }
     }
 }

@@ -353,6 +353,75 @@ void MediaItemModelShould::start_at_the_root_when_the_media_source_changes()
     QCOMPARE(miModel.property("busy").toBool(), false);
 }
 
+void MediaItemModelShould::keep_the_current_container_when_opening_a_container_fails()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setHoldNavigations(true);
+    auto busyChangedSpy = QSignalSpy{&miModel, &MediaItemModel::busyChanged};
+    auto containerChangedSpy = QSignalSpy{&miModel, &MediaItemModel::containerChanged};
+    auto modelResetSpy = QSignalSpy{&miModel, &MediaItemModel::modelReset};
+    auto openFailedSpy = QSignalSpy{&miModel, &MediaItemModel::containerOpenFailed};
+
+    miModel.activateMediaItem(2);
+    mediaSrc->failPendingNavigation();
+
+    QCOMPARE(miModel.property("busy").toBool(), false);
+    QCOMPARE(busyChangedSpy.size(), 2);
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+    QCOMPARE(miModel.property("containerTitle").toString(), QString{});
+    QCOMPARE(containerChangedSpy.size(), 0);
+    QCOMPARE(modelResetSpy.size(), 0);
+    QCOMPARE(miModel.rowCount({}), 5);
+    QCOMPARE(openFailedSpy.size(), 1);
+    QCOMPARE(openFailedSpy.at(0).at(0).toString(), QStringLiteral("Container1"));
+}
+
+void MediaItemModelShould::keep_the_container_below_the_root_when_opening_a_container_fails()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2);
+    mediaSrc->setHoldNavigations(true);
+
+    miModel.activateMediaItem(2);
+    mediaSrc->failPendingNavigation();
+
+    QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container1"));
+    QCOMPARE(miModel.rowCount({}), 3);
+
+    // The failed Container isn't part of the way back.
+    mediaSrc->setHoldNavigations(false);
+    miModel.navigateBack();
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("0"));
+    QCOMPARE(miModel.property("atRoot").toBool(), true);
+}
+
+void MediaItemModelShould::keep_the_current_container_when_navigating_back_fails()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2);
+    miModel.activateMediaItem(2);
+    mediaSrc->setHoldNavigations(true);
+    auto openFailedSpy = QSignalSpy{&miModel, &MediaItemModel::containerOpenFailed};
+
+    miModel.navigateBack();
+    mediaSrc->failPendingNavigation();
+
+    QCOMPARE(miModel.property("busy").toBool(), false);
+    QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container2"));
+    QCOMPARE(miModel.rowCount({}), 2);
+    QCOMPARE(openFailedSpy.size(), 1);
+    QCOMPARE(openFailedSpy.at(0).at(0).toString(), QStringLiteral("Container1"));
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaItemModelShould)

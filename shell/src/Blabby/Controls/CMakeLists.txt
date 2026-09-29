@@ -22,6 +22,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         ScreenHeader.qml
         StatusLabel.qml
         StyledText.qml
+        Toast.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.hpp

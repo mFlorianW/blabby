@@ -43,6 +43,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/IconButtonShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_IconButtonShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/DialogShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_DialogShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ToastShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_ToastShould.qml COPYONLY)
 
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests
