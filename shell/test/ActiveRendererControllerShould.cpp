@@ -362,6 +362,34 @@ void ActiveRendererControllerShould::seek_in_the_current_track_of_the_active_ren
     QCOMPARE(seekData.target, QStringLiteral("0:01:02"));
 }
 
+void ActiveRendererControllerShould::give_the_volume_of_the_active_renderer()
+{
+    QCOMPARE(mController->property("canControlVolume").toBool(), false);
+    kitchen()->setVolumeEnabled(true);
+    kitchen()->setVolumeRange(VolumeRange{.minimum = 0, .maximum = 60});
+    activate(QStringLiteral("Kitchen"));
+    auto volumeChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::volumeChanged};
+
+    Q_EMIT kitchen()->masterVolumeChanged(42);
+
+    QCOMPARE(volumeChangedSpy.size(), 1);
+    QCOMPARE(mController->property("volume").toInt(), 42);
+    QCOMPARE(mController->property("volumeMinimum").toInt(), 0);
+    QCOMPARE(mController->property("volumeMaximum").toInt(), 60);
+    QCOMPARE(mController->property("canControlVolume").toBool(), true);
+}
+
+void ActiveRendererControllerShould::set_the_volume_of_the_active_renderer()
+{
+    kitchen()->setVolumeEnabled(true);
+    activate(QStringLiteral("Kitchen"));
+
+    mController->setVolume(33);
+
+    QCOMPARE(kitchen()->isSetVolumeCalled(), true);
+    QCOMPARE(kitchen()->setVolumeData().volume, 33);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::ActiveRendererControllerShould)

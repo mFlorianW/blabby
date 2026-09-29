@@ -95,6 +95,26 @@ class ActiveRendererController : public QObject
      */
     Q_PROPERTY(bool canSeek READ canSeek NOTIFY durationChanged)
 
+    /**
+     * This property holds the Volume of the Active Renderer, 0 without an Active Renderer.
+     */
+    Q_PROPERTY(int volume READ volume NOTIFY volumeChanged)
+
+    /**
+     * This property holds the lowest Volume of the Active Renderer.
+     */
+    Q_PROPERTY(int volumeMinimum READ volumeMinimum NOTIFY activeRendererChanged)
+
+    /**
+     * This property holds the highest Volume of the Active Renderer.
+     */
+    Q_PROPERTY(int volumeMaximum READ volumeMaximum NOTIFY activeRendererChanged)
+
+    /**
+     * This property is true when the Volume of the Active Renderer can be controlled.
+     */
+    Q_PROPERTY(bool canControlVolume READ canControlVolume NOTIFY activeRendererChanged)
+
 public:
     /**
      * Creates an instance of the @ref Shell::ActiveRendererController that follows the Active Renderer of the model.
@@ -199,6 +219,32 @@ public:
      */
     Q_INVOKABLE void seek(qint64 position) noexcept;
 
+    /**
+     * Gives the Volume of the Active Renderer, 0 without an Active Renderer.
+     */
+    int volume() const noexcept;
+
+    /**
+     * Gives the lowest Volume of the Active Renderer.
+     */
+    int volumeMinimum() const noexcept;
+
+    /**
+     * Gives the highest Volume of the Active Renderer.
+     */
+    int volumeMaximum() const noexcept;
+
+    /**
+     * Gives true when the Volume of the Active Renderer can be controlled.
+     */
+    bool canControlVolume() const noexcept;
+
+    /**
+     * Sets the Volume of the Active Renderer.
+     * @param volume The Volume in the range of the Active Renderer.
+     */
+    Q_INVOKABLE void setVolume(int volume) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
@@ -225,6 +271,11 @@ Q_SIGNALS:
      * the Active Renderer is changed or cleared.
      */
     void durationChanged();
+
+    /**
+     * This signal is emitted when the Volume changes, also when the Active Renderer is changed or cleared.
+     */
+    void volumeChanged();
 
     /**
      * This signal is emitted when the Active Renderer starts or stops transitioning, also when the Active Renderer is

@@ -123,6 +123,33 @@ void ActiveRendererController::seek(qint64 position) noexcept
     }
 }
 
+int ActiveRendererController::volume() const noexcept
+{
+    return mRenderer != nullptr ? static_cast<int>(mRenderer->volume()) : 0;
+}
+
+int ActiveRendererController::volumeMinimum() const noexcept
+{
+    return mRenderer != nullptr ? static_cast<int>(mRenderer->volumeMinimum()) : 0;
+}
+
+int ActiveRendererController::volumeMaximum() const noexcept
+{
+    return mRenderer != nullptr ? static_cast<int>(mRenderer->volumeMaximum()) : 100;
+}
+
+bool ActiveRendererController::canControlVolume() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canControlVolume();
+}
+
+void ActiveRendererController::setVolume(int volume) noexcept
+{
+    if (mRenderer != nullptr and volume >= 0) {
+        mRenderer->setVolume(static_cast<quint32>(volume));
+    }
+}
+
 CurrentTrack ActiveRendererController::currentTrack() const noexcept
 {
     if (mRenderer == nullptr) {
@@ -150,6 +177,7 @@ void ActiveRendererController::onActiveRendererChanged()
         connect(mRenderer.get(), &Renderer::stateChanged, this, &ActiveRendererController::playbackStateChanged);
         connect(mRenderer.get(), &Renderer::currentTrackChanged, this, &ActiveRendererController::currentTrackChanged);
         connect(mRenderer.get(), &Renderer::positionChanged, this, &ActiveRendererController::positionChanged);
+        connect(mRenderer.get(), &Renderer::volumeChanged, this, &ActiveRendererController::volumeChanged);
         connect(mRenderer.get(), &Renderer::durationChanged, this, &ActiveRendererController::durationChanged);
         connect(mRenderer.get(),
                 &Renderer::transitioningChanged,
@@ -167,6 +195,7 @@ void ActiveRendererController::onActiveRendererChanged()
     Q_EMIT transitioningChanged();
     Q_EMIT positionChanged();
     Q_EMIT durationChanged();
+    Q_EMIT volumeChanged();
 
     if (previous != nullptr and mRenderer == nullptr and previous->availability() == Renderer::Availability::Offline) {
         qCDebug(shell) << "The Active Renderer" << previous->name() << "went Offline.";
