@@ -75,6 +75,26 @@ class ActiveRendererController : public QObject
      */
     Q_PROPERTY(bool transitioning READ isTransitioning NOTIFY transitioningChanged)
 
+    /**
+     * This property holds the position in the Current Track in milliseconds, 0 without an Active Renderer.
+     */
+    Q_PROPERTY(qint64 position READ position NOTIFY positionChanged)
+
+    /**
+     * This property is true when the duration of the Current Track is known, it's unknown e.g. for a stream.
+     */
+    Q_PROPERTY(bool hasDuration READ hasDuration NOTIFY durationChanged)
+
+    /**
+     * This property holds the duration of the Current Track in milliseconds, 0 when unknown.
+     */
+    Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
+
+    /**
+     * This property is true when the Active Renderer can seek in the Current Track.
+     */
+    Q_PROPERTY(bool canSeek READ canSeek NOTIFY durationChanged)
+
 public:
     /**
      * Creates an instance of the @ref Shell::ActiveRendererController that follows the Active Renderer of the model.
@@ -153,6 +173,32 @@ public:
      */
     Q_INVOKABLE void togglePlayback() noexcept;
 
+    /**
+     * Gives the position in the Current Track in milliseconds, 0 without an Active Renderer.
+     */
+    qint64 position() const noexcept;
+
+    /**
+     * Gives true when the duration of the Current Track is known.
+     */
+    bool hasDuration() const noexcept;
+
+    /**
+     * Gives the duration of the Current Track in milliseconds, 0 when unknown.
+     */
+    qint64 duration() const noexcept;
+
+    /**
+     * Gives true when the Active Renderer can seek in the Current Track.
+     */
+    bool canSeek() const noexcept;
+
+    /**
+     * Seeks to the position in the Current Track of the Active Renderer.
+     * @param position The position in milliseconds.
+     */
+    Q_INVOKABLE void seek(qint64 position) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
@@ -168,6 +214,17 @@ Q_SIGNALS:
      * This signal is emitted when the Current Track changes, also when the Active Renderer is changed or cleared.
      */
     void currentTrackChanged();
+
+    /**
+     * This signal is emitted when the position changes, also when the Active Renderer is changed or cleared.
+     */
+    void positionChanged();
+
+    /**
+     * This signal is emitted when the duration, and with it whether the Active Renderer can seek, changes, also when
+     * the Active Renderer is changed or cleared.
+     */
+    void durationChanged();
 
     /**
      * This signal is emitted when the Active Renderer starts or stops transitioning, also when the Active Renderer is

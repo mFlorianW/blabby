@@ -50,6 +50,9 @@ private Q_SLOTS:
     void ignore_toggling_the_playback_while_transitioning();
     void give_whether_the_active_renderer_can_pause_and_is_transitioning();
     void report_a_failed_control_call_with_the_renderer_name();
+    void give_the_position_and_the_duration_of_the_active_renderer();
+    void give_no_position_and_duration_without_an_active_renderer();
+    void seek_in_the_current_track_of_the_active_renderer();
 };
 
 } // namespace Shell

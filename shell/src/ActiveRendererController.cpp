@@ -96,6 +96,33 @@ void ActiveRendererController::togglePlayback() noexcept
     }
 }
 
+qint64 ActiveRendererController::position() const noexcept
+{
+    return mRenderer != nullptr ? mRenderer->position().count() : 0;
+}
+
+bool ActiveRendererController::hasDuration() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->duration().has_value();
+}
+
+qint64 ActiveRendererController::duration() const noexcept
+{
+    return mRenderer != nullptr ? mRenderer->duration().value_or(std::chrono::milliseconds{0}).count() : 0;
+}
+
+bool ActiveRendererController::canSeek() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canSeek();
+}
+
+void ActiveRendererController::seek(qint64 position) noexcept
+{
+    if (mRenderer != nullptr) {
+        mRenderer->seek(std::chrono::milliseconds{position});
+    }
+}
+
 CurrentTrack ActiveRendererController::currentTrack() const noexcept
 {
     if (mRenderer == nullptr) {
@@ -122,6 +149,8 @@ void ActiveRendererController::onActiveRendererChanged()
     if (mRenderer != nullptr) {
         connect(mRenderer.get(), &Renderer::stateChanged, this, &ActiveRendererController::playbackStateChanged);
         connect(mRenderer.get(), &Renderer::currentTrackChanged, this, &ActiveRendererController::currentTrackChanged);
+        connect(mRenderer.get(), &Renderer::positionChanged, this, &ActiveRendererController::positionChanged);
+        connect(mRenderer.get(), &Renderer::durationChanged, this, &ActiveRendererController::durationChanged);
         connect(mRenderer.get(),
                 &Renderer::transitioningChanged,
                 this,
@@ -136,6 +165,8 @@ void ActiveRendererController::onActiveRendererChanged()
     Q_EMIT playbackStateChanged();
     Q_EMIT currentTrackChanged();
     Q_EMIT transitioningChanged();
+    Q_EMIT positionChanged();
+    Q_EMIT durationChanged();
 
     if (previous != nullptr and mRenderer == nullptr and previous->availability() == Renderer::Availability::Offline) {
         qCDebug(shell) << "The Active Renderer" << previous->name() << "went Offline.";

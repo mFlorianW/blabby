@@ -319,6 +319,49 @@ void ActiveRendererControllerShould::report_a_failed_control_call_with_the_rende
     QCOMPARE(mController->playbackState(), Renderer::State::Playing);
 }
 
+void ActiveRendererControllerShould::give_the_position_and_the_duration_of_the_active_renderer()
+{
+    kitchen()->setRelTimeSeekEnabled(true);
+    kitchen()->setDeviceState(MediaDevice::State::Playing);
+    activate(QStringLiteral("Kitchen"));
+    auto positionChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::positionChanged};
+    auto durationChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::durationChanged};
+    QCOMPARE(mController->property("canSeek").toBool(), false);
+
+    kitchen()->finishPositionInfoCall(positionInfoResponse(QStringLiteral("http://192.168.0.3/1.flac"),
+                                                           QStringLiteral("NOT_IMPLEMENTED"),
+                                                           QStringLiteral("0:04:31"),
+                                                           QStringLiteral("0:01:42")));
+
+    QCOMPARE(positionChangedSpy.size(), 1);
+    QCOMPARE(durationChangedSpy.size(), 1);
+    QCOMPARE(mController->property("position").toLongLong(), 102'000);
+    QCOMPARE(mController->property("hasDuration").toBool(), true);
+    QCOMPARE(mController->property("duration").toLongLong(), 271'000);
+    QCOMPARE(mController->property("canSeek").toBool(), true);
+}
+
+void ActiveRendererControllerShould::give_no_position_and_duration_without_an_active_renderer()
+{
+    QCOMPARE(mController->property("position").toLongLong(), 0);
+    QCOMPARE(mController->property("hasDuration").toBool(), false);
+    QCOMPARE(mController->property("duration").toLongLong(), 0);
+    QCOMPARE(mController->property("canSeek").toBool(), false);
+}
+
+void ActiveRendererControllerShould::seek_in_the_current_track_of_the_active_renderer()
+{
+    kitchen()->setRelTimeSeekEnabled(true);
+    activate(QStringLiteral("Kitchen"));
+
+    mController->seek(62'000);
+
+    QCOMPARE(kitchen()->seekData().has_value(), true);
+    auto const seekData = kitchen()->seekData().value_or(SeekData{});
+    QCOMPARE(seekData.mode, MediaDevice::SeekMode::RelTime);
+    QCOMPARE(seekData.target, QStringLiteral("0:01:02"));
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::ActiveRendererControllerShould)
