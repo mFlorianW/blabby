@@ -23,6 +23,8 @@ namespace Multimedia
  * devices on the network.
  * Every @ref Multimedia::Renderer that was seen is remembered in the @ref Multimedia::RendererStore, is Offline
  * after a restart until it's discovered again and stays known as Offline when it leaves the network.
+ * A @ref Multimedia::Renderer whose device doesn't answer anymore goes Offline and is Online again on its next
+ * announcement.
  */
 class BLABBYMULTIMEDIA_EXPORT RendererProvider : public QObject
 {
@@ -88,6 +90,8 @@ private Q_SLOTS:
 
 private:
     std::shared_ptr<Renderer> knownRenderer(QString const& identity) const noexcept;
+    void addRenderer(std::shared_ptr<Renderer> const& renderer) noexcept;
+    void onRendererAvailabilityChanged(Renderer const* renderer) noexcept;
     void saveKnownRenderers() noexcept;
 
     std::shared_ptr<RendererStore> mStore;

@@ -53,6 +53,7 @@ private Q_SLOTS:
     void ignore_activating_the_active_renderer_again();
     void ignore_activating_an_invalid_index();
     void clear_the_active_renderer_when_it_disconnects();
+    void clear_the_active_renderer_when_its_device_does_not_answer();
     void keep_the_active_renderer_when_another_renderer_disconnects();
     void be_scanning_after_start_until_the_discovery_is_finished();
     void start_a_new_discovery_on_rescan();

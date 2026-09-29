@@ -45,6 +45,11 @@ private Q_SLOTS:
     void initialize_again_when_an_initialized_renderer_goes_online_again();
     void not_initialize_an_uninitialized_renderer_when_it_goes_online();
     void give_no_volume_while_offline();
+    void go_offline_when_the_device_does_not_answer_a_call_data();
+    void go_offline_when_the_device_does_not_answer_a_call();
+    void stay_online_when_the_device_answers_a_call_with_an_error();
+    void go_offline_when_the_event_publisher_of_the_device_is_unreachable();
+    void stay_online_when_a_dropped_device_was_unreachable();
 
 private:
     std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;

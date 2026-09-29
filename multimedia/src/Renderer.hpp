@@ -145,6 +145,8 @@ public:
 
     /**
      * Makes the @ref Multimedia::Renderer Offline, e.g. when it leaves the network.
+     * The @ref Multimedia::Renderer also goes Offline by itself when its device doesn't answer a call or its event
+     * subscription anymore, a device that answers with an error stays Online.
      * The last known details are kept, the Playback State becomes No Media, the volume 0 and all requests are ignored
      * until the @ref Multimedia::Renderer is Online again.
      * The signal @ref Multimedia::Renderer::availabilityChanged is emitted when the Availability changed.
@@ -254,6 +256,9 @@ private:
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
     void updateVolume(quint32 volume) noexcept;
     void connectDevice() noexcept;
+    std::unique_ptr<UPnPAV::PendingSoapCall> goOfflineWhenUnreachable(
+        std::unique_ptr<UPnPAV::PendingSoapCall> call) noexcept;
+    void onDeviceUnreachable() noexcept;
     void dropDevice() noexcept;
 
 private:

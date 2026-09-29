@@ -25,6 +25,7 @@ private Q_SLOTS:
     void inform_about_disconnectd_renderer();
     void inform_about_the_end_of_a_discovery();
     void save_the_remembered_renderers_only_when_they_changed();
+    void bring_a_renderer_whose_device_did_not_answer_online_again_on_its_next_announcement();
 };
 
 } // namespace Multimedia

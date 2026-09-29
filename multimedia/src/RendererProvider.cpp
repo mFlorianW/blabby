@@ -25,7 +25,7 @@ RendererProvider::RendererProvider(std::shared_ptr<RendererStore> store,
     auto const rememberedRenderers = mStore->load();
     for (auto const& remembered : rememberedRenderers) {
         if (knownRenderer(remembered.identity) == nullptr) {
-            mRenderers.append(std::make_shared<Renderer>(remembered));
+            addRenderer(std::make_shared<Renderer>(remembered));
         }
     }
 
@@ -61,7 +61,7 @@ void RendererProvider::onRendererDiscovered(QString const& usn) noexcept
             changed = renderer->remembered() != previous;
         } else {
             renderer = std::make_shared<Renderer>(std::move(upnpRenderer));
-            mRenderers.append(renderer);
+            addRenderer(renderer);
         }
         mOnlineRenderers.insert(usn, renderer);
         if (changed) {
@@ -88,6 +88,32 @@ std::shared_ptr<Renderer> RendererProvider::knownRenderer(QString const& identit
         return renderer->identity() == identity;
     });
     return iter != mRenderers.cend() ? *iter : nullptr;
+}
+
+void RendererProvider::addRenderer(std::shared_ptr<Renderer> const& renderer) noexcept
+{
+    mRenderers.append(renderer);
+    auto const* const rendererPtr = renderer.get();
+    connect(rendererPtr, &Renderer::availabilityChanged, this, [this, rendererPtr]() {
+        onRendererAvailabilityChanged(rendererPtr);
+    });
+}
+
+void RendererProvider::onRendererAvailabilityChanged(Renderer const* renderer) noexcept
+{
+    // A Renderer that went Offline by itself is still connected in the service provider, which ignores the
+    // announcements of connected services. Disconnecting it there lets its next announcement connect it again.
+    if (renderer->availability() == Renderer::Availability::Online) {
+        return;
+    }
+    for (auto iter = mOnlineRenderers.cbegin(); iter != mOnlineRenderers.cend(); ++iter) {
+        if (iter.value().get() == renderer) {
+            // Copied, the disconnect removes the entry from the Online Renderers.
+            auto const usn = iter.key();
+            mSp->disconnectService(usn);
+            return;
+        }
+    }
 }
 
 void RendererProvider::saveKnownRenderers() noexcept
