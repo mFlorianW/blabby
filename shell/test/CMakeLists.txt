@@ -60,22 +60,22 @@ target_link_libraries(test_shell_qmltests
 )
 add_test(test_shell_qmltests ${EXECUTABLE_OUTPUT_PATH}/test_shell_qmltests)
 ###############################################################################
-# Test MediaPlayer
+# Test ActiveRendererController
 ###############################################################################
-add_executable(test_shell_mediaplayer)
-target_sources(test_shell_mediaplayer
+add_executable(test_shell_active_renderer_controller)
+target_sources(test_shell_active_renderer_controller
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaPlayerShould.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MediaPlayerShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererControllerShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererControllerShould.hpp
 )
-target_link_libraries(test_shell_mediaplayer
+target_link_libraries(test_shell_active_renderer_controller
     PRIVATE
         Qt6::Test
         BlabbyShell::Object
         Blabby::MultimediaTestHelper
         Blabby::UPnPAVTestHelper
 )
-add_test(test_shell_mediaplayer ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediaplayer)
+add_test(test_shell_active_renderer_controller ${EXECUTABLE_OUTPUT_PATH}/test_shell_active_renderer_controller)
 
 ###############################################################################
 # Test MediaRendererModel

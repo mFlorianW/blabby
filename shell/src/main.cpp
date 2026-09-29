@@ -4,7 +4,6 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "MediaPlayer.hpp"
 #include "QmlSingletonRegistry.hpp"
 #include "Item.hpp"
 #include "Renderer.hpp"
@@ -22,7 +21,6 @@ void registerQmlTypes()
                                                    0,
                                                    "Singleton",
                                                    &QmlSingletonRegistry::createQmlRegistry);
-    qmlRegisterUncreatableType<Shell::MediaPlayer>("Blabby.Objects", 1, 0, "MediaPlayer", "");
     qmlRegisterUncreatableType<Multimedia::Renderer>("Blabby.Objects",
                                                      1,
                                                      0,
