@@ -62,6 +62,24 @@ MediaServerObjectBuilder& MediaServerObjectBuilder::withCreator(QString const& c
     return *this;
 }
 
+MediaServerObjectBuilder& MediaServerObjectBuilder::withAlbum(QString const& album) noexcept
+{
+    mObj.mAlbum = album;
+    return *this;
+}
+
+MediaServerObjectBuilder& MediaServerObjectBuilder::withDate(QString const& date) noexcept
+{
+    mObj.mDate = date;
+    return *this;
+}
+
+MediaServerObjectBuilder& MediaServerObjectBuilder::withResource(Resource const& resource) noexcept
+{
+    mObj.mResources.append(resource);
+    return *this;
+}
+
 bool MediaServerObjectBuilder::isValid() const noexcept
 {
     return not mObj.mId.isEmpty() and not mObj.mParentId.isEmpty() and not mObj.mTitle.isEmpty() and

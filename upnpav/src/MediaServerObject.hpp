@@ -11,10 +11,40 @@
 #include "blabbyupnpav_export.h"
 #include <QString>
 #include <QXmlStreamReader>
+#include <optional>
 
 namespace UPnPAV
 {
 class MediaServerObjectBuilder;
+
+/**
+ * A resource of a @ref UPnPAV::MediaServerObject, e.g. one encoding of a track.
+ */
+struct BLABBYUPNPAV_EXPORT Resource
+{
+    /**
+     * The URI of the resource.
+     */
+    QString uri;
+
+    /**
+     * The protocol info of the resource, e.g. http-get:*:audio/flac:*.
+     */
+    QString protocolInfo;
+
+    /**
+     * The bits per sample of the resource, unset when unknown.
+     */
+    std::optional<quint32> bitsPerSample;
+
+    /**
+     * The sample frequency of the resource in Hz, unset when unknown.
+     */
+    std::optional<quint32> sampleFrequency;
+
+    friend bool operator==(Resource const& lhs, Resource const& rhs) = default;
+};
+
 /**
  * A MediaServerObject is an item provided by @ref UPnPAV::MediaServer.
  */
@@ -55,6 +85,21 @@ public:
      */
     QString creator() const noexcept;
 
+    /**
+     * @return The album of the object, empty when unknown.
+     */
+    QString album() const noexcept;
+
+    /**
+     * @return The date of the object as given by the server, e.g. 2024-03-01, empty when unknown.
+     */
+    QString date() const noexcept;
+
+    /**
+     * @return The resources of the object in the order of the DIDL.
+     */
+    QVector<Resource> const& resources() const noexcept;
+
     BLABBYUPNPAV_EXPORT friend bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
     BLABBYUPNPAV_EXPORT friend bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
 
@@ -77,6 +122,9 @@ private:
     QString mAlbumArtUrl;
     QString mArtist;
     QString mCreator;
+    QString mAlbum;
+    QString mDate;
+    QVector<Resource> mResources;
     QVector<Protocol> mSupportedProtocols;
 };
 
