@@ -75,6 +75,10 @@ Rectangle {
             hasDuration: Singleton.activeRendererController.hasDuration
             duration: Singleton.activeRendererController.duration
             canSeek: Singleton.activeRendererController.canSeek
+            volume: Singleton.activeRendererController.volume
+            volumeMinimum: Singleton.activeRendererController.volumeMinimum
+            volumeMaximum: Singleton.activeRendererController.volumeMaximum
+            canControlVolume: Singleton.activeRendererController.canControlVolume
             onChooseRendererRequested: {
                 shell.returnToPlaying = true;
                 rail.currentIndex = shell.renderersDestination;
@@ -82,6 +86,7 @@ Rectangle {
 
             onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
+            onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
 
             Connections {
                 target: Singleton.activeRendererController

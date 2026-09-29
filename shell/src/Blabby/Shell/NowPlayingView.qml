@@ -16,7 +16,9 @@ import Blabby.Theme
  * toast tells so. A large Play/Pause button pauses, or stops a Renderer that can't pause, and resumes or plays; it
  * shows a busy ring while the Renderer is transitioning. A seek bar shows the elapsed and the total time and seeks on
  * release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
- * stream without a duration. Failed control calls are told in a toast.
+ * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
+ * changes the Volume while dragging, it is also shown without media and hidden without Volume control.
+ * Failed control calls are told in a toast.
  */
 Item {
     id: nowPlayingView
@@ -97,6 +99,26 @@ Item {
     property bool canSeek: false
 
     /**
+     * The Volume of the Active Renderer.
+     */
+    property int volume: 0
+
+    /**
+     * The lowest Volume of the Active Renderer.
+     */
+    property int volumeMinimum: 0
+
+    /**
+     * The highest Volume of the Active Renderer.
+     */
+    property int volumeMaximum: 100
+
+    /**
+     * True when the Volume of the Active Renderer can be controlled.
+     */
+    property bool canControlVolume: false
+
+    /**
      * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
      */
     property real seekTarget: -1
@@ -132,6 +154,11 @@ Item {
     signal seekRequested(real position)
 
     /**
+     * This signal is emitted while the user changes the Volume.
+     */
+    signal volumeRequested(int volume)
+
+    /**
      * Shows the position again instead of the target of a requested seek, e.g. because the seek failed.
      */
     function cancelSeek() {
@@ -164,7 +191,8 @@ Item {
             [Renderer.Resume]: qsTr("Couldn't resume %1"),
             [Renderer.Pause]: qsTr("Couldn't pause %1"),
             [Renderer.Stop]: qsTr("Couldn't stop %1"),
-            [Renderer.Seek]: qsTr("Couldn't seek on %1")
+            [Renderer.Seek]: qsTr("Couldn't seek on %1"),
+            [Renderer.ChangeVolume]: qsTr("Couldn't change the Volume of %1")
         };
         if (action === Renderer.Seek) {
             nowPlayingView.cancelSeek();
@@ -202,7 +230,7 @@ Item {
         id: emptyState
         objectName: "emptyState"
         anchors.top: header.bottom
-        anchors.bottom: nowPlayingView.bottom
+        anchors.bottom: volumeRow.visible ? volumeRow.top : nowPlayingView.bottom
         anchors.left: nowPlayingView.left
         anchors.right: nowPlayingView.right
         iconSource: nowPlayingView.hasActiveRenderer ? "qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
@@ -231,7 +259,7 @@ Item {
             objectName: "trackArtwork"
             anchors.left: track.left
             anchors.verticalCenter: track.verticalCenter
-            width: Math.min(track.height, track.width * 0.42)
+            width: Math.round(Math.min(track.height, track.width * 0.42))
             height: artwork.width
             radius: 28
             source: nowPlayingView.artworkUrl
@@ -422,6 +450,62 @@ Item {
                     running: nowPlayingView.transitioning
                 }
             }
+
+            // Keeps the space for the Volume row, which is placed here while the Current Track is shown.
+            Item {
+                id: volumeSlot
+                width: details.width
+                height: volumeRow.visible ? volumeRow.height + 28 : 0
+            }
+        }
+    }
+
+    Rectangle {
+        id: volumeRow
+        objectName: "volumeRow"
+        x: Math.round(nowPlayingView.showsTrack ? track.x + details.x : (nowPlayingView.width - volumeRow.width) / 2)
+        y: Math.round(nowPlayingView.showsTrack ? track.y + details.y + volumeSlot.y + 28 : nowPlayingView.height - volumeRow.height - 32)
+        width: Math.round(nowPlayingView.showsTrack ? details.width : Math.min(560, nowPlayingView.width - 48))
+        height: 56
+        radius: 28
+        color: Theme.colors.surfaceContainerHigh
+        visible: nowPlayingView.hasActiveRenderer && nowPlayingView.canControlVolume
+
+        Slider {
+            id: volumeSlider
+            objectName: "volumeSlider"
+            anchors.left: volumeRow.left
+            anchors.right: volumeValue.left
+            anchors.verticalCenter: volumeRow.verticalCenter
+            anchors.leftMargin: 20
+            anchors.rightMargin: 12
+            from: nowPlayingView.volumeMinimum
+            to: nowPlayingView.volumeMaximum
+            value: nowPlayingView.volume
+            onMoved: value => {
+                const volume = Math.round(value);
+                if (volume !== volumeSlider.lastRequestedVolume) {
+                    volumeSlider.lastRequestedVolume = volume;
+                    nowPlayingView.volumeRequested(volume);
+                }
+            }
+            onPressedChanged: volumeSlider.lastRequestedVolume = -1
+
+            property int lastRequestedVolume: -1
+        }
+
+        // The number replaces the value indicator of the slider.
+        StyledText {
+            id: volumeValue
+            objectName: "volumeValue"
+            anchors.right: volumeRow.right
+            anchors.verticalCenter: volumeRow.verticalCenter
+            anchors.rightMargin: 20
+            width: 32
+            horizontalAlignment: Text.AlignRight
+            text: Math.round(volumeSlider.visualValue)
+            color: Theme.colors.colorOnSurface
+            textStyle: Theme.fonts.labelLarge
         }
     }
 

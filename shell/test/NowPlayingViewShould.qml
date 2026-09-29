@@ -37,6 +37,12 @@ Item {
         }
 
         SignalSpy {
+            id: volumeRequestedSpy
+            target: nowPlayingView
+            signalName: "volumeRequested"
+        }
+
+        SignalSpy {
             id: togglePlaybackRequestedSpy
             target: nowPlayingView
             signalName: "togglePlaybackRequested"
@@ -59,7 +65,12 @@ Item {
             nowPlayingView.duration = 271000;
             nowPlayingView.canSeek = true;
             nowPlayingView.cancelSeek();
+            nowPlayingView.volume = 42;
+            nowPlayingView.volumeMinimum = 0;
+            nowPlayingView.volumeMaximum = 60;
+            nowPlayingView.canControlVolume = true;
             seekRequestedSpy.clear();
+            volumeRequestedSpy.clear();
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
@@ -353,6 +364,11 @@ Item {
                     tag: "Seek",
                     action: Renderer.Seek,
                     message: "Couldn't seek on Kitchen"
+                },
+                {
+                    tag: "ChangeVolume",
+                    action: Renderer.ChangeVolume,
+                    message: "Couldn't change the Volume of Kitchen"
                 }
             ];
         }
@@ -479,6 +495,68 @@ Item {
             nowPlayingViewTest.compare(slider.interactive, false);
             nowPlayingViewTest.compare(nowPlayingViewTest.child("elapsedTime").text, "0:00");
             nowPlayingViewTest.compare(nowPlayingViewTest.child("totalTime").text, "4:31");
+        }
+
+        /**
+         * Tests that the Volume row shows the Volume in the range of the Renderer with the number next to it.
+         */
+        function test_show_the_volume_with_its_number() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, true);
+            const slider = nowPlayingViewTest.child("volumeSlider");
+            nowPlayingViewTest.compare(slider.from, 0);
+            nowPlayingViewTest.compare(slider.to, 60);
+            nowPlayingViewTest.compare(slider.value, 42);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").text, "42");
+        }
+
+        /**
+         * Tests that a Volume change made elsewhere shows up on the slider.
+         */
+        function test_follow_volume_changes() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.volume = 50;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeSlider").visualValue, 50);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").text, "50");
+        }
+
+        /**
+         * Tests that the Volume row is kept when the Active Renderer has no media.
+         */
+        function test_keep_the_volume_row_without_media() {
+            nowPlayingViewTest.showTrack(Renderer.NoMedia);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("emptyState").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, true);
+        }
+
+        /**
+         * Tests that the Volume row is hidden without Volume control or without an Active Renderer.
+         */
+        function test_hide_the_volume_row_without_volume_control() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.canControlVolume = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, false);
+            nowPlayingView.canControlVolume = true;
+            nowPlayingView.hasActiveRenderer = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, false);
+        }
+
+        /**
+         * Tests that the Volume changes while dragging and changes arriving meanwhile are ignored.
+         */
+        function test_change_the_volume_while_dragging() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const slider = nowPlayingViewTest.child("volumeSlider");
+            nowPlayingViewTest.mousePress(slider, slider.width / 4, slider.height / 2);
+            nowPlayingViewTest.mouseMove(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.verify(volumeRequestedSpy.count > 0);
+            nowPlayingViewTest.compare(volumeRequestedSpy.signalArguments[volumeRequestedSpy.count - 1][0], 30);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").text, "30");
+            nowPlayingView.volume = 10;
+            nowPlayingViewTest.compare(Math.round(slider.visualValue), 30);
+            nowPlayingViewTest.mouseRelease(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.compare(slider.visualValue, 10);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").text, "10");
         }
 
         /**
