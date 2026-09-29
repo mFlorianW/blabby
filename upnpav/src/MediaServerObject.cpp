@@ -126,7 +126,7 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     // Servers may list the album art in several sizes, the first one is usually the thumbnail.
     auto hasAlbumArt = false;
     // read container attributes
-    auto attributes = streamReader.attributes();
+    auto const attributes = streamReader.attributes();
     for (auto const& attribute : attributes) {
         if (attribute.name() == QStringLiteral("id")) {
             builder.withId(attribute.value().toString());
@@ -171,7 +171,8 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
             for (auto const& attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
                     auto protos = QVector<Protocol>{};
-                    for (auto const& rawProto : attribute.value().toString().split(";")) {
+                    auto const rawProtos = attribute.value().toString().split(";");
+                    for (auto const& rawProto : rawProtos) {
                         auto const proto = Protocol::create(rawProto);
                         if (proto.has_value()) {
                             protos.push_back(std::move(proto.value()));
