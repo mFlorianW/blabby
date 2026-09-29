@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include "ClockDouble.hpp"
 #include "MediaRendererDouble.hpp"
+#include "Renderer.hpp"
 #include <QObject>
 
 namespace Multimedia
@@ -50,8 +52,25 @@ private Q_SLOTS:
     void stay_online_when_the_device_answers_a_call_with_an_error();
     void go_offline_when_the_event_publisher_of_the_device_is_unreachable();
     void stay_online_when_a_dropped_device_was_unreachable();
+    void give_the_current_track_reported_by_the_device_events();
+    void fall_back_for_missing_current_track_details_data();
+    void fall_back_for_missing_current_track_details();
+    void give_the_current_track_of_the_polled_position_info();
+    void not_notify_about_an_unchanged_current_track();
+    void poll_the_position_info_every_second_while_tracked_and_playing();
+    void skip_a_poll_while_the_previous_request_is_pending();
+    void not_poll_while_not_tracked();
+    void not_poll_while_not_playing_data();
+    void not_poll_while_not_playing();
+    void refresh_the_position_info_after_a_playback_state_change();
+    void stop_polling_when_the_tracking_is_switched_off();
+    void refresh_the_position_info_when_a_tracked_renderer_goes_online();
+    void give_no_current_track_while_offline();
 
 private:
+    std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);
+
+    UPnPAV::ClockDouble* mClock = nullptr;
     std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;
     UPnPAV::Doubles::MediaRendererDouble* mUpnpRendererRaw = nullptr;
 };

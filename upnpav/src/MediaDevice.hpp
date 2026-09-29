@@ -123,6 +123,20 @@ public:
     virtual MediaDevice::State state() const noexcept;
 
     /**
+     * Gives the URI of the current track reported by the LastChange events of the AVTransport service.
+     * The URI is empty until an event reported it or when the device has no AVTransport service.
+     * @return The URI of the current track.
+     */
+    virtual QString const& currentTrackUri() const noexcept;
+
+    /**
+     * Gives the DIDL-Lite metadata of the current track reported by the LastChange events of the AVTransport service.
+     * The metadata is empty until an event reported it, it's "NOT_IMPLEMENTED" when the device doesn't support it.
+     * @return The metadata of the current track.
+     */
+    virtual QString const& currentTrackMetaData() const noexcept;
+
+    /**
      * Calls the GetProtocolInfo on the ConnectionManager Interface of the UPnPAV device.
      *
      * @return PendingSoapCall with the result or an error.
@@ -315,6 +329,11 @@ Q_SIGNALS:
      * Devices without AVTransport service are going to stay in the @ref MediaDevice::State::Stopped.
      */
     void stateChanged();
+
+    /**
+     * This signal is emitted when the URI or the metadata of the current track changed.
+     */
+    void currentTrackChanged();
 
     /**
      * This signal is emitted when the @ref UPnPAV::MediaDevice doesn't answer anymore, e.g. because it left the

@@ -6,6 +6,7 @@
 #include "Descriptions.hpp"
 #include "EventBackendDouble.hpp"
 #include "Item.hpp"
+#include "PositionInfoResponse.hpp"
 #include "Renderer.hpp"
 #include "SoapBackendDouble.hpp"
 #include "VolumeResponse.hpp"
@@ -58,9 +59,39 @@ RememberedRenderer rememberedKitchen()
                               .address = QStringLiteral("192.168.1.10")};
 }
 
+constexpr auto trackUri = "http://192.168.0.3:8200/MediaItems/Harbour%20Lights.flac";
+
+QString didl(QString const& itemElements)
+{
+    return QStringLiteral(R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" )"
+                          R"(xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" )"
+                          R"(xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">)"
+                          R"(<item id="1" parentID="0" restricted="1">%1</item></DIDL-Lite>)")
+        .arg(itemElements);
+}
+
+QString fullTrackMetaData()
+{
+    return didl(QStringLiteral("<upnp:class>object.item.audioItem.musicTrack</upnp:class>"
+                               "<dc:title>Harbour Lights</dc:title>"
+                               "<dc:creator>Ferry Creator</dc:creator>"
+                               "<upnp:artist>The Quiet Ferries</upnp:artist>"
+                               "<upnp:albumArtURI>http://192.168.0.3:8200/AlbumArt/1.jpg</upnp:albumArtURI>"));
+}
+
 } // namespace
 
 RendererShould::~RendererShould() = default;
+
+std::unique_ptr<Renderer> RendererShould::createTrackedRenderer(MediaDevice::State state)
+{
+    mUpnpRendererRaw->setDeviceState(state);
+    auto clock = std::make_unique<ClockDouble>();
+    mClock = clock.get();
+    auto renderer = std::make_unique<Renderer>(std::move(mUpnpRenderer), std::move(clock));
+    renderer->setPositionTracked(true);
+    return renderer;
+}
 
 void RendererShould::init()
 {
@@ -541,6 +572,188 @@ void RendererShould::stay_online_when_a_dropped_device_was_unreachable()
     QCoreApplication::processEvents();
 
     QCOMPARE(renderer.availability(), Renderer::Availability::Online);
+}
+
+void RendererShould::give_the_current_track_reported_by_the_device_events()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto currentTrackChangedSpy = QSignalSpy{&renderer, &Renderer::currentTrackChanged};
+
+    mUpnpRendererRaw->setCurrentTrack(trackUri, fullTrackMetaData());
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(renderer.currentTrack().title, QStringLiteral("Harbour Lights"));
+    QCOMPARE(renderer.currentTrack().artist, QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(renderer.currentTrack().artworkUrl, QStringLiteral("http://192.168.0.3:8200/AlbumArt/1.jpg"));
+}
+
+void RendererShould::fall_back_for_missing_current_track_details_data()
+{
+    QTest::addColumn<QString>("uri");
+    QTest::addColumn<QString>("metaData");
+    QTest::addColumn<QString>("expectedTitle");
+    QTest::addColumn<QString>("expectedArtist");
+
+    QTest::newRow("no title") << trackUri
+                              << didl("<dc:title></dc:title><upnp:artist>The Quiet Ferries</upnp:artist>")
+                              << "Harbour Lights" << "";
+    QTest::newRow("no artist") << trackUri << didl("<dc:title>Tide</dc:title><dc:creator>Ferry Creator</dc:creator>")
+                               << "Tide" << "Ferry Creator";
+    QTest::newRow("no artist and no creator") << trackUri << didl("<dc:title>Tide</dc:title>") << "Tide" << "";
+    QTest::newRow("no metadata") << trackUri << "" << "Harbour Lights" << "";
+    QTest::newRow("not implemented metadata") << trackUri << "NOT_IMPLEMENTED" << "Harbour Lights" << "";
+    QTest::newRow("uri with query") << "http://192.168.0.3/MediaItems/43.mp3?quality=high" << "" << "43" << "";
+    QTest::newRow("uri without extension") << "http://radio.example/live/stream" << "" << "stream" << "";
+    QTest::newRow("no uri and no metadata") << "" << "" << "" << "";
+}
+
+void RendererShould::fall_back_for_missing_current_track_details()
+{
+    QFETCH(QString, uri);
+    QFETCH(QString, metaData);
+    QFETCH(QString, expectedTitle);
+    QFETCH(QString, expectedArtist);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    mUpnpRendererRaw->setCurrentTrack(uri, metaData);
+
+    QCOMPARE(renderer.currentTrack().title, expectedTitle);
+    QCOMPARE(renderer.currentTrack().artist, expectedArtist);
+    QCOMPARE(renderer.currentTrack().artworkUrl, QString{});
+}
+
+void RendererShould::give_the_current_track_of_the_polled_position_info()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    auto currentTrackChangedSpy = QSignalSpy{renderer.get(), &Renderer::currentTrackChanged};
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, fullTrackMetaData()));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(renderer->currentTrack().title, QStringLiteral("Harbour Lights"));
+    QCOMPARE(renderer->currentTrack().artist, QStringLiteral("The Quiet Ferries"));
+}
+
+void RendererShould::not_notify_about_an_unchanged_current_track()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    mUpnpRendererRaw->setCurrentTrack(trackUri, fullTrackMetaData());
+    auto currentTrackChangedSpy = QSignalSpy{renderer.get(), &Renderer::currentTrackChanged};
+
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri, fullTrackMetaData()));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 0);
+}
+
+void RendererShould::poll_the_position_info_every_second_while_tracked_and_playing()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+
+    mClock->advance(std::chrono::milliseconds{999});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+    mClock->advance(std::chrono::milliseconds{1});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+    mClock->advance(std::chrono::seconds{1});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 3);
+}
+
+void RendererShould::skip_a_poll_while_the_previous_request_is_pending()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+
+    mClock->advance(std::chrono::seconds{1});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+    mClock->advance(std::chrono::seconds{1});
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+}
+
+void RendererShould::not_poll_while_not_tracked()
+{
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::Playing);
+    auto clock = std::make_unique<ClockDouble>();
+    auto* clockRaw = clock.get();
+    auto renderer = Renderer{std::move(mUpnpRenderer), std::move(clock)};
+
+    clockRaw->advance(std::chrono::seconds{3});
+
+    QCOMPARE(renderer.isPositionTracked(), false);
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 0);
+}
+
+void RendererShould::not_poll_while_not_playing_data()
+{
+    QTest::addColumn<MediaDevice::State>("state");
+
+    QTest::newRow("Paused") << MediaDevice::State::PausedPlayback;
+    QTest::newRow("Stopped") << MediaDevice::State::Stopped;
+    QTest::newRow("No Media") << MediaDevice::State::NoMediaPresent;
+}
+
+void RendererShould::not_poll_while_not_playing()
+{
+    QFETCH(MediaDevice::State, state);
+    auto renderer = createTrackedRenderer(state);
+    // Switching the tracking on refreshes once.
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+
+    for (auto tick = 0; tick < 3; ++tick) {
+        mClock->advance(std::chrono::seconds{1});
+    }
+
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+}
+
+void RendererShould::refresh_the_position_info_after_a_playback_state_change()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Stopped);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+
+    mUpnpRendererRaw->setDeviceState(MediaDevice::State::PausedPlayback);
+
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 2);
+}
+
+void RendererShould::stop_polling_when_the_tracking_is_switched_off()
+{
+    auto renderer = createTrackedRenderer(MediaDevice::State::Playing);
+    mUpnpRendererRaw->finishPositionInfoCall(positionInfoResponse(trackUri));
+
+    renderer->setPositionTracked(false);
+    for (auto tick = 0; tick < 3; ++tick) {
+        mClock->advance(std::chrono::seconds{1});
+    }
+
+    QCOMPARE(renderer->isPositionTracked(), false);
+    QCOMPARE(mUpnpRendererRaw->positionInfoCallCount(), 1);
+}
+
+void RendererShould::refresh_the_position_info_when_a_tracked_renderer_goes_online()
+{
+    auto renderer = Renderer{rememberedKitchen(), std::make_unique<ClockDouble>()};
+    renderer.setPositionTracked(true);
+    auto device = createKitchenDevice();
+    auto* deviceRaw = device.get();
+
+    renderer.goOnline(std::move(device));
+
+    QCOMPARE(deviceRaw->positionInfoCallCount(), 1);
+}
+
+void RendererShould::give_no_current_track_while_offline()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    mUpnpRendererRaw->setCurrentTrack(trackUri, fullTrackMetaData());
+    auto currentTrackChangedSpy = QSignalSpy{&renderer, &Renderer::currentTrackChanged};
+
+    renderer.goOffline();
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(renderer.currentTrack(), CurrentTrack{});
 }
 
 } // namespace Multimedia

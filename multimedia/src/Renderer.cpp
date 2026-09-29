@@ -3,12 +3,15 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "Renderer.hpp"
+#include "GetPositionInfoResponse.hpp"
 #include "GetProtocolInfoResponse.hpp"
 #include "GetVolumeResponse.hpp"
+#include "MediaServerObject.hpp"
 #include "PendingSoapCall.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
 #include <QPointer>
+#include <QUrl>
 #include <QVariant>
 
 using namespace UPnPAV;
@@ -19,6 +22,7 @@ namespace Multimedia
 namespace
 {
 constexpr auto defaultInstanceId = quint32{0};
+constexpr auto pollInterval = std::chrono::seconds{1};
 
 RememberedRenderer rememberedOf(UPnPAV::MediaRenderer const& device)
 {
@@ -28,19 +32,58 @@ RememberedRenderer rememberedOf(UPnPAV::MediaRenderer const& device)
                               .modelName = device.modelName(),
                               .address = device.address()};
 }
-} // namespace
 
-Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
-    : mRenderer{std::move(mediaRenderer)}
+/**
+ * Gives the file name of the URI without its extension, e.g. "Harbour Lights" for ".../Harbour%20Lights.flac".
+ */
+QString titleOfUri(QString const& uri)
 {
-    Q_ASSERT(mRenderer != nullptr);
-    mRemembered = rememberedOf(*mRenderer);
-    connectDevice();
+    auto title = QUrl{uri}.fileName(QUrl::FullyDecoded);
+    auto const extensionStart = title.lastIndexOf(QLatin1Char{'.'});
+    if (extensionStart > 0) {
+        title.truncate(extensionStart);
+    }
+    return title;
 }
 
-Renderer::Renderer(RememberedRenderer remembered)
-    : mRemembered{std::move(remembered)}
+CurrentTrack currentTrackOf(QString const& uri, QString metaData)
 {
+    auto track = CurrentTrack{};
+    if (not metaData.isEmpty() and metaData != QStringLiteral("NOT_IMPLEMENTED")) {
+        auto const objects = MediaServerObject::createFromDidl(metaData);
+        if (not objects.isEmpty()) {
+            auto const& object = objects.first();
+            track.title = object.title();
+            track.artist = object.artist().isEmpty() ? object.creator() : object.artist();
+            track.artworkUrl = object.albumArtUrl();
+        }
+    }
+    if (track.title.isEmpty()) {
+        track.title = titleOfUri(uri);
+    }
+    return track;
+}
+} // namespace
+
+Renderer::Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer, std::unique_ptr<UPnPAV::Clock> clock)
+    : mRenderer{std::move(mediaRenderer)}
+    , mClock{std::move(clock)}
+{
+    Q_ASSERT(mRenderer != nullptr);
+    Q_ASSERT(mClock != nullptr);
+    mRemembered = rememberedOf(*mRenderer);
+    connect(mClock.get(), &Clock::wokeUp, this, &Renderer::onClockWokeUp);
+    connectDevice();
+    updateCurrentTrack(mRenderer->currentTrackUri(), mRenderer->currentTrackMetaData());
+    setState(mRenderer->state());
+}
+
+Renderer::Renderer(RememberedRenderer remembered, std::unique_ptr<UPnPAV::Clock> clock)
+    : mRemembered{std::move(remembered)}
+    , mClock{std::move(clock)}
+{
+    Q_ASSERT(mClock != nullptr);
+    connect(mClock.get(), &Clock::wokeUp, this, &Renderer::onClockWokeUp);
 }
 
 Renderer::~Renderer() = default;
@@ -98,10 +141,15 @@ void Renderer::goOnline(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer)
     dropDevice();
     mRenderer = std::move(mediaRenderer);
     connectDevice();
+    updateCurrentTrack(mRenderer->currentTrackUri(), mRenderer->currentTrackMetaData());
     setState(mRenderer->state());
     if (mInitialized) {
         initialize();
     }
+    if (mPositionTracked) {
+        requestPositionInfo();
+    }
+    updatePolling();
 
     if (wasOffline) {
         Q_EMIT availabilityChanged();
@@ -119,7 +167,9 @@ void Renderer::goOffline() noexcept
     }
 
     dropDevice();
+    updatePolling();
     updateVolume(0);
+    updateCurrentTrack(QString{}, QString{});
     if (mState != State::NoMedia) {
         mState = State::NoMedia;
         Q_EMIT stateChanged();
@@ -139,6 +189,8 @@ void Renderer::dropDevice() noexcept
     mResumeCall.reset();
     mVolumeCall.reset();
     mSetVolumeCall.reset();
+    mPositionInfoCall.reset();
+    mPositionInfoPending = false;
     mRenderer.reset();
     mProtocols.clear();
 }
@@ -151,6 +203,10 @@ void Renderer::connectDevice() noexcept
 
     connect(mRenderer.get(), &MediaRenderer::masterVolumeChanged, this, [this](quint32 volume) {
         updateVolume(volume);
+    });
+
+    connect(mRenderer.get(), &MediaRenderer::currentTrackChanged, this, [this]() {
+        updateCurrentTrack(mRenderer->currentTrackUri(), mRenderer->currentTrackMetaData());
     });
 
     connect(mRenderer.get(), &MediaRenderer::unreachable, this, &Renderer::onDeviceUnreachable);
@@ -358,6 +414,10 @@ void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
     if (mState != newState) {
         mState = newState;
         Q_EMIT stateChanged();
+        if (mPositionTracked) {
+            requestPositionInfo();
+        }
+        updatePolling();
     }
 }
 
@@ -368,6 +428,95 @@ void Renderer::updateVolume(quint32 volume) noexcept
         Q_EMIT volumeChanged();
         qCDebug(mmRenderer) << "Volume received:" << mVolume;
     }
+}
+
+CurrentTrack const& Renderer::currentTrack() const noexcept
+{
+    return mCurrentTrack;
+}
+
+void Renderer::setPositionTracked(bool tracked) noexcept
+{
+    if (mPositionTracked == tracked) {
+        return;
+    }
+
+    mPositionTracked = tracked;
+    if (mPositionTracked) {
+        requestPositionInfo();
+    }
+    updatePolling();
+}
+
+bool Renderer::isPositionTracked() const noexcept
+{
+    return mPositionTracked;
+}
+
+void Renderer::updateCurrentTrack(QString const& uri, QString const& metaData) noexcept
+{
+    if (mCurrentTrackUri == uri and mCurrentTrackMetaData == metaData) {
+        return;
+    }
+
+    mCurrentTrackUri = uri;
+    mCurrentTrackMetaData = metaData;
+    setCurrentTrack(currentTrackOf(uri, metaData));
+}
+
+void Renderer::setCurrentTrack(CurrentTrack const& track) noexcept
+{
+    if (mCurrentTrack != track) {
+        mCurrentTrack = track;
+        Q_EMIT currentTrackChanged();
+    }
+}
+
+void Renderer::requestPositionInfo() noexcept
+{
+    if (mRenderer == nullptr or mPositionInfoPending) {
+        return;
+    }
+
+    auto call = mRenderer->positionInfo(defaultInstanceId);
+    if (not call.has_value()) {
+        return;
+    }
+    mPositionInfoPending = true;
+    mPositionInfoCall = goOfflineWhenUnreachable(std::move(call.value()));
+    connect(mPositionInfoCall.get(), &PendingSoapCall::finished, this, &Renderer::onPositionInfoFinished);
+}
+
+void Renderer::onPositionInfoFinished() noexcept
+{
+    mPositionInfoPending = false;
+    if (mPositionInfoCall->hasError()) {
+        qCWarning(mmRenderer) << "Failed to request the position info of" << mRemembered.name
+                              << "Error:" << mPositionInfoCall->errorDescription();
+        return;
+    }
+
+    auto const response = mPositionInfoCall->resultAs<GetPositionInfoResponse>();
+    updateCurrentTrack(response->trackUri(), response->trackMetaData());
+}
+
+void Renderer::updatePolling() noexcept
+{
+    auto const poll = mPositionTracked and mRenderer != nullptr and mState == State::Playing;
+    if (poll and not mPolling) {
+        mClock->wakeUpAt(mClock->now() + pollInterval);
+    }
+    mPolling = poll;
+}
+
+void Renderer::onClockWokeUp() noexcept
+{
+    if (not mPolling) {
+        return;
+    }
+
+    mClock->wakeUpAt(mClock->now() + pollInterval);
+    requestPositionInfo();
 }
 
 } // namespace Multimedia

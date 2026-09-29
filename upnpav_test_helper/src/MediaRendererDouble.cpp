@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -226,6 +226,49 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setVolume(q
     mSetVolumeData = {.instanceId = instanceId, .channel = channel, .volume = static_cast<quint16>(volume)};
     mIsSetVolumeCalled = true;
     return std::make_unique<PendingSoapCall>(mSetVolumeCall);
+}
+
+QString const& MediaRendererDouble::currentTrackUri() const noexcept
+{
+    return mCurrentTrackUri;
+}
+
+QString const& MediaRendererDouble::currentTrackMetaData() const noexcept
+{
+    return mCurrentTrackMetaData;
+}
+
+void MediaRendererDouble::setCurrentTrack(QString const& uri, QString const& metaData) noexcept
+{
+    if (mCurrentTrackUri != uri or mCurrentTrackMetaData != metaData) {
+        mCurrentTrackUri = uri;
+        mCurrentTrackMetaData = metaData;
+        Q_EMIT currentTrackChanged();
+    }
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::positionInfo(quint32 instanceId)
+{
+    Q_UNUSED(instanceId)
+    ++mPositionInfoCallCount;
+    return std::make_unique<PendingSoapCall>(mPositionInfoCall);
+}
+
+qsizetype MediaRendererDouble::positionInfoCallCount() const noexcept
+{
+    return mPositionInfoCallCount;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::positionInfoCall() const noexcept
+{
+    return mPositionInfoCall;
+}
+
+void MediaRendererDouble::finishPositionInfoCall(QString const& response) noexcept
+{
+    mPositionInfoCall->setErrorState(false);
+    mPositionInfoCall->setRawMessage(response);
+    Q_EMIT mPositionInfoCall->finished();
 }
 
 } // namespace UPnPAV::Doubles

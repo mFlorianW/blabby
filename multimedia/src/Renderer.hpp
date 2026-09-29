@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Clock.hpp"
 #include "Item.hpp"
 #include "MediaRenderer.hpp"
 #include "RendererStore.hpp"
@@ -14,6 +15,30 @@
 
 namespace Multimedia
 {
+
+/**
+ * The Current Track of a @ref Multimedia::Renderer: the Playable it is playing, paused or stopped on, as reported by
+ * the Renderer, no matter which controller started it. Details the Renderer doesn't report are empty.
+ */
+struct BLABBYMULTIMEDIA_EXPORT CurrentTrack
+{
+    /**
+     * The title, the file name of the track without its extension when the Renderer reports no title.
+     */
+    QString title;
+
+    /**
+     * The artist, the creator when the Renderer reports no artist.
+     */
+    QString artist;
+
+    /**
+     * The URL of the artwork.
+     */
+    QString artworkUrl;
+
+    friend bool operator==(CurrentTrack const& lhs, CurrentTrack const& rhs) = default;
+};
 
 /**
  * A @ref Mulitmedia::MediaRenderer represents a hardware device
@@ -66,14 +91,18 @@ public:
     /**
      * Creates an Online instance of the Renderer
      * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
+     * @param clock The clock that drives the polling of the position.
      */
-    Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer);
+    Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer,
+             std::unique_ptr<UPnPAV::Clock> clock = std::make_unique<UPnPAV::SteadyClock>());
 
     /**
      * Creates an Offline instance of a remembered Renderer
      * @param remembered The last known details of the @ref Multimedia::Renderer.
+     * @param clock The clock that drives the polling of the position.
      */
-    explicit Renderer(RememberedRenderer remembered);
+    explicit Renderer(RememberedRenderer remembered,
+                      std::unique_ptr<UPnPAV::Clock> clock = std::make_unique<UPnPAV::SteadyClock>());
 
     /**
      * Default destructor
@@ -210,6 +239,29 @@ public:
      */
     void setVolume(quint32 volume) noexcept;
 
+    /**
+     * Gives the Current Track of the @ref Multimedia::Renderer.
+     * The Current Track is taken from the events of the device right away and from its position info while the
+     * position is tracked. It's empty while Offline.
+     * @return The Current Track.
+     */
+    CurrentTrack const& currentTrack() const noexcept;
+
+    /**
+     * Switches the tracking of the position on or off, e.g. for the Active Renderer only.
+     * While tracked and Playing, the @ref Multimedia::Renderer requests its position info every second, a request is
+     * skipped while the previous one is pending. While tracked it also requests it right away after every Playback
+     * State change, when it goes Online and when the tracking is switched on. Nothing is requested otherwise.
+     * @param tracked True switches the tracking on, false switches it off.
+     */
+    void setPositionTracked(bool tracked) noexcept;
+
+    /**
+     * Gives whether the position is tracked.
+     * @return True while the position is tracked.
+     */
+    bool isPositionTracked() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when @ref Multimedia::Renderer::initialize call finished successful.
@@ -247,6 +299,11 @@ Q_SIGNALS:
      */
     void detailsChanged();
 
+    /**
+     * This signal is emitted when the Current Track changed.
+     */
+    void currentTrackChanged();
+
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
     void onPlayCallFinished() noexcept;
@@ -260,6 +317,12 @@ private:
         std::unique_ptr<UPnPAV::PendingSoapCall> call) noexcept;
     void onDeviceUnreachable() noexcept;
     void dropDevice() noexcept;
+    void updateCurrentTrack(QString const& uri, QString const& metaData) noexcept;
+    void setCurrentTrack(CurrentTrack const& track) noexcept;
+    void requestPositionInfo() noexcept;
+    void onPositionInfoFinished() noexcept;
+    void updatePolling() noexcept;
+    void onClockWokeUp() noexcept;
 
 private:
     RememberedRenderer mRemembered;
@@ -271,6 +334,14 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mPositionInfoCall;
+    bool mPositionInfoPending = false;
+    std::unique_ptr<UPnPAV::Clock> mClock;
+    bool mPositionTracked = false;
+    bool mPolling = false;
+    CurrentTrack mCurrentTrack;
+    QString mCurrentTrackUri;
+    QString mCurrentTrackMetaData;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;

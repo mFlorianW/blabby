@@ -13,6 +13,7 @@
 #include "DeviceDescription.hpp"
 #include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
+#include "LastChangeNotify.hpp"
 #include "MediaDevice.hpp"
 #include "SCPDAction.hpp"
 #include "SCPDStateVariable.hpp"
@@ -1185,6 +1186,82 @@ void MediaDeviceShould::set_device_state_reported_by_the_av_transport_service()
 
     QCOMPARE(mediaDevice.state(), ExpectedState);
     QCOMPARE(stateChangedSpy.size(), StateChanged);
+}
+
+namespace
+{
+constexpr auto trackMetaData = R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/">)"
+                               R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title></item></DIDL-Lite>)";
+
+std::shared_ptr<Doubles::EventSubscriptionHandle> avTransportEvents(MediaDeviceWithAV& mediaDevice)
+{
+    auto eventHandle = mediaDevice.eventBackend()->subscribeEvents(validAvTransportServiceDescription());
+    return std::dynamic_pointer_cast<Doubles::EventSubscriptionHandle>(eventHandle);
+}
+} // namespace
+
+void MediaDeviceShould::give_the_current_track_reported_by_the_av_transport_service()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/1.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{trackMetaData});
+}
+
+void MediaDeviceShould::keep_the_current_track_when_an_event_does_not_report_it()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(lastChangeNotify(lastChangeVariable(QStringLiteral("TransportState"), "PLAYING")));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 0);
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/1.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{trackMetaData});
+}
+
+void MediaDeviceShould::not_notify_about_an_unchanged_current_track()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    auto const notify = lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")));
+    handle->sendNotifyBody(notify);
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(notify);
+
+    QCOMPARE(currentTrackChangedSpy.size(), 0);
+}
+
+void MediaDeviceShould::drop_the_metadata_of_the_previous_track_for_a_new_track_uri()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/2.flac"))));
+
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/2.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{});
 }
 
 void MediaDeviceShould::tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable()

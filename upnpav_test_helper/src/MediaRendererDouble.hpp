@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -207,6 +207,44 @@ public:
                                                                             QString const& channel,
                                                                             quint32 volume) noexcept override;
 
+    /**
+     * @copydoc UPnPAV::MediaDevice::currentTrackUri
+     */
+    QString const& currentTrackUri() const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::currentTrackMetaData
+     */
+    QString const& currentTrackMetaData() const noexcept override;
+
+    /**
+     * Sets the current track like a LastChange event of the AVTransport service does.
+     * @param uri The URI of the current track.
+     * @param metaData The DIDL-Lite metadata of the current track.
+     */
+    void setCurrentTrack(QString const& uri, QString const& metaData) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::positionInfo
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> positionInfo(quint32 instanceId) override;
+
+    /**
+     * @return How often the position info was requested.
+     */
+    qsizetype positionInfoCallCount() const noexcept;
+
+    /**
+     * @return Gives the position info call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> positionInfoCall() const noexcept;
+
+    /**
+     * Finishes the pending position info call with the passed response.
+     * @param response The raw response message, e.g. made with @ref UPnPAV::positionInfoResponse.
+     */
+    void finishPositionInfoCall(QString const& response) noexcept;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -246,6 +284,13 @@ private:
     SetVolumeData mSetVolumeData;
     QSharedPointer<SoapCallDouble> mSetVolumeCall =
         QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setVolumeAction());
+    // Current track
+    QString mCurrentTrackUri;
+    QString mCurrentTrackMetaData;
+    // Position info
+    qsizetype mPositionInfoCallCount = 0;
+    QSharedPointer<SoapCallDouble> mPositionInfoCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createGetPositionInfoAction());
 };
 
 } // namespace UPnPAV::Doubles

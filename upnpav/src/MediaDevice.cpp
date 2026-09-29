@@ -121,6 +121,14 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription,
                              auto const& instanceVariables = lastChangeReader.instanceVariables();
                              if (instanceVariables.contains(QStringLiteral("0"))) {
                                  auto varialbes = instanceVariables.value(QStringLiteral("0"));
+                                 // Events usually only report the changed variables, the others are kept.
+                                 // The metadata of the previous track doesn't belong to a new track URI though.
+                                 auto const uri =
+                                     varialbes.value(QStringLiteral("CurrentTrackURI"), d->mCurrentTrackUri);
+                                 auto const keptMetaData =
+                                     uri == d->mCurrentTrackUri ? d->mCurrentTrackMetaData : QString{};
+                                 d->setCurrentTrack(
+                                     uri, varialbes.value(QStringLiteral("CurrentTrackMetaData"), keptMetaData));
                                  if (varialbes.contains(QStringLiteral("TransportState"))) {
                                      d->setState(deviceState(varialbes.value(QStringLiteral("TransportState"))));
                                  }
@@ -173,6 +181,16 @@ QString const& MediaDevice::address() const noexcept
 MediaDevice::State MediaDevice::state() const noexcept
 {
     return d->mState;
+}
+
+QString const& MediaDevice::currentTrackUri() const noexcept
+{
+    return d->mCurrentTrackUri;
+}
+
+QString const& MediaDevice::currentTrackMetaData() const noexcept
+{
+    return d->mCurrentTrackMetaData;
 }
 
 std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
