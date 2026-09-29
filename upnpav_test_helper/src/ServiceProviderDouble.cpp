@@ -40,6 +40,17 @@ void ServiceProviderDouble::addDeviceDescription(QString const& usn, UPnPAV::Dev
     mDevices.insert(usn, desc);
 }
 
+void ServiceProviderDouble::disconnectService(QString const& usn) noexcept
+{
+    mDisconnectedServices.append(usn);
+    Q_EMIT serviceDisconnected(usn);
+}
+
+QStringList const& ServiceProviderDouble::disconnectedServices() const noexcept
+{
+    return mDisconnectedServices;
+}
+
 QString const& ServiceProviderDouble::searchTarget() const noexcept
 {
     return mSearchTarget;

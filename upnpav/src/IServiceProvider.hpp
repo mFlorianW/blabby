@@ -49,6 +49,14 @@ public:
      */
     virtual DeviceDescription rootDeviceDescription(QString const& usn) const noexcept = 0;
 
+    /**
+     * Disconnects a known service as if its announcement expired, e.g. when it doesn't answer anymore.
+     * The @ref IServiceProvider::serviceDisconnected signal is emitted and the next announcement of the service
+     * connects it again. Unknown services are ignored.
+     * @param usn The unique service name of the service.
+     */
+    virtual void disconnectService(QString const& usn) noexcept = 0;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when a service for the specified search target is connected to the network.
