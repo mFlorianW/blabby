@@ -65,6 +65,16 @@ class ActiveRendererController : public QObject
      */
     Q_PROPERTY(QString trackFormat READ trackFormat NOTIFY currentTrackChanged)
 
+    /**
+     * This property is true when the Active Renderer can pause, otherwise it is stopped instead.
+     */
+    Q_PROPERTY(bool canPause READ canPause NOTIFY activeRendererChanged)
+
+    /**
+     * This property is true while the Active Renderer is transitioning, e.g. loading or buffering.
+     */
+    Q_PROPERTY(bool transitioning READ isTransitioning NOTIFY transitioningChanged)
+
 public:
     /**
      * Creates an instance of the @ref Shell::ActiveRendererController that follows the Active Renderer of the model.
@@ -127,6 +137,22 @@ public:
      */
     QString trackFormat() const noexcept;
 
+    /**
+     * Gives true when the Active Renderer can pause.
+     */
+    bool canPause() const noexcept;
+
+    /**
+     * Gives true while the Active Renderer is transitioning.
+     */
+    bool isTransitioning() const noexcept;
+
+    /**
+     * Pauses a Playing Active Renderer, or stops it when it can't pause, and resumes a Paused or plays a Stopped one.
+     * The request is ignored while a previous one is pending or the Active Renderer is transitioning.
+     */
+    Q_INVOKABLE void togglePlayback() noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Active Renderer is changed or cleared.
@@ -142,6 +168,19 @@ Q_SIGNALS:
      * This signal is emitted when the Current Track changes, also when the Active Renderer is changed or cleared.
      */
     void currentTrackChanged();
+
+    /**
+     * This signal is emitted when the Active Renderer starts or stops transitioning, also when the Active Renderer is
+     * changed or cleared.
+     */
+    void transitioningChanged();
+
+    /**
+     * This signal is emitted when a control call to the Active Renderer failed.
+     * @param rendererName The name of the Active Renderer.
+     * @param action The action of the failed call.
+     */
+    void controlFailed(QString const& rendererName, Multimedia::Renderer::Action action);
 
     /**
      * This signal is emitted when the Active Renderer went Offline and is no longer the Active Renderer.

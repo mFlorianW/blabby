@@ -73,6 +73,29 @@ QString ActiveRendererController::trackFormat() const noexcept
     return currentTrack().format;
 }
 
+bool ActiveRendererController::canPause() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canPause();
+}
+
+bool ActiveRendererController::isTransitioning() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->isTransitioning();
+}
+
+void ActiveRendererController::togglePlayback() noexcept
+{
+    if (mRenderer == nullptr or mRenderer->isPlaybackControlPending() or mRenderer->isTransitioning()) {
+        return;
+    }
+
+    if (mRenderer->state() == Renderer::State::Playing) {
+        mRenderer->stop();
+    } else {
+        mRenderer->resume();
+    }
+}
+
 CurrentTrack ActiveRendererController::currentTrack() const noexcept
 {
     if (mRenderer == nullptr) {
@@ -99,12 +122,20 @@ void ActiveRendererController::onActiveRendererChanged()
     if (mRenderer != nullptr) {
         connect(mRenderer.get(), &Renderer::stateChanged, this, &ActiveRendererController::playbackStateChanged);
         connect(mRenderer.get(), &Renderer::currentTrackChanged, this, &ActiveRendererController::currentTrackChanged);
+        connect(mRenderer.get(),
+                &Renderer::transitioningChanged,
+                this,
+                &ActiveRendererController::transitioningChanged);
+        connect(mRenderer.get(), &Renderer::controlFailed, this, [this](Renderer::Action action) {
+            Q_EMIT controlFailed(mRenderer->name(), action);
+        });
         mRenderer->setPositionTracked(true);
     }
 
     Q_EMIT activeRendererChanged();
     Q_EMIT playbackStateChanged();
     Q_EMIT currentTrackChanged();
+    Q_EMIT transitioningChanged();
 
     if (previous != nullptr and mRenderer == nullptr and previous->availability() == Renderer::Availability::Offline) {
         qCDebug(shell) << "The Active Renderer" << previous->name() << "went Offline.";
