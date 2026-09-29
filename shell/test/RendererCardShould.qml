@@ -24,7 +24,30 @@ Item {
         name: "RendererCardShould"
         when: windowShown
 
+        SignalSpy {
+            id: clickedSpy
+            target: rendererCard
+            signalName: "clicked"
+        }
+
+        SignalSpy {
+            id: forgetRequestedSpy
+            target: rendererCard
+            signalName: "forgetRequested"
+        }
+
+        /**
+         * Gives the child of the card with the objectName and fails the test when it doesn't exist.
+         */
+        function child(objectName) {
+            const item = rendererCardTest.findChild(rendererCard, objectName);
+            rendererCardTest.verify(item, objectName);
+            return item;
+        }
+
         function init() {
+            clickedSpy.clear();
+            forgetRequestedSpy.clear();
             rendererCard.availability = Renderer.Online;
             rendererCard.playbackState = Renderer.NoMedia;
             rendererCard.manufacturer = "";
@@ -159,11 +182,49 @@ Item {
         }
 
         /**
-         * Tests that an Online card is enabled and not dimmed.
+         * Tests that an Online card is enabled, not dimmed and emits clicked when tapped.
          */
         function test_be_enabled_when_online() {
-            rendererCardTest.compare(rendererCard.enabled, true);
-            rendererCardTest.compare(rendererCard.opacity, 1);
+            const card = rendererCardTest.child("card");
+            rendererCardTest.compare(card.enabled, true);
+            rendererCardTest.compare(card.opacity, 1);
+            rendererCardTest.mouseClick(card);
+            rendererCardTest.compare(clickedSpy.count, 1);
+        }
+
+        /**
+         * Tests that only an Offline card offers to forget the Renderer.
+         */
+        function test_offer_forget_only_when_offline() {
+            rendererCardTest.compare(rendererCardTest.child("forgetButton").visible, false);
+            rendererCard.availability = Renderer.Offline;
+            rendererCardTest.compare(rendererCardTest.child("forgetButton").visible, true);
+        }
+
+        /**
+         * Tests that the forget button of an Offline card isn't dimmed and emits forgetRequested but not clicked.
+         */
+        function test_request_to_forget_with_the_forget_button() {
+            rendererCard.availability = Renderer.Offline;
+            const forgetButton = rendererCardTest.child("forgetButton");
+            rendererCardTest.compare(forgetButton.enabled, true);
+            rendererCardTest.compare(forgetButton.opacity, 1);
+            rendererCardTest.compare(forgetButton.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/delete.svg"));
+            rendererCardTest.mouseClick(forgetButton);
+            rendererCardTest.compare(forgetRequestedSpy.count, 1);
+            rendererCardTest.compare(clickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the details of an Offline card leave room for the forget button.
+         */
+        function test_not_overlap_the_forget_button_with_the_details() {
+            rendererCard.availability = Renderer.Offline;
+            rendererCard.manufacturer = "A Manufacturer With A Really Very Long Name";
+            const details = rendererCardTest.child("details");
+            const forgetButton = rendererCardTest.child("forgetButton");
+            const detailsRight = details.mapToItem(rendererCard, details.width, 0).x;
+            rendererCardTest.verify(detailsRight <= forgetButton.x);
         }
 
         /**
@@ -177,8 +238,11 @@ Item {
             rendererCardTest.compare(playbackState.text, "Offline");
             rendererCardTest.compare(playbackState.emphasis, false);
             rendererCardTest.compare(playbackState.iconSource, "");
-            rendererCardTest.compare(rendererCard.enabled, false);
-            rendererCardTest.compare(rendererCard.opacity, Theme.disabledOpacity);
+            const card = rendererCardTest.child("card");
+            rendererCardTest.compare(card.enabled, false);
+            rendererCardTest.compare(card.opacity, Theme.disabledOpacity);
+            rendererCardTest.mouseClick(card);
+            rendererCardTest.compare(clickedSpy.count, 0);
         }
 
         /**

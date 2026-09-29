@@ -86,6 +86,12 @@ Item {
         }
 
         SignalSpy {
+            id: forgetRequestedSpy
+            target: renderersView
+            signalName: "forgetRequested"
+        }
+
+        SignalSpy {
             id: rescanRequestedSpy
             target: renderersView
             signalName: "rescanRequested"
@@ -96,7 +102,9 @@ Item {
             renderersView.scanning = false;
             emptyView.scanning = false;
             noRenderers.clear();
+            renderersViewTest.child(renderersView, "forgetDialog").visible = false;
             activatedSpy.clear();
+            forgetRequestedSpy.clear();
             rescanRequestedSpy.clear();
         }
 
@@ -182,7 +190,7 @@ Item {
             const offlineCard = renderersViewTest.card(3);
             renderersViewTest.compare(renderersViewTest.card(0).availability, Renderer.Online);
             renderersViewTest.compare(offlineCard.availability, Renderer.Offline);
-            renderersViewTest.compare(offlineCard.enabled, false);
+            renderersViewTest.compare(renderersViewTest.findChild(offlineCard, "card").enabled, false);
             renderersViewTest.mouseClick(offlineCard);
             renderersViewTest.compare(activatedSpy.count, 0);
         }
@@ -250,6 +258,80 @@ Item {
                 "availability": Renderer.Online
             });
             renderersViewTest.tryCompare(emptyState, "visible", false);
+        }
+
+        /**
+         * Opens the dialog to forget the Offline Renderer "Attic" with its forget button and gives the dialog.
+         */
+        function openForgetDialog() {
+            renderersViewTest.mouseClick(renderersViewTest.findChild(renderersViewTest.card(3), "forgetButton"));
+            const dialog = renderersViewTest.child(renderersView, "forgetDialog");
+            renderersViewTest.compare(dialog.visible, true);
+            return dialog;
+        }
+
+        /**
+         * Tests that the forget button asks for a confirmation that names the Renderer.
+         */
+        function test_ask_for_a_confirmation_before_forgetting_a_renderer() {
+            const dialog = renderersViewTest.openForgetDialog();
+            renderersViewTest.compare(dialog.title, "Forget 'Attic'?");
+            renderersViewTest.compare(dialog.acceptText, "Forget");
+            renderersViewTest.compare(dialog.rejectText, "Cancel");
+            renderersViewTest.compare(forgetRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that cancelling the confirmation forgets nothing.
+         */
+        function test_forget_nothing_when_the_confirmation_is_cancelled() {
+            const dialog = renderersViewTest.openForgetDialog();
+            renderersViewTest.mouseClick(renderersViewTest.findChild(dialog, "rejectButton"));
+            renderersViewTest.compare(dialog.visible, false);
+            renderersViewTest.compare(forgetRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that confirming emits forgetRequested with the index of the Renderer.
+         */
+        function test_forget_the_renderer_when_confirmed() {
+            const dialog = renderersViewTest.openForgetDialog();
+            renderersViewTest.mouseClick(renderersViewTest.findChild(dialog, "acceptButton"));
+            renderersViewTest.compare(dialog.visible, false);
+            renderersViewTest.compare(forgetRequestedSpy.count, 1);
+            renderersViewTest.compare(forgetRequestedSpy.signalArguments[0][0], 3);
+        }
+
+        /**
+         * Tests that confirming forgets the Renderer the dialog asked for, also when rows moved in the meantime.
+         */
+        function test_forget_the_asked_renderer_when_the_rows_moved() {
+            const dialog = renderersViewTest.openForgetDialog();
+            renderers.insert(0, {
+                "name": "Attic Bedroom",
+                "manufacturer": "",
+                "modelName": "",
+                "address": "",
+                "playbackState": Renderer.NoMedia,
+                "active": false,
+                "availability": Renderer.Online
+            });
+            renderersViewTest.mouseClick(renderersViewTest.findChild(dialog, "acceptButton"));
+            renderers.remove(0);
+            renderersViewTest.compare(forgetRequestedSpy.count, 1);
+            renderersViewTest.compare(forgetRequestedSpy.signalArguments[0][0], 4);
+        }
+
+        /**
+         * Tests that the confirmation closes without forgetting when the Renderer comes back Online.
+         */
+        function test_close_the_confirmation_when_the_renderer_comes_back_online() {
+            const dialog = renderersViewTest.openForgetDialog();
+            renderers.setProperty(3, "availability", Renderer.Online);
+            const closed = !dialog.visible;
+            renderers.setProperty(3, "availability", Renderer.Offline);
+            renderersViewTest.verify(closed);
+            renderersViewTest.compare(forgetRequestedSpy.count, 0);
         }
     }
 }

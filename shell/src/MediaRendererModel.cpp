@@ -126,6 +126,26 @@ void MediaRendererModel::activateRenderer(QModelIndex const& index)
     Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::Active)});
 }
 
+void MediaRendererModel::forgetRenderer(QModelIndex const& index)
+{
+    if (not index.isValid() or index.row() >= mRenderers.size()) {
+        qCritical(shell) << "Failed to forget Renderer. Error: invalid index:" << index.row()
+                         << "Renderers size:" << mRenderers.size();
+        return;
+    }
+
+    auto const renderer = mRenderers.at(index.row());
+    if (not mProvider->forget(renderer)) {
+        return;
+    }
+
+    qCDebug(shell) << "Forget renderer" << renderer->name() << ".";
+    disconnect(renderer.get(), nullptr, this, nullptr);
+    beginRemoveRows(QModelIndex{}, index.row(), index.row());
+    mRenderers.removeAt(index.row());
+    endRemoveRows();
+}
+
 bool MediaRendererModel::isScanning() const noexcept
 {
     return mScanning;

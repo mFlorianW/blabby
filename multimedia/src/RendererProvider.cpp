@@ -48,6 +48,23 @@ QList<std::shared_ptr<Renderer>> const& RendererProvider::renderers() const noex
     return mRenderers;
 }
 
+bool RendererProvider::forget(std::shared_ptr<Renderer> const& renderer) noexcept
+{
+    if (renderer == nullptr or not mRenderers.contains(renderer)) {
+        qCWarning(mmRenderer) << "Failed to forget Renderer. Error: the Renderer is unknown";
+        return false;
+    }
+    if (renderer->availability() == Renderer::Availability::Online) {
+        qCWarning(mmRenderer) << "Failed to forget Renderer" << renderer->name() << "Error: it is Online";
+        return false;
+    }
+
+    disconnect(renderer.get(), nullptr, this, nullptr);
+    mRenderers.removeOne(renderer);
+    saveKnownRenderers();
+    return true;
+}
+
 void RendererProvider::onRendererDiscovered(QString const& usn) noexcept
 {
     try {

@@ -115,7 +115,7 @@ Item {
         IconButton {
             id: backButton
             objectName: "backButton"
-            source: "qrc:/qt/qml/Blabby/Shell/icons/material/arrow_back.svg"
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/arrow_back.svg"
             anchors.verticalCenter: sourcePill.verticalCenter
             visible: libraryView.belowRoot
             onClicked: libraryView.backRequested()
@@ -127,7 +127,7 @@ Item {
             text: libraryView.activeSourceName
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
             visible: libraryView.hasActiveSource
-            onClicked: sourcePicker.visible = true
+            onClicked: sourcePicker.open()
         }
     }
 
@@ -156,7 +156,7 @@ Item {
         hint: libraryView.hasActiveSource ? "" : libraryView.hasSources ? qsTr("Pick the Source whose media you want to browse") : qsTr("Make sure your media servers are switched on and on the same network")
         actionText: !libraryView.hasActiveSource && libraryView.hasSources ? qsTr("Choose Source") : ""
         visible: !libraryView.hasActiveSource || libraryView.containerEmpty
-        onActionClicked: sourcePicker.visible = true
+        onActionClicked: sourcePicker.open()
     }
 
     GridView {
@@ -218,28 +218,12 @@ Item {
         running: libraryView.hasActiveSource && libraryView.busy
     }
 
-    Rectangle {
-        id: scrim
-        objectName: "scrim"
-        anchors.fill: libraryView
-        color: Theme.colors.surfaceContainerLowest
-        opacity: 0.6
-        visible: sourcePicker.visible
-
-        // Closes the picker when the user taps beside it and keeps the taps from the content below.
-        MouseArea {
-            anchors.fill: scrim
-            onClicked: sourcePicker.visible = false
-        }
-    }
-
     SourcePicker {
         id: sourcePicker
         objectName: "sourcePicker"
-        anchors.centerIn: libraryView
-        visible: false
+        anchors.fill: libraryView
         onPicked: index => {
-            sourcePicker.visible = false;
+            sourcePicker.close();
             libraryView.sourcePicked(index);
         }
     }

@@ -135,6 +135,40 @@ void RendererProviderShould::bring_a_renderer_whose_device_did_not_answer_online
     QCOMPARE(prov.renderers().size(), 1);
 }
 
+void RendererProviderShould::forget_an_offline_renderer()
+{
+    auto const kitchen = RememberedRenderer{.identity = QStringLiteral("uuid:kitchen"),
+                                            .name = QStringLiteral("Kitchen"),
+                                            .manufacturer = {},
+                                            .modelName = {},
+                                            .address = {}};
+    auto store = std::make_shared<TestHelper::InMemoryRendererStore>(QList{kitchen});
+    auto prov = RendererProvider{store, std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>()};
+
+    prov.forget(prov.renderers().at(0));
+
+    QCOMPARE(prov.renderers().size(), 0);
+    QCOMPARE(store->load().size(), 0);
+}
+
+void RendererProviderShould::not_forget_an_online_renderer()
+{
+    auto const usn = QStringLiteral("uuid:kitchen");
+    auto store = std::make_shared<TestHelper::InMemoryRendererStore>();
+    auto sProv = std::make_unique<UPnPAV::Doubles::ServiceProviderDouble>();
+    sProv->addDeviceDescription(
+        usn,
+        UPnPAV::validRendererDeviceDescription(QStringLiteral("Kitchen"), QString{}, QString{}, usn));
+    auto* sProvRaw = sProv.get();
+    auto prov = RendererProvider{store, std::move(sProv)};
+    Q_EMIT sProvRaw->serviceConnected(usn);
+
+    prov.forget(prov.renderers().at(0));
+
+    QCOMPARE(prov.renderers().size(), 1);
+    QCOMPARE(store->load().size(), 1);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererProviderShould)

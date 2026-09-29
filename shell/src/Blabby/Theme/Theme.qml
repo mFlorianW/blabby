@@ -43,6 +43,8 @@ QtObject {
 
         readonly property color outline: "#71767E"
         readonly property color outlineVariant: "#444850"
+
+        readonly property color scrim: "#000000"
     }
 
     /**
@@ -59,12 +61,21 @@ QtObject {
     readonly property real disabledOpacity: 0.38
 
     /**
+     * Opacity of the scrim that covers the content behind a dialog.
+     */
+    readonly property real scrimOpacity: 0.32
+
+    /**
      * Material 3 type scale.
      */
     readonly property QtObject fonts: QtObject {
         readonly property TypeStyle headlineMedium: TypeStyle {
             size: 28
             lineHeight: 36
+        }
+        readonly property TypeStyle headlineSmall: TypeStyle {
+            size: 24
+            lineHeight: 32
         }
         readonly property TypeStyle titleLarge: TypeStyle {
             size: 22

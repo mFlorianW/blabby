@@ -4,10 +4,12 @@
 
 import QtQuick
 import Blabby.Controls
+import Blabby.Objects
 
 /**
  * The screen to choose the Renderer that plays the music.
  * Every known Renderer is shown as a card in a grid that reflows to the available width, Offline ones can't be tapped.
+ * An Offline Renderer can be forgotten after the user confirmed it.
  * Without Renderers an empty state tells whether the network is still searched or nothing was found.
  */
 Item {
@@ -28,6 +30,11 @@ Item {
      * This signal is emitted when the user taps the card of the Renderer at index.
      */
     signal activated(int index)
+
+    /**
+     * This signal is emitted when the user confirmed to forget the Renderer at index.
+     */
+    signal forgetRequested(int index)
 
     /**
      * This signal is emitted when the user asks for a new scan of the network.
@@ -133,6 +140,49 @@ Item {
                 selected: cell.active
                 availability: cell.availability
                 onClicked: renderersView.activated(cell.index)
+                onForgetRequested: forgetDialog.ask(cell)
+            }
+        }
+    }
+
+    Dialog {
+        id: forgetDialog
+        objectName: "forgetDialog"
+
+        /**
+         * The grid cell of the Renderer the dialog asks to forget. The cell follows the Renderer when rows move,
+         * so its index is the current row of the Renderer. It's null once the Renderer is removed.
+         */
+        property Item cell: null
+
+        /**
+         * Asks the user to confirm to forget the Renderer of the grid cell.
+         */
+        function ask(cell) {
+            forgetDialog.cell = cell;
+            forgetDialog.title = qsTr("Forget '%1'?").arg(cell.name);
+            forgetDialog.open();
+        }
+
+        anchors.fill: renderersView
+        text: qsTr("Blabby no longer remembers this renderer. It shows up again when it's found on the network.")
+        acceptText: qsTr("Forget")
+        onAccepted: {
+            if (forgetDialog.cell !== null) {
+                renderersView.forgetRequested(forgetDialog.cell.index);
+            }
+            forgetDialog.cell = null;
+        }
+        onRejected: forgetDialog.cell = null
+
+        // Only Offline Renderers can be forgotten, the question is void once the Renderer is Online again.
+        Connections {
+            target: forgetDialog.cell
+            function onAvailabilityChanged() {
+                if (forgetDialog.cell !== null && forgetDialog.cell.availability !== Renderer.Offline) {
+                    forgetDialog.close();
+                    forgetDialog.cell = null;
+                }
             }
         }
     }
