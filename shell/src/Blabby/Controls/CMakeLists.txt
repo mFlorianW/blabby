@@ -21,6 +21,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         NavigationRailItem.qml
         PillButton.qml
         ScreenHeader.qml
+        Slider.qml
         StatusLabel.qml
         StyledText.qml
         Toast.qml
