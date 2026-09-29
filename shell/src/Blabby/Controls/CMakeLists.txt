@@ -23,10 +23,6 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         StatusLabel.qml
         StyledText.qml
     SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractIconButton.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractDialog.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractDialog.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoggingCategories.cpp

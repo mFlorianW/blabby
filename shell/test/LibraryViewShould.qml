@@ -98,13 +98,15 @@ Item {
             libraryView.busy = false;
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
-            libraryViewTest.child("sourcePicker").visible = false;
+            libraryViewTest.child("sourcePicker").close();
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
             sourcePickedSpy.clear();
             itemActivatedSpy.clear();
             backRequestedSpy.clear();
+            // The actions of the header are laid out on the next polish, clicks before would miss them.
+            libraryViewTest.waitForItemPolished(libraryViewTest.child("sourcePill").parent);
         }
 
         /**
@@ -161,6 +163,7 @@ Item {
             libraryView.activeSourceName = "";
             const action = libraryViewTest.findChild(libraryViewTest.child("emptyState"), "action");
             libraryViewTest.verify(action);
+            libraryViewTest.waitForItemPolished(action.parent);
             libraryViewTest.mouseClick(action);
             libraryViewTest.tryCompare(libraryViewTest.child("sourcePicker"), "visible", true);
         }
