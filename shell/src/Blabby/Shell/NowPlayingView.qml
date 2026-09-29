@@ -17,7 +17,8 @@ import Blabby.Theme
  * shows a busy ring while the Renderer is transitioning. A seek bar shows the elapsed and the total time and seeks on
  * release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
  * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
- * changes the Volume while dragging, it is also shown without media and hidden without Volume control.
+ * changes the Volume while dragging, a Mute button next to it mutes and unmutes and dims the slider while muted. The
+ * row is also shown without media, each control is hidden when the Renderer doesn't offer it.
  * Failed control calls are told in a toast.
  */
 Item {
@@ -119,6 +120,16 @@ Item {
     property bool canControlVolume: false
 
     /**
+     * True while the Active Renderer is muted.
+     */
+    property bool muted: false
+
+    /**
+     * True when the Mute of the Active Renderer can be controlled.
+     */
+    property bool canControlMute: false
+
+    /**
      * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
      */
     property real seekTarget: -1
@@ -159,6 +170,11 @@ Item {
     signal volumeRequested(int volume)
 
     /**
+     * This signal is emitted when the user asks to mute or to unmute the Active Renderer.
+     */
+    signal muteRequested(bool muted)
+
+    /**
      * Shows the position again instead of the target of a requested seek, e.g. because the seek failed.
      */
     function cancelSeek() {
@@ -192,7 +208,9 @@ Item {
             [Renderer.Pause]: qsTr("Couldn't pause %1"),
             [Renderer.Stop]: qsTr("Couldn't stop %1"),
             [Renderer.Seek]: qsTr("Couldn't seek on %1"),
-            [Renderer.ChangeVolume]: qsTr("Couldn't change the Volume of %1")
+            [Renderer.ChangeVolume]: qsTr("Couldn't change the Volume of %1"),
+            [Renderer.Mute]: qsTr("Couldn't mute %1"),
+            [Renderer.Unmute]: qsTr("Couldn't unmute %1")
         };
         if (action === Renderer.Seek) {
             nowPlayingView.cancelSeek();
@@ -469,16 +487,30 @@ Item {
         height: 56
         radius: 28
         color: Theme.colors.surfaceContainerHigh
-        visible: nowPlayingView.hasActiveRenderer && nowPlayingView.canControlVolume
+        visible: nowPlayingView.hasActiveRenderer && (nowPlayingView.canControlVolume || nowPlayingView.canControlMute)
+
+        IconButton {
+            id: muteButton
+            objectName: "muteButton"
+            anchors.left: volumeRow.left
+            anchors.verticalCenter: volumeRow.verticalCenter
+            anchors.leftMargin: 4
+            iconSource: nowPlayingView.muted ? "qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/volume_up.svg"
+            visible: nowPlayingView.canControlMute
+            onClicked: nowPlayingView.muteRequested(!nowPlayingView.muted)
+        }
 
         Slider {
             id: volumeSlider
             objectName: "volumeSlider"
-            anchors.left: volumeRow.left
+            anchors.left: muteButton.visible ? muteButton.right : volumeRow.left
             anchors.right: volumeValue.left
             anchors.verticalCenter: volumeRow.verticalCenter
-            anchors.leftMargin: 20
+            anchors.leftMargin: muteButton.visible ? 8 : 20
             anchors.rightMargin: 12
+            // Muted, the slider is dimmed but usable, moving it doesn't unmute.
+            opacity: nowPlayingView.muted ? Theme.disabledOpacity : 1
+            visible: nowPlayingView.canControlVolume
             from: nowPlayingView.volumeMinimum
             to: nowPlayingView.volumeMaximum
             value: nowPlayingView.volume
@@ -505,6 +537,7 @@ Item {
             horizontalAlignment: Text.AlignRight
             text: Math.round(volumeSlider.visualValue)
             color: Theme.colors.colorOnSurface
+            visible: nowPlayingView.canControlVolume
             textStyle: Theme.fonts.labelLarge
         }
     }

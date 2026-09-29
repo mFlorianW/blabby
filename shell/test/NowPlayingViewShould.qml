@@ -43,6 +43,12 @@ Item {
         }
 
         SignalSpy {
+            id: muteRequestedSpy
+            target: nowPlayingView
+            signalName: "muteRequested"
+        }
+
+        SignalSpy {
             id: togglePlaybackRequestedSpy
             target: nowPlayingView
             signalName: "togglePlaybackRequested"
@@ -69,6 +75,9 @@ Item {
             nowPlayingView.volumeMinimum = 0;
             nowPlayingView.volumeMaximum = 60;
             nowPlayingView.canControlVolume = true;
+            nowPlayingView.muted = false;
+            nowPlayingView.canControlMute = true;
+            muteRequestedSpy.clear();
             seekRequestedSpy.clear();
             volumeRequestedSpy.clear();
             nowPlayingViewTest.child("toast").hide();
@@ -369,6 +378,16 @@ Item {
                     tag: "ChangeVolume",
                     action: Renderer.ChangeVolume,
                     message: "Couldn't change the Volume of Kitchen"
+                },
+                {
+                    tag: "Mute",
+                    action: Renderer.Mute,
+                    message: "Couldn't mute Kitchen"
+                },
+                {
+                    tag: "Unmute",
+                    action: Renderer.Unmute,
+                    message: "Couldn't unmute Kitchen"
                 }
             ];
         }
@@ -535,6 +554,7 @@ Item {
         function test_hide_the_volume_row_without_volume_control() {
             nowPlayingViewTest.showTrack(Renderer.Playing);
             nowPlayingView.canControlVolume = false;
+            nowPlayingView.canControlMute = false;
             nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, false);
             nowPlayingView.canControlVolume = true;
             nowPlayingView.hasActiveRenderer = false;
@@ -557,6 +577,65 @@ Item {
             nowPlayingViewTest.mouseRelease(slider, slider.width / 2, slider.height / 2);
             nowPlayingViewTest.compare(slider.visualValue, 10);
             nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").text, "10");
+        }
+
+        /**
+         * Tests that the Mute button shows the "volume up" icon and the slider isn't dimmed while not muted.
+         */
+        function test_show_volume_up_while_not_muted() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const button = nowPlayingViewTest.child("muteButton");
+            nowPlayingViewTest.compare(button.visible, true);
+            nowPlayingViewTest.compare(button.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/volume_up.svg"));
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeSlider").opacity, 1);
+        }
+
+        /**
+         * Tests that the Mute button shows the "volume off" icon and the slider is dimmed but usable while muted.
+         */
+        function test_show_volume_off_and_dim_the_slider_while_muted() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.muted = true;
+            const button = nowPlayingViewTest.child("muteButton");
+            nowPlayingViewTest.compare(button.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg"));
+            const slider = nowPlayingViewTest.child("volumeSlider");
+            nowPlayingViewTest.verify(slider.opacity < 1);
+            nowPlayingViewTest.compare(slider.interactive, true);
+            nowPlayingViewTest.mouseClick(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.verify(volumeRequestedSpy.count > 0);
+            nowPlayingViewTest.compare(muteRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Mute button asks to mute and to unmute.
+         */
+        function test_toggle_the_mute_with_the_mute_button() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const button = nowPlayingViewTest.child("muteButton");
+            nowPlayingViewTest.verify(button.width >= 44 && button.height >= 44);
+            nowPlayingViewTest.mouseClick(button);
+            nowPlayingViewTest.compare(muteRequestedSpy.count, 1);
+            nowPlayingViewTest.compare(muteRequestedSpy.signalArguments[0][0], true);
+            nowPlayingView.muted = true;
+            nowPlayingViewTest.mouseClick(button);
+            nowPlayingViewTest.compare(muteRequestedSpy.count, 2);
+            nowPlayingViewTest.compare(muteRequestedSpy.signalArguments[1][0], false);
+        }
+
+        /**
+         * Tests that the Mute button is hidden without Mute control and the slider without Volume control.
+         */
+        function test_hide_the_controls_that_the_renderer_does_not_offer() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.canControlMute = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("muteButton").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeSlider").visible, true);
+            nowPlayingView.canControlMute = true;
+            nowPlayingView.canControlVolume = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeRow").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("muteButton").visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeSlider").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").visible, false);
         }
 
         /**
