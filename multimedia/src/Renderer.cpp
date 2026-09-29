@@ -10,9 +10,12 @@
 #include "PendingSoapCall.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
+#include <QHash>
 #include <QPointer>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QVariant>
+#include <algorithm>
 
 using namespace UPnPAV;
 
@@ -46,6 +49,78 @@ QString titleOfUri(QString const& uri)
     return title;
 }
 
+QString yearOfDate(QString const& date)
+{
+    static auto const yearExpression = QRegularExpression{QStringLiteral("^(\\d{4})")};
+    return yearExpression.match(date).captured(1);
+}
+
+QString formatNameOfMimeType(QString const& mimeType)
+{
+    static auto const formatNames = QHash<QString, QString>{
+        {QStringLiteral("audio/flac"), QStringLiteral("FLAC")},
+        {QStringLiteral("audio/x-flac"), QStringLiteral("FLAC")},
+        {QStringLiteral("audio/mpeg"), QStringLiteral("MP3")},
+        {QStringLiteral("audio/mp3"), QStringLiteral("MP3")},
+        {QStringLiteral("audio/mpeg3"), QStringLiteral("MP3")},
+        {QStringLiteral("audio/x-mpeg"), QStringLiteral("MP3")},
+        {QStringLiteral("audio/aac"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/aacp"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/x-aac"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/mp4"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/m4a"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/x-m4a"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/vnd.dlna.adts"), QStringLiteral("AAC")},
+        {QStringLiteral("audio/alac"), QStringLiteral("ALAC")},
+        {QStringLiteral("audio/x-alac"), QStringLiteral("ALAC")},
+        {QStringLiteral("audio/wav"), QStringLiteral("WAV")},
+        {QStringLiteral("audio/wave"), QStringLiteral("WAV")},
+        {QStringLiteral("audio/x-wav"), QStringLiteral("WAV")},
+        {QStringLiteral("audio/vnd.wave"), QStringLiteral("WAV")},
+        {QStringLiteral("audio/l8"), QStringLiteral("PCM")},
+        {QStringLiteral("audio/l16"), QStringLiteral("PCM")},
+        {QStringLiteral("audio/l24"), QStringLiteral("PCM")},
+        {QStringLiteral("audio/ogg"), QStringLiteral("Ogg")},
+        {QStringLiteral("audio/x-ogg"), QStringLiteral("Ogg")},
+        {QStringLiteral("application/ogg"), QStringLiteral("Ogg")},
+        {QStringLiteral("audio/vorbis"), QStringLiteral("Ogg")},
+        {QStringLiteral("audio/x-vorbis"), QStringLiteral("Ogg")},
+        {QStringLiteral("audio/opus"), QStringLiteral("Opus")},
+        {QStringLiteral("audio/x-opus"), QStringLiteral("Opus")},
+    };
+    // The MIME type may carry parameters, e.g. audio/L16;rate=44100.
+    return formatNames.value(mimeType.section(QLatin1Char{';'}, 0, 0).trimmed().toLower());
+}
+
+/**
+ * Gives the format of the resource matching the track URI, otherwise of the first resource.
+ */
+QString formatOf(QString const& uri, QVector<Resource> const& resources)
+{
+    if (resources.isEmpty()) {
+        return {};
+    }
+
+    auto const matching = std::ranges::find(resources, uri, &Resource::uri);
+    auto const& resource = matching != resources.cend() ? *matching : resources.first();
+    auto const name = formatNameOfMimeType(resource.protocolInfo.section(QLatin1Char{':'}, 2, 2));
+    if (name.isEmpty()) {
+        return {};
+    }
+
+    auto details = QStringList{};
+    if (resource.bitsPerSample.has_value()) {
+        details.append(QStringLiteral("%1-bit").arg(resource.bitsPerSample.value()));
+    }
+    if (resource.sampleFrequency.has_value()) {
+        details.append(QStringLiteral("%1 kHz").arg(resource.sampleFrequency.value() / 1000.0));
+    }
+    if (details.isEmpty()) {
+        return name;
+    }
+    return QStringLiteral("%1 · %2").arg(name, details.join(QStringLiteral(" / ")));
+}
+
 CurrentTrack currentTrackOf(QString const& uri, QString metaData)
 {
     auto track = CurrentTrack{};
@@ -55,7 +130,10 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData)
             auto const& object = objects.first();
             track.title = object.title();
             track.artist = object.artist().isEmpty() ? object.creator() : object.artist();
+            track.album = object.album();
+            track.year = yearOfDate(object.date());
             track.artworkUrl = object.albumArtUrl();
+            track.format = formatOf(uri, object.resources());
         }
     }
     if (track.title.isEmpty()) {

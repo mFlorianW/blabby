@@ -33,9 +33,25 @@ struct BLABBYMULTIMEDIA_EXPORT CurrentTrack
     QString artist;
 
     /**
+     * The album.
+     */
+    QString album;
+
+    /**
+     * The year, taken from the date.
+     */
+    QString year;
+
+    /**
      * The URL of the artwork.
      */
     QString artworkUrl;
+
+    /**
+     * The format, the short name of the MIME type plus bit depth and sample rate when known,
+     * e.g. "FLAC · 24-bit / 96 kHz". Empty for an unknown MIME type.
+     */
+    QString format;
 
     friend bool operator==(CurrentTrack const& lhs, CurrentTrack const& rhs) = default;
 };

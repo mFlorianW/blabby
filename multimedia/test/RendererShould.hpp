@@ -66,6 +66,10 @@ private Q_SLOTS:
     void stop_polling_when_the_tracking_is_switched_off();
     void refresh_the_position_info_when_a_tracked_renderer_goes_online();
     void give_no_current_track_while_offline();
+    void give_the_album_and_the_year_of_the_current_track_data();
+    void give_the_album_and_the_year_of_the_current_track();
+    void give_the_format_of_the_current_track_data();
+    void give_the_format_of_the_current_track();
 
 private:
     std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);

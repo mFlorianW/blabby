@@ -58,6 +58,21 @@ QString ActiveRendererController::artworkUrl() const noexcept
     return currentTrack().artworkUrl;
 }
 
+QString ActiveRendererController::trackAlbum() const noexcept
+{
+    return currentTrack().album;
+}
+
+QString ActiveRendererController::trackYear() const noexcept
+{
+    return currentTrack().year;
+}
+
+QString ActiveRendererController::trackFormat() const noexcept
+{
+    return currentTrack().format;
+}
+
 CurrentTrack ActiveRendererController::currentTrack() const noexcept
 {
     if (mRenderer == nullptr) {

@@ -50,6 +50,21 @@ class ActiveRendererController : public QObject
      */
     Q_PROPERTY(QString artworkUrl READ artworkUrl NOTIFY currentTrackChanged)
 
+    /**
+     * This property holds the album of the Current Track, empty when unknown.
+     */
+    Q_PROPERTY(QString trackAlbum READ trackAlbum NOTIFY currentTrackChanged)
+
+    /**
+     * This property holds the year of the Current Track, empty when unknown.
+     */
+    Q_PROPERTY(QString trackYear READ trackYear NOTIFY currentTrackChanged)
+
+    /**
+     * This property holds the format of the Current Track, e.g. "FLAC · 24-bit / 96 kHz", empty when unknown.
+     */
+    Q_PROPERTY(QString trackFormat READ trackFormat NOTIFY currentTrackChanged)
+
 public:
     /**
      * Creates an instance of the @ref Shell::ActiveRendererController that follows the Active Renderer of the model.
@@ -96,6 +111,21 @@ public:
      * Gives the URL of the artwork of the Current Track, empty when unknown.
      */
     QString artworkUrl() const noexcept;
+
+    /**
+     * Gives the album of the Current Track, empty when unknown.
+     */
+    QString trackAlbum() const noexcept;
+
+    /**
+     * Gives the year of the Current Track, empty when unknown.
+     */
+    QString trackYear() const noexcept;
+
+    /**
+     * Gives the format of the Current Track, empty when unknown.
+     */
+    QString trackFormat() const noexcept;
 
 Q_SIGNALS:
     /**

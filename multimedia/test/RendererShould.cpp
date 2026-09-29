@@ -756,6 +756,75 @@ void RendererShould::give_no_current_track_while_offline()
     QCOMPARE(renderer.currentTrack(), CurrentTrack{});
 }
 
+void RendererShould::give_the_album_and_the_year_of_the_current_track_data()
+{
+    QTest::addColumn<QString>("metaData");
+    QTest::addColumn<QString>("expectedAlbum");
+    QTest::addColumn<QString>("expectedYear");
+
+    QTest::newRow("album and full date")
+        << didl("<dc:title>Tide</dc:title><upnp:album>Low Tide Sessions</upnp:album><dc:date>2024-03-01</dc:date>")
+        << "Low Tide Sessions" << "2024";
+    QTest::newRow("year only") << didl("<dc:title>Tide</dc:title><dc:date>2024</dc:date>") << "" << "2024";
+    QTest::newRow("invalid date") << didl("<dc:title>Tide</dc:title><dc:date>unknown</dc:date>") << "" << "";
+    QTest::newRow("neither album nor date") << didl("<dc:title>Tide</dc:title>") << "" << "";
+}
+
+void RendererShould::give_the_album_and_the_year_of_the_current_track()
+{
+    QFETCH(QString, metaData);
+    QFETCH(QString, expectedAlbum);
+    QFETCH(QString, expectedYear);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    mUpnpRendererRaw->setCurrentTrack(trackUri, metaData);
+
+    QCOMPARE(renderer.currentTrack().album, expectedAlbum);
+    QCOMPARE(renderer.currentTrack().year, expectedYear);
+}
+
+void RendererShould::give_the_format_of_the_current_track_data()
+{
+    QTest::addColumn<QString>("resources");
+    QTest::addColumn<QString>("expectedFormat");
+
+    auto const res = [](QString const& mimeType, QString const& details = QString{}) {
+        return QStringLiteral(R"(<res protocolInfo="http-get:*:%1:*" %2>%3</res>)").arg(mimeType, details, trackUri);
+    };
+    QTest::newRow("bit depth and sample rate")
+        << res("audio/flac", R"(bitsPerSample="24" sampleFrequency="96000")") << "FLAC · 24-bit / 96 kHz";
+    QTest::newRow("fractional sample rate") << res("audio/mpeg", R"(sampleFrequency="44100")") << "MP3 · 44.1 kHz";
+    QTest::newRow("bit depth only") << res("audio/x-flac", R"(bitsPerSample="16")") << "FLAC · 16-bit";
+    QTest::newRow("neither bit depth nor sample rate") << res("audio/flac") << "FLAC";
+    QTest::newRow("AAC") << res("audio/mp4") << "AAC";
+    QTest::newRow("ALAC") << res("audio/x-alac") << "ALAC";
+    QTest::newRow("WAV") << res("audio/wav") << "WAV";
+    QTest::newRow("PCM with parameters") << res("audio/L16;rate=44100;channels=2") << "PCM";
+    QTest::newRow("Ogg") << res("application/ogg") << "Ogg";
+    QTest::newRow("Opus") << res("audio/opus") << "Opus";
+    QTest::newRow("unknown MIME type") << res("audio/x-unknown", R"(bitsPerSample="24")") << "";
+    QTest::newRow("no resource") << "" << "";
+    QTest::newRow("resource matching the track URI")
+        << QStringLiteral(R"(<res protocolInfo="http-get:*:audio/mpeg:*">http://192.168.0.3/transcoded.mp3</res>)") +
+               res("audio/flac", R"(bitsPerSample="24")")
+        << "FLAC · 24-bit";
+    QTest::newRow("first resource without one matching the track URI")
+        << QStringLiteral(R"(<res protocolInfo="http-get:*:audio/mpeg:*">http://192.168.0.3/transcoded.mp3</res>)"
+                          R"(<res protocolInfo="http-get:*:audio/flac:*">http://192.168.0.3/other.flac</res>)")
+        << "MP3";
+}
+
+void RendererShould::give_the_format_of_the_current_track()
+{
+    QFETCH(QString, resources);
+    QFETCH(QString, expectedFormat);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    mUpnpRendererRaw->setCurrentTrack(trackUri, didl(QStringLiteral("<dc:title>Tide</dc:title>") + resources));
+
+    QCOMPARE(renderer.currentTrack().format, expectedFormat);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

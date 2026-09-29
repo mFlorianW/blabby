@@ -177,6 +177,9 @@ void ActiveRendererControllerShould::give_the_current_track_of_the_active_render
                                          R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title>)"
                                          R"(<upnp:artist>The Quiet Ferries</upnp:artist>)"
                                          R"(<upnp:albumArtURI>http://192.168.0.3/1.jpg</upnp:albumArtURI>)"
+                                         R"(<upnp:album>Low Tide Sessions</upnp:album><dc:date>2024-03-01</dc:date>)"
+                                         R"(<res protocolInfo="http-get:*:audio/flac:*" bitsPerSample="24" )"
+                                         R"(sampleFrequency="96000">http://192.168.0.3/1.flac</res>)"
                                          R"(</item></DIDL-Lite>)"));
     auto currentTrackChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::currentTrackChanged};
 
@@ -186,6 +189,9 @@ void ActiveRendererControllerShould::give_the_current_track_of_the_active_render
     QCOMPARE(mController->property("trackTitle").toString(), QStringLiteral("Harbour Lights"));
     QCOMPARE(mController->property("trackArtist").toString(), QStringLiteral("The Quiet Ferries"));
     QCOMPARE(mController->property("artworkUrl").toString(), QStringLiteral("http://192.168.0.3/1.jpg"));
+    QCOMPARE(mController->property("trackAlbum").toString(), QStringLiteral("Low Tide Sessions"));
+    QCOMPARE(mController->property("trackYear").toString(), QStringLiteral("2024"));
+    QCOMPARE(mController->property("trackFormat").toString(), QStringLiteral("FLAC · 24-bit / 96 kHz"));
 
     mRendererFactory->renderer(QStringLiteral("Kitchen"))
         ->setCurrentTrack(QStringLiteral("http://192.168.0.3/Tide.flac"), QString{});
@@ -202,6 +208,9 @@ void ActiveRendererControllerShould::give_no_current_track_without_an_active_ren
     QCOMPARE(mController->property("trackTitle").toString(), QString{});
     QCOMPARE(mController->property("trackArtist").toString(), QString{});
     QCOMPARE(mController->property("artworkUrl").toString(), QString{});
+    QCOMPARE(mController->property("trackAlbum").toString(), QString{});
+    QCOMPARE(mController->property("trackYear").toString(), QString{});
+    QCOMPARE(mController->property("trackFormat").toString(), QString{});
 }
 
 } // namespace Shell
