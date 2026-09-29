@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -36,6 +36,25 @@ public:
      */
     QString playUrl() const noexcept;
 
+    /**
+     * Gives the URL of the album art of the object (upnp:albumArtURI), the first one when there are several.
+     * @return The album art URL or an empty string when the object has none.
+     */
+    QString albumArtUrl() const noexcept;
+
+    /**
+     * Gives the artist of the object (upnp:artist). An artist without a role is preferred over one with a role,
+     * e.g. the AlbumArtist.
+     * @return The artist or an empty string when the object has none.
+     */
+    QString artist() const noexcept;
+
+    /**
+     * Gives the creator of the object (dc:creator).
+     * @return The creator or an empty string when the object has none.
+     */
+    QString creator() const noexcept;
+
     BLABBYUPNPAV_EXPORT friend bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
     BLABBYUPNPAV_EXPORT friend bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
 
@@ -55,6 +74,9 @@ private:
     QString mTitle;
     QString mClass;
     QString mPlayUrl;
+    QString mAlbumArtUrl;
+    QString mArtist;
+    QString mCreator;
     QVector<Protocol> mSupportedProtocols;
 };
 

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -39,6 +39,12 @@ constexpr char const* didlOnlyOneContainer =
 constexpr char const* didlOnlyOneItem = {
     "&lt;DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\"&gt;"
     "&lt;item id=\"64$0$0\" parentID=\"64$0\" restricted=\"1\"&gt;&lt;dc:title&gt;Dekmantel Boiler Room 2016 -&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.musicTrack&lt;/upnp:class&gt;&lt;dc:description&gt;blub&lt;/dc:description&gt;&lt;dc:creator&gt;Ben Klock&lt;/dc:creator&gt;&lt;upnp:artist&gt;Ben Klock&lt;/upnp:artist&gt;&lt;res size=\"124814567\" duration=\"1:26:40.436\" bitrate=\"192000\" sampleFrequency=\"44100\" nrAudioChannels=\"2\" protocolInfo=\"http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01700000000000000000000000000000\"&gt;http://192.168.0.2:8200/MediaItems/23.mp3&lt;/res&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;"
+};
+
+constexpr char const* didlItemWithArtworkAndArtists = {
+    "&lt;DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\"&gt;"
+    "&lt;item id=\"1$14$2$1$0$5\" parentID=\"1$14$2$1$0\" restricted=\"1\"&gt;&lt;dc:title&gt;A New Kind Of Army&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.musicTrack&lt;/upnp:class&gt;&lt;dc:creator&gt;Anti-Flag Creator&lt;/dc:creator&gt;&lt;upnp:artist role=\"AlbumArtist\"&gt;Various Artists&lt;/upnp:artist&gt;&lt;upnp:artist&gt;Anti-Flag&lt;/upnp:artist&gt;&lt;res protocolInfo=\"http-get:*:audio/mpeg:DLNA.ORG_PN=MP3\"&gt;http://192.168.0.3:8200/MediaItems/43.mp3&lt;/res&gt;&lt;upnp:albumArtURI dlna:profileID=\"JPEG_TN\"&gt;http://192.168.0.3:8200/AlbumArt/3-43.jpg&lt;/upnp:albumArtURI&gt;&lt;upnp:albumArtURI dlna:profileID=\"JPEG_LRG\"&gt;http://192.168.0.3:8200/AlbumArt/3-43-large.jpg&lt;/upnp:albumArtURI&gt;&lt;/item&gt;"
+    "&lt;container id=\"7\" parentID=\"1\" restricted=\"1\"&gt;&lt;dc:title&gt;Compilation&lt;/dc:title&gt;&lt;upnp:class&gt;object.container.album.musicAlbum&lt;/upnp:class&gt;&lt;upnp:artist role=\"AlbumArtist\"&gt;Various Artists&lt;/upnp:artist&gt;&lt;/container&gt;&lt;/DIDL-Lite&gt;"
 };
 
 constexpr char const* didlOnlyTwoContainer =

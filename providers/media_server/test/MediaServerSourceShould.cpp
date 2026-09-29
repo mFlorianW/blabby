@@ -42,6 +42,20 @@ QString didlWithOneObject(QString const& element, QString const& typeClass)
         .arg(element, typeClass);
 }
 
+QString didlWithOneItem(QString const& properties)
+{
+    return QStringLiteral("&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; "
+                          "xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; "
+                          "xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;"
+                          "&lt;item id=&quot;1&quot; parentID=&quot;0&quot; restricted=&quot;1&quot;&gt;"
+                          "&lt;dc:title&gt;Song&lt;/dc:title&gt;"
+                          "&lt;upnp:class&gt;object.item.audioItem.musicTrack&lt;/upnp:class&gt;"
+                          "%1"
+                          "&lt;/item&gt;"
+                          "&lt;/DIDL-Lite&gt;")
+        .arg(properties);
+}
+
 } // namespace
 
 SourceShould::~SourceShould() = default;
@@ -101,7 +115,7 @@ void SourceShould::give_root_media_items_on_init()
     QCOMPARE(mediaServerSource.mediaItems().at(0).type(), expectedMediaItems.at(0).type());
     QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), expectedMediaItems.at(0).mainText());
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedMediaItems.at(0).secondaryText());
-    QCOMPARE(mediaServerSource.mediaItems().at(0).iconUrl(), expectedMediaItems.at(0).iconUrl());
+    QCOMPARE(mediaServerSource.mediaItems().at(0).artworkUrl(), expectedMediaItems.at(0).artworkUrl());
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
 }
 
@@ -141,7 +155,7 @@ void SourceShould::request_root_media_items_on_navigation()
     QCOMPARE(mediaServerSource.mediaItems().at(0).type(), expectedMediaItems.at(0).type());
     QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), expectedMediaItems.at(0).mainText());
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedMediaItems.at(0).secondaryText());
-    QCOMPARE(mediaServerSource.mediaItems().at(0).iconUrl(), expectedMediaItems.at(0).iconUrl());
+    QCOMPARE(mediaServerSource.mediaItems().at(0).artworkUrl(), expectedMediaItems.at(0).artworkUrl());
     QCOMPARE(mediaServerSource.mediaItems().at(0).path(), expectedMediaItems.at(0).path());
 }
 
@@ -196,6 +210,55 @@ void SourceShould::classify_objects_by_their_class()
 
     QCOMPARE(mediaServerSource.mediaItems().size(), 1);
     QCOMPARE(mediaServerSource.mediaItems().at(0).type(), expectedType);
+}
+
+void SourceShould::request_the_album_art_the_artist_and_the_creator()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    auto const filter = mediaServerRaw->lastBrowseFilter.split(QLatin1Char(','));
+    QVERIFY(filter.contains(QStringLiteral("res")));
+    QVERIFY(filter.contains(QStringLiteral("upnp:albumArtURI")));
+    QVERIFY(filter.contains(QStringLiteral("upnp:artist")));
+    QVERIFY(filter.contains(QStringLiteral("dc:creator")));
+}
+
+void SourceShould::map_the_album_art_and_the_artist_to_the_item_data()
+{
+    QTest::addColumn<QString>("properties");
+    QTest::addColumn<QString>("expectedArtworkUrl");
+    QTest::addColumn<QString>("expectedSecondaryText");
+
+    QTest::newRow("album art, artist and creator")
+        << QStringLiteral("&lt;dc:creator&gt;Creator&lt;/dc:creator&gt;"
+                          "&lt;upnp:artist&gt;Artist&lt;/upnp:artist&gt;"
+                          "&lt;upnp:albumArtURI&gt;http://nas/art.jpg&lt;/upnp:albumArtURI&gt;")
+        << QStringLiteral("http://nas/art.jpg") << QStringLiteral("Artist");
+    QTest::newRow("only artist") << QStringLiteral("&lt;upnp:artist&gt;Artist&lt;/upnp:artist&gt;") << QString{}
+                                 << QStringLiteral("Artist");
+    QTest::newRow("only creator") << QStringLiteral("&lt;dc:creator&gt;Creator&lt;/dc:creator&gt;") << QString{}
+                                  << QStringLiteral("Creator");
+    QTest::newRow("nothing") << QString{} << QString{} << QString{};
+}
+
+void SourceShould::map_the_album_art_and_the_artist_to_the_item()
+{
+    QFETCH(QString, properties);
+    QFETCH(QString, expectedArtworkUrl);
+    QFETCH(QString, expectedSecondaryText);
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(didlWithOneItem(properties), "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).artworkUrl(), expectedArtworkUrl);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedSecondaryText);
 }
 
 } // namespace Provider::MediaServer

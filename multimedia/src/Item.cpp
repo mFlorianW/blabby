@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -14,8 +14,8 @@ Item::Item()
 {
 }
 
-Item::Item(ItemType type, QString mainText, QString secondaryText, QString iconUrl, QString path)
-    : d{new ItemData{type, std::move(mainText), secondaryText, std::move(iconUrl), std::move(path)}}
+Item::Item(ItemType type, QString mainText, QString secondaryText, QString artworkUrl, QString path)
+    : d{new ItemData{type, std::move(mainText), secondaryText, std::move(artworkUrl), std::move(path)}}
 {
 }
 
@@ -35,9 +35,9 @@ QString const& Item::secondaryText() const noexcept
     return d->mSecondaryText;
 }
 
-QString const& Item::iconUrl() const noexcept
+QString const& Item::artworkUrl() const noexcept
 {
-    return d->mIconUrl;
+    return d->mArtworkUrl;
 }
 
 QString const& Item::path() const noexcept
@@ -61,7 +61,7 @@ bool operator==(Item const& lhs, Item const& rhs) noexcept
     return (lhs.d == rhs.d) or ((lhs.d->mType == rhs.d->mType) and
                                (lhs.d->mMainText == rhs.d->mMainText) and
                                (lhs.d->mSecondaryText == rhs.d->mSecondaryText) and
-                               (lhs.d->mIconUrl == rhs.d->mIconUrl) and
+                               (lhs.d->mArtworkUrl == rhs.d->mArtworkUrl) and
                                (lhs.d->mPath == rhs.d->mPath));
     // clang-format on
 }
@@ -89,9 +89,9 @@ ItemBuilder& ItemBuilder::withSecondaryText(QString const& text) noexcept
     return *this;
 }
 
-ItemBuilder& ItemBuilder::withIconUrl(QString const& iconUrl) noexcept
+ItemBuilder& ItemBuilder::withArtworkUrl(QString const& artworkUrl) noexcept
 {
-    mItem.d->mIconUrl = iconUrl;
+    mItem.d->mArtworkUrl = artworkUrl;
     return *this;
 }
 

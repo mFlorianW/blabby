@@ -35,7 +35,10 @@ void MediaItemModelShould::give_the_correct_display_roles()
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto const expRoles = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle), QByteArray{"mediaItemTitle"}),
-        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl), QByteArray{"mediaItemIconUrl"}),
+        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl),
+                       QByteArray{"mediaItemArtworkUrl"}),
+        std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemSecondaryText),
+                       QByteArray{"mediaItemSecondaryText"}),
         std::make_pair(static_cast<int>(MediaItemModel::DisplayRole::MediaItemType), QByteArray{"mediaItemType"}),
     };
 
@@ -182,22 +185,20 @@ void MediaItemModelShould::navigate_the_back_the_active_media_source()
     QCOMPARE(miModel.rowCount({}), 5);
 }
 
-void MediaItemModelShould::give_the_default_icon_url_when_the_media_item_has_no_icon()
+void MediaItemModelShould::give_the_artwork_url_and_the_secondary_text_of_the_item()
 {
     auto miModel = MediaItemModel{};
     auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+    auto const secondaryTextRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemSecondaryText);
 
-    // default icon URL for playable item
-    auto const containerUrl =
-        miModel.data(miModel.index(2), static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl)).toString();
-    QCOMPARE(containerUrl, QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/folder.svg"));
-    // default icon URL for container item
-    auto const iconUrl =
-        miModel.data(miModel.index(0), static_cast<int>(MediaItemModel::DisplayRole::MediaItemIconUrl)).toString();
-
-    QCOMPARE(iconUrl, QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/24x24/play_arrow.svg"));
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QStringLiteral("http://localhost/art1.jpg"));
+    QCOMPARE(miModel.data(miModel.index(0), secondaryTextRole).toString(), QStringLiteral("Artist1"));
+    // Items without artwork and secondary text give empty values, the view shows its placeholder.
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(), QString{});
+    QCOMPARE(miModel.data(miModel.index(1), secondaryTextRole).toString(), QString{});
 }
 
 void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_source()

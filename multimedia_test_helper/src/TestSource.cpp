@@ -15,7 +15,10 @@ TestSource::TestSource(QString name, QString iconUrl)
     : Multimedia::Source{std::move(name), std::move(iconUrl)}
 {
     mItems.insert(QStringLiteral("0"),
-                  {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem1")},
+                  {Multimedia::Item{Multimedia::ItemType::Playable,
+                                    QStringLiteral("MediaItem1"),
+                                    QStringLiteral("Artist1"),
+                                    QStringLiteral("http://localhost/art1.jpg")},
                    Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem2")},
                    Multimedia::Item{Multimedia::ItemType::Container,
                                     QStringLiteral("Container1"),

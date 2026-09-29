@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -102,6 +102,8 @@ void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_Whe
             .withParentId("64$0")
             .withTitle("Dekmantel Boiler Room 2016 -")
             .withTypeClass("object.item.audioItem.musicTrack")
+            .withArtist("Ben Klock")
+            .withCreator("Ben Klock")
             .withPlayUrl("http://192.168.0.2:8200/MediaItems/23.mp3")
             .withSupportedProtocols(QVector<Protocol>{
                 {Protocol::create(QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3")).value_or(Protocol{})}})
@@ -157,6 +159,24 @@ void BrowseResponseShould::parse_real_world_media_items()
     auto objects = browseResult.objects();
     QCOMPARE(objects.size(), 1);
     QCOMPARE(objects.at(0), expObj);
+}
+
+void BrowseResponseShould::parse_the_album_art_uri_the_artist_and_the_creator()
+{
+    auto response = QString{xmlResponse}.arg(didlItemWithArtworkAndArtists, "2", "2", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 2);
+    // The first album art is taken, servers list the thumbnail first.
+    QCOMPARE(objects.at(0).albumArtUrl(), QStringLiteral("http://192.168.0.3:8200/AlbumArt/3-43.jpg"));
+    QCOMPARE(objects.at(0).artist(), QStringLiteral("Anti-Flag"));
+    QCOMPARE(objects.at(0).creator(), QStringLiteral("Anti-Flag Creator"));
+    // Without another artist the artist in a role is the artist.
+    QCOMPARE(objects.at(1).artist(), QStringLiteral("Various Artists"));
+    QCOMPARE(objects.at(1).albumArtUrl(), QString{});
+    QCOMPARE(objects.at(1).creator(), QString{});
 }
 
 } // namespace UPnPAV

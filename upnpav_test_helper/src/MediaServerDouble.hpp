@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -64,6 +64,7 @@ public:
 
 public:
     LastBrowseRequest lastBrowseRequest{};
+    QString lastBrowseFilter;
     QSharedPointer<UPnPAV::SoapCallDouble> soapCall{nullptr};
     QString mName{"MediaServer"};
     QUrl mIconUrl{"http://localhost:8200/icons/sm.png"};
