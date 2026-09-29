@@ -522,6 +522,61 @@ void MediaRendererModelShould::ignore_activating_an_offline_renderer()
     QCOMPARE(isActive(0), false);
 }
 
+void MediaRendererModelShould::forget_an_offline_renderer()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen(), rememberedAttic()});
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    auto rowsRemovedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::rowsRemoved};
+
+    mModel->forgetRenderer(mModel->index(0));
+
+    QCOMPARE(rowsRemovedSpy.size(), 1);
+    QCOMPARE(rendererNames(), QStringList{QStringLiteral("Old Kitchen")});
+    QCOMPARE(mStore->load(), QList{rememberedKitchen()});
+    restart();
+    QCOMPARE(rendererNames(), QStringList{QStringLiteral("Old Kitchen")});
+}
+
+void MediaRendererModelShould::ignore_forgetting_an_online_renderer()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    auto rowsRemovedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::rowsRemoved};
+
+    mModel->forgetRenderer(mModel->index(0));
+
+    QCOMPARE(rowsRemovedSpy.size(), 0);
+    QCOMPARE(rendererNames(), QStringList{QStringLiteral("Kitchen")});
+    QCOMPARE(mStore->load().size(), 1);
+}
+
+void MediaRendererModelShould::ignore_forgetting_an_invalid_index()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+
+    mModel->forgetRenderer(QModelIndex{});
+    mModel->forgetRenderer(mModel->index(5));
+
+    QCOMPARE(mModel->rowCount(), 1);
+    QCOMPARE(mStore->load().size(), 1);
+}
+
+void MediaRendererModelShould::remember_a_forgotten_renderer_again_when_it_is_discovered_again()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    mModel->forgetRenderer(mModel->index(0));
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(rendererNames(), QStringList{QStringLiteral("Kitchen")});
+    QCOMPARE(availability(0), Renderer::Availability::Online);
+    QCOMPARE(mStore->load().size(), 1);
+    QCOMPARE(mStore->load().at(0).name, QStringLiteral("Kitchen"));
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaRendererModelShould)

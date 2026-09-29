@@ -65,6 +65,15 @@ public:
      */
     QList<std::shared_ptr<Renderer>> const& renderers() const noexcept;
 
+    /**
+     * Forgets an Offline @ref Multimedia::Renderer: it's removed from the known and the remembered Renderers.
+     * When it's discovered again it's remembered again as a newly seen @ref Multimedia::Renderer.
+     * Online Renderers can't be forgotten.
+     * @param renderer The @ref Multimedia::Renderer to forget.
+     * @return True when the @ref Multimedia::Renderer was forgotten, otherwise false.
+     */
+    bool forget(std::shared_ptr<Renderer> const& renderer) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::RendererProvider discovers a @ref MultiMedia::Renderer

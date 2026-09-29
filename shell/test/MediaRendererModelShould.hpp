@@ -66,6 +66,10 @@ private Q_SLOTS:
     void order_online_renderers_before_offline_ones_and_alphabetically_within_each();
     void move_a_renderer_behind_the_online_ones_when_it_goes_offline();
     void ignore_activating_an_offline_renderer();
+    void forget_an_offline_renderer();
+    void ignore_forgetting_an_online_renderer();
+    void ignore_forgetting_an_invalid_index();
+    void remember_a_forgotten_renderer_again_when_it_is_discovered_again();
 };
 
 } // namespace Shell

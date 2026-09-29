@@ -67,7 +67,8 @@ public:
          */
         Address,
         /**
-         * The Availability of the @ref Multimedia::Renderer as integer value of @ref Multimedia::Renderer::Availability.
+         * The Availability of the @ref Multimedia::Renderer as integer value of @ref
+         * Multimedia::Renderer::Availability.
          */
         Availability,
     };
@@ -124,6 +125,13 @@ public:
      * If the index is invalid, the @ref Multimedia::Renderer is Offline or already active nothing happens.
      */
     Q_INVOKABLE void activateRenderer(QModelIndex const& index);
+
+    /**
+     * Forgets the Offline @ref Multimedia::Renderer under the passed @ref QModelIndex, it's removed from the
+     * remembered Renderers and from the model. When it's discovered again it's listed as a newly seen Renderer.
+     * If the index is invalid or the @ref Multimedia::Renderer is Online nothing happens.
+     */
+    Q_INVOKABLE void forgetRenderer(QModelIndex const& index);
 
     /**
      * Gives true while a discovery of @ref Multimedia::Renderer is running.
