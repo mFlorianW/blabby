@@ -85,6 +85,10 @@ private Q_SLOTS:
     void ignore_positions_polled_while_a_seek_is_in_flight();
     void report_a_failed_seek();
     void tell_whether_it_can_seek();
+    void coalesce_volume_requests();
+    void not_send_a_requested_volume_that_was_already_sent();
+    void report_a_failed_volume_change();
+    void give_the_volume_range_and_whether_the_volume_can_be_controlled();
 
 private:
     std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);

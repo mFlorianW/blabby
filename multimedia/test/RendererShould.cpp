@@ -1063,6 +1063,69 @@ void RendererShould::tell_whether_it_can_seek()
     QCOMPARE(withoutRelTime.canSeek(), false);
 }
 
+void RendererShould::coalesce_volume_requests()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    renderer.setVolume(25);
+    renderer.setVolume(30);
+    renderer.setVolume(35);
+    QCOMPARE(mUpnpRendererRaw->setVolumeCallCount(), 1);
+    QCOMPARE(mUpnpRendererRaw->setVolumeData().volume, 25);
+
+    Q_EMIT mUpnpRendererRaw->setVolumeCall()->finished();
+    QCOMPARE(mUpnpRendererRaw->setVolumeCallCount(), 2);
+    QCOMPARE(mUpnpRendererRaw->setVolumeData().volume, 35);
+
+    Q_EMIT mUpnpRendererRaw->setVolumeCall()->finished();
+    QCOMPARE(mUpnpRendererRaw->setVolumeCallCount(), 2);
+}
+
+void RendererShould::not_send_a_requested_volume_that_was_already_sent()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    renderer.setVolume(25);
+    renderer.setVolume(30);
+    renderer.setVolume(25);
+    Q_EMIT mUpnpRendererRaw->setVolumeCall()->finished();
+
+    QCOMPARE(mUpnpRendererRaw->setVolumeCallCount(), 1);
+}
+
+void RendererShould::report_a_failed_volume_change()
+{
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    Q_EMIT mUpnpRendererRaw->masterVolumeChanged(40);
+    auto controlFailedSpy = QSignalSpy{&renderer, &Renderer::controlFailed};
+
+    renderer.setVolume(25);
+    mUpnpRendererRaw->setVolumeCall()->setErrorState(true);
+    Q_EMIT mUpnpRendererRaw->setVolumeCall()->finished();
+
+    QCOMPARE(controlFailedSpy.size(), 1);
+    QCOMPARE(controlFailedSpy.at(0).at(0).value<Renderer::Action>(), Renderer::Action::ChangeVolume);
+    QCOMPARE(renderer.volume(), quint32{40});
+}
+
+void RendererShould::give_the_volume_range_and_whether_the_volume_can_be_controlled()
+{
+    QCOMPARE(Renderer{createKitchenDevice()}.canControlVolume(), false);
+    mUpnpRendererRaw->setVolumeEnabled(true);
+    mUpnpRendererRaw->setVolumeRange(VolumeRange{.minimum = 0, .maximum = 60});
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+
+    QCOMPARE(renderer.canControlVolume(), true);
+    QCOMPARE(renderer.volumeMinimum(), quint32{0});
+    QCOMPARE(renderer.volumeMaximum(), quint32{60});
+
+    renderer.goOffline();
+    QCOMPARE(renderer.canControlVolume(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::RendererShould)

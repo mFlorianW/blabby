@@ -15,6 +15,7 @@
 #include "private/MediaRendererPrivate.hpp"
 #include "private/RenderingControlServiceValidator.hpp"
 #include "private/SoapMessageGenerator.hpp"
+#include <algorithm>
 
 namespace UPnPAV
 {
@@ -106,6 +107,30 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRenderer::setVolume(quint32
                                                                 action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
+}
+
+VolumeRange MediaRenderer::volumeRange() const noexcept
+{
+    auto range = VolumeRange{};
+    auto const& variables = d->mRenderingControlSCPD.serviceStateTable();
+    auto const volume = std::ranges::find(variables, QStringLiteral("Volume"), &SCPDStateVariable::name);
+    if (volume == variables.cend()) {
+        return range;
+    }
+
+    auto minimumOk = false;
+    auto maximumOk = false;
+    auto const minimum = volume->miniumValue().toUInt(&minimumOk);
+    auto const maximum = volume->maximumValue().toUInt(&maximumOk);
+    if (minimumOk and maximumOk and minimum < maximum) {
+        range = VolumeRange{.minimum = minimum, .maximum = maximum};
+    }
+    return range;
+}
+
+bool MediaRenderer::canSetVolume() const noexcept
+{
+    return not d->mRenderingControlSCPD.action("SetVolume").name().isEmpty();
 }
 
 std::unique_ptr<MediaRenderer> MediaRendererFactory::create(DeviceDescription const& desc)

@@ -230,6 +230,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setVolume(q
 
     mSetVolumeData = {.instanceId = instanceId, .channel = channel, .volume = static_cast<quint16>(volume)};
     mIsSetVolumeCalled = true;
+    ++mSetVolumeCallCount;
     return std::make_unique<PendingSoapCall>(mSetVolumeCall);
 }
 
@@ -302,6 +303,26 @@ std::optional<SeekData> MediaRendererDouble::seekData() const noexcept
 QSharedPointer<SoapCallDouble> MediaRendererDouble::seekCall() const noexcept
 {
     return mSeekCall;
+}
+
+qsizetype MediaRendererDouble::setVolumeCallCount() const noexcept
+{
+    return mSetVolumeCallCount;
+}
+
+void MediaRendererDouble::setVolumeRange(VolumeRange range) noexcept
+{
+    mVolumeRange = range;
+}
+
+VolumeRange MediaRendererDouble::volumeRange() const noexcept
+{
+    return mVolumeRange;
+}
+
+bool MediaRendererDouble::canSetVolume() const noexcept
+{
+    return mVolumeEnabled;
 }
 
 } // namespace UPnPAV::Doubles

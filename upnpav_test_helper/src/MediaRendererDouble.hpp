@@ -286,6 +286,26 @@ public:
      */
     QSharedPointer<SoapCallDouble> seekCall() const noexcept;
 
+    /**
+     * @return How often SetVolume was called.
+     */
+    qsizetype setVolumeCallCount() const noexcept;
+
+    /**
+     * Sets the range of the Volume.
+     */
+    void setVolumeRange(VolumeRange range) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::volumeRange
+     */
+    VolumeRange volumeRange() const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::canSetVolume
+     */
+    bool canSetVolume() const noexcept override;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -323,6 +343,8 @@ private:
     // Volumue
     bool mIsSetVolumeCalled = false;
     SetVolumeData mSetVolumeData;
+    qsizetype mSetVolumeCallCount = 0;
+    VolumeRange mVolumeRange;
     QSharedPointer<SoapCallDouble> mSetVolumeCall =
         QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setVolumeAction());
     // Current track

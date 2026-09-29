@@ -10,9 +10,12 @@
 #include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
 #include "MediaRenderer.hpp"
+#include "RenderingControlActions.hpp"
 #include "RenderingControlNotifies.hpp"
+#include "RenderingControlStateVariables.hpp"
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
+#include <algorithm>
 #include <QTest>
 
 namespace UPnPAV
@@ -79,6 +82,14 @@ TestMediaRenderer createMediaRenderer(QVector<ServiceDescription> const& service
         createEventBackend()
     };
     // clang-format on
+}
+
+ServiceControlPointDefinition renderingControlScpd(SCPDStateVariable const& volumeVariable,
+                                                   QVector<SCPDAction> const& actions = validRenderingControlActions())
+{
+    auto variables = validRenderingControlStateVariables();
+    std::ranges::replace(variables, volume(), volumeVariable);
+    return ServiceControlPointDefinition{QStringLiteral("http://127.0.0.1/RenderingControl.xml"), variables, actions};
 }
 
 } // namespace
@@ -217,6 +228,41 @@ void MediaRendererShould::tell_that_it_is_unreachable_when_the_rendering_control
     Q_EMIT handle->subscriptionFailed(SubscriptionError::PublisherUnreachable);
 
     QCOMPARE(unreachableSpy.size(), 1);
+}
+
+void MediaRendererShould::give_the_volume_range_of_the_rendering_control()
+{
+    auto const volumeVariable = SCPDStateVariable{
+        false, QStringLiteral("Volume"), SCPDStateVariable::Ui2, {}, {}, QStringLiteral("0"), QStringLiteral("60")};
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), renderingControlScpd(volumeVariable)});
+
+    QCOMPARE(mediaRenderer.volumeRange(), (VolumeRange{.minimum = 0, .maximum = 60}));
+}
+
+void MediaRendererShould::give_the_default_volume_range_without_a_range()
+{
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+
+    QCOMPARE(mediaRenderer.volumeRange(), (VolumeRange{.minimum = 0, .maximum = 100}));
+}
+
+void MediaRendererShould::tell_whether_the_volume_can_be_set()
+{
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    QCOMPARE(mediaRenderer.canSetVolume(), true);
+
+    auto actions = validRenderingControlActions();
+    actions.removeAll(setVolumeAction());
+    auto const withoutSetVolume =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), renderingControlScpd(volume(), actions)});
+    QCOMPARE(withoutSetVolume.canSetVolume(), false);
 }
 
 } // namespace UPnPAV

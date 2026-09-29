@@ -14,6 +14,24 @@ namespace UPnPAV
 class MediaRendererPrivate;
 
 /**
+ * The range of the Volume of a @ref UPnPAV::MediaRenderer.
+ */
+struct BLABBYUPNPAV_EXPORT VolumeRange
+{
+    /**
+     * The lowest Volume.
+     */
+    quint32 minimum = 0;
+
+    /**
+     * The highest Volume.
+     */
+    quint32 maximum = 100;
+
+    friend bool operator==(VolumeRange const& lhs, VolumeRange const& rhs) = default;
+};
+
+/**
  * The MediaRenderer is facade for UPnPAV MediaRenderer device.
  */
 class BLABBYUPNPAV_EXPORT MediaRenderer : public MediaDevice
@@ -63,6 +81,19 @@ public:
     [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> setVolume(quint32 instanceId,
                                                                                     QString const& channel,
                                                                                     quint32 volume) noexcept;
+
+    /**
+     * Gives the range of the Volume from the allowed value range of the Volume state variable of the rendering control
+     * service, 0 to 100 when the service defines no range.
+     * @return The range of the Volume.
+     */
+    [[nodiscard]] virtual VolumeRange volumeRange() const noexcept;
+
+    /**
+     * Gives whether the rendering control service offers SetVolume.
+     * @return True when @ref UPnPAV::MediaRenderer::setVolume can be called, otherwise false.
+     */
+    [[nodiscard]] virtual bool canSetVolume() const noexcept;
 
 Q_SIGNALS:
     /**

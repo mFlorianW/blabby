@@ -288,7 +288,11 @@ void Renderer::dropDevice() noexcept
     mResumeCall.reset();
     mVolumeCall.reset();
     mSetVolumeCall.reset();
+    mFinishedSetVolumeCall.reset();
+    mSetVolumePending = false;
+    mRequestedVolume.reset();
     mPositionInfoCall.reset();
+    mFinishedPositionInfoCall.reset();
     mPositionInfoPending = false;
     mPositionInfoOutdated = false;
     mSeekPending = false;
@@ -520,15 +524,53 @@ void Renderer::setVolume(quint32 volume) noexcept
         return;
     }
 
-    auto call = mRenderer->setVolume(0, "Master", volume);
-    if (call.has_value()) {
-        mSetVolumeCall = goOfflineWhenUnreachable(std::move(call.value()));
-        connect(mSetVolumeCall.get(), &UPnPAV::PendingSoapCall::finished, this, [this] {
-            if (mSetVolumeCall->hasError()) {
-                qCCritical(mmRenderer) << "Failed to set set volume. Error:" << mSetVolumeCall->errorDescription();
-            }
-        });
+    mRequestedVolume = volume;
+    if (not mSetVolumePending) {
+        sendVolume(volume);
     }
+}
+
+void Renderer::sendVolume(quint32 volume) noexcept
+{
+    auto call = mRenderer->setVolume(defaultInstanceId, "Master", volume);
+    if (not call.has_value()) {
+        return;
+    }
+
+    mSetVolumePending = true;
+    mSentVolume = volume;
+    mFinishedSetVolumeCall = std::move(mSetVolumeCall);
+    if (mFinishedSetVolumeCall != nullptr) {
+        disconnect(mFinishedSetVolumeCall.get(), nullptr, this, nullptr);
+    }
+    mSetVolumeCall = goOfflineWhenUnreachable(std::move(call.value()));
+    connect(mSetVolumeCall.get(), &PendingSoapCall::finished, this, [this] {
+        mSetVolumePending = false;
+        if (mSetVolumeCall->hasError()) {
+            qCWarning(mmRenderer) << "Failed to set volume. Error:" << mSetVolumeCall->errorDescription();
+            mRequestedVolume.reset();
+            Q_EMIT controlFailed(Action::ChangeVolume);
+            return;
+        }
+        if (mRequestedVolume.has_value() and mRequestedVolume.value() != mSentVolume) {
+            sendVolume(mRequestedVolume.value());
+        }
+    });
+}
+
+bool Renderer::canControlVolume() const noexcept
+{
+    return mRenderer != nullptr and mRenderer->canSetVolume();
+}
+
+quint32 Renderer::volumeMinimum() const noexcept
+{
+    return mRenderer != nullptr ? mRenderer->volumeRange().minimum : 0;
+}
+
+quint32 Renderer::volumeMaximum() const noexcept
+{
+    return mRenderer != nullptr ? mRenderer->volumeRange().maximum : VolumeRange{}.maximum;
 }
 
 void Renderer::setState(UPnPAV::MediaRenderer::State state) noexcept
@@ -630,6 +672,10 @@ void Renderer::requestPositionInfo() noexcept
     mPositionInfoPending = true;
     // Requested while a seek is in flight, the position info may tell the position before the seek.
     mPositionInfoOutdated = mSeekPending;
+    mFinishedPositionInfoCall = std::move(mPositionInfoCall);
+    if (mFinishedPositionInfoCall != nullptr) {
+        disconnect(mFinishedPositionInfoCall.get(), nullptr, this, nullptr);
+    }
     mPositionInfoCall = goOfflineWhenUnreachable(std::move(call.value()));
     connect(mPositionInfoCall.get(), &PendingSoapCall::finished, this, &Renderer::onPositionInfoFinished);
 }

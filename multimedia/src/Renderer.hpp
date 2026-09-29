@@ -131,6 +131,10 @@ public:
          * Seeking in the Current Track.
          */
         Seek,
+        /**
+         * Changing the Volume.
+         */
+        ChangeVolume,
     };
     Q_ENUM(Action)
 
@@ -302,9 +306,27 @@ public:
     /**
      * Sets the volume for "Master" channel in UPnPAV renderer.
      * The result of volume is automatically propagated by the UPnPAV event system.
+     * At most one request is in flight, when it finishes the newest requested volume is sent if it differs.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action ChangeVolume.
      * @param volume The volume for the "Master" channel.
      */
     void setVolume(quint32 volume) noexcept;
+
+    /**
+     * Gives whether the Volume can be controlled.
+     * @return True when the device offers setting the Volume.
+     */
+    bool canControlVolume() const noexcept;
+
+    /**
+     * @return The lowest Volume of the device.
+     */
+    quint32 volumeMinimum() const noexcept;
+
+    /**
+     * @return The highest Volume of the device.
+     */
+    quint32 volumeMaximum() const noexcept;
 
     /**
      * Gives the Current Track of the @ref Multimedia::Renderer.
@@ -441,6 +463,7 @@ private:
     void updatePolling() noexcept;
     void onClockWokeUp() noexcept;
     void setTransitioning(bool transitioning) noexcept;
+    void sendVolume(quint32 volume) noexcept;
     void setPosition(std::chrono::milliseconds position) noexcept;
     void setDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
     std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
@@ -457,6 +480,12 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mPositionInfoCall;
+    // Finished calls replaced while they emit their finished signal are kept until the next replacement.
+    std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedPositionInfoCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedSetVolumeCall;
+    bool mSetVolumePending = false;
+    quint32 mSentVolume = 0;
+    std::optional<quint32> mRequestedVolume;
     bool mPositionInfoPending = false;
     bool mPositionInfoOutdated = false;
     bool mSeekPending = false;
