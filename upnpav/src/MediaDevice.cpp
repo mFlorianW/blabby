@@ -43,6 +43,29 @@ MediaDevice::State deviceState(QString const& rawState)
     return MediaDevice::State::NoMediaPresent;
 }
 
+QString seekUnit(MediaDevice::SeekMode mode)
+{
+    switch (mode) {
+    case MediaDevice::SeekMode::AbsTime:
+        return QStringLiteral("ABS_TIME");
+    case MediaDevice::SeekMode::RelTime:
+        return QStringLiteral("REL_TIME");
+    case MediaDevice::SeekMode::AbsCount:
+        return QStringLiteral("ABS_COUNT");
+    case MediaDevice::SeekMode::RelCount:
+        return QStringLiteral("REL_COUNT");
+    case MediaDevice::SeekMode::TrackNr:
+        return QStringLiteral("TRACK_NR");
+    case MediaDevice::SeekMode::ChannelFreq:
+        return QStringLiteral("CHANNEL_FREQ");
+    case MediaDevice::SeekMode::TapeIndex:
+        return QStringLiteral("TAPE-INDEX");
+    case MediaDevice::SeekMode::Frame:
+        return QStringLiteral("FRAME");
+    }
+    return {};
+}
+
 } // namespace
 
 MediaDevice::MediaDevice(DeviceDescription deviceDescription,
@@ -348,7 +371,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
     }
 
     auto const args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
-                                        Argument{.name = "Unit", .value = QString::number(static_cast<qint32>(mode))},
+                                        Argument{.name = "Unit", .value = seekUnit(mode)},
                                         Argument{.name = "Target", .value = target}};
     auto const action = d->mAvTransportDescriptionSCPD.action("Seek");
     auto msgGen = SoapMessageGenerator{};

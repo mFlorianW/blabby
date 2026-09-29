@@ -1049,8 +1049,27 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_play()
                  .toLocal8Bit());
 }
 
-void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int_target()
+void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_data()
 {
+    QTest::addColumn<MediaDevice::SeekMode>("mode");
+    QTest::addColumn<QString>("unit");
+    QTest::addColumn<QString>("target");
+
+    QTest::newRow("AbsTime") << MediaDevice::SeekMode::AbsTime << "ABS_TIME" << "0:01:02.000";
+    QTest::newRow("RelTime") << MediaDevice::SeekMode::RelTime << "REL_TIME" << "0:01:02.000";
+    QTest::newRow("AbsCount") << MediaDevice::SeekMode::AbsCount << "ABS_COUNT" << "12";
+    QTest::newRow("RelCount") << MediaDevice::SeekMode::RelCount << "REL_COUNT" << "12";
+    QTest::newRow("TrackNr") << MediaDevice::SeekMode::TrackNr << "TRACK_NR" << "12";
+    QTest::newRow("ChannelFreq") << MediaDevice::SeekMode::ChannelFreq << "CHANNEL_FREQ" << "88.5";
+    QTest::newRow("TapeIndex") << MediaDevice::SeekMode::TapeIndex << "TAPE-INDEX" << "12";
+    QTest::newRow("Frame") << MediaDevice::SeekMode::Frame << "FRAME" << "12";
+}
+
+void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek()
+{
+    QFETCH(MediaDevice::SeekMode, mode);
+    QFETCH(QString, unit);
+    QFETCH(QString, target);
     auto device = MediaDeviceWithAV{};
     auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -1058,13 +1077,14 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int
                                          "<s:Body>"
                                          "<u:Seek xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
                                          "<InstanceID>2</InstanceID>"
-                                         "<Unit>1</Unit>"
-                                         "<Target>12</Target>"
+                                         "<Unit>%1</Unit>"
+                                         "<Target>%2</Target>"
                                          "</u:Seek>"
                                          "</s:Body>"
-                                         "</s:Envelope>"};
+                                         "</s:Envelope>"}
+                                     .arg(unit, target);
 
-    auto call = device.seek(2, MediaDevice::SeekMode::RelTime, QStringLiteral("12"));
+    auto call = device.seek(2, mode, target);
 
     QVERIFY2(call.has_value(),
              QString{"The media device has an AVTransportService and the call must have a Value"}.toLocal8Bit());
