@@ -19,7 +19,7 @@ MediaSourceShould::~MediaSourceShould() = default;
 
 void MediaSourceShould::give_the_name_of_media_source()
 {
-    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QStringLiteral("")};
+    auto const mediaSource = TestSource{QStringLiteral("MusicBox"), QString{}};
     auto const expName = QStringLiteral("MusicBox");
 
     QVERIFY2(mediaSource.sourceName() == expName,
