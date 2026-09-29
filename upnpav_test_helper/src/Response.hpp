@@ -47,6 +47,16 @@ constexpr char const* didlItemWithArtworkAndArtists = {
     "&lt;container id=\"7\" parentID=\"1\" restricted=\"1\"&gt;&lt;dc:title&gt;Compilation&lt;/dc:title&gt;&lt;upnp:class&gt;object.container.album.musicAlbum&lt;/upnp:class&gt;&lt;upnp:artist role=\"AlbumArtist\"&gt;Various Artists&lt;/upnp:artist&gt;&lt;/container&gt;&lt;/DIDL-Lite&gt;"
 };
 
+constexpr char const* didlPrettyPrintedItemWithTitleAfterClass = {
+    "&lt;DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\"&gt;\n"
+    "  &lt;item id=\"1$14$2$1$0$5\" parentID=\"1$14$2$1$0\" restricted=\"1\"&gt;\n"
+    "    &lt;upnp:class&gt;object.item.audioItem.musicTrack&lt;/upnp:class&gt;\n"
+    "    &lt;dc:title&gt;A New Kind Of Army&lt;/dc:title&gt;\n"
+    "    &lt;upnp:artist&gt;Anti-Flag&lt;/upnp:artist&gt;\n"
+    "  &lt;/item&gt;\n"
+    "&lt;/DIDL-Lite&gt;"
+};
+
 constexpr char const* didlOnlyTwoContainer =
 {
     "&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;"

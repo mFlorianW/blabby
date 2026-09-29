@@ -183,10 +183,10 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
             }
             builder.withPlayUrl(streamReader.readElementText());
         }
-
-        if (not builder.isValid()) {
-            return std::nullopt;
-        }
+    }
+    // The object is only complete once all its elements are read, the title needn't be the first one.
+    if (not builder.isValid()) {
+        return std::nullopt;
     }
     if (not hasArtist) {
         builder.withArtist(artistInRole);

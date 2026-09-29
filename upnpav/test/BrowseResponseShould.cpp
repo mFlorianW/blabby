@@ -179,6 +179,18 @@ void BrowseResponseShould::parse_the_album_art_uri_the_artist_and_the_creator()
     QCOMPARE(objects.at(1).creator(), QString{});
 }
 
+void BrowseResponseShould::parse_an_item_whose_title_is_not_its_first_element()
+{
+    auto response = QString{xmlResponse}.arg(didlPrettyPrintedItemWithTitleAfterClass, "1", "1", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 1);
+    QCOMPARE(objects.at(0).title(), QStringLiteral("A New Kind Of Army"));
+    QCOMPARE(objects.at(0).artist(), QStringLiteral("Anti-Flag"));
+}
+
 } // namespace UPnPAV
 
 QTEST_MAIN(UPnPAV::BrowseResponseShould);
