@@ -52,6 +52,9 @@ private Q_SLOTS:
     void ignore_playing_at_an_invalid_index();
     void tell_whether_the_renderer_plays_the_current_entry();
     void notify_when_the_renderer_starts_or_stops_playing_the_current_entry();
+    void append_the_playables_at_the_end_and_keep_the_current_entry();
+    void notify_about_an_append();
+    void append_to_an_empty_queue_without_a_current_entry();
 };
 
 } // namespace Multimedia

@@ -316,6 +316,39 @@ void QueueModelShould::tell_whether_the_active_renderer_plays_the_current_entry(
     QCOMPARE(currentEntryPlayingChangedSpy.size(), 1);
 }
 
+void QueueModelShould::append_a_playable_and_play_it()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto rowsInsertedSpy = QSignalSpy{mModel.get(), &QueueModel::rowsInserted};
+    auto summaryChangedSpy = QSignalSpy{mModel.get(), &QueueModel::summaryChanged};
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->reset();
+
+    mModel->appendAndPlay(playable(QStringLiteral("Bonus")));
+
+    QCOMPARE(mModel->rowCount(), 3);
+    QCOMPARE(rowsInsertedSpy.size(), 1);
+    QCOMPARE(summaryChangedSpy.size(), 1);
+    QCOMPARE(dataOf(*mModel, 2, QueueModel::DisplayRole::Title).toString(), QStringLiteral("Bonus"));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), false);
+    QCOMPARE(dataOf(*mModel, 2, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Bonus")).playUrl());
+    QCOMPARE(mModel->property("running").toBool(), true);
+}
+
+void QueueModelShould::only_append_a_playable_and_make_it_current_without_an_active_renderer()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+
+    mModel->appendAndPlay(playable(QStringLiteral("Bonus")));
+
+    QCOMPARE(mModel->rowCount(), 1);
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("running").toBool(), false);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::QueueModelShould)

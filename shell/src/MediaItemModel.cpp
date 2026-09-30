@@ -123,18 +123,7 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
         return;
     }
 
-    auto playables = Multimedia::Items{};
-    auto startIndex = qsizetype{0};
-    for (auto i = qsizetype{0}; i < items.size(); ++i) {
-        if (items.at(i).type() != Multimedia::ItemType::Playable) {
-            continue;
-        }
-        if (i == idx) {
-            startIndex = playables.size();
-        }
-        playables.append(items.at(i));
-    }
-    Q_EMIT playRequested(playables, startIndex);
+    Q_EMIT playRequested(item);
 }
 
 void MediaItemModel::navigateBack() noexcept

@@ -113,32 +113,22 @@ void MediaItemModelShould::update_the_media_items_when_navigation_is_finished()
     QCOMPARE(title2, QStringLiteral("Container2"));
 }
 
-void MediaItemModelShould::request_to_play_the_playables_of_the_container_when_a_playable_is_activated()
+void MediaItemModelShould::request_to_play_only_the_activated_playable()
 {
     auto miModel = MediaItemModel{};
     auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
     auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
     miModel.setMediaSource(mediaSrc);
     auto modelResetSpy = QSignalSpy{&miModel, &MediaItemModel::modelReset};
-    auto requests = QList<std::pair<Multimedia::Items, qsizetype>>{};
-    connect(&miModel, &MediaItemModel::playRequested, this, [&requests](auto const& playables, auto startIndex) {
-        requests.append({playables, startIndex});
+    auto requests = QList<Multimedia::Item>{};
+    connect(&miModel, &MediaItemModel::playRequested, this, [&requests](auto const& playable) {
+        requests.append(playable);
     });
 
     miModel.activateMediaItem(3);
 
-    auto const playables = requests.value(0).first;
-    auto titles = QStringList{};
-    for (auto const& playable : playables) {
-        titles.append(playable.mainText());
-    }
     QCOMPARE(requests.size(), 1);
-    QCOMPARE(titles,
-             (QStringList{QStringLiteral("MediaItem1"),
-                          QStringLiteral("MediaItem2"),
-                          QStringLiteral("MediaItem3"),
-                          QStringLiteral("MediaItem4")}));
-    QCOMPARE(requests.value(0).second, 2);
+    QCOMPARE(requests.value(0).mainText(), QStringLiteral("MediaItem3"));
     QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("0"));
     QCOMPARE(modelResetSpy.size(), 0);
 }

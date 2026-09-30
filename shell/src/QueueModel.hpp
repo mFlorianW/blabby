@@ -141,6 +141,14 @@ public:
      */
     Q_INVOKABLE void play(int row) noexcept;
 
+    /**
+     * Appends the Playable at the end of the Queue and plays it on the Active Renderer, the entries before it stay.
+     * Without an Active Renderer it only becomes the Current Entry.
+     * @see Multimedia::Queue::append
+     * @param playable The Playable to append and play.
+     */
+    void appendAndPlay(Multimedia::Item const& playable) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Queue State changed.

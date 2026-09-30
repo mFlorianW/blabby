@@ -24,6 +24,13 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
         endResetModel();
         Q_EMIT summaryChanged();
     });
+    connect(&mQueue, &Queue::entriesAboutToBeAppended, this, [this](qsizetype first, qsizetype last) {
+        beginInsertRows(QModelIndex{}, static_cast<int>(first), static_cast<int>(last));
+    });
+    connect(&mQueue, &Queue::entriesAppended, this, [this] {
+        endInsertRows();
+        Q_EMIT summaryChanged();
+    });
     connect(&mQueue, &Queue::currentEntryChanged, this, &QueueModel::onCurrentEntryChanged);
     connect(&mQueue, &Queue::stateChanged, this, &QueueModel::runningChanged);
     connect(&mQueue, &Queue::playsCurrentEntryChanged, this, &QueueModel::currentEntryPlayingChanged);
@@ -122,6 +129,12 @@ void QueueModel::replace(Multimedia::Items const& playables, qsizetype startInde
 void QueueModel::play(int row) noexcept
 {
     mQueue.play(row);
+}
+
+void QueueModel::appendAndPlay(Multimedia::Item const& playable) noexcept
+{
+    mQueue.append({playable});
+    mQueue.play(mQueue.entries().size() - 1);
 }
 
 void QueueModel::onCurrentEntryChanged() noexcept

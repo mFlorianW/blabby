@@ -113,8 +113,8 @@ public:
 
     /**
      * Activates the @ref Multimedia::MediaItem under the passed index.
-     * Activating a Container opens it. Activating a Playable requests to play it with the other Playables of the
-     * current Container, see @ref playRequested. Any activation while @ref isBusy() does nothing.
+     * Activating a Container opens it. Activating a Playable requests to play it, see @ref playRequested. Any
+     * activation while @ref isBusy() does nothing.
      * @param idx The index of the @ref Multimedia::MediaItem that shall be activated.
      */
     Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
@@ -185,10 +185,9 @@ Q_SIGNALS:
 
     /**
      * This signal is emitted when a Playable is activated, to play it through the Queue.
-     * @param playables The Playables directly in the current Container, in Source order.
-     * @param startIndex The index of the activated Playable in the Playables.
+     * @param playable The activated Playable.
      */
-    void playRequested(Multimedia::Items const& playables, qsizetype startIndex);
+    void playRequested(Multimedia::Item const& playable);
 
 private:
     /**

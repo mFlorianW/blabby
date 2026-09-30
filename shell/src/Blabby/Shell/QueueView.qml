@@ -113,7 +113,7 @@ Item {
         anchors.right: queueView.right
         iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/queue_music.svg"
         title: qsTr("The Queue is empty")
-        hint: qsTr("Tap a track in the Library to play it and its album")
+        hint: qsTr("Tap a track in the Library to add it to the Queue and play it")
         actionText: qsTr("Browse the Library")
         visible: queueView.empty
         onActionClicked: queueView.browseLibraryRequested()
