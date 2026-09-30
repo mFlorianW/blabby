@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "Item.hpp"
+#include <QUrl>
 
 namespace Multimedia
 {
@@ -140,6 +141,16 @@ ItemBuilder& ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const& su
 Item ItemBuilder::build() noexcept
 {
     return mItem;
+}
+
+QString titleOfUri(QString const& uri)
+{
+    auto title = QUrl{uri}.fileName(QUrl::FullyDecoded);
+    auto const extensionStart = title.lastIndexOf(QLatin1Char{'.'});
+    if (extensionStart > 0) {
+        title.truncate(extensionStart);
+    }
+    return title;
 }
 
 } // namespace Multimedia

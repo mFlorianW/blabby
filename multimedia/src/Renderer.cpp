@@ -38,19 +38,6 @@ RememberedRenderer rememberedOf(UPnPAV::MediaRenderer const& device)
                               .address = device.address()};
 }
 
-/**
- * Gives the file name of the URI without its extension, e.g. "Harbour Lights" for ".../Harbour%20Lights.flac".
- */
-QString titleOfUri(QString const& uri)
-{
-    auto title = QUrl{uri}.fileName(QUrl::FullyDecoded);
-    auto const extensionStart = title.lastIndexOf(QLatin1Char{'.'});
-    if (extensionStart > 0) {
-        title.truncate(extensionStart);
-    }
-    return title;
-}
-
 QString yearOfDate(QString const& date)
 {
     static auto const yearExpression = QRegularExpression{QStringLiteral("^(\\d{4})")};
@@ -513,7 +500,7 @@ bool Renderer::isTransitioning() const noexcept
 }
 
 std::unique_ptr<UPnPAV::PendingSoapCall> Renderer::watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
-                                                                 Renderer::Action action) noexcept
+                                                                        Renderer::Action action) noexcept
 {
     mPlaybackControlPending = true;
     connect(call.get(), &UPnPAV::PendingSoapCall::finished, this, [this, action, callPtr = call.get()]() {

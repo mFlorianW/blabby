@@ -231,6 +231,14 @@ private:
     Item mItem;
 };
 
+/**
+ * Gives the title of a Playable that reports none: the file name of its URI without its extension, e.g.
+ * "Harbour Lights" for ".../Harbour%20Lights.flac".
+ * @param uri The URI of the Playable.
+ * @return The title taken from the URI.
+ */
+BLABBYMULTIMEDIA_EXPORT QString titleOfUri(QString const& uri);
+
 struct ItemData : public QSharedData
 {
     ItemType mType{ItemType::Container};
