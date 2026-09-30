@@ -8,6 +8,7 @@
 #include "MediaItemModel.hpp"
 #include "MediaRendererModel.hpp"
 #include "MediaSourceModel.hpp"
+#include "QueueModel.hpp"
 #include <QObject>
 #include <QQmlEngine>
 #include <qqmlengine.h>
@@ -41,6 +42,11 @@ class QmlSingletonRegistry : public QObject
      * Gives the ActiveRendererController
      */
     Q_PROPERTY(Shell::ActiveRendererController* activeRendererController READ activeRendererController CONSTANT)
+
+    /**
+     * Gives the QueueModel
+     */
+    Q_PROPERTY(Shell::QueueModel* queueModel READ queueModel CONSTANT)
 
 public:
     /**
@@ -86,6 +92,14 @@ public:
     ActiveRendererController* activeRendererController() noexcept;
 
     /**
+     * Gives a pointer to the QMLEngine for the @ref Shell::QueueModel singleton.
+     * The pointer has the same lifetime as the @ref Shell::QmlSingletonRegistry instance.
+     * @note The callee doesn't take the ownership of the returned pointer.
+     * @return A pointer to the @ref Shell::QueueModel instance
+     */
+    QueueModel* queueModel() noexcept;
+
+    /**
      * Callback for the QML engine for creating an instance of the @ref Shell::QmlSingletonRegistry
      * @param engine Unused
      * @param scriptEngine Unused
@@ -107,6 +121,7 @@ private:
     MediaItemModel mItemModel;
     MediaRendererModel mRendererModel;
     ActiveRendererController mActiveRendererController;
+    QueueModel mQueueModel;
 };
 
 } // namespace Shell

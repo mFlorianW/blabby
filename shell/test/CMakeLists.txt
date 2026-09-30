@@ -100,6 +100,24 @@ target_link_libraries(test_shell_mediarenderer_model
 add_test(test_shell_mediarenderer_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediarenderer_model)
 
 ###############################################################################
+# Test QueueModel
+###############################################################################
+add_executable(test_shell_queue_model)
+target_sources(test_shell_queue_model
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueModelShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueModelShould.hpp
+)
+target_link_libraries(test_shell_queue_model
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+        Blabby::MultimediaTestHelper
+        Blabby::UPnPAVTestHelper
+)
+add_test(test_shell_queue_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_queue_model)
+
+###############################################################################
 # Test MediaItemModel
 ###############################################################################
 add_executable(test_shell_mediaitem_model)

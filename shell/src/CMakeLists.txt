@@ -30,6 +30,8 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaItemModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueModel.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueModel.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object

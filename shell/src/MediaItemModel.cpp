@@ -120,7 +120,21 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
         auto const path = item.path();
         startNavigation(PendingNavigation::Open, item.mainText());
         mMediaSrc->navigateTo(path);
+        return;
     }
+
+    auto playables = Multimedia::Items{};
+    auto startIndex = qsizetype{0};
+    for (auto i = qsizetype{0}; i < items.size(); ++i) {
+        if (items.at(i).type() != Multimedia::ItemType::Playable) {
+            continue;
+        }
+        if (i == idx) {
+            startIndex = playables.size();
+        }
+        playables.append(items.at(i));
+    }
+    Q_EMIT playRequested(playables, startIndex);
 }
 
 void MediaItemModel::navigateBack() noexcept
