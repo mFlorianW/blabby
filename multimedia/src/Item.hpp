@@ -10,6 +10,8 @@
 #include "blabbymultimedia_export.h"
 #include <QExplicitlySharedDataPointer>
 #include <QObject>
+#include <chrono>
+#include <optional>
 
 namespace Multimedia
 {
@@ -111,6 +113,18 @@ public:
     QString const& playUrl() const noexcept;
 
     /**
+     * Gives the album of the @ref Multimedia::Item, e.g. the album of a song.
+     * @return The album, empty when unknown.
+     */
+    QString const& album() const noexcept;
+
+    /**
+     * Gives the playing time of the @ref Multimedia::Item.
+     * @return The duration, unset when unknown, e.g. for a Container or a stream.
+     */
+    std::optional<std::chrono::milliseconds> duration() const noexcept;
+
+    /**
      * Gives the supported types of the Item.
      * The supported types are used to check if a @ref Multimedia::Renderer is able to play a @ref Multimedia::Item.
      */
@@ -187,6 +201,20 @@ public:
     ItemBuilder& withPlayUrl(QString const& playUrl) noexcept;
 
     /**
+     * Sets the album of the @ref Multimedia::Item
+     * @param album The album of the @ref Multimedia::Item
+     * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
+     */
+    ItemBuilder& withAlbum(QString const& album) noexcept;
+
+    /**
+     * Sets the playing time of the @ref Multimedia::Item
+     * @param duration The duration of the @ref Multimedia::Item, unset when unknown.
+     * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
+     */
+    ItemBuilder& withDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
+
+    /**
      * Sets the supported types of the @ref Multimedia::Item
      * @param supportedTypes The supported types of the @ref Multimedia::Item
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
@@ -211,6 +239,8 @@ struct ItemData : public QSharedData
     QString mArtworkUrl;
     QString mPath;
     QString mPlayUrl;
+    QString mAlbum;
+    std::optional<std::chrono::milliseconds> mDuration;
     QVector<UPnPAV::Protocol> mSupportedTypes;
 
     ItemData() = default;

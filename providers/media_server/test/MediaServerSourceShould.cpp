@@ -261,6 +261,40 @@ void SourceShould::map_the_album_art_and_the_artist_to_the_item()
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedSecondaryText);
 }
 
+void SourceShould::request_the_album_and_the_duration()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    auto const filter = mediaServerRaw->lastBrowseFilter.split(QLatin1Char(','));
+    QVERIFY(filter.contains(QStringLiteral("upnp:album")));
+    QVERIFY(filter.contains(QStringLiteral("res@duration")));
+}
+
+void SourceShould::map_the_album_and_the_duration_of_the_played_resource_to_the_item()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto const properties =
+        QStringLiteral("&lt;upnp:album&gt;Low Tide Sessions&lt;/upnp:album&gt;"
+                       "&lt;res protocolInfo=&quot;http-get:*:audio/mpeg:*&quot; duration=&quot;0:04:30&quot;&gt;"
+                       "http://nas/1.mp3&lt;/res&gt;"
+                       "&lt;res protocolInfo=&quot;http-get:*:audio/flac:*&quot; duration=&quot;0:04:31.250&quot;&gt;"
+                       "http://nas/1.flac&lt;/res&gt;");
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(didlWithOneItem(properties), "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    auto const& item = mediaServerSource.mediaItems().at(0);
+    QCOMPARE(item.album(), QStringLiteral("Low Tide Sessions"));
+    QCOMPARE(item.playUrl(), QStringLiteral("http://nas/1.flac"));
+    QCOMPARE(item.duration(), std::optional{std::chrono::milliseconds{271250}});
+}
+
 void SourceShould::report_a_failed_browse_and_keep_the_items()
 {
     auto mediaServer = createMediaServer();

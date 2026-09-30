@@ -7,6 +7,7 @@
 #include "MediaServerObject.hpp"
 #include "private/MediaServerObjectBuilder.hpp"
 #include <QDebug>
+#include <QRegularExpression>
 #include <QXmlStreamReader>
 #include <utility>
 
@@ -20,6 +21,35 @@ std::optional<quint32> unsignedAttribute(QXmlStreamAttributes const& attributes,
     auto ok = false;
     auto const value = attributes.value(name).toUInt(&ok);
     return ok ? std::optional{value} : std::nullopt;
+}
+
+/**
+ * Gives the duration of a res element, given as H+:MM:SS[.F+] or H+:MM:SS[.F0/F1], e.g. 0:04:31.250.
+ */
+std::optional<std::chrono::milliseconds> durationAttribute(QXmlStreamAttributes const& attributes)
+{
+    static auto const durationExpression =
+        QRegularExpression{QStringLiteral(R"(^(\d+):(\d{2}):(\d{2})(?:\.(\d+)(?:/(\d+))?)?$)")};
+    auto const match = durationExpression.matchView(attributes.value(QStringLiteral("duration")));
+    if (not match.hasMatch()) {
+        return std::nullopt;
+    }
+
+    auto const hours = std::chrono::hours{match.captured(1).toLongLong()};
+    auto const minutes = std::chrono::minutes{match.captured(2).toLongLong()};
+    auto const seconds = std::chrono::seconds{match.captured(3).toLongLong()};
+    auto fraction = std::chrono::milliseconds{0};
+    if (match.hasCaptured(5)) {
+        auto const denominator = match.captured(5).toLongLong();
+        if (denominator == 0) {
+            return std::nullopt;
+        }
+        fraction = std::chrono::milliseconds{match.captured(4).toLongLong() * 1000 / denominator};
+    } else if (match.hasCaptured(4)) {
+        // Only the milliseconds of a decimal fraction are kept, e.g. .25 is 250 ms.
+        fraction = std::chrono::milliseconds{match.captured(4).left(3).leftJustified(3, QLatin1Char{'0'}).toLongLong()};
+    }
+    return hours + minutes + seconds + fraction;
 }
 } // namespace
 
@@ -211,7 +241,8 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
                 Resource{.uri = QString{},
                          .protocolInfo = attributes.value(QStringLiteral("protocolInfo")).toString(),
                          .bitsPerSample = unsignedAttribute(attributes, QStringLiteral("bitsPerSample")),
-                         .sampleFrequency = unsignedAttribute(attributes, QStringLiteral("sampleFrequency"))};
+                         .sampleFrequency = unsignedAttribute(attributes, QStringLiteral("sampleFrequency")),
+                         .duration = durationAttribute(attributes)};
             for (auto const& attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
                     auto protos = QVector<Protocol>{};

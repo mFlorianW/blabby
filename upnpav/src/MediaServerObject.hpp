@@ -11,6 +11,7 @@
 #include "blabbyupnpav_export.h"
 #include <QString>
 #include <QXmlStreamReader>
+#include <chrono>
 #include <optional>
 
 namespace UPnPAV
@@ -41,6 +42,11 @@ struct BLABBYUPNPAV_EXPORT Resource
      * The sample frequency of the resource in Hz, unset when unknown.
      */
     std::optional<quint32> sampleFrequency;
+
+    /**
+     * The playing time of the resource, unset when unknown.
+     */
+    std::optional<std::chrono::milliseconds> duration;
 
     friend bool operator==(Resource const& lhs, Resource const& rhs) = default;
 };
