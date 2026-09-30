@@ -158,6 +158,7 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData)
     if (track.title.isEmpty()) {
         track.title = titleOfUri(uri);
     }
+    track.uri = uri;
     return track;
 }
 } // namespace

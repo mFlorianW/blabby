@@ -586,6 +586,7 @@ void RendererShould::give_the_current_track_reported_by_the_device_events()
     QCOMPARE(renderer.currentTrack().title, QStringLiteral("Harbour Lights"));
     QCOMPARE(renderer.currentTrack().artist, QStringLiteral("The Quiet Ferries"));
     QCOMPARE(renderer.currentTrack().artworkUrl, QStringLiteral("http://192.168.0.3:8200/AlbumArt/1.jpg"));
+    QCOMPARE(renderer.currentTrack().uri, QString{trackUri});
 }
 
 void RendererShould::fall_back_for_missing_current_track_details_data()
@@ -633,6 +634,7 @@ void RendererShould::give_the_current_track_of_the_polled_position_info()
     QCOMPARE(currentTrackChangedSpy.size(), 1);
     QCOMPARE(renderer->currentTrack().title, QStringLiteral("Harbour Lights"));
     QCOMPARE(renderer->currentTrack().artist, QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(renderer->currentTrack().uri, QString{trackUri});
 }
 
 void RendererShould::not_notify_about_an_unchanged_current_track()
