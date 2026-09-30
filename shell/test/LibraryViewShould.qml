@@ -7,6 +7,7 @@ import QtTest
 import Blabby.Controls
 import Blabby.Objects
 import Blabby.Shell
+import Blabby.Theme
 
 Item {
     id: root
@@ -415,6 +416,44 @@ Item {
                 const tile = libraryViewTest.tile(index);
                 libraryViewTest.tryCompare(libraryViewTest.findChild(tile, "glyph"), "visible", true);
                 libraryViewTest.compare(libraryViewTest.findChild(tile, "artwork").visible, false);
+            }
+        }
+
+        /**
+         * Gives whether the colour is one of the placeholder tones of the design.
+         */
+        function isPlaceholderTone(color) {
+            return Theme.colors.placeholderTones.some(tone => Qt.colorEqual(tone, color));
+        }
+
+        /**
+         * Tests that the placeholders of the tiles are tinted in the ten tones of the design, mixed across the tiles.
+         */
+        function test_tint_the_placeholders_in_the_tones_of_the_design() {
+            libraryViewTest.compare(Theme.colors.placeholderTones.length, 10);
+            const colors = new Set();
+            for (let index = 0; index < items.count; ++index) {
+                const color = libraryViewTest.findChild(libraryViewTest.tile(index), "placeholder").color;
+                libraryViewTest.verify(libraryViewTest.isPlaceholderTone(color), "tile " + index + ": " + color);
+                colors.add(color.toString());
+            }
+            libraryViewTest.verify(colors.size > 1, "all tiles have the same tone");
+        }
+
+        /**
+         * Tests that a tile keeps its placeholder tone when it is created anew, e.g. when the grid scrolls it back into
+         * view or the Container is opened again.
+         */
+        function test_keep_the_placeholder_tone_of_a_tile_when_it_is_created_anew() {
+            const tones = [];
+            for (let index = 0; index < items.count; ++index) {
+                tones.push(libraryViewTest.findChild(libraryViewTest.tile(index), "placeholder").color.toString());
+            }
+            libraryView.items = noItems;
+            libraryView.items = items;
+            for (let index = 0; index < items.count; ++index) {
+                libraryViewTest.tryVerify(() => libraryViewTest.findChild(libraryView, "itemTile" + index) !== null);
+                libraryViewTest.compare(libraryViewTest.findChild(libraryViewTest.tile(index), "placeholder").color.toString(), tones[index]);
             }
         }
 

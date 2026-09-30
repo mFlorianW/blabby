@@ -257,6 +257,8 @@ Item {
             nowPlayingViewTest.compare(glyph.visible, true);
             nowPlayingViewTest.compare(glyph.source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"));
             nowPlayingViewTest.compare(nowPlayingViewTest.findChild(artwork, "artwork").visible, false);
+            // Only the tiles of the Library use the placeholder tones.
+            nowPlayingViewTest.verify(Qt.colorEqual(artwork.color, Theme.colors.secondaryContainer));
         }
 
         function test_show_the_known_parts_of_album_and_year_data() {
