@@ -127,7 +127,20 @@ QString relTimeTarget(std::chrono::milliseconds position)
         .arg(seconds % 60, 2, 10, QLatin1Char{'0'});
 }
 
-CurrentTrack currentTrackOf(QString const& uri, QString metaData)
+/**
+ * Gives the artwork URL absolute, a relative one is relative to the base URL of the device, e.g. the cover proxy of a
+ * Sonos (/getaa?u=...).
+ */
+QString absoluteArtworkUrl(QString const& artworkUrl, QString const& baseUrl)
+{
+    auto const url = QUrl{artworkUrl};
+    if (artworkUrl.isEmpty() or not url.isRelative() or baseUrl.isEmpty()) {
+        return artworkUrl;
+    }
+    return QUrl{baseUrl}.resolved(url).toString(QUrl::FullyEncoded);
+}
+
+CurrentTrack currentTrackOf(QString const& uri, QString metaData, QString const& baseUrl)
 {
     auto track = CurrentTrack{};
     if (not metaData.isEmpty() and metaData != QStringLiteral("NOT_IMPLEMENTED")) {
@@ -138,7 +151,7 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData)
             track.artist = object.artist().isEmpty() ? object.creator() : object.artist();
             track.album = object.album();
             track.year = yearOfDate(object.date());
-            track.artworkUrl = object.albumArtUrl();
+            track.artworkUrl = absoluteArtworkUrl(object.albumArtUrl(), baseUrl);
             track.format = formatOf(uri, object.resources());
         }
     }
@@ -693,7 +706,7 @@ void Renderer::updateCurrentTrack(QString const& uri, QString const& metaData) n
 
     mCurrentTrackUri = uri;
     mCurrentTrackMetaData = metaData;
-    setCurrentTrack(currentTrackOf(uri, metaData));
+    setCurrentTrack(currentTrackOf(uri, metaData, mRenderer != nullptr ? mRenderer->baseUrl() : QString{}));
 }
 
 void Renderer::setCurrentTrack(CurrentTrack const& track) noexcept

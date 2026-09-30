@@ -53,6 +53,7 @@ private Q_SLOTS:
     void go_offline_when_the_event_publisher_of_the_device_is_unreachable();
     void stay_online_when_a_dropped_device_was_unreachable();
     void give_the_current_track_reported_by_the_device_events();
+    void resolve_a_relative_artwork_url_of_the_current_track_against_the_device();
     void fall_back_for_missing_current_track_details_data();
     void fall_back_for_missing_current_track_details();
     void give_the_current_track_of_the_polled_position_info();

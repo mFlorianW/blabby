@@ -638,6 +638,8 @@ void ServiceProviderShould::derive_the_device_address_from_the_description_locat
     QCOMPARE(signalspy.size(), 1);
     auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
     QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+    // The descriptions of the test devices have a URLBase, which takes precedence over the location.
+    QCOMPARE(deviceDescription.baseUrl(), QStringLiteral("http://127.0.0.1/test"));
 }
 
 void ServiceProviderShould::keep_the_device_address_after_fetching_the_service_definitions()
@@ -651,6 +653,8 @@ void ServiceProviderShould::keep_the_device_address_after_fetching_the_service_d
     QCOMPARE(signalspy.size(), 1);
     auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
     QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+    // The descriptions of the test devices have a URLBase, which takes precedence over the location.
+    QCOMPARE(deviceDescription.baseUrl(), QStringLiteral("http://127.0.0.1/test"));
 }
 
 void ServiceProviderShould::derive_the_address_of_an_embedded_device_from_the_description_location()
@@ -665,6 +669,8 @@ void ServiceProviderShould::derive_the_address_of_an_embedded_device_from_the_de
     QCOMPARE(signalspy.at(0).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e959"));
     auto const deviceDescription = m_mediaServerProvider->rootDeviceDescription(signalspy.at(0).at(0).toString());
     QCOMPARE(deviceDescription.address(), QStringLiteral("127.0.0.1"));
+    // The descriptions of the test devices have a URLBase, which takes precedence over the location.
+    QCOMPARE(deviceDescription.baseUrl(), QStringLiteral("http://127.0.0.1/test"));
 }
 
 void ServiceProviderShould::ignore_broken_device_description_notify_error()

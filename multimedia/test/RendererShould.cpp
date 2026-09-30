@@ -589,6 +589,40 @@ void RendererShould::give_the_current_track_reported_by_the_device_events()
     QCOMPARE(renderer.currentTrack().uri, QString{trackUri});
 }
 
+void RendererShould::resolve_a_relative_artwork_url_of_the_current_track_against_the_device()
+{
+    // A Sonos reports its own cover proxy relative to its description, e.g. /getaa?u=...
+    auto const description =
+        DeviceDescription{QString{},
+                          QStringLiteral("Wohnzimmer"),
+                          QString{},
+                          QString{},
+                          QStringLiteral("uuid:sonos"),
+                          {},
+                          {validRenderingControlServiceDescription(),
+                           validConnectionManagerDescription(),
+                           validAvTransportServiceDescription()},
+                          {validRenderingControlSCPD(), validConnectionManagerSCPD(), validAvTranportServiceSCPD()},
+                          QStringLiteral("192.168.0.106"),
+                          QStringLiteral("http://192.168.0.106:1400")};
+    auto device = std::make_unique<MediaRendererDouble>(description,
+                                                        QSharedPointer<SoapBackendDouble>::create(),
+                                                        QSharedPointer<Doubles::EventBackend>::create());
+    auto* deviceRaw = device.get();
+    auto renderer = Renderer{std::move(device)};
+
+    deviceRaw->setCurrentTrack(
+        trackUri,
+        didl(QStringLiteral("<dc:title>Tearing Everyone Down</dc:title>"
+                            "<upnp:albumArtURI>/getaa?u=http%3a%2f%2f192.168.0.3%3a8200%2fMediaItems%2f25.mp3&amp;v=0"
+                            "</upnp:albumArtURI>")));
+
+    // Percent-encodings are case-insensitive, QUrl gives them in upper case.
+    QCOMPARE(
+        renderer.currentTrack().artworkUrl,
+        QStringLiteral("http://192.168.0.106:1400/getaa?u=http%3A%2F%2F192.168.0.3%3A8200%2FMediaItems%2F25.mp3&v=0"));
+}
+
 void RendererShould::fall_back_for_missing_current_track_details_data()
 {
     QTest::addColumn<QString>("uri");

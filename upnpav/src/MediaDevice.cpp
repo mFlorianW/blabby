@@ -179,6 +179,11 @@ QString const& MediaDevice::address() const noexcept
     return d->mDeviceDescription.address();
 }
 
+QString const& MediaDevice::baseUrl() const noexcept
+{
+    return d->mDeviceDescription.baseUrl();
+}
+
 MediaDevice::State MediaDevice::state() const noexcept
 {
     return d->mState;

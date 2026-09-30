@@ -36,7 +36,8 @@ public:
                       QVector<IconDescription> icons = {},
                       QVector<ServiceDescription> services = {},
                       QVector<ServiceControlPointDefinition> scpds = {},
-                      QString address = {});
+                      QString address = {},
+                      QString baseUrl = {});
 
     QString const& deviceType() const noexcept;
 
@@ -57,6 +58,14 @@ public:
      */
     QString const& address() const noexcept;
 
+    /**
+     * Gives the URL relative URLs of the device are relative to, its URLBase or the location of its description
+     * without the path, e.g. http://192.168.0.106:1400.
+     * The base URL is not considered by the comparison, like the address.
+     * @return The base URL of the device or an empty string when it is unknown.
+     */
+    QString const& baseUrl() const noexcept;
+
     std::optional<ServiceDescription> service(QString const& serviceName) const noexcept;
     QVector<ServiceDescription> const& services() const noexcept;
 
@@ -74,6 +83,7 @@ private:
     QString m_modelName{""};
     QString m_udn{""};
     QString m_address{""};
+    QString m_baseUrl{""};
 
     QVector<IconDescription> m_icons;
     QVector<ServiceDescription> m_services;
