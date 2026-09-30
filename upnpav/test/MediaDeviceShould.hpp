@@ -136,7 +136,8 @@ private Q_SLOTS:
     void send_the_correct_soap_message_when_calling_gettransportsettings();
     void send_the_correct_soap_message_when_calling_stop();
     void send_the_correct_soap_message_when_calling_play();
-    void send_the_correct_soap_message_when_calling_seek_with_int_target(); // TODO add tests for float and time
+    void send_the_correct_soap_message_when_calling_seek_data();
+    void send_the_correct_soap_message_when_calling_seek();
     void send_the_correct_soap_message_when_calling_next();
     void send_the_correct_soap_message_when_calling_previous();
 
@@ -168,6 +169,36 @@ private Q_SLOTS:
      * @test The media device doesn't tell that it's unreachable when a reachable publisher rejects the subscription.
      */
     void not_tell_that_it_is_unreachable_when_the_publisher_rejects_the_subscription();
+
+    /**
+     * @test The media device gives the current track reported by the AVTransport service events.
+     */
+    void give_the_current_track_reported_by_the_av_transport_service();
+
+    /**
+     * @test The media device keeps its current track when an event doesn't report it.
+     */
+    void keep_the_current_track_when_an_event_does_not_report_it();
+
+    /**
+     * @test The media device doesn't tell about an unchanged current track.
+     */
+    void not_notify_about_an_unchanged_current_track();
+
+    /**
+     * @test The media device drops the metadata of the previous track when an event reports only a new track URI.
+     */
+    void drop_the_metadata_of_the_previous_track_for_a_new_track_uri();
+
+    /**
+     * @test The media device tells whether its AVTransport service offers Pause.
+     */
+    void tell_whether_it_can_pause();
+
+    /**
+     * @test The media device tells which seek modes its AVTransport service allows.
+     */
+    void tell_the_allowed_seek_modes();
 };
 
 } // namespace UPnPAV

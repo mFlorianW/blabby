@@ -40,5 +40,12 @@ private Q_SLOTS:
      * @test The media renderer tells that it's unreachable when the RenderingControl event publisher is unreachable.
      */
     void tell_that_it_is_unreachable_when_the_rendering_control_event_publisher_is_unreachable();
+    void give_the_volume_range_of_the_rendering_control();
+    void give_the_default_volume_range_without_a_range();
+    void tell_whether_the_volume_can_be_set();
+    void send_correct_soap_message_when_calling_get_mute();
+    void send_correct_soap_message_when_calling_set_mute();
+    void notify_mute_changes_when_receiving_upnp_events();
+    void tell_whether_the_mute_can_be_set();
 };
 } // namespace UPnPAV

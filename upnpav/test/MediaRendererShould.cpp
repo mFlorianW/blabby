@@ -9,10 +9,14 @@
 #include "DeviceDescription.hpp"
 #include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
+#include "LastChangeNotify.hpp"
 #include "MediaRenderer.hpp"
+#include "RenderingControlActions.hpp"
 #include "RenderingControlNotifies.hpp"
+#include "RenderingControlStateVariables.hpp"
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
+#include <algorithm>
 #include <QTest>
 
 namespace UPnPAV
@@ -79,6 +83,14 @@ TestMediaRenderer createMediaRenderer(QVector<ServiceDescription> const& service
         createEventBackend()
     };
     // clang-format on
+}
+
+ServiceControlPointDefinition renderingControlScpd(SCPDStateVariable const& volumeVariable,
+                                                   QVector<SCPDAction> const& actions = validRenderingControlActions())
+{
+    auto variables = validRenderingControlStateVariables();
+    std::ranges::replace(variables, volume(), volumeVariable);
+    return ServiceControlPointDefinition{QStringLiteral("http://127.0.0.1/RenderingControl.xml"), variables, actions};
 }
 
 } // namespace
@@ -217,6 +229,124 @@ void MediaRendererShould::tell_that_it_is_unreachable_when_the_rendering_control
     Q_EMIT handle->subscriptionFailed(SubscriptionError::PublisherUnreachable);
 
     QCOMPARE(unreachableSpy.size(), 1);
+}
+
+void MediaRendererShould::give_the_volume_range_of_the_rendering_control()
+{
+    auto const volumeVariable = SCPDStateVariable{
+        false, QStringLiteral("Volume"), SCPDStateVariable::Ui2, {}, {}, QStringLiteral("0"), QStringLiteral("60")};
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), renderingControlScpd(volumeVariable)});
+
+    QCOMPARE(mediaRenderer.volumeRange(), (VolumeRange{.minimum = 0, .maximum = 60}));
+}
+
+void MediaRendererShould::give_the_default_volume_range_without_a_range()
+{
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+
+    QCOMPARE(mediaRenderer.volumeRange(), (VolumeRange{.minimum = 0, .maximum = 100}));
+}
+
+void MediaRendererShould::tell_whether_the_volume_can_be_set()
+{
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    QCOMPARE(mediaRenderer.canSetVolume(), true);
+
+    auto actions = validRenderingControlActions();
+    actions.removeAll(setVolumeAction());
+    auto const withoutSetVolume =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), renderingControlScpd(volume(), actions)});
+    QCOMPARE(withoutSetVolume.canSetVolume(), false);
+}
+
+void MediaRendererShould::send_correct_soap_message_when_calling_get_mute()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:GetMute xmlns:u=\"urn:schemas-upnp-org:service:RenderingControl:1\">"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Channel>Master</Channel>"
+                                         "</u:GetMute>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    auto const call = mediaRenderer.mute(quint32{2}, QStringLiteral("Master"));
+
+    QCOMPARE(call.has_value(), true);
+    QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
+}
+
+void MediaRendererShould::send_correct_soap_message_when_calling_set_mute()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
+                                         "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+                                         "s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+                                         "<s:Body>"
+                                         "<u:SetMute xmlns:u=\"urn:schemas-upnp-org:service:RenderingControl:1\">"
+                                         "<InstanceID>2</InstanceID>"
+                                         "<Channel>Master</Channel>"
+                                         "<DesiredMute>1</DesiredMute>"
+                                         "</u:SetMute>"
+                                         "</s:Body>"
+                                         "</s:Envelope>"};
+
+    auto const call = mediaRenderer.setMute(quint32{2}, QStringLiteral("Master"), true);
+
+    QCOMPARE(call.has_value(), true);
+    QCOMPARE(mediaRenderer.lastSoapCall(), expectedMessage);
+}
+
+void MediaRendererShould::notify_mute_changes_when_receiving_upnp_events()
+{
+    auto mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    auto eventHandle = mediaRenderer.eventBackend()->subscribeEvents(validRenderingControlServiceDescription());
+    auto handle = std::dynamic_pointer_cast<UPnPAV::Doubles::EventSubscriptionHandle>(eventHandle);
+    QCOMPARE_NE(handle, nullptr);
+    auto masterMuteChangedSpy = QSignalSpy{&mediaRenderer, &MediaRenderer::masterMuteChanged};
+
+    handle->sendNotifyBody(lastChangeNotify(lastChangeVariable(QStringLiteral("Mute"), "0", "LF") +
+                                            lastChangeVariable(QStringLiteral("Mute"), "1", "Master")));
+
+    QCOMPARE(masterMuteChangedSpy.size(), 1);
+    QCOMPARE(masterMuteChangedSpy.at(0).at(0).toBool(), true);
+
+    handle->sendNotifyBody(lastChangeNotify(lastChangeVariable(QStringLiteral("Volume"), "20", "Master")));
+    QCOMPARE(masterMuteChangedSpy.size(), 1);
+}
+
+void MediaRendererShould::tell_whether_the_mute_can_be_set()
+{
+    auto const mediaRenderer =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), validRenderingControlSCPD()});
+    QCOMPARE(mediaRenderer.canSetMute(), true);
+
+    auto actions = validRenderingControlActions();
+    actions.removeAll(setMuteAction());
+    actions.removeAll(getMuteAction());
+    auto withoutMute =
+        createMediaRenderer({validConnectionManagerDescription(), validRenderingControlServiceDescription()},
+                            {validConnectionManagerSCPD(), renderingControlScpd(volume(), actions)});
+    QCOMPARE(withoutMute.canSetMute(), false);
+    QCOMPARE(withoutMute.setMute(0, QStringLiteral("Master"), true).has_value(), false);
+    QCOMPARE(withoutMute.mute(0, QStringLiteral("Master")).has_value(), false);
 }
 
 } // namespace UPnPAV

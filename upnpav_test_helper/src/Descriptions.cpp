@@ -343,6 +343,7 @@ QVector<SCPDStateVariable> validRenderingControlStateVariables() noexcept
         a_ARG_TYPE_InstanceIDVariable(),
         a_ARG_TYPE_PresetNameVariable(),
         volume(),
+        mute(),
     };
     return vars;
 }
@@ -354,6 +355,8 @@ QVector<SCPDAction> validRenderingControlActions() noexcept
         selectPresetAction(),
         getVolumeAction(),
         setVolumeAction(),
+        getMuteAction(),
+        setMuteAction(),
     };
     return actions;
 }

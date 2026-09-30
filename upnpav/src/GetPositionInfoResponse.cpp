@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -37,7 +37,7 @@ GetPositionInfoResponse::GetPositionInfoResponse(QString rawMessage,
         [&](QString const& elementName, QString value, ResponseReader::ElementReadResult result) {
             const auto ok = result == ResponseReader::ElementReadResult::Ok;
             if (elementName == QStringLiteral("TrackDuration") && ok) {
-                auto time = QTime::fromString(value, "h:m:s.z");
+                auto const time = converToTime(value);
                 d->mTrackDuration = time.isValid() ? time : QTime{0, 0, 0, 0};
             } else if (elementName == QStringLiteral("TrackMetaData") && ok) {
                 d->mTrackMetaData = value;
@@ -119,7 +119,9 @@ qint32 GetPositionInfoResponse::absCount() const noexcept
 
 QTime GetPositionInfoResponse::converToTime(QString const& rawMsg)
 {
-    return QTime::fromString(rawMsg, "h:m:s.z");
+    // The fraction of a second is optional, most devices leave it out.
+    auto const time = QTime::fromString(rawMsg, "h:m:s.z");
+    return time.isValid() ? time : QTime::fromString(rawMsg, "h:m:s");
 }
 
 } // namespace UPnPAV

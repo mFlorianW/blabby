@@ -52,7 +52,10 @@ target_sources(test_upnp_av_test_helper
         ${CMAKE_CURRENT_SOURCE_DIR}/EventBackendDouble.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EventBackendDouble.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AvTransportEventNotifies.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LastChangeNotify.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PositionInfoResponse.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/VolumeResponse.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MuteResponse.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RenderingControlNotifies.hpp
 )
 

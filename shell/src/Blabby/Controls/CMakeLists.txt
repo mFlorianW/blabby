@@ -7,6 +7,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
     VERSION
         1.0
     QML_FILES
+        Artwork.qml
         BusyIndicator.qml
         Button.qml
         Card.qml
@@ -20,6 +21,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         NavigationRailItem.qml
         PillButton.qml
         ScreenHeader.qml
+        Slider.qml
         StatusLabel.qml
         StyledText.qml
         Toast.qml

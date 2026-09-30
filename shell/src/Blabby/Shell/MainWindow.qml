@@ -63,15 +63,41 @@ Rectangle {
             hasActiveRenderer: Singleton.activeRendererController.hasActiveRenderer
             rendererName: Singleton.activeRendererController.rendererName
             playbackState: Singleton.activeRendererController.playbackState
+            trackTitle: Singleton.activeRendererController.trackTitle
+            trackArtist: Singleton.activeRendererController.trackArtist
+            artworkUrl: Singleton.activeRendererController.artworkUrl
+            trackAlbum: Singleton.activeRendererController.trackAlbum
+            trackYear: Singleton.activeRendererController.trackYear
+            trackFormat: Singleton.activeRendererController.trackFormat
+            canPause: Singleton.activeRendererController.canPause
+            transitioning: Singleton.activeRendererController.transitioning
+            position: Singleton.activeRendererController.position
+            hasDuration: Singleton.activeRendererController.hasDuration
+            duration: Singleton.activeRendererController.duration
+            canSeek: Singleton.activeRendererController.canSeek
+            volume: Singleton.activeRendererController.volume
+            volumeMinimum: Singleton.activeRendererController.volumeMinimum
+            volumeMaximum: Singleton.activeRendererController.volumeMaximum
+            canControlVolume: Singleton.activeRendererController.canControlVolume
+            muted: Singleton.activeRendererController.muted
+            canControlMute: Singleton.activeRendererController.canControlMute
             onChooseRendererRequested: {
                 shell.returnToPlaying = true;
                 rail.currentIndex = shell.renderersDestination;
             }
 
+            onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
+            onSeekRequested: position => Singleton.activeRendererController.seek(position)
+            onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
+            onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
+
             Connections {
                 target: Singleton.activeRendererController
                 function onActiveRendererWentOffline(rendererName: string) {
                     nowPlayingView.showActiveRendererWentOffline(rendererName);
+                }
+                function onControlFailed(rendererName: string, action: int) {
+                    nowPlayingView.showControlFailed(rendererName, action);
                 }
             }
         }

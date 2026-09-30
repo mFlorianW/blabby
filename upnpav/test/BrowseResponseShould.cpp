@@ -107,6 +107,12 @@ void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_Whe
             .withPlayUrl("http://192.168.0.2:8200/MediaItems/23.mp3")
             .withSupportedProtocols(QVector<Protocol>{
                 {Protocol::create(QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3")).value_or(Protocol{})}})
+            .withResource(Resource{
+                .uri = QStringLiteral("http://192.168.0.2:8200/MediaItems/23.mp3"),
+                .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;"
+                                               "DLNA.ORG_FLAGS=01700000000000000000000000000000"),
+                .bitsPerSample = std::nullopt,
+                .sampleFrequency = 44100})
             .build()};
     auto objects = browseResult.objects();
 
@@ -154,6 +160,12 @@ void BrowseResponseShould::parse_real_world_media_items()
             .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/240.mp3"))
             .withSupportedProtocols(QVector<Protocol>{
                 {Protocol::create(QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3")).value_or(Protocol{})}})
+            .withResource(Resource{
+                .uri = QStringLiteral("http://192.168.0.3:8200/MediaItems/240.mp3"),
+                .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;"
+                                               "DLNA.ORG_FLAGS=01700000000000000000000000000000"),
+                .bitsPerSample = std::nullopt,
+                .sampleFrequency = 44100})
             .build();
 
     auto objects = browseResult.objects();
@@ -177,6 +189,41 @@ void BrowseResponseShould::parse_the_album_art_uri_the_artist_and_the_creator()
     QCOMPARE(objects.at(1).artist(), QStringLiteral("Various Artists"));
     QCOMPARE(objects.at(1).albumArtUrl(), QString{});
     QCOMPARE(objects.at(1).creator(), QString{});
+}
+
+void BrowseResponseShould::parse_the_album_the_date_and_the_resources()
+{
+    auto response = QString{xmlResponse}.arg(didlItemWithAlbumDateAndResources, "1", "1", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 1);
+    QCOMPARE(objects.at(0).album(), QStringLiteral("Low Tide Sessions"));
+    QCOMPARE(objects.at(0).date(), QStringLiteral("2024-03-01"));
+    auto const expectedResources = QVector<Resource>{
+        Resource{.uri = QStringLiteral("http://192.168.0.3/1.mp3"),
+                 .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3"),
+                 .bitsPerSample = std::nullopt,
+                 .sampleFrequency = 44100},
+        Resource{.uri = QStringLiteral("http://192.168.0.3/1.flac"),
+                 .protocolInfo = QStringLiteral("http-get:*:audio/flac:*"),
+                 .bitsPerSample = 24,
+                 .sampleFrequency = 96000},
+    };
+    QCOMPARE(objects.at(0).resources(), expectedResources);
+}
+
+void BrowseResponseShould::parse_an_item_whose_title_is_not_its_first_element()
+{
+    auto response = QString{xmlResponse}.arg(didlPrettyPrintedItemWithTitleAfterClass, "1", "1", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 1);
+    QCOMPARE(objects.at(0).title(), QStringLiteral("A New Kind Of Army"));
+    QCOMPARE(objects.at(0).artist(), QStringLiteral("Anti-Flag"));
 }
 
 } // namespace UPnPAV

@@ -14,6 +14,24 @@ namespace UPnPAV
 class MediaRendererPrivate;
 
 /**
+ * The range of the Volume of a @ref UPnPAV::MediaRenderer.
+ */
+struct BLABBYUPNPAV_EXPORT VolumeRange
+{
+    /**
+     * The lowest Volume.
+     */
+    quint32 minimum = 0;
+
+    /**
+     * The highest Volume.
+     */
+    quint32 maximum = 100;
+
+    friend bool operator==(VolumeRange const& lhs, VolumeRange const& rhs) = default;
+};
+
+/**
  * The MediaRenderer is facade for UPnPAV MediaRenderer device.
  */
 class BLABBYUPNPAV_EXPORT MediaRenderer : public MediaDevice
@@ -64,11 +82,61 @@ public:
                                                                                     QString const& channel,
                                                                                     quint32 volume) noexcept;
 
+    /**
+     * Gives the range of the Volume from the allowed value range of the Volume state variable of the rendering control
+     * service, 0 to 100 when the service defines no range.
+     * @return The range of the Volume.
+     */
+    [[nodiscard]] virtual VolumeRange volumeRange() const noexcept;
+
+    /**
+     * Gives whether the rendering control service offers SetVolume.
+     * @return True when @ref UPnPAV::MediaRenderer::setVolume can be called, otherwise false.
+     */
+    [[nodiscard]] virtual bool canSetVolume() const noexcept;
+
+    /**
+     * Calls the GetMute function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the rendering control service to which the action applies.
+     * @param channel The channel whose Mute is requested.
+     * @return PendingSoapCall with the result or an error.
+     */
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> mute(quint32 instanceId,
+                                                                               QString const& channel) noexcept;
+
+    /**
+     * Calls the SetMute function on the rendering control service of the MediaRenderer
+     * This an optional function and not every MediaRenderer supports this function.
+     * If the function is not supported a std::nullopt is returned.
+     *
+     * @param instanceId Identifies the virtual instance of the rendering control service to which the action applies.
+     * @param channel The channel that shall be muted or unmuted.
+     * @param mute True mutes the channel, false unmutes it.
+     * @return PendingSoapCall with the result or an error.
+     */
+    [[nodiscard]] virtual std::optional<std::unique_ptr<PendingSoapCall>> setMute(quint32 instanceId,
+                                                                                  QString const& channel,
+                                                                                  bool mute) noexcept;
+
+    /**
+     * Gives whether the rendering control service offers SetMute.
+     * @return True when @ref UPnPAV::MediaRenderer::setMute can be called, otherwise false.
+     */
+    [[nodiscard]] virtual bool canSetMute() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the master volume is changed.
      */
     void masterVolumeChanged(quint32 volume);
+
+    /**
+     * This signal is emitted when the Mute of the master channel is changed.
+     */
+    void masterMuteChanged(bool mute);
 
 private:
     std::unique_ptr<MediaRendererPrivate> d;

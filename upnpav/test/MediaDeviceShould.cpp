@@ -13,11 +13,13 @@
 #include "DeviceDescription.hpp"
 #include "EventBackendDouble.hpp"
 #include "InvalidDeviceDescription.hpp"
+#include "LastChangeNotify.hpp"
 #include "MediaDevice.hpp"
 #include "SCPDAction.hpp"
 #include "SCPDStateVariable.hpp"
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
+#include <algorithm>
 #include <QTest>
 
 namespace UPnPAV
@@ -1049,8 +1051,27 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_play()
                  .toLocal8Bit());
 }
 
-void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int_target()
+void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_data()
 {
+    QTest::addColumn<MediaDevice::SeekMode>("mode");
+    QTest::addColumn<QString>("unit");
+    QTest::addColumn<QString>("target");
+
+    QTest::newRow("AbsTime") << MediaDevice::SeekMode::AbsTime << "ABS_TIME" << "0:01:02.000";
+    QTest::newRow("RelTime") << MediaDevice::SeekMode::RelTime << "REL_TIME" << "0:01:02.000";
+    QTest::newRow("AbsCount") << MediaDevice::SeekMode::AbsCount << "ABS_COUNT" << "12";
+    QTest::newRow("RelCount") << MediaDevice::SeekMode::RelCount << "REL_COUNT" << "12";
+    QTest::newRow("TrackNr") << MediaDevice::SeekMode::TrackNr << "TRACK_NR" << "12";
+    QTest::newRow("ChannelFreq") << MediaDevice::SeekMode::ChannelFreq << "CHANNEL_FREQ" << "88.5";
+    QTest::newRow("TapeIndex") << MediaDevice::SeekMode::TapeIndex << "TAPE-INDEX" << "12";
+    QTest::newRow("Frame") << MediaDevice::SeekMode::Frame << "FRAME" << "12";
+}
+
+void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek()
+{
+    QFETCH(MediaDevice::SeekMode, mode);
+    QFETCH(QString, unit);
+    QFETCH(QString, target);
     auto device = MediaDeviceWithAV{};
     auto const expectedMessage = QString{"<?xml version=\"1.0\"?>"
                                          "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
@@ -1058,13 +1079,14 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_seek_with_int
                                          "<s:Body>"
                                          "<u:Seek xmlns:u=\"urn:schemas-upnp-org:service:AVTransport:1\">"
                                          "<InstanceID>2</InstanceID>"
-                                         "<Unit>1</Unit>"
-                                         "<Target>12</Target>"
+                                         "<Unit>%1</Unit>"
+                                         "<Target>%2</Target>"
                                          "</u:Seek>"
                                          "</s:Body>"
-                                         "</s:Envelope>"};
+                                         "</s:Envelope>"}
+                                     .arg(unit, target);
 
-    auto call = device.seek(2, MediaDevice::SeekMode::RelTime, QStringLiteral("12"));
+    auto call = device.seek(2, mode, target);
 
     QVERIFY2(call.has_value(),
              QString{"The media device has an AVTransportService and the call must have a Value"}.toLocal8Bit());
@@ -1165,6 +1187,120 @@ void MediaDeviceShould::set_device_state_reported_by_the_av_transport_service()
 
     QCOMPARE(mediaDevice.state(), ExpectedState);
     QCOMPARE(stateChangedSpy.size(), StateChanged);
+}
+
+namespace
+{
+constexpr auto trackMetaData = R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/">)"
+                               R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title></item></DIDL-Lite>)";
+
+std::shared_ptr<Doubles::EventSubscriptionHandle> avTransportEvents(MediaDeviceWithAV& mediaDevice)
+{
+    auto eventHandle = mediaDevice.eventBackend()->subscribeEvents(validAvTransportServiceDescription());
+    return std::dynamic_pointer_cast<Doubles::EventSubscriptionHandle>(eventHandle);
+}
+} // namespace
+
+void MediaDeviceShould::give_the_current_track_reported_by_the_av_transport_service()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 1);
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/1.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{trackMetaData});
+}
+
+void MediaDeviceShould::keep_the_current_track_when_an_event_does_not_report_it()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(lastChangeNotify(lastChangeVariable(QStringLiteral("TransportState"), "PLAYING")));
+
+    QCOMPARE(currentTrackChangedSpy.size(), 0);
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/1.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{trackMetaData});
+}
+
+void MediaDeviceShould::not_notify_about_an_unchanged_current_track()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    auto const notify = lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")));
+    handle->sendNotifyBody(notify);
+    auto currentTrackChangedSpy = QSignalSpy{&mediaDevice, &MediaDevice::currentTrackChanged};
+
+    handle->sendNotifyBody(notify);
+
+    QCOMPARE(currentTrackChangedSpy.size(), 0);
+}
+
+void MediaDeviceShould::drop_the_metadata_of_the_previous_track_for_a_new_track_uri()
+{
+    auto mediaDevice = MediaDeviceWithAV{};
+    auto handle = avTransportEvents(mediaDevice);
+    QCOMPARE_NE(handle, nullptr);
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/1.flac")) +
+        lastChangeVariable(QStringLiteral("CurrentTrackMetaData"), QString{trackMetaData})));
+
+    handle->sendNotifyBody(lastChangeNotify(
+        lastChangeVariable(QStringLiteral("CurrentTrackURI"), QStringLiteral("http://192.168.0.3/2.flac"))));
+
+    QCOMPARE(mediaDevice.currentTrackUri(), QStringLiteral("http://192.168.0.3/2.flac"));
+    QCOMPARE(mediaDevice.currentTrackMetaData(), QString{});
+}
+
+void MediaDeviceShould::tell_whether_it_can_pause()
+{
+    QCOMPARE(MediaDeviceWithAV{}.canPause(), true);
+    QCOMPARE(MediaDeviceWithoutAV{createAvTransportDeviceDescriptionWithoutAction(createPauseAction())}.canPause(),
+             false);
+    QCOMPARE(MediaDeviceWithoutAV{}.canPause(), false);
+}
+
+void MediaDeviceShould::tell_the_allowed_seek_modes()
+{
+    auto variables = validAvTransportStateVariables();
+    std::ranges::replace(variables,
+                         createA_ARG_TYPE_SeekModeVariable(),
+                         SCPDStateVariable{false,
+                                           QStringLiteral("A_ARG_TYPE_SeekMode"),
+                                           SCPDStateVariable::DataType::String,
+                                           QString{},
+                                           {QStringLiteral("TRACK_NR"), QStringLiteral("REL_TIME")}});
+    auto const device = MediaDeviceWithoutAV{DeviceDescription{
+        "",
+        "",
+        "",
+        "",
+        "",
+        QVector<IconDescription>{},
+        {validContentDirectoryDescription(), validConnectionManagerDescription(), validAvTransportServiceDescription()},
+        {validContentDirectorySCPD(),
+         validConnectionManagerSCPD(),
+         ServiceControlPointDefinition{"http://127.0.0.1/AVTransport.xml", variables, validAvTranportActions()}}}};
+
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::RelTime), true);
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::TrackNr), true);
+    QCOMPARE(device.canSeek(MediaDevice::SeekMode::AbsTime), false);
+    // The valid description only allows TRACK_NR.
+    QCOMPARE(MediaDeviceWithAV{}.canSeek(MediaDevice::SeekMode::RelTime), false);
+    QCOMPARE(MediaDeviceWithoutAV{}.canSeek(MediaDevice::SeekMode::TrackNr), false);
 }
 
 void MediaDeviceShould::tell_that_it_is_unreachable_when_the_av_transport_event_publisher_is_unreachable()

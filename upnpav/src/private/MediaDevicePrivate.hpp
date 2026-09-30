@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -47,6 +47,15 @@ public:
         }
     }
 
+    void setCurrentTrack(QString const& uri, QString const& metaData) noexcept
+    {
+        if (mCurrentTrackUri != uri or mCurrentTrackMetaData != metaData) {
+            mCurrentTrackUri = uri;
+            mCurrentTrackMetaData = metaData;
+            Q_EMIT q.currentTrackChanged();
+        }
+    }
+
     MediaDevice& q;
 
     DeviceDescription mDeviceDescription;
@@ -62,6 +71,8 @@ public:
     QSharedPointer<EventBackend> mEventBackend;
     std::shared_ptr<EventSubscriptionHandle> mAvTransportEvents;
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
+    QString mCurrentTrackUri;
+    QString mCurrentTrackMetaData;
 };
 
 } // namespace UPnPAV

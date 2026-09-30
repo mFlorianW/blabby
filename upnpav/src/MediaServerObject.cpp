@@ -13,6 +13,16 @@
 namespace UPnPAV
 {
 
+namespace
+{
+std::optional<quint32> unsignedAttribute(QXmlStreamAttributes const& attributes, QString const& name)
+{
+    auto ok = false;
+    auto const value = attributes.value(name).toUInt(&ok);
+    return ok ? std::optional{value} : std::nullopt;
+}
+} // namespace
+
 MediaServerObject::MediaServerObject() = default;
 
 MediaServerObject::MediaServerObject(QString id, QString parentId, QString title, QString typeClass)
@@ -63,6 +73,21 @@ QString MediaServerObject::creator() const noexcept
     return mCreator;
 }
 
+QString MediaServerObject::album() const noexcept
+{
+    return mAlbum;
+}
+
+QString MediaServerObject::date() const noexcept
+{
+    return mDate;
+}
+
+QVector<Resource> const& MediaServerObject::resources() const noexcept
+{
+    return mResources;
+}
+
 QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
 {
     return mSupportedProtocols;
@@ -73,7 +98,8 @@ bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noex
     return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
             (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
             (lhs.supportedProtocols() == rhs.supportedProtocols()) and (lhs.mAlbumArtUrl == rhs.mAlbumArtUrl) and
-            (lhs.mArtist == rhs.mArtist) and (lhs.mCreator == rhs.mCreator));
+            (lhs.mArtist == rhs.mArtist) and (lhs.mCreator == rhs.mCreator) and (lhs.mAlbum == rhs.mAlbum) and
+            (lhs.mDate == rhs.mDate) and (lhs.mResources == rhs.mResources));
 }
 
 bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
@@ -94,6 +120,11 @@ QDebug operator<<(QDebug d, MediaServerObject const& serverObject)
     d.nospace().noquote() << "AlbumArtUrl:" << serverObject.albumArtUrl() << "\n";
     d.nospace().noquote() << "Artist:" << serverObject.artist() << "\n";
     d.nospace().noquote() << "Creator:" << serverObject.creator() << "\n";
+    d.nospace().noquote() << "Album:" << serverObject.album() << "\n";
+    d.nospace().noquote() << "Date:" << serverObject.date() << "\n";
+    for (auto const& resource : serverObject.resources()) {
+        d.nospace().noquote() << "Resource:" << resource.uri << " " << resource.protocolInfo << "\n";
+    }
 
     return d;
 }
@@ -166,8 +197,21 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
             }
         }
 
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("album")) {
+            builder.withAlbum(streamReader.readElementText());
+        }
+
+        if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("date")) {
+            builder.withDate(streamReader.readElementText());
+        }
+
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("res")) {
             auto const attributes = streamReader.attributes();
+            auto resource =
+                Resource{.uri = QString{},
+                         .protocolInfo = attributes.value(QStringLiteral("protocolInfo")).toString(),
+                         .bitsPerSample = unsignedAttribute(attributes, QStringLiteral("bitsPerSample")),
+                         .sampleFrequency = unsignedAttribute(attributes, QStringLiteral("sampleFrequency"))};
             for (auto const& attribute : attributes) {
                 if (attribute.name() == QStringLiteral("protocolInfo")) {
                     auto protos = QVector<Protocol>{};
@@ -181,12 +225,14 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
                     builder.withSupportedProtocols(protos);
                 }
             }
-            builder.withPlayUrl(streamReader.readElementText());
+            resource.uri = streamReader.readElementText();
+            builder.withPlayUrl(resource.uri);
+            builder.withResource(resource);
         }
-
-        if (not builder.isValid()) {
-            return std::nullopt;
-        }
+    }
+    // The object is only complete once all its elements are read, the title needn't be the first one.
+    if (not builder.isValid()) {
+        return std::nullopt;
     }
     if (not hasArtist) {
         builder.withArtist(artistInRole);

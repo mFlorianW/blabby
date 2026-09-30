@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -17,4 +17,8 @@ SCPDAction selectPresetAction() noexcept;
 SCPDAction getVolumeAction() noexcept;
 
 SCPDAction setVolumeAction() noexcept;
+
+SCPDAction getMuteAction() noexcept;
+
+SCPDAction setMuteAction() noexcept;
 } // namespace UPnPAV

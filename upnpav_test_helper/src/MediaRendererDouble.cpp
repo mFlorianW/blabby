@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -168,6 +168,11 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::pause(quint
     return std::make_unique<PendingSoapCall>(mPauseCall);
 }
 
+bool MediaRendererDouble::canPause() const noexcept
+{
+    return mPauseEnabled;
+}
+
 VolumeData MediaRendererDouble::volumeData() const noexcept
 {
     return mVolumeData;
@@ -225,7 +230,146 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setVolume(q
 
     mSetVolumeData = {.instanceId = instanceId, .channel = channel, .volume = static_cast<quint16>(volume)};
     mIsSetVolumeCalled = true;
+    ++mSetVolumeCallCount;
     return std::make_unique<PendingSoapCall>(mSetVolumeCall);
+}
+
+QString const& MediaRendererDouble::currentTrackUri() const noexcept
+{
+    return mCurrentTrackUri;
+}
+
+QString const& MediaRendererDouble::currentTrackMetaData() const noexcept
+{
+    return mCurrentTrackMetaData;
+}
+
+void MediaRendererDouble::setCurrentTrack(QString const& uri, QString const& metaData) noexcept
+{
+    if (mCurrentTrackUri != uri or mCurrentTrackMetaData != metaData) {
+        mCurrentTrackUri = uri;
+        mCurrentTrackMetaData = metaData;
+        Q_EMIT currentTrackChanged();
+    }
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::positionInfo(quint32 instanceId)
+{
+    Q_UNUSED(instanceId)
+    ++mPositionInfoCallCount;
+    return std::make_unique<PendingSoapCall>(mPositionInfoCall);
+}
+
+qsizetype MediaRendererDouble::positionInfoCallCount() const noexcept
+{
+    return mPositionInfoCallCount;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::positionInfoCall() const noexcept
+{
+    return mPositionInfoCall;
+}
+
+void MediaRendererDouble::finishPositionInfoCall(QString const& response) noexcept
+{
+    mPositionInfoCall->setErrorState(false);
+    mPositionInfoCall->setRawMessage(response);
+    Q_EMIT mPositionInfoCall->finished();
+}
+
+void MediaRendererDouble::setRelTimeSeekEnabled(bool enabled) noexcept
+{
+    mRelTimeSeekEnabled = enabled;
+}
+
+bool MediaRendererDouble::canSeek(SeekMode mode) const noexcept
+{
+    return mRelTimeSeekEnabled and mode == SeekMode::RelTime;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::seek(quint32 instanceId,
+                                                                          SeekMode mode,
+                                                                          QString const& target)
+{
+    mSeekData = SeekData{.instanceId = instanceId, .mode = mode, .target = target};
+    return std::make_unique<PendingSoapCall>(mSeekCall);
+}
+
+std::optional<SeekData> MediaRendererDouble::seekData() const noexcept
+{
+    return mSeekData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::seekCall() const noexcept
+{
+    return mSeekCall;
+}
+
+qsizetype MediaRendererDouble::setVolumeCallCount() const noexcept
+{
+    return mSetVolumeCallCount;
+}
+
+void MediaRendererDouble::setVolumeRange(VolumeRange range) noexcept
+{
+    mVolumeRange = range;
+}
+
+VolumeRange MediaRendererDouble::volumeRange() const noexcept
+{
+    return mVolumeRange;
+}
+
+bool MediaRendererDouble::canSetVolume() const noexcept
+{
+    return mVolumeEnabled;
+}
+
+void MediaRendererDouble::setMuteEnabled(bool enabled) noexcept
+{
+    mMuteEnabled = enabled;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::mute(quint32 instanceId,
+                                                                          QString const& channel) noexcept
+{
+    Q_UNUSED(instanceId)
+    Q_UNUSED(channel)
+    if (not mMuteEnabled) {
+        return std::nullopt;
+    }
+    return std::make_unique<PendingSoapCall>(mMuteCall);
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::muteCall() const noexcept
+{
+    return mMuteCall;
+}
+
+std::optional<std::unique_ptr<PendingSoapCall>> MediaRendererDouble::setMute(quint32 instanceId,
+                                                                             QString const& channel,
+                                                                             bool mute) noexcept
+{
+    if (not mMuteEnabled) {
+        return std::nullopt;
+    }
+    mSetMuteData = SetMuteData{.instanceId = instanceId, .channel = channel, .mute = mute};
+    return std::make_unique<PendingSoapCall>(mSetMuteCall);
+}
+
+std::optional<SetMuteData> MediaRendererDouble::setMuteData() const noexcept
+{
+    return mSetMuteData;
+}
+
+QSharedPointer<SoapCallDouble> MediaRendererDouble::setMuteCall() const noexcept
+{
+    return mSetMuteCall;
+}
+
+bool MediaRendererDouble::canSetMute() const noexcept
+{
+    return mMuteEnabled;
 }
 
 } // namespace UPnPAV::Doubles

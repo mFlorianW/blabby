@@ -81,6 +81,12 @@ public:
      */
     MediaServerObjectBuilder& withCreator(QString const& creator) noexcept;
 
+    MediaServerObjectBuilder& withAlbum(QString const& album) noexcept;
+
+    MediaServerObjectBuilder& withDate(QString const& date) noexcept;
+
+    MediaServerObjectBuilder& withResource(Resource const& resource) noexcept;
+
     /**
      * Checks if the required parameters are correctly set. This can be helpfull
      * before calling build.

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -36,7 +36,51 @@ QString getValidPositionInfoResponse()
             </s:Envelope>)";
     return {validGetMediaInfoResponse};
 }
+QString positionInfoResponse(QString const& trackDuration, QString const& relTime)
+{
+    constexpr auto response = R"(<?xml version="1.0" encoding="UTF-8"?>
+            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+               <s:Body>
+                  <u:GetPositionInfo xmlns:u="urn:schemas-upnp-org:service:ConnectionManager:1">
+                    <Track>1</Track>
+                    <TrackDuration>%1</TrackDuration>
+                    <TrackMetaData>NOT_IMPLEMENTED</TrackMetaData>
+                    <TrackURI>http://world.com/banger.mp3</TrackURI>
+                    <RelTime>%2</RelTime>
+                    <AbsTime>NOT_IMPLEMENTED</AbsTime>
+                    <RelCount>2147483647</RelCount>
+                    <AbsCount>2147483647</AbsCount>
+                  </u:GetPositionInfo>
+               </s:Body>
+            </s:Envelope>)";
+    return QString{response}.arg(trackDuration, relTime);
+}
 } // namespace
+
+void GetPositionInfoResponseShould::give_the_track_duration_and_the_rel_time_in_every_time_format_data()
+{
+    QTest::addColumn<QString>("rawTime");
+    QTest::addColumn<QTime>("expectedTime");
+
+    QTest::newRow("with milliseconds") << "0:03:42.119" << QTime{0, 3, 42, 119};
+    QTest::newRow("without milliseconds") << "0:03:42" << QTime{0, 3, 42};
+    QTest::newRow("with two digit hours") << "01:03:42" << QTime{1, 3, 42};
+    QTest::newRow("not implemented") << "NOT_IMPLEMENTED" << QTime{0, 0, 0};
+    QTest::newRow("invalid") << "blub" << QTime{0, 0, 0};
+}
+
+void GetPositionInfoResponseShould::give_the_track_duration_and_the_rel_time_in_every_time_format()
+{
+    QFETCH(QString, rawTime);
+    QFETCH(QTime, expectedTime);
+
+    auto const resp = GetPositionInfoResponse{positionInfoResponse(rawTime, rawTime),
+                                              validAvTranportServiceSCPD(),
+                                              createGetPositionInfoAction()};
+
+    QCOMPARE(resp.trackDuration(), expectedTime);
+    QCOMPARE(resp.relTime(), expectedTime);
+}
 
 void GetPositionInfoResponseShould::give_the_track_of_the_response()
 {

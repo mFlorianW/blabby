@@ -23,6 +23,7 @@ public:
 
 private:
     void activate(QString const& name);
+    UPnPAV::Doubles::MediaRendererDouble* kitchen() const noexcept;
 
     UPnPAV::Doubles::ServiceProviderDouble* mServiceProvider = nullptr;
     UPnPAV::Doubles::MediaRendererDoubleFactory* mRendererFactory = nullptr;
@@ -38,6 +39,24 @@ private Q_SLOTS:
     void follow_a_switch_to_another_active_renderer();
     void ignore_playback_state_changes_of_the_previous_active_renderer();
     void report_the_active_renderer_going_offline();
+    void track_the_position_of_the_active_renderer_only();
+    void give_the_current_track_of_the_active_renderer();
+    void give_no_current_track_without_an_active_renderer();
+    void pause_a_playing_active_renderer();
+    void stop_a_playing_active_renderer_that_cannot_pause();
+    void resume_a_paused_or_stopped_active_renderer_data();
+    void resume_a_paused_or_stopped_active_renderer();
+    void ignore_toggling_the_playback_while_a_call_is_pending();
+    void ignore_toggling_the_playback_while_transitioning();
+    void give_whether_the_active_renderer_can_pause_and_is_transitioning();
+    void report_a_failed_control_call_with_the_renderer_name();
+    void give_the_position_and_the_duration_of_the_active_renderer();
+    void give_no_position_and_duration_without_an_active_renderer();
+    void seek_in_the_current_track_of_the_active_renderer();
+    void give_the_volume_of_the_active_renderer();
+    void set_the_volume_of_the_active_renderer();
+    void give_the_mute_of_the_active_renderer();
+    void set_the_mute_of_the_active_renderer();
 };
 
 } // namespace Shell

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -23,21 +23,30 @@ bool LastChangeReader::read() noexcept
             auto const instanceId = xmlReader.attributes().value("val").toString();
             auto variables = Variables{};
             auto volumeVariables = Variables{};
+            auto muteVariables = Variables{};
             while (not xmlReader.atEnd() && not xmlReader.hasError() &&
                    not(xmlReader.name() == QStringLiteral("/InstanceID"))) {
                 static_cast<void>(xmlReader.readNextStartElement());
-                if (xmlReader.isStartElement() && xmlReader.name() != QStringLiteral("Volume")) {
-                    variables.insert(xmlReader.name().toString(), xmlReader.attributes().value("val").toString());
+                if (not xmlReader.isStartElement()) {
+                    continue;
                 }
-                if (xmlReader.isStartElement() && xmlReader.name() == QStringLiteral("Volume")) {
-                    auto attributes = xmlReader.attributes();
+                auto const attributes = xmlReader.attributes();
+                if (xmlReader.name() == QStringLiteral("Volume")) {
                     volumeVariables.insert(attributes.value(QStringLiteral("channel")).toString(),
                                            attributes.value("val").toString());
+                } else if (xmlReader.name() == QStringLiteral("Mute")) {
+                    muteVariables.insert(attributes.value(QStringLiteral("channel")).toString(),
+                                         attributes.value("val").toString());
+                } else {
+                    variables.insert(xmlReader.name().toString(), attributes.value("val").toString());
                 }
             }
             mInstanceVariables.insert(instanceId, variables);
             if (not volumeVariables.isEmpty()) {
                 mInstanceVolumeVariables.insert(instanceId, volumeVariables);
+            }
+            if (not muteVariables.isEmpty()) {
+                mInstanceMuteVariables.insert(instanceId, muteVariables);
             }
         }
     }
@@ -55,6 +64,11 @@ InstanceVariables const& LastChangeReader::instanceVariables() const noexcept
 InstanceVariables const& LastChangeReader::instanceVolumeVariables() const noexcept
 {
     return mInstanceVolumeVariables;
+}
+
+InstanceVariables const& LastChangeReader::instanceMuteVariables() const noexcept
+{
+    return mInstanceMuteVariables;
 }
 
 } // namespace UPnPAV

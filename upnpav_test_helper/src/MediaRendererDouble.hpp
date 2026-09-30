@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -57,6 +57,22 @@ struct SetVolumeData
     QString channel;
     quint16 volume;
     friend bool operator==(SetVolumeData const& lhs, SetVolumeData const& rhs) = default;
+};
+
+struct SeekData
+{
+    quint32 instanceId = quint32{1234};
+    MediaDevice::SeekMode mode = MediaDevice::SeekMode::TrackNr;
+    QString target;
+    friend bool operator==(SeekData const& lhs, SeekData const& rhs) = default;
+};
+
+struct SetMuteData
+{
+    quint32 instanceId = quint32{1234};
+    QString channel;
+    bool mute = false;
+    friend bool operator==(SetMuteData const& lhs, SetMuteData const& rhs) = default;
 };
 
 class MediaRendererDouble : public UPnPAV::MediaRenderer
@@ -165,6 +181,11 @@ public:
     std::optional<std::unique_ptr<PendingSoapCall>> pause(quint32 instanceId) noexcept override;
 
     /**
+     * @copydoc UPnPAV::MediaDevice::canPause
+     */
+    bool canPause() const noexcept override;
+
+    /**
      * @return The data of the last volume call.
      */
     [[nodiscard]] VolumeData volumeData() const noexcept;
@@ -207,6 +228,129 @@ public:
                                                                             QString const& channel,
                                                                             quint32 volume) noexcept override;
 
+    /**
+     * @copydoc UPnPAV::MediaDevice::currentTrackUri
+     */
+    QString const& currentTrackUri() const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::currentTrackMetaData
+     */
+    QString const& currentTrackMetaData() const noexcept override;
+
+    /**
+     * Sets the current track like a LastChange event of the AVTransport service does.
+     * @param uri The URI of the current track.
+     * @param metaData The DIDL-Lite metadata of the current track.
+     */
+    void setCurrentTrack(QString const& uri, QString const& metaData) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::positionInfo
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> positionInfo(quint32 instanceId) override;
+
+    /**
+     * @return How often the position info was requested.
+     */
+    qsizetype positionInfoCallCount() const noexcept;
+
+    /**
+     * @return Gives the position info call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> positionInfoCall() const noexcept;
+
+    /**
+     * Finishes the pending position info call with the passed response.
+     * @param response The raw response message, e.g. made with @ref UPnPAV::positionInfoResponse.
+     */
+    void finishPositionInfoCall(QString const& response) noexcept;
+
+    /**
+     * Allows or forbids seeking by relative time, other seek modes are never allowed.
+     * @param enabled True allows seeking by relative time.
+     */
+    void setRelTimeSeekEnabled(bool enabled) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::canSeek
+     */
+    bool canSeek(SeekMode mode) const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaDevice::seek
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> seek(quint32 instanceId,
+                                                         SeekMode mode,
+                                                         QString const& target) override;
+
+    /**
+     * @return The data of the last seek call, unset when seek wasn't called.
+     */
+    std::optional<SeekData> seekData() const noexcept;
+
+    /**
+     * @return Gives the seek call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> seekCall() const noexcept;
+
+    /**
+     * @return How often SetVolume was called.
+     */
+    qsizetype setVolumeCallCount() const noexcept;
+
+    /**
+     * Sets the range of the Volume.
+     */
+    void setVolumeRange(VolumeRange range) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::volumeRange
+     */
+    VolumeRange volumeRange() const noexcept override;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::canSetVolume
+     */
+    bool canSetVolume() const noexcept override;
+
+    /**
+     * Activates or disables the Mute functions, without them the MediaRenderer behaves like a device without Mute.
+     */
+    void setMuteEnabled(bool enabled) noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::mute
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> mute(quint32 instanceId, QString const& channel) noexcept override;
+
+    /**
+     * @return Gives the GetMute call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> muteCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::setMute
+     */
+    std::optional<std::unique_ptr<PendingSoapCall>> setMute(quint32 instanceId,
+                                                            QString const& channel,
+                                                            bool mute) noexcept override;
+
+    /**
+     * @return The data of the last SetMute call, unset when SetMute wasn't called.
+     */
+    std::optional<SetMuteData> setMuteData() const noexcept;
+
+    /**
+     * @return Gives the SetMute call object e.g. to finish it.
+     */
+    QSharedPointer<SoapCallDouble> setMuteCall() const noexcept;
+
+    /**
+     * @copydoc UPnPAV::MediaRenderer::canSetMute
+     */
+    bool canSetMute() const noexcept override;
+
 private:
     // State
     MediaDevice::State mState = MediaDevice::State::NoMediaPresent;
@@ -244,8 +388,29 @@ private:
     // Volumue
     bool mIsSetVolumeCalled = false;
     SetVolumeData mSetVolumeData;
+    qsizetype mSetVolumeCallCount = 0;
+    VolumeRange mVolumeRange;
     QSharedPointer<SoapCallDouble> mSetVolumeCall =
         QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setVolumeAction());
+    // Mute
+    bool mMuteEnabled = false;
+    std::optional<SetMuteData> mSetMuteData;
+    QSharedPointer<SoapCallDouble> mMuteCall =
+        QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), getMuteAction());
+    QSharedPointer<SoapCallDouble> mSetMuteCall =
+        QSharedPointer<SoapCallDouble>::create(validRenderingControlSCPD(), setMuteAction());
+    // Current track
+    QString mCurrentTrackUri;
+    QString mCurrentTrackMetaData;
+    // Seek
+    bool mRelTimeSeekEnabled = false;
+    std::optional<SeekData> mSeekData;
+    QSharedPointer<SoapCallDouble> mSeekCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createSeekAction());
+    // Position info
+    qsizetype mPositionInfoCallCount = 0;
+    QSharedPointer<SoapCallDouble> mPositionInfoCall =
+        QSharedPointer<SoapCallDouble>::create(validAvTranportServiceSCPD(), createGetPositionInfoAction());
 };
 
 } // namespace UPnPAV::Doubles

@@ -6,14 +6,57 @@
 
 #pragma once
 
+#include "Clock.hpp"
 #include "Item.hpp"
 #include "MediaRenderer.hpp"
 #include "RendererStore.hpp"
 #include "blabbymultimedia_export.h"
 #include <QObject>
+#include <chrono>
+#include <optional>
 
 namespace Multimedia
 {
+
+/**
+ * The Current Track of a @ref Multimedia::Renderer: the Playable it is playing, paused or stopped on, as reported by
+ * the Renderer, no matter which controller started it. Details the Renderer doesn't report are empty.
+ */
+struct BLABBYMULTIMEDIA_EXPORT CurrentTrack
+{
+    /**
+     * The title, the file name of the track without its extension when the Renderer reports no title.
+     */
+    QString title;
+
+    /**
+     * The artist, the creator when the Renderer reports no artist.
+     */
+    QString artist;
+
+    /**
+     * The album.
+     */
+    QString album;
+
+    /**
+     * The year, taken from the date.
+     */
+    QString year;
+
+    /**
+     * The URL of the artwork.
+     */
+    QString artworkUrl;
+
+    /**
+     * The format, the short name of the MIME type plus bit depth and sample rate when known,
+     * e.g. "FLAC · 24-bit / 96 kHz". Empty for an unknown MIME type.
+     */
+    QString format;
+
+    friend bool operator==(CurrentTrack const& lhs, CurrentTrack const& rhs) = default;
+};
 
 /**
  * A @ref Mulitmedia::MediaRenderer represents a hardware device
@@ -64,16 +107,60 @@ public:
     Q_ENUM(Availability)
 
     /**
+     * The control calls of a @ref Multimedia::Renderer that can fail, see @ref Multimedia::Renderer::controlFailed.
+     */
+    enum class Action
+    {
+        /**
+         * Playing a Stopped Renderer from the start of the Current Track.
+         */
+        Play,
+        /**
+         * Resuming a Paused Renderer where it left off.
+         */
+        Resume,
+        /**
+         * Pausing a Playing Renderer.
+         */
+        Pause,
+        /**
+         * Stopping a Playing Renderer that can't pause.
+         */
+        Stop,
+        /**
+         * Seeking in the Current Track.
+         */
+        Seek,
+        /**
+         * Changing the Volume.
+         */
+        ChangeVolume,
+        /**
+         * Muting.
+         */
+        Mute,
+        /**
+         * Unmuting.
+         */
+        Unmute,
+    };
+    Q_ENUM(Action)
+
+    /**
      * Creates an Online instance of the Renderer
      * @param mediaRenderer The @ref UPnPAV::MediaRenderer that shall be controlled by this @ref Multimedia::Renderer.
+     * @param clock The clock that drives the polling of the position.
      */
-    Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer);
+    Renderer(std::unique_ptr<UPnPAV::MediaRenderer> mediaRenderer,
+             std::unique_ptr<UPnPAV::Clock> clock = std::make_unique<UPnPAV::SteadyClock>());
 
     /**
      * Creates an Offline instance of a remembered Renderer
      * @param remembered The last known details of the @ref Multimedia::Renderer.
+     * @param clock The clock that drives the polling of the position.
      */
-    explicit Renderer(RememberedRenderer remembered);
+    explicit Renderer(RememberedRenderer remembered,
+                      std::unique_ptr<UPnPAV::Clock> clock = std::make_unique<UPnPAV::SteadyClock>());
 
     /**
      * Default destructor
@@ -177,8 +264,15 @@ public:
      * If the playback is not active nothing happens.
      * On success the signal @ref Multimedia::Renderer::stateChanged is emitted.
      * The new state then should be be stopped or paused.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Pause or Stop.
      */
     void stop() noexcept;
+
+    /**
+     * Gives whether the @ref Multimedia::Renderer can pause, otherwise @ref Multimedia::Renderer::stop stops it.
+     * @return True when the @ref Multimedia::Renderer can pause.
+     */
+    bool canPause() const noexcept;
 
     /**
      * Resumes the playback when the @ref Multimedia::Renderer has the state
@@ -188,8 +282,22 @@ public:
      * If the device is in the stopped state the playback starts all over again and for the pause state
      * the track resumes at the pause state.
      * In all other cases the function does nothing.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Play or Resume.
      */
     void resume() noexcept;
+
+    /**
+     * Gives whether a call of @ref Multimedia::Renderer::stop or @ref Multimedia::Renderer::resume is pending.
+     * @return True while such a call is pending.
+     */
+    bool isPlaybackControlPending() const noexcept;
+
+    /**
+     * Gives whether the device is transitioning, e.g. loading or buffering. Transitioning isn't a Playback State, the
+     * @ref Multimedia::Renderer keeps its previous Playback State meanwhile.
+     * @return True while the device is transitioning.
+     */
+    bool isTransitioning() const noexcept;
 
     /**
      * Gives the state for the @ref Mulitmedia::Renderer.
@@ -206,9 +314,97 @@ public:
     /**
      * Sets the volume for "Master" channel in UPnPAV renderer.
      * The result of volume is automatically propagated by the UPnPAV event system.
+     * At most one request is in flight, when it finishes the newest requested volume is sent if it differs.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action ChangeVolume.
      * @param volume The volume for the "Master" channel.
      */
     void setVolume(quint32 volume) noexcept;
+
+    /**
+     * Gives whether the Volume can be controlled.
+     * @return True when the device offers setting the Volume.
+     */
+    bool canControlVolume() const noexcept;
+
+    /**
+     * @return The lowest Volume of the device.
+     */
+    quint32 volumeMinimum() const noexcept;
+
+    /**
+     * @return The highest Volume of the device.
+     */
+    quint32 volumeMaximum() const noexcept;
+
+    /**
+     * Gives the Mute of the "Master" channel, independent of the Volume. It's false while Offline.
+     * @return True while the @ref Multimedia::Renderer is muted.
+     */
+    bool isMuted() const noexcept;
+
+    /**
+     * Mutes or unmutes the "Master" channel. The result is propagated by the UPnPAV event system.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Mute or Unmute.
+     * @param muted True mutes, false unmutes.
+     */
+    void setMuted(bool muted) noexcept;
+
+    /**
+     * Gives whether the Mute can be controlled.
+     * @return True when the device offers setting the Mute.
+     */
+    bool canControlMute() const noexcept;
+
+    /**
+     * Gives the Current Track of the @ref Multimedia::Renderer.
+     * The Current Track is taken from the events of the device right away and from its position info while the
+     * position is tracked. It's empty while Offline.
+     * @return The Current Track.
+     */
+    CurrentTrack const& currentTrack() const noexcept;
+
+    /**
+     * Switches the tracking of the position on or off, e.g. for the Active Renderer only.
+     * While tracked and Playing, the @ref Multimedia::Renderer requests its position info every second, a request is
+     * skipped while the previous one is pending. While tracked it also requests it right away after every Playback
+     * State change, when it goes Online and when the tracking is switched on. Nothing is requested otherwise.
+     * @param tracked True switches the tracking on, false switches it off.
+     */
+    void setPositionTracked(bool tracked) noexcept;
+
+    /**
+     * Gives whether the position is tracked.
+     * @return True while the position is tracked.
+     */
+    bool isPositionTracked() const noexcept;
+
+    /**
+     * Gives the position in the Current Track, taken from the position info. It's 0 while Offline.
+     * @return The position in the Current Track.
+     */
+    std::chrono::milliseconds position() const noexcept;
+
+    /**
+     * Gives the duration of the Current Track, taken from the position info.
+     * @return The duration, unset when unknown, e.g. for a stream, or while Offline.
+     */
+    std::optional<std::chrono::milliseconds> duration() const noexcept;
+
+    /**
+     * Gives whether the @ref Multimedia::Renderer can seek in the Current Track: its device allows seeking by
+     * relative time and the duration of the Current Track is known.
+     * @return True when the @ref Multimedia::Renderer can seek.
+     */
+    bool canSeek() const noexcept;
+
+    /**
+     * Seeks to the position in the Current Track by relative time.
+     * While the position is tracked the position info is requested right away after the seek finished,
+     * a position info requested before or while the seek is in flight is ignored.
+     * On failure the signal @ref Multimedia::Renderer::controlFailed is emitted with the action Seek.
+     * @param position The position to seek to.
+     */
+    void seek(std::chrono::milliseconds position) noexcept;
 
 Q_SIGNALS:
     /**
@@ -238,6 +434,11 @@ Q_SIGNALS:
     void volumeChanged();
 
     /**
+     * This signal is emitted when the Mute of the "Master" channel changed.
+     */
+    void muteChanged();
+
+    /**
      * This signal is emitted when the @ref Multimedia::Renderer goes Online or Offline.
      */
     void availabilityChanged();
@@ -246,6 +447,33 @@ Q_SIGNALS:
      * This signal is emitted when the name, manufacturer, model name or address changed.
      */
     void detailsChanged();
+
+    /**
+     * This signal is emitted when the Current Track changed.
+     */
+    void currentTrackChanged();
+
+    /**
+     * This signal is emitted when the position in the Current Track changed.
+     */
+    void positionChanged();
+
+    /**
+     * This signal is emitted when the duration of the Current Track changed, and with it maybe whether the
+     * @ref Multimedia::Renderer can seek.
+     */
+    void durationChanged();
+
+    /**
+     * This signal is emitted when the device starts or stops transitioning.
+     */
+    void transitioningChanged();
+
+    /**
+     * This signal is emitted when a control call failed. The reported state stays the real state of the device.
+     * @param action The action of the failed call.
+     */
+    void controlFailed(Multimedia::Renderer::Action action);
 
 private Q_SLOTS:
     void onSetAvTransportUriFinished() noexcept;
@@ -260,6 +488,19 @@ private:
         std::unique_ptr<UPnPAV::PendingSoapCall> call) noexcept;
     void onDeviceUnreachable() noexcept;
     void dropDevice() noexcept;
+    void updateCurrentTrack(QString const& uri, QString const& metaData) noexcept;
+    void setCurrentTrack(CurrentTrack const& track) noexcept;
+    void requestPositionInfo() noexcept;
+    void onPositionInfoFinished() noexcept;
+    void updatePolling() noexcept;
+    void onClockWokeUp() noexcept;
+    void setTransitioning(bool transitioning) noexcept;
+    void sendVolume(quint32 volume) noexcept;
+    void updateMute(bool muted) noexcept;
+    void setPosition(std::chrono::milliseconds position) noexcept;
+    void setDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
+    std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
+                                                           Renderer::Action action) noexcept;
 
 private:
     RememberedRenderer mRemembered;
@@ -271,11 +512,35 @@ private:
     std::unique_ptr<UPnPAV::PendingSoapCall> mResumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mVolumeCall;
     std::unique_ptr<UPnPAV::PendingSoapCall> mSetVolumeCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mPositionInfoCall;
+    // Finished calls replaced while they emit their finished signal are kept until the next replacement.
+    std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedPositionInfoCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mFinishedSetVolumeCall;
+    bool mSetVolumePending = false;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mMuteCall;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSetMuteCall;
+    bool mMuted = false;
+    quint32 mSentVolume = 0;
+    std::optional<quint32> mRequestedVolume;
+    bool mPositionInfoPending = false;
+    bool mPositionInfoOutdated = false;
+    bool mSeekPending = false;
+    std::unique_ptr<UPnPAV::PendingSoapCall> mSeekCall;
+    std::chrono::milliseconds mPosition{0};
+    std::optional<std::chrono::milliseconds> mDuration;
+    std::unique_ptr<UPnPAV::Clock> mClock;
+    bool mPositionTracked = false;
+    bool mPolling = false;
+    CurrentTrack mCurrentTrack;
+    QString mCurrentTrackUri;
+    QString mCurrentTrackMetaData;
     QStringList mSupportedTypes;
     QVector<UPnPAV::Protocol> mProtocols;
     Renderer::State mState = Renderer::State::NoMedia;
     quint32 mVolume = 0;
     bool mInitialized = false;
+    bool mTransitioning = false;
+    bool mPlaybackControlPending = false;
 };
 
 }; // namespace Multimedia

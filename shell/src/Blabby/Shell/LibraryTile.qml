@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import QtQuick
-import QtQuick.Effects
 import Blabby.Controls
 import Blabby.Objects
 import Blabby.Theme
@@ -39,62 +38,20 @@ AbstractInteractiveControl {
     /**
      * True when the artwork is loaded and shown instead of the placeholder glyph.
      */
-    readonly property bool hasArtwork: artworkImage.status === Image.Ready
+    readonly property bool hasArtwork: placeholder.hasArtwork
 
     implicitWidth: 200
     implicitHeight: placeholder.height + 8 + titleText.height + (secondaryTextLabel.visible ? secondaryTextLabel.height : 0)
 
-    Rectangle {
+    Artwork {
         id: placeholder
         objectName: "placeholder"
         anchors.top: tile.top
         anchors.left: tile.left
         anchors.right: tile.right
         height: placeholder.width
-        radius: 16
-        color: Theme.colors.secondaryContainer
-
-        Icon {
-            id: glyph
-            objectName: "glyph"
-            anchors.centerIn: placeholder
-            width: placeholder.width * 0.4
-            height: placeholder.height * 0.4
-            source: tile.itemType === ItemType.Container ? "qrc:/qt/qml/Blabby/Shell/icons/material/folder.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"
-            color: Theme.colors.colorOnSecondaryContainer
-            opacity: 0.5
-            visible: !tile.hasArtwork
-        }
-
-        Image {
-            id: artworkImage
-            anchors.fill: placeholder
-            source: tile.artworkUrl
-            sourceSize.width: placeholder.width
-            sourceSize.height: placeholder.height
-            fillMode: Image.PreserveAspectCrop
-            asynchronous: true
-            visible: false
-        }
-
-        Rectangle {
-            id: artworkMask
-            anchors.fill: placeholder
-            radius: placeholder.radius
-            visible: false
-            layer.enabled: true
-        }
-
-        // Rounds the corners of the artwork like the placeholder.
-        MultiEffect {
-            id: artwork
-            objectName: "artwork"
-            anchors.fill: placeholder
-            source: artworkImage
-            maskEnabled: true
-            maskSource: artworkMask
-            visible: tile.hasArtwork
-        }
+        source: tile.artworkUrl
+        glyphSource: tile.itemType === ItemType.Container ? "qrc:/qt/qml/Blabby/Shell/icons/material/folder.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/music_note.svg"
 
         Rectangle {
             id: stateLayer

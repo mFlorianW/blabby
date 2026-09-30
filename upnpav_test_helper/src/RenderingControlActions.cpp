@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -72,6 +72,48 @@ SCPDAction setVolumeAction() noexcept
             SCPDArgument{QStringLiteral("DesiredVolume"),
                 SCPDArgument::Direction::In,
                 QStringLiteral("Volume")},
+        }
+    };
+    // clang-format on
+    return action;
+}
+
+SCPDAction getMuteAction() noexcept
+{
+    // clang-format off
+    static auto action = SCPDAction{
+        QStringLiteral("GetMute"),
+        {
+            SCPDArgument{QStringLiteral("InstanceID"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_InstanceID")},
+            SCPDArgument{QStringLiteral("Channel"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_Channel")},
+            SCPDArgument{QStringLiteral("CurrentMute"),
+                SCPDArgument::Direction::Out,
+                QStringLiteral("Mute")},
+        }
+    };
+    // clang-format on
+    return action;
+}
+
+SCPDAction setMuteAction() noexcept
+{
+    // clang-format off
+    static auto action = SCPDAction{
+        QStringLiteral("SetMute"),
+        {
+            SCPDArgument{QStringLiteral("InstanceID"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_InstanceID")},
+            SCPDArgument{QStringLiteral("Channel"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("A_ARG_TYPE_Channel")},
+            SCPDArgument{QStringLiteral("DesiredMute"),
+                SCPDArgument::Direction::In,
+                QStringLiteral("Mute")},
         }
     };
     // clang-format on

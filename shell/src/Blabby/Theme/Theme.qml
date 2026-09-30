@@ -69,6 +69,10 @@ QtObject {
      * Material 3 type scale.
      */
     readonly property QtObject fonts: QtObject {
+        readonly property TypeStyle displayMedium: TypeStyle {
+            size: 45
+            lineHeight: 52
+        }
         readonly property TypeStyle headlineMedium: TypeStyle {
             size: 28
             lineHeight: 36

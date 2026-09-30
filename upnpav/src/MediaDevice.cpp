@@ -14,6 +14,7 @@
 #include "private/LoggingCategories.hpp"
 #include "private/MediaDevicePrivate.hpp"
 #include "private/SoapMessageGenerator.hpp"
+#include <algorithm>
 
 namespace UPnPAV
 {
@@ -41,6 +42,29 @@ MediaDevice::State deviceState(QString const& rawState)
 
     qCWarning(upnpavEvent) << "Unknown Transport state" << rawState << "received.";
     return MediaDevice::State::NoMediaPresent;
+}
+
+QString seekUnit(MediaDevice::SeekMode mode)
+{
+    switch (mode) {
+    case MediaDevice::SeekMode::AbsTime:
+        return QStringLiteral("ABS_TIME");
+    case MediaDevice::SeekMode::RelTime:
+        return QStringLiteral("REL_TIME");
+    case MediaDevice::SeekMode::AbsCount:
+        return QStringLiteral("ABS_COUNT");
+    case MediaDevice::SeekMode::RelCount:
+        return QStringLiteral("REL_COUNT");
+    case MediaDevice::SeekMode::TrackNr:
+        return QStringLiteral("TRACK_NR");
+    case MediaDevice::SeekMode::ChannelFreq:
+        return QStringLiteral("CHANNEL_FREQ");
+    case MediaDevice::SeekMode::TapeIndex:
+        return QStringLiteral("TAPE-INDEX");
+    case MediaDevice::SeekMode::Frame:
+        return QStringLiteral("FRAME");
+    }
+    return {};
 }
 
 } // namespace
@@ -98,6 +122,14 @@ MediaDevice::MediaDevice(DeviceDescription deviceDescription,
                              auto const& instanceVariables = lastChangeReader.instanceVariables();
                              if (instanceVariables.contains(QStringLiteral("0"))) {
                                  auto varialbes = instanceVariables.value(QStringLiteral("0"));
+                                 // Events usually only report the changed variables, the others are kept.
+                                 // The metadata of the previous track doesn't belong to a new track URI though.
+                                 auto const uri =
+                                     varialbes.value(QStringLiteral("CurrentTrackURI"), d->mCurrentTrackUri);
+                                 auto const keptMetaData =
+                                     uri == d->mCurrentTrackUri ? d->mCurrentTrackMetaData : QString{};
+                                 d->setCurrentTrack(
+                                     uri, varialbes.value(QStringLiteral("CurrentTrackMetaData"), keptMetaData));
                                  if (varialbes.contains(QStringLiteral("TransportState"))) {
                                      d->setState(deviceState(varialbes.value(QStringLiteral("TransportState"))));
                                  }
@@ -150,6 +182,16 @@ QString const& MediaDevice::address() const noexcept
 MediaDevice::State MediaDevice::state() const noexcept
 {
     return d->mState;
+}
+
+QString const& MediaDevice::currentTrackUri() const noexcept
+{
+    return d->mCurrentTrackUri;
+}
+
+QString const& MediaDevice::currentTrackMetaData() const noexcept
+{
+    return d->mCurrentTrackMetaData;
 }
 
 std::unique_ptr<PendingSoapCall> MediaDevice::protocolInfo() noexcept
@@ -348,7 +390,7 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
     }
 
     auto const args = QVector<Argument>{Argument{.name = "InstanceID", .value = QString::number(instanceId)},
-                                        Argument{.name = "Unit", .value = QString::number(static_cast<qint32>(mode))},
+                                        Argument{.name = "Unit", .value = seekUnit(mode)},
                                         Argument{.name = "Target", .value = target}};
     auto const action = d->mAvTransportDescriptionSCPD.action("Seek");
     auto msgGen = SoapMessageGenerator{};
@@ -392,6 +434,22 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
                                                                 d->mAvTransportDescription.serviceType(),
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
+}
+
+bool MediaDevice::canPause() const noexcept
+{
+    return hasAvTransportService() and not d->mAvTransportDescriptionSCPD.action("Pause").name().isEmpty();
+}
+
+bool MediaDevice::canSeek(SeekMode mode) const noexcept
+{
+    if (not hasAvTransportService()) {
+        return false;
+    }
+
+    auto const& variables = d->mAvTransportDescriptionSCPD.serviceStateTable();
+    auto const seekMode = std::ranges::find(variables, QStringLiteral("A_ARG_TYPE_SeekMode"), &SCPDStateVariable::name);
+    return seekMode != variables.cend() and seekMode->allowedValues().contains(seekUnit(mode));
 }
 
 std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::pause(quint32 instanceId) noexcept

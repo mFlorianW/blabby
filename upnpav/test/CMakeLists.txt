@@ -317,3 +317,20 @@ target_link_libraries(test_upnpav_get_volume_response
         Qt6::Test
 )
 add_test(test_upnpav_get_volume_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_volume_response)
+
+###############################################################################
+# Test GetMuteResponse
+###############################################################################
+add_executable(test_upnpav_get_mute_response)
+target_sources(test_upnpav_get_mute_response
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetMuteResponseShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GetMuteResponseShould.hpp
+)
+target_link_libraries(test_upnpav_get_mute_response
+    PUBLIC
+        Blabby::UPnPAV
+        Blabby::UPnPAVTestHelper
+        Qt6::Test
+)
+add_test(test_upnpav_get_mute_response ${EXECUTABLE_OUTPUT_PATH}/test_upnpav_get_mute_response)

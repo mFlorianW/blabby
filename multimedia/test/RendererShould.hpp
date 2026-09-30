@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include "ClockDouble.hpp"
 #include "MediaRendererDouble.hpp"
+#include "Renderer.hpp"
 #include <QObject>
 
 namespace Multimedia
@@ -50,8 +52,54 @@ private Q_SLOTS:
     void stay_online_when_the_device_answers_a_call_with_an_error();
     void go_offline_when_the_event_publisher_of_the_device_is_unreachable();
     void stay_online_when_a_dropped_device_was_unreachable();
+    void give_the_current_track_reported_by_the_device_events();
+    void fall_back_for_missing_current_track_details_data();
+    void fall_back_for_missing_current_track_details();
+    void give_the_current_track_of_the_polled_position_info();
+    void not_notify_about_an_unchanged_current_track();
+    void poll_the_position_info_every_second_while_tracked_and_playing();
+    void skip_a_poll_while_the_previous_request_is_pending();
+    void not_poll_while_not_tracked();
+    void not_poll_while_not_playing_data();
+    void not_poll_while_not_playing();
+    void refresh_the_position_info_after_a_playback_state_change();
+    void stop_polling_when_the_tracking_is_switched_off();
+    void refresh_the_position_info_when_a_tracked_renderer_goes_online();
+    void give_no_current_track_while_offline();
+    void give_the_album_and_the_year_of_the_current_track_data();
+    void give_the_album_and_the_year_of_the_current_track();
+    void give_the_format_of_the_current_track_data();
+    void give_the_format_of_the_current_track();
+    void tell_whether_it_can_pause();
+    void keep_the_playback_state_while_transitioning();
+    void report_a_failed_playback_control_call_data();
+    void report_a_failed_playback_control_call();
+    void tell_while_a_playback_control_call_is_pending();
+    void give_the_position_and_the_duration_of_the_polled_position_info();
+    void give_no_duration_for_a_stream_data();
+    void give_no_duration_for_a_stream();
+    void give_no_position_and_duration_while_offline();
+    void seek_by_relative_time();
+    void refresh_the_position_info_after_a_seek();
+    void ignore_a_position_requested_before_a_seek_finished();
+    void ignore_positions_polled_while_a_seek_is_in_flight();
+    void report_a_failed_seek();
+    void tell_whether_it_can_seek();
+    void coalesce_volume_requests();
+    void not_send_a_requested_volume_that_was_already_sent();
+    void report_a_failed_volume_change();
+    void give_the_volume_range_and_whether_the_volume_can_be_controlled();
+    void request_the_mute_on_init_and_follow_mute_changes();
+    void set_the_mute_of_the_master_channel();
+    void report_a_failed_mute_change_data();
+    void report_a_failed_mute_change();
+    void tell_whether_the_mute_can_be_controlled();
+    void give_no_mute_while_offline();
 
 private:
+    std::unique_ptr<Renderer> createTrackedRenderer(UPnPAV::MediaDevice::State state);
+
+    UPnPAV::ClockDouble* mClock = nullptr;
     std::unique_ptr<UPnPAV::Doubles::MediaRendererDouble> mUpnpRenderer = nullptr;
     UPnPAV::Doubles::MediaRendererDouble* mUpnpRendererRaw = nullptr;
 };

@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-License-Identifier: LGPL-2.1-or-later
@@ -29,6 +29,8 @@ private Q_SLOTS:
     void give_the_abs_time_of_the_response();
     void give_the_rel_count_of_the_response();
     void give_the_abs_count_of_the_response();
+    void give_the_track_duration_and_the_rel_time_in_every_time_format_data();
+    void give_the_track_duration_and_the_rel_time_in_every_time_format();
 };
 
 } // namespace UPnPAV
