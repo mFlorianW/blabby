@@ -8,7 +8,7 @@ import Blabby.Theme
 
 /**
  * An icon inside a filled circle, e.g. to show the kind of a thing in a @ref Card.
- * An emphasised badge is filled with the primary colour.
+ * An emphasised badge is filled with the primary colour. The icon takes half of the badge's width.
  */
 Rectangle {
     id: badge
@@ -32,8 +32,8 @@ Rectangle {
         id: icon
         objectName: "icon"
         anchors.centerIn: badge
-        width: 24
-        height: 24
+        width: Math.round(badge.width / 2)
+        height: icon.width
         source: badge.iconSource
         color: badge.emphasis ? Theme.colors.colorOnPrimary : Theme.colors.colorOnSurfaceVariant
     }

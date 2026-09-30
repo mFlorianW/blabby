@@ -232,6 +232,7 @@ Item {
             objectName: "rendererPill"
             text: nowPlayingView.rendererName
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
+            showsChevron: true
             visible: nowPlayingView.hasActiveRenderer
             onClicked: nowPlayingView.chooseRendererRequested()
         }
