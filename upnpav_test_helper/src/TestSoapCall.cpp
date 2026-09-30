@@ -9,6 +9,13 @@
 namespace UPnPAV
 {
 
+TestSoapCall::TestSoapCall() = default;
+
+TestSoapCall::TestSoapCall(ServiceControlPointDefinition scpd, SCPDAction action)
+    : SoapCall{std::move(scpd), std::move(action)}
+{
+}
+
 bool TestSoapCall::hasFinishedSuccesful() const noexcept
 {
     return true;

@@ -210,10 +210,10 @@ std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionIds() noexcept
 {
     auto const action = d->mConnectionManagerSCPD.action("GetCurrentConnectionIDs");
     auto msgGen = SoapMessageGenerator{};
-    auto const xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
+    auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType());
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription,
+                                                                d->mConnectionManagerSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -224,11 +224,11 @@ std::unique_ptr<PendingSoapCall> MediaDevice::currentConnectionInfo(quint32 conn
     auto msgGen = SoapMessageGenerator{};
 
     auto const arg = Argument{.name = "ConnectionID", .value = QString::number(connectionId)};
-    auto const xmlMessage =
+    auto xmlMessage =
         msgGen.generateXmlMessageBody(action, d->mConnectionManagerDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mConnectionManagerDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mConnectionManagerDescription,
+                                                                d->mConnectionManagerSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -254,9 +254,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::setAvTransportUri(q
     auto const action = d->mAvTransportDescriptionSCPD.action("SetAVTransportURI");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -271,9 +271,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::mediaInfo(quint32 i
     auto const action = d->mAvTransportDescriptionSCPD.action("GetMediaInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -288,9 +288,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportInfo(quint
     auto const action = d->mAvTransportDescriptionSCPD.action("GetTransportInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -305,9 +305,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::positionInfo(quint3
     auto const action = d->mAvTransportDescriptionSCPD.action("GetPositionInfo");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -322,9 +322,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::deviceCapilities(qu
     auto const action = d->mAvTransportDescriptionSCPD.action("GetDeviceCapabilities");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -339,9 +339,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::transportSettings(q
     auto const action = d->mAvTransportDescriptionSCPD.action("GetTransportSettings");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -356,9 +356,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::stop(quint32 instan
     auto const action = d->mAvTransportDescriptionSCPD.action("Stop");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -374,9 +374,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::play(quint32 instan
     auto const action = d->mAvTransportDescriptionSCPD.action("Play");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -395,9 +395,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::seek(quint32 instan
     auto const action = d->mAvTransportDescriptionSCPD.action("Seek");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), args);
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -412,9 +412,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::next(quint32 instan
     auto const action = d->mAvTransportDescriptionSCPD.action("Next");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -429,9 +429,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::previous(quint32 in
     auto const action = d->mAvTransportDescriptionSCPD.action("Previous");
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }
@@ -465,9 +465,9 @@ std::optional<std::unique_ptr<PendingSoapCall>> MediaDevice::pause(quint32 insta
     }
     auto msgGen = SoapMessageGenerator{};
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mAvTransportDescription.serviceType(), {arg});
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mAvTransportDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mAvTransportDescription,
+                                                                d->mAvTransportDescriptionSCPD,
+                                                                action,
                                                                 xmlMessage);
     return std::make_unique<PendingSoapCall>(soapCall);
 }

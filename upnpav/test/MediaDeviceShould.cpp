@@ -20,6 +20,7 @@
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
 #include <algorithm>
+#include <functional>
 #include <QTest>
 
 namespace UPnPAV
@@ -40,6 +41,11 @@ public:
     QString lastSoapCall() const noexcept
     {
         return mMsgTransmitter->xmlMessageBody();
+    }
+
+    QSharedPointer<SoapCall> const& lastCall() const noexcept
+    {
+        return mMsgTransmitter->lastCall();
     }
 
     QSharedPointer<Doubles::EventBackend> const& eventBackend() const noexcept
@@ -954,6 +960,80 @@ void MediaDeviceShould::send_the_correct_soap_message_when_calling_getpositionin
              QString("The send SOAP message \n %1 \n is not the same as the expected \n %2")
                  .arg(device.lastSoapCall().toLocal8Bit(), QString{expectedMessage}.toLocal8Bit())
                  .toLocal8Bit());
+}
+
+void MediaDeviceShould::send_every_call_with_its_action_to_read_the_answer()
+{
+    auto device = MediaDeviceWithAV{};
+    // Only a call sent with its SCPD and action can read the out arguments of the answer, e.g. the TrackURI.
+    auto const calls = std::vector<std::pair<QString, std::function<void()>>>{
+        {QStringLiteral("GetProtocolInfo"),
+         [&] {
+             (void)device.protocolInfo();
+         }},
+        {QStringLiteral("GetCurrentConnectionIDs"),
+         [&] {
+             (void)device.currentConnectionIds();
+         }},
+        {QStringLiteral("GetCurrentConnectionInfo"),
+         [&] {
+             (void)device.currentConnectionInfo(0);
+         }},
+        {QStringLiteral("SetAVTransportURI"),
+         [&] {
+             (void)device.setAvTransportUri(0, QStringLiteral("http://a/1.mp3"));
+         }},
+        {QStringLiteral("GetMediaInfo"),
+         [&] {
+             (void)device.mediaInfo(0);
+         }},
+        {QStringLiteral("GetTransportInfo"),
+         [&] {
+             (void)device.transportInfo(0);
+         }},
+        {QStringLiteral("GetPositionInfo"),
+         [&] {
+             (void)device.positionInfo(0);
+         }},
+        {QStringLiteral("GetDeviceCapabilities"),
+         [&] {
+             (void)device.deviceCapilities(0);
+         }},
+        {QStringLiteral("GetTransportSettings"),
+         [&] {
+             (void)device.transportSettings(0);
+         }},
+        {QStringLiteral("Stop"),
+         [&] {
+             (void)device.stop(0);
+         }},
+        {QStringLiteral("Play"),
+         [&] {
+             (void)device.play(0);
+         }},
+        {QStringLiteral("Seek"),
+         [&] {
+             (void)device.seek(0, MediaDevice::SeekMode::RelTime, QStringLiteral("0:00:01"));
+         }},
+        {QStringLiteral("Next"),
+         [&] {
+             (void)device.next(0);
+         }},
+        {QStringLiteral("Previous"),
+         [&] {
+             (void)device.previous(0);
+         }},
+        {QStringLiteral("Pause"),
+         [&] {
+             (void)device.pause(0);
+         }},
+    };
+
+    for (auto const& [actionName, send] : calls) {
+        send();
+        QVERIFY2(device.lastCall() != nullptr, qPrintable(actionName));
+        QCOMPARE(device.lastCall()->action().name(), actionName);
+    }
 }
 
 void MediaDeviceShould::send_the_correct_soap_message_when_calling_getdevicecapabilities()

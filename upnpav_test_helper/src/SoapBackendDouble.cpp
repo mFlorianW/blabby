@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -22,7 +22,8 @@ QSharedPointer<SoapCall> SoapBackendDouble::sendSoapMessage(QString const& url,
     Q_UNUSED(serviceType)
     mXmlMessageBody = xmlBody;
 
-    return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall()};
+    mLastCall = QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall()};
+    return mLastCall;
 }
 
 QSharedPointer<SoapCall> SoapBackendDouble::sendSoapMessage(ServiceDescription const& desc,
@@ -31,11 +32,15 @@ QSharedPointer<SoapCall> SoapBackendDouble::sendSoapMessage(ServiceDescription c
                                                             QString& xmlBody) noexcept
 {
     Q_UNUSED(desc)
-    Q_UNUSED(scpd)
-    Q_UNUSED(action)
 
     mXmlMessageBody = xmlBody;
-    return QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall};
+    mLastCall = QSharedPointer<TestSoapCall>{new (std::nothrow) TestSoapCall{scpd, action}};
+    return mLastCall;
+}
+
+QSharedPointer<SoapCall> const& SoapBackendDouble::lastCall() const noexcept
+{
+    return mLastCall;
 }
 
 QString SoapBackendDouble::xmlMessageBody() const
