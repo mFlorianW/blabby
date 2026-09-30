@@ -30,8 +30,8 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
         mItemModel.setMediaSource(mSourceModel.activeMediaSource());
     });
-    // Tapping a Playable in the Library plays it through the Queue.
-    connect(&mItemModel, &MediaItemModel::playRequested, &mQueueModel, &QueueModel::replace);
+    // Tapping a Playable in the Library appends it to the Queue and plays it.
+    connect(&mItemModel, &MediaItemModel::playRequested, &mQueueModel, &QueueModel::appendAndPlay);
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;

@@ -125,6 +125,13 @@ public:
      */
     void play(qsizetype index) noexcept;
 
+    /**
+     * Appends the Playables at the end of the entries. The Current Entry and the Queue State stay, an empty Queue has
+     * no Current Entry afterwards either.
+     * @param playables The Playables in the order they shall be appended.
+     */
+    void append(Items const& playables) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted before the entries are replaced.
@@ -135,6 +142,18 @@ Q_SIGNALS:
      * This signal is emitted after the entries are replaced.
      */
     void entriesReplaced();
+
+    /**
+     * This signal is emitted before Playables are appended.
+     * @param first The index the first appended Playable will have.
+     * @param last The index the last appended Playable will have.
+     */
+    void entriesAboutToBeAppended(qsizetype first, qsizetype last);
+
+    /**
+     * This signal is emitted after Playables are appended.
+     */
+    void entriesAppended();
 
     /**
      * This signal is emitted when the Current Entry changed.

@@ -49,6 +49,8 @@ private Q_SLOTS:
     void play_the_entry_at_a_row();
     void only_make_the_entry_at_a_row_current_without_an_active_renderer();
     void tell_whether_the_active_renderer_plays_the_current_entry();
+    void append_a_playable_and_play_it();
+    void only_append_a_playable_and_make_it_current_without_an_active_renderer();
 };
 
 } // namespace Shell

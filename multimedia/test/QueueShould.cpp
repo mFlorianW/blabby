@@ -342,6 +342,45 @@ void QueueShould::notify_when_the_renderer_starts_or_stops_playing_the_current_e
     QCOMPARE(playsCurrentEntryChangedSpy.size(), 2);
 }
 
+void QueueShould::append_the_playables_at_the_end_and_keep_the_current_entry()
+{
+    mQueue->replace(album(), 1);
+    mDevice->reset();
+
+    mQueue->append({playable(QStringLiteral("Bonus"))});
+
+    QCOMPARE(mQueue->entries(), album() + Items{playable(QStringLiteral("Bonus"))});
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::notify_about_an_append()
+{
+    mQueue->replace(album(), 0);
+    auto aboutToBeAppendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAboutToBeAppended};
+    auto appendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAppended};
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->append({playable(QStringLiteral("Bonus")), playable(QStringLiteral("Hidden"))});
+    mQueue->append({});
+
+    QCOMPARE(aboutToBeAppendedSpy.size(), 1);
+    QCOMPARE(aboutToBeAppendedSpy.at(0).at(0).value<qsizetype>(), 3);
+    QCOMPARE(aboutToBeAppendedSpy.at(0).at(1).value<qsizetype>(), 4);
+    QCOMPARE(appendedSpy.size(), 1);
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+}
+
+void QueueShould::append_to_an_empty_queue_without_a_current_entry()
+{
+    mQueue->append({playable(QStringLiteral("Bonus"))});
+
+    QCOMPARE(mQueue->entries(), Items{playable(QStringLiteral("Bonus"))});
+    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::QueueShould)

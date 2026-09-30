@@ -127,6 +127,17 @@ void Queue::play(qsizetype index) noexcept
     startCurrentEntry();
 }
 
+void Queue::append(Items const& playables) noexcept
+{
+    if (playables.isEmpty()) {
+        return;
+    }
+
+    Q_EMIT entriesAboutToBeAppended(mEntries.size(), mEntries.size() + playables.size() - 1);
+    mEntries.append(playables);
+    Q_EMIT entriesAppended();
+}
+
 bool Queue::isInControl() const noexcept
 {
     return mRenderer != nullptr and mCurrentIndex.has_value() and
