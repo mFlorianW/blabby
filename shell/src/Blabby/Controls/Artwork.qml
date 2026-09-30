@@ -25,12 +25,17 @@ Rectangle {
     property url glyphSource
 
     /**
+     * The colour of the placeholder, the secondary container colour by default.
+     */
+    property color placeholderColor: Theme.colors.secondaryContainer
+
+    /**
      * True when the artwork is loaded and shown instead of the placeholder glyph.
      */
     readonly property bool hasArtwork: artworkImage.status === Image.Ready
 
     radius: 16
-    color: Theme.colors.secondaryContainer
+    color: artwork.placeholderColor
 
     Icon {
         id: glyph

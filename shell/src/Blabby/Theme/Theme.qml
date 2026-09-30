@@ -45,6 +45,11 @@ QtObject {
         readonly property color outlineVariant: "#444850"
 
         readonly property color scrim: "#000000"
+
+        /**
+         * The tones the placeholders of the tiles in the Library are tinted in, taken from the design.
+         */
+        readonly property list<color> placeholderTones: ["#3C4758", "#633B48", "#3B4858", "#3F4758", "#31473F", "#5B3F2E", "#2F4557", "#274A4F", "#4E4A3A", "#44483A"]
     }
 
     /**
