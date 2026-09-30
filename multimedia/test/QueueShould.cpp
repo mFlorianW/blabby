@@ -257,6 +257,91 @@ void QueueShould::follow_the_active_renderer_it_is_given()
     QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
 }
 
+void QueueShould::play_the_entry_at_an_index_from_its_start_and_run()
+{
+    mQueue->replace(album(), 2);
+    finishEntry(uriOf(QStringLiteral("Outro")));
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->play(1);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::play_the_current_entry_again_from_its_start()
+{
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+
+    mQueue->play(1);
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+}
+
+void QueueShould::only_make_the_entry_at_an_index_current_without_an_active_renderer()
+{
+    mQueue->setActiveRenderer(nullptr);
+    mQueue->replace(album(), 0);
+
+    mQueue->play(2);
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::ignore_playing_at_an_invalid_index()
+{
+    mQueue->replace(album(), 1);
+    mDevice->reset();
+
+    mQueue->play(3);
+    mQueue->play(-1);
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::tell_whether_the_renderer_plays_the_current_entry()
+{
+    QCOMPARE(mQueue->playsCurrentEntry(), false);
+    mQueue->replace(album(), 1);
+    QCOMPARE(mQueue->playsCurrentEntry(), false);
+
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:00:01"));
+    QCOMPARE(mQueue->playsCurrentEntry(), true);
+
+    mDevice->setDeviceState(MediaDevice::State::PausedPlayback);
+    QCOMPARE(mQueue->playsCurrentEntry(), false);
+
+    // Another controller took over the Renderer.
+    report(QStringLiteral("http://radio.example/stream.mp3"), QStringLiteral("0:00:00"), QStringLiteral("0:00:10"));
+    QCOMPARE(mQueue->playsCurrentEntry(), false);
+}
+
+void QueueShould::notify_when_the_renderer_starts_or_stops_playing_the_current_entry()
+{
+    mQueue->replace(album(), 2);
+    auto playsCurrentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::playsCurrentEntryChanged};
+
+    report(uriOf(QStringLiteral("Outro")), QStringLiteral("0:03:00"), QStringLiteral("0:00:01"));
+    QCOMPARE(playsCurrentEntryChangedSpy.size(), 1);
+
+    finishEntry(uriOf(QStringLiteral("Outro")));
+    QCOMPARE(mQueue->playsCurrentEntry(), false);
+    QCOMPARE(playsCurrentEntryChangedSpy.size(), 2);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::QueueShould)

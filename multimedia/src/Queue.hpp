@@ -103,6 +103,13 @@ public:
     Queue::State state() const noexcept;
 
     /**
+     * Gives whether the Active Renderer plays the Current Entry for the Running Queue, i.e. the Queue is Running, in
+     * control of the Renderer and the Renderer is Playing.
+     * @return True while the Active Renderer plays the Current Entry for the Queue.
+     */
+    bool playsCurrentEntry() const noexcept;
+
+    /**
      * Replaces the entries with the Playables and plays the start entry on the Active Renderer, the Queue is Running.
      * Without an Active Renderer the start entry becomes the Current Entry and the Queue is Idle.
      * An empty list of Playables empties the Queue, it's Idle then.
@@ -110,6 +117,13 @@ public:
      * @param startIndex The index of the Playable that plays first.
      */
     void replace(Items const& playables, qsizetype startIndex) noexcept;
+
+    /**
+     * Plays the entry at the index from its start on the Active Renderer, it becomes the Current Entry and the Queue is
+     * Running. Without an Active Renderer the entry only becomes the Current Entry and the Queue is Idle.
+     * @param index The index of the entry to play.
+     */
+    void play(qsizetype index) noexcept;
 
 Q_SIGNALS:
     /**
@@ -137,11 +151,18 @@ Q_SIGNALS:
      */
     void stateChanged();
 
+    /**
+     * This signal is emitted when the Active Renderer started or stopped playing the Current Entry for the Queue.
+     */
+    void playsCurrentEntryChanged();
+
 private:
     bool isInControl() const noexcept;
     void onRendererStateChanged() noexcept;
     void recordPosition() noexcept;
     void playCurrentEntry() noexcept;
+    void startCurrentEntry() noexcept;
+    void updatePlaysCurrentEntry() noexcept;
     void setCurrentIndex(std::optional<qsizetype> index) noexcept;
     void setLastKnownPosition(std::chrono::milliseconds position) noexcept;
     void setState(Queue::State state) noexcept;
@@ -152,6 +173,7 @@ private:
     std::chrono::milliseconds mLastKnownPosition{0};
     std::optional<std::chrono::milliseconds> mLastKnownDuration;
     Queue::State mState = Queue::State::Idle;
+    bool mPlaysCurrentEntry = false;
 };
 
 } // namespace Multimedia

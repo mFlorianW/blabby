@@ -34,10 +34,12 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
 
     mRenderer = std::move(renderer);
     if (mRenderer == nullptr) {
+        updatePlaysCurrentEntry();
         return;
     }
 
     connect(mRenderer.get(), &Renderer::stateChanged, this, &Queue::onRendererStateChanged);
+    connect(mRenderer.get(), &Renderer::currentTrackChanged, this, &Queue::updatePlaysCurrentEntry);
     // Not recorded on a change of the Current Track: the device reports a new track before its position is polled,
     // the Renderer still gives the position and the duration of the previous track until then.
     connect(mRenderer.get(), &Renderer::positionChanged, this, &Queue::recordPosition);
@@ -46,6 +48,7 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
     mRenderer->initialize();
     mRenderer->setPositionTracked(true);
     recordPosition();
+    updatePlaysCurrentEntry();
 }
 
 std::shared_ptr<Renderer> const& Queue::activeRenderer() const noexcept
@@ -81,6 +84,11 @@ Queue::State Queue::state() const noexcept
     return mState;
 }
 
+bool Queue::playsCurrentEntry() const noexcept
+{
+    return mPlaysCurrentEntry;
+}
+
 void Queue::replace(Items const& playables, qsizetype startIndex) noexcept
 {
     if (not playables.isEmpty() and (startIndex < 0 or startIndex >= playables.size())) {
@@ -104,12 +112,19 @@ void Queue::replace(Items const& playables, qsizetype startIndex) noexcept
     } else {
         setCurrentIndex(startIndex);
     }
-    if (mCurrentIndex.has_value() and mRenderer != nullptr) {
-        playCurrentEntry();
-        setState(State::Running);
-    } else {
-        setState(State::Idle);
+    startCurrentEntry();
+}
+
+void Queue::play(qsizetype index) noexcept
+{
+    if (index < 0 or index >= mEntries.size()) {
+        qCWarning(mmQueue) << "Failed to play an entry of the Queue. Error: invalid index" << index << "for"
+                           << mEntries.size() << "entries";
+        return;
     }
+
+    setCurrentIndex(index);
+    startCurrentEntry();
 }
 
 bool Queue::isInControl() const noexcept
@@ -130,6 +145,7 @@ void Queue::recordPosition() noexcept
 
 void Queue::onRendererStateChanged() noexcept
 {
+    updatePlaysCurrentEntry();
     if (not mCurrentIndex.has_value() or mState != State::Running or mRenderer->state() != Renderer::State::Stopped or
         not isInControl()) {
         return;
@@ -158,6 +174,27 @@ void Queue::playCurrentEntry() noexcept
     }
 }
 
+void Queue::startCurrentEntry() noexcept
+{
+    if (mCurrentIndex.has_value() and mRenderer != nullptr) {
+        playCurrentEntry();
+        setState(State::Running);
+    } else {
+        setState(State::Idle);
+    }
+    // The Current Entry may have changed without a notification, e.g. by a replace.
+    updatePlaysCurrentEntry();
+}
+
+void Queue::updatePlaysCurrentEntry() noexcept
+{
+    auto const plays = mState == State::Running and isInControl() and mRenderer->state() == Renderer::State::Playing;
+    if (mPlaysCurrentEntry != plays) {
+        mPlaysCurrentEntry = plays;
+        Q_EMIT playsCurrentEntryChanged();
+    }
+}
+
 void Queue::setCurrentIndex(std::optional<qsizetype> index) noexcept
 {
     // A new Current Entry hasn't been seen on the Renderer yet.
@@ -167,6 +204,7 @@ void Queue::setCurrentIndex(std::optional<qsizetype> index) noexcept
         mCurrentIndex = index;
         Q_EMIT currentEntryChanged();
     }
+    updatePlaysCurrentEntry();
 }
 
 void Queue::setLastKnownPosition(std::chrono::milliseconds position) noexcept
@@ -183,6 +221,7 @@ void Queue::setState(Queue::State state) noexcept
         mState = state;
         Q_EMIT stateChanged();
     }
+    updatePlaysCurrentEntry();
 }
 
 } // namespace Multimedia

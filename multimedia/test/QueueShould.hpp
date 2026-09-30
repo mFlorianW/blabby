@@ -46,6 +46,12 @@ private Q_SLOTS:
     void not_advance_on_a_stop_data();
     void not_advance_on_a_stop();
     void follow_the_active_renderer_it_is_given();
+    void play_the_entry_at_an_index_from_its_start_and_run();
+    void play_the_current_entry_again_from_its_start();
+    void only_make_the_entry_at_an_index_current_without_an_active_renderer();
+    void ignore_playing_at_an_invalid_index();
+    void tell_whether_the_renderer_plays_the_current_entry();
+    void notify_when_the_renderer_starts_or_stops_playing_the_current_entry();
 };
 
 } // namespace Multimedia
