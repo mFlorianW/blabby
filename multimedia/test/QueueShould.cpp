@@ -10,6 +10,7 @@
 #include "SoapBackendDouble.hpp"
 #include <QSignalSpy>
 #include <QTest>
+#include <QTime>
 
 using namespace UPnPAV;
 using namespace UPnPAV::Doubles;
@@ -80,6 +81,26 @@ void QueueShould::finishEntry(QString const& uri)
     report(uri, QStringLiteral("0:03:00"), QStringLiteral("0:02:58"));
     mDevice->reset();
     mDevice->setDeviceState(MediaDevice::State::Stopped);
+}
+
+void QueueShould::reportPlayedFor(QString const& uri, std::chrono::seconds elapsed)
+{
+    report(uri, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+    // The Renderer polls the position again once the clock advanced.
+    mClock->advance(elapsed);
+    auto const position = QTime{0, 0}.addSecs(static_cast<int>(elapsed.count())).toString(QStringLiteral("H:mm:ss"));
+    mDevice->finishPositionInfoCall(positionInfoResponse(uri, QString{}, QStringLiteral("0:03:00"), position));
+    mDevice->reset();
+}
+
+void QueueShould::makeIdle(qsizetype currentIndex)
+{
+    mQueue->setActiveRenderer(nullptr);
+    mQueue->replace(album(), currentIndex);
+    mQueue->setActiveRenderer(mRenderer);
+    Q_EMIT mDevice->protocolInfoCall()->finished();
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    mDevice->reset();
 }
 
 void QueueShould::be_empty_and_idle_at_start()
@@ -340,6 +361,189 @@ void QueueShould::notify_when_the_renderer_starts_or_stops_playing_the_current_e
     finishEntry(uriOf(QStringLiteral("Outro")));
     QCOMPARE(mQueue->playsCurrentEntry(), false);
     QCOMPARE(playsCurrentEntryChangedSpy.size(), 2);
+}
+
+void QueueShould::play_the_following_entry_and_run_on_next()
+{
+    mQueue->replace(album(), 0);
+    reportPlayedFor(uriOf(QStringLiteral("Intro")), std::chrono::seconds{42});
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->next();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::tell_whether_previous_and_next_are_available()
+{
+    QCOMPARE(mQueue->hasPrevious(), false);
+    QCOMPARE(mQueue->hasNext(), false);
+
+    mQueue->replace(album(), 0);
+    QCOMPARE(mQueue->hasPrevious(), true);
+    QCOMPARE(mQueue->hasNext(), true);
+
+    mQueue->play(2);
+    QCOMPARE(mQueue->hasPrevious(), true);
+    QCOMPARE(mQueue->hasNext(), false);
+}
+
+void QueueShould::ignore_next_on_the_last_entry()
+{
+    mQueue->replace(album(), 2);
+    mDevice->reset();
+
+    mQueue->next();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::play_the_preceding_entry_on_previous_within_the_first_3_seconds()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{3});
+
+    mQueue->previous();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Intro")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mDevice->seekData(), std::nullopt);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::restart_the_current_entry_on_previous_after_3_seconds()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{4});
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->previous();
+
+    auto const expected = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "0:00:00"};
+    QCOMPARE(mDevice->seekData(), std::optional{expected});
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::play_the_preceding_entry_on_a_second_previous_right_after_a_restart()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+
+    mQueue->previous();
+    mQueue->previous();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Intro")));
+}
+
+void QueueShould::restart_the_current_entry_on_previous_by_loading_it_again_without_seek_support()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+
+    mQueue->previous();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::restart_the_first_entry_on_previous()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 0);
+    reportPlayedFor(uriOf(QStringLiteral("Intro")), std::chrono::seconds{1});
+
+    mQueue->previous();
+
+    auto const expected = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "0:00:00"};
+    QCOMPARE(mDevice->seekData(), std::optional{expected});
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+}
+
+void QueueShould::start_the_new_current_entry_of_an_idle_queue_data()
+{
+    QTest::addColumn<bool>("next");
+    QTest::addColumn<qsizetype>("expectedIndex");
+    QTest::addColumn<QString>("expectedUri");
+
+    QTest::newRow("next") << true << qsizetype{2} << uriOf(QStringLiteral("Outro"));
+    QTest::newRow("previous") << false << qsizetype{0} << uriOf(QStringLiteral("Intro"));
+}
+
+void QueueShould::start_the_new_current_entry_of_an_idle_queue()
+{
+    QFETCH(bool, next);
+    QFETCH(qsizetype, expectedIndex);
+    QFETCH(QString, expectedUri);
+    makeIdle(1);
+
+    next ? mQueue->next() : mQueue->previous();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional{expectedIndex});
+    QCOMPARE(mDevice->avTransportUriData().uri, expectedUri);
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::take_the_renderer_back_from_another_controller_data()
+{
+    start_the_new_current_entry_of_an_idle_queue_data();
+}
+
+void QueueShould::take_the_renderer_back_from_another_controller()
+{
+    QFETCH(bool, next);
+    QFETCH(qsizetype, expectedIndex);
+    QFETCH(QString, expectedUri);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{2});
+    // Another controller took over the Renderer.
+    report(QStringLiteral("http://radio.example/stream.mp3"), QStringLiteral("0:00:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+
+    next ? mQueue->next() : mQueue->previous();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional{expectedIndex});
+    QCOMPARE(mDevice->avTransportUriData().uri, expectedUri);
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::restart_the_current_entry_on_previous_by_loading_it_again_after_another_controller_took_over()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+    report(QStringLiteral("http://other.example/song.mp3"), QStringLiteral("0:04:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+
+    mQueue->previous();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->seekData(), std::nullopt);
 }
 
 void QueueShould::append_the_playables_at_the_end_and_keep_the_current_entry()

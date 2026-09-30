@@ -349,6 +349,52 @@ void QueueModelShould::only_append_a_playable_and_make_it_current_without_an_act
     QCOMPARE(mModel->property("running").toBool(), false);
 }
 
+void QueueModelShould::tell_whether_previous_and_next_are_available()
+{
+    QCOMPARE(mModel->property("hasPrevious").toBool(), false);
+    QCOMPARE(mModel->property("hasNext").toBool(), false);
+
+    mModel->replace(album(), 0);
+    QCOMPARE(mModel->property("hasPrevious").toBool(), true);
+    QCOMPARE(mModel->property("hasNext").toBool(), true);
+
+    mModel->play(1);
+    QCOMPARE(mModel->property("hasPrevious").toBool(), true);
+    QCOMPARE(mModel->property("hasNext").toBool(), false);
+}
+
+void QueueModelShould::notify_when_the_availability_of_previous_and_next_changed()
+{
+    auto stepAvailabilityChangedSpy = QSignalSpy{mModel.get(), &QueueModel::stepAvailabilityChanged};
+
+    mModel->replace(album(), 0);
+    QCOMPARE(stepAvailabilityChangedSpy.isEmpty(), false);
+    stepAvailabilityChangedSpy.clear();
+
+    mModel->play(1);
+    QCOMPARE(stepAvailabilityChangedSpy.isEmpty(), false);
+}
+
+void QueueModelShould::step_to_the_next_and_the_previous_entry()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->reset();
+
+    mModel->next();
+
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Harbour")).playUrl());
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+
+    mModel->previous();
+
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Intro")).playUrl());
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("running").toBool(), true);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::QueueModelShould)

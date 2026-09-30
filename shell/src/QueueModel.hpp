@@ -49,6 +49,16 @@ class QueueModel : public QAbstractListModel
      */
     Q_PROPERTY(bool totalDurationPartial READ isTotalDurationPartial NOTIFY summaryChanged)
 
+    /**
+     * True when previous does something, i.e. there is a Current Entry.
+     */
+    Q_PROPERTY(bool hasPrevious READ hasPrevious NOTIFY stepAvailabilityChanged)
+
+    /**
+     * True when next does something, i.e. the Current Entry isn't the last entry.
+     */
+    Q_PROPERTY(bool hasNext READ hasNext NOTIFY stepAvailabilityChanged)
+
 public:
     /**
      * The roles of an entry.
@@ -127,6 +137,20 @@ public:
     bool isTotalDurationPartial() const noexcept;
 
     /**
+     * Gives whether previous does something.
+     * @see Multimedia::Queue::hasPrevious
+     * @return True when previous does something.
+     */
+    bool hasPrevious() const noexcept;
+
+    /**
+     * Gives whether next does something.
+     * @see Multimedia::Queue::hasNext
+     * @return True when next does something.
+     */
+    bool hasNext() const noexcept;
+
+    /**
      * Replaces the Queue with the Playables and plays the start entry on the Active Renderer.
      * @see Multimedia::Queue::replace
      * @param playables The Playables in the order they shall be played.
@@ -140,6 +164,18 @@ public:
      * @param row The row of the entry to play.
      */
     Q_INVOKABLE void play(int row) noexcept;
+
+    /**
+     * Restarts the Current Entry or plays the preceding entry on the Active Renderer.
+     * @see Multimedia::Queue::previous
+     */
+    Q_INVOKABLE void previous() noexcept;
+
+    /**
+     * Plays the entry after the Current Entry on the Active Renderer.
+     * @see Multimedia::Queue::next
+     */
+    Q_INVOKABLE void next() noexcept;
 
     /**
      * Appends the Playable at the end of the Queue and plays it on the Active Renderer, the entries before it stay.
@@ -164,6 +200,11 @@ Q_SIGNALS:
      * This signal is emitted when the number of entries or the total duration changed.
      */
     void summaryChanged();
+
+    /**
+     * This signal is emitted when previous or next may have become available or unavailable.
+     */
+    void stepAvailabilityChanged();
 
 private:
     void onCurrentEntryChanged() noexcept;

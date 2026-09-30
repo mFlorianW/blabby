@@ -51,6 +51,9 @@ private Q_SLOTS:
     void tell_whether_the_active_renderer_plays_the_current_entry();
     void append_a_playable_and_play_it();
     void only_append_a_playable_and_make_it_current_without_an_active_renderer();
+    void tell_whether_previous_and_next_are_available();
+    void notify_when_the_availability_of_previous_and_next_changed();
+    void step_to_the_next_and_the_previous_entry();
 };
 
 } // namespace Shell

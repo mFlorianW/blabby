@@ -23,6 +23,7 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
         mCurrentRow.reset();
         endResetModel();
         Q_EMIT summaryChanged();
+        Q_EMIT stepAvailabilityChanged();
     });
     connect(&mQueue, &Queue::entriesAboutToBeAppended, this, [this](qsizetype first, qsizetype last) {
         beginInsertRows(QModelIndex{}, static_cast<int>(first), static_cast<int>(last));
@@ -121,6 +122,16 @@ bool QueueModel::isTotalDurationPartial() const noexcept
     });
 }
 
+bool QueueModel::hasPrevious() const noexcept
+{
+    return mQueue.hasPrevious();
+}
+
+bool QueueModel::hasNext() const noexcept
+{
+    return mQueue.hasNext();
+}
+
 void QueueModel::replace(Multimedia::Items const& playables, qsizetype startIndex) noexcept
 {
     mQueue.replace(playables, startIndex);
@@ -137,12 +148,23 @@ void QueueModel::appendAndPlay(Multimedia::Item const& playable) noexcept
     mQueue.play(mQueue.entries().size() - 1);
 }
 
+void QueueModel::previous() noexcept
+{
+    mQueue.previous();
+}
+
+void QueueModel::next() noexcept
+{
+    mQueue.next();
+}
+
 void QueueModel::onCurrentEntryChanged() noexcept
 {
     auto const previousRow = mCurrentRow;
     mCurrentRow = mQueue.currentIndex();
     notifyCurrentChanged(previousRow);
     notifyCurrentChanged(mCurrentRow);
+    Q_EMIT stepAvailabilityChanged();
 }
 
 void QueueModel::notifyCurrentChanged(std::optional<qsizetype> row) noexcept
