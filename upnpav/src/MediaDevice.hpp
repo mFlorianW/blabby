@@ -115,6 +115,12 @@ public:
     QString const& address() const noexcept;
 
     /**
+     * Gives the URL relative URLs of the device are relative to, e.g. a relative album art URL of its Current Track.
+     * @return The base URL of the device or an empty string when it is unknown.
+     */
+    QString const& baseUrl() const noexcept;
+
+    /**
      * Gives the current state of the device.
      * The device will be updated with the lastChange event updates of the AVTransport service.
      * If the device has no AVTransport service e.g. MediaServer the state will always be @ref

@@ -132,6 +132,12 @@ private Q_SLOTS:
     void send_the_correct_soap_message_when_calling_getmediainfo();
     void send_the_correct_soap_message_when_calling_gettransportinfo();
     void send_the_correct_soap_message_when_calling_getpositioninfo();
+
+    /**
+     * @test
+     * Tests that every call is sent with its SCPD action, which is needed to read the out arguments of its answer.
+     */
+    void send_every_call_with_its_action_to_read_the_answer();
     void send_the_correct_soap_message_when_calling_getdevicecapabilities();
     void send_the_correct_soap_message_when_calling_gettransportsettings();
     void send_the_correct_soap_message_when_calling_stop();

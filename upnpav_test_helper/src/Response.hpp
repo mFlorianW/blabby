@@ -57,6 +57,17 @@ constexpr char const* didlPrettyPrintedItemWithTitleAfterClass = {
     "&lt;/DIDL-Lite&gt;"
 };
 
+constexpr char const* didlItemWithResourceDurations = {
+    "&lt;DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\"&gt;"
+    "&lt;item id=\"1\" parentID=\"0\" restricted=\"1\"&gt;&lt;dc:title&gt;Harbour Lights&lt;/dc:title&gt;"
+    "&lt;res protocolInfo=\"http-get:*:audio/mpeg:*\" duration=\"0:04:31.250\"&gt;http://192.168.0.3/1.mp3&lt;/res&gt;"
+    "&lt;res protocolInfo=\"http-get:*:audio/mpeg:*\" duration=\"12:03:05\"&gt;http://192.168.0.3/2.mp3&lt;/res&gt;"
+    "&lt;res protocolInfo=\"http-get:*:audio/mpeg:*\" duration=\"0:01:02.1/2\"&gt;http://192.168.0.3/3.mp3&lt;/res&gt;"
+    "&lt;res protocolInfo=\"http-get:*:audio/mpeg:*\" duration=\"soon\"&gt;http://192.168.0.3/4.mp3&lt;/res&gt;"
+    "&lt;res protocolInfo=\"http-get:*:audio/mpeg:*\"&gt;http://192.168.0.3/5.mp3&lt;/res&gt;"
+    "&lt;/item&gt;&lt;/DIDL-Lite&gt;"
+};
+
 constexpr char const* didlItemWithAlbumDateAndResources = {
     "&lt;DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\"&gt;"
     "&lt;item id=\"1\" parentID=\"0\" restricted=\"1\"&gt;&lt;dc:title&gt;Harbour Lights&lt;/dc:title&gt;&lt;upnp:album&gt;Low Tide Sessions&lt;/upnp:album&gt;&lt;dc:date&gt;2024-03-01&lt;/dc:date&gt;"

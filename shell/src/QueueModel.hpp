@@ -24,6 +24,31 @@ class QueueModel : public QAbstractListModel
      */
     Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 
+    /**
+     * True while the Active Renderer plays the Current Entry for the Running Queue.
+     */
+    Q_PROPERTY(bool currentEntryPlaying READ isCurrentEntryPlaying NOTIFY currentEntryPlayingChanged)
+
+    /**
+     * The number of entries.
+     */
+    Q_PROPERTY(int entryCount READ rowCount NOTIFY summaryChanged)
+
+    /**
+     * The sum of the known durations of the entries in milliseconds.
+     */
+    Q_PROPERTY(qreal totalDuration READ totalDuration NOTIFY summaryChanged)
+
+    /**
+     * True when the duration of at least one entry is known.
+     */
+    Q_PROPERTY(bool hasTotalDuration READ hasTotalDuration NOTIFY summaryChanged)
+
+    /**
+     * True when the duration of at least one entry is unknown, the total duration is then only a lower bound.
+     */
+    Q_PROPERTY(bool totalDurationPartial READ isTotalDurationPartial NOTIFY summaryChanged)
+
 public:
     /**
      * The roles of an entry.
@@ -34,6 +59,9 @@ public:
         Artist,
         ArtworkUrl,
         Current,
+        Album,
+        Duration,
+        HasDuration,
     };
     Q_ENUM(DisplayRole)
 
@@ -75,6 +103,30 @@ public:
     bool isRunning() const noexcept;
 
     /**
+     * Gives whether the Active Renderer plays the Current Entry for the Running Queue.
+     * @return True while the Active Renderer plays the Current Entry.
+     */
+    bool isCurrentEntryPlaying() const noexcept;
+
+    /**
+     * Gives the sum of the known durations of the entries.
+     * @return The total duration in milliseconds.
+     */
+    qreal totalDuration() const noexcept;
+
+    /**
+     * Gives whether the duration of at least one entry is known.
+     * @return True when a duration is known.
+     */
+    bool hasTotalDuration() const noexcept;
+
+    /**
+     * Gives whether the duration of at least one entry is unknown.
+     * @return True when a duration is unknown.
+     */
+    bool isTotalDurationPartial() const noexcept;
+
+    /**
      * Replaces the Queue with the Playables and plays the start entry on the Active Renderer.
      * @see Multimedia::Queue::replace
      * @param playables The Playables in the order they shall be played.
@@ -82,11 +134,28 @@ public:
      */
     void replace(Multimedia::Items const& playables, qsizetype startIndex) noexcept;
 
+    /**
+     * Plays the entry at the row from its start on the Active Renderer.
+     * @see Multimedia::Queue::play
+     * @param row The row of the entry to play.
+     */
+    Q_INVOKABLE void play(int row) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Queue State changed.
      */
     void runningChanged();
+
+    /**
+     * This signal is emitted when the Active Renderer started or stopped playing the Current Entry.
+     */
+    void currentEntryPlayingChanged();
+
+    /**
+     * This signal is emitted when the number of entries or the total duration changed.
+     */
+    void summaryChanged();
 
 private:
     void onCurrentEntryChanged() noexcept;

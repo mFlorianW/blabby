@@ -41,6 +41,14 @@ private Q_SLOTS:
     void follow_a_switch_of_the_active_renderer();
     void only_hold_the_entries_without_an_active_renderer();
     void mark_the_next_entry_as_current_when_the_queue_advances();
+    void give_the_album_and_the_duration_of_the_entries();
+    void fall_back_to_the_file_name_as_title();
+    void summarize_the_entry_count_and_the_total_duration_data();
+    void summarize_the_entry_count_and_the_total_duration();
+    void notify_about_a_changed_summary();
+    void play_the_entry_at_a_row();
+    void only_make_the_entry_at_a_row_current_without_an_active_renderer();
+    void tell_whether_the_active_renderer_plays_the_current_entry();
 };
 
 } // namespace Shell

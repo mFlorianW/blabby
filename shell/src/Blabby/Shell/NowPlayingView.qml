@@ -6,10 +6,12 @@ import QtQuick
 import Blabby.Controls
 import Blabby.Objects
 import Blabby.Theme
+import "TimeFormat.js" as TimeFormat
 
 /**
  * The Playing screen that shows what the Active Renderer plays.
- * A Renderer pill in the header shows the Active Renderer and asks to choose another one.
+ * A Renderer pill in the header shows the Active Renderer and asks to choose another one, a Queue button next to it
+ * asks to open the Queue.
  * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
  * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
  * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
@@ -155,6 +157,11 @@ Item {
     signal chooseRendererRequested
 
     /**
+     * This signal is emitted when the user asks to open the Queue.
+     */
+    signal queueRequested
+
+    /**
      * This signal is emitted when the user asks to pause, stop, resume or play the Active Renderer.
      */
     signal togglePlaybackRequested
@@ -179,20 +186,6 @@ Item {
      */
     function cancelSeek() {
         nowPlayingView.seekTarget = -1;
-    }
-
-    /**
-     * Gives the time in milliseconds as m:ss, or h:mm:ss from an hour on.
-     */
-    function formatTime(milliseconds: real): string {
-        const totalSeconds = Math.floor(milliseconds / 1000);
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor(totalSeconds / 60) % 60;
-        const seconds = String(totalSeconds % 60).padStart(2, "0");
-        if (hours > 0) {
-            return `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`;
-        }
-        return `${minutes}:${seconds}`;
     }
 
     onPositionChanged: nowPlayingView.cancelSeek()
@@ -241,6 +234,14 @@ Item {
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
             visible: nowPlayingView.hasActiveRenderer
             onClicked: nowPlayingView.chooseRendererRequested()
+        }
+
+        IconButton {
+            id: queueButton
+            objectName: "queueButton"
+            anchors.verticalCenter: rendererPill.verticalCenter
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/queue_music.svg"
+            onClicked: nowPlayingView.queueRequested()
         }
     }
 
@@ -375,7 +376,7 @@ Item {
                     value: nowPlayingView.seekTarget >= 0 ? nowPlayingView.seekTarget : nowPlayingView.stopped ? 0 : nowPlayingView.position
                     interactive: nowPlayingView.canSeek && !nowPlayingView.stopped
                     valueIndicatorEnabled: true
-                    valueIndicatorText: nowPlayingView.formatTime(seekSlider.pressedValue)
+                    valueIndicatorText: TimeFormat.formatTime(seekSlider.pressedValue)
                     visible: nowPlayingView.hasDuration
                     onCommitted: value => {
                         nowPlayingView.seekTarget = value;
@@ -393,7 +394,7 @@ Item {
                         objectName: "elapsedTime"
                         anchors.left: times.left
                         // The elapsed time keeps the playing position while seeking.
-                        text: nowPlayingView.formatTime(nowPlayingView.stopped ? 0 : nowPlayingView.position)
+                        text: TimeFormat.formatTime(nowPlayingView.stopped ? 0 : nowPlayingView.position)
                         color: Theme.colors.colorOnSurfaceVariant
                         textStyle: Theme.fonts.labelLarge
                     }
@@ -402,7 +403,7 @@ Item {
                         id: totalTime
                         objectName: "totalTime"
                         anchors.right: times.right
-                        text: nowPlayingView.formatTime(nowPlayingView.duration)
+                        text: TimeFormat.formatTime(nowPlayingView.duration)
                         color: Theme.colors.colorOnSurfaceVariant
                         textStyle: Theme.fonts.labelLarge
                         visible: nowPlayingView.hasDuration

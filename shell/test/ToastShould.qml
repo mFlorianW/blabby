@@ -22,10 +22,17 @@ Item {
         name: "ToastShould"
         when: windowShown
 
+        SignalSpy {
+            id: actionClickedSpy
+            target: toast
+            signalName: "actionClicked"
+        }
+
         function init() {
             toast.duration = 200;
             toast.hide();
             toastTest.tryCompare(toast, "visible", false);
+            actionClickedSpy.clear();
         }
 
         /**
@@ -65,6 +72,40 @@ Item {
             toastTest.wait(200);
             toastTest.compare(toast.visible, true);
             toastTest.tryCompare(toast, "visible", false, 2000);
+        }
+
+        /**
+         * Tests that a message is shown without an action button unless an action is given.
+         */
+        function test_show_no_action_without_an_action_text() {
+            toast.show("Couldn't open Albums");
+            toastTest.compare(toastTest.findChild(toast, "action").visible, false);
+        }
+
+        /**
+         * Tests that a message with an action shows the action button, clicking it notifies and hides the toast.
+         */
+        function test_show_an_action_and_notify_when_it_is_clicked() {
+            toast.duration = 4000;
+            toast.show("Choose a Renderer to play the Queue", "Choose");
+            toastTest.tryCompare(toast, "visible", true);
+            const action = toastTest.findChild(toast, "action");
+            toastTest.compare(action.visible, true);
+            toastTest.compare(action.text, "Choose");
+
+            toastTest.mouseClick(action);
+
+            toastTest.compare(actionClickedSpy.count, 1);
+            toastTest.tryCompare(toast, "visible", false);
+        }
+
+        /**
+         * Tests that a message without an action removes the action of the shown message.
+         */
+        function test_drop_the_action_of_a_replaced_message() {
+            toast.show("Choose a Renderer to play the Queue", "Choose");
+            toast.show("Couldn't open Albums");
+            toastTest.compare(toastTest.findChild(toast, "action").visible, false);
         }
     }
 }

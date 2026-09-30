@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -12,6 +12,18 @@
 
 namespace UPnPAV
 {
+
+namespace
+{
+/**
+ * Gives the value of the SOAPACTION header, the action in double quotes as the UPnP Device Architecture demands.
+ * Some devices, e.g. Samsung TVs, reject a call without the quotes with "Invalid Args".
+ */
+QByteArray soapActionHeader(QString const& serviceType, QString const& actionName)
+{
+    return QStringLiteral("\"%1#%2\"").arg(serviceType, actionName).toUtf8();
+}
+} // namespace
 
 HttpSoapBackend::HttpSoapBackend()
     : SoapBackend()
@@ -25,7 +37,7 @@ QSharedPointer<SoapCall> HttpSoapBackend::sendSoapMessage(QString const& url,
                                                           QString const& serviceType,
                                                           QString const& xmlBody) noexcept
 {
-    QByteArray soapHeader = QString{serviceType + "#" + actionName}.toUtf8();
+    auto const soapHeader = soapActionHeader(serviceType, actionName);
     QNetworkRequest networkRequest{url};
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=\"utf-8\"");
     networkRequest.setRawHeader("SOAPACTION", soapHeader);
@@ -40,7 +52,7 @@ QSharedPointer<SoapCall> HttpSoapBackend::sendSoapMessage(ServiceDescription con
                                                           SCPDAction const& action,
                                                           QString& xmlBody) noexcept
 {
-    QByteArray soapHeader = QString{desc.serviceType() + "#" + action.name()}.toUtf8();
+    auto const soapHeader = soapActionHeader(desc.serviceType(), action.name());
     QNetworkRequest networkRequest{desc.controlUrl()};
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml; charset=\"utf-8\"");
     networkRequest.setRawHeader("SOAPACTION", soapHeader);

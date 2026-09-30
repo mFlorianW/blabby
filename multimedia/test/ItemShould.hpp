@@ -24,6 +24,8 @@ private Q_SLOTS:
     void give_the_artwork_url();
     void give_the_path();
     void give_the_play_url();
+    void give_the_album();
+    void give_the_duration();
     void give_supported_types();
 };
 

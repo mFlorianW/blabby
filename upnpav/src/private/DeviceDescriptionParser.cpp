@@ -149,7 +149,8 @@ void DeviceDescriptionParser::createDescriptions()
                                                    icons,
                                                    services,
                                                    {},
-                                                   m_address});
+                                                   m_address,
+                                                   m_baseUrl});
     }
 }
 

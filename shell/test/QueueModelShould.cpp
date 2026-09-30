@@ -41,6 +41,17 @@ Items album()
             playable(QStringLiteral("Harbour"))};
 }
 
+Item song(QString const& title, QString const& album, std::optional<std::chrono::milliseconds> duration)
+{
+    return ItemBuilder{}
+        .withItemType(ItemType::Playable)
+        .withMainText(title)
+        .withAlbum(album)
+        .withDuration(duration)
+        .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/%1.mp3").arg(title))
+        .build();
+}
+
 QVariant dataOf(QueueModel const& model, int row, QueueModel::DisplayRole role)
 {
     return model.data(model.index(row), static_cast<int>(role));
@@ -108,6 +119,9 @@ void QueueModelShould::give_the_role_names()
         {static_cast<int>(QueueModel::DisplayRole::Artist), QByteArray{"artist"}},
         {static_cast<int>(QueueModel::DisplayRole::ArtworkUrl), QByteArray{"artworkUrl"}},
         {static_cast<int>(QueueModel::DisplayRole::Current), QByteArray{"current"}},
+        {static_cast<int>(QueueModel::DisplayRole::Album), QByteArray{"album"}},
+        {static_cast<int>(QueueModel::DisplayRole::Duration), QByteArray{"duration"}},
+        {static_cast<int>(QueueModel::DisplayRole::HasDuration), QByteArray{"hasDuration"}},
     };
 
     QCOMPARE(mModel->roleNames(), expectedRoles);
@@ -189,6 +203,117 @@ void QueueModelShould::mark_the_next_entry_as_current_when_the_queue_advances()
     QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), false);
     QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
     QCOMPARE(dataChangedSpy.size(), 2);
+}
+
+void QueueModelShould::give_the_album_and_the_duration_of_the_entries()
+{
+    using namespace std::chrono_literals;
+    mModel->replace({song(QStringLiteral("Intro"), QStringLiteral("Low Tide Sessions"), 4min + 31s),
+                     song(QStringLiteral("Stream"), QString{}, std::nullopt)},
+                    0);
+
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Album).toString(), QStringLiteral("Low Tide Sessions"));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Duration).toDouble(), 271'000.0);
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::HasDuration).toBool(), true);
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Album).toString(), QString{});
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Duration).toDouble(), 0.0);
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::HasDuration).toBool(), false);
+}
+
+void QueueModelShould::fall_back_to_the_file_name_as_title()
+{
+    auto const untitled = ItemBuilder{}
+                              .withItemType(ItemType::Playable)
+                              .withPlayUrl(QStringLiteral("http://192.168.0.3/Harbour%20Lights.flac"))
+                              .build();
+
+    mModel->replace({untitled}, 0);
+
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Title).toString(), QStringLiteral("Harbour Lights"));
+}
+
+void QueueModelShould::summarize_the_entry_count_and_the_total_duration_data()
+{
+    using namespace std::chrono_literals;
+    QTest::addColumn<Items>("entries");
+    QTest::addColumn<int>("expectedEntryCount");
+    QTest::addColumn<double>("expectedTotalDuration");
+    QTest::addColumn<bool>("expectedHasTotalDuration");
+    QTest::addColumn<bool>("expectedTotalDurationPartial");
+
+    QTest::newRow("empty") << Items{} << 0 << 0.0 << false << false;
+    QTest::newRow("all durations known") << Items{song(QStringLiteral("A"), QString{}, 3min),
+                                                  song(QStringLiteral("B"), QString{}, 4min + 30s)}
+                                         << 2 << 450'000.0 << true << false;
+    QTest::newRow("some durations unknown")
+        << Items{song(QStringLiteral("A"), QString{}, 3min), song(QStringLiteral("B"), QString{}, std::nullopt)} << 2
+        << 180'000.0 << true << true;
+    QTest::newRow("no duration known") << Items{song(QStringLiteral("A"), QString{}, std::nullopt)} << 1 << 0.0 << false
+                                       << true;
+}
+
+void QueueModelShould::summarize_the_entry_count_and_the_total_duration()
+{
+    QFETCH(Items, entries);
+    QFETCH(int, expectedEntryCount);
+    QFETCH(double, expectedTotalDuration);
+    QFETCH(bool, expectedHasTotalDuration);
+    QFETCH(bool, expectedTotalDurationPartial);
+
+    mModel->replace(entries, 0);
+
+    QCOMPARE(mModel->property("entryCount").toInt(), expectedEntryCount);
+    QCOMPARE(mModel->property("totalDuration").toDouble(), expectedTotalDuration);
+    QCOMPARE(mModel->property("hasTotalDuration").toBool(), expectedHasTotalDuration);
+    QCOMPARE(mModel->property("totalDurationPartial").toBool(), expectedTotalDurationPartial);
+}
+
+void QueueModelShould::notify_about_a_changed_summary()
+{
+    auto summaryChangedSpy = QSignalSpy{mModel.get(), &QueueModel::summaryChanged};
+
+    mModel->replace(album(), 0);
+
+    QCOMPARE(summaryChangedSpy.size(), 1);
+}
+
+void QueueModelShould::play_the_entry_at_a_row()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->reset();
+
+    mModel->play(1);
+
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Harbour")).playUrl());
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("running").toBool(), true);
+}
+
+void QueueModelShould::only_make_the_entry_at_a_row_current_without_an_active_renderer()
+{
+    mModel->replace(album(), 0);
+
+    mModel->play(1);
+
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("running").toBool(), false);
+}
+
+void QueueModelShould::tell_whether_the_active_renderer_plays_the_current_entry()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto currentEntryPlayingChangedSpy = QSignalSpy{mModel.get(), &QueueModel::currentEntryPlayingChanged};
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+
+    kitchen->setCurrentTrack(playable(QStringLiteral("Intro")).playUrl(), QString{});
+    kitchen->setDeviceState(MediaDevice::State::Playing);
+
+    QCOMPARE(mModel->property("currentEntryPlaying").toBool(), true);
+    QCOMPARE(currentEntryPlayingChangedSpy.size(), 1);
 }
 
 } // namespace Shell

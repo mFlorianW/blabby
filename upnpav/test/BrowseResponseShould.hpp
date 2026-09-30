@@ -29,6 +29,7 @@ private Q_SLOTS:
     void parse_the_album_art_uri_the_artist_and_the_creator();
     void parse_an_item_whose_title_is_not_its_first_element();
     void parse_the_album_the_date_and_the_resources();
+    void parse_the_duration_of_the_resources();
 };
 
 } // namespace UPnPAV

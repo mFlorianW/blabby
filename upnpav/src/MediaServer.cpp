@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -56,9 +56,9 @@ std::unique_ptr<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 
     auto xmlMessage = msgGen.generateXmlMessageBody(action, d->mContentDirectoryServiceDescription.serviceType());
 
-    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription.controlUrl(),
-                                                                action.name(),
-                                                                d->mContentDirectoryServiceDescription.serviceType(),
+    auto soapCall = d->mSoapMessageTransmitter->sendSoapMessage(d->mContentDirectoryServiceDescription,
+                                                                d->mContentDirectorySCPD,
+                                                                action,
                                                                 xmlMessage);
 
     return std::make_unique<PendingSoapCall>(soapCall);

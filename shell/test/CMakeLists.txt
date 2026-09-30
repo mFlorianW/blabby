@@ -49,6 +49,10 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/NowPlayingViewShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_NowPlayingViewShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SliderShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_SliderShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/EqualizerGlyphShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_EqualizerGlyphShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QueueViewShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_QueueViewShould.qml COPYONLY)
 
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests

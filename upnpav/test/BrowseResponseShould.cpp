@@ -112,7 +112,8 @@ void BrowseResponseShould::give_All_Item_In_The_Result_Field_Of_The_Response_Whe
                 .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;"
                                                "DLNA.ORG_FLAGS=01700000000000000000000000000000"),
                 .bitsPerSample = std::nullopt,
-                .sampleFrequency = 44100})
+                .sampleFrequency = 44100,
+                .duration = std::chrono::milliseconds{5200436}})
             .build()};
     auto objects = browseResult.objects();
 
@@ -165,7 +166,8 @@ void BrowseResponseShould::parse_real_world_media_items()
                 .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0;"
                                                "DLNA.ORG_FLAGS=01700000000000000000000000000000"),
                 .bitsPerSample = std::nullopt,
-                .sampleFrequency = 44100})
+                .sampleFrequency = 44100,
+                .duration = std::chrono::milliseconds{3514994}})
             .build();
 
     auto objects = browseResult.objects();
@@ -205,13 +207,34 @@ void BrowseResponseShould::parse_the_album_the_date_and_the_resources()
         Resource{.uri = QStringLiteral("http://192.168.0.3/1.mp3"),
                  .protocolInfo = QStringLiteral("http-get:*:audio/mpeg:DLNA.ORG_PN=MP3"),
                  .bitsPerSample = std::nullopt,
-                 .sampleFrequency = 44100},
+                 .sampleFrequency = 44100,
+                 .duration = std::nullopt},
         Resource{.uri = QStringLiteral("http://192.168.0.3/1.flac"),
                  .protocolInfo = QStringLiteral("http-get:*:audio/flac:*"),
                  .bitsPerSample = 24,
-                 .sampleFrequency = 96000},
+                 .sampleFrequency = 96000,
+                 .duration = std::nullopt},
     };
     QCOMPARE(objects.at(0).resources(), expectedResources);
+}
+
+void BrowseResponseShould::parse_the_duration_of_the_resources()
+{
+    using namespace std::chrono_literals;
+    auto response = QString{xmlResponse}.arg(didlItemWithResourceDurations, "1", "1", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 1);
+    auto const& resources = objects.at(0).resources();
+    QCOMPARE(resources.size(), 5);
+    QCOMPARE(resources.at(0).duration, std::optional{4min + 31s + 250ms});
+    QCOMPARE(resources.at(1).duration, std::optional{12h + 3min + 5s});
+    // A fraction given as F0/F1 is 1/2 of a second.
+    QCOMPARE(resources.at(2).duration, std::optional{1min + 2s + 500ms});
+    QCOMPARE(resources.at(3).duration, std::nullopt);
+    QCOMPARE(resources.at(4).duration, std::nullopt);
 }
 
 void BrowseResponseShould::parse_an_item_whose_title_is_not_its_first_element()

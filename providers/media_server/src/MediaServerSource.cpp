@@ -8,6 +8,7 @@
 #include "BrowseResponse.hpp"
 #include "private/LoggingCategories.hpp"
 #include <QDebug>
+#include <algorithm>
 
 namespace Provider::MediaServer
 {
@@ -16,9 +17,10 @@ namespace
 {
 /**
  * The optional properties a browse asks for, without a filter servers may omit them.
- * The resources carry the play URL, the album art, the artist and the creator are shown on the tiles.
+ * The resources carry the play URL, the album art, the artist and the creator are shown on the tiles, the album and
+ * the duration in the Queue.
  */
-constexpr auto BrowseFilter = QLatin1StringView{"res,upnp:albumArtURI,upnp:artist,dc:creator"};
+constexpr auto BrowseFilter = QLatin1StringView{"res,res@duration,upnp:albumArtURI,upnp:artist,dc:creator,upnp:album"};
 
 /**
  * Gives the secondary text of an object: its artist or, without an artist, its creator.
@@ -26,6 +28,16 @@ constexpr auto BrowseFilter = QLatin1StringView{"res,upnp:albumArtURI,upnp:artis
 QString secondaryText(UPnPAV::MediaServerObject const& obj)
 {
     return obj.artist().isEmpty() ? obj.creator() : obj.artist();
+}
+
+/**
+ * Gives the duration of the resource that plays the object, unset when unknown.
+ */
+std::optional<std::chrono::milliseconds> durationOf(UPnPAV::MediaServerObject const& obj)
+{
+    auto const& resources = obj.resources();
+    auto const resource = std::ranges::find(resources, obj.playUrl(), &UPnPAV::Resource::uri);
+    return resource != resources.cend() ? resource->duration : std::nullopt;
 }
 } // namespace
 
@@ -79,6 +91,8 @@ void Source::onBrowseRequestFinished() noexcept
                                      .withArtworkUrl(obj.albumArtUrl())
                                      .withPath(obj.id())
                                      .withPlayUrl(obj.playUrl())
+                                     .withAlbum(obj.album())
+                                     .withDuration(durationOf(obj))
                                      .withSupportedTypes(obj.supportedProtocols())
                                      .build());
     }

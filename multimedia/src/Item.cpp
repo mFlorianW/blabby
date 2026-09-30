@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "Item.hpp"
+#include <QUrl>
 
 namespace Multimedia
 {
@@ -50,6 +51,16 @@ QString const& Item::playUrl() const noexcept
     return d->mPlayUrl;
 }
 
+QString const& Item::album() const noexcept
+{
+    return d->mAlbum;
+}
+
+std::optional<std::chrono::milliseconds> Item::duration() const noexcept
+{
+    return d->mDuration;
+}
+
 QVector<UPnPAV::Protocol> const& Item::supportedTypes() const noexcept
 {
     return d->mSupportedTypes;
@@ -62,7 +73,9 @@ bool operator==(Item const& lhs, Item const& rhs) noexcept
                                (lhs.d->mMainText == rhs.d->mMainText) and
                                (lhs.d->mSecondaryText == rhs.d->mSecondaryText) and
                                (lhs.d->mArtworkUrl == rhs.d->mArtworkUrl) and
-                               (lhs.d->mPath == rhs.d->mPath));
+                               (lhs.d->mPath == rhs.d->mPath) and
+                               (lhs.d->mAlbum == rhs.d->mAlbum) and
+                               (lhs.d->mDuration == rhs.d->mDuration));
     // clang-format on
 }
 
@@ -107,6 +120,18 @@ ItemBuilder& ItemBuilder::withPlayUrl(QString const& playUrl) noexcept
     return *this;
 }
 
+ItemBuilder& ItemBuilder::withAlbum(QString const& album) noexcept
+{
+    mItem.d->mAlbum = album;
+    return *this;
+}
+
+ItemBuilder& ItemBuilder::withDuration(std::optional<std::chrono::milliseconds> duration) noexcept
+{
+    mItem.d->mDuration = duration;
+    return *this;
+}
+
 ItemBuilder& ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const& supportedTypes)
 {
     mItem.d->mSupportedTypes = supportedTypes;
@@ -116,6 +141,16 @@ ItemBuilder& ItemBuilder::withSupportedTypes(QVector<UPnPAV::Protocol> const& su
 Item ItemBuilder::build() noexcept
 {
     return mItem;
+}
+
+QString titleOfUri(QString const& uri)
+{
+    auto title = QUrl{uri}.fileName(QUrl::FullyDecoded);
+    auto const extensionStart = title.lastIndexOf(QLatin1Char{'.'});
+    if (extensionStart > 0) {
+        title.truncate(extensionStart);
+    }
+    return title;
 }
 
 } // namespace Multimedia

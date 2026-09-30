@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -30,8 +30,15 @@ public:
 
     QString xmlMessageBody() const;
 
+    /**
+     * Gives the last call that was sent. Like with the real SOAP backend, only a call sent with its SCPD and action
+     * knows them, which is needed to read its answer.
+     */
+    QSharedPointer<SoapCall> const& lastCall() const noexcept;
+
 private:
     QString mXmlMessageBody;
+    QSharedPointer<SoapCall> mLastCall;
 };
 
 } // namespace UPnPAV

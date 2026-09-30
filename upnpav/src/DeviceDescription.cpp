@@ -22,13 +22,15 @@ DeviceDescription::DeviceDescription(QString deviceType,
                                      QVector<IconDescription> icons,
                                      QVector<ServiceDescription> services,
                                      QVector<ServiceControlPointDefinition> scpds,
-                                     QString address)
+                                     QString address,
+                                     QString baseUrl)
     : m_deviceType(std::move(deviceType))
     , m_friendlyName(std::move(friendlyName))
     , m_manufacturer(std::move(manufacturer))
     , m_modelName(std::move(modelName))
     , m_udn(std::move(udn))
     , m_address(std::move(address))
+    , m_baseUrl(std::move(baseUrl))
     , m_icons(std::move(icons))
     , m_services(std::move(services))
     , m_scpds(std::move(scpds))
@@ -68,6 +70,11 @@ QString const& DeviceDescription::udn() const noexcept
 QString const& DeviceDescription::address() const noexcept
 {
     return m_address;
+}
+
+QString const& DeviceDescription::baseUrl() const noexcept
+{
+    return m_baseUrl;
 }
 
 std::optional<ServiceDescription> DeviceDescription::service(QString const& serviceName) const noexcept

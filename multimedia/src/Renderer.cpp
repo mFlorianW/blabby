@@ -38,19 +38,6 @@ RememberedRenderer rememberedOf(UPnPAV::MediaRenderer const& device)
                               .address = device.address()};
 }
 
-/**
- * Gives the file name of the URI without its extension, e.g. "Harbour Lights" for ".../Harbour%20Lights.flac".
- */
-QString titleOfUri(QString const& uri)
-{
-    auto title = QUrl{uri}.fileName(QUrl::FullyDecoded);
-    auto const extensionStart = title.lastIndexOf(QLatin1Char{'.'});
-    if (extensionStart > 0) {
-        title.truncate(extensionStart);
-    }
-    return title;
-}
-
 QString yearOfDate(QString const& date)
 {
     static auto const yearExpression = QRegularExpression{QStringLiteral("^(\\d{4})")};
@@ -140,7 +127,20 @@ QString relTimeTarget(std::chrono::milliseconds position)
         .arg(seconds % 60, 2, 10, QLatin1Char{'0'});
 }
 
-CurrentTrack currentTrackOf(QString const& uri, QString metaData)
+/**
+ * Gives the artwork URL absolute, a relative one is relative to the base URL of the device, e.g. the cover proxy of a
+ * Sonos (/getaa?u=...).
+ */
+QString absoluteArtworkUrl(QString const& artworkUrl, QString const& baseUrl)
+{
+    auto const url = QUrl{artworkUrl};
+    if (artworkUrl.isEmpty() or not url.isRelative() or baseUrl.isEmpty()) {
+        return artworkUrl;
+    }
+    return QUrl{baseUrl}.resolved(url).toString(QUrl::FullyEncoded);
+}
+
+CurrentTrack currentTrackOf(QString const& uri, QString metaData, QString const& baseUrl)
 {
     auto track = CurrentTrack{};
     if (not metaData.isEmpty() and metaData != QStringLiteral("NOT_IMPLEMENTED")) {
@@ -151,7 +151,7 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData)
             track.artist = object.artist().isEmpty() ? object.creator() : object.artist();
             track.album = object.album();
             track.year = yearOfDate(object.date());
-            track.artworkUrl = object.albumArtUrl();
+            track.artworkUrl = absoluteArtworkUrl(object.albumArtUrl(), baseUrl);
             track.format = formatOf(uri, object.resources());
         }
     }
@@ -513,7 +513,7 @@ bool Renderer::isTransitioning() const noexcept
 }
 
 std::unique_ptr<UPnPAV::PendingSoapCall> Renderer::watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
-                                                                 Renderer::Action action) noexcept
+                                                                        Renderer::Action action) noexcept
 {
     mPlaybackControlPending = true;
     connect(call.get(), &UPnPAV::PendingSoapCall::finished, this, [this, action, callPtr = call.get()]() {
@@ -706,7 +706,7 @@ void Renderer::updateCurrentTrack(QString const& uri, QString const& metaData) n
 
     mCurrentTrackUri = uri;
     mCurrentTrackMetaData = metaData;
-    setCurrentTrack(currentTrackOf(uri, metaData));
+    setCurrentTrack(currentTrackOf(uri, metaData, mRenderer != nullptr ? mRenderer->baseUrl() : QString{}));
 }
 
 void Renderer::setCurrentTrack(CurrentTrack const& track) noexcept

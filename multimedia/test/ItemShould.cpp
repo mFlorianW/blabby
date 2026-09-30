@@ -77,6 +77,23 @@ void ItemShould::give_the_play_url()
     QCOMPARE(playUrl, expUrl);
 }
 
+void ItemShould::give_the_album()
+{
+    auto const item = ItemBuilder{}.withAlbum(QStringLiteral("Low Tide Sessions")).build();
+
+    QCOMPARE(item.album(), QStringLiteral("Low Tide Sessions"));
+    QCOMPARE(Item{}.album(), QString{});
+}
+
+void ItemShould::give_the_duration()
+{
+    auto const duration = std::chrono::milliseconds{271250};
+    auto const item = ItemBuilder{}.withDuration(duration).build();
+
+    QCOMPARE(item.duration(), std::optional{duration});
+    QCOMPARE(Item{}.duration(), std::nullopt);
+}
+
 void ItemShould::give_supported_types()
 {
     auto const expTypes = QVector<UPnPAV::Protocol>{

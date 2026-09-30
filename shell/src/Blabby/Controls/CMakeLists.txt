@@ -12,6 +12,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         Button.qml
         Card.qml
         EmptyState.qml
+        EqualizerGlyph.qml
         IconButton.qml
         IconBadge.qml
         Icon.qml
