@@ -24,6 +24,8 @@ public:
 private:
     void report(QString const& uri, QString const& duration, QString const& position);
     void finishEntry(QString const& uri);
+    void reportPlayedFor(QString const& uri, std::chrono::seconds elapsed);
+    void makeIdle(qsizetype currentIndex);
 
     UPnPAV::Doubles::MediaRendererDouble* mDevice = nullptr;
     UPnPAV::ClockDouble* mClock = nullptr;
@@ -55,6 +57,19 @@ private Q_SLOTS:
     void append_the_playables_at_the_end_and_keep_the_current_entry();
     void notify_about_an_append();
     void append_to_an_empty_queue_without_a_current_entry();
+    void play_the_following_entry_and_run_on_next();
+    void tell_whether_previous_and_next_are_available();
+    void ignore_next_on_the_last_entry();
+    void play_the_preceding_entry_on_previous_within_the_first_3_seconds();
+    void restart_the_current_entry_on_previous_after_3_seconds();
+    void play_the_preceding_entry_on_a_second_previous_right_after_a_restart();
+    void restart_the_current_entry_on_previous_by_loading_it_again_without_seek_support();
+    void restart_the_first_entry_on_previous();
+    void start_the_new_current_entry_of_an_idle_queue_data();
+    void start_the_new_current_entry_of_an_idle_queue();
+    void take_the_renderer_back_from_another_controller_data();
+    void take_the_renderer_back_from_another_controller();
+    void restart_the_current_entry_on_previous_by_loading_it_again_after_another_controller_took_over();
 };
 
 } // namespace Multimedia

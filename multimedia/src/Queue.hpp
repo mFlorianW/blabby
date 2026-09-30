@@ -132,6 +132,34 @@ public:
      */
     void append(Items const& playables) noexcept;
 
+    /**
+     * Gives whether there is an entry before the Current Entry or the Current Entry can be restarted.
+     * @return True when previous does something, i.e. there is a Current Entry.
+     */
+    bool hasPrevious() const noexcept;
+
+    /**
+     * Gives whether there is an entry after the Current Entry.
+     * @return True when next does something, i.e. the Current Entry isn't the last entry.
+     */
+    bool hasNext() const noexcept;
+
+    /**
+     * Restarts the Current Entry when it played for more than 3 seconds and plays the preceding entry from its start
+     * otherwise, the first entry is always restarted. The Queue is Running afterwards, also when it was Idle or
+     * another controller took over the Renderer.
+     * A Current Entry that the Active Renderer plays for the Queue is restarted by a seek to its start, it's loaded
+     * again when the Renderer can't seek or doesn't play it.
+     * Without an Active Renderer the entry only becomes the Current Entry and the Queue is Idle.
+     */
+    void previous() noexcept;
+
+    /**
+     * Plays the entry after the Current Entry from its start, like @ref Multimedia::Queue::play.
+     * Nothing happens on the last entry.
+     */
+    void next() noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted before the entries are replaced.
@@ -180,6 +208,7 @@ private:
     void onRendererStateChanged() noexcept;
     void recordPosition() noexcept;
     void playCurrentEntry() noexcept;
+    void restartCurrentEntry() noexcept;
     void startCurrentEntry() noexcept;
     void updatePlaysCurrentEntry() noexcept;
     void setCurrentIndex(std::optional<qsizetype> index) noexcept;

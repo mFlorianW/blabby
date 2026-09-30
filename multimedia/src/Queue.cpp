@@ -14,6 +14,11 @@ namespace
  * A Current Entry counts as finished when the last known position was at most this far from its end.
  */
 constexpr auto endWindow = std::chrono::seconds{3};
+
+/**
+ * Previous restarts a Current Entry that played for longer than this, it plays the preceding entry otherwise.
+ */
+constexpr auto restartThreshold = std::chrono::seconds{3};
 } // namespace
 
 Queue::Queue() = default;
@@ -125,6 +130,54 @@ void Queue::play(qsizetype index) noexcept
 
     setCurrentIndex(index);
     startCurrentEntry();
+}
+
+bool Queue::hasPrevious() const noexcept
+{
+    return mCurrentIndex.has_value();
+}
+
+bool Queue::hasNext() const noexcept
+{
+    return mCurrentIndex.has_value() and *mCurrentIndex + 1 < mEntries.size();
+}
+
+void Queue::previous() noexcept
+{
+    if (not mCurrentIndex.has_value()) {
+        return;
+    }
+
+    auto const currentIndex = *mCurrentIndex;
+    if (mLastKnownPosition > restartThreshold or currentIndex == 0) {
+        restartCurrentEntry();
+    } else {
+        play(currentIndex - 1);
+    }
+}
+
+void Queue::next() noexcept
+{
+    if (mCurrentIndex.has_value() and *mCurrentIndex + 1 < mEntries.size()) {
+        play(*mCurrentIndex + 1);
+    }
+}
+
+void Queue::restartCurrentEntry() noexcept
+{
+    if (not mCurrentIndex.has_value()) {
+        return;
+    }
+
+    auto const currentIndex = *mCurrentIndex;
+    // Only a Renderer that plays the Current Entry can seek in it, otherwise it plays something else or nothing.
+    if (isInControl() and mRenderer->state() == Renderer::State::Playing and mRenderer->canSeek()) {
+        mRenderer->seek(std::chrono::milliseconds{0});
+        setLastKnownPosition(std::chrono::milliseconds{0});
+        setState(State::Running);
+    } else {
+        play(currentIndex);
+    }
 }
 
 void Queue::append(Items const& playables) noexcept
