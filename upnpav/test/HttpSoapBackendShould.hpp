@@ -29,6 +29,12 @@ private Q_SLOTS:
      * Tests that a SOAP call to a device that answers with a UPnP error doesn't tell that the device is unreachable.
      */
     void not_tell_that_the_device_is_unreachable_when_it_answers_with_an_error();
+
+    /**
+     * @test
+     * Tests that the SOAPACTION header carries the action in double quotes, devices reject it otherwise.
+     */
+    void send_the_soap_action_in_double_quotes();
 };
 
 } // namespace UPnPAV
