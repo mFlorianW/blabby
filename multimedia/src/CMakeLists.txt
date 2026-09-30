@@ -21,6 +21,7 @@ set(PUBLIC_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RendererStore.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/JsonRendererStore.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Queue.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -32,6 +33,7 @@ set(PUBLIC_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RendererStore.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/JsonRendererStore.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Queue.hpp
 )
 
 target_sources(${PROJECT_NAME}
