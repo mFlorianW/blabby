@@ -110,7 +110,8 @@ Item {
             libraryView.busy = false;
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
-            libraryViewTest.child("sourcePicker").close();
+            libraryView.visible = true;
+            libraryViewTest.child("sourceMenu").close();
             libraryViewTest.child("toast").hide();
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
@@ -139,6 +140,24 @@ Item {
         }
 
         /**
+         * Opens the Source menu with the Source pill and gives it.
+         */
+        function openMenu() {
+            libraryViewTest.mouseClick(libraryViewTest.child("sourcePill"));
+            const menu = libraryViewTest.child("sourceMenu");
+            libraryViewTest.tryCompare(menu, "opened", true);
+            libraryViewTest.waitForRendering(libraryView);
+            return menu;
+        }
+
+        /**
+         * Gives the child of the Source menu with the objectName, null when it doesn't exist.
+         */
+        function menuChild(objectName) {
+            return libraryViewTest.findChild(libraryViewTest.child("sourceMenu"), objectName);
+        }
+
+        /**
          * Tests that the "No Sources found" empty state is shown without Sources.
          */
         function test_show_no_sources_found_without_sources() {
@@ -150,7 +169,6 @@ Item {
             libraryViewTest.compare(emptyState.visible, true);
             libraryViewTest.compare(emptyState.title, "No Sources found");
             libraryViewTest.compare(emptyState.actionText, "");
-            libraryViewTest.compare(libraryViewTest.child("sourcePill").visible, false);
             libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
         }
 
@@ -164,68 +182,203 @@ Item {
             const emptyState = libraryViewTest.child("emptyState");
             libraryViewTest.compare(emptyState.visible, true);
             libraryViewTest.compare(emptyState.title, "Choose a Source");
-            libraryViewTest.compare(libraryViewTest.child("sourcePill").visible, false);
             libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
         }
 
         /**
-         * Tests that the button of the "Choose a Source" empty state opens the Source picker.
+         * Tests that the Source pill shows the name of the Active Source with a chevron.
          */
-        function test_open_the_source_picker_with_the_choose_a_source_button() {
+        function test_show_the_name_of_the_active_source_on_the_source_pill() {
+            const pill = libraryViewTest.child("sourcePill");
+            libraryViewTest.compare(pill.visible, true);
+            libraryViewTest.compare(pill.text, "NAS");
+            libraryViewTest.compare(pill.showsChevron, true);
+            libraryViewTest.compare(pill.checked, false);
+        }
+
+        /**
+         * The Sources with which the Library has no Active Source.
+         */
+        function test_show_choose_a_source_on_the_source_pill_without_an_active_source_data() {
+            return [
+                {
+                    tag: "with Sources",
+                    sources: sources
+                },
+                {
+                    tag: "without Sources",
+                    sources: noSources
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Source pill is always shown and reads "Choose a Source" without an Active Source.
+         */
+        function test_show_choose_a_source_on_the_source_pill_without_an_active_source(data) {
+            libraryView.sources = data.sources;
+            libraryView.hasActiveSource = false;
+            libraryView.activeSourceName = "";
+            libraryView.items = noItems;
+            const pill = libraryViewTest.child("sourcePill");
+            libraryViewTest.compare(pill.visible, true);
+            libraryViewTest.compare(pill.text, "Choose a Source");
+        }
+
+        /**
+         * Tests that the Source menu is closed at start and there is neither a Source picker dialog nor a scrim.
+         */
+        function test_be_closed_at_start_without_a_dialog() {
+            const menu = libraryViewTest.child("sourceMenu");
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuPanel").visible, false);
+            libraryViewTest.compare(libraryViewTest.findChild(libraryView, "scrim"), null);
+        }
+
+        /**
+         * Tests that the Source pill opens the menu right below it, aligned to its right edge, and looks checked with a
+         * turned chevron meanwhile.
+         */
+        function test_open_the_source_menu_below_the_source_pill() {
+            libraryViewTest.openMenu();
+            const pill = libraryViewTest.child("sourcePill");
+            const panel = libraryViewTest.menuChild("sourceMenuPanel");
+            libraryViewTest.compare(panel.visible, true);
+            const pillBottomRight = pill.mapToItem(libraryView, pill.width, pill.height);
+            const panelTopRight = panel.mapToItem(libraryView, panel.width, 0);
+            libraryViewTest.compare(panelTopRight.x, pillBottomRight.x);
+            libraryViewTest.compare(panelTopRight.y, pillBottomRight.y + 8);
+            libraryViewTest.compare(panel.width, 380);
+            libraryViewTest.compare(pill.checked, true);
+            libraryViewTest.tryCompare(libraryViewTest.findChild(pill, "dropDownIcon"), "rotation", 180);
+        }
+
+        /**
+         * Tests that the button of the "Choose a Source" empty state opens the Source menu.
+         */
+        function test_open_the_source_menu_with_the_choose_a_source_button() {
             libraryView.hasActiveSource = false;
             libraryView.activeSourceName = "";
             const action = libraryViewTest.findChild(libraryViewTest.child("emptyState"), "action");
             libraryViewTest.verify(action);
             libraryViewTest.waitForItemPolished(action.parent);
             libraryViewTest.mouseClick(action);
-            libraryViewTest.tryCompare(libraryViewTest.child("sourcePicker"), "visible", true);
+            libraryViewTest.tryCompare(libraryViewTest.child("sourceMenu"), "opened", true);
+            libraryViewTest.compare(libraryViewTest.child("sourcePill").checked, true);
         }
 
         /**
-         * Tests that the Source pill shows the name of the Active Source and opens the Source picker.
+         * Tests that the Source menu has the "Choose a Source" header and a 64 px row per Source with its icon in a
+         * round 40 px badge and its name elided on one line.
          */
-        function test_open_the_source_picker_with_the_source_pill() {
-            const pill = libraryViewTest.child("sourcePill");
-            libraryViewTest.compare(pill.visible, true);
-            libraryViewTest.compare(pill.text, "NAS");
-            libraryViewTest.compare(libraryViewTest.child("emptyState").visible, false);
-            libraryViewTest.mouseClick(pill);
-            libraryViewTest.tryCompare(libraryViewTest.child("sourcePicker"), "visible", true);
+        function test_list_every_source_in_the_source_menu() {
+            libraryViewTest.openMenu();
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuHeader").text, "Choose a Source");
+            const row = libraryViewTest.menuChild("sourceRow0");
+            libraryViewTest.verify(row);
+            libraryViewTest.compare(row.height, 64);
+            const badge = libraryViewTest.menuChild("sourceBadge0");
+            libraryViewTest.compare(badge.width, 40);
+            libraryViewTest.compare(badge.height, 40);
+            libraryViewTest.compare(badge.radius, 20);
+            libraryViewTest.compare(badge.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"));
+            const name = libraryViewTest.menuChild("sourceName0");
+            libraryViewTest.compare(name.text, "NAS");
+            libraryViewTest.compare(name.elide, Text.ElideRight);
+            libraryViewTest.compare(name.maximumLineCount, 1);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceName1").text, "Living Room PC");
         }
 
         /**
-         * Tests that the Source picker lists every Source with name and icon, also the ones appearing while it is open.
+         * Tests that a Source without an icon shows the generic "dns" icon in its badge.
          */
-        function test_list_every_source_in_the_source_picker() {
-            libraryViewTest.mouseClick(libraryViewTest.child("sourcePill"));
-            const picker = libraryViewTest.child("sourcePicker");
-            libraryViewTest.tryCompare(picker, "visible", true);
-            libraryViewTest.compare(libraryViewTest.findChild(picker, "sourceName0").text, "NAS");
-            libraryViewTest.compare(libraryViewTest.findChild(picker, "sourceIcon0").source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"));
-            libraryViewTest.compare(libraryViewTest.findChild(picker, "sourceName1").text, "Living Room PC");
+        function test_show_the_generic_icon_for_a_source_without_an_icon() {
+            sources.append({
+                "mediaSourceName": "USB Stick",
+                "mediaSourceIconUrl": ""
+            });
+            libraryViewTest.openMenu();
+            libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceBadge2") !== null);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceBadge2").iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"));
+        }
 
+        /**
+         * Tests that Sources added or removed while the Source menu is open appear in it or vanish from it.
+         */
+        function test_follow_sources_added_or_removed_while_open() {
+            libraryViewTest.openMenu();
             sources.append({
                 "mediaSourceName": "Kitchen Tablet",
                 "mediaSourceIconUrl": ""
             });
-            libraryViewTest.tryVerify(() => libraryViewTest.findChild(picker, "sourceName2") !== null);
-            libraryViewTest.compare(libraryViewTest.findChild(picker, "sourceName2").text, "Kitchen Tablet");
+            libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceName2") !== null);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceName2").text, "Kitchen Tablet");
+            sources.remove(2);
+            libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceName2") === null);
         }
 
         /**
-         * Tests that picking a Source emits sourcePicked with its index and closes the picker.
+         * Tests that picking a Source emits sourcePicked with its index and closes the menu.
          */
-        function test_emit_sourcePicked_and_close_the_picker_when_a_source_is_picked() {
-            libraryViewTest.mouseClick(libraryViewTest.child("sourcePill"));
-            const picker = libraryViewTest.child("sourcePicker");
-            libraryViewTest.tryCompare(picker, "visible", true);
-            const row = libraryViewTest.findChild(picker, "sourceRow1");
+        function test_emit_sourcePicked_and_close_the_menu_when_a_source_is_picked() {
+            const menu = libraryViewTest.openMenu();
+            const row = libraryViewTest.menuChild("sourceRow1");
             libraryViewTest.verify(row);
-            libraryViewTest.verify(row.height >= 44);
             libraryViewTest.mouseClick(row);
             libraryViewTest.compare(sourcePickedSpy.count, 1);
             libraryViewTest.compare(sourcePickedSpy.signalArguments[0][0], 1);
-            libraryViewTest.tryCompare(picker, "visible", false);
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(libraryViewTest.child("sourcePill").checked, false);
+        }
+
+        /**
+         * Tests that tapping the Source pill again closes the menu.
+         */
+        function test_close_the_source_menu_with_the_source_pill() {
+            const menu = libraryViewTest.openMenu();
+            libraryViewTest.mouseClick(libraryViewTest.child("sourcePill"));
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(sourcePickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that a tap anywhere else in the Library closes the menu without reaching the tile beneath, and that
+         * only the Library is covered, so the navigation rail beside it stays usable.
+         */
+        function test_close_the_source_menu_with_a_tap_elsewhere_without_reaching_the_tile_beneath() {
+            const menu = libraryViewTest.openMenu();
+            const tapCatcher = libraryViewTest.menuChild("tapCatcher");
+            const catcherTopLeft = tapCatcher.mapToItem(libraryView, 0, 0);
+            libraryViewTest.compare(catcherTopLeft.x, 0);
+            libraryViewTest.compare(catcherTopLeft.y, 0);
+            libraryViewTest.compare(tapCatcher.width, libraryView.width);
+            libraryViewTest.compare(tapCatcher.height, libraryView.height);
+            libraryViewTest.mouseClick(libraryViewTest.tile(0));
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(itemActivatedSpy.count, 0);
+            libraryViewTest.compare(sourcePickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the tiles beneath the open Source menu don't react to the hovering mouse.
+         */
+        function test_not_hover_the_tiles_beneath_the_open_source_menu() {
+            libraryViewTest.openMenu();
+            const tile = libraryViewTest.tile(0);
+            libraryViewTest.mouseMove(tile, tile.width / 2, tile.height / 2);
+            libraryViewTest.compare(tile.hovered, false);
+        }
+
+        /**
+         * Tests that the Source menu is closed when the Library view becomes invisible, e.g. on another screen.
+         */
+        function test_close_the_source_menu_when_the_library_becomes_invisible() {
+            const menu = libraryViewTest.openMenu();
+            libraryView.visible = false;
+            libraryViewTest.compare(menu.opened, false);
+            libraryView.visible = true;
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuPanel").visible, false);
         }
 
         /**

@@ -10,7 +10,8 @@ import Blabby.Theme
 /**
  * The screen to browse the media of the Active Source.
  * The Items of the current Container are shown as tiles in a grid that reflows to the available width.
- * A Source pill in the header shows the Active Source and opens the Source picker.
+ * A Source pill in the header shows the Active Source, or "Choose a Source" without one, and opens and closes the
+ * Source menu below it.
  * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
  * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
  * be opened the current Container stays and a toast tells so.
@@ -22,7 +23,7 @@ Item {
     /**
      * The Sources to pick from, a model with the roles "mediaSourceName" and "mediaSourceIconUrl".
      */
-    property alias sources: sourcePicker.model
+    property alias sources: sourceMenu.model
 
     /**
      * The Items of the current Container, a model with the roles "mediaItemTitle", "mediaItemType",
@@ -58,7 +59,7 @@ Item {
     /**
      * True when there is at least one Source to pick.
      */
-    readonly property bool hasSources: sourcePicker.count > 0
+    readonly property bool hasSources: sourceMenu.count > 0
 
     /**
      * True while the Items of a Container below the root Container are browsed.
@@ -76,7 +77,7 @@ Item {
     readonly property var contentTop: containerTitleText.visible ? containerTitleText.bottom : header.bottom
 
     /**
-     * This signal is emitted when the user picks the Source at index in the Source picker.
+     * This signal is emitted when the user picks the Source at index in the Source menu.
      */
     signal sourcePicked(int index)
 
@@ -134,10 +135,12 @@ Item {
         PillButton {
             id: sourcePill
             objectName: "sourcePill"
-            text: libraryView.activeSourceName
+            text: libraryView.hasActiveSource ? libraryView.activeSourceName : qsTr("Choose a Source")
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
-            visible: libraryView.hasActiveSource
-            onClicked: sourcePicker.open()
+            showsChevron: true
+            checked: sourceMenu.opened
+            // While the menu is open its tap catcher covers the pill, a tap on the pill closes the menu then.
+            onClicked: sourceMenu.open()
         }
     }
 
@@ -166,7 +169,7 @@ Item {
         hint: libraryView.hasActiveSource ? "" : libraryView.hasSources ? qsTr("Pick the Source whose media you want to browse") : qsTr("Make sure your media servers are switched on and on the same network")
         actionText: !libraryView.hasActiveSource && libraryView.hasSources ? qsTr("Choose Source") : ""
         visible: !libraryView.hasActiveSource || libraryView.containerEmpty
-        onActionClicked: sourcePicker.open()
+        onActionClicked: sourceMenu.open()
     }
 
     GridView {
@@ -242,13 +245,11 @@ Item {
         maximumWidth: libraryView.width - 48
     }
 
-    SourcePicker {
-        id: sourcePicker
-        objectName: "sourcePicker"
+    SourceMenu {
+        id: sourceMenu
+        objectName: "sourceMenu"
         anchors.fill: libraryView
-        onPicked: index => {
-            sourcePicker.close();
-            libraryView.sourcePicked(index);
-        }
+        anchorItem: sourcePill
+        onPicked: index => libraryView.sourcePicked(index)
     }
 }

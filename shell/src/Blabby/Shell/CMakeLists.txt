@@ -13,7 +13,7 @@ qt_add_qml_module(${PROJECT_NAME}
         QueueView.qml
         RendererCard.qml
         RenderersView.qml
-        SourcePicker.qml
+        SourceMenu.qml
         TimeFormat.js
     RESOURCES
         ../../icons/24x24/play_arrow.svg

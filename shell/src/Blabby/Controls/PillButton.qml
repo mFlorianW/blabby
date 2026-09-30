@@ -7,8 +7,10 @@ import Blabby.Controls
 import Blabby.Theme
 
 /**
- * A tonal pill in the header that shows a selection, e.g. the Active Source, with a leading icon,
- * its text and a trailing drop down arrow. Clicking it lets the user change the selection.
+ * A tonal pill in the header that shows a selection, e.g. the Active Source, with a leading icon and its text.
+ * Clicking it lets the user change the selection. An opt-in trailing chevron hints that the pill opens a menu, it turns
+ * by 180° while the pill is checked, e.g. while its menu is open. A checked pill is drawn in the highlighted container
+ * colours.
  */
 AbstractInteractiveControl {
     id: pillButton
@@ -24,9 +26,19 @@ AbstractInteractiveControl {
     property url iconSource
 
     /**
+     * True to show the trailing chevron, false by default.
+     */
+    property bool showsChevron: false
+
+    /**
+     * True while the pill is checked, e.g. while its menu is open, false by default.
+     */
+    property bool checked: false
+
+    /**
      * The colour of the icons and the text.
      */
-    readonly property color contentColor: Theme.colors.colorOnSecondaryContainer
+    readonly property color contentColor: pillButton.checked ? Theme.colors.colorOnPrimaryContainer : Theme.colors.colorOnSecondaryContainer
 
     implicitHeight: 56
     implicitWidth: content.implicitWidth + 16 + 16
@@ -36,7 +48,7 @@ AbstractInteractiveControl {
         objectName: "background"
         anchors.fill: pillButton
         radius: pillButton.height / 2
-        color: Theme.colors.secondaryContainer
+        color: pillButton.checked ? Theme.colors.primaryContainer : Theme.colors.secondaryContainer
     }
 
     Rectangle {
@@ -79,6 +91,15 @@ AbstractInteractiveControl {
             height: 20
             source: "qrc:/qt/qml/Blabby/Shell/icons/material/expand_more.svg"
             color: pillButton.contentColor
+            visible: pillButton.showsChevron
+            rotation: pillButton.checked ? 180 : 0
+
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutQuad
+                }
+            }
         }
     }
 }
