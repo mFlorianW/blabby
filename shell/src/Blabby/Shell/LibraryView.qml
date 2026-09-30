@@ -81,7 +81,8 @@ Item {
     signal sourcePicked(int index)
 
     /**
-     * This signal is emitted when the user taps the tile of the Item at index.
+     * This signal is emitted when the user taps the tile of the Item at index, to open a Container or to play a
+     * Playable.
      */
     signal itemActivated(int index)
 

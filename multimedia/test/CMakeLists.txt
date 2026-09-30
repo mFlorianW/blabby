@@ -101,6 +101,22 @@ target_link_libraries(test_multimedia_renderer
 add_test(test_multimedia_renderer ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_renderer)
 
 ###############################################################################
+# Test Queue
+###############################################################################
+add_executable(test_multimedia_queue)
+target_sources(test_multimedia_queue
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QueueShould.hpp
+)
+target_link_libraries(test_multimedia_queue
+    Qt6::Test
+    Blabby::Multimedia
+    Blabby::UPnPAVTestHelper
+)
+add_test(test_multimedia_queue ${EXECUTABLE_OUTPUT_PATH}/test_multimedia_queue)
+
+###############################################################################
 # Test JsonRendererStore
 ###############################################################################
 add_executable(test_multimedia_jsonrendererstore)

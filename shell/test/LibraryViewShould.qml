@@ -328,6 +328,15 @@ Item {
         }
 
         /**
+         * Tests that tapping the tile of a Playable emits itemActivated with its index, so that it plays.
+         */
+        function test_emit_itemActivated_with_the_index_of_a_tapped_playable() {
+            libraryViewTest.mouseClick(libraryViewTest.tile(1));
+            libraryViewTest.compare(itemActivatedSpy.count, 1);
+            libraryViewTest.compare(itemActivatedSpy.signalArguments[0][0], 1);
+        }
+
+        /**
          * Tests that the root Container shows neither the back button nor a Container title.
          */
         function test_show_neither_back_button_nor_title_at_the_root() {

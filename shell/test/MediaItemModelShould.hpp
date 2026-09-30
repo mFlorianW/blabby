@@ -25,7 +25,7 @@ private Q_SLOTS:
     void give_the_correct_title_for_valid_index();
     void navigate_when_a_container_item_is_activated();
     void update_the_media_items_when_navigation_is_finished();
-    void do_nothing_when_a_playable_item_is_activated();
+    void request_to_play_the_playables_of_the_container_when_a_playable_is_activated();
     void give_the_item_type_of_the_item();
     void tell_whether_a_media_source_is_set();
     void stop_following_the_previous_media_source_when_the_media_source_changes();

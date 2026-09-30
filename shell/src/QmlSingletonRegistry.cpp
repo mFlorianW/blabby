@@ -24,11 +24,14 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
     , mActiveRendererController{mRendererModel}
+    , mQueueModel{mRendererModel}
 {
     // The Library shows the Items of the Active Source.
     connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
         mItemModel.setMediaSource(mSourceModel.activeMediaSource());
     });
+    // Tapping a Playable in the Library plays it through the Queue.
+    connect(&mItemModel, &MediaItemModel::playRequested, &mQueueModel, &QueueModel::replace);
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;
@@ -51,6 +54,11 @@ MediaRendererModel* QmlSingletonRegistry::mediaRendererModel() noexcept
 ActiveRendererController* QmlSingletonRegistry::activeRendererController() noexcept
 {
     return &mActiveRendererController;
+}
+
+QueueModel* QmlSingletonRegistry::queueModel() noexcept
+{
+    return &mQueueModel;
 }
 
 QObject* QmlSingletonRegistry::createQmlRegistry(QQmlEngine* engine, QJSEngine* scriptEngine)

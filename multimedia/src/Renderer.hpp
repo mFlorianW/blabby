@@ -55,6 +55,11 @@ struct BLABBYMULTIMEDIA_EXPORT CurrentTrack
      */
     QString format;
 
+    /**
+     * The URI the Renderer plays the track from.
+     */
+    QString uri;
+
     friend bool operator==(CurrentTrack const& lhs, CurrentTrack const& rhs) = default;
 };
 
