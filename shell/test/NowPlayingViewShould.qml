@@ -31,6 +31,12 @@ Item {
         }
 
         SignalSpy {
+            id: queueRequestedSpy
+            target: nowPlayingView
+            signalName: "queueRequested"
+        }
+
+        SignalSpy {
             id: seekRequestedSpy
             target: nowPlayingView
             signalName: "seekRequested"
@@ -82,6 +88,7 @@ Item {
             volumeRequestedSpy.clear();
             nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
+            queueRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
@@ -157,6 +164,19 @@ Item {
             nowPlayingViewTest.compare(pill.text, "Kitchen");
             nowPlayingViewTest.mouseClick(pill);
             nowPlayingViewTest.compare(chooseRendererRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Queue button in the header asks to open the Queue, also without an Active Renderer.
+         */
+        function test_ask_to_open_the_queue_with_the_queue_button() {
+            const queueButton = nowPlayingViewTest.child("queueButton");
+            nowPlayingViewTest.compare(queueButton.visible, true);
+            nowPlayingViewTest.mouseClick(queueButton);
+            nowPlayingViewTest.compare(queueRequestedSpy.count, 1);
+
+            nowPlayingView.hasActiveRenderer = false;
+            nowPlayingViewTest.compare(queueButton.visible, true);
         }
 
         /**

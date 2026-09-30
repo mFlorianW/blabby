@@ -20,12 +20,22 @@ Rectangle {
      */
     readonly property int playingDestination: 0
     readonly property int libraryDestination: 1
-    readonly property int renderersDestination: 2
+    readonly property int queueDestination: 2
+    readonly property int renderersDestination: 3
 
     /**
-     * True while the Renderers screen was opened from the Playing screen, picking a Renderer returns to it then.
+     * The destination the Renderers screen was opened from to choose a Renderer, picking a Renderer returns to it.
+     * -1 when the Renderers screen was opened from the navigation rail.
      */
-    property bool returnToPlaying: false
+    property int returnDestination: -1
+
+    /**
+     * Opens the Renderers screen to choose a Renderer, picking one returns to the destination.
+     */
+    function chooseRenderer(destination: int) {
+        shell.returnDestination = destination;
+        rail.currentIndex = shell.renderersDestination;
+    }
 
     NavigationRail {
         id: rail
@@ -43,11 +53,15 @@ Rectangle {
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/library_music.svg"
             },
             {
+                "text": qsTr("Queue"),
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/queue_music.svg"
+            },
+            {
                 "text": qsTr("Renderers"),
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
             }
         ]
-        onActivated: shell.returnToPlaying = false
+        onActivated: shell.returnDestination = -1
     }
 
     StackLayout {
@@ -81,10 +95,8 @@ Rectangle {
             canControlVolume: Singleton.activeRendererController.canControlVolume
             muted: Singleton.activeRendererController.muted
             canControlMute: Singleton.activeRendererController.canControlMute
-            onChooseRendererRequested: {
-                shell.returnToPlaying = true;
-                rail.currentIndex = shell.renderersDestination;
-            }
+            onChooseRendererRequested: shell.chooseRenderer(shell.playingDestination)
+            onQueueRequested: rail.currentIndex = shell.queueDestination
 
             onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
@@ -123,6 +135,20 @@ Rectangle {
             }
         }
 
+        QueueView {
+            id: queueView
+            entries: Singleton.queueModel
+            hasActiveRenderer: Singleton.activeRendererController.hasActiveRenderer
+            currentEntryPlaying: Singleton.queueModel.currentEntryPlaying
+            entryCount: Singleton.queueModel.entryCount
+            totalDuration: Singleton.queueModel.totalDuration
+            hasTotalDuration: Singleton.queueModel.hasTotalDuration
+            totalDurationPartial: Singleton.queueModel.totalDurationPartial
+            onPlayRequested: index => Singleton.queueModel.play(index)
+            onChooseRendererRequested: shell.chooseRenderer(shell.queueDestination)
+            onBrowseLibraryRequested: rail.currentIndex = shell.libraryDestination
+        }
+
         RenderersView {
             id: renderersView
             model: Singleton.mediaRendererModel
@@ -130,9 +156,9 @@ Rectangle {
             onRescanRequested: Singleton.mediaRendererModel.rescan()
             onActivated: index => {
                 Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0));
-                if (shell.returnToPlaying) {
-                    shell.returnToPlaying = false;
-                    rail.currentIndex = shell.playingDestination;
+                if (shell.returnDestination >= 0) {
+                    rail.currentIndex = shell.returnDestination;
+                    shell.returnDestination = -1;
                 }
             }
             onForgetRequested: index => Singleton.mediaRendererModel.forgetRenderer(Singleton.mediaRendererModel.index(index, 0))

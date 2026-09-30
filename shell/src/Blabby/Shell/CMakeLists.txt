@@ -10,9 +10,11 @@ qt_add_qml_module(${PROJECT_NAME}
         LibraryView.qml
         MainWindow.qml
         NowPlayingView.qml
+        QueueView.qml
         RendererCard.qml
         RenderersView.qml
         SourcePicker.qml
+        TimeFormat.js
     RESOURCES
         ../../icons/24x24/play_arrow.svg
         ../../icons/24x24/close.svg
@@ -27,6 +29,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/pause.svg
         ../../icons/material/play_arrow.svg
         ../../icons/material/play_circle.svg
+        ../../icons/material/queue_music.svg
         ../../icons/material/refresh.svg
         ../../icons/material/speaker.svg
         ../../icons/material/stop.svg
