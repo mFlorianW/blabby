@@ -95,10 +95,15 @@ Rectangle {
             canControlVolume: Singleton.activeRendererController.canControlVolume
             muted: Singleton.activeRendererController.muted
             canControlMute: Singleton.activeRendererController.canControlMute
+            hasQueue: Singleton.queueModel.entryCount > 0
+            hasPrevious: Singleton.queueModel.hasPrevious
+            hasNext: Singleton.queueModel.hasNext
             onChooseRendererRequested: shell.chooseRenderer(shell.playingDestination)
             onQueueRequested: rail.currentIndex = shell.queueDestination
 
             onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
+            onPreviousRequested: Singleton.queueModel.previous()
+            onNextRequested: Singleton.queueModel.next()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
             onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
             onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)

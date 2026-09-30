@@ -16,8 +16,9 @@ import "TimeFormat.js" as TimeFormat
  * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
  * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
  * toast tells so. A large Play/Pause button pauses, or stops a Renderer that can't pause, and resumes or plays; it
- * shows a busy ring while the Renderer is transitioning. A seek bar shows the elapsed and the total time and seeks on
- * release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
+ * shows a busy ring while the Renderer is transitioning. Previous and next buttons next to it step through the Queue,
+ * they are disabled when unavailable and hidden while the Queue is empty. A seek bar shows the elapsed and the total
+ * time and seeks on release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
  * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
  * changes the Volume while dragging, a Mute button next to it mutes and unmutes and dims the slider while muted. The
  * row is also shown without media, each control is hidden when the Renderer doesn't offer it.
@@ -132,6 +133,21 @@ Item {
     property bool canControlMute: false
 
     /**
+     * True while the Queue has entries.
+     */
+    property bool hasQueue: false
+
+    /**
+     * True when previous does something in the Queue.
+     */
+    property bool hasPrevious: false
+
+    /**
+     * True when next does something in the Queue.
+     */
+    property bool hasNext: false
+
+    /**
      * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
      */
     property real seekTarget: -1
@@ -165,6 +181,17 @@ Item {
      * This signal is emitted when the user asks to pause, stop, resume or play the Active Renderer.
      */
     signal togglePlaybackRequested
+
+    /**
+     * This signal is emitted when the user asks to restart the Current Entry or to play the preceding entry of the
+     * Queue.
+     */
+    signal previousRequested
+
+    /**
+     * This signal is emitted when the user asks to play the next entry of the Queue.
+     */
+    signal nextRequested
 
     /**
      * This signal is emitted when the user asks to seek to the position in milliseconds.
@@ -216,6 +243,48 @@ Item {
      */
     function showActiveRendererWentOffline(rendererName: string) {
         toast.show(qsTr("%1 is no longer available").arg(rendererName));
+    }
+
+    /**
+     * A large tonal button that steps through the Queue, dimmed while disabled.
+     */
+    component StepButton: AbstractInteractiveControl {
+        id: stepButton
+
+        /**
+         * The URL of the SVG icon.
+         */
+        property url iconSource
+
+        width: 80
+        height: 80
+        opacity: stepButton.enabled ? 1 : Theme.disabledOpacity
+
+        Rectangle {
+            id: stepContainer
+            objectName: "container"
+            anchors.fill: stepButton
+            radius: 24
+            color: Theme.colors.secondaryContainer
+        }
+
+        Rectangle {
+            id: stepStateLayer
+            anchors.fill: stepContainer
+            radius: stepContainer.radius
+            color: Theme.colors.colorOnSecondaryContainer
+            opacity: stepButton.pressed ? Theme.stateLayer.pressedOpacity : stepButton.hovered ? Theme.stateLayer.hoverOpacity : 0
+        }
+
+        Icon {
+            id: stepIcon
+            objectName: "icon"
+            anchors.centerIn: stepButton
+            width: 32
+            height: 32
+            source: stepButton.iconSource
+            color: Theme.colors.colorOnSecondaryContainer
+        }
     }
 
     ScreenHeader {
@@ -417,56 +486,81 @@ Item {
                 height: 20
             }
 
-            AbstractInteractiveControl {
-                id: playPauseButton
-                objectName: "playPauseButton"
-                width: 128
-                height: 96
-                onClicked: nowPlayingView.togglePlaybackRequested()
+            Row {
+                id: transportControls
+                spacing: 12
 
-                Rectangle {
-                    id: playPauseContainer
-                    objectName: "container"
-                    anchors.fill: playPauseButton
-                    // The button is rounder while not playing, as in the design.
-                    radius: nowPlayingView.playing ? 28 : 48
-                    color: Theme.colors.primary
+                StepButton {
+                    id: previousButton
+                    objectName: "previousButton"
+                    anchors.verticalCenter: transportControls.verticalCenter
+                    iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/skip_previous.svg"
+                    visible: nowPlayingView.hasQueue
+                    enabled: nowPlayingView.hasPrevious
+                    onClicked: nowPlayingView.previousRequested()
+                }
 
-                    Behavior on radius {
-                        NumberAnimation {
-                            duration: 200
-                            easing.type: Easing.OutQuad
+                AbstractInteractiveControl {
+                    id: playPauseButton
+                    objectName: "playPauseButton"
+                    width: 128
+                    height: 96
+                    onClicked: nowPlayingView.togglePlaybackRequested()
+
+                    Rectangle {
+                        id: playPauseContainer
+                        objectName: "container"
+                        anchors.fill: playPauseButton
+                        // The button is rounder while not playing, as in the design.
+                        radius: nowPlayingView.playing ? 28 : 48
+                        color: Theme.colors.primary
+
+                        Behavior on radius {
+                            NumberAnimation {
+                                duration: 200
+                                easing.type: Easing.OutQuad
+                            }
                         }
+                    }
+
+                    Rectangle {
+                        id: playPauseStateLayer
+                        anchors.fill: playPauseContainer
+                        radius: playPauseContainer.radius
+                        color: Theme.colors.colorOnPrimary
+                        opacity: playPauseButton.pressed ? Theme.stateLayer.pressedOpacity : playPauseButton.hovered ? Theme.stateLayer.hoverOpacity : 0
+                    }
+
+                    Icon {
+                        id: playPauseIcon
+                        objectName: "icon"
+                        anchors.centerIn: playPauseButton
+                        width: 44
+                        height: 44
+                        source: !nowPlayingView.playing ? "qrc:/qt/qml/Blabby/Shell/icons/material/play_arrow.svg" : nowPlayingView.canPause ? "qrc:/qt/qml/Blabby/Shell/icons/material/pause.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/stop.svg"
+                        color: Theme.colors.colorOnPrimary
+                    }
+
+                    BusyIndicator {
+                        id: busyRing
+                        objectName: "busyRing"
+                        anchors.centerIn: playPauseButton
+                        width: 72
+                        height: 72
+                        strokeWidth: 4
+                        color: Theme.colors.colorOnPrimary
+                        running: nowPlayingView.transitioning
                     }
                 }
 
-                Rectangle {
-                    id: playPauseStateLayer
-                    anchors.fill: playPauseContainer
-                    radius: playPauseContainer.radius
-                    color: Theme.colors.colorOnPrimary
-                    opacity: playPauseButton.pressed ? Theme.stateLayer.pressedOpacity : playPauseButton.hovered ? Theme.stateLayer.hoverOpacity : 0
-                }
-
-                Icon {
-                    id: playPauseIcon
-                    objectName: "icon"
-                    anchors.centerIn: playPauseButton
-                    width: 44
-                    height: 44
-                    source: !nowPlayingView.playing ? "qrc:/qt/qml/Blabby/Shell/icons/material/play_arrow.svg" : nowPlayingView.canPause ? "qrc:/qt/qml/Blabby/Shell/icons/material/pause.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/stop.svg"
-                    color: Theme.colors.colorOnPrimary
-                }
-
-                BusyIndicator {
-                    id: busyRing
-                    objectName: "busyRing"
-                    anchors.centerIn: playPauseButton
-                    width: 72
-                    height: 72
-                    strokeWidth: 4
-                    color: Theme.colors.colorOnPrimary
-                    running: nowPlayingView.transitioning
+                StepButton {
+                    id: nextButton
+                    objectName: "nextButton"
+                    anchors.verticalCenter: transportControls.verticalCenter
+                    iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/skip_next.svg"
+                    visible: nowPlayingView.hasQueue
+                    enabled: nowPlayingView.hasNext
+                    onClicked: nowPlayingView.nextRequested()
                 }
             }
 

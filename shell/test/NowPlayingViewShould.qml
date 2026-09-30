@@ -7,6 +7,7 @@ import QtTest
 import Blabby.Controls
 import Blabby.Objects
 import Blabby.Shell
+import Blabby.Theme
 
 Item {
     id: root
@@ -60,6 +61,18 @@ Item {
             signalName: "togglePlaybackRequested"
         }
 
+        SignalSpy {
+            id: previousRequestedSpy
+            target: nowPlayingView
+            signalName: "previousRequested"
+        }
+
+        SignalSpy {
+            id: nextRequestedSpy
+            target: nowPlayingView
+            signalName: "nextRequested"
+        }
+
         function init() {
             nowPlayingView.hasActiveRenderer = true;
             nowPlayingView.rendererName = "Kitchen";
@@ -90,6 +103,11 @@ Item {
             chooseRendererRequestedSpy.clear();
             queueRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
+            nowPlayingView.hasQueue = true;
+            nowPlayingView.hasPrevious = true;
+            nowPlayingView.hasNext = true;
+            previousRequestedSpy.clear();
+            nextRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
         }
@@ -656,6 +674,125 @@ Item {
             nowPlayingViewTest.compare(nowPlayingViewTest.child("muteButton").visible, true);
             nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeSlider").visible, false);
             nowPlayingViewTest.compare(nowPlayingViewTest.child("volumeValue").visible, false);
+        }
+
+        /**
+         * Tests that previous and next are shown next to the Play/Pause button while the Queue has entries.
+         */
+        function test_show_previous_and_next_while_the_queue_has_entries() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const previousButton = nowPlayingViewTest.child("previousButton");
+            const nextButton = nowPlayingViewTest.child("nextButton");
+            nowPlayingViewTest.compare(previousButton.visible, true);
+            nowPlayingViewTest.compare(nextButton.visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(previousButton, "icon").source, "qrc:/qt/qml/Blabby/Shell/icons/material/skip_previous.svg");
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(nextButton, "icon").source, "qrc:/qt/qml/Blabby/Shell/icons/material/skip_next.svg");
+        }
+
+        function test_show_previous_and_next_as_tonal_buttons_beside_play_pause_data() {
+            return [
+                {
+                    tag: "previous",
+                    button: "previousButton"
+                },
+                {
+                    tag: "next",
+                    button: "nextButton"
+                }
+            ];
+        }
+
+        /**
+         * Tests that previous and next are large tonal buttons of the height of the Play/Pause button's row, as in the
+         * design, with previous before and next after the Play/Pause button.
+         */
+        function test_show_previous_and_next_as_tonal_buttons_beside_play_pause(data) {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const button = nowPlayingViewTest.child(data.button);
+            nowPlayingViewTest.compare(button.width, 80);
+            nowPlayingViewTest.compare(button.height, 80);
+            const container = nowPlayingViewTest.findChild(button, "container");
+            nowPlayingViewTest.compare(container.radius, 24);
+            nowPlayingViewTest.compare(container.color, Theme.colors.secondaryContainer);
+            const icon = nowPlayingViewTest.findChild(button, "icon");
+            nowPlayingViewTest.compare(icon.width, 32);
+            nowPlayingViewTest.compare(icon.color, Theme.colors.colorOnSecondaryContainer);
+            const playPause = nowPlayingViewTest.child("playPauseButton");
+            const buttonX = button.mapToItem(nowPlayingView, 0, 0).x;
+            const playPauseX = playPause.mapToItem(nowPlayingView, 0, 0).x;
+            if (data.button === "previousButton") {
+                nowPlayingViewTest.compare(playPauseX - (buttonX + button.width), 12);
+            } else {
+                nowPlayingViewTest.compare(buttonX - (playPauseX + playPause.width), 12);
+            }
+        }
+
+        /**
+         * Tests that previous and next are hidden while the Queue is empty.
+         */
+        function test_hide_previous_and_next_while_the_queue_is_empty() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.hasQueue = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("previousButton").visible, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("nextButton").visible, false);
+        }
+
+        function test_ask_for_previous_and_next_with_their_buttons_data() {
+            return [
+                {
+                    tag: "previous",
+                    button: "previousButton",
+                    spy: previousRequestedSpy,
+                    otherSpy: nextRequestedSpy
+                },
+                {
+                    tag: "next",
+                    button: "nextButton",
+                    spy: nextRequestedSpy,
+                    otherSpy: previousRequestedSpy
+                }
+            ];
+        }
+
+        /**
+         * Tests that the previous and the next button ask for previous and next.
+         */
+        function test_ask_for_previous_and_next_with_their_buttons(data) {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingViewTest.mouseClick(nowPlayingViewTest.child(data.button));
+            nowPlayingViewTest.compare(data.spy.count, 1);
+            nowPlayingViewTest.compare(data.otherSpy.count, 0);
+        }
+
+        function test_disable_previous_and_next_when_unavailable_data() {
+            return [
+                {
+                    tag: "previous",
+                    button: "previousButton",
+                    availability: "hasPrevious",
+                    spy: previousRequestedSpy
+                },
+                {
+                    tag: "next",
+                    button: "nextButton",
+                    availability: "hasNext",
+                    spy: nextRequestedSpy
+                }
+            ];
+        }
+
+        /**
+         * Tests that previous and next are disabled and ask for nothing when they are unavailable.
+         */
+        function test_disable_previous_and_next_when_unavailable(data) {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const button = nowPlayingViewTest.child(data.button);
+            nowPlayingViewTest.compare(button.enabled, true);
+            nowPlayingView[data.availability] = false;
+            nowPlayingViewTest.compare(button.enabled, false);
+            nowPlayingViewTest.compare(button.visible, true);
+            nowPlayingViewTest.mouseClick(button);
+            nowPlayingViewTest.compare(data.spy.count, 0);
         }
 
         /**
