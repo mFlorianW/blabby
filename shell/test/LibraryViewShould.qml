@@ -75,6 +75,21 @@ Item {
         id: noItems
     }
 
+    ListModel {
+        id: manyItems
+
+        Component.onCompleted: {
+            for (let i = 0; i < 40; ++i) {
+                manyItems.append({
+                    mediaItemTitle: "Song " + i,
+                    mediaItemArtworkUrl: "",
+                    mediaItemSecondaryText: "",
+                    mediaItemType: ItemType.Playable
+                });
+            }
+        }
+    }
+
     LibraryView {
         id: libraryView
         anchors.fill: parent
@@ -713,6 +728,52 @@ Item {
             libraryViewTest.mouseClick(retryButton);
 
             libraryViewTest.compare(retryRequestedSpy.count, 1);
+        }
+
+        /**
+         * Gives the index of the first Item the grid shows.
+         */
+        function firstVisibleIndex() {
+            return libraryViewTest.child("itemGrid").firstVisibleIndex();
+        }
+
+        /**
+         * Tests that restoring a scroll position scrolls the grid back so that the row of the Item at the position is
+         * the first one shown.
+         */
+        function test_scroll_back_to_a_restored_scroll_position() {
+            libraryView.items = manyItems;
+
+            libraryView.restoreScrollPosition(17);
+
+            // Five tiles fit into a row, the row of the Item 17 starts with the Item 15.
+            libraryViewTest.tryVerify(() => libraryViewTest.firstVisibleIndex() === 15);
+            libraryViewTest.verify(libraryViewTest.tile(17).visible);
+        }
+
+        /**
+         * Tests that a tapped tile reports the index of the first Item shown as the scroll position.
+         */
+        function test_emit_itemActivated_with_the_scroll_position() {
+            libraryView.items = manyItems;
+            libraryViewTest.child("itemGrid").positionViewAtIndex(20, GridView.Beginning);
+            const tile = libraryViewTest.tile(22);
+            libraryViewTest.waitForItemPolished(tile);
+
+            libraryViewTest.mouseClick(tile);
+
+            libraryViewTest.compare(itemActivatedSpy.count, 1);
+            libraryViewTest.compare(itemActivatedSpy.signalArguments[0][0], 22);
+            libraryViewTest.compare(itemActivatedSpy.signalArguments[0][1], 20);
+        }
+
+        /**
+         * Tests that a tapped tile reports the first Item as the scroll position when the grid isn't scrolled.
+         */
+        function test_emit_itemActivated_with_the_first_item_as_scroll_position_at_the_top() {
+            libraryViewTest.mouseClick(libraryViewTest.tile(1));
+
+            libraryViewTest.compare(itemActivatedSpy.signalArguments[0][1], 0);
         }
     }
 }

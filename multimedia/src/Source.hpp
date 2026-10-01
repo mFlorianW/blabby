@@ -29,7 +29,7 @@ struct SourcePrivate;
  * Base class for every media source.
  * Each MediaSource shall have a name, optional icon.
  * A MediaSource is a navigatable source of media items.
- * Concret subclasses must implement the @ref navigateTo(QString) function.
+ * Concrete subclasses must implement the @ref navigate(QString, qsizetype) function.
  * Subclasses that are not navigatable, all playable items are on the root layer.
  * Those subclasses don't need to overwrite the default implemenation.
  */
@@ -80,16 +80,11 @@ public:
     bool canLoadMore() const noexcept;
 
     /**
-     * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
-     * A paged Source only loads the first page of the Container, see @ref loadMore().
-     * This @ref navigateTo(QString) must only be implemented when the source navigatable.
-     * The default implementation does nothing.
-     * The source shall emit the @ref navigationFinished(QString) singal when the navigation is succesful finished.
-     * If it fails to navigate to the given path the source shall emit the @ref navigationFailed(QString) signal
-     * instead, and keep its @ref mediaItems() unchanged.
+     * Navigates to the given path, see @ref navigate(QString, qsizetype).
      * @param path The target path to navigate to.
+     * @param minimumItemCount How many Items shall be loaded at least, a paged Source loads the first page otherwise.
      */
-    virtual void navigateTo(QString const& path) noexcept;
+    void navigateTo(QString const& path, qsizetype minimumItemCount = 0) noexcept;
 
     /**
      * Loads the next page of Items of the current Container and appends them to the @ref mediaItems().
@@ -99,7 +94,11 @@ public:
      */
     virtual void loadMore() noexcept;
 
-    void navigateBack() noexcept;
+    /**
+     * Navigates back to the previous path in the navigation history.
+     * @param minimumItemCount How many Items shall be loaded at least, a paged Source loads the first page otherwise.
+     */
+    void navigateBack(qsizetype minimumItemCount = 0) noexcept;
 
     void navigateForward() noexcept;
 
@@ -137,6 +136,20 @@ protected:
      * Sets the total number of Items in the current Container, as reported by a paged Source.
      */
     void setTotalItemCount(qsizetype count) noexcept;
+
+    /**
+     * The source shall navigate to the given path, after a successful navigation the @ref mediaItems() must be updated.
+     * A paged Source loads the first page of the Container, or more pages until at least the minimum number of Items
+     * is loaded or the Container has no more Items, see @ref loadMore().
+     * This @ref navigate(QString, qsizetype) must only be implemented when the source is navigable.
+     * The default implementation does nothing.
+     * The source shall emit the @ref navigationFinished(QString) signal when the navigation finished successfully.
+     * If it fails to navigate to the given path the source shall emit the @ref navigationFailed(QString) signal
+     * instead, and keep its @ref mediaItems() unchanged.
+     * @param path The target path to navigate to.
+     * @param minimumItemCount How many Items shall be loaded at least.
+     */
+    virtual void navigate(QString const& path, qsizetype minimumItemCount) noexcept;
 
     /**
      * The MediaItems of the Source.

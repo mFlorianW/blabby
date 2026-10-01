@@ -16,6 +16,7 @@ import Blabby.Theme
  * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
  * be opened the current Container stays and a toast tells so.
  * When loading more Items of a large Container fails, a row at the end of the grid offers to retry it.
+ * Activating an Item tells the scroll position of the grid, which can be restored when returning to the Container.
  * When the Active Source disappears a toast tells so.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
@@ -90,9 +91,9 @@ Item {
 
     /**
      * This signal is emitted when the user taps the tile of the Item at index, to open a Container or to play a
-     * Playable.
+     * Playable. The scroll position is the index of the first Item the grid shows.
      */
-    signal itemActivated(int index)
+    signal itemActivated(int index, int scrollPosition)
 
     /**
      * This signal is emitted when the user taps the back button to return to the parent Container.
@@ -103,6 +104,14 @@ Item {
      * This signal is emitted when the user taps the Retry button to load more Items again after it failed.
      */
     signal retryRequested
+
+    /**
+     * Scrolls the grid so that the row of the Item at the scroll position is the first one shown.
+     */
+    function restoreScrollPosition(scrollPosition: int) {
+        grid.forceLayout();
+        grid.positionViewAtIndex(scrollPosition, GridView.Beginning);
+    }
 
     /**
      * Tells the user in a toast that the Container with the title couldn't be opened.
@@ -219,6 +228,14 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
         visible: libraryView.hasActiveSource && !libraryView.busy && !libraryView.containerEmpty
 
+        /**
+         * Gives the index of the first Item shown, the one in the top left cell.
+         */
+        function firstVisibleIndex(): int {
+            // Inside the top left cell, its edge may be a fraction of a pixel off on rows of fractional height.
+            return Math.max(0, grid.indexAt(grid.contentX + 1, grid.contentY + 1));
+        }
+
         delegate: Item {
             id: cell
             required property int index
@@ -239,7 +256,7 @@ Item {
                 itemType: cell.mediaItemType
                 secondaryText: cell.mediaItemSecondaryText
                 artworkUrl: cell.mediaItemArtworkUrl
-                onClicked: libraryView.itemActivated(cell.index)
+                onClicked: libraryView.itemActivated(cell.index, grid.firstVisibleIndex())
             }
         }
 

@@ -25,6 +25,8 @@ private Q_SLOTS:
     void navigate_forward_to_previous_layer();
     void keep_the_navigation_history_when_navigating_back_fails();
     void have_no_more_items_to_load_unless_paged();
+    void navigate_with_a_minimum_item_count();
+    void navigate_back_with_a_minimum_item_count();
 };
 
 } // namespace Multimedia

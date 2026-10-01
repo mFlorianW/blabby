@@ -130,7 +130,7 @@ Rectangle {
             containerTitle: Singleton.mediaItemModel.containerTitle
             loadMoreFailed: Singleton.mediaItemModel.loadMoreFailed
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
-            onItemActivated: index => Singleton.mediaItemModel.activateMediaItem(index)
+            onItemActivated: (index, scrollPosition) => Singleton.mediaItemModel.activateMediaItem(index, scrollPosition)
             onBackRequested: Singleton.mediaItemModel.navigateBack()
             onRetryRequested: Singleton.mediaItemModel.retryLoadMore()
 
@@ -138,6 +138,9 @@ Rectangle {
                 target: Singleton.mediaItemModel
                 function onContainerOpenFailed(containerTitle: string) {
                     libraryView.showContainerOpenFailed(containerTitle);
+                }
+                function onScrollPositionRestoreRequested(scrollPosition: int) {
+                    libraryView.restoreScrollPosition(scrollPosition);
                 }
             }
 

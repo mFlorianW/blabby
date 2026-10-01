@@ -45,6 +45,11 @@ private Q_SLOTS:
     void not_load_more_when_every_item_is_loaded();
     void not_load_more_while_browsing();
     void navigate_instead_of_loading_more_when_navigating_meanwhile();
+    void request_at_least_the_minimum_item_count_when_navigating();
+    void browse_until_the_minimum_item_count_is_loaded();
+    void finish_navigating_when_the_container_has_fewer_items_than_the_minimum();
+    void finish_navigating_on_a_page_without_items();
+    void keep_the_items_when_a_later_page_of_a_navigation_fails();
 };
 
 } // namespace Provider::MediaServer

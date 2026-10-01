@@ -20,14 +20,17 @@ public:
     ~TestSource() override;
     Q_DISABLE_COPY_MOVE(TestSource)
 
-    void navigateTo(QString const& path) noexcept override;
-
     /**
      * Holds the request back, it only finishes on @ref finishPendingLoadMore() or fails on @ref failPendingLoadMore().
      */
     void loadMore() noexcept override;
 
     QString const& lastNavigatedPath() const noexcept;
+
+    /**
+     * Gives the minimum number of Items requested by the last navigation.
+     */
+    qsizetype lastMinimumItemCount() const noexcept;
 
     /**
      * Gives how often a navigation was requested.
@@ -70,11 +73,15 @@ public:
      */
     void failPendingLoadMore() noexcept;
 
+protected:
+    void navigate(QString const& path, qsizetype minimumItemCount) noexcept override;
+
 private:
     void finishNavigation(QString const& path) noexcept;
 
     QHash<QString, Items> mItems;
     QString mLastNavigationPath;
+    qsizetype mLastMinimumItemCount{0};
     qsizetype mNavigationCount{0};
     bool mHoldNavigations{false};
     QString mPendingPath;

@@ -43,9 +43,10 @@ TestSource::TestSource(QString name, QString iconUrl)
 
 TestSource::~TestSource() = default;
 
-void TestSource::navigateTo(QString const& path) noexcept
+void TestSource::navigate(QString const& path, qsizetype minimumItemCount) noexcept
 {
     mLastNavigationPath = path;
+    mLastMinimumItemCount = minimumItemCount;
     ++mNavigationCount;
     if (mHoldNavigations) {
         mPendingPath = path;
@@ -69,6 +70,11 @@ void TestSource::finishNavigation(QString const& path) noexcept
 QString const& TestSource::lastNavigatedPath() const noexcept
 {
     return mLastNavigationPath;
+}
+
+qsizetype TestSource::lastMinimumItemCount() const noexcept
+{
+    return mLastMinimumItemCount;
 }
 
 qsizetype TestSource::navigationCount() const noexcept

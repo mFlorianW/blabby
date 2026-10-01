@@ -44,6 +44,32 @@ std::optional<std::chrono::milliseconds> durationOf(UPnPAV::MediaServerObject co
     auto const resource = std::ranges::find(resources, obj.playUrl(), &UPnPAV::Resource::uri);
     return resource != resources.cend() ? resource->duration : std::nullopt;
 }
+
+/**
+ * Gives the Items of the objects that a Browse returned.
+ */
+Multimedia::Items itemsOf(UPnPAV::BrowseResponse const& response)
+{
+    auto items = Multimedia::Items{};
+    for (auto const& obj : response.objects()) {
+        // Every UPnP container class (folders, albums, artists, genres, playlists, ...) derives from object.container.
+        auto const type = obj.typeClass().startsWith(QStringLiteral("object.container"))
+                              ? Multimedia::ItemType::Container
+                              : Multimedia::ItemType::Playable;
+        items.emplace_back(Multimedia::ItemBuilder{}
+                               .withItemType(type)
+                               .withMainText(obj.title())
+                               .withSecondaryText(secondaryText(obj))
+                               .withArtworkUrl(obj.albumArtUrl())
+                               .withPath(obj.id())
+                               .withPlayUrl(obj.playUrl())
+                               .withAlbum(obj.album())
+                               .withDuration(durationOf(obj))
+                               .withSupportedTypes(obj.supportedProtocols())
+                               .build());
+    }
+    return items;
+}
 } // namespace
 
 Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
@@ -53,14 +79,15 @@ Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
                              : mediaServer->iconUrl().toString()}
     , mServer{std::move(mediaServer)}
 {
-    browse(QStringLiteral("0"), BrowseKind::Navigation);
+    navigate(QStringLiteral("0"), 0);
 }
 
 Source::~Source() = default;
 
-void Source::navigateTo(QString const& path) noexcept
+void Source::navigate(QString const& path, qsizetype minimumItemCount) noexcept
 {
-    browse(path, BrowseKind::Navigation);
+    mNavigation = {.mPath = path, .mMinimumItemCount = minimumItemCount, .mItems = {}};
+    browse(path, BrowseKind::Navigation, 0, minimumItemCount);
 }
 
 void Source::loadMore() noexcept
@@ -68,21 +95,19 @@ void Source::loadMore() noexcept
     if (mBrowseRequest.mPending or not canLoadMore()) {
         return;
     }
-    browse(mCurrentPath, BrowseKind::NextPage);
+    // The next page starts after the loaded Items, a capped MediaServer may have returned fewer than requested.
+    browse(mCurrentPath, BrowseKind::NextPage, mMediaItems.size(), PageSize);
 }
 
-void Source::browse(QString const& path, BrowseKind kind) noexcept
+void Source::browse(QString const& path, BrowseKind kind, qsizetype startingIndex, qsizetype requestedCount) noexcept
 {
-    // The next page starts after the loaded Items, a capped MediaServer may have returned fewer than requested.
-    auto const startingIndex = kind == BrowseKind::NextPage ? static_cast<quint32>(mMediaItems.size()) : quint32{0};
     mBrowseRequest = {
         .mRequest = mServer->browse(path,
                                     UPnPAV::MediaServer::BrowseFlag::DirectChildren,
                                     BrowseFilter,
                                     QString(""),
-                                    startingIndex,
-                                    PageSize),
-        .mPath = path,
+                                    static_cast<quint32>(startingIndex),
+                                    static_cast<quint32>(std::max(requestedCount, qsizetype{PageSize}))),
         .mKind = kind,
         .mPending = true,
     };
@@ -92,49 +117,52 @@ void Source::browse(QString const& path, BrowseKind kind) noexcept
 void Source::onBrowseRequestFinished() noexcept
 {
     mBrowseRequest.mPending = false;
-    auto const isNextPage = mBrowseRequest.mKind == BrowseKind::NextPage;
+    auto const isNavigation = mBrowseRequest.mKind == BrowseKind::Navigation;
     if (mBrowseRequest.mRequest->hasError()) {
         qCritical(mediaServerSource) << "Browse reqeust failed with error: Error Code:"
                                      << mBrowseRequest.mRequest->errorCode()
                                      << "Error Message:" << mBrowseRequest.mRequest->errorDescription();
-        if (isNextPage) {
-            Q_EMIT loadingMoreFailed();
+        if (isNavigation) {
+            mNavigation.mItems.clear();
+            Q_EMIT navigationFailed(mNavigation.mPath);
         } else {
-            Q_EMIT navigationFailed(mBrowseRequest.mPath);
+            Q_EMIT loadingMoreFailed();
         }
         return;
     }
 
     auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
-    if (not isNextPage) {
-        mMediaItems.clear();
-    }
-    for (auto const& obj : result->objects()) {
-        // Every UPnP container class (folders, albums, artists, genres, playlists, ...) derives from object.container.
-        auto const type = obj.typeClass().startsWith(QStringLiteral("object.container"))
-                              ? Multimedia::ItemType::Container
-                              : Multimedia::ItemType::Playable;
-        mMediaItems.emplace_back(Multimedia::ItemBuilder{}
-                                     .withItemType(type)
-                                     .withMainText(obj.title())
-                                     .withSecondaryText(secondaryText(obj))
-                                     .withArtworkUrl(obj.albumArtUrl())
-                                     .withPath(obj.id())
-                                     .withPlayUrl(obj.playUrl())
-                                     .withAlbum(obj.album())
-                                     .withDuration(durationOf(obj))
-                                     .withSupportedTypes(obj.supportedProtocols())
-                                     .build());
-    }
-    // The latest total wins when the Container changed between pages, a page without Items ends loading.
-    setTotalItemCount(result->objects().isEmpty() ? mMediaItems.size() : qsizetype{result->totalMatches()});
-
-    if (isNextPage) {
-        Q_EMIT moreItemsLoaded();
+    auto const totalMatches = qsizetype{result->totalMatches()};
+    if (isNavigation) {
+        finishNavigationPage(itemsOf(*result), totalMatches);
     } else {
-        mCurrentPath = mBrowseRequest.mPath;
-        Q_EMIT navigationFinished(mBrowseRequest.mPath);
+        finishNextPage(itemsOf(*result), totalMatches);
     }
+}
+
+void Source::finishNavigationPage(Multimedia::Items page, qsizetype totalMatches) noexcept
+{
+    auto const pageIsEmpty = page.isEmpty();
+    mNavigation.mItems.append(std::move(page));
+    auto const loadedCount = mNavigation.mItems.size();
+    if (not pageIsEmpty and loadedCount < mNavigation.mMinimumItemCount and loadedCount < totalMatches) {
+        browse(mNavigation.mPath, BrowseKind::Navigation, loadedCount, mNavigation.mMinimumItemCount - loadedCount);
+        return;
+    }
+
+    mMediaItems = std::exchange(mNavigation.mItems, {});
+    // A page without Items ends loading.
+    setTotalItemCount(pageIsEmpty ? loadedCount : totalMatches);
+    mCurrentPath = mNavigation.mPath;
+    Q_EMIT navigationFinished(mCurrentPath);
+}
+
+void Source::finishNextPage(Multimedia::Items page, qsizetype totalMatches) noexcept
+{
+    // The latest total wins when the Container changed between pages, a page without Items ends loading.
+    setTotalItemCount(page.isEmpty() ? mMediaItems.size() : totalMatches);
+    mMediaItems.append(std::move(page));
+    Q_EMIT moreItemsLoaded();
 }
 
 } // namespace Provider::MediaServer

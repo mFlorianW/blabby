@@ -32,14 +32,15 @@ public:
     Q_DISABLE_COPY_MOVE(Source)
 
     /**
-     * @copydoc Multimedia::MediaSource::navigateTo(QString)
-     */
-    void navigateTo(QString const& path) noexcept override;
-
-    /**
      * @copydoc Multimedia::Source::loadMore()
      */
     void loadMore() noexcept override;
+
+protected:
+    /**
+     * @copydoc Multimedia::Source::navigate(QString, qsizetype)
+     */
+    void navigate(QString const& path, qsizetype minimumItemCount) noexcept override;
 
 private Q_SLOTS:
     void onBrowseRequestFinished() noexcept;
@@ -54,17 +55,30 @@ private:
         NextPage,
     };
 
-    void browse(QString const& path, BrowseKind kind) noexcept;
+    /**
+     * A navigation in progress, its Items replace the current ones once at least the minimum number is loaded.
+     */
+    struct Navigation
+    {
+        QString mPath;
+        qsizetype mMinimumItemCount{0};
+        Multimedia::Items mItems;
+    };
+
     struct BrowseRequest
     {
         std::unique_ptr<UPnPAV::PendingSoapCall> mRequest;
-        QString mPath;
         BrowseKind mKind{BrowseKind::Navigation};
         bool mPending{false};
     };
 
+    void browse(QString const& path, BrowseKind kind, qsizetype startingIndex, qsizetype requestedCount) noexcept;
+    void finishNavigationPage(Multimedia::Items page, qsizetype totalMatches) noexcept;
+    void finishNextPage(Multimedia::Items page, qsizetype totalMatches) noexcept;
+
     std::unique_ptr<UPnPAV::MediaServer> mServer;
     BrowseRequest mBrowseRequest;
+    Navigation mNavigation;
     // The Container of the last finished navigation, whose next pages are loaded.
     QString mCurrentPath;
 };
