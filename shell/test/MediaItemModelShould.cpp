@@ -15,6 +15,21 @@
 namespace Shell
 {
 
+namespace
+{
+
+/**
+ * Gives the Items of the root Container of the TestSource that aren't loaded yet.
+ */
+Multimedia::Items moreItems()
+{
+    return {Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem7")},
+            Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem8")},
+            Multimedia::Item{Multimedia::ItemType::Playable, QStringLiteral("MediaItem9")}};
+}
+
+} // namespace
+
 MediaItemModelShould::~MediaItemModelShould() = default;
 
 void MediaItemModelShould::give_correct_amount_of_items()
@@ -425,6 +440,204 @@ void MediaItemModelShould::keep_the_current_container_when_navigating_back_fails
     QCOMPARE(miModel.rowCount({}), 2);
     QCOMPARE(openFailedSpy.size(), 1);
     QCOMPARE(openFailedSpy.at(0).at(0).toString(), QStringLiteral("Container1"));
+}
+
+void MediaItemModelShould::fetch_more_items_while_the_media_source_can_load_more()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    auto rowsInsertedSpy = QSignalSpy{&miModel, &MediaItemModel::rowsInserted};
+    QCOMPARE(miModel.canFetchMore({}), true);
+
+    miModel.fetchMore({});
+    QCOMPARE(mediaSrc->loadMoreCount(), 1);
+    mediaSrc->finishPendingLoadMore();
+
+    QCOMPARE(rowsInsertedSpy.size(), 1);
+    QCOMPARE(rowsInsertedSpy.at(0).at(1).toInt(), 5);
+    QCOMPARE(rowsInsertedSpy.at(0).at(2).toInt(), 7);
+    QCOMPARE(miModel.rowCount({}), 8);
+    auto const title =
+        miModel.data(miModel.index(7), static_cast<int>(MediaItemModel::DisplayRole::MediaItemTitle)).toString();
+    QCOMPARE(title, QStringLiteral("MediaItem9"));
+    QCOMPARE(miModel.canFetchMore({}), false);
+}
+
+void MediaItemModelShould::not_fetch_more_without_more_items()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+
+    QCOMPARE(miModel.canFetchMore({}), false);
+    miModel.fetchMore({});
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 0);
+}
+
+void MediaItemModelShould::not_fetch_more_while_more_items_are_loading()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+
+    QCOMPARE(miModel.canFetchMore({}), false);
+    miModel.fetchMore({});
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 1);
+}
+
+void MediaItemModelShould::not_fetch_more_while_busy()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    mediaSrc->setHoldNavigations(true);
+    miModel.activateMediaItem(2);
+
+    QCOMPARE(miModel.canFetchMore({}), false);
+    miModel.fetchMore({});
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 0);
+}
+
+void MediaItemModelShould::keep_the_items_and_report_when_fetching_more_fails()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    auto failedChangedSpy = QSignalSpy{&miModel, &MediaItemModel::loadMoreFailedChanged};
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), false);
+
+    miModel.fetchMore({});
+    mediaSrc->failPendingLoadMore();
+
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), true);
+    QCOMPARE(failedChangedSpy.size(), 1);
+    QCOMPARE(miModel.rowCount({}), 5);
+}
+
+void MediaItemModelShould::not_fetch_more_after_fetching_more_failed()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->failPendingLoadMore();
+
+    // Scrolling to the end of the Items must not retry, only an explicit retry does.
+    QCOMPARE(miModel.canFetchMore({}), false);
+    miModel.fetchMore({});
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 1);
+}
+
+void MediaItemModelShould::retry_fetching_more_after_it_failed()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->failPendingLoadMore();
+    auto failedChangedSpy = QSignalSpy{&miModel, &MediaItemModel::loadMoreFailedChanged};
+
+    miModel.retryLoadMore();
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 2);
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), false);
+    QCOMPARE(failedChangedSpy.size(), 1);
+    mediaSrc->finishPendingLoadMore();
+    QCOMPARE(miModel.rowCount({}), 8);
+}
+
+void MediaItemModelShould::ignore_retrying_when_fetching_more_did_not_fail()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+
+    miModel.retryLoadMore();
+
+    QCOMPARE(mediaSrc->loadMoreCount(), 0);
+}
+
+void MediaItemModelShould::clear_the_failure_when_another_container_is_opened()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->failPendingLoadMore();
+    auto failedChangedSpy = QSignalSpy{&miModel, &MediaItemModel::loadMoreFailedChanged};
+
+    miModel.activateMediaItem(2);
+
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), false);
+    QCOMPARE(failedChangedSpy.size(), 1);
+}
+
+void MediaItemModelShould::clear_the_failure_when_the_media_source_changes()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->failPendingLoadMore();
+    auto failedChangedSpy = QSignalSpy{&miModel, &MediaItemModel::loadMoreFailedChanged};
+
+    miModel.setMediaSource(nullptr);
+
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), false);
+    QCOMPARE(failedChangedSpy.size(), 1);
+}
+
+void MediaItemModelShould::stop_fetching_more_when_a_container_is_opened()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+
+    // The Source drops the page it was loading when it navigates.
+    miModel.activateMediaItem(2);
+    mediaSrc->setMoreItems(moreItems());
+
+    QCOMPARE(miModel.rowCount({}), 3);
+    QCOMPARE(miModel.canFetchMore({}), true);
+}
+
+void MediaItemModelShould::report_the_dropped_page_as_failed_when_opening_a_container_fails()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->setHoldNavigations(true);
+
+    // The Source drops the page it was loading, the model stays on the Container whose page is missing then.
+    miModel.activateMediaItem(2);
+    mediaSrc->failPendingNavigation();
+
+    QCOMPARE(miModel.property("loadMoreFailed").toBool(), true);
+    miModel.retryLoadMore();
+    QCOMPARE(mediaSrc->loadMoreCount(), 2);
 }
 
 } // namespace Shell

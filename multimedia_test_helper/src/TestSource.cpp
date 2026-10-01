@@ -56,6 +56,8 @@ void TestSource::navigateTo(QString const& path) noexcept
 
 void TestSource::finishNavigation(QString const& path) noexcept
 {
+    mMoreItems.clear();
+    setTotalItemCount(0);
     if (mItems.contains(path)) {
         mMediaItems = mItems[path];
     } else {
@@ -87,6 +89,33 @@ void TestSource::finishPendingNavigation() noexcept
 void TestSource::failPendingNavigation() noexcept
 {
     Q_EMIT navigationFailed(mPendingPath);
+}
+
+void TestSource::loadMore() noexcept
+{
+    ++mLoadMoreCount;
+}
+
+void TestSource::setMoreItems(Items items) noexcept
+{
+    mMoreItems = std::move(items);
+    setTotalItemCount(mMediaItems.size() + mMoreItems.size());
+}
+
+qsizetype TestSource::loadMoreCount() const noexcept
+{
+    return mLoadMoreCount;
+}
+
+void TestSource::finishPendingLoadMore() noexcept
+{
+    mMediaItems.append(std::exchange(mMoreItems, {}));
+    Q_EMIT moreItemsLoaded();
+}
+
+void TestSource::failPendingLoadMore() noexcept
+{
+    Q_EMIT loadingMoreFailed();
 }
 
 } // namespace Multimedia::TestHelper

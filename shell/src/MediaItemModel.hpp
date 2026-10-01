@@ -14,6 +14,7 @@ namespace Shell
 {
 /**
  * The MediaItemModel provides access to the item of a media source and make it possible to navigate them.
+ * The Items of a large Container are fetched page by page through Qt's fetch more, see @ref canFetchMore().
  */
 class MediaItemModel : public QAbstractListModel
 {
@@ -48,6 +49,12 @@ class MediaItemModel : public QAbstractListModel
      * This property is true while the current Container is the root Container of the Active Source.
      */
     Q_PROPERTY(bool atRoot READ isAtRoot NOTIFY containerChanged)
+
+    /**
+     * This property is true when fetching more Items of the current Container failed, the fetched Items stay.
+     * No more Items are fetched until @ref retryLoadMore() is called or another Container is opened.
+     */
+    Q_PROPERTY(bool loadMoreFailed READ hasLoadMoreFailed NOTIFY loadMoreFailedChanged)
 public:
     enum class DisplayRole
     {
@@ -104,6 +111,20 @@ public:
     QVariant data(QModelIndex const& index, int role) const noexcept override;
 
     /**
+     * Gives true when the current Container holds Items that aren't fetched yet and can be fetched now.
+     * It is false while a Container opens, while more Items are fetched and after fetching more failed.
+     * @param parent Only the invalid root index has Items.
+     */
+    bool canFetchMore(QModelIndex const& parent) const noexcept override;
+
+    /**
+     * Fetches the next page of Items of the current Container, when @ref canFetchMore() allows it.
+     * The Items are appended when they arrive, when that fails @ref hasLoadMoreFailed() becomes true.
+     * @param parent Only the invalid root index has Items.
+     */
+    void fetchMore(QModelIndex const& parent) noexcept override;
+
+    /**
      * Sets the media source for the model.
      * The model only contains the @ref Multimedia::MediaItem from the passed source.
      * To clear the model pass a nullptr to the function.
@@ -124,6 +145,11 @@ public:
      * Does nothing at the root Container or while @ref isBusy().
      */
     Q_INVOKABLE void navigateBack() noexcept;
+
+    /**
+     * Fetches the next page of Items again after fetching it failed. Does nothing when it didn't fail.
+     */
+    Q_INVOKABLE void retryLoadMore() noexcept;
 
     /**
      * Gives the name of the active @ref Multimedia::MediaSource.
@@ -159,6 +185,11 @@ public:
      */
     bool isAtRoot() const noexcept;
 
+    /**
+     * Gives true when fetching more Items of the current Container failed.
+     */
+    bool hasLoadMoreFailed() const noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the @ref Multimedia::MediaSource in the model is changed.
@@ -174,6 +205,11 @@ Q_SIGNALS:
      * This signal is emitted when the current Container changes to another level, i.e. its title or the root flag.
      */
     void containerChanged();
+
+    /**
+     * This signal is emitted when fetching more Items fails, or the failure is cleared.
+     */
+    void loadMoreFailedChanged();
 
     /**
      * This signal is emitted when opening a Container, or returning to the parent Container, failed.
@@ -203,6 +239,9 @@ private:
     void startNavigation(PendingNavigation navigation, QString const& containerTitle = {}) noexcept;
     void onNavigationFinished() noexcept;
     void onNavigationFailed() noexcept;
+    void onMoreItemsLoaded() noexcept;
+    void onLoadingMoreFailed() noexcept;
+    void setLoadMoreFailed(bool failed) noexcept;
     QString parentContainerTitle() const noexcept;
 
     std::shared_ptr<Multimedia::Source> mMediaSrc;
@@ -210,6 +249,10 @@ private:
     QStringList mContainerTitles;
     PendingNavigation mPendingNavigation{PendingNavigation::None};
     QString mPendingContainerTitle;
+    // The rows the model reports, the Source appends fetched Items before the model inserts their rows.
+    int mRowCount{0};
+    bool mLoadingMore{false};
+    bool mLoadMoreFailed{false};
 };
 
 } // namespace Shell
