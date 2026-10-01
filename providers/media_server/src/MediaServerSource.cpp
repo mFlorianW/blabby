@@ -23,6 +23,11 @@ namespace
 constexpr auto BrowseFilter = QLatin1StringView{"res,res@duration,upnp:albumArtURI,upnp:artist,dc:creator,upnp:album"};
 
 /**
+ * How many Items a Browse asks for at once, a MediaServer may cap a page to fewer Items.
+ */
+constexpr auto PageSize = quint32{100};
+
+/**
  * Gives the secondary text of an object: its artist or, without an artist, its creator.
  */
 QString secondaryText(UPnPAV::MediaServerObject const& obj)
@@ -48,37 +53,62 @@ Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
                              : mediaServer->iconUrl().toString()}
     , mServer{std::move(mediaServer)}
 {
-    navigate(QStringLiteral("0"));
+    browse(QStringLiteral("0"), BrowseKind::Navigation);
 }
 
 Source::~Source() = default;
 
 void Source::navigateTo(QString const& path) noexcept
 {
-    navigate(path);
+    browse(path, BrowseKind::Navigation);
 }
 
-void Source::navigate(QString const& path) noexcept
+void Source::loadMore() noexcept
 {
+    if (mBrowseRequest.mPending or not canLoadMore()) {
+        return;
+    }
+    browse(mCurrentPath, BrowseKind::NextPage);
+}
+
+void Source::browse(QString const& path, BrowseKind kind) noexcept
+{
+    // The next page starts after the loaded Items, a capped MediaServer may have returned fewer than requested.
+    auto const startingIndex = kind == BrowseKind::NextPage ? static_cast<quint32>(mMediaItems.size()) : quint32{0};
     mBrowseRequest = {
-        .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, BrowseFilter, QString(""), 0, 0),
+        .mRequest = mServer->browse(path,
+                                    UPnPAV::MediaServer::BrowseFlag::DirectChildren,
+                                    BrowseFilter,
+                                    QString(""),
+                                    startingIndex,
+                                    PageSize),
         .mPath = path,
+        .mKind = kind,
+        .mPending = true,
     };
     connect(mBrowseRequest.mRequest.get(), &UPnPAV::PendingSoapCall::finished, this, &Source::onBrowseRequestFinished);
 }
 
 void Source::onBrowseRequestFinished() noexcept
 {
+    mBrowseRequest.mPending = false;
+    auto const isNextPage = mBrowseRequest.mKind == BrowseKind::NextPage;
     if (mBrowseRequest.mRequest->hasError()) {
         qCritical(mediaServerSource) << "Browse reqeust failed with error: Error Code:"
                                      << mBrowseRequest.mRequest->errorCode()
                                      << "Error Message:" << mBrowseRequest.mRequest->errorDescription();
-        Q_EMIT navigationFailed(mBrowseRequest.mPath);
+        if (isNextPage) {
+            Q_EMIT loadingMoreFailed();
+        } else {
+            Q_EMIT navigationFailed(mBrowseRequest.mPath);
+        }
         return;
     }
 
     auto const result = mBrowseRequest.mRequest->resultAs<UPnPAV::BrowseResponse>();
-    mMediaItems.clear();
+    if (not isNextPage) {
+        mMediaItems.clear();
+    }
     for (auto const& obj : result->objects()) {
         // Every UPnP container class (folders, albums, artists, genres, playlists, ...) derives from object.container.
         auto const type = obj.typeClass().startsWith(QStringLiteral("object.container"))
@@ -96,7 +126,15 @@ void Source::onBrowseRequestFinished() noexcept
                                      .withSupportedTypes(obj.supportedProtocols())
                                      .build());
     }
-    Q_EMIT navigationFinished(mBrowseRequest.mPath);
+    // The latest total wins when the Container changed between pages, a page without Items ends loading.
+    setTotalItemCount(result->objects().isEmpty() ? mMediaItems.size() : qsizetype{result->totalMatches()});
+
+    if (isNextPage) {
+        Q_EMIT moreItemsLoaded();
+    } else {
+        mCurrentPath = mBrowseRequest.mPath;
+        Q_EMIT navigationFinished(mBrowseRequest.mPath);
+    }
 }
 
 } // namespace Provider::MediaServer

@@ -35,6 +35,16 @@ private Q_SLOTS:
     void request_the_album_and_the_duration();
     void map_the_album_and_the_duration_of_the_played_resource_to_the_item();
     void report_a_failed_browse_and_keep_the_items();
+    void request_the_first_page_of_a_container();
+    void give_the_total_item_count_of_the_container();
+    void request_the_next_page_of_the_current_container();
+    void append_the_items_of_the_next_page();
+    void take_the_latest_total_item_count();
+    void end_loading_on_a_page_without_items();
+    void report_a_failed_page_and_keep_the_items();
+    void not_load_more_when_every_item_is_loaded();
+    void not_load_more_while_browsing();
+    void navigate_instead_of_loading_more_when_navigating_meanwhile();
 };
 
 } // namespace Provider::MediaServer
