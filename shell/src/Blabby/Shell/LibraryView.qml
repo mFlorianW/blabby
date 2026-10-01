@@ -15,6 +15,7 @@ import Blabby.Theme
  * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
  * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
  * be opened the current Container stays and a toast tells so.
+ * When loading more Items of a large Container fails, a row at the end of the grid offers to retry it.
  * When the Active Source disappears a toast tells so.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
@@ -58,6 +59,11 @@ Item {
     property string containerTitle
 
     /**
+     * True when loading more Items of the current Container failed, a row at the end of the grid offers to retry it.
+     */
+    property bool loadMoreFailed: false
+
+    /**
      * True when there is at least one Source to pick.
      */
     readonly property bool hasSources: sourceMenu.count > 0
@@ -92,6 +98,11 @@ Item {
      * This signal is emitted when the user taps the back button to return to the parent Container.
      */
     signal backRequested
+
+    /**
+     * This signal is emitted when the user taps the Retry button to load more Items again after it failed.
+     */
+    signal retryRequested
 
     /**
      * Tells the user in a toast that the Container with the title couldn't be opened.
@@ -229,6 +240,37 @@ Item {
                 secondaryText: cell.mediaItemSecondaryText
                 artworkUrl: cell.mediaItemArtworkUrl
                 onClicked: libraryView.itemActivated(cell.index)
+            }
+        }
+
+        footer: Item {
+            objectName: "loadMoreFailedRow"
+            // As wide as the tiles of a row, without the spacing behind the last tile.
+            width: grid.width - libraryView.tileSpacing
+            height: visible ? retryButton.height : 0
+            visible: libraryView.loadMoreFailed
+
+            Row {
+                anchors.centerIn: parent
+                spacing: 8
+
+                StyledText {
+                    objectName: "message"
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Couldn't load more")
+                    color: Theme.colors.colorOnSurfaceVariant
+                    textStyle: Theme.fonts.bodyMedium
+                }
+
+                Button {
+                    id: retryButton
+                    objectName: "retryButton"
+                    // Taller than the default button to be a large enough touch target.
+                    height: 48
+                    variant: Button.Text
+                    text: qsTr("Retry")
+                    onClicked: libraryView.retryRequested()
+                }
             }
         }
     }

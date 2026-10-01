@@ -60,11 +60,16 @@ public:
     std::unique_ptr<UPnPAV::PendingSoapCall> browse(QString const& objectId,
                                                     BrowseFlag browseFlag,
                                                     QString const& filter,
-                                                    QString const& sortCriteria) noexcept override;
+                                                    QString const& sortCriteria,
+                                                    quint32 startingIndex,
+                                                    quint32 requestedCount) noexcept override;
 
 public:
     LastBrowseRequest lastBrowseRequest{};
     QString lastBrowseFilter;
+    quint32 lastBrowseStartingIndex{0};
+    quint32 lastBrowseRequestedCount{0};
+    quint32 browseCount{0};
     QSharedPointer<UPnPAV::SoapCallDouble> soapCall{nullptr};
     QString mName{"MediaServer"};
     QUrl mIconUrl{"http://localhost:8200/icons/sm.png"};

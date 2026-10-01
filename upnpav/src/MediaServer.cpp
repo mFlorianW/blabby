@@ -67,13 +67,16 @@ std::unique_ptr<PendingSoapCall> MediaServer::getSortCapabilities() noexcept
 std::unique_ptr<PendingSoapCall> MediaServer::browse(QString const& objectId,
                                                      MediaServer::BrowseFlag browseFlag,
                                                      QString const& filter,
-                                                     QString const& sortCriteria) noexcept
+                                                     QString const& sortCriteria,
+                                                     quint32 startingIndex,
+                                                     quint32 requestedCount) noexcept
 {
     auto action = d->mContentDirectorySCPD.action("Browse");
 
     ArgumentList browseArgs{6};
-    browseArgs << Argument{"BrowseFlag", convertBrowseFlagToString(browseFlag)} << Argument{"RequestedCount", "0"}
-               << Argument{"ObjectID", objectId} << Argument{"Filter", filter} << Argument{"StartingIndex", "0"}
+    browseArgs << Argument{"BrowseFlag", convertBrowseFlagToString(browseFlag)}
+               << Argument{"RequestedCount", QString::number(requestedCount)} << Argument{"ObjectID", objectId}
+               << Argument{"Filter", filter} << Argument{"StartingIndex", QString::number(startingIndex)}
                << Argument{"SortCriteria", sortCriteria};
 
     SoapMessageGenerator msgGen;

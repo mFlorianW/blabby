@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -401,14 +401,14 @@ void MediaServerShould::shall_Send_The_SOAP_Message_When_Calling_Browse()
                                 "<ObjectID>0</ObjectID>"
                                 "<BrowseFlag>BrowseMetadata</BrowseFlag>"
                                 "<Filter>*</Filter>"
-                                "<StartingIndex>0</StartingIndex>"
-                                "<RequestedCount>0</RequestedCount>"
+                                "<StartingIndex>200</StartingIndex>"
+                                "<RequestedCount>100</RequestedCount>"
                                 "<SortCriteria></SortCriteria>"
                                 "</u:Browse>"
                                 "</s:Body>"
                                 "</s:Envelope>"};
 
-    mediaServer.browse("0", MediaServer::BrowseFlag::MetaData, "*", "");
+    mediaServer.browse("0", MediaServer::BrowseFlag::MetaData, "*", "", 200, 100);
 
     QVERIFY2(expectedSoapMessage == mSoapBackend->xmlMessageBody(),
              QString{"Expected: %1 Actual: %2"}.arg(expectedSoapMessage, mSoapBackend->xmlMessageBody()).toLocal8Bit());

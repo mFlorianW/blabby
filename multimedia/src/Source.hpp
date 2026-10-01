@@ -69,7 +69,19 @@ public:
     Items const& mediaItems() const noexcept;
 
     /**
+     * Gives the total number of Items in the current Container, as last reported by the Source.
+     * It is never less than the number of loaded @ref mediaItems().
+     */
+    qsizetype totalItemCount() const noexcept;
+
+    /**
+     * Gives true while the current Container holds Items that aren't loaded yet, see @ref loadMore().
+     */
+    bool canLoadMore() const noexcept;
+
+    /**
      * The source shall navigate to the given path after succesful navigation the @ref mediaItems() must be updated.
+     * A paged Source only loads the first page of the Container, see @ref loadMore().
      * This @ref navigateTo(QString) must only be implemented when the source navigatable.
      * The default implementation does nothing.
      * The source shall emit the @ref navigationFinished(QString) singal when the navigation is succesful finished.
@@ -78,6 +90,14 @@ public:
      * @param path The target path to navigate to.
      */
     virtual void navigateTo(QString const& path) noexcept;
+
+    /**
+     * Loads the next page of Items of the current Container and appends them to the @ref mediaItems().
+     * This @ref loadMore() must only be implemented when the Source is paged, the default implementation does nothing.
+     * The Source shall emit the @ref moreItemsLoaded() signal when the page is loaded. If it fails to load the page
+     * the Source shall emit the @ref loadingMoreFailed() signal instead, and keep its @ref mediaItems() unchanged.
+     */
+    virtual void loadMore() noexcept;
 
     void navigateBack() noexcept;
 
@@ -96,11 +116,27 @@ Q_SIGNALS:
      */
     void navigationFailed(QString const& path);
 
+    /**
+     * This signal is emitted when the next page of the current Container is loaded and its Items are appended.
+     */
+    void moreItemsLoaded();
+
+    /**
+     * This signal is emitted when loading the next page of the current Container failed, the @ref mediaItems() are
+     * unchanged.
+     */
+    void loadingMoreFailed();
+
 protected:
     /**
      * Constructor for subclasses
      */
     Source(QString sourceName, QString iconUrl = QString{""});
+
+    /**
+     * Sets the total number of Items in the current Container, as reported by a paged Source.
+     */
+    void setTotalItemCount(qsizetype count) noexcept;
 
     /**
      * The MediaItems of the Source.

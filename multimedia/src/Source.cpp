@@ -1,11 +1,12 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "Source.hpp"
 #include "private/NavigationStack.hpp"
+#include <algorithm>
 
 namespace Multimedia
 {
@@ -22,6 +23,7 @@ struct SourcePrivate
     QString mSourceName{""};
     QString mIconUrl{""};
     QString mCurrentPath{""};
+    qsizetype mTotalItemCount{0};
     NavigationStack mNavigationStack;
 };
 
@@ -47,9 +49,28 @@ Items const& Source::mediaItems() const noexcept
     return mMediaItems;
 }
 
+qsizetype Source::totalItemCount() const noexcept
+{
+    return std::max(d->mTotalItemCount, mMediaItems.size());
+}
+
+bool Source::canLoadMore() const noexcept
+{
+    return mMediaItems.size() < totalItemCount();
+}
+
 void Source::navigateTo(QString const& path) noexcept
 {
     Q_UNUSED(path)
+}
+
+void Source::loadMore() noexcept
+{
+}
+
+void Source::setTotalItemCount(qsizetype count) noexcept
+{
+    d->mTotalItemCount = count;
 }
 
 void Source::navigateBack() noexcept

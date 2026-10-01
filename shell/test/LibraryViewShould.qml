@@ -103,6 +103,12 @@ Item {
             signalName: "backRequested"
         }
 
+        SignalSpy {
+            id: retryRequestedSpy
+            target: libraryView
+            signalName: "retryRequested"
+        }
+
         function init() {
             libraryView.sources = sources;
             libraryView.items = items;
@@ -111,6 +117,7 @@ Item {
             libraryView.busy = false;
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
+            libraryView.loadMoreFailed = false;
             libraryView.visible = true;
             libraryViewTest.child("sourceMenu").close();
             libraryViewTest.child("toast").hide();
@@ -120,6 +127,8 @@ Item {
             sourcePickedSpy.clear();
             itemActivatedSpy.clear();
             backRequestedSpy.clear();
+            retryRequestedSpy.clear();
+            libraryViewTest.child("itemGrid").positionViewAtBeginning();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             libraryViewTest.waitForItemPolished(libraryViewTest.child("sourcePill").parent);
         }
@@ -666,6 +675,44 @@ Item {
             libraryViewTest.compare(libraryViewTest.child("sourcePill").text, "Choose a Source");
             libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
             libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+        }
+
+        /**
+         * Tests that no row to retry loading more Items is shown while loading more Items didn't fail.
+         */
+        function test_not_show_the_retry_row_while_loading_more_did_not_fail() {
+            libraryViewTest.compare(libraryViewTest.child("loadMoreFailedRow").visible, false);
+        }
+
+        /**
+         * Tests that a failed loading of more Items keeps the loaded Items and shows a row with a Retry button at the end
+         * of the grid.
+         */
+        function test_show_a_retry_row_at_the_end_of_the_grid_when_loading_more_failed() {
+            libraryView.loadMoreFailed = true;
+
+            const row = libraryViewTest.child("loadMoreFailedRow");
+            libraryViewTest.compare(row.visible, true);
+            libraryViewTest.compare(libraryViewTest.findChild(row, "message").text, "Couldn't load more");
+            libraryViewTest.compare(libraryViewTest.findChild(row, "retryButton").text, "Retry");
+            libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, true);
+            const lastTile = libraryViewTest.tile(items.count - 1);
+            libraryViewTest.verify(row.mapToItem(libraryView, 0, 0).y >= lastTile.mapToItem(libraryView, 0, lastTile.height).y);
+        }
+
+        /**
+         * Tests that the Retry button requests to retry loading more Items.
+         */
+        function test_request_to_retry_loading_more_on_the_retry_button() {
+            libraryView.loadMoreFailed = true;
+            // The row is at the end of the grid, below the visible tiles.
+            libraryViewTest.child("itemGrid").positionViewAtEnd();
+            const retryButton = libraryViewTest.findChild(libraryViewTest.child("loadMoreFailedRow"), "retryButton");
+            libraryViewTest.waitForItemPolished(retryButton.parent);
+
+            libraryViewTest.mouseClick(retryButton);
+
+            libraryViewTest.compare(retryRequestedSpy.count, 1);
         }
     }
 }

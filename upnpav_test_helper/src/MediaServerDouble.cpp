@@ -82,11 +82,16 @@ std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::getSortCapabilities() noex
 std::unique_ptr<UPnPAV::PendingSoapCall> MediaServer::browse(QString const& objectId,
                                                              BrowseFlag browseFlag,
                                                              QString const& filter,
-                                                             QString const& sortCriteria) noexcept
+                                                             QString const& sortCriteria,
+                                                             quint32 startingIndex,
+                                                             quint32 requestedCount) noexcept
 {
     Q_UNUSED(sortCriteria)
 
+    ++browseCount;
     lastBrowseFilter = filter;
+    lastBrowseStartingIndex = startingIndex;
+    lastBrowseRequestedCount = requestedCount;
     lastBrowseRequest.objectId = objectId;
     lastBrowseRequest.browseFlag = browseFlag;
 

@@ -43,6 +43,18 @@ private Q_SLOTS:
     void keep_the_current_container_when_opening_a_container_fails();
     void keep_the_container_below_the_root_when_opening_a_container_fails();
     void keep_the_current_container_when_navigating_back_fails();
+    void fetch_more_items_while_the_media_source_can_load_more();
+    void not_fetch_more_without_more_items();
+    void not_fetch_more_while_more_items_are_loading();
+    void not_fetch_more_while_busy();
+    void keep_the_items_and_report_when_fetching_more_fails();
+    void not_fetch_more_after_fetching_more_failed();
+    void retry_fetching_more_after_it_failed();
+    void ignore_retrying_when_fetching_more_did_not_fail();
+    void clear_the_failure_when_another_container_is_opened();
+    void clear_the_failure_when_the_media_source_changes();
+    void stop_fetching_more_when_a_container_is_opened();
+    void report_the_dropped_page_as_failed_when_opening_a_container_fails();
 };
 
 } // namespace Shell

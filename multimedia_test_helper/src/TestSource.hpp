@@ -22,6 +22,11 @@ public:
 
     void navigateTo(QString const& path) noexcept override;
 
+    /**
+     * Holds the request back, it only finishes on @ref finishPendingLoadMore() or fails on @ref failPendingLoadMore().
+     */
+    void loadMore() noexcept override;
+
     QString const& lastNavigatedPath() const noexcept;
 
     /**
@@ -44,6 +49,27 @@ public:
      */
     void failPendingNavigation() noexcept;
 
+    /**
+     * Sets the Items of the current Container that aren't loaded yet, they are loaded as one page by
+     * @ref loadMore(). A navigation drops them.
+     */
+    void setMoreItems(Items items) noexcept;
+
+    /**
+     * Gives how often loading more Items was requested.
+     */
+    qsizetype loadMoreCount() const noexcept;
+
+    /**
+     * Appends the Items set by @ref setMoreItems(Items) as the page requested by @ref loadMore().
+     */
+    void finishPendingLoadMore() noexcept;
+
+    /**
+     * Fails the page requested by @ref loadMore(), the Items stay unchanged.
+     */
+    void failPendingLoadMore() noexcept;
+
 private:
     void finishNavigation(QString const& path) noexcept;
 
@@ -52,6 +78,8 @@ private:
     qsizetype mNavigationCount{0};
     bool mHoldNavigations{false};
     QString mPendingPath;
+    Items mMoreItems;
+    qsizetype mLoadMoreCount{0};
 };
 
 } // namespace Multimedia::TestHelper

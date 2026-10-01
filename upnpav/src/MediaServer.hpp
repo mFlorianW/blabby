@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -64,12 +64,16 @@ public:
      * @param browseFlag What shall be browsed, e.g. MetaData.
      * @param filter Comma seperated list of properties that shall appear in the result
      * @param sortCriteria Comma seperated list of in which order the result shall be returned
+     * @param startingIndex The index of the first child that shall be returned, 0 for the first one.
+     * @param requestedCount How many children shall be returned at most, 0 for all of them.
      * @return PendingSoapCall with the result or error.
      */
     virtual std::unique_ptr<PendingSoapCall> browse(QString const& objectId,
                                                     BrowseFlag browseFlag,
                                                     QString const& filter,
-                                                    QString const& sortCriteria) noexcept;
+                                                    QString const& sortCriteria,
+                                                    quint32 startingIndex,
+                                                    quint32 requestedCount) noexcept;
 
 private:
     std::unique_ptr<MediaServerPrivate> d;

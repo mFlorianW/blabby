@@ -142,6 +142,14 @@ void MediaSourceShould::keep_the_navigation_history_when_navigating_back_fails()
     QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("1"));
 }
 
+void MediaSourceShould::have_no_more_items_to_load_unless_paged()
+{
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QString{}};
+
+    QCOMPARE(mediaSource.totalItemCount(), mediaSource.mediaItems().size());
+    QCOMPARE(mediaSource.canLoadMore(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::MediaSourceShould);
