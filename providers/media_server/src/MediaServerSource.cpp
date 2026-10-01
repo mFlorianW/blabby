@@ -61,7 +61,7 @@ void Source::navigateTo(QString const& path) noexcept
 void Source::navigate(QString const& path) noexcept
 {
     mBrowseRequest = {
-        .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, BrowseFilter, QString("")),
+        .mRequest = mServer->browse(path, UPnPAV::MediaServer::BrowseFlag::DirectChildren, BrowseFilter, QString(""), 0, 0),
         .mPath = path,
     };
     connect(mBrowseRequest.mRequest.get(), &UPnPAV::PendingSoapCall::finished, this, &Source::onBrowseRequestFinished);
