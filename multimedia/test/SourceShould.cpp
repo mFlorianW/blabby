@@ -150,6 +150,32 @@ void MediaSourceShould::have_no_more_items_to_load_unless_paged()
     QCOMPARE(mediaSource.canLoadMore(), false);
 }
 
+void MediaSourceShould::navigate_with_a_minimum_item_count()
+{
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QString{}};
+    QCOMPARE(mediaSource.lastMinimumItemCount(), 0);
+
+    mediaSource.navigateTo(QStringLiteral("1"), 250);
+
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("1"));
+    QCOMPARE(mediaSource.lastMinimumItemCount(), 250);
+}
+
+void MediaSourceShould::navigate_back_with_a_minimum_item_count()
+{
+    auto mediaSource = TestSource{QStringLiteral("MusicBox"), QString{}};
+    mediaSource.navigateTo(QStringLiteral("1"));
+
+    mediaSource.navigateBack(250);
+
+    QCOMPARE(mediaSource.lastNavigatedPath(), QStringLiteral("0"));
+    QCOMPARE(mediaSource.lastMinimumItemCount(), 250);
+
+    // Navigating forward reloads the first page only.
+    mediaSource.navigateForward();
+    QCOMPARE(mediaSource.lastMinimumItemCount(), 0);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::MediaSourceShould);

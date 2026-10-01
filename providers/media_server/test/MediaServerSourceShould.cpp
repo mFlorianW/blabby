@@ -86,6 +86,18 @@ void finishBrowse(UPnPAV::Doubles::MediaServer& mediaServer, QStringList const& 
     Q_EMIT mediaServer.soapCall->finished();
 }
 
+/**
+ * Gives the titles "Song <first>" up to "Song <first + count - 1>".
+ */
+QStringList songTitles(qsizetype first, qsizetype count)
+{
+    auto titles = QStringList{};
+    for (auto number = first; number < first + count; ++number) {
+        titles.append(QStringLiteral("Song %1").arg(number));
+    }
+    return titles;
+}
+
 } // namespace
 
 SourceShould::~SourceShould() = default;
@@ -515,6 +527,109 @@ void SourceShould::navigate_instead_of_loading_more_when_navigating_meanwhile()
     QCOMPARE(mediaServerSource.mediaItems().size(), 1);
     QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), QStringLiteral("Album 1"));
     QCOMPARE(mediaServerSource.canLoadMore(), false);
+}
+
+void SourceShould::request_at_least_the_minimum_item_count_when_navigating()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Music")}, 1);
+
+    mediaServerSource.navigateTo(QStringLiteral("12"), 250);
+
+    QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("12"));
+    QCOMPARE(mediaServerRaw->lastBrowseStartingIndex, 0);
+    QCOMPARE(mediaServerRaw->lastBrowseRequestedCount, 250);
+}
+
+void SourceShould::browse_until_the_minimum_item_count_is_loaded()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Music")}, 1);
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    mediaServerSource.navigateTo(QStringLiteral("12"), 250);
+
+    // The MediaServer caps the response to 100 Items.
+    finishBrowse(*mediaServerRaw, songTitles(0, 100), 300);
+    QCOMPARE(navFinishedSpy.size(), 0);
+    QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("12"));
+    QCOMPARE(mediaServerRaw->lastBrowseStartingIndex, 100);
+    QCOMPARE(mediaServerRaw->lastBrowseRequestedCount, 150);
+    finishBrowse(*mediaServerRaw, songTitles(100, 150), 300);
+
+    QCOMPARE(navFinishedSpy.size(), 1);
+    QCOMPARE(navFinishedSpy.at(0).at(0).toString(), QStringLiteral("12"));
+    QCOMPARE(mediaServerSource.mediaItems().size(), 250);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), QStringLiteral("Song 0"));
+    QCOMPARE(mediaServerSource.mediaItems().at(249).mainText(), QStringLiteral("Song 249"));
+    QCOMPARE(mediaServerSource.totalItemCount(), 300);
+    QCOMPARE(mediaServerSource.canLoadMore(), true);
+}
+
+void SourceShould::finish_navigating_when_the_container_has_fewer_items_than_the_minimum()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Music")}, 1);
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    mediaServerSource.navigateTo(QStringLiteral("12"), 250);
+    auto const browseCount = mediaServerRaw->browseCount;
+
+    // The Container shrank since its Items were loaded.
+    finishBrowse(*mediaServerRaw, songTitles(0, 2), 2);
+
+    QCOMPARE(navFinishedSpy.size(), 1);
+    QCOMPARE(mediaServerRaw->browseCount, browseCount);
+    QCOMPARE(mediaServerSource.mediaItems().size(), 2);
+    QCOMPARE(mediaServerSource.canLoadMore(), false);
+}
+
+void SourceShould::finish_navigating_on_a_page_without_items()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Music")}, 1);
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    mediaServerSource.navigateTo(QStringLiteral("12"), 250);
+    finishBrowse(*mediaServerRaw, songTitles(0, 100), 300);
+
+    finishBrowse(*mediaServerRaw, {}, 300);
+
+    QCOMPARE(navFinishedSpy.size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().size(), 100);
+    QCOMPARE(mediaServerSource.canLoadMore(), false);
+}
+
+void SourceShould::keep_the_items_when_a_later_page_of_a_navigation_fails()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Music")}, 5);
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    auto const navFailedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFailed};
+    mediaServerSource.navigateTo(QStringLiteral("12"), 250);
+    finishBrowse(*mediaServerRaw, songTitles(0, 100), 300);
+
+    mediaServerRaw->soapCall->setErrorState(true);
+    finishBrowse(*mediaServerRaw, songTitles(100, 150), 300);
+
+    QCOMPARE(navFinishedSpy.size(), 0);
+    QCOMPARE(navFailedSpy.size(), 1);
+    QCOMPARE(navFailedSpy.at(0).at(0).toString(), QStringLiteral("12"));
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), QStringLiteral("Music"));
+    QCOMPARE(mediaServerSource.totalItemCount(), 5);
+
+    // The next page still belongs to the Container that stayed.
+    mediaServerRaw->soapCall->setErrorState(false);
+    mediaServerSource.loadMore();
+    QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("0"));
 }
 
 } // namespace Provider::MediaServer

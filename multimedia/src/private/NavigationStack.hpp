@@ -26,7 +26,7 @@ public:
 
     void navigateForward();
 
-    void navigateBack();
+    void navigateBack(qsizetype minimumItemCount);
 
 private:
     Source& mSource;

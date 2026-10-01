@@ -59,9 +59,15 @@ bool Source::canLoadMore() const noexcept
     return mMediaItems.size() < totalItemCount();
 }
 
-void Source::navigateTo(QString const& path) noexcept
+void Source::navigateTo(QString const& path, qsizetype minimumItemCount) noexcept
+{
+    navigate(path, minimumItemCount);
+}
+
+void Source::navigate(QString const& path, qsizetype minimumItemCount) noexcept
 {
     Q_UNUSED(path)
+    Q_UNUSED(minimumItemCount)
 }
 
 void Source::loadMore() noexcept
@@ -73,9 +79,9 @@ void Source::setTotalItemCount(qsizetype count) noexcept
     d->mTotalItemCount = count;
 }
 
-void Source::navigateBack() noexcept
+void Source::navigateBack(qsizetype minimumItemCount) noexcept
 {
-    d->mNavigationStack.navigateBack();
+    d->mNavigationStack.navigateBack(minimumItemCount);
 }
 
 void Source::navigateForward() noexcept

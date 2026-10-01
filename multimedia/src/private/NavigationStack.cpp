@@ -43,7 +43,7 @@ QString const& NavigationStack::path()
     return mPath;
 }
 
-void NavigationStack::navigateBack()
+void NavigationStack::navigateBack(qsizetype minimumItemCount)
 {
     if (mPathStack.empty()) {
         return;
@@ -55,7 +55,7 @@ void NavigationStack::navigateBack()
     }
     auto const path = mPathStack.at(mNavigationIndex);
     mNavigationAction = true;
-    mSource.navigateTo(path);
+    mSource.navigateTo(path, minimumItemCount);
 }
 
 void NavigationStack::navigateForward()
