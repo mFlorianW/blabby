@@ -109,6 +109,13 @@ void MediaSourceModel::onSourceRemoved(std::shared_ptr<Multimedia::Source> const
         qCDebug(shell) << "Remove MediaSource under index:" << idx << "from sources. Address:" << source.get()
                        << "iter:" << sourceIndex->get();
         endRemoveRows();
+
+        // A Source that reappears is a new Source, so the Active Source becomes none and is never restored.
+        if (source == mActiveSource) {
+            mActiveSource = nullptr;
+            Q_EMIT activeMediaSourceChanged();
+            Q_EMIT activeMediaSourceDisappeared(source->sourceName());
+        }
     }
 }
 

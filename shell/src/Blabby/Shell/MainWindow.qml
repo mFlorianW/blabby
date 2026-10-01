@@ -138,6 +138,13 @@ Rectangle {
                     libraryView.showContainerOpenFailed(containerTitle);
                 }
             }
+
+            Connections {
+                target: Singleton.mediaSourceModel
+                function onActiveMediaSourceDisappeared(sourceName: string) {
+                    libraryView.showActiveSourceDisappeared(sourceName);
+                }
+            }
         }
 
         QueueView {

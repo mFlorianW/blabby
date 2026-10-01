@@ -15,6 +15,7 @@ import Blabby.Theme
  * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
  * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
  * be opened the current Container stays and a toast tells so.
+ * When the Active Source disappears a toast tells so.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
 Item {
@@ -97,6 +98,13 @@ Item {
      */
     function showContainerOpenFailed(containerTitle: string) {
         toast.show(qsTr("Couldn't open %1").arg(containerTitle));
+    }
+
+    /**
+     * Tells the user in a toast that the Active Source with the name is no longer available.
+     */
+    function showActiveSourceDisappeared(sourceName: string) {
+        toast.show(qsTr("%1 is no longer available").arg(sourceName));
     }
 
     /**

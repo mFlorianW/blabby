@@ -97,6 +97,12 @@ Q_SIGNALS:
      */
     void activeMediaSourceChanged();
 
+    /**
+     * The signal is emitted when the Active Source disappeared and is no longer the Active Source.
+     * @param sourceName The name of the Source that disappeared.
+     */
+    void activeMediaSourceDisappeared(QString const& sourceName);
+
 private Q_SLOTS:
     void onSourceAdded(std::shared_ptr<Multimedia::Source> const& source) noexcept;
     void onSourceRemoved(std::shared_ptr<Multimedia::Source> const& source) noexcept;
