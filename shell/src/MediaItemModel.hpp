@@ -136,12 +136,17 @@ public:
      * Activates the @ref Multimedia::MediaItem under the passed index.
      * Activating a Container opens it. Activating a Playable requests to play it, see @ref playRequested. Any
      * activation while @ref isBusy() does nothing.
+     * Opening a Container remembers how many Items the current Container has loaded and its scroll position, both are
+     * restored when navigating back to it.
      * @param idx The index of the @ref Multimedia::MediaItem that shall be activated.
+     * @param scrollPosition The index of the first Item the view shows of the current Container.
      */
-    Q_INVOKABLE void activateMediaItem(qsizetype idx) noexcept;
+    Q_INVOKABLE void activateMediaItem(qsizetype idx, qsizetype scrollPosition = 0) noexcept;
 
     /**
      * Navigates the @ref Shell::MediaItemModel back to the parent Container.
+     * The parent Container is loaded again up to the number of Items it had loaded, then its scroll position is
+     * restored, see @ref scrollPositionRestoreRequested().
      * Does nothing at the root Container or while @ref isBusy().
      */
     Q_INVOKABLE void navigateBack() noexcept;
@@ -225,6 +230,13 @@ Q_SIGNALS:
      */
     void playRequested(Multimedia::Item const& playable);
 
+    /**
+     * This signal is emitted after navigating back, when the Items of the parent Container are shown again.
+     * The view shall scroll back to the position it had when the Container was opened.
+     * @param scrollPosition The index of the first Item to show, clamped to the last Item when the Container shrank.
+     */
+    void scrollPositionRestoreRequested(qsizetype scrollPosition);
+
 private:
     /**
      * The navigation that the model requested and whose Items haven't arrived yet.
@@ -236,7 +248,17 @@ private:
         Back,
     };
 
-    void startNavigation(PendingNavigation navigation, QString const& containerTitle = {}) noexcept;
+    /**
+     * A Container opened from the root, with what is needed to return to its parent Container.
+     */
+    struct OpenedContainer
+    {
+        QString mTitle;
+        qsizetype mParentItemCount{0};
+        qsizetype mParentScrollPosition{0};
+    };
+
+    void startNavigation(PendingNavigation navigation, OpenedContainer container) noexcept;
     void onNavigationFinished() noexcept;
     void onNavigationFailed() noexcept;
     void onMoreItemsLoaded() noexcept;
@@ -245,10 +267,11 @@ private:
     QString parentContainerTitle() const noexcept;
 
     std::shared_ptr<Multimedia::Source> mMediaSrc;
-    // The titles of the Containers opened from the root, the last one is the current Container.
-    QStringList mContainerTitles;
+    // The Containers opened from the root, the last one is the current Container.
+    QList<OpenedContainer> mOpenedContainers;
     PendingNavigation mPendingNavigation{PendingNavigation::None};
-    QString mPendingContainerTitle;
+    // The Container that opens, or the parent Container while navigating back.
+    OpenedContainer mPendingContainer;
     // The rows the model reports, the Source appends fetched Items before the model inserts their rows.
     int mRowCount{0};
     bool mLoadingMore{false};

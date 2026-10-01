@@ -640,6 +640,107 @@ void MediaItemModelShould::report_the_dropped_page_as_failed_when_opening_a_cont
     QCOMPARE(mediaSrc->loadMoreCount(), 2);
 }
 
+void MediaItemModelShould::reload_the_loaded_item_count_when_navigating_back()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->finishPendingLoadMore();
+    miModel.activateMediaItem(2, 0);
+    QCOMPARE(mediaSrc->lastMinimumItemCount(), 0);
+
+    miModel.navigateBack();
+
+    QCOMPARE(mediaSrc->lastNavigatedPath(), QStringLiteral("0"));
+    QCOMPARE(mediaSrc->lastMinimumItemCount(), 8);
+}
+
+void MediaItemModelShould::restore_the_scroll_position_after_navigating_back()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2, 3);
+    mediaSrc->setHoldNavigations(true);
+    auto restoreSpy = QSignalSpy{&miModel, &MediaItemModel::scrollPositionRestoreRequested};
+    // The busy indicator hides the reload, the position is restored once the Items are shown again.
+    auto busyAtRestore = true;
+    connect(&miModel, &MediaItemModel::scrollPositionRestoreRequested, &miModel, [&] {
+        busyAtRestore = miModel.isBusy();
+    });
+
+    miModel.navigateBack();
+    QCOMPARE(miModel.property("busy").toBool(), true);
+    QCOMPARE(restoreSpy.size(), 0);
+    mediaSrc->finishPendingNavigation();
+
+    QCOMPARE(restoreSpy.size(), 1);
+    QCOMPARE(restoreSpy.at(0).at(0).value<qsizetype>(), 3);
+    QCOMPARE(busyAtRestore, false);
+}
+
+void MediaItemModelShould::clamp_the_restored_scroll_position_to_the_last_item()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    mediaSrc->setMoreItems(moreItems());
+    miModel.fetchMore({});
+    mediaSrc->finishPendingLoadMore();
+    miModel.activateMediaItem(2, 7);
+    auto restoreSpy = QSignalSpy{&miModel, &MediaItemModel::scrollPositionRestoreRequested};
+
+    // The root Container comes back with its first five Items only, as if it shrank.
+    miModel.navigateBack();
+
+    QCOMPARE(miModel.rowCount({}), 5);
+    QCOMPARE(restoreSpy.size(), 1);
+    QCOMPARE(restoreSpy.at(0).at(0).value<qsizetype>(), 4);
+}
+
+void MediaItemModelShould::restore_the_item_count_and_scroll_position_of_every_level()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    miModel.activateMediaItem(2, 3);
+    miModel.activateMediaItem(2, 1);
+    auto restoreSpy = QSignalSpy{&miModel, &MediaItemModel::scrollPositionRestoreRequested};
+
+    miModel.navigateBack();
+    QCOMPARE(mediaSrc->lastMinimumItemCount(), 3);
+    QCOMPARE(restoreSpy.size(), 1);
+    QCOMPARE(restoreSpy.at(0).at(0).value<qsizetype>(), 1);
+
+    // A failed navigation back keeps what is remembered for the level below.
+    mediaSrc->setHoldNavigations(true);
+    miModel.navigateBack();
+    mediaSrc->failPendingNavigation();
+    mediaSrc->setHoldNavigations(false);
+
+    miModel.navigateBack();
+    QCOMPARE(mediaSrc->lastMinimumItemCount(), 5);
+    QCOMPARE(restoreSpy.size(), 2);
+    QCOMPARE(restoreSpy.at(1).at(0).value<qsizetype>(), 3);
+}
+
+void MediaItemModelShould::not_restore_a_scroll_position_when_opening_a_container()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    auto restoreSpy = QSignalSpy{&miModel, &MediaItemModel::scrollPositionRestoreRequested};
+
+    miModel.activateMediaItem(2, 3);
+
+    QCOMPARE(restoreSpy.size(), 0);
+    QCOMPARE(mediaSrc->lastMinimumItemCount(), 0);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaItemModelShould)

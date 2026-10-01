@@ -7,6 +7,7 @@
 
 #include "MediaItemModel.hpp"
 #include "LoggingCategories.hpp"
+#include <algorithm>
 
 namespace Shell
 {
@@ -88,9 +89,9 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
         beginResetModel();
         mMediaSrc = mediaSrc;
         mRowCount = mMediaSrc != nullptr ? static_cast<int>(mMediaSrc->mediaItems().size()) : 0;
-        mContainerTitles.clear();
+        mOpenedContainers.clear();
         mPendingNavigation = PendingNavigation::None;
-        mPendingContainerTitle.clear();
+        mPendingContainer = {};
         mLoadingMore = false;
         endResetModel();
 
@@ -115,7 +116,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
     }
 }
 
-void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
+void MediaItemModel::activateMediaItem(qsizetype idx, qsizetype scrollPosition) noexcept
 {
     if (mMediaSrc == nullptr) {
         qCritical(shell) << "Failed to activate MediaItem. Error: MediaSource is not set.";
@@ -136,7 +137,8 @@ void MediaItemModel::activateMediaItem(qsizetype idx) noexcept
     if (item.type() == Multimedia::ItemType::Container) {
         // Copy the path, the Source may replace its Items while navigating.
         auto const path = item.path();
-        startNavigation(PendingNavigation::Open, item.mainText());
+        startNavigation(PendingNavigation::Open,
+                        {.mTitle = item.mainText(), .mParentItemCount = mRowCount, .mParentScrollPosition = scrollPosition});
         mMediaSrc->navigateTo(path);
         return;
     }
@@ -155,8 +157,9 @@ void MediaItemModel::navigateBack() noexcept
         return;
     }
 
-    startNavigation(PendingNavigation::Back, parentContainerTitle());
-    mMediaSrc->navigateBack();
+    startNavigation(PendingNavigation::Back, {.mTitle = parentContainerTitle()});
+    // Items are re-fetched instead of cached, at least as many as the parent Container had loaded.
+    mMediaSrc->navigateBack(mOpenedContainers.last().mParentItemCount);
 }
 
 void MediaItemModel::retryLoadMore() noexcept
@@ -169,10 +172,10 @@ void MediaItemModel::retryLoadMore() noexcept
     fetchMore({});
 }
 
-void MediaItemModel::startNavigation(PendingNavigation navigation, QString const& containerTitle) noexcept
+void MediaItemModel::startNavigation(PendingNavigation navigation, OpenedContainer container) noexcept
 {
     mPendingNavigation = navigation;
-    mPendingContainerTitle = containerTitle;
+    mPendingContainer = std::move(container);
     Q_EMIT busyChanged();
 }
 
@@ -185,17 +188,17 @@ void MediaItemModel::onNavigationFinished() noexcept
     setLoadMoreFailed(false);
 
     auto const navigation = std::exchange(mPendingNavigation, PendingNavigation::None);
+    auto const container = std::exchange(mPendingContainer, {});
     if (navigation == PendingNavigation::Open) {
-        mContainerTitles.append(std::exchange(mPendingContainerTitle, {}));
+        mOpenedContainers.append(container);
         Q_EMIT containerChanged();
-    } else if (navigation == PendingNavigation::Back) {
-        mPendingContainerTitle.clear();
-        mContainerTitles.removeLast();
-        Q_EMIT containerChanged();
-    }
-
-    if (navigation != PendingNavigation::None) {
         Q_EMIT busyChanged();
+    } else if (navigation == PendingNavigation::Back) {
+        auto const scrollPosition = mOpenedContainers.takeLast().mParentScrollPosition;
+        Q_EMIT containerChanged();
+        Q_EMIT busyChanged();
+        // The Container may have shrunk meanwhile, the closest valid position is its last Item.
+        Q_EMIT scrollPositionRestoreRequested(std::max(qsizetype{0}, std::min(scrollPosition, qsizetype{mRowCount} - 1)));
     }
 }
 
@@ -212,7 +215,7 @@ void MediaItemModel::onNavigationFailed() noexcept
     }
 
     Q_EMIT busyChanged();
-    Q_EMIT containerOpenFailed(std::exchange(mPendingContainerTitle, {}));
+    Q_EMIT containerOpenFailed(std::exchange(mPendingContainer, {}).mTitle);
 }
 
 void MediaItemModel::onMoreItemsLoaded() noexcept
@@ -268,18 +271,18 @@ bool MediaItemModel::isBusy() const noexcept
 
 QString MediaItemModel::containerTitle() const noexcept
 {
-    return mContainerTitles.isEmpty() ? QString{} : mContainerTitles.last();
+    return mOpenedContainers.isEmpty() ? QString{} : mOpenedContainers.last().mTitle;
 }
 
 QString MediaItemModel::parentContainerTitle() const noexcept
 {
     // The root Container has no title of its own, it's named after the Source.
-    return mContainerTitles.size() > 1 ? mContainerTitles.at(mContainerTitles.size() - 2) : mMediaSrc->sourceName();
+    return mOpenedContainers.size() > 1 ? mOpenedContainers.at(mOpenedContainers.size() - 2).mTitle : mMediaSrc->sourceName();
 }
 
 bool MediaItemModel::isAtRoot() const noexcept
 {
-    return mContainerTitles.isEmpty();
+    return mOpenedContainers.isEmpty();
 }
 
 bool MediaItemModel::hasLoadMoreFailed() const noexcept

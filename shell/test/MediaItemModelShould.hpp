@@ -55,6 +55,11 @@ private Q_SLOTS:
     void clear_the_failure_when_the_media_source_changes();
     void stop_fetching_more_when_a_container_is_opened();
     void report_the_dropped_page_as_failed_when_opening_a_container_fails();
+    void reload_the_loaded_item_count_when_navigating_back();
+    void restore_the_scroll_position_after_navigating_back();
+    void clamp_the_restored_scroll_position_to_the_last_item();
+    void restore_the_item_count_and_scroll_position_of_every_level();
+    void not_restore_a_scroll_position_when_opening_a_container();
 };
 
 } // namespace Shell
