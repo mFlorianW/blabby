@@ -185,6 +185,34 @@ public:
      */
     void appendAndPlay(Multimedia::Item const& playable) noexcept;
 
+    /**
+     * Removes the entry at the row, it can be undone with @ref Shell::QueueModel::undo.
+     * @see Multimedia::Queue::remove
+     * @param row The row of the entry to remove.
+     */
+    Q_INVOKABLE void remove(int row) noexcept;
+
+    /**
+     * Moves the entry at a row to another row without interrupting the playback.
+     * @see Multimedia::Queue::move
+     * @param from The row of the entry to move.
+     * @param to The row the entry has afterwards.
+     */
+    Q_INVOKABLE void move(int from, int to) noexcept;
+
+    /**
+     * Removes all entries, it can be undone with @ref Shell::QueueModel::undo.
+     * @see Multimedia::Queue::clear
+     */
+    Q_INVOKABLE void clear() noexcept;
+
+    /**
+     * Restores the Queue as it was before the last remove or clear, once.
+     * Nothing happens when there is nothing to undo, e.g. after the Queue was replaced.
+     * @see Multimedia::Queue::restore
+     */
+    Q_INVOKABLE void undo() noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the Queue State changed.
@@ -213,6 +241,7 @@ private:
     MediaRendererModel const& mRendererModel;
     Multimedia::Queue mQueue;
     std::optional<qsizetype> mCurrentRow;
+    std::optional<Multimedia::Queue::Snapshot> mUndoSnapshot;
 };
 
 } // namespace Shell

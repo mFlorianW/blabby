@@ -32,6 +32,30 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
         endInsertRows();
         Q_EMIT summaryChanged();
     });
+    connect(&mQueue, &Queue::entryAboutToBeRemoved, this, [this](qsizetype index) {
+        beginRemoveRows(QModelIndex{}, static_cast<int>(index), static_cast<int>(index));
+    });
+    connect(&mQueue, &Queue::entryRemoved, this, [this] {
+        // A removed Current Entry is notified by the Queue afterwards, the others may have only moved up.
+        mCurrentRow = mQueue.currentIndex();
+        endRemoveRows();
+        Q_EMIT summaryChanged();
+        Q_EMIT stepAvailabilityChanged();
+    });
+    connect(&mQueue, &Queue::entryAboutToBeMoved, this, [this](qsizetype from, qsizetype to) {
+        // The destination of a move is the row the entry is placed before, it's behind the target row when moving down.
+        auto const destination = to > from ? to + 1 : to;
+        beginMoveRows(QModelIndex{},
+                      static_cast<int>(from),
+                      static_cast<int>(from),
+                      QModelIndex{},
+                      static_cast<int>(destination));
+    });
+    connect(&mQueue, &Queue::entryMoved, this, [this] {
+        mCurrentRow = mQueue.currentIndex();
+        endMoveRows();
+        Q_EMIT stepAvailabilityChanged();
+    });
     connect(&mQueue, &Queue::currentEntryChanged, this, &QueueModel::onCurrentEntryChanged);
     connect(&mQueue, &Queue::stateChanged, this, &QueueModel::runningChanged);
     connect(&mQueue, &Queue::playsCurrentEntryChanged, this, &QueueModel::currentEntryPlayingChanged);
@@ -134,6 +158,8 @@ bool QueueModel::hasNext() const noexcept
 
 void QueueModel::replace(Multimedia::Items const& playables, qsizetype startIndex) noexcept
 {
+    // A replaced Queue isn't the one a remove or a clear changed anymore.
+    mUndoSnapshot.reset();
     mQueue.replace(playables, startIndex);
 }
 
@@ -146,6 +172,33 @@ void QueueModel::appendAndPlay(Multimedia::Item const& playable) noexcept
 {
     mQueue.append({playable});
     mQueue.play(mQueue.entries().size() - 1);
+}
+
+void QueueModel::remove(int row) noexcept
+{
+    mUndoSnapshot = mQueue.snapshot();
+    mQueue.remove(row);
+}
+
+void QueueModel::move(int from, int to) noexcept
+{
+    mQueue.move(from, to);
+}
+
+void QueueModel::clear() noexcept
+{
+    mUndoSnapshot = mQueue.snapshot();
+    mQueue.clear();
+}
+
+void QueueModel::undo() noexcept
+{
+    if (not mUndoSnapshot.has_value()) {
+        return;
+    }
+
+    mQueue.restore(*mUndoSnapshot);
+    mUndoSnapshot.reset();
 }
 
 void QueueModel::previous() noexcept

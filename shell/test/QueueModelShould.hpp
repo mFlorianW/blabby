@@ -54,6 +54,14 @@ private Q_SLOTS:
     void tell_whether_previous_and_next_are_available();
     void notify_when_the_availability_of_previous_and_next_changed();
     void step_to_the_next_and_the_previous_entry();
+    void remove_the_row_of_an_entry();
+    void mark_the_next_entry_as_current_when_the_current_entry_is_removed();
+    void move_the_row_of_an_entry_data();
+    void move_the_row_of_an_entry();
+    void clear_all_rows();
+    void undo_a_remove_or_a_clear_data();
+    void undo_a_remove_or_a_clear();
+    void ignore_undo_without_a_remove_or_a_clear();
 };
 
 } // namespace Shell
