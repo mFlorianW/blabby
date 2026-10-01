@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -57,6 +57,15 @@ void AbstractInteractiveControl::mouseReleaseEvent(QMouseEvent* event)
         handleRelease(event->position());
         Q_EMIT pressedChanged();
         Q_EMIT clicked();
+    }
+}
+
+void AbstractInteractiveControl::mouseUngrabEvent()
+{
+    // Another item or a handler took over the press, e.g. a scrolling list or a swipe, it's no click anymore.
+    if (mPressState) {
+        mPressState = false;
+        Q_EMIT pressedChanged();
     }
 }
 

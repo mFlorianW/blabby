@@ -14,6 +14,8 @@ import "TimeFormat.js" as TimeFormat
  * duration of its entry, the parts that are unknown are left out. The Current Entry is highlighted with an equaliser
  * glyph instead of its number, which moves while the Active Renderer plays it for the Running Queue. Tapping a row asks to play its entry,
  * without an Active Renderer a toast tells to choose one and leads to the Renderers screen.
+ * Swiping a row away asks to remove its entry, dragging a row by its handle asks to move it, Clear in the header asks to
+ * remove all entries. Remove and Clear ask no confirmation, their toast offers to undo them instead.
  * An empty Queue shows an empty state that leads to the Library.
  */
 Item {
@@ -79,9 +81,37 @@ Item {
     readonly property bool empty: entryList.count === 0
 
     /**
+     * Shows the message in the toast with an action to undo what it tells.
+     */
+    function offerUndo(message: string) {
+        toast.undoable = true;
+        toast.show(message, qsTr("Undo"));
+    }
+
+    /**
      * This signal is emitted when the user taps the row of the entry at index to play it.
      */
     signal playRequested(int index)
+
+    /**
+     * This signal is emitted when the user swiped the row of the entry at index away to remove it.
+     */
+    signal removeRequested(int index)
+
+    /**
+     * This signal is emitted when the user dragged the row of the entry at from by its handle to the row at to.
+     */
+    signal moveRequested(int from, int to)
+
+    /**
+     * This signal is emitted when the user asks to remove all entries.
+     */
+    signal clearRequested
+
+    /**
+     * This signal is emitted when the user asks to undo the last remove or clear.
+     */
+    signal undoRequested
 
     /**
      * This signal is emitted when the user asks to choose the Active Renderer.
@@ -102,6 +132,17 @@ Item {
         anchors.margins: 24
         title: qsTr("Queue")
         subtitle: queueView.summary
+
+        Button {
+            id: clearButton
+            objectName: "clearButton"
+            text: qsTr("Clear")
+            visible: !queueView.empty
+            onClicked: {
+                queueView.clearRequested();
+                queueView.offerUndo(qsTr("Cleared the Queue"));
+            }
+        }
     }
 
     EmptyState {
@@ -145,13 +186,66 @@ Item {
             required property bool hasDuration
             required property bool current
 
+            // A row swiped this far away is removed when it's released, otherwise it slides back.
+            readonly property real removeDistance: entryRow.width / 3
+
+            // The height of a row including the spacing, a row dragged this far moves by one row.
+            readonly property real rowPitch: entryRow.height + entryList.spacing
+
+            // How far the row is swiped from its place.
+            property real swipeDistance: 0
+
             objectName: "entryRow" + entryRow.index
             width: entryList.width
             height: 60
+            // The dragged row is drawn above the rows it passes.
+            z: dragArea.pressed ? 1 : 0
+            transform: [
+                Translate {
+                    id: swipeOffset
+                    objectName: "swipeOffset"
+                    x: entryRow.swipeDistance
+
+                    Behavior on x {
+                        enabled: !swipeHandler.active
+                        NumberAnimation {
+                            duration: 150
+                            easing.type: Easing.OutQuad
+                        }
+                    }
+                },
+                Translate {
+                    id: dragOffset
+                    y: dragArea.pressed ? dragArea.offset : 0
+                }
+            ]
+            opacity: 1 - Math.min(Math.abs(swipeOffset.x) / entryRow.width, 0.6)
+
             onClicked: {
                 queueView.playRequested(entryRow.index);
                 if (!queueView.hasActiveRenderer) {
+                    toast.undoable = false;
                     toast.show(qsTr("Choose a Renderer to play the Queue"), qsTr("Choose Renderer"));
+                }
+            }
+
+            DragHandler {
+                id: swipeHandler
+                objectName: "swipeHandler"
+                target: null
+                yAxis.enabled: false
+                onTranslationChanged: delta => entryRow.swipeDistance += delta.x
+                onActiveChanged: {
+                    if (swipeHandler.active) {
+                        return;
+                    }
+                    const removed = Math.abs(entryRow.swipeDistance) >= entryRow.removeDistance;
+                    entryRow.swipeDistance = 0;
+                    if (removed) {
+                        // The row is gone once its entry is removed.
+                        queueView.offerUndo(qsTr("Removed “%1”").arg(entryRow.title));
+                        queueView.removeRequested(entryRow.index);
+                    }
                 }
             }
 
@@ -262,8 +356,8 @@ Item {
             StyledText {
                 id: durationText
                 objectName: "duration"
-                anchors.right: entryRow.right
-                anchors.rightMargin: 16
+                anchors.right: dragHandle.left
+                anchors.rightMargin: 8
                 anchors.verticalCenter: entryRow.verticalCenter
                 width: 48
                 horizontalAlignment: Text.AlignRight
@@ -271,6 +365,56 @@ Item {
                 color: Theme.colors.colorOnSurfaceVariant
                 textStyle: Theme.fonts.labelMedium
                 visible: entryRow.hasDuration
+            }
+
+            Item {
+                id: dragHandle
+                objectName: "dragHandle"
+                anchors.right: entryRow.right
+                anchors.rightMargin: 8
+                anchors.verticalCenter: entryRow.verticalCenter
+                width: 48
+                height: 48
+
+                Icon {
+                    id: dragHandleIcon
+                    anchors.centerIn: dragHandle
+                    width: 24
+                    height: 24
+                    source: "qrc:/qt/qml/Blabby/Shell/icons/material/drag_handle.svg"
+                    color: Theme.colors.colorOnSurfaceVariant
+                }
+
+                MouseArea {
+                    id: dragArea
+
+                    // How far the row is dragged from its place.
+                    property real offset: 0
+                    property real pressY: 0
+
+                    anchors.fill: dragHandle
+                    // The list must not scroll instead of moving the row.
+                    preventStealing: true
+                    // The pointer is mapped to the list, the handle moves along with the row.
+                    function offsetOf(mouse: var): real {
+                        return dragArea.mapToItem(entryList.contentItem, mouse.x, mouse.y).y - dragArea.pressY;
+                    }
+
+                    onPressed: mouse => {
+                        dragArea.pressY = dragArea.mapToItem(entryList.contentItem, mouse.x, mouse.y).y;
+                        dragArea.offset = 0;
+                    }
+                    onPositionChanged: mouse => dragArea.offset = dragArea.offsetOf(mouse)
+                    onReleased: mouse => {
+                        dragArea.offset = dragArea.offsetOf(mouse);
+                        const rows = Math.round(dragArea.offset / entryRow.rowPitch);
+                        const to = Math.max(0, Math.min(entryList.count - 1, entryRow.index + rows));
+                        dragArea.offset = 0;
+                        if (to !== entryRow.index) {
+                            queueView.moveRequested(entryRow.index, to);
+                        }
+                    }
+                }
             }
         }
     }
@@ -282,6 +426,9 @@ Item {
         anchors.bottom: queueView.bottom
         anchors.bottomMargin: 24
         maximumWidth: queueView.width - 48
-        onActionClicked: queueView.chooseRendererRequested()
+        onActionClicked: toast.undoable ? queueView.undoRequested() : queueView.chooseRendererRequested()
+
+        // True when the action of the shown message undoes a remove or a clear, it chooses a Renderer otherwise.
+        property bool undoable: false
     }
 }
