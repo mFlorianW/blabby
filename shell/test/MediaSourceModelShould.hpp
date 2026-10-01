@@ -28,6 +28,9 @@ private Q_SLOTS:
     void set_the_active_media_source_property_correctly();
     void ignore_activating_the_active_media_source_again();
     void ignore_activating_an_invalid_index();
+    void have_no_active_media_source_when_the_active_media_source_is_removed();
+    void not_activate_a_reappearing_media_source();
+    void keep_the_active_media_source_when_another_media_source_is_removed();
 };
 
 } // namespace Shell

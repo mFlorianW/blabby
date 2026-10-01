@@ -159,6 +159,59 @@ void MediaSourceModelShould::ignore_activating_an_invalid_index()
     QCOMPARE(model.activeMediaSource(), nullptr);
 }
 
+void MediaSourceModelShould::have_no_active_media_source_when_the_active_media_source_is_removed()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
+    auto loaderRaw = loader.get();
+    auto model = MediaSourceModel{std::move(loader)};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    model.activateMediaSource(1);
+    auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+    auto activeRemovedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceDisappeared};
+
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
+
+    QCOMPARE(activeChangedSpy.size(), 1);
+    QCOMPARE(model.activeMediaSource(), nullptr);
+    QCOMPARE(activeRemovedSpy.size(), 1);
+    QCOMPARE(activeRemovedSpy.at(0).at(0).toString(), QStringLiteral("TestMediaSource"));
+}
+
+void MediaSourceModelShould::not_activate_a_reappearing_media_source()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
+    auto loaderRaw = loader.get();
+    auto model = MediaSourceModel{std::move(loader)};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    auto* provider = qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(0).get());
+    model.activateMediaSource(0);
+    provider->removeLastSource();
+    auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+
+    provider->createNewSource();
+
+    QCOMPARE(model.rowCount(), 1);
+    QCOMPARE(activeChangedSpy.size(), 0);
+    QCOMPARE(model.activeMediaSource(), nullptr);
+}
+
+void MediaSourceModelShould::keep_the_active_media_source_when_another_media_source_is_removed()
+{
+    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
+    auto loaderRaw = loader.get();
+    auto model = MediaSourceModel{std::move(loader)};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    model.activateMediaSource(0);
+    auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
+    auto activeRemovedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceDisappeared};
+
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
+
+    QCOMPARE(activeChangedSpy.size(), 0);
+    QCOMPARE(activeRemovedSpy.size(), 0);
+    QCOMPARE(model.activeMediaSource(), loaderRaw->providers().at(0)->sources().at(0));
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaSourceModelShould);

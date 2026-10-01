@@ -627,5 +627,45 @@ Item {
             libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, true);
             libraryViewTest.compare(libraryViewTest.tile(0).visible, true);
         }
+
+        function test_show_the_empty_state_and_a_toast_when_the_active_source_disappears_data() {
+            return [
+                {
+                    tag: "other Sources left",
+                    sources: sources,
+                    title: "Choose a Source"
+                },
+                {
+                    tag: "last Source gone",
+                    sources: noSources,
+                    title: "No Sources found"
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Library falls back to the empty state without an Active Source and tells in a toast that the
+         * Active Source is no longer available, when the Active Source disappears.
+         */
+        function test_show_the_empty_state_and_a_toast_when_the_active_source_disappears(data) {
+            libraryView.atRoot = false;
+            libraryView.containerTitle = "Albums";
+
+            libraryView.sources = data.sources;
+            libraryView.hasActiveSource = false;
+            libraryView.items = noItems;
+            libraryView.showActiveSourceDisappeared("NAS");
+
+            const toast = libraryViewTest.child("toast");
+            libraryViewTest.tryCompare(toast, "visible", true);
+            libraryViewTest.compare(libraryViewTest.findChild(toast, "message").text, "NAS is no longer available");
+            const emptyState = libraryViewTest.child("emptyState");
+            libraryViewTest.compare(emptyState.visible, true);
+            libraryViewTest.compare(emptyState.title, data.title);
+            libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("sourcePill").text, "Choose a Source");
+            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+        }
     }
 }
