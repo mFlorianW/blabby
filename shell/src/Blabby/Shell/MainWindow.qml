@@ -128,9 +128,11 @@ Rectangle {
             busy: Singleton.mediaItemModel.busy
             atRoot: Singleton.mediaItemModel.atRoot
             containerTitle: Singleton.mediaItemModel.containerTitle
+            loadMoreFailed: Singleton.mediaItemModel.loadMoreFailed
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
             onItemActivated: index => Singleton.mediaItemModel.activateMediaItem(index)
             onBackRequested: Singleton.mediaItemModel.navigateBack()
+            onRetryRequested: Singleton.mediaItemModel.retryLoadMore()
 
             Connections {
                 target: Singleton.mediaItemModel
