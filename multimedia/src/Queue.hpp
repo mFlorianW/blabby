@@ -45,6 +45,18 @@ public:
     Q_ENUM(State)
 
     /**
+     * What a Queue was at one moment, to give it back to @ref Multimedia::Queue::restore, e.g. to undo a remove.
+     */
+    struct Snapshot
+    {
+        Items entries;
+        std::optional<qsizetype> currentIndex;
+        std::chrono::milliseconds lastKnownPosition{0};
+        Queue::State state = Queue::State::Idle;
+        bool playsCurrentEntry = false;
+    };
+
+    /**
      * Creates an empty and Idle Queue without an Active Renderer.
      */
     Queue();
@@ -160,6 +172,45 @@ public:
      */
     void next() noexcept;
 
+    /**
+     * Removes the entry at the index, the other entries keep their order.
+     * Removing an entry that isn't the Current Entry doesn't affect the playback.
+     * Removing the Current Entry makes the following entry the Current Entry, which plays from its start when the
+     * Queue is Running. Without a following entry the Queue is Idle without a Current Entry, and the Active Renderer
+     * is stopped when it is on the removed Current Entry.
+     * @param index The index of the entry to remove.
+     */
+    void remove(qsizetype index) noexcept;
+
+    /**
+     * Moves the entry at an index to another index without interrupting the playback, also the Current Entry.
+     * @param from The index of the entry to move.
+     * @param to The index the entry has afterwards.
+     */
+    void move(qsizetype from, qsizetype to) noexcept;
+
+    /**
+     * Removes all entries, the Queue is Idle without a Current Entry afterwards.
+     * The Active Renderer is stopped when it is on the Current Entry, it's left alone when another controller took
+     * it over.
+     */
+    void clear() noexcept;
+
+    /**
+     * Gives what the Queue is now, to restore it later.
+     * @return The snapshot of the Queue.
+     */
+    Queue::Snapshot snapshot() const noexcept;
+
+    /**
+     * Restores the entries, the Current Entry, its last known position and the Queue State of the snapshot.
+     * A Current Entry that the Active Renderer played for the Queue when the snapshot was taken and doesn't play
+     * anymore, e.g. because it was removed, plays again from its start.
+     * Without an Active Renderer the restored Queue is Idle.
+     * @param snapshot The snapshot to restore.
+     */
+    void restore(Queue::Snapshot const& snapshot) noexcept;
+
 Q_SIGNALS:
     /**
      * This signal is emitted before the entries are replaced.
@@ -184,6 +235,31 @@ Q_SIGNALS:
     void entriesAppended();
 
     /**
+     * This signal is emitted before an entry is removed.
+     * @param index The index of the entry that will be removed.
+     */
+    void entryAboutToBeRemoved(qsizetype index);
+
+    /**
+     * This signal is emitted after an entry is removed.
+     * Only a removed Current Entry changes the Current Entry and is notified afterwards, the index of the Current Entry
+     * may have changed nevertheless.
+     */
+    void entryRemoved();
+
+    /**
+     * This signal is emitted before an entry is moved.
+     * @param from The index of the entry that will be moved.
+     * @param to The index the entry will have.
+     */
+    void entryAboutToBeMoved(qsizetype from, qsizetype to);
+
+    /**
+     * This signal is emitted after an entry is moved. The Current Entry stays, its index may have changed.
+     */
+    void entryMoved();
+
+    /**
      * This signal is emitted when the Current Entry changed.
      */
     void currentEntryChanged();
@@ -205,6 +281,7 @@ Q_SIGNALS:
 
 private:
     bool isInControl() const noexcept;
+    bool isRendererOnCurrentEntry() const noexcept;
     void onRendererStateChanged() noexcept;
     void recordPosition() noexcept;
     void playCurrentEntry() noexcept;

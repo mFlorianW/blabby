@@ -191,6 +191,129 @@ void Queue::append(Items const& playables) noexcept
     Q_EMIT entriesAppended();
 }
 
+void Queue::remove(qsizetype index) noexcept
+{
+    if (index < 0 or index >= mEntries.size()) {
+        qCWarning(mmQueue) << "Failed to remove an entry of the Queue. Error: invalid index" << index << "for"
+                           << mEntries.size() << "entries";
+        return;
+    }
+
+    auto const removesCurrentEntry = mCurrentIndex == index;
+    auto const stopRenderer = removesCurrentEntry and isRendererOnCurrentEntry();
+    Q_EMIT entryAboutToBeRemoved(index);
+    mEntries.removeAt(index);
+    if (removesCurrentEntry) {
+        // The index must not point behind the entries meanwhile, the new Current Entry is notified afterwards.
+        mCurrentIndex.reset();
+    } else if (mCurrentIndex.has_value() and *mCurrentIndex > index) {
+        mCurrentIndex = *mCurrentIndex - 1;
+    }
+    Q_EMIT entryRemoved();
+
+    if (not removesCurrentEntry) {
+        return;
+    }
+
+    if (index < mEntries.size()) {
+        setCurrentIndex(index);
+        if (mState == State::Running) {
+            startCurrentEntry();
+        }
+        return;
+    }
+
+    mLastKnownDuration.reset();
+    setLastKnownPosition(std::chrono::milliseconds{0});
+    Q_EMIT currentEntryChanged();
+    if (stopRenderer) {
+        mRenderer->stop();
+    }
+    setState(State::Idle);
+}
+
+void Queue::move(qsizetype from, qsizetype to) noexcept
+{
+    if (from < 0 or from >= mEntries.size() or to < 0 or to >= mEntries.size()) {
+        qCWarning(mmQueue) << "Failed to move an entry of the Queue. Error: invalid index" << from << "or" << to
+                           << "for" << mEntries.size() << "entries";
+        return;
+    }
+    if (from == to) {
+        return;
+    }
+
+    Q_EMIT entryAboutToBeMoved(from, to);
+    mEntries.move(from, to);
+    if (mCurrentIndex.has_value()) {
+        auto& current = *mCurrentIndex;
+        if (current == from) {
+            current = to;
+        } else if (from < current and to >= current) {
+            --current;
+        } else if (from > current and to <= current) {
+            ++current;
+        }
+    }
+    Q_EMIT entryMoved();
+}
+
+void Queue::clear() noexcept
+{
+    auto const stopRenderer = isRendererOnCurrentEntry();
+    replace({}, 0);
+    if (stopRenderer) {
+        mRenderer->stop();
+    }
+}
+
+Queue::Snapshot Queue::snapshot() const noexcept
+{
+    return Snapshot{
+        .entries = mEntries,
+        .currentIndex = mCurrentIndex,
+        .lastKnownPosition = mLastKnownPosition,
+        .state = mState,
+        .playsCurrentEntry = mPlaysCurrentEntry,
+    };
+}
+
+void Queue::restore(Queue::Snapshot const& snapshot) noexcept
+{
+    auto const validIndex = not snapshot.currentIndex.has_value() or
+                            (*snapshot.currentIndex >= 0 and *snapshot.currentIndex < snapshot.entries.size());
+    if (not validIndex) {
+        qCWarning(mmQueue) << "Failed to restore the Queue. Error: invalid Current Entry index"
+                           << *snapshot.currentIndex << "for" << snapshot.entries.size() << "entries";
+        return;
+    }
+
+    Q_EMIT entriesAboutToBeReplaced();
+    mEntries = snapshot.entries;
+    mCurrentIndex = snapshot.currentIndex;
+    Q_EMIT entriesReplaced();
+    Q_EMIT currentEntryChanged();
+
+    mLastKnownDuration.reset();
+    auto const stillPlays = isInControl() and mRenderer->state() == Renderer::State::Playing;
+    if (snapshot.playsCurrentEntry and not stillPlays) {
+        setLastKnownPosition(std::chrono::milliseconds{0});
+        startCurrentEntry();
+        return;
+    }
+
+    setLastKnownPosition(snapshot.lastKnownPosition);
+    // The Renderer may have moved on meanwhile, e.g. while the Current Entry was removed.
+    recordPosition();
+    setState(mRenderer != nullptr ? snapshot.state : State::Idle);
+}
+
+bool Queue::isRendererOnCurrentEntry() const noexcept
+{
+    return isInControl() and
+           (mRenderer->state() == Renderer::State::Playing or mRenderer->state() == Renderer::State::Paused);
+}
+
 bool Queue::isInControl() const noexcept
 {
     return mRenderer != nullptr and mCurrentIndex.has_value() and

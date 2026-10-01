@@ -585,6 +585,313 @@ void QueueShould::append_to_an_empty_queue_without_a_current_entry()
     QCOMPARE(mQueue->state(), Queue::State::Idle);
 }
 
+void QueueShould::remove_an_entry_that_is_not_current_without_affecting_playback_data()
+{
+    QTest::addColumn<qsizetype>("removedIndex");
+    QTest::addColumn<Items>("expectedEntries");
+    QTest::addColumn<qsizetype>("expectedCurrentIndex");
+
+    QTest::newRow("before the Current Entry")
+        << qsizetype{0} << Items{playable(QStringLiteral("Harbour")), playable(QStringLiteral("Outro"))}
+        << qsizetype{0};
+    QTest::newRow("after the Current Entry")
+        << qsizetype{2} << Items{playable(QStringLiteral("Intro")), playable(QStringLiteral("Harbour"))}
+        << qsizetype{1};
+}
+
+void QueueShould::remove_an_entry_that_is_not_current_without_affecting_playback()
+{
+    QFETCH(qsizetype, removedIndex);
+    QFETCH(Items, expectedEntries);
+    QFETCH(qsizetype, expectedCurrentIndex);
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->remove(removedIndex);
+
+    QCOMPARE(mQueue->entries(), expectedEntries);
+    QCOMPARE(mQueue->currentIndex(), std::optional{expectedCurrentIndex});
+    QCOMPARE(mQueue->currentEntry(), std::optional{playable(QStringLiteral("Harbour"))});
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{102'000});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mDevice->isStopCalled(), false);
+}
+
+void QueueShould::notify_about_a_remove()
+{
+    mQueue->replace(album(), 1);
+    auto aboutToBeRemovedSpy = QSignalSpy{mQueue.get(), &Queue::entryAboutToBeRemoved};
+    auto removedSpy = QSignalSpy{mQueue.get(), &Queue::entryRemoved};
+
+    mQueue->remove(2);
+
+    QCOMPARE(aboutToBeRemovedSpy.size(), 1);
+    QCOMPARE(aboutToBeRemovedSpy.at(0).at(0).value<qsizetype>(), 2);
+    QCOMPARE(removedSpy.size(), 1);
+}
+
+void QueueShould::play_the_next_entry_when_the_current_entry_of_a_running_queue_is_removed()
+{
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->remove(1);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->currentEntry(), std::optional{playable(QStringLiteral("Outro"))});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Outro")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::make_the_next_entry_current_when_the_current_entry_of_an_idle_queue_is_removed()
+{
+    makeIdle(0);
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->remove(0);
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mQueue->currentEntry(), std::optional{playable(QStringLiteral("Harbour"))});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::stop_and_become_idle_when_the_last_remaining_current_entry_is_removed_data()
+{
+    QTest::addColumn<Items>("entries");
+    QTest::addColumn<qsizetype>("currentIndex");
+    QTest::addColumn<Items>("expectedEntries");
+
+    QTest::newRow("the only entry") << Items{playable(QStringLiteral("Intro"))} << qsizetype{0} << Items{};
+    QTest::newRow("the last entry") << album() << qsizetype{2}
+                                    << Items{playable(QStringLiteral("Intro")), playable(QStringLiteral("Harbour"))};
+}
+
+void QueueShould::stop_and_become_idle_when_the_last_remaining_current_entry_is_removed()
+{
+    QFETCH(Items, entries);
+    QFETCH(qsizetype, currentIndex);
+    QFETCH(Items, expectedEntries);
+    mQueue->replace(entries, currentIndex);
+    auto const uri = entries.at(currentIndex).playUrl();
+    report(uri, QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->remove(currentIndex);
+
+    QCOMPARE(mQueue->entries(), expectedEntries);
+    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isStopCalled(), true);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::not_stop_another_controller_when_the_last_remaining_current_entry_is_removed()
+{
+    mQueue->replace(album(), 2);
+    // Another controller took over the Renderer.
+    report(QStringLiteral("http://radio.example/stream.mp3"), QStringLiteral("0:00:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+
+    mQueue->remove(2);
+
+    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isStopCalled(), false);
+}
+
+void QueueShould::ignore_removing_at_an_invalid_index()
+{
+    mQueue->replace(album(), 1);
+    auto aboutToBeRemovedSpy = QSignalSpy{mQueue.get(), &Queue::entryAboutToBeRemoved};
+
+    mQueue->remove(3);
+    mQueue->remove(-1);
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(aboutToBeRemovedSpy.size(), 0);
+}
+
+void QueueShould::move_entries_without_interrupting_playback_data()
+{
+    QTest::addColumn<qsizetype>("from");
+    QTest::addColumn<qsizetype>("to");
+    QTest::addColumn<QStringList>("expectedTitles");
+    QTest::addColumn<qsizetype>("expectedCurrentIndex");
+
+    QTest::newRow("the Current Entry down")
+        << qsizetype{1} << qsizetype{2} << QStringList{"Intro", "Outro", "Harbour"} << qsizetype{2};
+    QTest::newRow("the Current Entry up")
+        << qsizetype{1} << qsizetype{0} << QStringList{"Harbour", "Intro", "Outro"} << qsizetype{0};
+    QTest::newRow("an entry over the Current Entry down")
+        << qsizetype{0} << qsizetype{2} << QStringList{"Harbour", "Outro", "Intro"} << qsizetype{0};
+    QTest::newRow("an entry over the Current Entry up")
+        << qsizetype{2} << qsizetype{0} << QStringList{"Outro", "Intro", "Harbour"} << qsizetype{2};
+}
+
+void QueueShould::move_entries_without_interrupting_playback()
+{
+    QFETCH(qsizetype, from);
+    QFETCH(qsizetype, to);
+    QFETCH(QStringList, expectedTitles);
+    QFETCH(qsizetype, expectedCurrentIndex);
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->move(from, to);
+
+    auto expectedEntries = Items{};
+    for (auto const& title : expectedTitles) {
+        expectedEntries.append(playable(title));
+    }
+    QCOMPARE(mQueue->entries(), expectedEntries);
+    QCOMPARE(mQueue->currentIndex(), std::optional{expectedCurrentIndex});
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{102'000});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mDevice->isStopCalled(), false);
+}
+
+void QueueShould::notify_about_a_move()
+{
+    mQueue->replace(album(), 1);
+    auto aboutToBeMovedSpy = QSignalSpy{mQueue.get(), &Queue::entryAboutToBeMoved};
+    auto movedSpy = QSignalSpy{mQueue.get(), &Queue::entryMoved};
+
+    mQueue->move(0, 2);
+
+    QCOMPARE(aboutToBeMovedSpy.size(), 1);
+    QCOMPARE(aboutToBeMovedSpy.at(0).at(0).value<qsizetype>(), 0);
+    QCOMPARE(aboutToBeMovedSpy.at(0).at(1).value<qsizetype>(), 2);
+    QCOMPARE(movedSpy.size(), 1);
+}
+
+void QueueShould::ignore_an_invalid_move()
+{
+    mQueue->replace(album(), 1);
+    auto aboutToBeMovedSpy = QSignalSpy{mQueue.get(), &Queue::entryAboutToBeMoved};
+
+    mQueue->move(0, 0);
+    mQueue->move(0, 3);
+    mQueue->move(-1, 1);
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(aboutToBeMovedSpy.size(), 0);
+}
+
+void QueueShould::empty_the_queue_make_it_idle_and_stop_the_renderer_on_clear()
+{
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    mDevice->reset();
+    auto replacedSpy = QSignalSpy{mQueue.get(), &Queue::entriesReplaced};
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->clear();
+
+    QCOMPARE(mQueue->entries(), Items{});
+    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(replacedSpy.size(), 1);
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mDevice->isStopCalled(), true);
+}
+
+void QueueShould::not_stop_another_controller_on_clear()
+{
+    mQueue->replace(album(), 1);
+    // Another controller took over the Renderer.
+    report(QStringLiteral("http://radio.example/stream.mp3"), QStringLiteral("0:00:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+
+    mQueue->clear();
+
+    QCOMPARE(mQueue->entries(), Items{});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isStopCalled(), false);
+}
+
+void QueueShould::restore_a_snapshot_without_interrupting_the_current_entry()
+{
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    auto const snapshot = mQueue->snapshot();
+    mQueue->remove(0);
+    mDevice->reset();
+    auto replacedSpy = QSignalSpy{mQueue.get(), &Queue::entriesReplaced};
+
+    mQueue->restore(snapshot);
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{102'000});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(replacedSpy.size(), 1);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::play_the_restored_current_entry_again_when_it_played_before_data()
+{
+    QTest::addColumn<bool>("clear");
+
+    QTest::newRow("after removing the Current Entry") << false;
+    QTest::newRow("after a clear") << true;
+}
+
+void QueueShould::play_the_restored_current_entry_again_when_it_played_before()
+{
+    QFETCH(bool, clear);
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:01:42"));
+    auto const snapshot = mQueue->snapshot();
+    clear ? mQueue->clear() : mQueue->remove(1);
+    mDevice->setDeviceState(MediaDevice::State::Stopped);
+    mDevice->reset();
+
+    mQueue->restore(snapshot);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::restore_an_idle_queue_without_playing()
+{
+    makeIdle(1);
+    auto const snapshot = mQueue->snapshot();
+    mQueue->clear();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->restore(snapshot);
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::QueueShould)
