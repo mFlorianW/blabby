@@ -11,6 +11,7 @@
 #include <QStack>
 #include <QString>
 #include <QUrl>
+#include <memory>
 
 namespace Multimedia
 {
@@ -19,6 +20,79 @@ namespace Multimedia
  * Definition for a list of items
  */
 using Items = QVector<Item>;
+
+/**
+ * A page of the Items of a Container, requested by @ref Multimedia::Source::browsePage independent of the navigation
+ * of the Source. It finishes once, with the Items or failed, see @ref finished().
+ * A page can outlive the Source that gave it, it may still finish then.
+ */
+class BLABBYMULTIMEDIA_EXPORT PendingPage : public QObject
+{
+    Q_OBJECT
+public:
+    /**
+     * Creates an unfinished page.
+     */
+    PendingPage();
+
+    /**
+     * Default destructor
+     */
+    ~PendingPage() override;
+
+    /**
+     * Disable copy and move
+     */
+    Q_DISABLE_COPY_MOVE(PendingPage)
+
+    /**
+     * Gives whether the page finished, with its Items or failed.
+     * @return True when the page finished.
+     */
+    bool isFinished() const noexcept;
+
+    /**
+     * Gives whether loading the page failed.
+     * @return True when the page finished and loading it failed.
+     */
+    bool hasFailed() const noexcept;
+
+    /**
+     * Gives the Items of the page.
+     * @return The Items of the page, empty until it finished.
+     */
+    Items const& items() const noexcept;
+
+    /**
+     * Gives the total number of Items in the Container, as reported with the page.
+     * @return The total number of Items, 0 until the page finished.
+     */
+    qsizetype totalItemCount() const noexcept;
+
+    /**
+     * Finishes the page with its Items, called by the Source. Does nothing when the page already finished.
+     * @param items The Items of the page.
+     * @param totalItemCount The total number of Items in the Container.
+     */
+    void finish(Items items, qsizetype totalItemCount) noexcept;
+
+    /**
+     * Finishes the page as failed, called by the Source. Does nothing when the page already finished.
+     */
+    void fail() noexcept;
+
+Q_SIGNALS:
+    /**
+     * This signal is emitted when the page finished, with its Items or failed.
+     */
+    void finished();
+
+private:
+    Items mItems;
+    qsizetype mTotalItemCount{0};
+    bool mFinished{false};
+    bool mFailed{false};
+};
 
 /**
  * Forward declaration for pimpl
@@ -101,6 +175,18 @@ public:
     void navigateBack(qsizetype minimumItemCount = 0) noexcept;
 
     void navigateForward() noexcept;
+
+    /**
+     * Requests the page of the Items of the Container at the path that starts at the index, independent of the
+     * navigation: the @ref mediaItems() and the current Container stay. The Source decides how many Items a page holds,
+     * a page without Items ends the Container.
+     * A paged Source must implement it, the default implementation gives a finished page without Items.
+     * The page may already be finished when it's given.
+     * @param path The path of the Container.
+     * @param startIndex The index of the first Item of the page.
+     * @return The page, it finishes later or is finished already.
+     */
+    virtual std::unique_ptr<PendingPage> browsePage(QString const& path, qsizetype startIndex) noexcept;
 
 Q_SIGNALS:
     /**

@@ -124,6 +124,24 @@ Item {
             signalName: "retryRequested"
         }
 
+        SignalSpy {
+            id: playNextRequestedSpy
+            target: libraryView
+            signalName: "playNextRequested"
+        }
+
+        SignalSpy {
+            id: addToQueueRequestedSpy
+            target: libraryView
+            signalName: "addToQueueRequested"
+        }
+
+        SignalSpy {
+            id: cancelCollectionRequestedSpy
+            target: libraryView
+            signalName: "cancelCollectionRequested"
+        }
+
         function init() {
             libraryView.sources = sources;
             libraryView.items = items;
@@ -133,9 +151,14 @@ Item {
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
             libraryView.loadMoreFailed = false;
+            libraryView.collecting = false;
+            libraryView.collectedContainerTitle = "";
             libraryView.visible = true;
             libraryViewTest.child("sourceMenu").close();
+            libraryViewTest.child("itemMenu").close();
             libraryViewTest.child("toast").hide();
+            // A toast of the previous test fades out.
+            libraryViewTest.tryCompare(libraryViewTest.child("toast"), "visible", false);
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
@@ -143,6 +166,9 @@ Item {
             itemActivatedSpy.clear();
             backRequestedSpy.clear();
             retryRequestedSpy.clear();
+            playNextRequestedSpy.clear();
+            addToQueueRequestedSpy.clear();
+            cancelCollectionRequestedSpy.clear();
             libraryViewTest.child("itemGrid").positionViewAtBeginning();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             libraryViewTest.waitForItemPolished(libraryViewTest.child("sourcePill").parent);
@@ -173,6 +199,28 @@ Item {
             libraryViewTest.tryCompare(menu, "opened", true);
             libraryViewTest.waitForRendering(libraryView);
             return menu;
+        }
+
+        /**
+         * Opens the menu of the Item at index with the more button of its tile and gives it.
+         */
+        function openItemMenu(index) {
+            const moreButton = libraryViewTest.findChild(libraryViewTest.tile(index), "moreButton");
+            libraryViewTest.verify(moreButton, "moreButton");
+            libraryViewTest.mouseClick(moreButton);
+            const menu = libraryViewTest.child("itemMenu");
+            libraryViewTest.tryCompare(menu, "opened", true);
+            libraryViewTest.waitForRendering(libraryView);
+            return menu;
+        }
+
+        /**
+         * Gives the child of the menu of an Item with the objectName and fails the test when it doesn't exist.
+         */
+        function itemMenuChild(objectName) {
+            const item = libraryViewTest.findChild(libraryViewTest.child("itemMenu"), objectName);
+            libraryViewTest.verify(item, objectName);
+            return item;
         }
 
         /**
@@ -774,6 +822,188 @@ Item {
             libraryViewTest.mouseClick(libraryViewTest.tile(1));
 
             libraryViewTest.compare(itemActivatedSpy.signalArguments[0][1], 0);
+        }
+
+        function test_show_a_more_button_on_the_tiles_of_playables_and_containers_data() {
+            return [
+                {
+                    tag: "Container",
+                    index: 0
+                },
+                {
+                    tag: "Playable",
+                    index: 1
+                }
+            ];
+        }
+
+        /**
+         * Tests that every tile shows a more button to open the menu of its Item.
+         */
+        function test_show_a_more_button_on_the_tiles_of_playables_and_containers(data) {
+            const moreButton = libraryViewTest.findChild(libraryViewTest.tile(data.index), "moreButton");
+            libraryViewTest.verify(moreButton);
+            libraryViewTest.compare(moreButton.visible, true);
+        }
+
+        /**
+         * Tests that the item menu is closed at start.
+         */
+        function test_have_the_item_menu_closed_at_start() {
+            libraryViewTest.compare(libraryViewTest.child("itemMenu").opened, false);
+            libraryViewTest.compare(libraryViewTest.child("itemMenuPanel").visible, false);
+        }
+
+        /**
+         * Tests that the more button opens the menu of the Item, headed by its title, without activating the Item.
+         */
+        function test_open_the_item_menu_with_the_more_button_without_activating_the_item() {
+            libraryViewTest.openItemMenu(1);
+
+            libraryViewTest.compare(itemActivatedSpy.count, 0);
+            libraryViewTest.compare(libraryViewTest.child("itemMenuPanel").visible, true);
+            libraryViewTest.compare(libraryViewTest.itemMenuChild("itemMenuHeader").text, items.get(1).mediaItemTitle);
+            libraryViewTest.compare(libraryViewTest.findChild(libraryViewTest.itemMenuChild("playNextRow"), "label").text, "Play next");
+            libraryViewTest.compare(libraryViewTest.findChild(libraryViewTest.itemMenuChild("addToQueueRow"), "label").text, "Add to Queue");
+        }
+
+        function test_request_to_play_the_item_next_or_add_it_to_the_queue_and_close_the_menu_data() {
+            return [
+                {
+                    tag: "play a Container next",
+                    index: 0,
+                    row: "playNextRow",
+                    spy: playNextRequestedSpy,
+                    otherSpy: addToQueueRequestedSpy
+                },
+                {
+                    tag: "play a Playable next",
+                    index: 1,
+                    row: "playNextRow",
+                    spy: playNextRequestedSpy,
+                    otherSpy: addToQueueRequestedSpy
+                },
+                {
+                    tag: "add a Container to the Queue",
+                    index: 2,
+                    row: "addToQueueRow",
+                    spy: addToQueueRequestedSpy,
+                    otherSpy: playNextRequestedSpy
+                },
+                {
+                    tag: "add a Playable to the Queue",
+                    index: 1,
+                    row: "addToQueueRow",
+                    spy: addToQueueRequestedSpy,
+                    otherSpy: playNextRequestedSpy
+                }
+            ];
+        }
+
+        /**
+         * Tests that the rows of the item menu request to play its Item next or to add it to the Queue.
+         */
+        function test_request_to_play_the_item_next_or_add_it_to_the_queue_and_close_the_menu(data) {
+            libraryViewTest.openItemMenu(data.index);
+
+            libraryViewTest.mouseClick(libraryViewTest.itemMenuChild(data.row));
+
+            libraryViewTest.compare(data.spy.count, 1);
+            libraryViewTest.compare(data.spy.signalArguments[0][0], data.index);
+            libraryViewTest.compare(data.otherSpy.count, 0);
+            libraryViewTest.compare(itemActivatedSpy.count, 0);
+            libraryViewTest.compare(libraryViewTest.child("itemMenu").opened, false);
+        }
+
+        /**
+         * Tests that a tap beside the item menu closes it without reaching the tile beneath.
+         */
+        function test_close_the_item_menu_with_a_tap_elsewhere_without_reaching_the_tile_beneath() {
+            libraryViewTest.openItemMenu(0);
+
+            libraryViewTest.mouseClick(libraryViewTest.tile(4));
+
+            libraryViewTest.compare(libraryViewTest.child("itemMenu").opened, false);
+            libraryViewTest.compare(itemActivatedSpy.count, 0);
+            libraryViewTest.compare(playNextRequestedSpy.count, 0);
+            libraryViewTest.compare(addToQueueRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the item menu of a tile near the bottom opens above the more button and stays on the screen.
+         */
+        function test_open_the_item_menu_above_a_tile_at_the_bottom() {
+            libraryView.items = manyItems;
+            const grid = libraryViewTest.child("itemGrid");
+            grid.positionViewAtEnd();
+            const index = manyItems.count - 1;
+            libraryViewTest.waitForItemPolished(libraryViewTest.tile(index));
+
+            libraryViewTest.openItemMenu(index);
+
+            const panel = libraryViewTest.child("itemMenuPanel");
+            const moreButton = libraryViewTest.findChild(libraryViewTest.tile(index), "moreButton");
+            const buttonTop = moreButton.mapToItem(libraryView, 0, 0).y;
+            libraryViewTest.verify(panel.mapToItem(libraryView, 0, panel.height).y <= buttonTop);
+            libraryViewTest.verify(panel.mapToItem(libraryView, 0, 0).y >= 0);
+        }
+
+        /**
+         * Tests that the item menu closes when a Container opens, its Item may be gone afterwards.
+         */
+        function test_close_the_item_menu_when_a_container_opens() {
+            libraryViewTest.openItemMenu(0);
+
+            libraryView.busy = true;
+
+            libraryViewTest.compare(libraryViewTest.child("itemMenu").opened, false);
+        }
+
+        /**
+         * Tests that no collection bar is shown while nothing is collected.
+         */
+        function test_hide_the_collection_bar_while_nothing_is_collected() {
+            libraryViewTest.compare(libraryViewTest.child("collectionBar").visible, false);
+        }
+
+        /**
+         * Tests that a bar with a busy indicator tells which Container is collected for the Queue.
+         */
+        function test_show_the_collection_bar_while_a_container_is_collected() {
+            libraryView.collectedContainerTitle = "The Quiet Ferries";
+            libraryView.collecting = true;
+
+            libraryViewTest.compare(libraryViewTest.child("collectionBar").visible, true);
+            libraryViewTest.compare(libraryViewTest.child("collectionMessage").text, "Adding The Quiet Ferries…");
+            libraryViewTest.compare(libraryViewTest.child("collectionBusyIndicator").running, true);
+            libraryViewTest.compare(libraryViewTest.child("cancelCollectionButton").text, "Cancel");
+            // The Library can still be browsed meanwhile.
+            libraryViewTest.mouseClick(libraryViewTest.tile(0));
+            libraryViewTest.compare(itemActivatedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Cancel button of the collection bar requests to cancel the collection.
+         */
+        function test_request_to_cancel_the_collection() {
+            libraryView.collectedContainerTitle = "The Quiet Ferries";
+            libraryView.collecting = true;
+
+            libraryViewTest.mouseClick(libraryViewTest.child("cancelCollectionButton"));
+
+            libraryViewTest.compare(cancelCollectionRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that a Container whose Playables couldn't be added to the Queue is reported by a toast.
+         */
+        function test_show_a_toast_when_a_container_could_not_be_added() {
+            const toast = libraryViewTest.child("toast");
+
+            libraryView.showCollectionFailed("The Quiet Ferries");
+
+            libraryViewTest.tryCompare(toast, "visible", true);
+            libraryViewTest.compare(libraryViewTest.findChild(toast, "message").text, "Couldn't add The Quiet Ferries");
         }
     }
 }

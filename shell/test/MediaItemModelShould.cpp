@@ -148,6 +148,64 @@ void MediaItemModelShould::request_to_play_only_the_activated_playable()
     QCOMPARE(modelResetSpy.size(), 0);
 }
 
+void MediaItemModelShould::request_to_play_an_item_next_or_add_it_to_the_queue_data()
+{
+    QTest::addColumn<bool>("playNext");
+    QTest::addColumn<qsizetype>("index");
+    QTest::addColumn<QString>("expectedTitle");
+
+    QTest::newRow("play a Playable next") << true << qsizetype{3} << QStringLiteral("MediaItem3");
+    QTest::newRow("play a Container next") << true << qsizetype{2} << QStringLiteral("Container1");
+    QTest::newRow("add a Playable to the Queue") << false << qsizetype{3} << QStringLiteral("MediaItem3");
+    QTest::newRow("add a Container to the Queue") << false << qsizetype{2} << QStringLiteral("Container1");
+}
+
+void MediaItemModelShould::request_to_play_an_item_next_or_add_it_to_the_queue()
+{
+    QFETCH(bool, playNext);
+    QFETCH(qsizetype, index);
+    QFETCH(QString, expectedTitle);
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    auto playNextSpy = QSignalSpy{&miModel, &MediaItemModel::playNextRequested};
+    auto addToQueueSpy = QSignalSpy{&miModel, &MediaItemModel::addToQueueRequested};
+    auto const navigationCount = mediaSrc->navigationCount();
+
+    if (playNext) {
+        miModel.playMediaItemNext(index);
+    } else {
+        miModel.addMediaItemToQueue(index);
+    }
+
+    auto const& spy = playNext ? playNextSpy : addToQueueSpy;
+    QCOMPARE(playNextSpy.size() + addToQueueSpy.size(), 1);
+    QCOMPARE(spy.size(), 1);
+    QCOMPARE(spy.at(0).at(0).value<std::shared_ptr<Multimedia::Source>>(), mediaSrc);
+    QCOMPARE(spy.at(0).at(1).value<Multimedia::Item>().mainText(), expectedTitle);
+    // The Library stays on its Container.
+    QCOMPARE(mediaSrc->navigationCount(), navigationCount);
+}
+
+void MediaItemModelShould::ignore_queue_requests_while_busy_or_at_an_invalid_index()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    miModel.setMediaSource(mediaSrc);
+    auto playNextSpy = QSignalSpy{&miModel, &MediaItemModel::playNextRequested};
+    auto addToQueueSpy = QSignalSpy{&miModel, &MediaItemModel::addToQueueRequested};
+
+    miModel.playMediaItemNext(5);
+    miModel.addMediaItemToQueue(-1);
+    mediaSrc->setHoldNavigations(true);
+    miModel.activateMediaItem(2);
+    miModel.playMediaItemNext(3);
+    miModel.addMediaItemToQueue(3);
+
+    QCOMPARE(playNextSpy.size(), 0);
+    QCOMPARE(addToQueueSpy.size(), 0);
+}
+
 void MediaItemModelShould::give_the_item_type_of_the_item()
 {
     auto miModel = MediaItemModel{};

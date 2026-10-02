@@ -59,6 +59,16 @@ class QueueModel : public QAbstractListModel
      */
     Q_PROPERTY(bool hasNext READ hasNext NOTIFY stepAvailabilityChanged)
 
+    /**
+     * True while the Playables of a Container are collected to play them next or add them to the Queue.
+     */
+    Q_PROPERTY(bool collecting READ isCollecting NOTIFY collectingChanged)
+
+    /**
+     * The title of the Container whose Playables are collected, empty while nothing is collected.
+     */
+    Q_PROPERTY(QString collectedContainerTitle READ collectedContainerTitle NOTIFY collectingChanged)
+
 public:
     /**
      * The roles of an entry.
@@ -151,6 +161,41 @@ public:
     bool hasNext() const noexcept;
 
     /**
+     * Gives whether the Playables of a Container are collected.
+     * @see Multimedia::Queue::isCollecting
+     * @return True while a Container is collected.
+     */
+    bool isCollecting() const noexcept;
+
+    /**
+     * Gives the title of the Container whose Playables are collected.
+     * @return The title of the collected Container, empty while nothing is collected.
+     */
+    QString collectedContainerTitle() const noexcept;
+
+    /**
+     * Inserts a Playable, or all Playables in a Container, of the Source right after the Current Entry.
+     * @see Multimedia::Queue::playNext
+     * @param source The Source of the Item.
+     * @param item The Playable or the Container to play next.
+     */
+    void playNext(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item) noexcept;
+
+    /**
+     * Appends a Playable, or all Playables in a Container, of the Source at the end of the Queue.
+     * @see Multimedia::Queue::append
+     * @param source The Source of the Item.
+     * @param item The Playable or the Container to add.
+     */
+    void addToQueue(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item) noexcept;
+
+    /**
+     * Cancels the collection of a Container, the Queue stays unchanged.
+     * @see Multimedia::Queue::cancelCollection
+     */
+    Q_INVOKABLE void cancelCollection() noexcept;
+
+    /**
      * Replaces the Queue with the Playables and plays the start entry on the Active Renderer.
      * @see Multimedia::Queue::replace
      * @param playables The Playables in the order they shall be played.
@@ -208,7 +253,7 @@ public:
 
     /**
      * Restores the Queue as it was before the last remove or clear, once.
-     * Nothing happens when there is nothing to undo, e.g. after the Queue was replaced.
+     * Nothing happens when there is nothing to undo, e.g. after the Queue was replaced or Playables were added.
      * @see Multimedia::Queue::restore
      */
     Q_INVOKABLE void undo() noexcept;
@@ -233,6 +278,17 @@ Q_SIGNALS:
      * This signal is emitted when previous or next may have become available or unavailable.
      */
     void stepAvailabilityChanged();
+
+    /**
+     * This signal is emitted when a collection of a Container started or ended.
+     */
+    void collectingChanged();
+
+    /**
+     * This signal is emitted when the Playables of a Container couldn't be collected, the Queue is unchanged.
+     * @param containerTitle The title of the Container.
+     */
+    void collectionFailed(QString const& containerTitle);
 
 private:
     void onCurrentEntryChanged() noexcept;

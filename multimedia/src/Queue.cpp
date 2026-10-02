@@ -4,6 +4,7 @@
 
 #include "Queue.hpp"
 #include "private/LoggingCategories.hpp"
+#include <QSet>
 
 namespace Multimedia
 {
@@ -20,6 +21,34 @@ constexpr auto endWindow = std::chrono::seconds{3};
  */
 constexpr auto restartThreshold = std::chrono::seconds{3};
 } // namespace
+
+struct Queue::Collection
+{
+    /**
+     * A Container on the way down from the collected Container, with the page of its Items that is walked through.
+     */
+    struct Level
+    {
+        QString mPath;
+        Items mPage;
+        // The index of the next Item of the page to walk through.
+        qsizetype mPageIndex{0};
+        // The index of the first Item of the next page.
+        qsizetype mNextStartIndex{0};
+        bool mComplete{false};
+    };
+
+    std::weak_ptr<Source> mSource;
+    QMetaObject::Connection mSourceDestroyed;
+    Item mContainer;
+    Placement mPlacement{Placement::End};
+    // The collected Container first, the Container whose Items are walked through last.
+    QList<Level> mLevels;
+    // The paths of the Containers walked through, a Container referenced inside itself is only collected once.
+    QSet<QString> mVisitedPaths;
+    Items mPlayables;
+    std::unique_ptr<PendingPage> mPage;
+};
 
 Queue::Queue() = default;
 
@@ -182,13 +211,187 @@ void Queue::restartCurrentEntry() noexcept
 
 void Queue::append(Items const& playables) noexcept
 {
+    insert(mEntries.size(), playables);
+}
+
+void Queue::playNext(Items const& playables) noexcept
+{
+    insert(mCurrentIndex.has_value() ? *mCurrentIndex + 1 : mEntries.size(), playables);
+}
+
+void Queue::insert(qsizetype index, Items const& playables) noexcept
+{
     if (playables.isEmpty()) {
         return;
     }
 
-    Q_EMIT entriesAboutToBeAppended(mEntries.size(), mEntries.size() + playables.size() - 1);
-    mEntries.append(playables);
-    Q_EMIT entriesAppended();
+    auto const hadCurrentEntry = mCurrentIndex.has_value();
+    Q_EMIT entriesAboutToBeInserted(index, index + playables.size() - 1);
+    mEntries = mEntries.first(index) + playables + mEntries.sliced(index);
+    if (mCurrentIndex.has_value() and *mCurrentIndex >= index) {
+        mCurrentIndex = *mCurrentIndex + playables.size();
+    }
+    Q_EMIT entriesInserted();
+
+    if (not hadCurrentEntry) {
+        // The Queue stays as it is, Idle, and starts with the first added Playable.
+        setCurrentIndex(index);
+    }
+}
+
+void Queue::append(std::shared_ptr<Source> const& source, Item const& item) noexcept
+{
+    add(source, item, Placement::End);
+}
+
+void Queue::playNext(std::shared_ptr<Source> const& source, Item const& item) noexcept
+{
+    add(source, item, Placement::Next);
+}
+
+bool Queue::isCollecting() const noexcept
+{
+    return mCollection != nullptr;
+}
+
+std::optional<Item> Queue::collectedContainer() const noexcept
+{
+    if (mCollection == nullptr) {
+        return std::nullopt;
+    }
+    return mCollection->mContainer;
+}
+
+void Queue::cancelCollection() noexcept
+{
+    endCollection();
+}
+
+void Queue::place(Items const& playables, Placement placement) noexcept
+{
+    if (placement == Placement::Next) {
+        playNext(playables);
+    } else {
+        append(playables);
+    }
+}
+
+void Queue::add(std::shared_ptr<Source> const& source, Item const& item, Placement placement) noexcept
+{
+    if (item.type() == ItemType::Playable) {
+        place(Items{item}, placement);
+        return;
+    }
+
+    if (source == nullptr) {
+        qCWarning(mmQueue) << "Failed to collect the Container" << item.mainText() << "Error: no Source";
+        return;
+    }
+
+    if (mCollection != nullptr) {
+        // Only one collection runs at a time, the new one cancels the running one.
+        disconnect(mCollection->mSourceDestroyed);
+    }
+    mCollection = std::make_unique<Collection>();
+    mCollection->mSource = source;
+    mCollection->mContainer = item;
+    mCollection->mPlacement = placement;
+    mCollection->mLevels.append(Collection::Level{.mPath = item.path(), .mPage = {}});
+    mCollection->mVisitedPaths.insert(item.path());
+    // The Source is gone when all its holders dropped it, the Queue doesn't keep it alive.
+    mCollection->mSourceDestroyed = connect(source.get(), &QObject::destroyed, this, &Queue::endCollection);
+    Q_EMIT collectingChanged();
+    continueCollection();
+}
+
+void Queue::continueCollection() noexcept
+{
+    // Walks depth-first through the Containers: a Container is collected completely before the Items after it.
+    while (mCollection != nullptr) {
+        if (mCollection->mLevels.isEmpty()) {
+            auto const collection = std::exchange(mCollection, nullptr);
+            disconnect(collection->mSourceDestroyed);
+            place(collection->mPlayables, collection->mPlacement);
+            Q_EMIT collectingChanged();
+            return;
+        }
+
+        auto& level = mCollection->mLevels.last();
+        if (level.mPageIndex < level.mPage.size()) {
+            auto const& item = level.mPage.at(level.mPageIndex++);
+            if (item.type() == ItemType::Playable) {
+                mCollection->mPlayables.append(item);
+            } else if (not mCollection->mVisitedPaths.contains(item.path())) {
+                mCollection->mVisitedPaths.insert(item.path());
+                mCollection->mLevels.append(Collection::Level{.mPath = item.path(), .mPage = {}});
+            }
+            continue;
+        }
+
+        if (level.mComplete) {
+            mCollection->mLevels.removeLast();
+            continue;
+        }
+
+        auto const source = mCollection->mSource.lock();
+        if (source == nullptr) {
+            endCollection();
+            return;
+        }
+        mCollection->mPage = source->browsePage(level.mPath, level.mNextStartIndex);
+        if (not mCollection->mPage->isFinished()) {
+            connect(mCollection->mPage.get(), &PendingPage::finished, this, &Queue::onPageFinished);
+            return;
+        }
+        if (not takePage()) {
+            return;
+        }
+    }
+}
+
+void Queue::onPageFinished() noexcept
+{
+    if (takePage()) {
+        continueCollection();
+    }
+}
+
+bool Queue::takePage() noexcept
+{
+    if (mCollection == nullptr or mCollection->mPage == nullptr) {
+        return false;
+    }
+
+    // The page may be emitting its finished signal, so it's deleted later.
+    auto* const page = mCollection->mPage.release();
+    page->deleteLater();
+    if (page->hasFailed()) {
+        auto const container = mCollection->mContainer;
+        qCWarning(mmQueue) << "Failed to collect the Container" << container.mainText()
+                           << "Error: a page couldn't be loaded";
+        endCollection();
+        Q_EMIT collectionFailed(container);
+        return false;
+    }
+
+    auto& level = mCollection->mLevels.last();
+    level.mPage = page->items();
+    level.mPageIndex = 0;
+    level.mNextStartIndex += page->items().size();
+    // A page without Items ends the Container, also when the Container shrank meanwhile.
+    level.mComplete = page->items().isEmpty() or level.mNextStartIndex >= page->totalItemCount();
+    return true;
+}
+
+void Queue::endCollection() noexcept
+{
+    if (mCollection == nullptr) {
+        return;
+    }
+
+    disconnect(mCollection->mSourceDestroyed);
+    mCollection.reset();
+    Q_EMIT collectingChanged();
 }
 
 void Queue::remove(qsizetype index) noexcept

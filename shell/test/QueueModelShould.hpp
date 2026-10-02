@@ -62,6 +62,12 @@ private Q_SLOTS:
     void undo_a_remove_or_a_clear_data();
     void undo_a_remove_or_a_clear();
     void ignore_undo_without_a_remove_or_a_clear();
+    void insert_the_rows_of_playables_played_next_or_added_to_the_queue();
+    void make_the_first_added_playable_current_in_an_empty_queue();
+    void tell_while_a_container_is_collected();
+    void cancel_the_collection_of_a_container();
+    void report_a_failed_collection_with_the_title_of_the_container();
+    void not_undo_after_playables_were_added();
 };
 
 } // namespace Shell

@@ -17,6 +17,9 @@ import Blabby.Theme
  * be opened the current Container stays and a toast tells so.
  * When loading more Items of a large Container fails, a row at the end of the grid offers to retry it.
  * Activating an Item tells the scroll position of the grid, which can be restored when returning to the Container.
+ * The more button of a tile opens a menu to play the Item next or add it to the end of the Queue. While the Playables of a
+ * Container are collected for the Queue a bar at the bottom tells so and offers to cancel it, when collecting them
+ * fails a toast tells so.
  * When the Active Source disappears a toast tells so.
  * Without an Active Source an empty state asks to choose one, or tells that no Source was found.
  */
@@ -65,6 +68,16 @@ Item {
     property bool loadMoreFailed: false
 
     /**
+     * True while the Playables of a Container are collected for the Queue, a bar at the bottom offers to cancel it.
+     */
+    property bool collecting: false
+
+    /**
+     * The title of the Container whose Playables are collected for the Queue.
+     */
+    property string collectedContainerTitle
+
+    /**
      * True when there is at least one Source to pick.
      */
     readonly property bool hasSources: sourceMenu.count > 0
@@ -96,6 +109,21 @@ Item {
     signal itemActivated(int index, int scrollPosition)
 
     /**
+     * This signal is emitted when the user picks "Play next" in the menu of the Item at index.
+     */
+    signal playNextRequested(int index)
+
+    /**
+     * This signal is emitted when the user picks "Add to Queue" in the menu of the Item at index.
+     */
+    signal addToQueueRequested(int index)
+
+    /**
+     * This signal is emitted when the user cancels collecting the Playables of a Container for the Queue.
+     */
+    signal cancelCollectionRequested
+
+    /**
      * This signal is emitted when the user taps the back button to return to the parent Container.
      */
     signal backRequested
@@ -121,6 +149,13 @@ Item {
     }
 
     /**
+     * Tells the user in a toast that the Playables of the Container with the title couldn't be added to the Queue.
+     */
+    function showCollectionFailed(containerTitle: string) {
+        toast.show(qsTr("Couldn't add %1").arg(containerTitle));
+    }
+
+    /**
      * Tells the user in a toast that the Active Source with the name is no longer available.
      */
     function showActiveSourceDisappeared(sourceName: string) {
@@ -141,6 +176,10 @@ Item {
      * The vertical space between two rows of tiles.
      */
     readonly property real rowSpacing: 24
+
+    // The Item of the open menu may be gone once the Library shows other Items.
+    onBusyChanged: itemMenu.close()
+    onHasActiveSourceChanged: itemMenu.close()
 
     ScreenHeader {
         id: header
@@ -248,6 +287,7 @@ Item {
             height: grid.cellHeight
 
             LibraryTile {
+                id: libraryTile
                 objectName: "itemTile" + cell.index
                 anchors.left: cell.left
                 anchors.top: cell.top
@@ -257,6 +297,10 @@ Item {
                 secondaryText: cell.mediaItemSecondaryText
                 artworkUrl: cell.mediaItemArtworkUrl
                 onClicked: libraryView.itemActivated(cell.index, grid.firstVisibleIndex())
+                onMoreClicked: {
+                    itemMenu.itemIndex = cell.index;
+                    itemMenu.open(libraryTile.moreButton, cell.mediaItemTitle);
+                }
             }
         }
 
@@ -303,13 +347,89 @@ Item {
         running: libraryView.hasActiveSource && libraryView.busy
     }
 
+    Item {
+        id: collectionBar
+        objectName: "collectionBar"
+        anchors.horizontalCenter: libraryView.horizontalCenter
+        anchors.bottom: libraryView.bottom
+        anchors.bottomMargin: 24
+        width: Math.min(collectionRow.implicitWidth + 2 * collectionBar.padding, collectionBar.maximumWidth)
+        height: 48
+        visible: libraryView.collecting
+
+        readonly property real padding: 16
+        readonly property real maximumWidth: libraryView.width - 48
+
+        Rectangle {
+            anchors.fill: collectionBar
+            radius: 8
+            color: Theme.colors.surfaceContainerHighest
+            border.color: Theme.colors.outlineVariant
+            border.width: 1
+        }
+
+        Row {
+            id: collectionRow
+            anchors.verticalCenter: collectionBar.verticalCenter
+            anchors.left: collectionBar.left
+            anchors.leftMargin: collectionBar.padding
+            spacing: 12
+
+            BusyIndicator {
+                id: collectionBusyIndicator
+                objectName: "collectionBusyIndicator"
+                anchors.verticalCenter: collectionRow.verticalCenter
+                width: 20
+                height: 20
+                strokeWidth: 2
+                color: Theme.colors.primary
+                running: collectionBar.visible
+            }
+
+            StyledText {
+                objectName: "collectionMessage"
+                anchors.verticalCenter: collectionRow.verticalCenter
+                // The message is elided, so the cancel button always fits into the bar.
+                width: Math.min(implicitWidth, collectionBar.maximumWidth - 2 * collectionBar.padding - collectionBusyIndicator.width - 2 * collectionRow.spacing - cancelCollectionButton.width)
+                text: qsTr("Adding %1…").arg(libraryView.collectedContainerTitle)
+                color: Theme.colors.colorOnSurface
+                textStyle: Theme.fonts.bodyMedium
+                elide: Text.ElideRight
+            }
+
+            Button {
+                id: cancelCollectionButton
+                objectName: "cancelCollectionButton"
+                anchors.verticalCenter: collectionRow.verticalCenter
+                variant: Button.Text
+                text: qsTr("Cancel")
+                onClicked: libraryView.cancelCollectionRequested()
+            }
+        }
+    }
+
     Toast {
         id: toast
         objectName: "toast"
         anchors.horizontalCenter: libraryView.horizontalCenter
-        anchors.bottom: libraryView.bottom
-        anchors.bottomMargin: 24
+        // Above the collection bar while it is shown, so both can be read.
+        anchors.bottom: collectionBar.visible ? collectionBar.top : libraryView.bottom
+        anchors.bottomMargin: collectionBar.visible ? 8 : 24
         maximumWidth: libraryView.width - 48
+    }
+
+    ItemMenu {
+        id: itemMenu
+        objectName: "itemMenu"
+
+        /**
+         * The index of the Item the menu is open for.
+         */
+        property int itemIndex: -1
+
+        anchors.fill: libraryView
+        onPlayNextPicked: libraryView.playNextRequested(itemMenu.itemIndex)
+        onAddToQueuePicked: libraryView.addToQueueRequested(itemMenu.itemIndex)
     }
 
     SourceMenu {

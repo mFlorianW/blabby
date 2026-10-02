@@ -7,6 +7,7 @@
 #include "InMemoryRendererStore.hpp"
 #include "PositionInfoResponse.hpp"
 #include "RendererProvider.hpp"
+#include "TestSource.hpp"
 #include <QAbstractItemModelTester>
 #include <QSignalSpy>
 #include <QTest>
@@ -69,6 +70,25 @@ QStringList titlesOf(QueueModel const& model)
 Items threeSongs()
 {
     return {playable(QStringLiteral("Intro")), playable(QStringLiteral("Harbour")), playable(QStringLiteral("Outro"))};
+}
+
+Item artist()
+{
+    return ItemBuilder{}
+        .withItemType(ItemType::Container)
+        .withMainText(QStringLiteral("The Quiet Ferries"))
+        .withPath(QStringLiteral("artist"))
+        .build();
+}
+
+/**
+ * Gives a Source whose artist Container holds the Playables "Bonus" and "Hidden".
+ */
+std::shared_ptr<TestHelper::TestSource> createSource()
+{
+    auto source = std::make_shared<TestHelper::TestSource>(QStringLiteral("NAS"), QString{});
+    source->setItems(QStringLiteral("artist"), {playable(QStringLiteral("Bonus")), playable(QStringLiteral("Hidden"))});
+    return source;
 }
 } // namespace
 
@@ -541,6 +561,104 @@ void QueueModelShould::ignore_undo_without_a_remove_or_a_clear()
 
     QCOMPARE(modelResetSpy.size(), 0);
     QCOMPARE(mModel->rowCount(), 3);
+}
+
+void QueueModelShould::insert_the_rows_of_playables_played_next_or_added_to_the_queue()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    auto const source = createSource();
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(threeSongs(), 0);
+    auto rowsInsertedSpy = QSignalSpy{mModel.get(), &QueueModel::rowsInserted};
+    auto summaryChangedSpy = QSignalSpy{mModel.get(), &QueueModel::summaryChanged};
+
+    mModel->playNext(source, playable(QStringLiteral("Bonus")));
+    mModel->addToQueue(source, artist());
+
+    QCOMPARE(titlesOf(*mModel),
+             (QStringList{QStringLiteral("Intro"),
+                          QStringLiteral("Bonus"),
+                          QStringLiteral("Harbour"),
+                          QStringLiteral("Outro"),
+                          QStringLiteral("Bonus"),
+                          QStringLiteral("Hidden")}));
+    QCOMPARE(rowsInsertedSpy.size(), 2);
+    QCOMPARE(summaryChangedSpy.size(), 2);
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->hasNext(), true);
+}
+
+void QueueModelShould::make_the_first_added_playable_current_in_an_empty_queue()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    auto const source = createSource();
+    auto stepAvailabilitySpy = QSignalSpy{mModel.get(), &QueueModel::stepAvailabilityChanged};
+
+    mModel->addToQueue(source, artist());
+
+    QCOMPARE(titlesOf(*mModel), (QStringList{QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(mModel->hasNext(), true);
+    QVERIFY(stepAvailabilitySpy.size() > 0);
+}
+
+void QueueModelShould::tell_while_a_container_is_collected()
+{
+    auto const source = createSource();
+    source->setHoldPages(true);
+    auto collectingChangedSpy = QSignalSpy{mModel.get(), &QueueModel::collectingChanged};
+
+    mModel->playNext(source, artist());
+    QCOMPARE(mModel->property("collecting").toBool(), true);
+    QCOMPARE(mModel->property("collectedContainerTitle").toString(), QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(collectingChangedSpy.size(), 1);
+    source->finishPendingPage();
+
+    QCOMPARE(mModel->property("collecting").toBool(), false);
+    QCOMPARE(mModel->property("collectedContainerTitle").toString(), QString{});
+    QCOMPARE(collectingChangedSpy.size(), 2);
+    QCOMPARE(mModel->rowCount(), 2);
+}
+
+void QueueModelShould::cancel_the_collection_of_a_container()
+{
+    auto const source = createSource();
+    source->setHoldPages(true);
+    mModel->addToQueue(source, artist());
+
+    mModel->cancelCollection();
+
+    QCOMPARE(mModel->property("collecting").toBool(), false);
+    QCOMPARE(source->pendingPageCount(), 0);
+    QCOMPARE(mModel->rowCount(), 0);
+}
+
+void QueueModelShould::report_a_failed_collection_with_the_title_of_the_container()
+{
+    auto const source = createSource();
+    source->setHoldPages(true);
+    auto collectionFailedSpy = QSignalSpy{mModel.get(), &QueueModel::collectionFailed};
+    mModel->addToQueue(source, artist());
+
+    source->failPendingPage();
+
+    QCOMPARE(collectionFailedSpy.size(), 1);
+    QCOMPARE(collectionFailedSpy.at(0).at(0).toString(), QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(mModel->rowCount(), 0);
+}
+
+void QueueModelShould::not_undo_after_playables_were_added()
+{
+    auto const source = createSource();
+    mModel->replace(threeSongs(), 0);
+    mModel->remove(2);
+
+    mModel->addToQueue(source, playable(QStringLiteral("Bonus")));
+    mModel->undo();
+
+    QCOMPARE(titlesOf(*mModel),
+             (QStringList{QStringLiteral("Intro"), QStringLiteral("Harbour"), QStringLiteral("Bonus")}));
 }
 
 } // namespace Shell

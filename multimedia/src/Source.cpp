@@ -11,6 +11,51 @@
 namespace Multimedia
 {
 
+PendingPage::PendingPage() = default;
+
+PendingPage::~PendingPage() = default;
+
+bool PendingPage::isFinished() const noexcept
+{
+    return mFinished;
+}
+
+bool PendingPage::hasFailed() const noexcept
+{
+    return mFailed;
+}
+
+Items const& PendingPage::items() const noexcept
+{
+    return mItems;
+}
+
+qsizetype PendingPage::totalItemCount() const noexcept
+{
+    return mTotalItemCount;
+}
+
+void PendingPage::finish(Items items, qsizetype totalItemCount) noexcept
+{
+    if (mFinished) {
+        return;
+    }
+    mItems = std::move(items);
+    mTotalItemCount = totalItemCount;
+    mFinished = true;
+    Q_EMIT finished();
+}
+
+void PendingPage::fail() noexcept
+{
+    if (mFinished) {
+        return;
+    }
+    mFailed = true;
+    mFinished = true;
+    Q_EMIT finished();
+}
+
 struct SourcePrivate
 {
     SourcePrivate(QString sourceName, QString iconUrl, Source& ms)
@@ -72,6 +117,15 @@ void Source::navigate(QString const& path, qsizetype minimumItemCount) noexcept
 
 void Source::loadMore() noexcept
 {
+}
+
+std::unique_ptr<PendingPage> Source::browsePage(QString const& path, qsizetype startIndex) noexcept
+{
+    Q_UNUSED(path)
+    Q_UNUSED(startIndex)
+    auto page = std::make_unique<PendingPage>();
+    page->finish({}, 0);
+    return page;
 }
 
 void Source::setTotalItemCount(qsizetype count) noexcept

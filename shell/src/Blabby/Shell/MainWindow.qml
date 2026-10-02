@@ -129,10 +129,15 @@ Rectangle {
             atRoot: Singleton.mediaItemModel.atRoot
             containerTitle: Singleton.mediaItemModel.containerTitle
             loadMoreFailed: Singleton.mediaItemModel.loadMoreFailed
+            collecting: Singleton.queueModel.collecting
+            collectedContainerTitle: Singleton.queueModel.collectedContainerTitle
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
             onItemActivated: (index, scrollPosition) => Singleton.mediaItemModel.activateMediaItem(index, scrollPosition)
             onBackRequested: Singleton.mediaItemModel.navigateBack()
             onRetryRequested: Singleton.mediaItemModel.retryLoadMore()
+            onPlayNextRequested: index => Singleton.mediaItemModel.playMediaItemNext(index)
+            onAddToQueueRequested: index => Singleton.mediaItemModel.addMediaItemToQueue(index)
+            onCancelCollectionRequested: Singleton.queueModel.cancelCollection()
 
             Connections {
                 target: Singleton.mediaItemModel
@@ -148,6 +153,13 @@ Rectangle {
                 target: Singleton.mediaSourceModel
                 function onActiveMediaSourceDisappeared(sourceName: string) {
                     libraryView.showActiveSourceDisappeared(sourceName);
+                }
+            }
+
+            Connections {
+                target: Singleton.queueModel
+                function onCollectionFailed(containerTitle: string) {
+                    libraryView.showCollectionFailed(containerTitle);
                 }
             }
         }

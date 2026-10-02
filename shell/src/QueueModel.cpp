@@ -25,12 +25,17 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
         Q_EMIT summaryChanged();
         Q_EMIT stepAvailabilityChanged();
     });
-    connect(&mQueue, &Queue::entriesAboutToBeAppended, this, [this](qsizetype first, qsizetype last) {
+    connect(&mQueue, &Queue::entriesAboutToBeInserted, this, [this](qsizetype first, qsizetype last) {
         beginInsertRows(QModelIndex{}, static_cast<int>(first), static_cast<int>(last));
     });
-    connect(&mQueue, &Queue::entriesAppended, this, [this] {
+    connect(&mQueue, &Queue::entriesInserted, this, [this] {
+        // Restoring the Queue before the last remove or clear would drop the added Playables.
+        mUndoSnapshot.reset();
+        // The Current Entry stays but may have moved down, a new one is notified by the Queue afterwards.
+        mCurrentRow = mQueue.currentIndex();
         endInsertRows();
         Q_EMIT summaryChanged();
+        Q_EMIT stepAvailabilityChanged();
     });
     connect(&mQueue, &Queue::entryAboutToBeRemoved, this, [this](qsizetype index) {
         beginRemoveRows(QModelIndex{}, static_cast<int>(index), static_cast<int>(index));
@@ -59,6 +64,10 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
     connect(&mQueue, &Queue::currentEntryChanged, this, &QueueModel::onCurrentEntryChanged);
     connect(&mQueue, &Queue::stateChanged, this, &QueueModel::runningChanged);
     connect(&mQueue, &Queue::playsCurrentEntryChanged, this, &QueueModel::currentEntryPlayingChanged);
+    connect(&mQueue, &Queue::collectingChanged, this, &QueueModel::collectingChanged);
+    connect(&mQueue, &Queue::collectionFailed, this, [this](Item const& container) {
+        Q_EMIT collectionFailed(container.mainText());
+    });
     mQueue.setActiveRenderer(mRendererModel.activeRenderer());
 }
 
@@ -154,6 +163,32 @@ bool QueueModel::hasPrevious() const noexcept
 bool QueueModel::hasNext() const noexcept
 {
     return mQueue.hasNext();
+}
+
+bool QueueModel::isCollecting() const noexcept
+{
+    return mQueue.isCollecting();
+}
+
+QString QueueModel::collectedContainerTitle() const noexcept
+{
+    auto const container = mQueue.collectedContainer();
+    return container.has_value() ? container->mainText() : QString{};
+}
+
+void QueueModel::playNext(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item) noexcept
+{
+    mQueue.playNext(source, item);
+}
+
+void QueueModel::addToQueue(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item) noexcept
+{
+    mQueue.append(source, item);
+}
+
+void QueueModel::cancelCollection() noexcept
+{
+    mQueue.cancelCollection();
 }
 
 void QueueModel::replace(Multimedia::Items const& playables, qsizetype startIndex) noexcept

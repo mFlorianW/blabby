@@ -6,6 +6,7 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     STATIC
     QML_FILES
+        ItemMenu.qml
         LibraryTile.qml
         LibraryView.qml
         MainWindow.qml
@@ -26,11 +27,14 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/folder.svg
         ../../icons/material/graphic_eq.svg
         ../../icons/material/library_music.svg
+        ../../icons/material/more_vert.svg
         ../../icons/material/music_note.svg
         ../../icons/material/pause.svg
         ../../icons/material/play_arrow.svg
         ../../icons/material/play_circle.svg
+        ../../icons/material/playlist_add.svg
         ../../icons/material/queue_music.svg
+        ../../icons/material/queue_play_next.svg
         ../../icons/material/refresh.svg
         ../../icons/material/skip_next.svg
         ../../icons/material/skip_previous.svg

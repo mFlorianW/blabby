@@ -29,6 +29,15 @@ std::unique_ptr<UPnPAV::Doubles::MediaServer> createMediaServer()
     return mediaServer;
 }
 
+/**
+ * Lets the next Browse of the MediaServer answer on its own SOAP call, the finished ones don't answer again then.
+ */
+void answerOnANewSoapCall(UPnPAV::Doubles::MediaServer& mediaServer)
+{
+    mediaServer.soapCall =
+        QSharedPointer<UPnPAV::SoapCallDouble>::create(UPnPAV::validContentDirectorySCPD(), UPnPAV::Browse());
+}
+
 QString didlWithOneObject(QString const& element, QString const& typeClass)
 {
     return QStringLiteral("&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; "
@@ -630,6 +639,72 @@ void SourceShould::keep_the_items_when_a_later_page_of_a_navigation_fails()
     mediaServerRaw->soapCall->setErrorState(false);
     mediaServerSource.loadMore();
     QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("0"));
+}
+
+void SourceShould::request_a_page_of_a_container()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Song 1")}, 1);
+
+    auto const page = mediaServerSource.browsePage(QStringLiteral("12"), 200);
+
+    QCOMPARE(page->isFinished(), false);
+    QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("12"));
+    QCOMPARE(mediaServerRaw->lastBrowseRequest.browseFlag, UPnPAV::MediaServer::BrowseFlag::DirectChildren);
+    QCOMPARE(mediaServerRaw->lastBrowseFilter,
+             QStringLiteral("res,res@duration,upnp:albumArtURI,upnp:artist,dc:creator,upnp:album"));
+    QCOMPARE(mediaServerRaw->lastBrowseStartingIndex, 200);
+    QCOMPARE(mediaServerRaw->lastBrowseRequestedCount, 100);
+}
+
+void SourceShould::give_the_items_of_a_page_without_navigating()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Song 1")}, 1);
+    auto const navFinishedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFinished};
+    auto const moreLoadedSpy = QSignalSpy{&mediaServerSource, &Source::moreItemsLoaded};
+
+    answerOnANewSoapCall(*mediaServerRaw);
+
+    auto const page = mediaServerSource.browsePage(QStringLiteral("12"), 0);
+    auto const pageFinishedSpy = QSignalSpy{page.get(), &Multimedia::PendingPage::finished};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Song 7"), QStringLiteral("Song 8")}, 5);
+
+    QCOMPARE(pageFinishedSpy.size(), 1);
+    QCOMPARE(page->hasFailed(), false);
+    QCOMPARE(page->items().size(), 2);
+    QCOMPARE(page->items().at(0).mainText(), QStringLiteral("Song 7"));
+    QCOMPARE(page->items().at(1).mainText(), QStringLiteral("Song 8"));
+    QCOMPARE(page->totalItemCount(), 5);
+    QCOMPARE(navFinishedSpy.size(), 0);
+    QCOMPARE(moreLoadedSpy.size(), 0);
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).mainText(), QStringLiteral("Song 1"));
+}
+
+void SourceShould::report_a_failed_page_of_a_container()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    auto mediaServerSource = Source{std::move(mediaServer)};
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Song 1")}, 1);
+    auto const navFailedSpy = QSignalSpy{&mediaServerSource, &Source::navigationFailed};
+
+    answerOnANewSoapCall(*mediaServerRaw);
+
+    auto const page = mediaServerSource.browsePage(QStringLiteral("12"), 0);
+    auto const pageFinishedSpy = QSignalSpy{page.get(), &Multimedia::PendingPage::finished};
+    mediaServerRaw->soapCall->setErrorState(true);
+    finishBrowse(*mediaServerRaw, {QStringLiteral("Song 7")}, 5);
+
+    QCOMPARE(pageFinishedSpy.size(), 1);
+    QCOMPARE(page->hasFailed(), true);
+    QCOMPARE(page->items(), Multimedia::Items{});
+    QCOMPARE(navFailedSpy.size(), 0);
 }
 
 } // namespace Provider::MediaServer

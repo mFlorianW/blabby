@@ -7,6 +7,7 @@
 #include "TestSource.hpp"
 #include "LoggingCategories.hpp"
 #include <QDebug>
+#include <algorithm>
 
 namespace Multimedia::TestHelper
 {
@@ -122,6 +123,83 @@ void TestSource::finishPendingLoadMore() noexcept
 void TestSource::failPendingLoadMore() noexcept
 {
     Q_EMIT loadingMoreFailed();
+}
+
+std::unique_ptr<PendingPage> TestSource::browsePage(QString const& path, qsizetype startIndex) noexcept
+{
+    ++mBrowsedPageCount;
+    auto page = std::make_unique<PendingPage>();
+    if (mHoldPages) {
+        mHeldPages.append(HeldPage{.mPage = page.get(), .mPath = path, .mStartIndex = startIndex});
+    } else {
+        finishPage(*page, path, startIndex);
+    }
+    return page;
+}
+
+void TestSource::setItems(QString const& path, Items items) noexcept
+{
+    mItems.insert(path, std::move(items));
+}
+
+void TestSource::setPageSize(qsizetype pageSize) noexcept
+{
+    mPageSize = pageSize;
+}
+
+void TestSource::setHoldPages(bool hold) noexcept
+{
+    mHoldPages = hold;
+}
+
+qsizetype TestSource::browsedPageCount() const noexcept
+{
+    return mBrowsedPageCount;
+}
+
+qsizetype TestSource::pendingPageCount() const noexcept
+{
+    return std::ranges::count_if(mHeldPages, [](HeldPage const& held) {
+        return not held.mPage.isNull();
+    });
+}
+
+void TestSource::finishPendingPage() noexcept
+{
+    if (auto held = takePendingPage(); held.has_value()) {
+        finishPage(*held->mPage, held->mPath, held->mStartIndex);
+    }
+}
+
+void TestSource::failPendingPage() noexcept
+{
+    if (auto held = takePendingPage(); held.has_value()) {
+        held->mPage->fail();
+    }
+}
+
+void TestSource::finishPage(PendingPage& page, QString const& path, qsizetype startIndex) const noexcept
+{
+    if (not mItems.contains(path)) {
+        qCCritical(testMediaSource) << "Path not found. Error: Invalied Path" << path << "passed";
+        page.fail();
+        return;
+    }
+
+    auto const& items = mItems[path];
+    auto const count = mPageSize > 0 ? mPageSize : items.size();
+    page.finish(items.mid(startIndex, count), items.size());
+}
+
+std::optional<TestSource::HeldPage> TestSource::takePendingPage() noexcept
+{
+    while (not mHeldPages.isEmpty()) {
+        auto held = mHeldPages.takeFirst();
+        if (not held.mPage.isNull()) {
+            return held;
+        }
+    }
+    return std::nullopt;
 }
 
 } // namespace Multimedia::TestHelper

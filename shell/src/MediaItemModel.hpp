@@ -144,6 +144,20 @@ public:
     Q_INVOKABLE void activateMediaItem(qsizetype idx, qsizetype scrollPosition = 0) noexcept;
 
     /**
+     * Requests to play the @ref Multimedia::Item under the passed index next, see @ref playNextRequested.
+     * Does nothing while @ref isBusy().
+     * @param idx The index of the Playable or the Container to play next.
+     */
+    Q_INVOKABLE void playMediaItemNext(qsizetype idx) noexcept;
+
+    /**
+     * Requests to add the @ref Multimedia::Item under the passed index to the end of the Queue, see
+     * @ref addToQueueRequested. Does nothing while @ref isBusy().
+     * @param idx The index of the Playable or the Container to add to the Queue.
+     */
+    Q_INVOKABLE void addMediaItemToQueue(qsizetype idx) noexcept;
+
+    /**
      * Navigates the @ref Shell::MediaItemModel back to the parent Container.
      * The parent Container is loaded again up to the number of Items it had loaded, then its scroll position is
      * restored, see @ref scrollPositionRestoreRequested().
@@ -231,6 +245,20 @@ Q_SIGNALS:
     void playRequested(Multimedia::Item const& playable);
 
     /**
+     * This signal is emitted when a Playable or a Container shall be played next through the Queue.
+     * @param source The Source of the Item, to collect the Playables of a Container.
+     * @param item The Playable or the Container.
+     */
+    void playNextRequested(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item);
+
+    /**
+     * This signal is emitted when a Playable or a Container shall be added to the end of the Queue.
+     * @param source The Source of the Item, to collect the Playables of a Container.
+     * @param item The Playable or the Container.
+     */
+    void addToQueueRequested(std::shared_ptr<Multimedia::Source> const& source, Multimedia::Item const& item);
+
+    /**
      * This signal is emitted after navigating back, when the Items of the parent Container are shown again.
      * The view shall scroll back to the position it had when the Container was opened.
      * @param scrollPosition The index of the first Item to show, clamped to the last Item when the Container shrank.
@@ -258,6 +286,7 @@ private:
         qsizetype mParentScrollPosition{0};
     };
 
+    std::optional<Multimedia::Item> itemForQueue(qsizetype idx) const noexcept;
     void startNavigation(PendingNavigation navigation, OpenedContainer container) noexcept;
     void onNavigationFinished() noexcept;
     void onNavigationFailed() noexcept;
