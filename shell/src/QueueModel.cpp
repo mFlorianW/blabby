@@ -209,6 +209,11 @@ void QueueModel::appendAndPlay(Multimedia::Item const& playable) noexcept
     mQueue.play(mQueue.entries().size() - 1);
 }
 
+void QueueModel::togglePlayback() noexcept
+{
+    mQueue.togglePlayback();
+}
+
 void QueueModel::remove(int row) noexcept
 {
     mUndoSnapshot = mQueue.snapshot();

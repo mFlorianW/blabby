@@ -60,15 +60,23 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
         return;
     }
 
+    auto const handsOver = mState == State::Running and mCurrentIndex.has_value() and renderer != nullptr and
+                           renderer->availability() == Renderer::Availability::Online;
     if (mRenderer != nullptr) {
         // disconnect only the own connections, others keep observing the Renderer.
         disconnect(mRenderer.get(), nullptr, this, nullptr);
         mRenderer->setPositionTracked(false);
+        // The music must not play in two rooms, the previous Renderer is stopped also when another controller has it
+        // or the Current Entry is still loading. A Renderer the Queue never played on is left to its controller.
+        if (handsOver and not mHandOverPending and mRenderer->availability() == Renderer::Availability::Online) {
+            mRenderer->stop();
+        }
     }
 
     mRenderer = std::move(renderer);
+    cancelPendingHandOver();
     if (mRenderer == nullptr) {
-        updatePlaysCurrentEntry();
+        setState(State::Idle);
         return;
     }
 
@@ -78,9 +86,18 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
     // the Renderer still gives the position and the duration of the previous track until then.
     connect(mRenderer.get(), &Renderer::positionChanged, this, &Queue::recordPosition);
     connect(mRenderer.get(), &Renderer::durationChanged, this, &Queue::recordPosition);
+    connect(mRenderer.get(), &Renderer::availabilityChanged, this, &Queue::onAvailabilityChanged);
+    connect(mRenderer.get(), &Renderer::initializationFinished, this, &Queue::onInitializationFinished);
+    connect(mRenderer.get(), &Renderer::initializationFailed, this, &Queue::onInitializationFailed);
     // The protocols of the Renderer are needed to play, the position to tell when the Current Entry finished.
     mRenderer->initialize();
     mRenderer->setPositionTracked(true);
+    if (handsOver) {
+        // The Current Entry is played once the protocols of the new Renderer are known.
+        mHandOverPending = true;
+    } else {
+        setState(State::Idle);
+    }
     recordPosition();
     updatePlaysCurrentEntry();
 }
@@ -159,6 +176,35 @@ void Queue::play(qsizetype index) noexcept
 
     setCurrentIndex(index);
     startCurrentEntry();
+}
+
+void Queue::togglePlayback() noexcept
+{
+    if (mRenderer == nullptr or mRenderer->isPlaybackControlPending() or mRenderer->isTransitioning()) {
+        return;
+    }
+
+    if (mRenderer->state() == Renderer::State::Playing) {
+        cancelPendingHandOver();
+        mRenderer->stop();
+        setState(State::Idle);
+        return;
+    }
+
+    if (mHandOverPending) {
+        return;
+    }
+
+    if (mState == State::Idle and mCurrentIndex.has_value() and not isInControl()) {
+        loadCurrentEntryAtLastKnownPosition();
+        setState(State::Running);
+        return;
+    }
+
+    mRenderer->resume();
+    if (isInControl()) {
+        setState(State::Running);
+    }
 }
 
 bool Queue::hasPrevious() const noexcept
@@ -525,7 +571,12 @@ bool Queue::isInControl() const noexcept
 
 void Queue::recordPosition() noexcept
 {
-    if (not isInControl()) {
+    // The last known position is kept until the Current Entry is continued on the Renderer.
+    if (not isInControl() or mHandOverPending) {
+        return;
+    }
+    if (mPendingSeek.has_value()) {
+        seekToPendingPosition();
         return;
     }
 
@@ -557,10 +608,68 @@ void Queue::onRendererStateChanged() noexcept
     playCurrentEntry();
 }
 
+void Queue::onAvailabilityChanged() noexcept
+{
+    if (mRenderer->availability() == Renderer::Availability::Offline) {
+        cancelPendingHandOver();
+        setState(State::Idle);
+    }
+}
+
+void Queue::onInitializationFinished() noexcept
+{
+    if (mHandOverPending) {
+        loadCurrentEntryAtLastKnownPosition();
+    }
+}
+
+void Queue::onInitializationFailed() noexcept
+{
+    if (mHandOverPending) {
+        cancelPendingHandOver();
+        setState(State::Idle);
+    }
+}
+
+void Queue::cancelPendingHandOver() noexcept
+{
+    mHandOverPending = false;
+    mPendingSeek.reset();
+}
+
+void Queue::seekToPendingPosition() noexcept
+{
+    // The Renderer can tell whether it seeks in the Current Entry only once it plays it, a position info without a
+    // duration, e.g. of a stream, can't be seeked in.
+    if (not mPendingSeek.has_value() or mRenderer->state() != Renderer::State::Playing) {
+        return;
+    }
+
+    auto const position = *mPendingSeek;
+    mPendingSeek.reset();
+    if (mRenderer->canSeek()) {
+        mRenderer->seek(position);
+        mLastKnownDuration = mRenderer->duration();
+        setLastKnownPosition(position);
+    } else {
+        recordPosition();
+    }
+}
+
 void Queue::playCurrentEntry() noexcept
 {
+    cancelPendingHandOver();
     if (mCurrentIndex.has_value()) {
         mRenderer->playback(mEntries.at(*mCurrentIndex));
+    }
+}
+
+void Queue::loadCurrentEntryAtLastKnownPosition() noexcept
+{
+    auto const position = mLastKnownPosition;
+    playCurrentEntry();
+    if (position > std::chrono::milliseconds{0}) {
+        mPendingSeek = position;
     }
 }
 

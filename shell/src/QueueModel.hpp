@@ -231,6 +231,13 @@ public:
     void appendAndPlay(Multimedia::Item const& playable) noexcept;
 
     /**
+     * Toggles the playback on the Active Renderer through the Queue: pausing or stopping makes the Queue Idle, Play
+     * continues an Idle Queue's Current Entry at its last known position when the Renderer isn't on it.
+     * @see Multimedia::Queue::togglePlayback
+     */
+    Q_INVOKABLE void togglePlayback() noexcept;
+
+    /**
      * Removes the entry at the row, it can be undone with @ref Shell::QueueModel::undo.
      * @see Multimedia::Queue::remove
      * @param row The row of the entry to remove.

@@ -101,7 +101,7 @@ Rectangle {
             onChooseRendererRequested: shell.chooseRenderer(shell.playingDestination)
             onQueueRequested: rail.currentIndex = shell.queueDestination
 
-            onTogglePlaybackRequested: Singleton.activeRendererController.togglePlayback()
+            onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
             onPreviousRequested: Singleton.queueModel.previous()
             onNextRequested: Singleton.queueModel.next()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)

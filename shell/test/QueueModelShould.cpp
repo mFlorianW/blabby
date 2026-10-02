@@ -661,6 +661,117 @@ void QueueModelShould::not_undo_after_playables_were_added()
              (QStringList{QStringLiteral("Intro"), QStringLiteral("Harbour"), QStringLiteral("Bonus")}));
 }
 
+void QueueModelShould::pause_the_active_renderer_and_stop_running_on_toggle()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->setCurrentTrack(playable(QStringLiteral("Intro")).playUrl(), QString{});
+    kitchen->setDeviceState(MediaDevice::State::Playing);
+    kitchen->setPauseEnabled(true);
+    auto runningChangedSpy = QSignalSpy{mModel.get(), &QueueModel::runningChanged};
+
+    mModel->togglePlayback();
+
+    QCOMPARE(kitchen->isPauseCalled(), true);
+    QCOMPARE(kitchen->isStopCalled(), false);
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(runningChangedSpy.size(), 1);
+}
+
+void QueueModelShould::stop_the_active_renderer_that_cannot_pause_on_toggle()
+{
+    device(QStringLiteral("Kitchen"))->setDeviceState(MediaDevice::State::Playing);
+    activate(QStringLiteral("Kitchen"));
+
+    mModel->togglePlayback();
+
+    QCOMPARE(device(QStringLiteral("Kitchen"))->isStopCalled(), true);
+}
+
+void QueueModelShould::resume_a_paused_or_stopped_active_renderer_on_toggle_data()
+{
+    QTest::addColumn<MediaDevice::State>("state");
+
+    QTest::newRow("Paused") << MediaDevice::State::PausedPlayback;
+    QTest::newRow("Stopped") << MediaDevice::State::Stopped;
+}
+
+void QueueModelShould::resume_a_paused_or_stopped_active_renderer_on_toggle()
+{
+    QFETCH(MediaDevice::State, state);
+    device(QStringLiteral("Kitchen"))->setDeviceState(state);
+    activate(QStringLiteral("Kitchen"));
+
+    mModel->togglePlayback();
+
+    QCOMPARE(device(QStringLiteral("Kitchen"))->isPlayCalled(), true);
+    QCOMPARE(device(QStringLiteral("Kitchen"))->isSetAvTransportUriCalled(), false);
+}
+
+void QueueModelShould::continue_the_current_entry_of_an_idle_queue_on_toggle()
+{
+    mModel->replace(album(), 1);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->setDeviceState(MediaDevice::State::Stopped);
+    activate(QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->property("running").toBool(), false);
+
+    mModel->togglePlayback();
+    Q_EMIT kitchen->avTransportUriCall()->finished();
+
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Harbour")).playUrl());
+    QCOMPARE(kitchen->isPlayCalled(), true);
+    QCOMPARE(mModel->property("running").toBool(), true);
+}
+
+void QueueModelShould::ignore_toggling_while_a_call_is_pending_or_transitioning()
+{
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->setPauseEnabled(true);
+    kitchen->setDeviceState(MediaDevice::State::Playing);
+    activate(QStringLiteral("Kitchen"));
+    mModel->togglePlayback();
+    kitchen->setDeviceState(MediaDevice::State::PausedPlayback);
+
+    mModel->togglePlayback();
+    QCOMPARE(kitchen->isPlayCalled(), false);
+
+    Q_EMIT kitchen->pauseCall()->finished();
+    kitchen->setDeviceState(MediaDevice::State::Transitioning);
+    mModel->togglePlayback();
+    QCOMPARE(kitchen->isPlayCalled(), false);
+}
+
+void QueueModelShould::hand_over_a_running_queue_to_the_new_active_renderer()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 1);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->setCurrentTrack(playable(QStringLiteral("Harbour")).playUrl(), QString{});
+    kitchen->setDeviceState(MediaDevice::State::Playing);
+
+    activate(QStringLiteral("Bathroom"));
+    auto* const bathroom = device(QStringLiteral("Bathroom"));
+    Q_EMIT bathroom->avTransportUriCall()->finished();
+
+    QCOMPARE(kitchen->isStopCalled(), true);
+    QCOMPARE(bathroom->avTransportUriData().uri, playable(QStringLiteral("Harbour")).playUrl());
+    QCOMPARE(bathroom->isPlayCalled(), true);
+    QCOMPARE(mModel->property("running").toBool(), true);
+}
+
+void QueueModelShould::stop_running_when_the_active_renderer_goes_offline()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 1);
+
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::QueueModelShould)

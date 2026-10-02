@@ -68,6 +68,14 @@ private Q_SLOTS:
     void cancel_the_collection_of_a_container();
     void report_a_failed_collection_with_the_title_of_the_container();
     void not_undo_after_playables_were_added();
+    void pause_the_active_renderer_and_stop_running_on_toggle();
+    void stop_the_active_renderer_that_cannot_pause_on_toggle();
+    void resume_a_paused_or_stopped_active_renderer_on_toggle_data();
+    void resume_a_paused_or_stopped_active_renderer_on_toggle();
+    void continue_the_current_entry_of_an_idle_queue_on_toggle();
+    void ignore_toggling_while_a_call_is_pending_or_transitioning();
+    void hand_over_a_running_queue_to_the_new_active_renderer();
+    void stop_running_when_the_active_renderer_goes_offline();
 };
 
 } // namespace Shell

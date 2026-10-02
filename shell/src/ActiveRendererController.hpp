@@ -198,12 +198,6 @@ public:
     bool isTransitioning() const noexcept;
 
     /**
-     * Pauses a Playing Active Renderer, or stops it when it can't pause, and resumes a Paused or plays a Stopped one.
-     * The request is ignored while a previous one is pending or the Active Renderer is transitioning.
-     */
-    Q_INVOKABLE void togglePlayback() noexcept;
-
-    /**
      * Gives the position in the Current Track in milliseconds, 0 without an Active Renderer.
      */
     qint64 position() const noexcept;

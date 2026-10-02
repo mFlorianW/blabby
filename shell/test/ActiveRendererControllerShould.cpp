@@ -218,74 +218,6 @@ void ActiveRendererControllerShould::give_no_current_track_without_an_active_ren
     QCOMPARE(mController->property("trackFormat").toString(), QString{});
 }
 
-void ActiveRendererControllerShould::pause_a_playing_active_renderer()
-{
-    kitchen()->setPauseEnabled(true);
-    kitchen()->setDeviceState(MediaDevice::State::Playing);
-    activate(QStringLiteral("Kitchen"));
-
-    mController->togglePlayback();
-
-    QCOMPARE(kitchen()->isPauseCalled(), true);
-    QCOMPARE(kitchen()->isStopCalled(), false);
-}
-
-void ActiveRendererControllerShould::stop_a_playing_active_renderer_that_cannot_pause()
-{
-    kitchen()->setDeviceState(MediaDevice::State::Playing);
-    activate(QStringLiteral("Kitchen"));
-
-    mController->togglePlayback();
-
-    QCOMPARE(kitchen()->isStopCalled(), true);
-}
-
-void ActiveRendererControllerShould::resume_a_paused_or_stopped_active_renderer_data()
-{
-    QTest::addColumn<MediaDevice::State>("state");
-
-    QTest::newRow("Paused") << MediaDevice::State::PausedPlayback;
-    QTest::newRow("Stopped") << MediaDevice::State::Stopped;
-}
-
-void ActiveRendererControllerShould::resume_a_paused_or_stopped_active_renderer()
-{
-    QFETCH(MediaDevice::State, state);
-    kitchen()->setDeviceState(state);
-    activate(QStringLiteral("Kitchen"));
-
-    mController->togglePlayback();
-
-    QCOMPARE(kitchen()->isPlayCalled(), true);
-}
-
-void ActiveRendererControllerShould::ignore_toggling_the_playback_while_a_call_is_pending()
-{
-    kitchen()->setPauseEnabled(true);
-    kitchen()->setDeviceState(MediaDevice::State::Playing);
-    activate(QStringLiteral("Kitchen"));
-    mController->togglePlayback();
-    kitchen()->setDeviceState(MediaDevice::State::PausedPlayback);
-
-    mController->togglePlayback();
-    QCOMPARE(kitchen()->isPlayCalled(), false);
-
-    Q_EMIT kitchen()->pauseCall()->finished();
-    mController->togglePlayback();
-    QCOMPARE(kitchen()->isPlayCalled(), true);
-}
-
-void ActiveRendererControllerShould::ignore_toggling_the_playback_while_transitioning()
-{
-    kitchen()->setDeviceState(MediaDevice::State::PausedPlayback);
-    activate(QStringLiteral("Kitchen"));
-    kitchen()->setDeviceState(MediaDevice::State::Transitioning);
-
-    mController->togglePlayback();
-
-    QCOMPARE(kitchen()->isPlayCalled(), false);
-}
-
 void ActiveRendererControllerShould::give_whether_the_active_renderer_can_pause_and_is_transitioning()
 {
     QCOMPARE(mController->property("canPause").toBool(), false);
@@ -308,7 +240,7 @@ void ActiveRendererControllerShould::report_a_failed_control_call_with_the_rende
     kitchen()->setDeviceState(MediaDevice::State::Playing);
     activate(QStringLiteral("Kitchen"));
     auto controlFailedSpy = QSignalSpy{mController.get(), &ActiveRendererController::controlFailed};
-    mController->togglePlayback();
+    mModel->activeRenderer()->stop();
 
     kitchen()->pauseCall()->setErrorState(true);
     Q_EMIT kitchen()->pauseCall()->finished();
