@@ -82,6 +82,30 @@ Item {
         }
 
         SignalSpy {
+            id: removeRequestedSpy
+            target: queueView
+            signalName: "removeRequested"
+        }
+
+        SignalSpy {
+            id: moveRequestedSpy
+            target: queueView
+            signalName: "moveRequested"
+        }
+
+        SignalSpy {
+            id: clearRequestedSpy
+            target: queueView
+            signalName: "clearRequested"
+        }
+
+        SignalSpy {
+            id: undoRequestedSpy
+            target: queueView
+            signalName: "undoRequested"
+        }
+
+        SignalSpy {
             id: browseLibraryRequestedSpy
             target: emptyView
             signalName: "browseLibraryRequested"
@@ -97,6 +121,10 @@ Item {
             queueViewTest.findChild(queueView, "toast").hide();
             playRequestedSpy.clear();
             chooseRendererRequestedSpy.clear();
+            removeRequestedSpy.clear();
+            moveRequestedSpy.clear();
+            clearRequestedSpy.clear();
+            undoRequestedSpy.clear();
             browseLibraryRequestedSpy.clear();
         }
 
@@ -105,6 +133,20 @@ Item {
          */
         function row(index: int): Item {
             return queueViewTest.findChild(queueView, "entryRow" + index);
+        }
+
+        /**
+         * Drags the row at the index by its handle vertically by dy. The pointer is moved in the coordinates of the
+         * view, the handle moves along with the row.
+         */
+        function dragByHandle(index: int, dy: real) {
+            const handle = queueViewTest.findChild(queueViewTest.row(index), "dragHandle");
+            const start = handle.mapToItem(queueView, handle.width / 2, handle.height / 2);
+            queueViewTest.mousePress(queueView, start.x, start.y);
+            for (let step = 1; step <= 4; ++step) {
+                queueViewTest.mouseMove(queueView, start.x, start.y + dy * step / 4, -1, Qt.LeftButton);
+            }
+            queueViewTest.mouseRelease(queueView, start.x, start.y + dy);
         }
 
         /**
@@ -267,6 +309,114 @@ Item {
             queueViewTest.mouseClick(queueViewTest.findChild(emptyState, "action"));
 
             queueViewTest.compare(browseLibraryRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that swiping a row away asks to remove its entry and offers to undo it.
+         */
+        function test_ask_to_remove_a_swiped_entry_and_offer_undo() {
+            const first = queueViewTest.row(0);
+            queueViewTest.mouseDrag(first, first.width / 2, first.height / 2, -first.width / 2, 0);
+
+            queueViewTest.compare(removeRequestedSpy.count, 1);
+            queueViewTest.compare(removeRequestedSpy.signalArguments[0][0], 0);
+            queueViewTest.compare(playRequestedSpy.count, 0);
+            const toast = queueViewTest.findChild(queueView, "toast");
+            queueViewTest.compare(toast.shown, true);
+            queueViewTest.compare(queueViewTest.findChild(toast, "message").text, "Removed “Salt on the Rail”");
+            queueViewTest.compare(queueViewTest.findChild(toast, "action").text, "Undo");
+            queueViewTest.tryCompare(toast, "visible", true);
+
+            queueViewTest.mouseClick(queueViewTest.findChild(toast, "action"));
+
+            queueViewTest.compare(undoRequestedSpy.count, 1);
+            queueViewTest.compare(chooseRendererRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that a short swipe neither removes the entry nor plays it, the row slides back.
+         */
+        function test_keep_an_entry_on_a_short_swipe() {
+            const first = queueViewTest.row(0);
+            queueViewTest.mouseDrag(first, first.width / 2, first.height / 2, -40, 0);
+
+            queueViewTest.compare(removeRequestedSpy.count, 0);
+            queueViewTest.compare(playRequestedSpy.count, 0);
+            queueViewTest.tryCompare(queueViewTest.findChild(first, "swipeOffset"), "x", 0);
+            queueViewTest.compare(first.pressed, false);
+        }
+
+        function test_ask_to_move_an_entry_by_its_handle_data() {
+            return [
+                {
+                    tag: "down",
+                    row: 0,
+                    dy: 2 * 62,
+                    to: 2
+                },
+                {
+                    tag: "up",
+                    row: 2,
+                    dy: -62,
+                    to: 1
+                },
+                {
+                    tag: "past the end",
+                    row: 1,
+                    dy: 5 * 62,
+                    to: 2
+                }
+            ];
+        }
+
+        /**
+         * Tests that dragging a row by its handle asks to move its entry to where it is dropped.
+         */
+        function test_ask_to_move_an_entry_by_its_handle(data) {
+            queueViewTest.dragByHandle(data.row, data.dy);
+
+            queueViewTest.compare(moveRequestedSpy.count, 1);
+            queueViewTest.compare(moveRequestedSpy.signalArguments[0][0], data.row);
+            queueViewTest.compare(moveRequestedSpy.signalArguments[0][1], data.to);
+            queueViewTest.compare(playRequestedSpy.count, 0);
+            queueViewTest.compare(removeRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that a row dropped at its own place isn't moved.
+         */
+        function test_not_move_an_entry_dropped_at_its_place() {
+            queueViewTest.dragByHandle(1, 20);
+
+            queueViewTest.compare(moveRequestedSpy.count, 0);
+            queueViewTest.compare(playRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that Clear asks to clear the Queue without a confirmation and offers to undo it.
+         */
+        function test_ask_to_clear_and_offer_undo() {
+            const clearButton = queueViewTest.findChild(queueView, "clearButton");
+            queueViewTest.compare(clearButton.visible, true);
+
+            queueViewTest.mouseClick(clearButton);
+
+            queueViewTest.compare(clearRequestedSpy.count, 1);
+            const toast = queueViewTest.findChild(queueView, "toast");
+            queueViewTest.compare(toast.shown, true);
+            queueViewTest.compare(queueViewTest.findChild(toast, "message").text, "Cleared the Queue");
+            queueViewTest.tryCompare(toast, "visible", true);
+
+            queueViewTest.mouseClick(queueViewTest.findChild(toast, "action"));
+
+            queueViewTest.compare(undoRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that Clear is hidden while the Queue is empty.
+         */
+        function test_hide_clear_when_the_queue_is_empty() {
+            queueViewTest.compare(queueViewTest.findChild(emptyView, "clearButton").visible, false);
         }
     }
 }

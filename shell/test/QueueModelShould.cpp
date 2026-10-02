@@ -56,6 +56,20 @@ QVariant dataOf(QueueModel const& model, int row, QueueModel::DisplayRole role)
 {
     return model.data(model.index(row), static_cast<int>(role));
 }
+
+QStringList titlesOf(QueueModel const& model)
+{
+    auto titles = QStringList{};
+    for (auto row = 0; row < model.rowCount(); ++row) {
+        titles.append(dataOf(model, row, QueueModel::DisplayRole::Title).toString());
+    }
+    return titles;
+}
+
+Items threeSongs()
+{
+    return {playable(QStringLiteral("Intro")), playable(QStringLiteral("Harbour")), playable(QStringLiteral("Outro"))};
+}
 } // namespace
 
 QueueModelShould::~QueueModelShould() = default;
@@ -393,6 +407,140 @@ void QueueModelShould::step_to_the_next_and_the_previous_entry()
     QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Intro")).playUrl());
     QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
     QCOMPARE(mModel->property("running").toBool(), true);
+}
+
+void QueueModelShould::remove_the_row_of_an_entry()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    mModel->replace(threeSongs(), 1);
+    auto rowsRemovedSpy = QSignalSpy{mModel.get(), &QueueModel::rowsRemoved};
+    auto summaryChangedSpy = QSignalSpy{mModel.get(), &QueueModel::summaryChanged};
+    auto stepAvailabilityChangedSpy = QSignalSpy{mModel.get(), &QueueModel::stepAvailabilityChanged};
+
+    mModel->remove(2);
+
+    QCOMPARE(rowsRemovedSpy.size(), 1);
+    QCOMPARE(rowsRemovedSpy.at(0).at(1).toInt(), 2);
+    QCOMPARE(summaryChangedSpy.size(), 1);
+    QCOMPARE(stepAvailabilityChangedSpy.isEmpty(), false);
+    QCOMPARE(titlesOf(*mModel), (QStringList{"Intro", "Harbour"}));
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("hasNext").toBool(), false);
+
+    mModel->remove(0);
+
+    QCOMPARE(titlesOf(*mModel), (QStringList{"Harbour"}));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
+}
+
+void QueueModelShould::mark_the_next_entry_as_current_when_the_current_entry_is_removed()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(threeSongs(), 1);
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->reset();
+
+    mModel->remove(1);
+
+    QCOMPARE(titlesOf(*mModel), (QStringList{"Intro", "Outro"}));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), false);
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(kitchen->avTransportUriData().uri, playable(QStringLiteral("Outro")).playUrl());
+
+    mModel->remove(1);
+
+    QCOMPARE(titlesOf(*mModel), (QStringList{"Intro"}));
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), false);
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(mModel->property("hasPrevious").toBool(), false);
+}
+
+void QueueModelShould::move_the_row_of_an_entry_data()
+{
+    QTest::addColumn<int>("from");
+    QTest::addColumn<int>("to");
+    QTest::addColumn<QStringList>("expectedTitles");
+    QTest::addColumn<int>("expectedCurrentRow");
+
+    QTest::newRow("down") << 0 << 2 << QStringList{"Harbour", "Outro", "Intro"} << 0;
+    QTest::newRow("up") << 2 << 0 << QStringList{"Outro", "Intro", "Harbour"} << 2;
+    QTest::newRow("the Current Entry") << 1 << 2 << QStringList{"Intro", "Outro", "Harbour"} << 2;
+}
+
+void QueueModelShould::move_the_row_of_an_entry()
+{
+    QFETCH(int, from);
+    QFETCH(int, to);
+    QFETCH(QStringList, expectedTitles);
+    QFETCH(int, expectedCurrentRow);
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    mModel->replace(threeSongs(), 1);
+    auto rowsMovedSpy = QSignalSpy{mModel.get(), &QueueModel::rowsMoved};
+
+    mModel->move(from, to);
+
+    QCOMPARE(rowsMovedSpy.size(), 1);
+    QCOMPARE(titlesOf(*mModel), expectedTitles);
+    for (auto row = 0; row < mModel->rowCount(); ++row) {
+        QCOMPARE(dataOf(*mModel, row, QueueModel::DisplayRole::Current).toBool(), row == expectedCurrentRow);
+    }
+    QCOMPARE(mModel->property("hasNext").toBool(), expectedCurrentRow < 2);
+}
+
+void QueueModelShould::clear_all_rows()
+{
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(threeSongs(), 1);
+    auto summaryChangedSpy = QSignalSpy{mModel.get(), &QueueModel::summaryChanged};
+
+    mModel->clear();
+
+    QCOMPARE(mModel->rowCount(), 0);
+    QCOMPARE(mModel->property("entryCount").toInt(), 0);
+    QCOMPARE(summaryChangedSpy.size(), 1);
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(mModel->property("hasPrevious").toBool(), false);
+}
+
+void QueueModelShould::undo_a_remove_or_a_clear_data()
+{
+    QTest::addColumn<bool>("clear");
+
+    QTest::newRow("remove") << false;
+    QTest::newRow("clear") << true;
+}
+
+void QueueModelShould::undo_a_remove_or_a_clear()
+{
+    QFETCH(bool, clear);
+    auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    mModel->replace(threeSongs(), 1);
+    clear ? mModel->clear() : mModel->remove(1);
+
+    mModel->undo();
+
+    QCOMPARE(titlesOf(*mModel), (QStringList{"Intro", "Harbour", "Outro"}));
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+    QCOMPARE(mModel->property("entryCount").toInt(), 3);
+
+    // A second undo has nothing to restore.
+    mModel->remove(0);
+    mModel->undo();
+    mModel->undo();
+    QCOMPARE(mModel->rowCount(), 3);
+}
+
+void QueueModelShould::ignore_undo_without_a_remove_or_a_clear()
+{
+    mModel->replace(threeSongs(), 1);
+    auto modelResetSpy = QSignalSpy{mModel.get(), &QueueModel::modelReset};
+
+    mModel->undo();
+
+    QCOMPARE(modelResetSpy.size(), 0);
+    QCOMPARE(mModel->rowCount(), 3);
 }
 
 } // namespace Shell

@@ -70,6 +70,25 @@ private Q_SLOTS:
     void take_the_renderer_back_from_another_controller_data();
     void take_the_renderer_back_from_another_controller();
     void restart_the_current_entry_on_previous_by_loading_it_again_after_another_controller_took_over();
+    void remove_an_entry_that_is_not_current_without_affecting_playback_data();
+    void remove_an_entry_that_is_not_current_without_affecting_playback();
+    void notify_about_a_remove();
+    void play_the_next_entry_when_the_current_entry_of_a_running_queue_is_removed();
+    void make_the_next_entry_current_when_the_current_entry_of_an_idle_queue_is_removed();
+    void stop_and_become_idle_when_the_last_remaining_current_entry_is_removed_data();
+    void stop_and_become_idle_when_the_last_remaining_current_entry_is_removed();
+    void not_stop_another_controller_when_the_last_remaining_current_entry_is_removed();
+    void ignore_removing_at_an_invalid_index();
+    void move_entries_without_interrupting_playback_data();
+    void move_entries_without_interrupting_playback();
+    void notify_about_a_move();
+    void ignore_an_invalid_move();
+    void empty_the_queue_make_it_idle_and_stop_the_renderer_on_clear();
+    void not_stop_another_controller_on_clear();
+    void restore_a_snapshot_without_interrupting_the_current_entry();
+    void play_the_restored_current_entry_again_when_it_played_before_data();
+    void play_the_restored_current_entry_again_when_it_played_before();
+    void restore_an_idle_queue_without_playing();
 };
 
 } // namespace Multimedia

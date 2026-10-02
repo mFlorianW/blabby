@@ -162,6 +162,10 @@ Rectangle {
             hasTotalDuration: Singleton.queueModel.hasTotalDuration
             totalDurationPartial: Singleton.queueModel.totalDurationPartial
             onPlayRequested: index => Singleton.queueModel.play(index)
+            onRemoveRequested: index => Singleton.queueModel.remove(index)
+            onMoveRequested: (from, to) => Singleton.queueModel.move(from, to)
+            onClearRequested: Singleton.queueModel.clear()
+            onUndoRequested: Singleton.queueModel.undo()
             onChooseRendererRequested: shell.chooseRenderer(shell.queueDestination)
             onBrowseLibraryRequested: rail.currentIndex = shell.libraryDestination
         }
