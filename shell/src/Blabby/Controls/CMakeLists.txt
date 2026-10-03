@@ -17,6 +17,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         IconBadge.qml
         Icon.qml
         Dialog.qml
+        MenuShell.qml
         FadeBehavior.qml
         NavigationRail.qml
         NavigationRailItem.qml
