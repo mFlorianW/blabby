@@ -67,7 +67,8 @@ Rectangle {
     StackLayout {
         id: destinations
         anchors.top: shell.top
-        anchors.bottom: shell.bottom
+        anchors.bottom: miniPlayer.visible ? miniPlayer.top : shell.bottom
+        anchors.bottomMargin: miniPlayer.visible ? 8 : 0
         anchors.left: rail.right
         anchors.right: shell.right
         currentIndex: rail.currentIndex
@@ -188,6 +189,33 @@ Rectangle {
         }
     }
 
+    /**
+     * Shows and controls what plays on every screen but the Playing screen, below the screen content.
+     */
+    MiniPlayer {
+        id: miniPlayer
+        anchors.bottom: shell.bottom
+        anchors.left: rail.right
+        anchors.right: shell.right
+        anchors.margins: 16
+        visible: rail.currentIndex !== shell.playingDestination
+        hasActiveRenderer: Singleton.activeRendererController.hasActiveRenderer
+        rendererName: Singleton.activeRendererController.rendererName
+        playbackState: Singleton.activeRendererController.playbackState
+        trackTitle: Singleton.activeRendererController.trackTitle
+        trackArtist: Singleton.activeRendererController.trackArtist
+        artworkUrl: Singleton.activeRendererController.artworkUrl
+        canPause: Singleton.activeRendererController.canPause
+        transitioning: Singleton.activeRendererController.transitioning
+        hasQueue: Singleton.queueModel.entryCount > 0
+        hasPrevious: Singleton.queueModel.hasPrevious
+        hasNext: Singleton.queueModel.hasNext
+        onNowPlayingRequested: rail.currentIndex = shell.playingDestination
+        onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
+        onPreviousRequested: Singleton.queueModel.previous()
+        onNextRequested: Singleton.queueModel.next()
+    }
+
     ControlFailureMessage {
         id: controlFailureMessage
     }
@@ -204,7 +232,7 @@ Rectangle {
     }
 
     /**
-     * Tells about failed control calls and the Active Renderer going Offline on every screen.
+     * Tells about failed control calls and the Active Renderer going Offline on every screen, above the mini player.
      */
     Toast {
         id: toast
