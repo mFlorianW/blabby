@@ -16,7 +16,9 @@ import Blabby.Theme
  * or stops a Renderer that can't pause, and resumes or plays, it shows a busy ring while the Renderer is transitioning;
  * previous and next are disabled when unavailable and hidden while the Queue is empty. Without media all of them are
  * disabled.
- * A pill on the right shows the Active Renderer, or "Choose a Renderer" without one.
+ * A pill on the right shows the Active Renderer, or "Choose a Renderer" without one, and opens the @ref RendererMenu
+ * upwards above it to pick the Active Renderer. The menu covers the item the mini player is laid out in, above its
+ * other children, and closes when the mini player becomes invisible.
  */
 Item {
     id: miniPlayer
@@ -30,6 +32,12 @@ Item {
      * The name of the Active Renderer.
      */
     property string rendererName
+
+    /**
+     * The Renderers to pick the Active Renderer from in the Renderer menu, a model with the roles "name",
+     * "availability" and "active".
+     */
+    property alias renderers: rendererMenu.model
 
     /**
      * The Playback State of the Active Renderer, a value of Renderer.State.
@@ -106,6 +114,12 @@ Item {
      * This signal is emitted when the user asks to play the next entry of the Queue.
      */
     signal nextRequested
+
+    /**
+     * This signal is emitted when the user picks the Renderer at index in the Renderer menu to make it the Active
+     * Renderer.
+     */
+    signal rendererPicked(int index)
 
     implicitHeight: 80
 
@@ -252,7 +266,26 @@ Item {
         anchors.rightMargin: 12
         text: miniPlayer.hasActiveRenderer ? miniPlayer.rendererName : qsTr("Choose a Renderer")
         iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
-        // Not interactive until it opens the Renderer menu.
-        enabled: false
+        checked: rendererMenu.opened
+        // While the menu is open its tap catcher covers the pill, a tap on the pill closes the menu then.
+        onClicked: rendererMenu.open()
+    }
+
+    RendererMenu {
+        id: rendererMenu
+        objectName: "rendererMenu"
+        // The menu covers the item the mini player is laid out in, not only the bar, so a tap anywhere else closes it,
+        // and is drawn above its other children, e.g. a toast.
+        parent: miniPlayer.parent
+        // Bound to parent, not miniPlayer.parent: the latter is evaluated before the reparenting and never again, so the
+        // anchoring would target an item that isn't the parent of the menu.
+        anchors.fill: parent
+        z: 1
+        // Being a child of the parent of the mini player, the menu doesn't become invisible with the mini player by
+        // itself.
+        visible: miniPlayer.visible
+        anchorItem: rendererPill
+        opensUpwards: true
+        onPicked: index => miniPlayer.rendererPicked(index)
     }
 }

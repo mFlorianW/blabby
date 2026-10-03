@@ -12,13 +12,34 @@ Item {
     id: root
     // The window width of 1280 px minus the navigation rail.
     width: 1200
-    height: 120
+    // High enough for the Renderer menu to open upwards above the mini player.
+    height: 480
+
+    ListModel {
+        id: rendererModel
+        ListElement {
+            name: "Kitchen"
+            availability: Renderer.Online
+            active: true
+        }
+        ListElement {
+            name: "Living Room"
+            availability: Renderer.Online
+            active: false
+        }
+    }
+
+    MouseArea {
+        id: beneath
+        anchors.fill: root
+    }
 
     MiniPlayer {
         id: miniPlayer
         anchors.left: root.left
         anchors.right: root.right
         anchors.bottom: root.bottom
+        renderers: rendererModel
     }
 
     TestCase {
@@ -50,6 +71,18 @@ Item {
             signalName: "nowPlayingRequested"
         }
 
+        SignalSpy {
+            id: rendererPickedSpy
+            target: miniPlayer
+            signalName: "rendererPicked"
+        }
+
+        SignalSpy {
+            id: beneathClickedSpy
+            target: beneath
+            signalName: "clicked"
+        }
+
         function init() {
             miniPlayer.hasActiveRenderer = true;
             miniPlayer.rendererName = "Kitchen";
@@ -66,6 +99,10 @@ Item {
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
             nowPlayingRequestedSpy.clear();
+            rendererPickedSpy.clear();
+            beneathClickedSpy.clear();
+            miniPlayer.visible = true;
+            miniPlayerTest.child("rendererMenu").close();
             miniPlayerTest.waitForLayout();
         }
 
@@ -170,10 +207,101 @@ Item {
         }
 
         /**
-         * Tests that the Renderer pill doesn't react to taps yet.
+         * Opens the Renderer menu with the Renderer pill and gives it.
          */
-        function test_not_react_to_taps_on_the_renderer_pill() {
-            miniPlayerTest.compare(miniPlayerTest.child("rendererPill").enabled, false);
+        function openRendererMenu() {
+            miniPlayerTest.mouseClick(miniPlayerTest.child("rendererPill"));
+            const menu = miniPlayerTest.child("rendererMenu");
+            miniPlayerTest.compare(menu.opened, true);
+            // The rows are created on the polish after the list became visible, clicks before would miss them.
+            miniPlayerTest.waitForItemPolished(miniPlayerTest.findChild(menu, "rendererList"));
+            return menu;
+        }
+
+        /**
+         * The variants with and without an Active Renderer.
+         */
+        function activeRendererVariants() {
+            return [
+                {
+                    "tag": "with an Active Renderer",
+                    "hasActiveRenderer": true
+                },
+                {
+                    "tag": "without an Active Renderer",
+                    "hasActiveRenderer": false
+                }
+            ];
+        }
+
+        function test_open_the_renderer_menu_upwards_with_the_renderer_pill_data() {
+            return miniPlayerTest.activeRendererVariants();
+        }
+
+        /**
+         * Tests that the Renderer pill opens the Renderer menu upwards 8 px above it, aligned to its right edge,
+         * listing the Renderers and looking checked meanwhile, with and without an Active Renderer.
+         */
+        function test_open_the_renderer_menu_upwards_with_the_renderer_pill(data) {
+            miniPlayer.hasActiveRenderer = data.hasActiveRenderer;
+            const pill = miniPlayerTest.child("rendererPill");
+            miniPlayerTest.compare(pill.enabled, true);
+            const menu = miniPlayerTest.openRendererMenu();
+            miniPlayerTest.compare(menu.opensUpwards, true);
+            miniPlayerTest.compare(pill.checked, true);
+            const panel = miniPlayerTest.findChild(menu, "rendererMenuPanel");
+            miniPlayerTest.compare(panel.visible, true);
+            const pillTopRight = pill.mapToItem(root, pill.width, 0);
+            const panelBottomRight = panel.mapToItem(root, panel.width, panel.height);
+            miniPlayerTest.compare(panelBottomRight.x, pillTopRight.x);
+            miniPlayerTest.compare(panelBottomRight.y, pillTopRight.y - 8);
+            miniPlayerTest.compare(menu.count, 2);
+            miniPlayerTest.compare(rendererPickedSpy.count, 0);
+        }
+
+        function test_emit_rendererPicked_when_a_renderer_is_picked_data() {
+            return miniPlayerTest.activeRendererVariants();
+        }
+
+        /**
+         * Tests that picking a Renderer in the Renderer menu emits rendererPicked with its index and closes the menu,
+         * with and without an Active Renderer.
+         */
+        function test_emit_rendererPicked_when_a_renderer_is_picked(data) {
+            miniPlayer.hasActiveRenderer = data.hasActiveRenderer;
+            const menu = miniPlayerTest.openRendererMenu();
+            const row = miniPlayerTest.findChild(menu, "rendererRow1");
+            miniPlayerTest.verify(row);
+            miniPlayerTest.mouseClick(row);
+            miniPlayerTest.compare(rendererPickedSpy.count, 1);
+            miniPlayerTest.compare(rendererPickedSpy.signalArguments[0][0], 1);
+            miniPlayerTest.compare(menu.opened, false);
+            miniPlayerTest.compare(miniPlayerTest.child("rendererPill").checked, false);
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that a tap elsewhere on the screen closes the Renderer menu without reaching anything beneath, and that
+         * the mini player reacts to taps again afterwards.
+         */
+        function test_close_the_renderer_menu_with_a_tap_elsewhere() {
+            const menu = miniPlayerTest.openRendererMenu();
+            miniPlayerTest.mouseClick(root, 50, 50);
+            miniPlayerTest.compare(menu.opened, false);
+            miniPlayerTest.compare(beneathClickedSpy.count, 0);
+            miniPlayerTest.mouseClick(miniPlayerTest.child("trackArea"));
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Renderer menu is closed when the mini player becomes invisible, e.g. on the Playing screen.
+         */
+        function test_close_the_renderer_menu_when_the_mini_player_becomes_invisible() {
+            const menu = miniPlayerTest.openRendererMenu();
+            miniPlayer.visible = false;
+            miniPlayerTest.compare(menu.opened, false);
+            miniPlayer.visible = true;
+            miniPlayerTest.compare(miniPlayerTest.findChild(menu, "rendererMenuPanel").visible, false);
         }
 
         /**
