@@ -32,6 +32,9 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     });
     // Tapping a Playable in the Library appends it to the Queue and plays it.
     connect(&mItemModel, &MediaItemModel::playRequested, &mQueueModel, &QueueModel::appendAndPlay);
+    // The menu of a Playable or a Container in the Library plays it next or adds it to the end of the Queue.
+    connect(&mItemModel, &MediaItemModel::playNextRequested, &mQueueModel, &QueueModel::playNext);
+    connect(&mItemModel, &MediaItemModel::addToQueueRequested, &mQueueModel, &QueueModel::addToQueue);
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;

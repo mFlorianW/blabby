@@ -50,6 +50,9 @@ private Q_SLOTS:
     void finish_navigating_when_the_container_has_fewer_items_than_the_minimum();
     void finish_navigating_on_a_page_without_items();
     void keep_the_items_when_a_later_page_of_a_navigation_fails();
+    void request_a_page_of_a_container();
+    void give_the_items_of_a_page_without_navigating();
+    void report_a_failed_page_of_a_container();
 };
 
 } // namespace Provider::MediaServer

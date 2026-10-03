@@ -26,6 +26,9 @@ private Q_SLOTS:
     void navigate_when_a_container_item_is_activated();
     void update_the_media_items_when_navigation_is_finished();
     void request_to_play_only_the_activated_playable();
+    void request_to_play_an_item_next_or_add_it_to_the_queue_data();
+    void request_to_play_an_item_next_or_add_it_to_the_queue();
+    void ignore_queue_requests_while_busy_or_at_an_invalid_index();
     void give_the_item_type_of_the_item();
     void tell_whether_a_media_source_is_set();
     void stop_following_the_previous_media_source_when_the_media_source_changes();

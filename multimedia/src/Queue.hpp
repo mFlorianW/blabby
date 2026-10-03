@@ -138,11 +138,59 @@ public:
     void play(qsizetype index) noexcept;
 
     /**
-     * Appends the Playables at the end of the entries. The Current Entry and the Queue State stay, an empty Queue has
-     * no Current Entry afterwards either.
+     * Appends the Playables at the end of the entries. The Current Entry and the Queue State stay, a Queue without a
+     * Current Entry, e.g. an empty one, makes the first appended Playable its Current Entry and stays Idle.
      * @param playables The Playables in the order they shall be appended.
      */
     void append(Items const& playables) noexcept;
+
+    /**
+     * Inserts the Playables right after the Current Entry, so they play next. The Current Entry and the Queue State
+     * stay. A Queue without a Current Entry, e.g. an empty one, appends them and makes the first one its Current
+     * Entry, it stays Idle.
+     * @param playables The Playables in the order they shall be played.
+     */
+    void playNext(Items const& playables) noexcept;
+
+    /**
+     * Appends a Playable, or all Playables in a Container, of the Source at the end of the entries, like
+     * @ref Multimedia::Queue::append(Items const&).
+     * A Container is collected first: all Playables inside it, including those in nested Containers, depth-first in
+     * Source order and without a cap, page by page through @ref Multimedia::Source::browsePage. The Queue only
+     * changes when the collection completes, see @ref Multimedia::Queue::isCollecting.
+     * @param source The Source of the Item.
+     * @param item The Playable or the Container to append.
+     */
+    void append(std::shared_ptr<Source> const& source, Item const& item) noexcept;
+
+    /**
+     * Inserts a Playable, or all Playables in a Container, of the Source right after the Current Entry, like
+     * @ref Multimedia::Queue::playNext(Items const&). They are inserted after the entry that is current when the
+     * collection of a Container completes, see @ref Multimedia::Queue::append(std::shared_ptr<Source> const&, Item
+     * const&).
+     * @param source The Source of the Item.
+     * @param item The Playable or the Container to play next.
+     */
+    void playNext(std::shared_ptr<Source> const& source, Item const& item) noexcept;
+
+    /**
+     * Gives whether the Playables of a Container are collected. Only one collection runs at a time, a new one cancels
+     * it. It ends when it completes, fails, see @ref Multimedia::Queue::collectionFailed, is cancelled or its Source
+     * disappears; the Queue only changes when it completes.
+     * @return True while the Playables of a Container are collected.
+     */
+    bool isCollecting() const noexcept;
+
+    /**
+     * Gives the Container whose Playables are collected.
+     * @return The collected Container, unset while nothing is collected.
+     */
+    std::optional<Item> collectedContainer() const noexcept;
+
+    /**
+     * Cancels the collection of a Container, the Queue stays unchanged. Does nothing while nothing is collected.
+     */
+    void cancelCollection() noexcept;
 
     /**
      * Gives whether there is an entry before the Current Entry or the Current Entry can be restarted.
@@ -223,16 +271,17 @@ Q_SIGNALS:
     void entriesReplaced();
 
     /**
-     * This signal is emitted before Playables are appended.
-     * @param first The index the first appended Playable will have.
-     * @param last The index the last appended Playable will have.
+     * This signal is emitted before Playables are inserted, e.g. appended.
+     * @param first The index the first inserted Playable will have.
+     * @param last The index the last inserted Playable will have.
      */
-    void entriesAboutToBeAppended(qsizetype first, qsizetype last);
+    void entriesAboutToBeInserted(qsizetype first, qsizetype last);
 
     /**
-     * This signal is emitted after Playables are appended.
+     * This signal is emitted after Playables are inserted. The Current Entry stays, its index may have changed.
+     * A Queue without a Current Entry notifies its new Current Entry afterwards.
      */
-    void entriesAppended();
+    void entriesInserted();
 
     /**
      * This signal is emitted before an entry is removed.
@@ -279,7 +328,40 @@ Q_SIGNALS:
      */
     void playsCurrentEntryChanged();
 
+    /**
+     * This signal is emitted when a collection of a Container started or ended.
+     */
+    void collectingChanged();
+
+    /**
+     * This signal is emitted when the collection of a Container failed because a page failed, the Queue is unchanged.
+     * @param container The Container whose Playables couldn't be collected.
+     */
+    void collectionFailed(Multimedia::Item const& container);
+
 private:
+    /**
+     * Where collected Playables are added.
+     */
+    enum class Placement
+    {
+        Next,
+        End,
+    };
+
+    /**
+     * A Container whose Playables are collected, in the order they are found.
+     */
+    struct Collection;
+
+    void insert(qsizetype index, Items const& playables) noexcept;
+    void place(Items const& playables, Placement placement) noexcept;
+    void add(std::shared_ptr<Source> const& source, Item const& item, Placement placement) noexcept;
+    void continueCollection() noexcept;
+    void onPageFinished() noexcept;
+    bool takePage() noexcept;
+    void endCollection() noexcept;
+
     bool isInControl() const noexcept;
     bool isRendererOnCurrentEntry() const noexcept;
     void onRendererStateChanged() noexcept;
@@ -299,6 +381,7 @@ private:
     std::optional<std::chrono::milliseconds> mLastKnownDuration;
     Queue::State mState = Queue::State::Idle;
     bool mPlaysCurrentEntry = false;
+    std::unique_ptr<Collection> mCollection;
 };
 
 } // namespace Multimedia

@@ -146,6 +146,39 @@ void MediaItemModel::activateMediaItem(qsizetype idx, qsizetype scrollPosition) 
     Q_EMIT playRequested(item);
 }
 
+void MediaItemModel::playMediaItemNext(qsizetype idx) noexcept
+{
+    if (auto const item = itemForQueue(idx); item.has_value()) {
+        Q_EMIT playNextRequested(mMediaSrc, *item);
+    }
+}
+
+void MediaItemModel::addMediaItemToQueue(qsizetype idx) noexcept
+{
+    if (auto const item = itemForQueue(idx); item.has_value()) {
+        Q_EMIT addToQueueRequested(mMediaSrc, *item);
+    }
+}
+
+std::optional<Multimedia::Item> MediaItemModel::itemForQueue(qsizetype idx) const noexcept
+{
+    if (mMediaSrc == nullptr) {
+        qCritical(shell) << "Failed to add a MediaItem to the Queue. Error: MediaSource is not set.";
+        return std::nullopt;
+    }
+
+    if (isBusy()) {
+        return std::nullopt;
+    }
+
+    auto const& items = mMediaSrc->mediaItems();
+    if (idx >= items.size() or idx < 0) {
+        qCritical(shell) << "Failed to add a MediaItem to the Queue. Error: Invalid MediaItem index" << idx;
+        return std::nullopt;
+    }
+    return items.at(idx);
+}
+
 void MediaItemModel::navigateBack() noexcept
 {
     if (mMediaSrc == nullptr) {

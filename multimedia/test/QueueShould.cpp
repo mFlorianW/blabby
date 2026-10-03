@@ -8,6 +8,7 @@
 #include "Item.hpp"
 #include "PositionInfoResponse.hpp"
 #include "SoapBackendDouble.hpp"
+#include "TestSource.hpp"
 #include <QSignalSpy>
 #include <QTest>
 #include <QTime>
@@ -33,6 +34,45 @@ Item playable(QString const& title)
 Items album()
 {
     return {playable(QStringLiteral("Intro")), playable(QStringLiteral("Harbour")), playable(QStringLiteral("Outro"))};
+}
+
+Item container(QString const& title, QString const& path)
+{
+    return ItemBuilder{}.withItemType(ItemType::Container).withMainText(title).withPath(path).build();
+}
+
+/**
+ * Gives a Source with an artist whose albums, a single and a nested Container hold the Playables "1" to "6":
+ * Artist (a) = [Album A (a1) = [1, 2], 3, Album B (a2) = [4, Disc 2 (a2d) = [5], 6]]
+ */
+std::shared_ptr<TestHelper::TestSource> createArtistSource()
+{
+    auto source = std::make_shared<TestHelper::TestSource>(QStringLiteral("NAS"), QString{});
+    source->setItems(QStringLiteral("a"),
+                     {container(QStringLiteral("Album A"), QStringLiteral("a1")),
+                      playable(QStringLiteral("3")),
+                      container(QStringLiteral("Album B"), QStringLiteral("a2"))});
+    source->setItems(QStringLiteral("a1"), {playable(QStringLiteral("1")), playable(QStringLiteral("2"))});
+    source->setItems(QStringLiteral("a2"),
+                     {playable(QStringLiteral("4")),
+                      container(QStringLiteral("Disc 2"), QStringLiteral("a2d")),
+                      playable(QStringLiteral("6"))});
+    source->setItems(QStringLiteral("a2d"), {playable(QStringLiteral("5"))});
+    return source;
+}
+
+Item artist()
+{
+    return container(QStringLiteral("Artist"), QStringLiteral("a"));
+}
+
+Items playables(QStringList const& titles)
+{
+    auto items = Items{};
+    for (auto const& title : titles) {
+        items.append(playable(title));
+    }
+    return items;
 }
 
 QString uriOf(QString const& title)
@@ -562,8 +602,8 @@ void QueueShould::append_the_playables_at_the_end_and_keep_the_current_entry()
 void QueueShould::notify_about_an_append()
 {
     mQueue->replace(album(), 0);
-    auto aboutToBeAppendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAboutToBeAppended};
-    auto appendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAppended};
+    auto aboutToBeAppendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAboutToBeInserted};
+    auto appendedSpy = QSignalSpy{mQueue.get(), &Queue::entriesInserted};
     auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
 
     mQueue->append({playable(QStringLiteral("Bonus")), playable(QStringLiteral("Hidden"))});
@@ -576,13 +616,312 @@ void QueueShould::notify_about_an_append()
     QCOMPARE(currentEntryChangedSpy.size(), 0);
 }
 
-void QueueShould::append_to_an_empty_queue_without_a_current_entry()
+void QueueShould::make_the_first_added_playable_current_on_an_empty_queue_data()
 {
-    mQueue->append({playable(QStringLiteral("Bonus"))});
+    QTest::addColumn<bool>("playNext");
 
-    QCOMPARE(mQueue->entries(), Items{playable(QStringLiteral("Bonus"))});
-    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QTest::newRow("play next") << true;
+    QTest::newRow("add to the end") << false;
+}
+
+void QueueShould::make_the_first_added_playable_current_on_an_empty_queue()
+{
+    QFETCH(bool, playNext);
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    if (playNext) {
+        mQueue->playNext(playables({QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+    } else {
+        mQueue->append(playables({QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+    }
+
+    QCOMPARE(mQueue->entries(), playables({QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(currentEntryChangedSpy.size(), 1);
     QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::insert_the_playables_after_the_current_entry_on_play_next()
+{
+    mQueue->replace(album(), 0);
+    mDevice->reset();
+
+    mQueue->playNext(playables({QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("Intro"),
+                        QStringLiteral("Bonus"),
+                        QStringLiteral("Hidden"),
+                        QStringLiteral("Harbour"),
+                        QStringLiteral("Outro")}));
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::notify_about_play_next()
+{
+    mQueue->replace(album(), 1);
+    auto aboutToBeInsertedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAboutToBeInserted};
+    auto insertedSpy = QSignalSpy{mQueue.get(), &Queue::entriesInserted};
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->playNext(playables({QStringLiteral("Bonus"), QStringLiteral("Hidden")}));
+    mQueue->playNext({});
+
+    QCOMPARE(aboutToBeInsertedSpy.size(), 1);
+    QCOMPARE(aboutToBeInsertedSpy.at(0).at(0).value<qsizetype>(), 2);
+    QCOMPARE(aboutToBeInsertedSpy.at(0).at(1).value<qsizetype>(), 3);
+    QCOMPARE(insertedSpy.size(), 1);
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+}
+
+void QueueShould::append_on_play_next_without_a_current_entry()
+{
+    mQueue->replace(album(), 2);
+    // Removing the last entry while it's current leaves the entries before it without a Current Entry.
+    mQueue->remove(2);
+
+    mQueue->playNext({playable(QStringLiteral("Bonus"))});
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("Intro"), QStringLiteral("Harbour"), QStringLiteral("Bonus")}));
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::add_a_playable_of_a_source_without_collecting_it_data()
+{
+    QTest::addColumn<bool>("playNext");
+    QTest::addColumn<Items>("expectedEntries");
+
+    QTest::newRow("play next") << true
+                               << playables({QStringLiteral("Intro"),
+                                             QStringLiteral("Bonus"),
+                                             QStringLiteral("Harbour"),
+                                             QStringLiteral("Outro")});
+    QTest::newRow("add to the end") << false
+                                    << playables({QStringLiteral("Intro"),
+                                                  QStringLiteral("Harbour"),
+                                                  QStringLiteral("Outro"),
+                                                  QStringLiteral("Bonus")});
+}
+
+void QueueShould::add_a_playable_of_a_source_without_collecting_it()
+{
+    QFETCH(bool, playNext);
+    QFETCH(Items, expectedEntries);
+    auto const source = createArtistSource();
+    mQueue->replace(album(), 0);
+
+    if (playNext) {
+        mQueue->playNext(source, playable(QStringLiteral("Bonus")));
+    } else {
+        mQueue->append(source, playable(QStringLiteral("Bonus")));
+    }
+
+    QCOMPARE(mQueue->entries(), expectedEntries);
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(source->browsedPageCount(), 0);
+}
+
+void QueueShould::collect_the_playables_of_a_container_depth_first_in_source_order_data()
+{
+    QTest::addColumn<bool>("playNext");
+    QTest::addColumn<Items>("expectedEntries");
+
+    auto const collected = playables({QStringLiteral("1"),
+                                      QStringLiteral("2"),
+                                      QStringLiteral("3"),
+                                      QStringLiteral("4"),
+                                      QStringLiteral("5"),
+                                      QStringLiteral("6")});
+    QTest::newRow("play next") << true
+                               << Items{playable(QStringLiteral("Intro"))} + collected +
+                                      playables({QStringLiteral("Harbour"), QStringLiteral("Outro")});
+    QTest::newRow("add to the end") << false << album() + collected;
+}
+
+void QueueShould::collect_the_playables_of_a_container_depth_first_in_source_order()
+{
+    QFETCH(bool, playNext);
+    QFETCH(Items, expectedEntries);
+    auto const source = createArtistSource();
+    mQueue->replace(album(), 0);
+    mDevice->reset();
+
+    if (playNext) {
+        mQueue->playNext(source, artist());
+    } else {
+        mQueue->append(source, artist());
+    }
+
+    QCOMPARE(mQueue->entries(), expectedEntries);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::collect_a_container_over_several_pages()
+{
+    auto const source = createArtistSource();
+    source->setItems(QStringLiteral("a1"),
+                     playables({QStringLiteral("1a"),
+                                QStringLiteral("1b"),
+                                QStringLiteral("1c"),
+                                QStringLiteral("1d"),
+                                QStringLiteral("1e")}));
+    source->setPageSize(2);
+
+    mQueue->append(source, artist());
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("1a"),
+                        QStringLiteral("1b"),
+                        QStringLiteral("1c"),
+                        QStringLiteral("1d"),
+                        QStringLiteral("1e"),
+                        QStringLiteral("3"),
+                        QStringLiteral("4"),
+                        QStringLiteral("5"),
+                        QStringLiteral("6")}));
+    // Artist: 2 pages, Album A: 3 pages, Album B: 2 pages, Disc 2: 1 page.
+    QCOMPARE(source->browsedPageCount(), 8);
+}
+
+void QueueShould::collect_a_container_that_contains_itself_only_once()
+{
+    auto const source = createArtistSource();
+    // A MediaServer may reference a Container inside itself, e.g. through a playlist.
+    source->setItems(QStringLiteral("a1"), {playable(QStringLiteral("1")), artist(), playable(QStringLiteral("2"))});
+
+    mQueue->append(source, artist());
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("1"),
+                        QStringLiteral("2"),
+                        QStringLiteral("3"),
+                        QStringLiteral("4"),
+                        QStringLiteral("5"),
+                        QStringLiteral("6")}));
+    QCOMPARE(mQueue->isCollecting(), false);
+}
+
+void QueueShould::change_only_when_the_collection_completes()
+{
+    auto const source = createArtistSource();
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+    auto collectingChangedSpy = QSignalSpy{mQueue.get(), &Queue::collectingChanged};
+    auto aboutToBeInsertedSpy = QSignalSpy{mQueue.get(), &Queue::entriesAboutToBeInserted};
+
+    mQueue->append(source, artist());
+    QCOMPARE(mQueue->isCollecting(), true);
+    QCOMPARE(mQueue->collectedContainer(), std::optional{artist()});
+    QCOMPARE(collectingChangedSpy.size(), 1);
+    // Artist, Album A, Album B and Disc 2.
+    for (auto page = 0; page < 3; ++page) {
+        source->finishPendingPage();
+        QCOMPARE(mQueue->entries(), album());
+        QCOMPARE(aboutToBeInsertedSpy.size(), 0);
+    }
+    source->finishPendingPage();
+
+    QCOMPARE(aboutToBeInsertedSpy.size(), 1);
+    QCOMPARE(mQueue->entries().size(), 9);
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(mQueue->collectedContainer(), std::nullopt);
+    QCOMPARE(collectingChangedSpy.size(), 2);
+}
+
+void QueueShould::insert_a_collected_container_after_the_current_entry_at_completion()
+{
+    auto const source = createArtistSource();
+    source->setItems(QStringLiteral("a"), playables({QStringLiteral("1"), QStringLiteral("2")}));
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+
+    mQueue->playNext(source, artist());
+    mQueue->play(1);
+    source->finishPendingPage();
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("Intro"),
+                        QStringLiteral("Harbour"),
+                        QStringLiteral("1"),
+                        QStringLiteral("2"),
+                        QStringLiteral("Outro")}));
+}
+
+void QueueShould::leave_the_queue_unchanged_and_report_a_failed_collection()
+{
+    auto const source = createArtistSource();
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+    auto collectionFailedSpy = QSignalSpy{mQueue.get(), &Queue::collectionFailed};
+
+    mQueue->append(source, artist());
+    source->finishPendingPage();
+    source->failPendingPage();
+
+    QCOMPARE(collectionFailedSpy.size(), 1);
+    QCOMPARE(collectionFailedSpy.at(0).at(0).value<Item>(), artist());
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(source->pendingPageCount(), 0);
+    QCOMPARE(source->browsedPageCount(), 2);
+}
+
+void QueueShould::cancel_a_collection()
+{
+    auto const source = createArtistSource();
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+    auto collectionFailedSpy = QSignalSpy{mQueue.get(), &Queue::collectionFailed};
+
+    mQueue->append(source, artist());
+    source->finishPendingPage();
+    auto collectingChangedSpy = QSignalSpy{mQueue.get(), &Queue::collectingChanged};
+    mQueue->cancelCollection();
+
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(collectingChangedSpy.size(), 1);
+    QCOMPARE(source->pendingPageCount(), 0);
+    QCOMPARE(collectionFailedSpy.size(), 0);
+    QCOMPARE(mQueue->entries(), album());
+}
+
+void QueueShould::cancel_a_collection_by_a_new_one()
+{
+    auto const source = createArtistSource();
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+
+    mQueue->append(source, artist());
+    mQueue->append(source, container(QStringLiteral("Album A"), QStringLiteral("a1")));
+    QCOMPARE(source->pendingPageCount(), 1);
+    source->finishPendingPage();
+
+    QCOMPARE(mQueue->entries(), album() + playables({QStringLiteral("1"), QStringLiteral("2")}));
+    QCOMPARE(mQueue->isCollecting(), false);
+}
+
+void QueueShould::abort_a_collection_when_its_source_disappears()
+{
+    auto source = createArtistSource();
+    source->setHoldPages(true);
+    mQueue->replace(album(), 0);
+    auto collectionFailedSpy = QSignalSpy{mQueue.get(), &Queue::collectionFailed};
+
+    mQueue->append(source, artist());
+    auto collectingChangedSpy = QSignalSpy{mQueue.get(), &Queue::collectingChanged};
+    source.reset();
+
+    QCOMPARE(mQueue->isCollecting(), false);
+    QCOMPARE(collectingChangedSpy.size(), 1);
+    QCOMPARE(collectionFailedSpy.size(), 0);
+    QCOMPARE(mQueue->entries(), album());
 }
 
 void QueueShould::remove_an_entry_that_is_not_current_without_affecting_playback_data()

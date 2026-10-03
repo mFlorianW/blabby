@@ -12,6 +12,7 @@ import Blabby.Theme
  * Without artwork, or when the artwork can't be loaded, a placeholder carries a folder glyph for a Container and
  * a note glyph for a Playable. The placeholder is tinted in one of the placeholder tones of the Theme, picked from the
  * title, so the tones look mixed across the tiles and a tile keeps its tone when it is created anew, e.g. on scrolling. The secondary text, e.g. the artist, is only shown when there is one.
+ * A more button beside the title opens the menu of the Item, a tap on it doesn't click the tile.
  */
 AbstractInteractiveControl {
     id: tile
@@ -35,6 +36,16 @@ AbstractInteractiveControl {
      * The URL of the artwork of the Item, e.g. the album art, empty when it has none.
      */
     property url artworkUrl
+
+    /**
+     * This signal is emitted when the more button is clicked, to open the menu of the Item.
+     */
+    signal moreClicked
+
+    /**
+     * The more button, the menu of the Item drops down under it.
+     */
+    readonly property alias moreButton: moreButton
 
     /**
      * True when the artwork is loaded and shown instead of the placeholder glyph.
@@ -82,8 +93,7 @@ AbstractInteractiveControl {
         anchors.topMargin: 8
         anchors.left: tile.left
         anchors.leftMargin: 4
-        anchors.right: tile.right
-        anchors.rightMargin: 4
+        anchors.right: moreButton.left
         text: tile.title
         color: Theme.colors.colorOnSurface
         textStyle: Theme.fonts.titleMedium
@@ -99,5 +109,16 @@ AbstractInteractiveControl {
         color: Theme.colors.colorOnSurfaceVariant
         textStyle: Theme.fonts.bodyMedium
         visible: tile.secondaryText !== ""
+    }
+
+    IconButton {
+        id: moreButton
+        objectName: "moreButton"
+        anchors.top: placeholder.bottom
+        anchors.right: tile.right
+        // The icon lines up with the right edge of the artwork, the touch target reaches beyond it.
+        anchors.rightMargin: -12
+        iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/more_vert.svg"
+        onClicked: tile.moreClicked()
     }
 }

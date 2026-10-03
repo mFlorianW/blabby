@@ -27,6 +27,8 @@ private Q_SLOTS:
     void have_no_more_items_to_load_unless_paged();
     void navigate_with_a_minimum_item_count();
     void navigate_back_with_a_minimum_item_count();
+    void give_a_finished_page_without_items_unless_paged();
+    void finish_a_page_only_once();
 };
 
 } // namespace Multimedia

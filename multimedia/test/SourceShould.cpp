@@ -14,6 +14,21 @@ using namespace Multimedia::TestHelper;
 namespace Multimedia
 {
 
+namespace
+{
+/**
+ * A Source that isn't paged and keeps the default implementations.
+ */
+class PlainSource final : public Source
+{
+public:
+    PlainSource()
+        : Source{QStringLiteral("Plain")}
+    {
+    }
+};
+} // namespace
+
 MediaSourceShould::MediaSourceShould() = default;
 MediaSourceShould::~MediaSourceShould() = default;
 
@@ -174,6 +189,33 @@ void MediaSourceShould::navigate_back_with_a_minimum_item_count()
     // Navigating forward reloads the first page only.
     mediaSource.navigateForward();
     QCOMPARE(mediaSource.lastMinimumItemCount(), 0);
+}
+
+void MediaSourceShould::give_a_finished_page_without_items_unless_paged()
+{
+    auto source = PlainSource{};
+
+    auto const page = source.browsePage(QStringLiteral("1"), 0);
+
+    QCOMPARE(page->isFinished(), true);
+    QCOMPARE(page->hasFailed(), false);
+    QCOMPARE(page->items(), Items{});
+}
+
+void MediaSourceShould::finish_a_page_only_once()
+{
+    auto page = PendingPage{};
+    auto const finishedSpy = QSignalSpy{&page, &PendingPage::finished};
+
+    page.finish({Item{ItemType::Playable, QStringLiteral("Song")}}, 3);
+    page.fail();
+    page.finish({}, 0);
+
+    QCOMPARE(finishedSpy.size(), 1);
+    QCOMPARE(page.hasFailed(), false);
+    auto const expectedItems = Items{Item{ItemType::Playable, QStringLiteral("Song")}};
+    QCOMPARE(page.items(), expectedItems);
+    QCOMPARE(page.totalItemCount(), 3);
 }
 
 } // namespace Multimedia

@@ -70,6 +70,38 @@ Multimedia::Items itemsOf(UPnPAV::BrowseResponse const& response)
     }
     return items;
 }
+/**
+ * A page browsed independent of the navigation, it holds the Browse request so that it can outlive the Source.
+ */
+class BrowsedPage final : public Multimedia::PendingPage
+{
+public:
+    explicit BrowsedPage(std::unique_ptr<UPnPAV::PendingSoapCall> request)
+        : mRequest{std::move(request)}
+    {
+        QObject::connect(mRequest.get(), &UPnPAV::PendingSoapCall::finished, this, &BrowsedPage::onRequestFinished);
+    }
+
+    ~BrowsedPage() override = default;
+
+    Q_DISABLE_COPY_MOVE(BrowsedPage)
+
+private:
+    void onRequestFinished() noexcept
+    {
+        if (mRequest->hasError()) {
+            qCritical(mediaServerSource) << "Browse request of a page failed with error: Error Code:"
+                                         << mRequest->errorCode() << "Error Message:" << mRequest->errorDescription();
+            fail();
+            return;
+        }
+
+        auto const result = mRequest->resultAs<UPnPAV::BrowseResponse>();
+        finish(itemsOf(*result), qsizetype{result->totalMatches()});
+    }
+
+    std::unique_ptr<UPnPAV::PendingSoapCall> mRequest;
+};
 } // namespace
 
 Source::Source(std::unique_ptr<UPnPAV::MediaServer> mediaServer)
@@ -99,15 +131,27 @@ void Source::loadMore() noexcept
     browse(mCurrentPath, BrowseKind::NextPage, mMediaItems.size(), PageSize);
 }
 
+std::unique_ptr<Multimedia::PendingPage> Source::browsePage(QString const& path, qsizetype startIndex) noexcept
+{
+    return std::make_unique<BrowsedPage>(requestPage(path, startIndex, PageSize));
+}
+
+std::unique_ptr<UPnPAV::PendingSoapCall> Source::requestPage(QString const& path,
+                                                             qsizetype startingIndex,
+                                                             qsizetype requestedCount) noexcept
+{
+    return mServer->browse(path,
+                           UPnPAV::MediaServer::BrowseFlag::DirectChildren,
+                           BrowseFilter,
+                           QString(""),
+                           static_cast<quint32>(startingIndex),
+                           static_cast<quint32>(std::max(requestedCount, qsizetype{PageSize})));
+}
+
 void Source::browse(QString const& path, BrowseKind kind, qsizetype startingIndex, qsizetype requestedCount) noexcept
 {
     mBrowseRequest = {
-        .mRequest = mServer->browse(path,
-                                    UPnPAV::MediaServer::BrowseFlag::DirectChildren,
-                                    BrowseFilter,
-                                    QString(""),
-                                    static_cast<quint32>(startingIndex),
-                                    static_cast<quint32>(std::max(requestedCount, qsizetype{PageSize}))),
+        .mRequest = requestPage(path, startingIndex, requestedCount),
         .mKind = kind,
         .mPending = true,
     };

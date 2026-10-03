@@ -36,6 +36,11 @@ public:
      */
     void loadMore() noexcept override;
 
+    /**
+     * @copydoc Multimedia::Source::browsePage(QString const&, qsizetype)
+     */
+    std::unique_ptr<Multimedia::PendingPage> browsePage(QString const& path, qsizetype startIndex) noexcept override;
+
 protected:
     /**
      * @copydoc Multimedia::Source::navigate(QString, qsizetype)
@@ -72,6 +77,12 @@ private:
         bool mPending{false};
     };
 
+    /**
+     * Requests the direct children of the Container at the path, at least a page of them.
+     */
+    std::unique_ptr<UPnPAV::PendingSoapCall> requestPage(QString const& path,
+                                                         qsizetype startingIndex,
+                                                         qsizetype requestedCount) noexcept;
     void browse(QString const& path, BrowseKind kind, qsizetype startingIndex, qsizetype requestedCount) noexcept;
     void finishNavigationPage(Multimedia::Items page, qsizetype totalMatches) noexcept;
     void finishNextPage(Multimedia::Items page, qsizetype totalMatches) noexcept;
