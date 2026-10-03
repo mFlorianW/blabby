@@ -26,8 +26,11 @@ private:
     void finishEntry(QString const& uri);
     void reportPlayedFor(QString const& uri, std::chrono::seconds elapsed);
     void makeIdle(qsizetype currentIndex);
+    std::shared_ptr<Renderer> createBathroom();
+    void handOverToBathroom(bool seekSupported, QString const& duration, QString const& position);
 
     UPnPAV::Doubles::MediaRendererDouble* mDevice = nullptr;
+    UPnPAV::Doubles::MediaRendererDouble* mBathroomDevice = nullptr;
     UPnPAV::ClockDouble* mClock = nullptr;
     std::shared_ptr<Renderer> mRenderer;
     std::unique_ptr<Queue> mQueue;
@@ -105,6 +108,23 @@ private Q_SLOTS:
     void play_the_restored_current_entry_again_when_it_played_before_data();
     void play_the_restored_current_entry_again_when_it_played_before();
     void restore_an_idle_queue_without_playing();
+    void hand_over_a_running_queue_to_the_new_active_renderer_data();
+    void hand_over_a_running_queue_to_the_new_active_renderer();
+    void hand_over_a_running_queue_after_another_controller_took_over();
+    void not_hand_over_an_idle_queue();
+    void play_a_stream_from_its_start_on_a_hand_over();
+    void stop_the_previous_renderer_while_it_loads_the_current_entry_on_a_hand_over();
+    void not_stop_a_renderer_the_queue_was_still_handed_over_to();
+    void become_idle_when_the_new_renderer_fails_to_initialize_on_a_hand_over();
+    void not_hand_over_when_paused_during_a_pending_hand_over();
+    void become_idle_and_keep_the_current_entry_when_the_active_renderer_goes_offline();
+    void become_idle_when_the_active_renderer_is_unset();
+    void pause_the_renderer_and_become_idle_on_toggle_while_it_plays_data();
+    void pause_the_renderer_and_become_idle_on_toggle_while_it_plays();
+    void resume_the_current_entry_and_run_on_toggle();
+    void continue_the_current_entry_at_the_last_known_position_on_toggle_of_an_idle_queue();
+    void resume_the_renderer_on_toggle_of_an_empty_queue();
+    void ignore_toggling_while_a_playback_control_is_pending_or_transitioning();
 };
 
 } // namespace Multimedia

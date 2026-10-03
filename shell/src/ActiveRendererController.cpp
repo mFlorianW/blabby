@@ -83,19 +83,6 @@ bool ActiveRendererController::isTransitioning() const noexcept
     return mRenderer != nullptr and mRenderer->isTransitioning();
 }
 
-void ActiveRendererController::togglePlayback() noexcept
-{
-    if (mRenderer == nullptr or mRenderer->isPlaybackControlPending() or mRenderer->isTransitioning()) {
-        return;
-    }
-
-    if (mRenderer->state() == Renderer::State::Playing) {
-        mRenderer->stop();
-    } else {
-        mRenderer->resume();
-    }
-}
-
 qint64 ActiveRendererController::position() const noexcept
 {
     return mRenderer != nullptr ? mRenderer->position().count() : 0;

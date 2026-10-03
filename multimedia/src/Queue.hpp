@@ -74,6 +74,12 @@ public:
     /**
      * Sets the Active Renderer the Queue plays on and follows, e.g. when the user picked another one.
      * The Queue initializes the Renderer and tracks its position.
+     * A Running Queue is handed over: the previous Renderer is stopped, also when another controller took it over, and
+     * the new one plays the Current Entry once it's initialized, at the last known position when it can seek and from
+     * its start otherwise. A previous Renderer the Queue was still being handed over to is left alone. The Queue
+     * becomes Idle when the new Renderer fails to initialize. An Idle Queue isn't handed over, it starts nothing on the
+     * new Renderer. Without a new Active Renderer or when it's Offline the Queue becomes Idle. The Queue also becomes
+     * Idle when its Active Renderer goes Offline. The Current Entry and its last known position are kept in both cases.
      * @param renderer The Active Renderer, nullptr when there is none.
      */
     void setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept;
@@ -221,6 +227,18 @@ public:
     void next() noexcept;
 
     /**
+     * Toggles the playback on the Active Renderer through the Queue.
+     * A playing Renderer is paused, or stopped when it can't pause, and the Queue becomes Idle, also when another
+     * controller took the Renderer over.
+     * Otherwise an Idle Queue whose Current Entry isn't on the Renderer loads it again and continues it at the last
+     * known position when the Renderer can seek, the Queue is Running. In all other cases the Renderer resumes what it
+     * is on, the Queue is Running afterwards when that is the Current Entry. Play is ignored while a Hand Over is
+     * pending, the Hand Over plays the Current Entry.
+     * Nothing happens without an Active Renderer or while it's transitioning or a stop or resume is pending.
+     */
+    void togglePlayback() noexcept;
+
+    /**
      * Removes the entry at the index, the other entries keep their order.
      * Removing an entry that isn't the Current Entry doesn't affect the playback.
      * Removing the Current Entry makes the following entry the Current Entry, which plays from its start when the
@@ -366,7 +384,13 @@ private:
     bool isRendererOnCurrentEntry() const noexcept;
     void onRendererStateChanged() noexcept;
     void recordPosition() noexcept;
+    void onAvailabilityChanged() noexcept;
+    void onInitializationFinished() noexcept;
+    void onInitializationFailed() noexcept;
+    void cancelPendingHandOver() noexcept;
+    void seekToPendingPosition() noexcept;
     void playCurrentEntry() noexcept;
+    void loadCurrentEntryAtLastKnownPosition() noexcept;
     void restartCurrentEntry() noexcept;
     void startCurrentEntry() noexcept;
     void updatePlaysCurrentEntry() noexcept;
@@ -382,6 +406,8 @@ private:
     Queue::State mState = Queue::State::Idle;
     bool mPlaysCurrentEntry = false;
     std::unique_ptr<Collection> mCollection;
+    bool mHandOverPending = false;
+    std::optional<std::chrono::milliseconds> mPendingSeek;
 };
 
 } // namespace Multimedia

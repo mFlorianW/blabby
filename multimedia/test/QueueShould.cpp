@@ -143,6 +143,25 @@ void QueueShould::makeIdle(qsizetype currentIndex)
     mDevice->reset();
 }
 
+std::shared_ptr<Renderer> QueueShould::createBathroom()
+{
+    auto device = createDevice(QStringLiteral("Bathroom"), QStringLiteral("uuid:bathroom"));
+    mBathroomDevice = device.get();
+    return std::make_shared<Renderer>(std::move(device), std::make_unique<ClockDouble>());
+}
+
+void QueueShould::handOverToBathroom(bool seekSupported, QString const& duration, QString const& position)
+{
+    mQueue->setActiveRenderer(createBathroom());
+    mBathroomDevice->setRelTimeSeekEnabled(seekSupported);
+    Q_EMIT mBathroomDevice->protocolInfoCall()->finished();
+    Q_EMIT mBathroomDevice->avTransportUriCall()->finished();
+    mBathroomDevice->setCurrentTrack(uriOf(QStringLiteral("Harbour")), QString{});
+    mBathroomDevice->setDeviceState(MediaDevice::State::Playing);
+    mBathroomDevice->finishPositionInfoCall(
+        positionInfoResponse(uriOf(QStringLiteral("Harbour")), QString{}, duration, position));
+}
+
 void QueueShould::be_empty_and_idle_at_start()
 {
     auto queue = Queue{};
@@ -1229,6 +1248,244 @@ void QueueShould::restore_an_idle_queue_without_playing()
     QCOMPARE(currentEntryChangedSpy.size(), 1);
     QCOMPARE(mQueue->state(), Queue::State::Idle);
     QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::hand_over_a_running_queue_to_the_new_active_renderer_data()
+{
+    QTest::addColumn<bool>("seekSupported");
+
+    QTest::newRow("with seek support") << true;
+    QTest::newRow("without seek support") << false;
+}
+
+void QueueShould::hand_over_a_running_queue_to_the_new_active_renderer()
+{
+    QFETCH(bool, seekSupported);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+
+    handOverToBathroom(seekSupported, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+
+    QCOMPARE(mDevice->isStopCalled(), true);
+    QCOMPARE(mBathroomDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mBathroomDevice->isPlayCalled(), true);
+    auto const expectedSeek = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "0:01:20"};
+    QCOMPARE(mBathroomDevice->seekData(), seekSupported ? std::optional{expectedSeek} : std::nullopt);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::hand_over_a_running_queue_after_another_controller_took_over()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+    report(QStringLiteral("http://radio.example/stream.mp3"), QStringLiteral("0:00:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+
+    handOverToBathroom(true, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+
+    auto const expectedSeek = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "0:01:20"};
+    QCOMPARE(mDevice->isStopCalled(), true);
+    QCOMPARE(mBathroomDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mBathroomDevice->seekData(), std::optional{expectedSeek});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::play_a_stream_from_its_start_on_a_hand_over()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+
+    // Without a duration the new Renderer can't seek, the position is recorded right away.
+    handOverToBathroom(true, QStringLiteral("0:00:00"), QStringLiteral("0:00:05"));
+
+    QCOMPARE(mBathroomDevice->seekData(), std::nullopt);
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{5'000});
+}
+
+void QueueShould::stop_the_previous_renderer_while_it_loads_the_current_entry_on_a_hand_over()
+{
+    mQueue->replace(album(), 1);
+
+    mQueue->setActiveRenderer(createBathroom());
+
+    QCOMPARE(mDevice->isStopCalled(), true);
+}
+
+void QueueShould::not_stop_a_renderer_the_queue_was_still_handed_over_to()
+{
+    mQueue->replace(album(), 1);
+    auto const bathroom = createBathroom();
+    auto* const bathroomDevice = mBathroomDevice;
+    mQueue->setActiveRenderer(bathroom);
+    // Another controller plays on the Bathroom before the Hand Over to it is done.
+    bathroomDevice->setDeviceState(MediaDevice::State::Playing);
+
+    mQueue->setActiveRenderer(mRenderer);
+
+    QCOMPARE(bathroomDevice->isStopCalled(), false);
+    QCOMPARE(bathroomDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::become_idle_when_the_new_renderer_fails_to_initialize_on_a_hand_over()
+{
+    mQueue->replace(album(), 1);
+    mQueue->setActiveRenderer(createBathroom());
+
+    mBathroomDevice->protocolInfoCall()->setErrorState(true);
+    Q_EMIT mBathroomDevice->protocolInfoCall()->finished();
+
+    QCOMPARE(mBathroomDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+}
+
+void QueueShould::not_hand_over_when_paused_during_a_pending_hand_over()
+{
+    mQueue->replace(album(), 1);
+    mQueue->setActiveRenderer(createBathroom());
+    mBathroomDevice->setDeviceState(MediaDevice::State::Playing);
+
+    mQueue->togglePlayback();
+    Q_EMIT mBathroomDevice->protocolInfoCall()->finished();
+
+    QCOMPARE(mBathroomDevice->isStopCalled(), true);
+    QCOMPARE(mBathroomDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::not_hand_over_an_idle_queue()
+{
+    makeIdle(1);
+    mDevice->setDeviceState(MediaDevice::State::Playing);
+    auto const newRenderer = createBathroom();
+
+    mQueue->setActiveRenderer(newRenderer);
+    Q_EMIT mBathroomDevice->protocolInfoCall()->finished();
+
+    QCOMPARE(mDevice->isStopCalled(), false);
+    QCOMPARE(mBathroomDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::become_idle_and_keep_the_current_entry_when_the_active_renderer_goes_offline()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+    auto stateChangedSpy = QSignalSpy{mQueue.get(), &Queue::stateChanged};
+
+    mRenderer->goOffline();
+
+    QCOMPARE(stateChangedSpy.size(), 1);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{80'000});
+
+    // An Idle Queue isn't handed over to the next Active Renderer.
+    auto const newRenderer = createBathroom();
+    mQueue->setActiveRenderer(newRenderer);
+    Q_EMIT mBathroomDevice->protocolInfoCall()->finished();
+    QCOMPARE(mBathroomDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::become_idle_when_the_active_renderer_is_unset()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+
+    mQueue->setActiveRenderer(nullptr);
+
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{80'000});
+}
+
+void QueueShould::pause_the_renderer_and_become_idle_on_toggle_while_it_plays_data()
+{
+    QTest::addColumn<QString>("currentTrackUri");
+
+    QTest::newRow("Current Entry") << uriOf(QStringLiteral("Harbour"));
+    QTest::newRow("another controller") << QStringLiteral("http://radio.example/stream.mp3");
+}
+
+void QueueShould::pause_the_renderer_and_become_idle_on_toggle_while_it_plays()
+{
+    QFETCH(QString, currentTrackUri);
+    mQueue->replace(album(), 1);
+    report(currentTrackUri, QStringLiteral("0:03:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+    mDevice->setPauseEnabled(true);
+
+    mQueue->togglePlayback();
+
+    QCOMPARE(mDevice->isPauseCalled(), true);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::resume_the_current_entry_and_run_on_toggle()
+{
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+    mQueue->togglePlayback();
+    Q_EMIT mDevice->stopCall()->finished();
+    mDevice->setDeviceState(MediaDevice::State::Stopped);
+    mDevice->reset();
+
+    mQueue->togglePlayback();
+
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::continue_the_current_entry_at_the_last_known_position_on_toggle_of_an_idle_queue()
+{
+    mDevice->setRelTimeSeekEnabled(true);
+    mQueue->replace(album(), 1);
+    reportPlayedFor(uriOf(QStringLiteral("Harbour")), std::chrono::seconds{80});
+    report(QStringLiteral("http://other.example/song.mp3"), QStringLiteral("0:04:00"), QStringLiteral("0:00:10"));
+    mQueue->togglePlayback();
+    Q_EMIT mDevice->stopCall()->finished();
+    mDevice->setDeviceState(MediaDevice::State::Stopped);
+    mDevice->reset();
+
+    mQueue->togglePlayback();
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+
+    auto const expectedSeek = SeekData{.instanceId = 0, .mode = MediaDevice::SeekMode::RelTime, .target = "0:01:20"};
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mDevice->seekData(), std::optional{expectedSeek});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::resume_the_renderer_on_toggle_of_an_empty_queue()
+{
+    mDevice->setDeviceState(MediaDevice::State::PausedPlayback);
+
+    mQueue->togglePlayback();
+
+    QCOMPARE(mDevice->isPlayCalled(), true);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::ignore_toggling_while_a_playback_control_is_pending_or_transitioning()
+{
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:00:10"));
+    mDevice->reset();
+    mQueue->togglePlayback();
+    mDevice->setDeviceState(MediaDevice::State::Stopped);
+
+    mQueue->togglePlayback();
+    QCOMPARE(mDevice->isPlayCalled(), false);
+
+    Q_EMIT mDevice->stopCall()->finished();
+    mDevice->setDeviceState(MediaDevice::State::Transitioning);
+    mQueue->togglePlayback();
+    QCOMPARE(mDevice->isPlayCalled(), false);
 }
 
 } // namespace Multimedia
