@@ -99,7 +99,6 @@ Item {
             muteRequestedSpy.clear();
             seekRequestedSpy.clear();
             volumeRequestedSpy.clear();
-            nowPlayingViewTest.child("toast").hide();
             chooseRendererRequestedSpy.clear();
             queueRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
@@ -387,61 +386,6 @@ Item {
             nowPlayingViewTest.compare(togglePlaybackRequestedSpy.count, 1);
         }
 
-        function test_show_a_toast_when_a_control_call_failed_data() {
-            return [
-                {
-                    tag: "Play",
-                    action: Renderer.Play,
-                    message: "Couldn't play Kitchen"
-                },
-                {
-                    tag: "Resume",
-                    action: Renderer.Resume,
-                    message: "Couldn't resume Kitchen"
-                },
-                {
-                    tag: "Pause",
-                    action: Renderer.Pause,
-                    message: "Couldn't pause Kitchen"
-                },
-                {
-                    tag: "Stop",
-                    action: Renderer.Stop,
-                    message: "Couldn't stop Kitchen"
-                },
-                {
-                    tag: "Seek",
-                    action: Renderer.Seek,
-                    message: "Couldn't seek on Kitchen"
-                },
-                {
-                    tag: "ChangeVolume",
-                    action: Renderer.ChangeVolume,
-                    message: "Couldn't change the Volume of Kitchen"
-                },
-                {
-                    tag: "Mute",
-                    action: Renderer.Mute,
-                    message: "Couldn't mute Kitchen"
-                },
-                {
-                    tag: "Unmute",
-                    action: Renderer.Unmute,
-                    message: "Couldn't unmute Kitchen"
-                }
-            ];
-        }
-
-        /**
-         * Tests that a toast tells which control call on which Renderer failed.
-         */
-        function test_show_a_toast_when_a_control_call_failed(data) {
-            const toast = nowPlayingViewTest.child("toast");
-            nowPlayingView.showControlFailed("Kitchen", data.action);
-            nowPlayingViewTest.tryCompare(toast, "visible", true);
-            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, data.message);
-        }
-
         /**
          * Tests that the seek bar shows the elapsed and the total time and advances with every position update.
          */
@@ -505,18 +449,27 @@ Item {
         }
 
         /**
-         * Tests that the seek bar snaps back and a toast is shown when the seek failed.
+         * Tests that the seek bar snaps back to the position when the seek failed.
          */
         function test_snap_back_when_the_seek_failed() {
             nowPlayingViewTest.showTrack(Renderer.Playing);
             const slider = nowPlayingViewTest.child("seekSlider");
             nowPlayingViewTest.mouseClick(slider, slider.width / 2, slider.height / 2);
             nowPlayingViewTest.fuzzyCompare(slider.visualValue, 135500, 1000);
-            nowPlayingView.showControlFailed("Kitchen", Renderer.Seek);
+            nowPlayingView.handleControlFailed(Renderer.Seek);
             nowPlayingViewTest.compare(slider.visualValue, 102000);
-            const toast = nowPlayingViewTest.child("toast");
-            nowPlayingViewTest.tryCompare(toast, "visible", true);
-            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, "Couldn't seek on Kitchen");
+        }
+
+        /**
+         * Tests that the seek bar stays at the target when another control call failed.
+         */
+        function test_keep_the_seek_target_when_another_control_call_failed() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            const slider = nowPlayingViewTest.child("seekSlider");
+            nowPlayingViewTest.mouseClick(slider, slider.width / 2, slider.height / 2);
+            nowPlayingViewTest.fuzzyCompare(slider.visualValue, 135500, 1000);
+            nowPlayingView.handleControlFailed(Renderer.ChangeVolume);
+            nowPlayingViewTest.fuzzyCompare(slider.visualValue, 135500, 1000);
         }
 
         /**
@@ -795,21 +748,6 @@ Item {
             nowPlayingViewTest.compare(button.visible, true);
             nowPlayingViewTest.mouseClick(button);
             nowPlayingViewTest.compare(data.spy.count, 0);
-        }
-
-        /**
-         * Tests that a toast tells that the Active Renderer went Offline.
-         */
-        function test_show_a_toast_when_the_active_renderer_went_offline() {
-            const toast = nowPlayingViewTest.child("toast");
-            // A toast of a previous test fades out.
-            nowPlayingViewTest.tryCompare(toast, "visible", false);
-            nowPlayingView.hasActiveRenderer = false;
-            nowPlayingView.rendererName = "";
-            nowPlayingView.showActiveRendererWentOffline("Kitchen");
-            nowPlayingViewTest.tryCompare(toast, "visible", true);
-            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(toast, "message").text, "Kitchen is no longer available");
-            nowPlayingViewTest.compare(nowPlayingViewTest.child("emptyState").title, "Choose a Renderer");
         }
     }
 }

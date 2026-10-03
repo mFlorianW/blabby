@@ -107,16 +107,6 @@ Rectangle {
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
             onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
             onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
-
-            Connections {
-                target: Singleton.activeRendererController
-                function onActiveRendererWentOffline(rendererName: string) {
-                    nowPlayingView.showActiveRendererWentOffline(rendererName);
-                }
-                function onControlFailed(rendererName: string, action: int) {
-                    nowPlayingView.showControlFailed(rendererName, action);
-                }
-            }
         }
 
         LibraryView {
@@ -196,5 +186,32 @@ Rectangle {
             }
             onForgetRequested: index => Singleton.mediaRendererModel.forgetRenderer(Singleton.mediaRendererModel.index(index, 0))
         }
+    }
+
+    ControlFailureMessage {
+        id: controlFailureMessage
+    }
+
+    Connections {
+        target: Singleton.activeRendererController
+        function onActiveRendererWentOffline(rendererName: string) {
+            toast.show(qsTr("%1 is no longer available").arg(rendererName));
+        }
+        function onControlFailed(rendererName: string, action: int) {
+            nowPlayingView.handleControlFailed(action);
+            toast.show(controlFailureMessage.message(rendererName, action));
+        }
+    }
+
+    /**
+     * Tells about failed control calls and the Active Renderer going Offline on every screen.
+     */
+    Toast {
+        id: toast
+        objectName: "toast"
+        anchors.horizontalCenter: destinations.horizontalCenter
+        anchors.bottom: destinations.bottom
+        anchors.bottomMargin: 24
+        maximumWidth: destinations.width - 48
     }
 }

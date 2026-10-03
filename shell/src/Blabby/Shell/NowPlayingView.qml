@@ -14,15 +14,14 @@ import "TimeFormat.js" as TimeFormat
  * asks to open the Queue.
  * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
  * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
- * artist, "album · year" and a format chip with the parts that are known. When the Active Renderer went Offline a
- * toast tells so. A large Play/Pause button pauses, or stops a Renderer that can't pause, and resumes or plays; it
- * shows a busy ring while the Renderer is transitioning. Previous and next buttons next to it step through the Queue,
- * they are disabled when unavailable and hidden while the Queue is empty. A seek bar shows the elapsed and the total
+ * artist, "album · year" and a format chip with the parts that are known. A large Play/Pause button pauses, or
+ * stops a Renderer that can't pause, and resumes or plays; it shows a busy ring while the Renderer is transitioning.
+ * Previous and next buttons next to it step through the Queue, they are disabled when unavailable and hidden while
+ * the Queue is empty. A seek bar shows the elapsed and the total
  * time and seeks on release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
  * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
  * changes the Volume while dragging, a Mute button next to it mutes and unmutes and dims the slider while muted. The
  * row is also shown without media, each control is hidden when the Renderer doesn't offer it.
- * Failed control calls are told in a toast.
  */
 Item {
     id: nowPlayingView
@@ -218,31 +217,13 @@ Item {
     onPositionChanged: nowPlayingView.cancelSeek()
 
     /**
-     * Tells the user in a toast that a control call to the Renderer with the name failed.
+     * Takes back what the failed control call changed on the screen, a failed seek shows the position again.
      * @param action The action of the failed call, a value of Renderer.Action.
      */
-    function showControlFailed(rendererName: string, action: int) {
-        const messages = {
-            [Renderer.Play]: qsTr("Couldn't play %1"),
-            [Renderer.Resume]: qsTr("Couldn't resume %1"),
-            [Renderer.Pause]: qsTr("Couldn't pause %1"),
-            [Renderer.Stop]: qsTr("Couldn't stop %1"),
-            [Renderer.Seek]: qsTr("Couldn't seek on %1"),
-            [Renderer.ChangeVolume]: qsTr("Couldn't change the Volume of %1"),
-            [Renderer.Mute]: qsTr("Couldn't mute %1"),
-            [Renderer.Unmute]: qsTr("Couldn't unmute %1")
-        };
+    function handleControlFailed(action: int) {
         if (action === Renderer.Seek) {
             nowPlayingView.cancelSeek();
         }
-        toast.show(messages[action].arg(rendererName));
-    }
-
-    /**
-     * Tells the user in a toast that the Active Renderer with the name went Offline.
-     */
-    function showActiveRendererWentOffline(rendererName: string) {
-        toast.show(qsTr("%1 is no longer available").arg(rendererName));
     }
 
     /**
@@ -636,14 +617,5 @@ Item {
             visible: nowPlayingView.canControlVolume
             textStyle: Theme.fonts.labelLarge
         }
-    }
-
-    Toast {
-        id: toast
-        objectName: "toast"
-        anchors.horizontalCenter: nowPlayingView.horizontalCenter
-        anchors.bottom: nowPlayingView.bottom
-        anchors.bottomMargin: 24
-        maximumWidth: nowPlayingView.width - 48
     }
 }
