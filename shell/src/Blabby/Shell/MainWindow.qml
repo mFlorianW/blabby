@@ -37,6 +37,13 @@ Rectangle {
         rail.currentIndex = shell.renderersDestination;
     }
 
+    /**
+     * Makes the Renderer at index in the Renderer model the Active Renderer, the model hands a Running Queue over.
+     */
+    function activateRenderer(index: int) {
+        Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0));
+    }
+
     NavigationRail {
         id: rail
         anchors.top: shell.top
@@ -100,7 +107,7 @@ Rectangle {
             hasPrevious: Singleton.queueModel.hasPrevious
             hasNext: Singleton.queueModel.hasNext
             renderers: Singleton.mediaRendererModel
-            onRendererPicked: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
+            onRendererPicked: index => shell.activateRenderer(index)
             onQueueRequested: rail.currentIndex = shell.queueDestination
 
             onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
@@ -180,7 +187,7 @@ Rectangle {
             scanning: Singleton.mediaRendererModel.scanning
             onRescanRequested: Singleton.mediaRendererModel.rescan()
             onActivated: index => {
-                Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0));
+                shell.activateRenderer(index);
                 if (shell.returnDestination >= 0) {
                     rail.currentIndex = shell.returnDestination;
                     shell.returnDestination = -1;
@@ -211,6 +218,12 @@ Rectangle {
         hasQueue: Singleton.queueModel.entryCount > 0
         hasPrevious: Singleton.queueModel.hasPrevious
         hasNext: Singleton.queueModel.hasNext
+        renderers: Singleton.mediaRendererModel
+        // The user stays on the screen, a Renderer chosen here also ends choosing one on the Renderers screen.
+        onRendererPicked: index => {
+            shell.activateRenderer(index);
+            shell.returnDestination = -1;
+        }
         onNowPlayingRequested: rail.currentIndex = shell.playingDestination
         onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
         onPreviousRequested: Singleton.queueModel.previous()
