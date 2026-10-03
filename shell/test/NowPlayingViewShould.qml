@@ -15,9 +15,24 @@ Item {
     width: 1200
     height: 640
 
+    ListModel {
+        id: rendererModel
+        ListElement {
+            name: "Kitchen"
+            availability: Renderer.Online
+            active: true
+        }
+        ListElement {
+            name: "Living Room"
+            availability: Renderer.Online
+            active: false
+        }
+    }
+
     NowPlayingView {
         id: nowPlayingView
         anchors.fill: parent
+        renderers: rendererModel
     }
 
     TestCase {
@@ -26,9 +41,9 @@ Item {
         when: windowShown
 
         SignalSpy {
-            id: chooseRendererRequestedSpy
+            id: rendererPickedSpy
             target: nowPlayingView
-            signalName: "chooseRendererRequested"
+            signalName: "rendererPicked"
         }
 
         SignalSpy {
@@ -99,7 +114,8 @@ Item {
             muteRequestedSpy.clear();
             seekRequestedSpy.clear();
             volumeRequestedSpy.clear();
-            chooseRendererRequestedSpy.clear();
+            rendererPickedSpy.clear();
+            nowPlayingViewTest.child("rendererMenu").close();
             queueRequestedSpy.clear();
             togglePlaybackRequestedSpy.clear();
             nowPlayingView.hasQueue = true;
@@ -142,16 +158,19 @@ Item {
         }
 
         /**
-         * Tests that the button of the "Choose a Renderer" empty state asks to choose a Renderer.
+         * Tests that the button of the "Choose a Renderer" empty state opens the Renderer menu.
          */
-        function test_ask_to_choose_a_renderer_with_the_choose_a_renderer_button() {
+        function test_open_the_renderer_menu_with_the_choose_renderer_button() {
             nowPlayingView.hasActiveRenderer = false;
             nowPlayingView.rendererName = "";
             const action = nowPlayingViewTest.findChild(nowPlayingViewTest.child("emptyState"), "action");
             nowPlayingViewTest.verify(action);
             nowPlayingViewTest.waitForItemPolished(action.parent);
             nowPlayingViewTest.mouseClick(action);
-            nowPlayingViewTest.compare(chooseRendererRequestedSpy.count, 1);
+            const menu = nowPlayingViewTest.child("rendererMenu");
+            nowPlayingViewTest.compare(menu.opened, true);
+            nowPlayingViewTest.compare(menu.opensUpwards, false);
+            nowPlayingViewTest.compare(rendererPickedSpy.count, 0);
         }
 
         /**
@@ -173,14 +192,68 @@ Item {
         }
 
         /**
-         * Tests that the Renderer pill shows the name of the Active Renderer and asks to choose a Renderer.
+         * Opens the Renderer menu with the Renderer pill and gives it.
          */
-        function test_ask_to_choose_a_renderer_with_the_renderer_pill() {
+        function openRendererMenu() {
+            nowPlayingViewTest.mouseClick(nowPlayingViewTest.child("rendererPill"));
+            const menu = nowPlayingViewTest.child("rendererMenu");
+            nowPlayingViewTest.compare(menu.opened, true);
+            nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.findChild(menu, "rendererList"));
+            return menu;
+        }
+
+        /**
+         * Tests that the Renderer pill shows the name of the Active Renderer and opens the Renderer menu right below
+         * it, aligned to its right edge, listing the Renderers and looking checked meanwhile.
+         */
+        function test_open_the_renderer_menu_with_the_renderer_pill() {
             const pill = nowPlayingViewTest.child("rendererPill");
             nowPlayingViewTest.compare(pill.visible, true);
             nowPlayingViewTest.compare(pill.text, "Kitchen");
-            nowPlayingViewTest.mouseClick(pill);
-            nowPlayingViewTest.compare(chooseRendererRequestedSpy.count, 1);
+            const menu = nowPlayingViewTest.openRendererMenu();
+            nowPlayingViewTest.compare(pill.checked, true);
+            const panel = nowPlayingViewTest.findChild(menu, "rendererMenuPanel");
+            const pillBottomRight = pill.mapToItem(nowPlayingView, pill.width, pill.height);
+            const panelTopRight = panel.mapToItem(nowPlayingView, panel.width, 0);
+            nowPlayingViewTest.compare(panelTopRight.x, pillBottomRight.x);
+            nowPlayingViewTest.compare(panelTopRight.y, pillBottomRight.y + 8);
+            nowPlayingViewTest.compare(menu.count, 2);
+            nowPlayingViewTest.compare(rendererPickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that picking a Renderer in the Renderer menu emits rendererPicked with its index and closes the menu.
+         */
+        function test_emit_rendererPicked_when_a_renderer_is_picked() {
+            const menu = nowPlayingViewTest.openRendererMenu();
+            const row = nowPlayingViewTest.findChild(menu, "rendererRow1");
+            nowPlayingViewTest.verify(row);
+            nowPlayingViewTest.mouseClick(row);
+            nowPlayingViewTest.compare(rendererPickedSpy.count, 1);
+            nowPlayingViewTest.compare(rendererPickedSpy.signalArguments[0][0], 1);
+            nowPlayingViewTest.compare(menu.opened, false);
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("rendererPill").checked, false);
+        }
+
+        /**
+         * Tests that a tap elsewhere on the screen closes the Renderer menu without reaching the Queue button beneath.
+         */
+        function test_close_the_renderer_menu_with_a_tap_elsewhere() {
+            const menu = nowPlayingViewTest.openRendererMenu();
+            nowPlayingViewTest.mouseClick(nowPlayingViewTest.child("queueButton"));
+            nowPlayingViewTest.compare(menu.opened, false);
+            nowPlayingViewTest.compare(queueRequestedSpy.count, 0);
+            nowPlayingViewTest.compare(rendererPickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Renderer menu is closed when the Playing screen becomes invisible, e.g. on another screen.
+         */
+        function test_close_the_renderer_menu_when_the_screen_becomes_invisible() {
+            const menu = nowPlayingViewTest.openRendererMenu();
+            nowPlayingView.visible = false;
+            nowPlayingViewTest.compare(menu.opened, false);
+            nowPlayingView.visible = true;
         }
 
         /**

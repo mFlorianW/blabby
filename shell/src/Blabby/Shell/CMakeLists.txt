@@ -15,6 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
         NowPlayingView.qml
         QueueView.qml
         RendererCard.qml
+        RendererMenu.qml
         RenderersView.qml
         SourceMenu.qml
         TimeFormat.js

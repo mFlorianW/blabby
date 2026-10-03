@@ -99,7 +99,8 @@ Rectangle {
             hasQueue: Singleton.queueModel.entryCount > 0
             hasPrevious: Singleton.queueModel.hasPrevious
             hasNext: Singleton.queueModel.hasNext
-            onChooseRendererRequested: shell.chooseRenderer(shell.playingDestination)
+            renderers: Singleton.mediaRendererModel
+            onRendererPicked: index => Singleton.mediaRendererModel.activateRenderer(Singleton.mediaRendererModel.index(index, 0))
             onQueueRequested: rail.currentIndex = shell.queueDestination
 
             onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()

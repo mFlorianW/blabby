@@ -10,11 +10,12 @@ import "TimeFormat.js" as TimeFormat
 
 /**
  * The Playing screen that shows what the Active Renderer plays.
- * A Renderer pill in the header shows the Active Renderer and asks to choose another one, a Queue button next to it
- * asks to open the Queue.
- * Without an Active Renderer an empty state asks to choose one, an Active Renderer without media tells that nothing
- * plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder without, its title, and its
- * artist, "album · year" and a format chip with the parts that are known. A large Play/Pause button pauses, or
+ * A Renderer pill in the header shows the Active Renderer and opens the @ref RendererMenu under it to pick another
+ * one, a Queue button next to it asks to open the Queue.
+ * Without an Active Renderer an empty state asks to choose one with the Renderer menu, an Active Renderer without
+ * media tells that nothing plays on it. Otherwise the Current Track is shown with its artwork, or a placeholder
+ * without, its title, and its artist, "album · year" and a format chip with the parts that are known. A large
+ * Play/Pause button pauses, or
  * stops a Renderer that can't pause, and resumes or plays; it shows a busy ring while the Renderer is transitioning.
  * Previous and next buttons next to it step through the Queue, they are disabled when unavailable and hidden while
  * the Queue is empty. A seek bar shows the elapsed and the total
@@ -35,6 +36,12 @@ Item {
      * The name of the Active Renderer.
      */
     property string rendererName
+
+    /**
+     * The Renderers to pick the Active Renderer from in the Renderer menu, a model with the roles "name",
+     * "availability" and "active".
+     */
+    property alias renderers: rendererMenu.model
 
     /**
      * The Playback State of the Active Renderer, a value of Renderer.State.
@@ -167,9 +174,10 @@ Item {
     readonly property bool showsTrack: nowPlayingView.hasActiveRenderer && nowPlayingView.playbackState !== Renderer.NoMedia
 
     /**
-     * This signal is emitted when the user asks to choose the Active Renderer.
+     * This signal is emitted when the user picks the Renderer at index in the Renderer menu to make it the Active
+     * Renderer.
      */
-    signal chooseRendererRequested
+    signal rendererPicked(int index)
 
     /**
      * This signal is emitted when the user asks to open the Queue.
@@ -283,8 +291,10 @@ Item {
             text: nowPlayingView.rendererName
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
             showsChevron: true
+            checked: rendererMenu.opened
             visible: nowPlayingView.hasActiveRenderer
-            onClicked: nowPlayingView.chooseRendererRequested()
+            // While the menu is open its tap catcher covers the pill, a tap on the pill closes the menu then.
+            onClicked: rendererMenu.open()
         }
 
         IconButton {
@@ -308,7 +318,7 @@ Item {
         hint: nowPlayingView.hasActiveRenderer ? "" : qsTr("Pick the Renderer whose playback you want to control")
         actionText: nowPlayingView.hasActiveRenderer ? "" : qsTr("Choose Renderer")
         visible: !nowPlayingView.showsTrack
-        onActionClicked: nowPlayingView.chooseRendererRequested()
+        onActionClicked: rendererMenu.open()
     }
 
     Item {
@@ -617,5 +627,14 @@ Item {
             visible: nowPlayingView.canControlVolume
             textStyle: Theme.fonts.labelLarge
         }
+    }
+
+    RendererMenu {
+        id: rendererMenu
+        objectName: "rendererMenu"
+        anchors.fill: nowPlayingView
+        // Without an Active Renderer the pill is hidden, the menu drops down under the end of the header then.
+        anchorItem: rendererPill.visible ? rendererPill : queueButton
+        onPicked: index => nowPlayingView.rendererPicked(index)
     }
 }

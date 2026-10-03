@@ -40,6 +40,18 @@ Item {
         }
     }
 
+    MenuShell {
+        id: tallMenu
+        anchors.fill: root
+        anchorItem: anchor
+
+        Rectangle {
+            id: tallContent
+            width: tallMenu.contentWidth
+            height: 1000
+        }
+    }
+
     TestCase {
         id: menuShellTest
         name: "MenuShellShould"
@@ -59,6 +71,10 @@ Item {
 
         function init() {
             anchor.x = 500;
+            anchor.y = 40;
+            tallMenu.close();
+            tallMenu.opensUpwards = false;
+            menu.opensUpwards = false;
             menu.visible = true;
             menu.close();
             beneathClickedSpy.clear();
@@ -109,6 +125,43 @@ Item {
             menuShellTest.compare(menu.panel.height, 116);
             const contentTopLeft = content.mapToItem(menu.panel, 0, 0);
             menuShellTest.compare(contentTopLeft.y, 8);
+        }
+
+        /**
+         * Tests that the panel opens upwards 8 px above the anchor item, aligned to its right edge.
+         */
+        function test_open_upwards_above_the_top_right_corner_of_the_anchor_item() {
+            anchor.y = 400;
+            menu.opensUpwards = true;
+            menu.open();
+            const panelBottomRight = menu.panel.mapToItem(root, menu.panel.width, menu.panel.height);
+            menuShellTest.compare(panelBottomRight.x, anchor.x + anchor.width);
+            menuShellTest.compare(panelBottomRight.y, anchor.y - 8);
+            menuShellTest.compare(menu.panel.height, 116);
+        }
+
+        /**
+         * Tests that the content may take the space towards the edge the menu opens to, less the gaps to the anchor
+         * item and the edge and around the content.
+         */
+        function test_tell_the_content_the_space_towards_the_edge() {
+            menuShellTest.compare(menu.maximumContentHeight, 480 - 80 - 4 * 8);
+            anchor.y = 400;
+            menu.opensUpwards = true;
+            menuShellTest.compare(menu.maximumContentHeight, 400 - 4 * 8);
+        }
+
+        /**
+         * Tests that the panel of content higher than the space is capped 8 px before the edge and clips the content.
+         */
+        function test_cap_the_panel_to_the_space_towards_the_edge() {
+            tallMenu.open();
+            const panelBottom = tallMenu.panel.mapToItem(root, 0, tallMenu.panel.height).y;
+            menuShellTest.compare(panelBottom, root.height - 8);
+            anchor.y = 400;
+            tallMenu.opensUpwards = true;
+            menuShellTest.compare(tallMenu.panel.mapToItem(root, 0, 0).y, 8);
+            menuShellTest.compare(tallContent.parent.parent.clip, true);
         }
 
         /**
@@ -174,6 +227,10 @@ Item {
             menu.visible = false;
             menuShellTest.compare(menu.opened, false);
             anchor.x = 500;
+            anchor.y = 40;
+            tallMenu.close();
+            tallMenu.opensUpwards = false;
+            menu.opensUpwards = false;
             menu.visible = true;
             menuShellTest.compare(menu.opened, false);
             menuShellTest.compare(menu.panel.visible, false);
