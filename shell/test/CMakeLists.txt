@@ -59,6 +59,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MiniPlayerShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_MiniPlayerShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MenuShellShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_MenuShellShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RendererMenuShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_RendererMenuShould.qml COPYONLY)
 
 add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests
