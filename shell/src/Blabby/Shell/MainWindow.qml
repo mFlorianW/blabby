@@ -215,6 +215,12 @@ Rectangle {
         artworkUrl: Singleton.activeRendererController.artworkUrl
         canPause: Singleton.activeRendererController.canPause
         transitioning: Singleton.activeRendererController.transitioning
+        volume: Singleton.activeRendererController.volume
+        volumeMinimum: Singleton.activeRendererController.volumeMinimum
+        volumeMaximum: Singleton.activeRendererController.volumeMaximum
+        canControlVolume: Singleton.activeRendererController.canControlVolume
+        muted: Singleton.activeRendererController.muted
+        canControlMute: Singleton.activeRendererController.canControlMute
         hasQueue: Singleton.queueModel.entryCount > 0
         hasPrevious: Singleton.queueModel.hasPrevious
         hasNext: Singleton.queueModel.hasNext
@@ -228,6 +234,8 @@ Rectangle {
         onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
         onPreviousRequested: Singleton.queueModel.previous()
         onNextRequested: Singleton.queueModel.next()
+        onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
+        onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
     }
 
     ControlFailureMessage {
