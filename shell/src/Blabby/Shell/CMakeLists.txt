@@ -6,6 +6,7 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     STATIC
     QML_FILES
+        ControlFailureMessage.qml
         ItemMenu.qml
         LibraryTile.qml
         LibraryView.qml
