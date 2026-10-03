@@ -11,6 +11,7 @@ qt_add_qml_module(${PROJECT_NAME}
         LibraryTile.qml
         LibraryView.qml
         MainWindow.qml
+        MiniPlayer.qml
         NowPlayingView.qml
         QueueView.qml
         RendererCard.qml
