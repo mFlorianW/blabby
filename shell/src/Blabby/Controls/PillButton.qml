@@ -41,7 +41,9 @@ AbstractInteractiveControl {
     readonly property color contentColor: pillButton.checked ? Theme.colors.colorOnPrimaryContainer : Theme.colors.colorOnSecondaryContainer
 
     implicitHeight: 56
-    implicitWidth: content.implicitWidth + 16 + 16
+    // Rounded up to whole pixels, the text may be fractionally wide: so the edges of the pill, and of a menu aligned to
+    // them, stay on the pixel grid.
+    implicitWidth: Math.ceil(content.implicitWidth) + 16 + 16
 
     Rectangle {
         id: background
