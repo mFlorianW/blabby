@@ -78,6 +78,18 @@ Item {
         }
 
         SignalSpy {
+            id: volumeRequestedSpy
+            target: miniPlayer
+            signalName: "volumeRequested"
+        }
+
+        SignalSpy {
+            id: muteRequestedSpy
+            target: miniPlayer
+            signalName: "muteRequested"
+        }
+
+        SignalSpy {
             id: beneathClickedSpy
             target: beneath
             signalName: "clicked"
@@ -95,11 +107,19 @@ Item {
             miniPlayer.hasQueue = true;
             miniPlayer.hasPrevious = true;
             miniPlayer.hasNext = true;
+            miniPlayer.volume = 42;
+            miniPlayer.volumeMinimum = 0;
+            miniPlayer.volumeMaximum = 60;
+            miniPlayer.canControlVolume = true;
+            miniPlayer.muted = false;
+            miniPlayer.canControlMute = true;
             togglePlaybackRequestedSpy.clear();
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
             nowPlayingRequestedSpy.clear();
             rendererPickedSpy.clear();
+            volumeRequestedSpy.clear();
+            muteRequestedSpy.clear();
             beneathClickedSpy.clear();
             miniPlayer.visible = true;
             miniPlayerTest.child("rendererMenu").close();
@@ -112,6 +132,7 @@ Item {
         function waitForLayout() {
             miniPlayerTest.waitForItemPolished(miniPlayerTest.child("playPauseButton").parent);
             miniPlayerTest.waitForItemPolished(miniPlayerTest.child("trackTitle").parent);
+            miniPlayerTest.waitForItemPolished(miniPlayerTest.child("volumeControls"));
         }
 
         /**
@@ -508,6 +529,154 @@ Item {
             miniPlayerTest.compare(button.opacity, Theme.disabledOpacity);
             miniPlayerTest.mouseClick(button);
             miniPlayerTest.compare(data.spy.count, 0);
+        }
+
+        /**
+         * Tests that a Mute button and a Volume slider of about 160 px without a number sit between the transport and
+         * the Renderer pill, the slider showing the Volume in the range of the Renderer.
+         */
+        function test_show_mute_and_the_volume_between_the_transport_and_the_renderer_pill() {
+            const muteButton = miniPlayerTest.child("muteButton");
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.compare(muteButton.visible, true);
+            miniPlayerTest.compare(slider.visible, true);
+            miniPlayerTest.compare(slider.width, 160);
+            miniPlayerTest.compare(slider.from, 0);
+            miniPlayerTest.compare(slider.to, 60);
+            miniPlayerTest.compare(slider.value, 42);
+            miniPlayerTest.compare(slider.valueIndicatorEnabled, false);
+            miniPlayerTest.compare(miniPlayerTest.findChild(miniPlayer, "volumeValue"), null);
+            const nextButton = miniPlayerTest.child("nextButton");
+            const nextRight = nextButton.mapToItem(miniPlayer, nextButton.width, 0).x;
+            const muteLeft = muteButton.mapToItem(miniPlayer, 0, 0).x;
+            const sliderLeft = slider.mapToItem(miniPlayer, 0, 0).x;
+            const sliderRight = slider.mapToItem(miniPlayer, slider.width, 0).x;
+            const pillLeft = miniPlayerTest.child("rendererPill").mapToItem(miniPlayer, 0, 0).x;
+            miniPlayerTest.verify(nextRight < muteLeft, `${nextRight} < ${muteLeft}`);
+            miniPlayerTest.verify(muteLeft < sliderLeft, `${muteLeft} < ${sliderLeft}`);
+            miniPlayerTest.verify(sliderRight < pillLeft, `${sliderRight} < ${pillLeft}`);
+        }
+
+        /**
+         * Tests that a Volume change made elsewhere shows up on the slider.
+         */
+        function test_follow_volume_changes() {
+            miniPlayer.volume = 50;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visualValue, 50);
+        }
+
+        /**
+         * Tests that the Volume changes continuously while dragging and changes arriving meanwhile are ignored.
+         */
+        function test_change_the_volume_while_dragging() {
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.mousePress(slider, slider.width / 4, slider.height / 2);
+            miniPlayerTest.mouseMove(slider, slider.width / 2, slider.height / 2);
+            miniPlayerTest.verify(volumeRequestedSpy.count > 0);
+            miniPlayerTest.compare(volumeRequestedSpy.signalArguments[volumeRequestedSpy.count - 1][0], 30);
+            const requestsBefore = volumeRequestedSpy.count;
+            miniPlayerTest.mouseMove(slider, slider.width * 3 / 4, slider.height / 2);
+            miniPlayerTest.verify(volumeRequestedSpy.count > requestsBefore);
+            miniPlayerTest.compare(volumeRequestedSpy.signalArguments[volumeRequestedSpy.count - 1][0], 45);
+            miniPlayer.volume = 10;
+            miniPlayerTest.compare(Math.round(slider.visualValue), 45);
+            miniPlayerTest.mouseRelease(slider, slider.width * 3 / 4, slider.height / 2);
+            miniPlayerTest.compare(slider.visualValue, 10);
+        }
+
+        /**
+         * Tests that the Volume requested by dragging stays within the range of the Renderer.
+         */
+        function test_keep_the_dragged_volume_within_the_range_of_the_renderer() {
+            miniPlayer.volumeMinimum = 10;
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.mousePress(slider, slider.width / 2, slider.height / 2);
+            miniPlayerTest.mouseMove(slider, -slider.width, slider.height / 2);
+            miniPlayerTest.mouseMove(slider, slider.width * 2, slider.height / 2);
+            miniPlayerTest.mouseRelease(slider, slider.width * 2, slider.height / 2);
+            const volumes = volumeRequestedSpy.signalArguments.map(arguments => arguments[0]);
+            miniPlayerTest.verify(volumes.includes(10), volumes);
+            miniPlayerTest.verify(volumes.includes(60), volumes);
+            miniPlayerTest.verify(volumes.every(volume => volume >= 10 && volume <= 60), volumes);
+        }
+
+        /**
+         * Tests that the Mute button shows the "volume up" icon and the slider isn't dimmed while not muted.
+         */
+        function test_show_volume_up_while_not_muted() {
+            const button = miniPlayerTest.child("muteButton");
+            miniPlayerTest.compare(button.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/volume_up.svg"));
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").opacity, 1);
+        }
+
+        /**
+         * Tests that the Mute button shows the "volume off" icon and the slider is dimmed but usable while muted.
+         */
+        function test_show_volume_off_and_dim_the_slider_while_muted() {
+            miniPlayer.muted = true;
+            const button = miniPlayerTest.child("muteButton");
+            miniPlayerTest.compare(button.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg"));
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.compare(slider.opacity, Theme.disabledOpacity);
+            miniPlayerTest.compare(slider.interactive, true);
+            miniPlayerTest.mouseClick(slider, slider.width / 2, slider.height / 2);
+            miniPlayerTest.verify(volumeRequestedSpy.count > 0);
+            miniPlayerTest.compare(muteRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Mute button asks to mute and to unmute.
+         */
+        function test_toggle_the_mute_with_the_mute_button() {
+            const button = miniPlayerTest.child("muteButton");
+            miniPlayerTest.verify(button.width >= 44 && button.height >= 44);
+            miniPlayerTest.mouseClick(button);
+            miniPlayerTest.compare(muteRequestedSpy.count, 1);
+            miniPlayerTest.compare(muteRequestedSpy.signalArguments[0][0], true);
+            miniPlayer.muted = true;
+            miniPlayerTest.mouseClick(button);
+            miniPlayerTest.compare(muteRequestedSpy.count, 2);
+            miniPlayerTest.compare(muteRequestedSpy.signalArguments[1][0], false);
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Mute button is hidden without Mute control, the slider without Volume control and both
+         * without either.
+         */
+        function test_hide_the_controls_that_the_renderer_does_not_offer() {
+            miniPlayer.canControlMute = false;
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
+            miniPlayer.canControlMute = true;
+            miniPlayer.canControlVolume = false;
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, true);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
+            miniPlayer.canControlMute = false;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeControls").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
+        }
+
+        /**
+         * Tests that Mute and Volume are hidden without an Active Renderer.
+         */
+        function test_hide_mute_and_the_volume_without_an_active_renderer() {
+            miniPlayer.hasActiveRenderer = false;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeControls").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
+        }
+
+        /**
+         * Tests that Mute and Volume are kept usable while the Active Renderer has no media, as on the Playing screen.
+         */
+        function test_keep_mute_and_the_volume_without_media() {
+            miniPlayer.playbackState = Renderer.NoMedia;
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, true);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
+            miniPlayerTest.mouseClick(miniPlayerTest.child("muteButton"));
+            miniPlayerTest.compare(muteRequestedSpy.count, 1);
         }
     }
 }

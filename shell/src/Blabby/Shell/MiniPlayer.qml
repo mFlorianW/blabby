@@ -16,6 +16,10 @@ import Blabby.Theme
  * or stops a Renderer that can't pause, and resumes or plays, it shows a busy ring while the Renderer is transitioning;
  * previous and next are disabled when unavailable and hidden while the Queue is empty. Without media all of them are
  * disabled.
+ * Between the transport and the pill a Mute button mutes and unmutes and a Volume slider without a number changes the
+ * Volume in the range of the Renderer while dragging, it's dimmed while muted. Each of them is hidden when the Active
+ * Renderer doesn't offer it, both are hidden without an Active Renderer; without media they are kept, as on the Playing
+ * screen.
  * A pill on the right shows the Active Renderer, or "Choose a Renderer" without one, and opens the @ref RendererMenu
  * upwards above it to pick the Active Renderer. The menu covers the item the mini player is laid out in, above its
  * other children, and closes when the mini player becomes invisible.
@@ -70,6 +74,36 @@ Item {
     property bool transitioning: false
 
     /**
+     * The Volume of the Active Renderer.
+     */
+    property int volume: 0
+
+    /**
+     * The lowest Volume of the Active Renderer.
+     */
+    property int volumeMinimum: 0
+
+    /**
+     * The highest Volume of the Active Renderer.
+     */
+    property int volumeMaximum: 100
+
+    /**
+     * True when the Volume of the Active Renderer can be controlled.
+     */
+    property bool canControlVolume: false
+
+    /**
+     * True while the Active Renderer is muted.
+     */
+    property bool muted: false
+
+    /**
+     * True when the Mute of the Active Renderer can be controlled.
+     */
+    property bool canControlMute: false
+
+    /**
      * True while the Queue has entries.
      */
     property bool hasQueue: false
@@ -114,6 +148,16 @@ Item {
      * This signal is emitted when the user asks to play the next entry of the Queue.
      */
     signal nextRequested
+
+    /**
+     * This signal is emitted while the user changes the Volume.
+     */
+    signal volumeRequested(int volume)
+
+    /**
+     * This signal is emitted when the user asks to mute or to unmute the Active Renderer.
+     */
+    signal muteRequested(bool muted)
 
     /**
      * This signal is emitted when the user picks the Renderer at index in the Renderer menu to make it the Active
@@ -255,6 +299,48 @@ Item {
             visible: miniPlayer.hasQueue
             enabled: miniPlayer.showsTrack && miniPlayer.hasNext
             onClicked: miniPlayer.nextRequested()
+        }
+    }
+
+    Row {
+        id: volumeControls
+        objectName: "volumeControls"
+        anchors.right: rendererPill.left
+        anchors.verticalCenter: miniPlayer.verticalCenter
+        anchors.rightMargin: 16
+        spacing: 8
+        visible: miniPlayer.hasActiveRenderer && (miniPlayer.canControlVolume || miniPlayer.canControlMute)
+
+        IconButton {
+            id: muteButton
+            objectName: "muteButton"
+            anchors.verticalCenter: volumeControls.verticalCenter
+            iconSource: miniPlayer.muted ? "qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/volume_up.svg"
+            visible: miniPlayer.canControlMute
+            onClicked: miniPlayer.muteRequested(!miniPlayer.muted)
+        }
+
+        Slider {
+            id: volumeSlider
+            objectName: "volumeSlider"
+            anchors.verticalCenter: volumeControls.verticalCenter
+            width: 160
+            // Muted, the slider is dimmed but usable, moving it doesn't unmute.
+            opacity: miniPlayer.muted ? Theme.disabledOpacity : 1
+            visible: miniPlayer.canControlVolume
+            from: miniPlayer.volumeMinimum
+            to: miniPlayer.volumeMaximum
+            value: miniPlayer.volume
+            onMoved: value => {
+                const volume = Math.round(value);
+                if (volume !== volumeSlider.lastRequestedVolume) {
+                    volumeSlider.lastRequestedVolume = volume;
+                    miniPlayer.volumeRequested(volume);
+                }
+            }
+            onPressedChanged: volumeSlider.lastRequestedVolume = -1
+
+            property int lastRequestedVolume: -1
         }
     }
 
