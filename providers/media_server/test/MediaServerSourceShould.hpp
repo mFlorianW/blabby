@@ -37,6 +37,8 @@ private Q_SLOTS:
     void map_the_album_artist_to_the_item();
     void request_the_album_and_the_duration();
     void map_the_album_and_the_duration_of_the_played_resource_to_the_item();
+    void name_the_album_of_an_album_container_by_its_title_data();
+    void name_the_album_of_an_album_container_by_its_title();
     void report_a_failed_browse_and_keep_the_items();
     void request_the_first_page_of_a_container();
     void give_the_total_item_count_of_the_container();

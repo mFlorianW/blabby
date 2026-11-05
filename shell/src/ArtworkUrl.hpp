@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Item.hpp"
 #include <QString>
 
 namespace Shell
@@ -19,5 +20,13 @@ namespace Shell
  * @return The URL of the Artwork, empty without Artwork.
  */
 QString artworkUrl(QString const& suppliedUrl, QString const& artist, QString const& album);
+
+/**
+ * Gives the URL of the Artwork to show for an Item, like @ref artworkUrl(QString const&, QString const&, QString
+ * const&). The album is named by its Album Artist, by the artist of the Item without an Album Artist.
+ * @param item The Item.
+ * @return The URL of the Artwork, empty without Artwork.
+ */
+QString artworkUrl(Multimedia::Item const& item);
 
 } // namespace Shell

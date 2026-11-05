@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "QueueModel.hpp"
+#include "ArtworkUrl.hpp"
 #include "LoggingCategories.hpp"
 #include <algorithm>
 
@@ -109,7 +110,7 @@ QVariant QueueModel::data(QModelIndex const& index, int role) const noexcept
     } else if (dispRole == DisplayRole::Artist) {
         return entry.secondaryText();
     } else if (dispRole == DisplayRole::ArtworkUrl) {
-        return entry.artworkUrl();
+        return artworkUrl(entry);
     } else if (dispRole == DisplayRole::Current) {
         return mQueue.currentIndex() == index.row();
     } else if (dispRole == DisplayRole::Album) {

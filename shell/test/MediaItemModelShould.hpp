@@ -30,6 +30,7 @@ private Q_SLOTS:
     void request_to_play_an_item_next_or_add_it_to_the_queue();
     void ignore_queue_requests_while_busy_or_at_an_invalid_index();
     void give_the_item_type_of_the_item();
+    void give_the_looked_up_artwork_url_of_an_item_without_artwork();
     void tell_whether_a_media_source_is_set();
     void stop_following_the_previous_media_source_when_the_media_source_changes();
     void navigate_the_back_the_active_media_source();

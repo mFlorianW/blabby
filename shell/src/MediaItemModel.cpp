@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MediaItemModel.hpp"
+#include "ArtworkUrl.hpp"
 #include "LoggingCategories.hpp"
 #include <algorithm>
 
@@ -51,7 +52,7 @@ QVariant MediaItemModel::data(QModelIndex const& index, int role) const noexcept
     if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
     } else if (dispRole == DisplayRole::MediaItemArtworkUrl) {
-        return item.artworkUrl();
+        return artworkUrl(item);
     } else if (dispRole == DisplayRole::MediaItemType) {
         return static_cast<int>(item.type());
     } else if (dispRole == DisplayRole::MediaItemSecondaryText) {
