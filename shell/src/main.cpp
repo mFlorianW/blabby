@@ -4,11 +4,13 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "QmlSingletonRegistry.hpp"
+#include "ArtworkImageProvider.hpp"
 #include "Item.hpp"
+#include "QmlSingletonRegistry.hpp"
 #include "Renderer.hpp"
 #include <QGuiApplication>
 #include <QLoggingCategory>
+#include <QQmlEngine>
 #include <QQuickView>
 
 namespace Shell
@@ -43,7 +45,13 @@ int main(int argc, char* argv[])
 
     Shell::registerQmlTypes();
 
+    // Declared before the view, the image provider of the view's engine uses it.
+    Artwork::OnlineLookup artworkLookup;
+
     QQuickView mainView;
+    // The engine takes the ownership of the image provider.
+    // NOLINTNEXTLINE cppcoreguidelines-owning-memory
+    mainView.engine()->addImageProvider(QStringLiteral("artwork"), new Shell::ArtworkImageProvider{artworkLookup});
     mainView.setResizeMode(QQuickView::SizeRootObjectToView);
     mainView.setMinimumSize(QSize{800, 480});
     mainView.resize(QSize{1280, 720});

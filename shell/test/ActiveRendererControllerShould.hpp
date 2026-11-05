@@ -42,6 +42,8 @@ private Q_SLOTS:
     void track_the_position_of_the_active_renderer_only();
     void give_the_current_track_of_the_active_renderer();
     void give_no_current_track_without_an_active_renderer();
+    void give_a_looked_up_artwork_url_for_a_current_track_without_artwork();
+    void give_no_artwork_url_for_a_current_track_without_artwork_and_album();
     void give_whether_the_active_renderer_can_pause_and_is_transitioning();
     void report_a_failed_control_call_with_the_renderer_name();
     void give_the_position_and_the_duration_of_the_active_renderer();

@@ -20,6 +20,10 @@ target_sources(${PROJECT_NAME}Object
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererController.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererController.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkImageProvider.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkImageProvider.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkUrl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkUrl.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.cpp
@@ -38,6 +42,7 @@ target_link_libraries(${PROJECT_NAME}Object
     PUBLIC
         Blabby::UPnPAV
         Blabby::Multimedia
+        Blabby::Artwork
         BlabbyShell::Qml
         BlabbyShell::QmlPlugin
         BlabbyShell::Controls

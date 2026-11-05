@@ -46,7 +46,8 @@ class ActiveRendererController : public QObject
     Q_PROPERTY(QString trackArtist READ trackArtist NOTIFY currentTrackChanged)
 
     /**
-     * This property holds the URL of the artwork of the Current Track, empty when unknown.
+     * This property holds the URL of the Artwork of the Current Track: the one of the Renderer, otherwise the one
+     * looked up for its album, empty without both.
      */
     Q_PROPERTY(QString artworkUrl READ artworkUrl NOTIFY currentTrackChanged)
 
@@ -168,7 +169,7 @@ public:
     QString trackArtist() const noexcept;
 
     /**
-     * Gives the URL of the artwork of the Current Track, empty when unknown.
+     * Gives the URL of the Artwork of the Current Track, see `Shell::artworkUrl()`.
      */
     QString artworkUrl() const noexcept;
 

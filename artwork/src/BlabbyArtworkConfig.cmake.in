@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+
+set_and_check(BLABBYARTWORK_INCLUDE_DIR "@PACKAGE_ARTWORK_INCLUDE_INSTALL_DIR@")
+
+check_required_components(BlabbyArtwork)

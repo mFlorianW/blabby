@@ -30,6 +30,10 @@ _Avoid_: Folder, directory (as the general term)
 An Item that can be played on a Renderer, such as a song.
 _Avoid_: File, track (as the general term)
 
+**Artwork**:
+The picture of an Item's album, such as its cover. The Artwork supplied by the Source (or, for the Current Track, the Renderer) always wins; only without it does Blabby show Artwork looked up on the internet for an Item that names its album.
+_Avoid_: Album art, cover (as the general term), thumbnail
+
 **Path**:
 The location of an Item within its Source, whose format is defined by the Source.
 _Avoid_: URL, address

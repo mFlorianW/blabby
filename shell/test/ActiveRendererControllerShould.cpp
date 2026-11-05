@@ -75,8 +75,7 @@ void ActiveRendererControllerShould::have_no_active_renderer_at_start()
 
 void ActiveRendererControllerShould::follow_the_active_renderer()
 {
-    auto activeRendererChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
+    auto activeRendererChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
 
     activate(QStringLiteral("Kitchen"));
 
@@ -88,8 +87,7 @@ void ActiveRendererControllerShould::follow_the_active_renderer()
 void ActiveRendererControllerShould::give_the_playback_state_of_the_active_renderer()
 {
     mRendererFactory->renderer(QStringLiteral("Kitchen"))->setDeviceState(MediaDevice::State::Playing);
-    auto playbackStateChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
+    auto playbackStateChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
 
     activate(QStringLiteral("Kitchen"));
 
@@ -100,8 +98,7 @@ void ActiveRendererControllerShould::give_the_playback_state_of_the_active_rende
 void ActiveRendererControllerShould::notify_about_a_changed_playback_state_of_the_active_renderer()
 {
     activate(QStringLiteral("Kitchen"));
-    auto playbackStateChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
+    auto playbackStateChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
 
     mRendererFactory->renderer(QStringLiteral("Kitchen"))->setDeviceState(MediaDevice::State::PausedPlayback);
 
@@ -113,8 +110,7 @@ void ActiveRendererControllerShould::follow_a_switch_to_another_active_renderer(
 {
     activate(QStringLiteral("Kitchen"));
     mRendererFactory->renderer(QStringLiteral("Bathroom"))->setDeviceState(MediaDevice::State::Stopped);
-    auto activeRendererChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
+    auto activeRendererChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
 
     activate(QStringLiteral("Bathroom"));
 
@@ -128,8 +124,7 @@ void ActiveRendererControllerShould::ignore_playback_state_changes_of_the_previo
 {
     activate(QStringLiteral("Kitchen"));
     activate(QStringLiteral("Bathroom"));
-    auto playbackStateChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
+    auto playbackStateChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::playbackStateChanged};
 
     mRendererFactory->renderer(QStringLiteral("Kitchen"))->setDeviceState(MediaDevice::State::Playing);
 
@@ -141,8 +136,7 @@ void ActiveRendererControllerShould::report_the_active_renderer_going_offline()
 {
     mRendererFactory->renderer(QStringLiteral("Kitchen"))->setDeviceState(MediaDevice::State::Playing);
     activate(QStringLiteral("Kitchen"));
-    auto activeRendererChangedSpy =
-        QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
+    auto activeRendererChangedSpy = QSignalSpy{mController.get(), &ActiveRendererController::activeRendererChanged};
     auto wentOfflineSpy = QSignalSpy{mController.get(), &ActiveRendererController::activeRendererWentOffline};
 
     Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
@@ -216,6 +210,42 @@ void ActiveRendererControllerShould::give_no_current_track_without_an_active_ren
     QCOMPARE(mController->property("trackAlbum").toString(), QString{});
     QCOMPARE(mController->property("trackYear").toString(), QString{});
     QCOMPARE(mController->property("trackFormat").toString(), QString{});
+}
+
+void ActiveRendererControllerShould::give_a_looked_up_artwork_url_for_a_current_track_without_artwork()
+{
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(
+            QStringLiteral("http://192.168.0.3/1.flac"),
+            QStringLiteral(R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" )"
+                           R"(xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">)"
+                           R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title>)"
+                           R"(<upnp:artist>The Quiet Ferries</upnp:artist>)"
+                           R"(<upnp:album>Salt &amp; Spray</upnp:album>)"
+                           R"(<res protocolInfo="http-get:*:audio/flac:*">http://192.168.0.3/1.flac</res>)"
+                           R"(</item></DIDL-Lite>)"));
+
+    activate(QStringLiteral("Kitchen"));
+
+    QCOMPARE(mController->property("artworkUrl").toString(),
+             QStringLiteral("image://artwork/?artist=The%20Quiet%20Ferries&album=Salt%20%26%20Spray"));
+}
+
+void ActiveRendererControllerShould::give_no_artwork_url_for_a_current_track_without_artwork_and_album()
+{
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(
+            QStringLiteral("http://192.168.0.3/1.flac"),
+            QStringLiteral(R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" )"
+                           R"(xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">)"
+                           R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title>)"
+                           R"(<upnp:artist>The Quiet Ferries</upnp:artist>)"
+                           R"(<res protocolInfo="http-get:*:audio/flac:*">http://192.168.0.3/1.flac</res>)"
+                           R"(</item></DIDL-Lite>)"));
+
+    activate(QStringLiteral("Kitchen"));
+
+    QCOMPARE(mController->property("artworkUrl").toString(), QString{});
 }
 
 void ActiveRendererControllerShould::give_whether_the_active_renderer_can_pause_and_is_transitioning()
