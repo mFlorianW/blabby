@@ -26,6 +26,8 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkUrl.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FolderArtwork.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FolderArtwork.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoadProviders.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoadProviders.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QmlSingletonRegistry.cpp

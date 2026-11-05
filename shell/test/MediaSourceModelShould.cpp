@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "MediaSourceModelShould.hpp"
+#include "LoadProviders.hpp"
 #include "MediaSourceModel.hpp"
 #include "TestProvider.hpp"
 #include "TestProviderLoader.hpp"
@@ -20,8 +21,8 @@ MediaSourceModelShould::~MediaSourceModelShould() = default;
 
 void MediaSourceModelShould::load_the_provider_and_report_amount_of_media_sources()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
     auto const count = model.rowCount();
@@ -34,8 +35,8 @@ void MediaSourceModelShould::load_the_provider_and_report_amount_of_media_source
 
 void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expRoleNames = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceName), QByteArray{"mediaSourceName"}),
@@ -49,8 +50,8 @@ void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
 
 void MediaSourceModelShould::give_the_name_of_provider_for_valid_index()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expName = QStringLiteral("TestMediaSource");
 
@@ -65,8 +66,8 @@ void MediaSourceModelShould::give_the_name_of_provider_for_valid_index()
 
 void MediaSourceModelShould::give_the_iconurl_of_provider_for_valid_index()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     auto expIconUrl = QStringLiteral("http::/127.0.0.1/TestMediaSource.png");
 
@@ -81,12 +82,11 @@ void MediaSourceModelShould::give_the_iconurl_of_provider_for_valid_index()
 
 void MediaSourceModelShould::handle_new_connected_sources()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
-    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(0).get())->createNewSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(0).get())->createNewSource();
     auto const rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 2,
@@ -97,9 +97,8 @@ void MediaSourceModelShould::handle_new_connected_sources()
 
 void MediaSourceModelShould::handle_disconnected_sources()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
 
     auto rowCount = model.rowCount();
@@ -108,7 +107,7 @@ void MediaSourceModelShould::handle_disconnected_sources()
                  .arg(QString::number(rowCount))
                  .toLocal8Bit());
 
-    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(1).get())->removeLastSource();
     rowCount = model.rowCount();
 
     QVERIFY2(rowCount == 1,
@@ -119,11 +118,10 @@ void MediaSourceModelShould::handle_disconnected_sources()
 
 void MediaSourceModelShould::set_the_active_media_source_property_correctly()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
-    auto expectedSrc = loaderRaw->providers().at(0)->sources().at(0);
+    auto expectedSrc = loader.providers().at(0)->sources().at(0);
 
     model.activateMediaSource(0);
 
@@ -134,22 +132,21 @@ void MediaSourceModelShould::set_the_active_media_source_property_correctly()
 
 void MediaSourceModelShould::ignore_activating_the_active_media_source_again()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     model.activateMediaSource(0);
     auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
 
     model.activateMediaSource(0);
 
     QCOMPARE(mediaSourceActivatedSpy.size(), 0);
-    QCOMPARE(model.activeMediaSource(), loaderRaw->providers().at(0)->sources().at(0));
+    QCOMPARE(model.activeMediaSource(), loader.providers().at(0)->sources().at(0));
 }
 
 void MediaSourceModelShould::ignore_activating_an_invalid_index()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mediaSourceActivatedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
 
     model.activateMediaSource(-1);
@@ -161,15 +158,14 @@ void MediaSourceModelShould::ignore_activating_an_invalid_index()
 
 void MediaSourceModelShould::have_no_active_media_source_when_the_active_media_source_is_removed()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     model.activateMediaSource(1);
     auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
     auto activeRemovedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceDisappeared};
 
-    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(1).get())->removeLastSource();
 
     QCOMPARE(activeChangedSpy.size(), 1);
     QCOMPARE(model.activeMediaSource(), nullptr);
@@ -179,11 +175,10 @@ void MediaSourceModelShould::have_no_active_media_source_when_the_active_media_s
 
 void MediaSourceModelShould::not_activate_a_reappearing_media_source()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>();
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
-    auto* provider = qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(0).get());
+    auto* provider = qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(0).get());
     model.activateMediaSource(0);
     provider->removeLastSource();
     auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
@@ -197,19 +192,18 @@ void MediaSourceModelShould::not_activate_a_reappearing_media_source()
 
 void MediaSourceModelShould::keep_the_active_media_source_when_another_media_source_is_removed()
 {
-    auto loader = std::make_unique<Multimedia::TestHelper::TestProviderLoader>(2);
-    auto loaderRaw = loader.get();
-    auto model = MediaSourceModel{std::move(loader)};
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
     auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
     model.activateMediaSource(0);
     auto activeChangedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceChanged};
     auto activeRemovedSpy = QSignalSpy{&model, &MediaSourceModel::activeMediaSourceDisappeared};
 
-    qobject_cast<Multimedia::TestHelper::TestProvider*>(loaderRaw->providers().at(1).get())->removeLastSource();
+    qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(1).get())->removeLastSource();
 
     QCOMPARE(activeChangedSpy.size(), 0);
     QCOMPARE(activeRemovedSpy.size(), 0);
-    QCOMPARE(model.activeMediaSource(), loaderRaw->providers().at(0)->sources().at(0));
+    QCOMPARE(model.activeMediaSource(), loader.providers().at(0)->sources().at(0));
 }
 
 } // namespace Shell

@@ -41,10 +41,10 @@ public:
     };
 
     /**
-     * Creates an instance of the ProviderModel
-     * @param providerLoader The loader which is used to load the providers.
+     * Creates an instance of the MediaSourceModel that holds the Sources of the passed Providers.
+     * @param providers The loaded Providers, they are already initialized.
      */
-    MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> providerLoader);
+    explicit MediaSourceModel(Multimedia::Providers providers);
 
     /**
      * Default destructor
@@ -108,7 +108,6 @@ private Q_SLOTS:
     void onSourceRemoved(std::shared_ptr<Multimedia::Source> const& source) noexcept;
 
 private:
-    std::unique_ptr<Multimedia::ProviderLoader> mProviderLoader;
     Multimedia::Providers mProviders;
     Multimedia::MediaSources mSources;
     std::shared_ptr<Multimedia::Source> mActiveSource{nullptr};

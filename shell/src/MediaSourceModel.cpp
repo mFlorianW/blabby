@@ -7,28 +7,19 @@
 
 #include "MediaSourceModel.hpp"
 #include "LoggingCategories.hpp"
-#include "ProviderDirs.hpp"
 
 namespace Shell
 {
 
-MediaSourceModel::MediaSourceModel(std::unique_ptr<Multimedia::ProviderLoader> providerLoader)
+MediaSourceModel::MediaSourceModel(Multimedia::Providers providers)
     : QAbstractListModel{}
-    , mProviderLoader{std::move(providerLoader)}
+    , mProviders{std::move(providers)}
 {
-    Q_ASSERT(mProviderLoader != nullptr);
-    mProviders = mProviderLoader->load({QStringLiteral(DEFAULT_PROVIDER_DIR)});
-    beginResetModel();
     for (auto const& provider : std::as_const(mProviders)) {
         connect(provider.get(), &Multimedia::Provider::sourceAdded, this, &MediaSourceModel::onSourceAdded);
         connect(provider.get(), &Multimedia::Provider::sourceRemoved, this, &MediaSourceModel::onSourceRemoved);
-        if (provider->init()) {
-            mSources.append(provider->sources());
-        } else {
-            disconnect(provider.get());
-        }
+        mSources.append(provider->sources());
     }
-    endResetModel();
 }
 
 MediaSourceModel::~MediaSourceModel() = default;
