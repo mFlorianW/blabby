@@ -18,9 +18,10 @@ namespace
 /**
  * The optional properties a browse asks for, without a filter servers may omit them.
  * The resources carry the play URL, the album art, the artist and the creator are shown on the tiles, the album and
- * the duration in the Queue.
+ * the duration in the Queue. The role of an artist tells the Album Artist apart.
  */
-constexpr auto BrowseFilter = QLatin1StringView{"res,res@duration,upnp:albumArtURI,upnp:artist,dc:creator,upnp:album"};
+constexpr auto BrowseFilter =
+    QLatin1StringView{"res,res@duration,upnp:albumArtURI,upnp:artist,upnp:artist@role,dc:creator,upnp:album"};
 
 /**
  * How many Items a Browse asks for at once, a MediaServer may cap a page to fewer Items.
@@ -64,6 +65,7 @@ Multimedia::Items itemsOf(UPnPAV::BrowseResponse const& response)
                                .withPath(obj.id())
                                .withPlayUrl(obj.playUrl())
                                .withAlbum(obj.album())
+                               .withAlbumArtist(obj.albumArtist())
                                .withDuration(durationOf(obj))
                                .withSupportedTypes(obj.supportedProtocols())
                                .build());

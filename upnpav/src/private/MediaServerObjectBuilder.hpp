@@ -81,6 +81,13 @@ public:
      */
     MediaServerObjectBuilder& withCreator(QString const& creator) noexcept;
 
+    /**
+     * Sets the Album Artist of the MediaObject
+     * @param albumArtist The Album Artist of the @ref UPnPAV::MediaServerObject
+     * @return Reference to the @ref UPnPAV::MediaServerObjectBuilder for chaining
+     */
+    MediaServerObjectBuilder& withAlbumArtist(QString const& albumArtist) noexcept;
+
     MediaServerObjectBuilder& withAlbum(QString const& album) noexcept;
 
     MediaServerObjectBuilder& withDate(QString const& date) noexcept;

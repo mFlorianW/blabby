@@ -85,6 +85,15 @@ void ItemShould::give_the_album()
     QCOMPARE(Item{}.album(), QString{});
 }
 
+void ItemShould::give_the_album_artist()
+{
+    auto const item = ItemBuilder{}.withAlbumArtist(QStringLiteral("Various Artists")).build();
+
+    QCOMPARE(item.albumArtist(), QStringLiteral("Various Artists"));
+    QCOMPARE(Item{}.albumArtist(), QString{});
+    QVERIFY(item != Item{});
+}
+
 void ItemShould::give_the_duration()
 {
     auto const duration = std::chrono::milliseconds{271250};

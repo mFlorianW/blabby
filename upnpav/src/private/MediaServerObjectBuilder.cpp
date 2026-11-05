@@ -62,6 +62,12 @@ MediaServerObjectBuilder& MediaServerObjectBuilder::withCreator(QString const& c
     return *this;
 }
 
+MediaServerObjectBuilder& MediaServerObjectBuilder::withAlbumArtist(QString const& albumArtist) noexcept
+{
+    mObj.mAlbumArtist = albumArtist;
+    return *this;
+}
+
 MediaServerObjectBuilder& MediaServerObjectBuilder::withAlbum(QString const& album) noexcept
 {
     mObj.mAlbum = album;

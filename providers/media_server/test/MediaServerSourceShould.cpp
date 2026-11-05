@@ -312,6 +312,55 @@ void SourceShould::map_the_album_art_and_the_artist_to_the_item()
     QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedSecondaryText);
 }
 
+void SourceShould::request_the_role_of_the_artist()
+{
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    // Without it a server may leave out the role and the Album Artist can't be told from the artist.
+    auto const filter = mediaServerRaw->lastBrowseFilter.split(QLatin1Char(','));
+    QVERIFY(filter.contains(QStringLiteral("upnp:artist@role")));
+}
+
+void SourceShould::map_the_album_artist_to_the_item_data()
+{
+    QTest::addColumn<QString>("properties");
+    QTest::addColumn<QString>("expectedAlbumArtist");
+    QTest::addColumn<QString>("expectedSecondaryText");
+
+    QTest::newRow("album artist and artist")
+        << QStringLiteral("&lt;upnp:artist role=&quot;AlbumArtist&quot;&gt;Various Artists&lt;/upnp:artist&gt;"
+                          "&lt;upnp:artist&gt;Anti-Flag&lt;/upnp:artist&gt;")
+        << QStringLiteral("Various Artists") << QStringLiteral("Anti-Flag");
+    QTest::newRow("only album artist")
+        << QStringLiteral("&lt;upnp:artist role=&quot;AlbumArtist&quot;&gt;Various Artists&lt;/upnp:artist&gt;")
+        << QStringLiteral("Various Artists") << QStringLiteral("Various Artists");
+    QTest::newRow("artist in another role")
+        << QStringLiteral("&lt;upnp:artist role=&quot;Composer&quot;&gt;Harbour Choir&lt;/upnp:artist&gt;") << QString{}
+        << QStringLiteral("Harbour Choir");
+    QTest::newRow("only artist") << QStringLiteral("&lt;upnp:artist&gt;Anti-Flag&lt;/upnp:artist&gt;") << QString{}
+                                 << QStringLiteral("Anti-Flag");
+}
+
+void SourceShould::map_the_album_artist_to_the_item()
+{
+    QFETCH(QString, properties);
+    QFETCH(QString, expectedAlbumArtist);
+    QFETCH(QString, expectedSecondaryText);
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    mediaServer->soapCall->setRawMessage(QString{UPnPAV::xmlResponse}.arg(didlWithOneItem(properties), "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).albumArtist(), expectedAlbumArtist);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).secondaryText(), expectedSecondaryText);
+}
+
 void SourceShould::request_the_album_and_the_duration()
 {
     auto mediaServer = createMediaServer();
@@ -654,7 +703,7 @@ void SourceShould::request_a_page_of_a_container()
     QCOMPARE(mediaServerRaw->lastBrowseRequest.objectId, QStringLiteral("12"));
     QCOMPARE(mediaServerRaw->lastBrowseRequest.browseFlag, UPnPAV::MediaServer::BrowseFlag::DirectChildren);
     QCOMPARE(mediaServerRaw->lastBrowseFilter,
-             QStringLiteral("res,res@duration,upnp:albumArtURI,upnp:artist,dc:creator,upnp:album"));
+             QStringLiteral("res,res@duration,upnp:albumArtURI,upnp:artist,upnp:artist@role,dc:creator,upnp:album"));
     QCOMPARE(mediaServerRaw->lastBrowseStartingIndex, 200);
     QCOMPARE(mediaServerRaw->lastBrowseRequestedCount, 100);
 }

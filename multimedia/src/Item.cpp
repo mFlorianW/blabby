@@ -56,6 +56,11 @@ QString const& Item::album() const noexcept
     return d->mAlbum;
 }
 
+QString const& Item::albumArtist() const noexcept
+{
+    return d->mAlbumArtist;
+}
+
 std::optional<std::chrono::milliseconds> Item::duration() const noexcept
 {
     return d->mDuration;
@@ -75,6 +80,7 @@ bool operator==(Item const& lhs, Item const& rhs) noexcept
                                (lhs.d->mArtworkUrl == rhs.d->mArtworkUrl) and
                                (lhs.d->mPath == rhs.d->mPath) and
                                (lhs.d->mAlbum == rhs.d->mAlbum) and
+                               (lhs.d->mAlbumArtist == rhs.d->mAlbumArtist) and
                                (lhs.d->mDuration == rhs.d->mDuration));
     // clang-format on
 }
@@ -123,6 +129,12 @@ ItemBuilder& ItemBuilder::withPlayUrl(QString const& playUrl) noexcept
 ItemBuilder& ItemBuilder::withAlbum(QString const& album) noexcept
 {
     mItem.d->mAlbum = album;
+    return *this;
+}
+
+ItemBuilder& ItemBuilder::withAlbumArtist(QString const& albumArtist) noexcept
+{
+    mItem.d->mAlbumArtist = albumArtist;
     return *this;
 }
 

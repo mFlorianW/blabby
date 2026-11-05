@@ -119,6 +119,13 @@ public:
     QString const& album() const noexcept;
 
     /**
+     * Gives the Album Artist of the @ref Multimedia::Item, the artist the album as a whole is credited to, e.g.
+     * "Various Artists" for a compilation.
+     * @return The Album Artist, empty when unknown.
+     */
+    QString const& albumArtist() const noexcept;
+
+    /**
      * Gives the playing time of the @ref Multimedia::Item.
      * @return The duration, unset when unknown, e.g. for a Container or a stream.
      */
@@ -208,6 +215,13 @@ public:
     ItemBuilder& withAlbum(QString const& album) noexcept;
 
     /**
+     * Sets the Album Artist of the @ref Multimedia::Item
+     * @param albumArtist The Album Artist of the @ref Multimedia::Item
+     * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
+     */
+    ItemBuilder& withAlbumArtist(QString const& albumArtist) noexcept;
+
+    /**
      * Sets the playing time of the @ref Multimedia::Item
      * @param duration The duration of the @ref Multimedia::Item, unset when unknown.
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
@@ -248,6 +262,7 @@ struct ItemData : public QSharedData
     QString mPath;
     QString mPlayUrl;
     QString mAlbum;
+    QString mAlbumArtist;
     std::optional<std::chrono::milliseconds> mDuration;
     QVector<UPnPAV::Protocol> mSupportedTypes;
 

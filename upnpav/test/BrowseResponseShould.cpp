@@ -193,6 +193,18 @@ void BrowseResponseShould::parse_the_album_art_uri_the_artist_and_the_creator()
     QCOMPARE(objects.at(1).creator(), QString{});
 }
 
+void BrowseResponseShould::parse_the_album_artist()
+{
+    auto response = QString{xmlResponse}.arg(didlItemWithArtworkAndArtists, "2", "2", "1");
+    auto browseResult = createBrowseResult(response);
+
+    auto const objects = browseResult.objects();
+
+    QCOMPARE(objects.size(), 2);
+    QCOMPARE(objects.at(0).albumArtist(), QStringLiteral("Various Artists"));
+    QCOMPARE(objects.at(1).albumArtist(), QStringLiteral("Various Artists"));
+}
+
 void BrowseResponseShould::parse_the_album_the_date_and_the_resources()
 {
     auto response = QString{xmlResponse}.arg(didlItemWithAlbumDateAndResources, "1", "1", "1");

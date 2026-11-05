@@ -92,6 +92,12 @@ public:
     QString creator() const noexcept;
 
     /**
+     * Gives the Album Artist of the object (upnp:artist with the role AlbumArtist).
+     * @return The Album Artist or an empty string when the object has none.
+     */
+    QString albumArtist() const noexcept;
+
+    /**
      * @return The album of the object, empty when unknown.
      */
     QString album() const noexcept;
@@ -128,6 +134,7 @@ private:
     QString mAlbumArtUrl;
     QString mArtist;
     QString mCreator;
+    QString mAlbumArtist;
     QString mAlbum;
     QString mDate;
     QVector<Resource> mResources;
