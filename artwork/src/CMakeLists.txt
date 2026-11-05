@@ -6,12 +6,14 @@ add_library(Blabby::Artwork ALIAS ${PROJECT_NAME})
 generate_export_header(${PROJECT_NAME})
 
 set(PRIVATE_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/DiskCache.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/Service.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MusicBrainzService.cpp
 )
 
 set(PRIVATE_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/DiskCache.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/LoggingCategories.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/Service.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/private/MusicBrainzService.hpp

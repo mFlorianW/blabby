@@ -10,11 +10,13 @@
 #include "blabbyartwork_export.h"
 #include <QHash>
 #include <QObject>
+#include <QSet>
 #include <memory>
 
 namespace Artwork
 {
 
+class DiskCache;
 class Service;
 
 /**
@@ -41,8 +43,9 @@ protected:
 
 /**
  * The @ref Artwork::OnlineLookup looks the Artwork of an album up on the internet, on MusicBrainz and the Cover Art
- * Archive. The outcome of a lookup, found or not, is kept for the lifetime of the instance, so an album is looked up
- * once.
+ * Archive. Found Artwork is scaled down to at most 500 px and kept in a cache directory, so it survives restarts.
+ * An album without Artwork, also one whose lookup failed, is only remembered for the lifetime of the instance: it's
+ * not looked up again while the instance lives, but by the next one.
  */
 class BLABBYARTWORK_EXPORT OnlineLookup final : public Lookup
 {
@@ -50,7 +53,8 @@ class BLABBYARTWORK_EXPORT OnlineLookup final : public Lookup
     Q_DISABLE_COPY_MOVE(OnlineLookup)
 public:
     /**
-     * Creates an instance that looks up with Qt's network access and the system's monotonic clock.
+     * Creates an instance that looks up with Qt's network access and the system's monotonic clock, and caches in the
+     * "artwork" directory of the application's cache location.
      */
     OnlineLookup();
 
@@ -58,8 +62,9 @@ public:
      * Creates an instance with the given dependencies.
      * @param backend The backend that sends the HTTP requests.
      * @param scheduler The scheduler for the rate limit of the online service.
+     * @param cacheDirectory The directory that keeps the found Artwork.
      */
-    OnlineLookup(std::unique_ptr<HttpBackend> backend, std::unique_ptr<Scheduler> scheduler);
+    OnlineLookup(std::unique_ptr<HttpBackend> backend, std::unique_ptr<Scheduler> scheduler, QString cacheDirectory);
 
     ~OnlineLookup() override;
 
@@ -67,13 +72,20 @@ public:
 
 private:
     struct PendingLookup;
+    void lookUp(QString const& key,
+                QString const& artist,
+                QString const& album,
+                std::shared_ptr<Request> const& request);
     void onLookupFinished(QString const& key);
     void onRequestCancelled(QString const& key);
 
     std::unique_ptr<HttpBackend> mBackend;
     std::unique_ptr<Scheduler> mScheduler;
     std::unique_ptr<Service> mService;
-    QHash<QString, QImage> mResults;
+    std::unique_ptr<DiskCache> mCache;
+    QSet<QString> mAlbumsWithoutArtwork;
+    // Found Artwork that couldn't be written to the cache, so that it's not looked up again.
+    QHash<QString, QImage> mUncachedArtwork;
     QHash<QString, std::shared_ptr<PendingLookup>> mPendingLookups;
 };
 
