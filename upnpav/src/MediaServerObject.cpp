@@ -128,21 +128,6 @@ QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
     return mSupportedProtocols;
 }
 
-bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
-{
-    return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
-            (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
-            (lhs.supportedProtocols() == rhs.supportedProtocols()) and (lhs.mAlbumArtUrl == rhs.mAlbumArtUrl) and
-            (lhs.mArtist == rhs.mArtist) and (lhs.mCreator == rhs.mCreator) and
-            (lhs.mAlbumArtist == rhs.mAlbumArtist) and (lhs.mAlbum == rhs.mAlbum) and (lhs.mDate == rhs.mDate) and
-            (lhs.mResources == rhs.mResources));
-}
-
-bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
-{
-    return !(lhs == rhs);
-}
-
 QDebug operator<<(QDebug d, MediaServerObject const& serverObject)
 {
     QDebugStateSaver saver(d);

@@ -112,8 +112,7 @@ public:
      */
     QVector<Resource> const& resources() const noexcept;
 
-    BLABBYUPNPAV_EXPORT friend bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
-    BLABBYUPNPAV_EXPORT friend bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept;
+    friend bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) = default;
 
     /**
      * Factory method that creates all @ref UPnPAV::MediaServerObject from a DIDL.

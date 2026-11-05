@@ -73,21 +73,7 @@ QVector<UPnPAV::Protocol> const& Item::supportedTypes() const noexcept
 
 bool operator==(Item const& lhs, Item const& rhs) noexcept
 {
-    // clang-format off
-    return (lhs.d == rhs.d) or ((lhs.d->mType == rhs.d->mType) and
-                               (lhs.d->mMainText == rhs.d->mMainText) and
-                               (lhs.d->mSecondaryText == rhs.d->mSecondaryText) and
-                               (lhs.d->mArtworkUrl == rhs.d->mArtworkUrl) and
-                               (lhs.d->mPath == rhs.d->mPath) and
-                               (lhs.d->mAlbum == rhs.d->mAlbum) and
-                               (lhs.d->mAlbumArtist == rhs.d->mAlbumArtist) and
-                               (lhs.d->mDuration == rhs.d->mDuration));
-    // clang-format on
-}
-
-bool operator!=(Item const& lhs, Item const& rhs) noexcept
-{
-    return !(lhs == rhs);
+    return (lhs.d == rhs.d) or (static_cast<ItemValues const&>(*lhs.d) == static_cast<ItemValues const&>(*rhs.d));
 }
 
 ItemBuilder& ItemBuilder::withItemType(ItemType type) noexcept

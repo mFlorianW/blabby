@@ -145,14 +145,6 @@ public:
      */
     BLABBYMULTIMEDIA_EXPORT friend bool operator==(Item const& lhs, Item const& rhs) noexcept;
 
-    /**
-     * unequal operator
-     * @param lhs Left hand side of the comparsion
-     * @param rhs right hand side of the comparsion
-     * @return True not equal otherwise false.
-     */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(Item const& lhs, Item const& rhs) noexcept;
-
 private:
     friend ItemBuilder;
     QExplicitlySharedDataPointer<ItemData> d;
@@ -253,7 +245,10 @@ private:
  */
 BLABBYMULTIMEDIA_EXPORT QString titleOfUri(QString const& uri);
 
-struct ItemData : public QSharedData
+/**
+ * The values of an @ref Multimedia::Item, apart from the sharing so that they can be compared as a whole.
+ */
+struct ItemValues
 {
     ItemType mType{ItemType::Container};
     QString mMainText;
@@ -266,19 +261,23 @@ struct ItemData : public QSharedData
     std::optional<std::chrono::milliseconds> mDuration;
     QVector<UPnPAV::Protocol> mSupportedTypes;
 
+    friend bool operator==(ItemValues const& lhs, ItemValues const& rhs) = default;
+};
+
+struct ItemData : public QSharedData, public ItemValues
+{
     ItemData() = default;
     ItemData(ItemType type,
              QString mainText,
              QString secondaryText = QString(""),
              QString artworkUrl = QString(""),
              QString path = QString(""))
-        : QSharedData{}
-        , mType{type}
-        , mMainText{std::move(mainText)}
-        , mSecondaryText{std::move(secondaryText)}
-        , mArtworkUrl{std::move(artworkUrl)}
-        , mPath{std::move(path)}
     {
+        mType = type;
+        mMainText = std::move(mainText);
+        mSecondaryText = std::move(secondaryText);
+        mArtworkUrl = std::move(artworkUrl);
+        mPath = std::move(path);
     }
 };
 
