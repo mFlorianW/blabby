@@ -53,11 +53,12 @@ OnlineLookup::OnlineLookup()
 
 OnlineLookup::OnlineLookup(std::unique_ptr<HttpBackend> backend,
                            std::unique_ptr<Scheduler> scheduler,
-                           QString cacheDirectory)
+                           QString cacheDirectory,
+                           qint64 cacheCapacity)
     : mBackend{std::move(backend)}
     , mScheduler{std::move(scheduler)}
     , mService{std::make_unique<MusicBrainzService>(*mBackend, *mScheduler)}
-    , mCache{std::make_unique<DiskCache>(std::move(cacheDirectory))}
+    , mCache{std::make_unique<DiskCache>(std::move(cacheDirectory), cacheCapacity)}
 {
 }
 
