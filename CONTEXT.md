@@ -30,10 +30,6 @@ _Avoid_: Folder, directory (as the general term)
 An Item that can be played on a Renderer, such as a song.
 _Avoid_: File, track (as the general term)
 
-**Artwork**:
-The picture of an Item's album, such as its cover. The Artwork supplied by the Source (or, for the Current Track, the Renderer) always wins; only without it does Blabby show Artwork looked up on the internet for an Item that names its album.
-_Avoid_: Album art, cover (as the general term), thumbnail
-
 **Path**:
 The location of an Item within its Source, whose format is defined by the Source.
 _Avoid_: URL, address
@@ -43,8 +39,8 @@ The artist an album as a whole is credited to, such as "Various Artists" for a c
 _Avoid_: Band, performer
 
 **Artwork**:
-The image that represents an Item or the Current Track, normally its album cover. The Artwork the Source or Renderer supplies always wins; only when it supplies none does Blabby look up the album's Artwork on the internet. Without either, a placeholder is shown.
-_Avoid_: Thumbnail, cover, album art
+The image that represents an Item or the Current Track, normally its album cover. The Artwork the Source or Renderer supplies always wins; only when it supplies none does Blabby look up the album's Artwork on the internet, which needs an Item that names its album. Without either, a placeholder is shown.
+_Avoid_: Album art, cover (as the general term), thumbnail
 
 ### Playing media
 
@@ -61,7 +57,7 @@ The user removing an Offline Renderer from the Renderers Blabby remembers. A for
 _Avoid_: Delete, remove
 
 **Active Renderer**:
-The one Renderer that Blabby currently sends playback to and controls. At most one Renderer is active at a time; there is none until the user picks one, and none again when the Active Renderer goes Offline.
+The one Renderer that Blabby currently sends playback to and controls. At most one Renderer is active at a time; there is none until the user picks one, and none again when the Active Renderer goes Offline. When the user has chosen to have the last Active Renderer remembered, the Renderer the user last picked becomes active again whenever it is Online and no Renderer is active, after a restart as well as after it went Offline. Becoming active again does not start an Idle Queue.
 _Avoid_: Selected renderer, current renderer, output, target
 
 **Playback State**:
