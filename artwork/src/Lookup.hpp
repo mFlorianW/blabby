@@ -44,6 +44,8 @@ protected:
 /**
  * The @ref Artwork::OnlineLookup looks the Artwork of an album up on the internet, on MusicBrainz and the Cover Art
  * Archive. Found Artwork is scaled down to at most 500 px and kept in a cache directory, so it survives restarts.
+ * The cache directory stays within a capacity, the least recently used Artwork is removed first and looked up again
+ * when it's requested next.
  * An album without Artwork, also one whose lookup failed, is only remembered for the lifetime of the instance: it's
  * not looked up again while the instance lives, but by the next one.
  */
@@ -52,6 +54,11 @@ class BLABBYARTWORK_EXPORT OnlineLookup final : public Lookup
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(OnlineLookup)
 public:
+    /**
+     * The capacity of the cache directory in bytes, unless another one is given.
+     */
+    static constexpr qint64 defaultCacheCapacity = qint64{100} * 1024 * 1024;
+
     /**
      * Creates an instance that looks up with Qt's network access and the system's monotonic clock, and caches in the
      * "artwork" directory of the application's cache location.
@@ -63,8 +70,12 @@ public:
      * @param backend The backend that sends the HTTP requests.
      * @param scheduler The scheduler for the rate limit of the online service.
      * @param cacheDirectory The directory that keeps the found Artwork.
+     * @param cacheCapacity The number of bytes the cache directory keeps at most.
      */
-    OnlineLookup(std::unique_ptr<HttpBackend> backend, std::unique_ptr<Scheduler> scheduler, QString cacheDirectory);
+    OnlineLookup(std::unique_ptr<HttpBackend> backend,
+                 std::unique_ptr<Scheduler> scheduler,
+                 QString cacheDirectory,
+                 qint64 cacheCapacity = defaultCacheCapacity);
 
     ~OnlineLookup() override;
 

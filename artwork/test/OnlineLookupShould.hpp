@@ -28,6 +28,22 @@ private:
      */
     std::unique_ptr<OnlineLookup> restart(HttpBackendDouble*& backend) const;
 
+    /**
+     * Replaces the instance by one on the same cache directory whose cache keeps at most the given number of bytes.
+     */
+    void startWithCacheCapacity(qint64 cacheCapacity);
+
+    /**
+     * Caches the Artwork of "Low Tide Sessions", then restarts with a cache that has room for two albums.
+     */
+    void cacheOneAlbumAndRestartWithRoomForTwo();
+
+    /**
+     * Requests the red Artwork of an album, after the rate limit of the previous search, and waits for it.
+     * @return The number of HTTP requests that were sent for it, -1 when no red Artwork was delivered.
+     */
+    qsizetype requestsSentToGetArtwork(QString const& album);
+
     QTemporaryDir mCacheDirectory;
     HttpBackendDouble* mBackend = nullptr;
     SchedulerDouble* mScheduler = nullptr;
@@ -54,6 +70,8 @@ private Q_SLOTS:
     void look_up_an_album_without_artwork_again_only_after_a_restart_data();
     void look_up_an_album_without_artwork_again_only_after_a_restart();
     void keep_artwork_of_at_most_500_px();
+    void remove_the_least_recently_used_artwork_when_the_cache_is_full();
+    void count_reading_the_cached_artwork_as_a_use();
 };
 
 } // namespace Artwork

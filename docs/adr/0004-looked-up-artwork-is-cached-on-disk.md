@@ -17,3 +17,6 @@ changes once it exists.
   use small.
 - "No Artwork found" is not written to disk; it is remembered only while Blabby runs, so an album is not looked up
   on every scroll, but every start tries again and an album that gains Artwork online shows it right away.
+- The cache is capped at about 100 MB, so that it never fills the SD card. When a write exceeds the cap, the least
+  recently shown Artwork is removed first and simply looked up again when it's shown next. The last use is the
+  file's modification time, so that the order survives restarts without an index file.

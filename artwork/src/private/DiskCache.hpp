@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <QDateTime>
 #include <QFuture>
 #include <QImage>
 #include <QString>
@@ -14,6 +15,8 @@ namespace Artwork
 /**
  * The @ref Artwork::DiskCache keeps found Artwork in a directory, so that it survives restarts. It reads in the global
  * thread pool, so that decoding the Artwork doesn't block its user.
+ * The cache keeps at most its capacity of bytes. When a write exceeds it, the least recently read or written Artwork
+ * is removed first. The last use of an Artwork is its file's modification time, so that the order survives restarts.
  */
 class DiskCache final
 {
@@ -21,8 +24,9 @@ public:
     /**
      * Creates an instance of the @ref Artwork::DiskCache.
      * @param directory The directory of the cache, it's created when the first Artwork is written.
+     * @param capacity The number of bytes the cache keeps at most.
      */
-    explicit DiskCache(QString directory);
+    DiskCache(QString directory, qint64 capacity);
 
     /**
      * Gives whether there is cached Artwork of the album, without reading it.
@@ -36,20 +40,26 @@ public:
      * @param key The key of the album.
      * @return The Artwork once it's read, a null image when there is none in the cache.
      */
-    QFuture<QImage> read(QString const& key) const;
+    QFuture<QImage> read(QString const& key);
 
     /**
-     * Writes the Artwork to the cache, replacing the one of the album.
+     * Writes the Artwork to the cache, replacing the one of the album, and removes the least recently used Artwork
+     * until the cache is within its capacity again.
      * @param key The key of the album.
      * @param image The Artwork.
      * @return True when the Artwork is written.
      */
-    bool write(QString const& key, QImage const& image) const;
+    bool write(QString const& key, QImage const& image);
 
 private:
     QString filePath(QString const& key) const;
+    void markUsed(QString const& path);
+    QDateTime nextUse();
+    void evict() const;
 
     QString mDirectory;
+    qint64 mCapacity;
+    QDateTime mLastUse;
 };
 
 } // namespace Artwork

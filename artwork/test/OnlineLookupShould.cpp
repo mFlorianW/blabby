@@ -43,6 +43,7 @@ constexpr auto saltSearch =
     QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Salt & Spray")"};
 constexpr auto lowTideCover = QLatin1StringView{"coverartarchive.org/release-group/rg-low-tide/front-500"};
 constexpr auto harbourCover = QLatin1StringView{"coverartarchive.org/release-group/rg-harbour/front-500"};
+constexpr auto saltCover = QLatin1StringView{"coverartarchive.org/release-group/rg-salt/front-500"};
 
 /**
  * Gives true when the color is red, apart from the small deviations of a lossy image format.
@@ -59,11 +60,7 @@ OnlineLookupShould::~OnlineLookupShould() = default;
 void OnlineLookupShould::init()
 {
     QVERIFY(mCacheDirectory.isValid());
-    auto backend = std::make_unique<HttpBackendDouble>();
-    auto scheduler = std::make_unique<SchedulerDouble>();
-    mBackend = backend.get();
-    mScheduler = scheduler.get();
-    mLookup = std::make_unique<OnlineLookup>(std::move(backend), std::move(scheduler), mCacheDirectory.path());
+    startWithCacheCapacity(OnlineLookup::defaultCacheCapacity);
 }
 
 std::unique_ptr<OnlineLookup> OnlineLookupShould::restart(HttpBackendDouble*& backend) const
@@ -73,6 +70,47 @@ std::unique_ptr<OnlineLookup> OnlineLookupShould::restart(HttpBackendDouble*& ba
     return std::make_unique<OnlineLookup>(std::move(newBackend),
                                           std::make_unique<SchedulerDouble>(),
                                           mCacheDirectory.path());
+}
+
+void OnlineLookupShould::startWithCacheCapacity(qint64 cacheCapacity)
+{
+    mLookup.reset();
+    auto backend = std::make_unique<HttpBackendDouble>();
+    auto scheduler = std::make_unique<SchedulerDouble>();
+    mBackend = backend.get();
+    mScheduler = scheduler.get();
+    mLookup =
+        std::make_unique<OnlineLookup>(std::move(backend), std::move(scheduler), mCacheDirectory.path(), cacheCapacity);
+}
+
+void OnlineLookupShould::cacheOneAlbumAndRestartWithRoomForTwo()
+{
+    QCOMPARE(requestsSentToGetArtwork(QStringLiteral("Low Tide Sessions")), 2);
+    auto const written = QDir{mCacheDirectory.path()}.entryInfoList(QDir::Files);
+    QCOMPARE(written.size(), 1);
+    // All albums get the same Artwork, so two and a half times its size has room for two of them.
+    startWithCacheCapacity((written.at(0).size() * 5) / 2);
+}
+
+qsizetype OnlineLookupShould::requestsSentToGetArtwork(QString const& album)
+{
+    // Every album gets the same cover, so that all cached Artwork has the same size.
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red));
+    mBackend->setResponse(harbourSearch, 200, releaseGroupSearch(QStringLiteral("rg-harbour"), 100));
+    mBackend->setResponse(harbourCover, 200, cover(Qt::red));
+    mBackend->setResponse(saltSearch, 200, releaseGroupSearch(QStringLiteral("rg-salt"), 100));
+    mBackend->setResponse(saltCover, 200, cover(Qt::red));
+    mScheduler->advance(1s);
+    auto const sentRequests = mBackend->requests().size();
+
+    auto const request = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), album);
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    if (not finishedSpy.wait() or not isRed(request->image().pixelColor(0, 0))) {
+        return -1;
+    }
+    return mBackend->requests().size() - sentRequests;
 }
 
 void OnlineLookupShould::cleanup()
@@ -434,6 +472,39 @@ void OnlineLookupShould::keep_artwork_of_at_most_500_px()
     auto const written = QDir{mCacheDirectory.path()}.entryInfoList(QDir::Files);
     QCOMPARE(written.size(), 1);
     QCOMPARE(QImage{written.at(0).filePath()}.size(), QSize(500, 375));
+}
+
+void OnlineLookupShould::remove_the_least_recently_used_artwork_when_the_cache_is_full()
+{
+    auto const lowTide = QStringLiteral("Low Tide Sessions");
+    auto const harbour = QStringLiteral("Harbour Nights");
+    auto const salt = QStringLiteral("Salt & Spray");
+    cacheOneAlbumAndRestartWithRoomForTwo();
+
+    QCOMPARE(requestsSentToGetArtwork(harbour), 2);
+    QCOMPARE(requestsSentToGetArtwork(salt), 2);
+
+    QCOMPARE(QDir{mCacheDirectory.path()}.entryInfoList(QDir::Files).size(), 2);
+    QCOMPARE(requestsSentToGetArtwork(salt), 0);
+    QCOMPARE(requestsSentToGetArtwork(harbour), 0);
+    QCOMPARE(requestsSentToGetArtwork(lowTide), 2);
+}
+
+void OnlineLookupShould::count_reading_the_cached_artwork_as_a_use()
+{
+    auto const lowTide = QStringLiteral("Low Tide Sessions");
+    auto const harbour = QStringLiteral("Harbour Nights");
+    auto const salt = QStringLiteral("Salt & Spray");
+    cacheOneAlbumAndRestartWithRoomForTwo();
+    QCOMPARE(requestsSentToGetArtwork(harbour), 2);
+
+    QCOMPARE(requestsSentToGetArtwork(lowTide), 0);
+    QCOMPARE(requestsSentToGetArtwork(salt), 2);
+
+    QCOMPARE(QDir{mCacheDirectory.path()}.entryInfoList(QDir::Files).size(), 2);
+    QCOMPARE(requestsSentToGetArtwork(lowTide), 0);
+    QCOMPARE(requestsSentToGetArtwork(salt), 0);
+    QCOMPARE(requestsSentToGetArtwork(harbour), 2);
 }
 
 } // namespace Artwork
