@@ -9,6 +9,7 @@
 #include "QmlSingletonRegistry.hpp"
 #include "Renderer.hpp"
 #include <QGuiApplication>
+#include <QIcon>
 #include <QLoggingCategory>
 #include <QQmlEngine>
 #include <QQuickView>
@@ -42,6 +43,8 @@ int main(int argc, char* argv[])
 {
     QLoggingCategory::setFilterRules("*.debug=false");
     QGuiApplication blabby(argc, argv);
+    // Shown in the title bar and the task bar when the shell runs on a desktop.
+    QGuiApplication::setWindowIcon(QIcon{QStringLiteral(":/blabby/icons/blabby.svg")});
 
     Shell::registerQmlTypes();
 
