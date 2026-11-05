@@ -60,6 +60,12 @@ public:
     Q_DISABLE_COPY_MOVE(QmlSingletonRegistry)
 
     /**
+     * Gives the Providers the shell loaded once at startup, every part of the shell works with these.
+     * @return The loaded Providers that initialized.
+     */
+    Multimedia::Providers const& providers() const noexcept;
+
+    /**
      * Gives a pointer to the QMLEngine for the @ref Shell::MediaSourceModel singleton.
      * The pointer has the same lifetime as the @ref Shell::QmlSingletonRegistry instance.
      * @note The callee doesn't take the ownership of the returned pointer.
@@ -117,6 +123,7 @@ protected:
     QmlSingletonRegistry();
 
 private:
+    Multimedia::Providers mProviders;
     MediaSourceModel mSourceModel;
     MediaItemModel mItemModel;
     MediaRendererModel mRendererModel;

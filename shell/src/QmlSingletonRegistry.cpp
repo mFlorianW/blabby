@@ -6,6 +6,8 @@
 
 #include "QmlSingletonRegistry.hpp"
 #include "JsonRendererStore.hpp"
+#include "LoadProviders.hpp"
+#include "ProviderDirs.hpp"
 #include <QStandardPaths>
 
 namespace Shell
@@ -18,10 +20,17 @@ std::shared_ptr<Multimedia::RendererStore> createRendererStore()
     auto const dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     return std::make_shared<Multimedia::JsonRendererStore>(dataDir + QStringLiteral("/renderers.json"));
 }
+
+Multimedia::Providers loadInstalledProviders()
+{
+    auto loader = Multimedia::ProviderLoader{};
+    return loadProviders(loader, {QStringLiteral(DEFAULT_PROVIDER_DIR)});
+}
 } // namespace
 
 QmlSingletonRegistry::QmlSingletonRegistry()
-    : mSourceModel{std::make_unique<Multimedia::ProviderLoader>()}
+    : mProviders{loadInstalledProviders()}
+    , mSourceModel{mProviders}
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
     , mActiveRendererController{mRendererModel}
     , mQueueModel{mRendererModel}
@@ -38,6 +47,11 @@ QmlSingletonRegistry::QmlSingletonRegistry()
 }
 
 QmlSingletonRegistry::~QmlSingletonRegistry() = default;
+
+Multimedia::Providers const& QmlSingletonRegistry::providers() const noexcept
+{
+    return mProviders;
+}
 
 MediaSourceModel* QmlSingletonRegistry::mediaSourceModel() noexcept
 {

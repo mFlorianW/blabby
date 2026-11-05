@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -19,6 +19,9 @@ TestProvider::~TestProvider() = default;
 
 bool TestProvider::init() noexcept
 {
+    if (mInitFails) {
+        return false;
+    }
     mSources.emplace_back(std::make_shared<TestSource>(QStringLiteral("TestMediaSource"),
                                                        QStringLiteral("http::/127.0.0.1/TestMediaSource.png")));
     return true;
@@ -44,6 +47,11 @@ void TestProvider::removeLastSource() noexcept
         mSources.removeLast();
         Q_EMIT sourceRemoved(srcRemoved);
     }
+}
+
+void TestProvider::setInitFails(bool initFails) noexcept
+{
+    mInitFails = initFails;
 }
 
 } // namespace Multimedia::TestHelper

@@ -151,6 +151,23 @@ target_link_libraries(test_shell_mediaitem_model
 add_test(test_shell_mediaitem_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediaitem_model)
 
 ###############################################################################
+# Test LoadProviders
+###############################################################################
+add_executable(test_shell_load_providers)
+target_sources(test_shell_load_providers
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoadProvidersShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoadProvidersShould.hpp
+)
+target_link_libraries(test_shell_load_providers
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+        Blabby::MultimediaTestHelper
+)
+add_test(test_shell_load_providers ${EXECUTABLE_OUTPUT_PATH}/test_shell_load_providers)
+
+###############################################################################
 # Test MediaSourceModel
 ###############################################################################
 add_executable(test_shell_mediasource_model)
