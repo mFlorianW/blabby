@@ -76,6 +76,11 @@ std::shared_ptr<Request> OnlineLookup::requestArtwork(QString const& artist, QSt
         finishLater(request, uncached.value());
         return request;
     }
+    // Without cached Artwork the lookup joins the queue right away, so that the newest request is searched first.
+    if (not mCache->contains(key)) {
+        lookUp(key, artist, album, request);
+        return request;
+    }
 
     // The cache is read in another thread, so that decoding the Artwork doesn't block the caller.
     (void)mCache->read(key).then(
@@ -86,11 +91,10 @@ std::shared_ptr<Request> OnlineLookup::requestArtwork(QString const& artist, QSt
                 return;
             }
             if (not cached.isNull()) {
-                request->finish(cached);
-            } else if (mAlbumsWithoutArtwork.contains(key)) {
-                // Another request of the album found no Artwork meanwhile.
-                request->finish(QImage{});
+                // The read may have finished before this continuation was attached, then it runs right away.
+                finishLater(request, cached);
             } else {
+                // The cached Artwork can't be read, it's looked up again and written anew.
                 lookUp(key, artist, album, request);
             }
         });

@@ -25,6 +25,11 @@ DiskCache::DiskCache(QString directory)
 {
 }
 
+bool DiskCache::contains(QString const& key) const
+{
+    return QFile::exists(filePath(key));
+}
+
 QFuture<QImage> DiskCache::read(QString const& key) const
 {
     auto promise = std::make_shared<QPromise<QImage>>();
@@ -32,8 +37,7 @@ QFuture<QImage> DiskCache::read(QString const& key) const
     QThreadPool::globalInstance()->start([promise, path = filePath(key)] {
         promise->start();
         auto image = QImage{};
-        if (QFile::exists(path) and not image.load(path)) {
-            // The album is looked up again and its Artwork written anew.
+        if (not image.load(path)) {
             qCWarning(artwork) << "Failed to read the cached Artwork" << path;
         }
         promise->addResult(image);

@@ -25,6 +25,13 @@ public:
     explicit DiskCache(QString directory);
 
     /**
+     * Gives whether there is cached Artwork of the album, without reading it.
+     * @param key The key of the album.
+     * @return True when there is cached Artwork.
+     */
+    bool contains(QString const& key) const;
+
+    /**
      * Reads the cached Artwork.
      * @param key The key of the album.
      * @return The Artwork once it's read, a null image when there is none in the cache.

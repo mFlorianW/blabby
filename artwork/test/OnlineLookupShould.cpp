@@ -310,14 +310,23 @@ void OnlineLookupShould::not_look_up_a_cancelled_request()
 void OnlineLookupShould::not_look_up_a_request_cancelled_while_reading_the_cache()
 {
     mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
-    auto const request = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red));
+    auto const first =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto firstSpy = QSignalSpy{first.get(), &Request::finished};
+    QVERIFY(firstSpy.wait());
+    mLookup.reset();
+    auto* backend = static_cast<HttpBackendDouble*>(nullptr);
+    auto const restarted = restart(backend);
+    auto const request =
+        restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
 
     request->cancel();
     QTest::qWait(50);
 
     QCOMPARE(finishedSpy.size(), 0);
-    QCOMPARE(mBackend->requests().size(), 0);
+    QCOMPARE(backend->requests().size(), 0);
 }
 
 void OnlineLookupShould::serve_found_artwork_from_disk_after_a_restart()
