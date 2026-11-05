@@ -29,12 +29,25 @@ Item {
         name: "ScreenHeaderShould"
         when: windowShown
 
+        function init() {
+            header.subtitle = "Choose where your music plays";
+        }
+
         /**
          * Tests that the title and subtitle are displayed.
          */
         function test_show_title_and_subtitle() {
             headerTest.compare(headerTest.findChild(header, "title").text, "Renderers");
             headerTest.compare(headerTest.findChild(header, "subtitle").text, "Choose where your music plays");
+        }
+
+        /**
+         * Tests that the title is centred alone when there is no subtitle.
+         */
+        function test_centre_the_title_without_a_subtitle() {
+            header.subtitle = "";
+            const title = headerTest.findChild(header, "title");
+            headerTest.tryVerify(() => title.mapToItem(header, 0, title.height / 2).y === header.height / 2);
         }
 
         /**
