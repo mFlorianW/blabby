@@ -3,6 +3,13 @@ SPDX-FileCopyrightText: 2021 Florian Weßel <florianwessel@gmx.net>
 
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/Logo-dark.svg">
+    <img src="assets/Logo.svg" alt="Blabby" width="240">
+  </picture>
+</p>
+
 # General Notes
 It's just a hobby project, I only work on this project in my spare time.
 The project started as a learning project to explore different development techniques and to experiment with new C++/Qt things.
