@@ -41,6 +41,10 @@ constexpr auto harbourSearch =
     QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Harbour Nights")"};
 constexpr auto saltSearch =
     QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Salt & Spray")"};
+constexpr auto lowTideArtistSearch = QLatin1StringView{
+    R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Low Tide Sessions" AND artist:"Various Artists"&)"};
+constexpr auto lowTideTitleSearch =
+    QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Low Tide Sessions"&)"};
 constexpr auto lowTideCover = QLatin1StringView{"coverartarchive.org/release-group/rg-low-tide/front-500"};
 constexpr auto harbourCover = QLatin1StringView{"coverartarchive.org/release-group/rg-harbour/front-500"};
 constexpr auto saltCover = QLatin1StringView{"coverartarchive.org/release-group/rg-salt/front-500"};
@@ -53,6 +57,20 @@ bool isRed(QColor const& color)
     return color.red() > 240 and color.green() < 16 and color.blue() < 16;
 }
 
+/**
+ * Waits until a lookup finishes, moving the time of the scheduler on for the MusicBrainz searches it waits for.
+ * @return True when the lookup finished.
+ */
+bool waitForLookUp(QSignalSpy& finishedSpy, SchedulerDouble& scheduler)
+{
+    for (auto attempt = 0; attempt < 10 and finishedSpy.isEmpty(); ++attempt) {
+        if (not finishedSpy.wait(100)) {
+            scheduler.advance(1s);
+        }
+    }
+    return not finishedSpy.isEmpty();
+}
+
 } // namespace
 
 OnlineLookupShould::~OnlineLookupShould() = default;
@@ -63,13 +81,14 @@ void OnlineLookupShould::init()
     startWithCacheCapacity(OnlineLookup::defaultCacheCapacity);
 }
 
-std::unique_ptr<OnlineLookup> OnlineLookupShould::restart(HttpBackendDouble*& backend) const
+std::unique_ptr<OnlineLookup> OnlineLookupShould::restart(HttpBackendDouble*& backend,
+                                                          SchedulerDouble*& scheduler) const
 {
     auto newBackend = std::make_unique<HttpBackendDouble>();
+    auto newScheduler = std::make_unique<SchedulerDouble>();
     backend = newBackend.get();
-    return std::make_unique<OnlineLookup>(std::move(newBackend),
-                                          std::make_unique<SchedulerDouble>(),
-                                          mCacheDirectory.path());
+    scheduler = newScheduler.get();
+    return std::make_unique<OnlineLookup>(std::move(newBackend), std::move(newScheduler), mCacheDirectory.path());
 }
 
 void OnlineLookupShould::startWithCacheCapacity(qint64 cacheCapacity)
@@ -151,9 +170,10 @@ void OnlineLookupShould::deliver_no_artwork_without_a_confident_match()
         mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
 
-    QVERIFY(finishedSpy.wait());
+    QVERIFY(waitForLookUp(finishedSpy, *mScheduler));
     QCOMPARE(request->image().isNull(), true);
-    QCOMPARE(mBackend->requests().size(), 1);
+    // The search by the artist and the search by the album title alone.
+    QCOMPARE(mBackend->requests().size(), 2);
 }
 
 void OnlineLookupShould::demand_a_higher_score_without_an_artist()
@@ -168,6 +188,80 @@ void OnlineLookupShould::demand_a_higher_score_without_an_artist()
     QCOMPARE(request->image().isNull(), true);
     QCOMPARE(mBackend->requests().size(), 1);
     QVERIFY(not mBackend->requestedUrls().at(0).contains(QStringLiteral("artist:")));
+}
+
+void OnlineLookupShould::search_by_the_album_title_alone_when_the_artist_search_finds_no_match_data()
+{
+    QTest::addColumn<int>("score");
+    QTest::addColumn<bool>("delivered");
+
+    QTest::newRow("confident match") << 95 << true;
+    QTest::newRow("no confident match") << 94 << false;
+}
+
+void OnlineLookupShould::search_by_the_album_title_alone_when_the_artist_search_finds_no_match()
+{
+    QFETCH(int, score);
+    QFETCH(bool, delivered);
+    // A compilation is often not credited to its Album Artist on MusicBrainz, e.g. to "Various Artists".
+    mBackend->setResponse(lowTideArtistSearch, 200, releaseGroupSearch(QStringLiteral("rg-other"), 89));
+    mBackend->setResponse(lowTideTitleSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), score));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red));
+
+    auto const request =
+        mLookup->requestArtwork(QStringLiteral("Various Artists"), QStringLiteral("Low Tide Sessions"));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    // The search by the album title alone keeps the rate limit.
+    QTRY_COMPARE(mBackend->requests().size(), 1);
+    mScheduler->advance(999ms);
+    QTest::qWait(10);
+    QCOMPARE(mBackend->requests().size(), 1);
+    QCOMPARE(finishedSpy.size(), 0);
+
+    mScheduler->advance(1ms);
+
+    QVERIFY(finishedSpy.wait());
+    auto const urls = mBackend->requestedUrls();
+    QVERIFY(urls.at(1).contains(lowTideTitleSearch));
+    QVERIFY(not urls.at(1).contains(QStringLiteral("artist:")));
+    if (delivered) {
+        QVERIFY(isRed(request->image().pixelColor(0, 0)));
+        QCOMPARE(urls.size(), 3);
+    } else {
+        QCOMPARE(request->image().isNull(), true);
+        QCOMPARE(urls.size(), 2);
+    }
+}
+
+void OnlineLookupShould::not_search_by_the_album_title_alone_unless_the_artist_search_finds_no_match_data()
+{
+    QTest::addColumn<int>("searchStatus");
+    QTest::addColumn<qsizetype>("sentRequests");
+
+    // The artist search matched, but the Cover Art Archive has no front cover.
+    QTest::newRow("confident match") << 200 << qsizetype{2};
+    QTest::newRow("network error") << 0 << qsizetype{1};
+    QTest::newRow("MusicBrainz overloaded") << 503 << qsizetype{1};
+}
+
+void OnlineLookupShould::not_search_by_the_album_title_alone_unless_the_artist_search_finds_no_match()
+{
+    QFETCH(int, searchStatus);
+    QFETCH(qsizetype, sentRequests);
+    mBackend->setResponse(lowTideArtistSearch, searchStatus, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideTitleSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideCover, 404);
+
+    auto const request =
+        mLookup->requestArtwork(QStringLiteral("Various Artists"), QStringLiteral("Low Tide Sessions"));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    QVERIFY(finishedSpy.wait());
+    mScheduler->advance(5s);
+    QTest::qWait(10);
+    QCOMPARE(request->image().isNull(), true);
+    QCOMPARE(mBackend->requests().size(), sentRequests);
 }
 
 void OnlineLookupShould::deliver_no_artwork_for_a_release_group_without_a_front_cover()
@@ -231,10 +325,10 @@ void OnlineLookupShould::search_the_newest_request_first()
     mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 10));
     mBackend->setResponse(harbourSearch, 200, releaseGroupSearch(QStringLiteral("rg-harbour"), 10));
     mBackend->setResponse(saltSearch, 200, releaseGroupSearch(QStringLiteral("rg-salt"), 10));
-    auto const lowTide =
-        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
-    auto const harbour = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Harbour Nights"));
-    auto const salt = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Salt & Spray"));
+    // Without an artist, no search by the album title alone follows the searches that find no match.
+    auto const lowTide = mLookup->requestArtwork(QString{}, QStringLiteral("Low Tide Sessions"));
+    auto const harbour = mLookup->requestArtwork(QString{}, QStringLiteral("Harbour Nights"));
+    auto const salt = mLookup->requestArtwork(QString{}, QStringLiteral("Salt & Spray"));
     auto lowTideSpy = QSignalSpy{lowTide.get(), &Request::finished};
     QVERIFY(lowTideSpy.wait());
 
@@ -355,7 +449,8 @@ void OnlineLookupShould::not_look_up_a_request_cancelled_while_reading_the_cache
     QVERIFY(firstSpy.wait());
     mLookup.reset();
     auto* backend = static_cast<HttpBackendDouble*>(nullptr);
-    auto const restarted = restart(backend);
+    auto* scheduler = static_cast<SchedulerDouble*>(nullptr);
+    auto const restarted = restart(backend, scheduler);
     auto const request =
         restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
@@ -378,7 +473,8 @@ void OnlineLookupShould::serve_found_artwork_from_disk_after_a_restart()
     mLookup.reset();
 
     auto* backend = static_cast<HttpBackendDouble*>(nullptr);
-    auto const restarted = restart(backend);
+    auto* scheduler = static_cast<SchedulerDouble*>(nullptr);
+    auto const restarted = restart(backend, scheduler);
     auto const request =
         restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
@@ -399,7 +495,8 @@ void OnlineLookupShould::match_the_cached_artwork_regardless_of_case_and_surroun
     mLookup.reset();
 
     auto* backend = static_cast<HttpBackendDouble*>(nullptr);
-    auto const restarted = restart(backend);
+    auto* scheduler = static_cast<SchedulerDouble*>(nullptr);
+    auto const restarted = restart(backend, scheduler);
     auto const request =
         restarted->requestArtwork(QStringLiteral(" the quiet FERRIES"), QStringLiteral("LOW TIDE SESSIONS  "));
     auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
@@ -435,7 +532,7 @@ void OnlineLookupShould::look_up_an_album_without_artwork_again_only_after_a_res
     auto const first =
         mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto firstSpy = QSignalSpy{first.get(), &Request::finished};
-    QVERIFY(firstSpy.wait());
+    QVERIFY(waitForLookUp(firstSpy, *mScheduler));
     QCOMPARE(first->image().isNull(), true);
     auto const sentRequests = mBackend->requests().size();
 
@@ -448,13 +545,14 @@ void OnlineLookupShould::look_up_an_album_without_artwork_again_only_after_a_res
     mLookup.reset();
 
     auto* backend = static_cast<HttpBackendDouble*>(nullptr);
-    auto const restarted = restart(backend);
+    auto* scheduler = static_cast<SchedulerDouble*>(nullptr);
+    auto const restarted = restart(backend, scheduler);
     script(*backend);
     auto const afterRestart =
         restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
     auto afterRestartSpy = QSignalSpy{afterRestart.get(), &Request::finished};
 
-    QVERIFY(afterRestartSpy.wait());
+    QVERIFY(waitForLookUp(afterRestartSpy, *scheduler));
     QCOMPARE(backend->requests().size(), sentRequests);
 }
 

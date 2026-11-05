@@ -16,9 +16,10 @@ namespace Artwork
 
 /**
  * The @ref Artwork::MusicBrainzService searches the release group of an album on MusicBrainz and gives its front
- * cover from the Cover Art Archive. A match needs a score of at least 90, or 95 when the artist is unknown. The
- * MusicBrainz searches run one at a time and at most one per second, the newest lookup first. When MusicBrainz is
- * overloaded, the searches pause for a few seconds.
+ * cover from the Cover Art Archive. A match needs a score of at least 90, or 95 when the artist is unknown. When the
+ * search by the artist finds no match, e.g. for a compilation of "Various Artists", the album is searched by its title
+ * alone, as the newest search. The MusicBrainz searches run one at a time and at most one per second, the newest
+ * lookup first. When MusicBrainz is overloaded, the searches pause for a few seconds.
  */
 class MusicBrainzService final : public Service
 {
@@ -36,7 +37,7 @@ public:
     std::shared_ptr<Request> lookUp(QString const& artist, QString const& album) override;
 
 private:
-    struct PendingSearch
+    struct Search
     {
         QString artist;
         QString album;
@@ -57,10 +58,9 @@ private:
 
     HttpBackend& mBackend;
     Scheduler& mScheduler;
-    std::vector<PendingSearch> mPendingSearches;
+    std::vector<Search> mPendingSearches;
     std::unique_ptr<HttpReply> mSearchReply;
-    std::shared_ptr<Request> mSearchRequest;
-    int mSearchMinimumScore = 0;
+    Search mRunningSearch;
     std::optional<Scheduler::TimePoint> mNextSearchAt;
     std::list<CoverFetch> mCoverFetches;
 };

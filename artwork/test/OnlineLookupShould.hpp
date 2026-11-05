@@ -26,7 +26,7 @@ private:
     /**
      * Creates another instance on the same cache directory, as after a restart of Blabby.
      */
-    std::unique_ptr<OnlineLookup> restart(HttpBackendDouble*& backend) const;
+    std::unique_ptr<OnlineLookup> restart(HttpBackendDouble*& backend, SchedulerDouble*& scheduler) const;
 
     /**
      * Replaces the instance by one on the same cache directory whose cache keeps at most the given number of bytes.
@@ -55,6 +55,10 @@ private Q_SLOTS:
     void deliver_the_front_cover_of_the_best_matching_release_group();
     void deliver_no_artwork_without_a_confident_match();
     void demand_a_higher_score_without_an_artist();
+    void search_by_the_album_title_alone_when_the_artist_search_finds_no_match_data();
+    void search_by_the_album_title_alone_when_the_artist_search_finds_no_match();
+    void not_search_by_the_album_title_alone_unless_the_artist_search_finds_no_match_data();
+    void not_search_by_the_album_title_alone_unless_the_artist_search_finds_no_match();
     void deliver_no_artwork_for_a_release_group_without_a_front_cover();
     void deliver_no_artwork_without_internet_access();
     void send_at_most_one_musicbrainz_request_per_second();
