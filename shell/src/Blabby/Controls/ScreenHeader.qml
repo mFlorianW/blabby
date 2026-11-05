@@ -18,7 +18,7 @@ Item {
     property string title
 
     /**
-     * A short description shown below the title.
+     * A short description shown below the title, the title is centred alone when it's empty.
      */
     property string subtitle
 
@@ -52,6 +52,7 @@ Item {
             text: header.subtitle
             color: Theme.colors.colorOnSurfaceVariant
             textStyle: Theme.fonts.bodyMedium
+            visible: header.subtitle !== ""
         }
     }
 

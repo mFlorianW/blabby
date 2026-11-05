@@ -2,6 +2,7 @@
 # Configure File
 ################################################################################
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ProviderDirs.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/ProviderDirs.hpp)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/BlabbyVersion.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/BlabbyVersion.hpp)
 
 ################################################################################
 # QML Modules
@@ -40,6 +41,10 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QueueModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QueueModel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModel.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsRowModel.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsRowModel.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object

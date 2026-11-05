@@ -34,6 +34,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RendererCardShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_RendererCardShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RenderersViewShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_RenderersViewShould.qml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SettingsViewShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_SettingsViewShould.qml COPYONLY)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PillButtonShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_PillButtonShould.qml COPYONLY)
@@ -203,3 +205,20 @@ target_link_libraries(test_shell_artwork_image_provider
         BlabbyShell::Object
 )
 add_test(test_shell_artwork_image_provider ${EXECUTABLE_OUTPUT_PATH}/test_shell_artwork_image_provider)
+
+###############################################################################
+# Test SettingsModel
+###############################################################################
+add_executable(test_shell_settings_model)
+target_sources(test_shell_settings_model
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModelShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModelShould.hpp
+)
+target_link_libraries(test_shell_settings_model
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+        Blabby::MultimediaTestHelper
+)
+add_test(test_shell_settings_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_settings_model)

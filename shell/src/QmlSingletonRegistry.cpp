@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "QmlSingletonRegistry.hpp"
+#include "BlabbyVersion.hpp"
 #include "JsonRendererStore.hpp"
 #include "LoadProviders.hpp"
 #include "ProviderDirs.hpp"
@@ -34,6 +35,7 @@ QmlSingletonRegistry::QmlSingletonRegistry()
     , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
     , mActiveRendererController{mRendererModel}
     , mQueueModel{mRendererModel}
+    , mSettingsModel{mProviders, QString::fromLatin1(blabbyVersion)}
 {
     // The Library shows the Items of the Active Source.
     connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
@@ -76,6 +78,11 @@ ActiveRendererController* QmlSingletonRegistry::activeRendererController() noexc
 QueueModel* QmlSingletonRegistry::queueModel() noexcept
 {
     return &mQueueModel;
+}
+
+SettingsModel* QmlSingletonRegistry::settingsModel() noexcept
+{
+    return &mSettingsModel;
 }
 
 QObject* QmlSingletonRegistry::createQmlRegistry(QQmlEngine* engine, QJSEngine* scriptEngine)

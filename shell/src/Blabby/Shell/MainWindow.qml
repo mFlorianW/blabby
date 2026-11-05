@@ -22,6 +22,7 @@ Rectangle {
     readonly property int libraryDestination: 1
     readonly property int queueDestination: 2
     readonly property int renderersDestination: 3
+    readonly property int settingsDestination: 4
 
     /**
      * The destination the Renderers screen was opened from to choose a Renderer, picking a Renderer returns to it.
@@ -66,6 +67,10 @@ Rectangle {
             {
                 "text": qsTr("Renderers"),
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
+            },
+            {
+                "text": qsTr("Settings"),
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/settings.svg"
             }
         ]
         onActivated: shell.returnDestination = -1
@@ -194,6 +199,14 @@ Rectangle {
                 }
             }
             onForgetRequested: index => Singleton.mediaRendererModel.forgetRenderer(Singleton.mediaRendererModel.index(index, 0))
+        }
+
+        SettingsView {
+            id: settingsView
+            sections: Singleton.settingsModel
+            currentSection: Singleton.settingsModel.currentSection
+            rows: Singleton.settingsModel.rows
+            onSectionPicked: index => Singleton.settingsModel.pickSection(index)
         }
     }
 

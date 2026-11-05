@@ -17,6 +17,7 @@ qt_add_qml_module(${PROJECT_NAME}
         RendererCard.qml
         RendererMenu.qml
         RenderersView.qml
+        SettingsView.qml
         SourceMenu.qml
         TimeFormat.js
     RESOURCES
@@ -29,6 +30,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/expand_more.svg
         ../../icons/material/folder.svg
         ../../icons/material/graphic_eq.svg
+        ../../icons/material/info.svg
         ../../icons/material/library_music.svg
         ../../icons/material/more_vert.svg
         ../../icons/material/music_note.svg
@@ -39,6 +41,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/queue_music.svg
         ../../icons/material/queue_play_next.svg
         ../../icons/material/refresh.svg
+        ../../icons/material/settings.svg
         ../../icons/material/skip_next.svg
         ../../icons/material/skip_previous.svg
         ../../icons/material/speaker.svg
