@@ -103,6 +103,11 @@ QString MediaServerObject::creator() const noexcept
     return mCreator;
 }
 
+QString MediaServerObject::albumArtist() const noexcept
+{
+    return mAlbumArtist;
+}
+
 QString MediaServerObject::album() const noexcept
 {
     return mAlbum;
@@ -123,20 +128,6 @@ QVector<Protocol> MediaServerObject::supportedProtocols() const noexcept
     return mSupportedProtocols;
 }
 
-bool operator==(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
-{
-    return ((lhs.mId == rhs.mId) and (lhs.mParentId == rhs.mParentId) and (lhs.mTitle == rhs.mTitle) and
-            (lhs.mClass == rhs.mClass) and (lhs.playUrl() == rhs.playUrl()) and
-            (lhs.supportedProtocols() == rhs.supportedProtocols()) and (lhs.mAlbumArtUrl == rhs.mAlbumArtUrl) and
-            (lhs.mArtist == rhs.mArtist) and (lhs.mCreator == rhs.mCreator) and (lhs.mAlbum == rhs.mAlbum) and
-            (lhs.mDate == rhs.mDate) and (lhs.mResources == rhs.mResources));
-}
-
-bool operator!=(MediaServerObject const& lhs, MediaServerObject const& rhs) noexcept
-{
-    return !(lhs == rhs);
-}
-
 QDebug operator<<(QDebug d, MediaServerObject const& serverObject)
 {
     QDebugStateSaver saver(d);
@@ -150,6 +141,7 @@ QDebug operator<<(QDebug d, MediaServerObject const& serverObject)
     d.nospace().noquote() << "AlbumArtUrl:" << serverObject.albumArtUrl() << "\n";
     d.nospace().noquote() << "Artist:" << serverObject.artist() << "\n";
     d.nospace().noquote() << "Creator:" << serverObject.creator() << "\n";
+    d.nospace().noquote() << "AlbumArtist:" << serverObject.albumArtist() << "\n";
     d.nospace().noquote() << "Album:" << serverObject.album() << "\n";
     d.nospace().noquote() << "Date:" << serverObject.date() << "\n";
     for (auto const& resource : serverObject.resources()) {
@@ -184,6 +176,7 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
     // An artist in a role, e.g. the AlbumArtist, is only taken when there is no artist without a role.
     auto artistInRole = QString{};
     auto hasArtist = false;
+    auto hasAlbumArtist = false;
     // Servers may list the album art in several sizes, the first one is usually the thumbnail.
     auto hasAlbumArt = false;
     // read container attributes
@@ -217,8 +210,14 @@ std::optional<MediaServerObject> MediaServerObject::readDidlDesc(QXmlStreamReade
         }
 
         if (streamReader.isStartElement() && streamReader.name() == QStringLiteral("artist")) {
-            auto const hasRole = streamReader.attributes().hasAttribute(QStringLiteral("role"));
+            auto const artistAttributes = streamReader.attributes();
+            auto const role = artistAttributes.value(QStringLiteral("role")).toString();
+            auto const hasRole = artistAttributes.hasAttribute(QStringLiteral("role"));
             auto const artist = streamReader.readElementText();
+            if (role == QStringLiteral("AlbumArtist") and not hasAlbumArtist) {
+                builder.withAlbumArtist(artist);
+                hasAlbumArtist = true;
+            }
             if (not hasRole and not hasArtist) {
                 builder.withArtist(artist);
                 hasArtist = true;

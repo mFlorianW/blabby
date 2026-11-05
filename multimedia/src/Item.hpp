@@ -119,6 +119,13 @@ public:
     QString const& album() const noexcept;
 
     /**
+     * Gives the Album Artist of the @ref Multimedia::Item, the artist the album as a whole is credited to, e.g.
+     * "Various Artists" for a compilation.
+     * @return The Album Artist, empty when unknown.
+     */
+    QString const& albumArtist() const noexcept;
+
+    /**
      * Gives the playing time of the @ref Multimedia::Item.
      * @return The duration, unset when unknown, e.g. for a Container or a stream.
      */
@@ -137,14 +144,6 @@ public:
      * @return True equal otherwise false.
      */
     BLABBYMULTIMEDIA_EXPORT friend bool operator==(Item const& lhs, Item const& rhs) noexcept;
-
-    /**
-     * unequal operator
-     * @param lhs Left hand side of the comparsion
-     * @param rhs right hand side of the comparsion
-     * @return True not equal otherwise false.
-     */
-    BLABBYMULTIMEDIA_EXPORT friend bool operator!=(Item const& lhs, Item const& rhs) noexcept;
 
 private:
     friend ItemBuilder;
@@ -208,6 +207,13 @@ public:
     ItemBuilder& withAlbum(QString const& album) noexcept;
 
     /**
+     * Sets the Album Artist of the @ref Multimedia::Item
+     * @param albumArtist The Album Artist of the @ref Multimedia::Item
+     * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
+     */
+    ItemBuilder& withAlbumArtist(QString const& albumArtist) noexcept;
+
+    /**
      * Sets the playing time of the @ref Multimedia::Item
      * @param duration The duration of the @ref Multimedia::Item, unset when unknown.
      * @return Reference to the @ref Multimedia::ItemBuilder for chaining.
@@ -239,7 +245,10 @@ private:
  */
 BLABBYMULTIMEDIA_EXPORT QString titleOfUri(QString const& uri);
 
-struct ItemData : public QSharedData
+/**
+ * The values of an @ref Multimedia::Item, apart from the sharing so that they can be compared as a whole.
+ */
+struct ItemValues
 {
     ItemType mType{ItemType::Container};
     QString mMainText;
@@ -248,22 +257,27 @@ struct ItemData : public QSharedData
     QString mPath;
     QString mPlayUrl;
     QString mAlbum;
+    QString mAlbumArtist;
     std::optional<std::chrono::milliseconds> mDuration;
     QVector<UPnPAV::Protocol> mSupportedTypes;
 
+    friend bool operator==(ItemValues const& lhs, ItemValues const& rhs) = default;
+};
+
+struct ItemData : public QSharedData, public ItemValues
+{
     ItemData() = default;
     ItemData(ItemType type,
              QString mainText,
              QString secondaryText = QString(""),
              QString artworkUrl = QString(""),
              QString path = QString(""))
-        : QSharedData{}
-        , mType{type}
-        , mMainText{std::move(mainText)}
-        , mSecondaryText{std::move(secondaryText)}
-        , mArtworkUrl{std::move(artworkUrl)}
-        , mPath{std::move(path)}
     {
+        mType = type;
+        mMainText = std::move(mainText);
+        mSecondaryText = std::move(secondaryText);
+        mArtworkUrl = std::move(artworkUrl);
+        mPath = std::move(path);
     }
 };
 

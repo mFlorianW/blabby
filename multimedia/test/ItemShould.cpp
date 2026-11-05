@@ -75,6 +75,7 @@ void ItemShould::give_the_play_url()
     auto const playUrl = item.playUrl();
 
     QCOMPARE(playUrl, expUrl);
+    QVERIFY(item != Item{});
 }
 
 void ItemShould::give_the_album()
@@ -83,6 +84,15 @@ void ItemShould::give_the_album()
 
     QCOMPARE(item.album(), QStringLiteral("Low Tide Sessions"));
     QCOMPARE(Item{}.album(), QString{});
+}
+
+void ItemShould::give_the_album_artist()
+{
+    auto const item = ItemBuilder{}.withAlbumArtist(QStringLiteral("Various Artists")).build();
+
+    QCOMPARE(item.albumArtist(), QStringLiteral("Various Artists"));
+    QCOMPARE(Item{}.albumArtist(), QString{});
+    QVERIFY(item != Item{});
 }
 
 void ItemShould::give_the_duration()
