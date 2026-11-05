@@ -4,6 +4,7 @@
 
 #include "OnlineLookupShould.hpp"
 #include <QBuffer>
+#include <QDir>
 #include <QSignalSpy>
 #include <QTest>
 
@@ -23,9 +24,9 @@ QByteArray releaseGroupSearch(QString const& id, int score)
         .toUtf8();
 }
 
-QByteArray cover(QColor const& color)
+QByteArray cover(QColor const& color, QSize const& size = QSize{500, 500})
 {
-    auto image = QImage{QSize{500, 500}, QImage::Format_RGB32};
+    auto image = QImage{size, QImage::Format_RGB32};
     image.fill(color);
     auto data = QByteArray{};
     auto buffer = QBuffer{&data};
@@ -43,17 +44,35 @@ constexpr auto saltSearch =
 constexpr auto lowTideCover = QLatin1StringView{"coverartarchive.org/release-group/rg-low-tide/front-500"};
 constexpr auto harbourCover = QLatin1StringView{"coverartarchive.org/release-group/rg-harbour/front-500"};
 
+/**
+ * Gives true when the color is red, apart from the small deviations of a lossy image format.
+ */
+bool isRed(QColor const& color)
+{
+    return color.red() > 240 and color.green() < 16 and color.blue() < 16;
+}
+
 } // namespace
 
 OnlineLookupShould::~OnlineLookupShould() = default;
 
 void OnlineLookupShould::init()
 {
+    QVERIFY(mCacheDirectory.isValid());
     auto backend = std::make_unique<HttpBackendDouble>();
     auto scheduler = std::make_unique<SchedulerDouble>();
     mBackend = backend.get();
     mScheduler = scheduler.get();
-    mLookup = std::make_unique<OnlineLookup>(std::move(backend), std::move(scheduler));
+    mLookup = std::make_unique<OnlineLookup>(std::move(backend), std::move(scheduler), mCacheDirectory.path());
+}
+
+std::unique_ptr<OnlineLookup> OnlineLookupShould::restart(HttpBackendDouble*& backend) const
+{
+    auto newBackend = std::make_unique<HttpBackendDouble>();
+    backend = newBackend.get();
+    return std::make_unique<OnlineLookup>(std::move(newBackend),
+                                          std::make_unique<SchedulerDouble>(),
+                                          mCacheDirectory.path());
 }
 
 void OnlineLookupShould::cleanup()
@@ -61,6 +80,9 @@ void OnlineLookupShould::cleanup()
     mLookup.reset();
     mBackend = nullptr;
     mScheduler = nullptr;
+    // Every test starts with an empty cache.
+    QVERIFY(QDir{mCacheDirectory.path()}.removeRecursively());
+    QVERIFY(QDir{}.mkpath(mCacheDirectory.path()));
 }
 
 void OnlineLookupShould::deliver_the_front_cover_of_the_best_matching_release_group()
@@ -242,7 +264,7 @@ void OnlineLookupShould::look_up_an_album_only_once()
     auto finishedSpy = QSignalSpy{second.get(), &Request::finished};
 
     QVERIFY(finishedSpy.wait());
-    QCOMPARE(second->image().pixelColor(0, 0), QColor{Qt::red});
+    QVERIFY(isRed(second->image().pixelColor(0, 0)));
     QCOMPARE(mBackend->requests().size(), 2);
 }
 
@@ -283,6 +305,126 @@ void OnlineLookupShould::not_look_up_a_cancelled_request()
     QCOMPARE(waiting->isCancelled(), true);
     QCOMPARE(lowTideSpy.size() + harbourSpy.size(), 1);
     QCOMPARE(mBackend->requests().size(), 2);
+}
+
+void OnlineLookupShould::not_look_up_a_request_cancelled_while_reading_the_cache()
+{
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    auto const request = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    request->cancel();
+    QTest::qWait(50);
+
+    QCOMPARE(finishedSpy.size(), 0);
+    QCOMPARE(mBackend->requests().size(), 0);
+}
+
+void OnlineLookupShould::serve_found_artwork_from_disk_after_a_restart()
+{
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red));
+    auto const first =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto firstSpy = QSignalSpy{first.get(), &Request::finished};
+    QVERIFY(firstSpy.wait());
+    mLookup.reset();
+
+    auto* backend = static_cast<HttpBackendDouble*>(nullptr);
+    auto const restarted = restart(backend);
+    auto const request =
+        restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    QVERIFY(finishedSpy.wait());
+    QVERIFY(isRed(request->image().pixelColor(0, 0)));
+    QCOMPARE(backend->requests().size(), 0);
+}
+
+void OnlineLookupShould::match_the_cached_artwork_regardless_of_case_and_surrounding_whitespace()
+{
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red));
+    auto const first =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto firstSpy = QSignalSpy{first.get(), &Request::finished};
+    QVERIFY(firstSpy.wait());
+    mLookup.reset();
+
+    auto* backend = static_cast<HttpBackendDouble*>(nullptr);
+    auto const restarted = restart(backend);
+    auto const request =
+        restarted->requestArtwork(QStringLiteral(" the quiet FERRIES"), QStringLiteral("LOW TIDE SESSIONS  "));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    QVERIFY(finishedSpy.wait());
+    QVERIFY(isRed(request->image().pixelColor(0, 0)));
+    QCOMPARE(backend->requests().size(), 0);
+}
+
+void OnlineLookupShould::look_up_an_album_without_artwork_again_only_after_a_restart_data()
+{
+    QTest::addColumn<int>("searchStatus");
+    QTest::addColumn<int>("score");
+    QTest::addColumn<int>("coverStatus");
+
+    QTest::newRow("no confident match") << 200 << 89 << 200;
+    QTest::newRow("no front cover") << 200 << 100 << 404;
+    QTest::newRow("network error") << 0 << 100 << 200;
+    QTest::newRow("MusicBrainz overloaded") << 503 << 100 << 200;
+    QTest::newRow("Cover Art Archive failing") << 200 << 100 << 502;
+}
+
+void OnlineLookupShould::look_up_an_album_without_artwork_again_only_after_a_restart()
+{
+    QFETCH(int, searchStatus);
+    QFETCH(int, score);
+    QFETCH(int, coverStatus);
+    auto const script = [&](HttpBackendDouble& backend) {
+        backend.setResponse(lowTideSearch, searchStatus, releaseGroupSearch(QStringLiteral("rg-low-tide"), score));
+        backend.setResponse(lowTideCover, coverStatus, cover(Qt::red));
+    };
+    script(*mBackend);
+    auto const first =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto firstSpy = QSignalSpy{first.get(), &Request::finished};
+    QVERIFY(firstSpy.wait());
+    QCOMPARE(first->image().isNull(), true);
+    auto const sentRequests = mBackend->requests().size();
+
+    auto const second =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto secondSpy = QSignalSpy{second.get(), &Request::finished};
+    QVERIFY(secondSpy.wait());
+    QCOMPARE(second->image().isNull(), true);
+    QCOMPARE(mBackend->requests().size(), sentRequests);
+    mLookup.reset();
+
+    auto* backend = static_cast<HttpBackendDouble*>(nullptr);
+    auto const restarted = restart(backend);
+    script(*backend);
+    auto const afterRestart =
+        restarted->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto afterRestartSpy = QSignalSpy{afterRestart.get(), &Request::finished};
+
+    QVERIFY(afterRestartSpy.wait());
+    QCOMPARE(backend->requests().size(), sentRequests);
+}
+
+void OnlineLookupShould::keep_artwork_of_at_most_500_px()
+{
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 100));
+    mBackend->setResponse(lowTideCover, 200, cover(Qt::red, QSize{1200, 900}));
+
+    auto const request =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto finishedSpy = QSignalSpy{request.get(), &Request::finished};
+
+    QVERIFY(finishedSpy.wait());
+    QCOMPARE(request->image().size(), QSize(500, 375));
+    auto const written = QDir{mCacheDirectory.path()}.entryInfoList(QDir::Files);
+    QCOMPARE(written.size(), 1);
+    QCOMPARE(QImage{written.at(0).filePath()}.size(), QSize(500, 375));
 }
 
 } // namespace Artwork
