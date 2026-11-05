@@ -31,6 +31,9 @@ private Q_SLOTS:
     void ignore_queue_requests_while_busy_or_at_an_invalid_index();
     void give_the_item_type_of_the_item();
     void give_the_looked_up_artwork_url_of_an_item_without_artwork();
+    void give_a_folder_the_artwork_of_its_first_playable();
+    void keep_the_placeholder_of_a_folder_without_playables_and_browse_it_once();
+    void not_browse_a_container_with_artwork_or_album();
     void tell_whether_a_media_source_is_set();
     void stop_following_the_previous_media_source_when_the_media_source_changes();
     void navigate_the_back_the_active_media_source();
