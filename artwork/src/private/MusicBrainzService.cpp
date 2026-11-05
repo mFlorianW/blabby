@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <algorithm>
+#include <utility>
 
 using namespace std::chrono_literals;
 
@@ -87,7 +88,7 @@ std::shared_ptr<Request> MusicBrainzService::lookUp(QString const& artist, QStri
     (void)connect(request.get(), &Request::cancelled, this, [this, request = request.get()] {
         onCancelled(request);
     });
-    mPendingSearches.push_back(PendingSearch{.artist = artist, .album = album, .request = request});
+    mPendingSearches.push_back(Search{.artist = artist, .album = album, .request = request});
     searchNext();
     return request;
 }
@@ -111,8 +112,7 @@ void MusicBrainzService::searchNext()
     auto request = createRequest(searchUrl(search.artist, search.album));
     request.setRawHeader("Accept", "application/json");
     mNextSearchAt = now + minimumSearchInterval;
-    mSearchRequest = std::move(search.request);
-    mSearchMinimumScore = search.artist.isEmpty() ? minimumScoreWithoutArtist : minimumScore;
+    mRunningSearch = std::move(search);
     mSearchReply = mBackend.get(request);
     (void)connect(mSearchReply.get(), &HttpReply::finished, this, &MusicBrainzService::onSearchFinished);
 }
@@ -122,13 +122,20 @@ void MusicBrainzService::onSearchFinished()
     // The reply is the sender, it's deleted once its signal is handled.
     auto* const reply = mSearchReply.release();
     reply->deleteLater();
-    auto request = std::move(mSearchRequest);
+    auto search = std::exchange(mRunningSearch, Search{});
+    auto& request = search.request;
 
-    auto const releaseGroupId = reply->status() == 200 ? bestMatch(reply->body(), mSearchMinimumScore) : QString{};
+    auto const searchMinimumScore = search.artist.isEmpty() ? minimumScoreWithoutArtist : minimumScore;
+    auto const answered = reply->status() == 200;
+    auto const releaseGroupId = answered ? bestMatch(reply->body(), searchMinimumScore) : QString{};
     if (reply->status() == serviceUnavailable) {
         qCDebug(artwork) << "MusicBrainz is overloaded, pausing the searches";
         mNextSearchAt = mScheduler.now() + overloadPause;
         request->finish(QImage{});
+    } else if (answered and releaseGroupId.isEmpty() and not search.artist.isEmpty()) {
+        // The album may be credited to another artist on MusicBrainz, e.g. a compilation of "Various Artists".
+        qCDebug(artwork) << "MusicBrainz has no confident match by the artist, searching by the album title alone";
+        mPendingSearches.push_back(Search{.artist = {}, .album = search.album, .request = std::move(request)});
     } else if (releaseGroupId.isEmpty()) {
         qCDebug(artwork) << "MusicBrainz has no confident match, status" << reply->status();
         request->finish(QImage{});
@@ -177,9 +184,9 @@ void MusicBrainzService::onCancelled(Request const* request)
     mCoverFetches.remove_if([request](auto const& fetch) {
         return fetch.request.get() == request;
     });
-    if (mSearchRequest.get() == request) {
+    if (mRunningSearch.request.get() == request) {
         mSearchReply.reset();
-        mSearchRequest.reset();
+        mRunningSearch = Search{};
         searchNext();
     }
 }

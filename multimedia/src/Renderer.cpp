@@ -149,6 +149,7 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData, QString const&
             auto const& object = objects.first();
             track.title = object.title();
             track.artist = object.artist().isEmpty() ? object.creator() : object.artist();
+            track.albumArtist = object.albumArtist();
             track.album = object.album();
             track.year = yearOfDate(object.date());
             track.artworkUrl = absoluteArtworkUrl(object.albumArtUrl(), baseUrl);

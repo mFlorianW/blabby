@@ -56,8 +56,7 @@ QString ActiveRendererController::trackArtist() const noexcept
 
 QString ActiveRendererController::artworkUrl() const noexcept
 {
-    auto const track = currentTrack();
-    return Shell::artworkUrl(track.artworkUrl, track.artist, track.album);
+    return Shell::artworkUrl(currentTrack());
 }
 
 QString ActiveRendererController::trackAlbum() const noexcept

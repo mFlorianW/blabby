@@ -26,4 +26,10 @@ QString artworkUrl(Multimedia::Item const& item)
     return artworkUrl(item.artworkUrl(), artist, item.album());
 }
 
+QString artworkUrl(Multimedia::CurrentTrack const& track)
+{
+    auto const& artist = track.albumArtist.isEmpty() ? track.artist : track.albumArtist;
+    return artworkUrl(track.artworkUrl, artist, track.album);
+}
+
 } // namespace Shell

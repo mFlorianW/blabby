@@ -35,6 +35,11 @@ struct BLABBYMULTIMEDIA_EXPORT CurrentTrack
     QString artist;
 
     /**
+     * The Album Artist, empty when the Renderer reports none.
+     */
+    QString albumArtist;
+
+    /**
      * The album.
      */
     QString album;

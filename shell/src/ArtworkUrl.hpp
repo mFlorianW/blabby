@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Item.hpp"
+#include "Renderer.hpp"
 #include <QString>
 
 namespace Shell
@@ -28,5 +29,13 @@ QString artworkUrl(QString const& suppliedUrl, QString const& artist, QString co
  * @return The URL of the Artwork, empty without Artwork.
  */
 QString artworkUrl(Multimedia::Item const& item);
+
+/**
+ * Gives the URL of the Artwork to show for a Current Track, like @ref artworkUrl(QString const&, QString const&,
+ * QString const&). The album is named by its Album Artist, by the artist of the track without an Album Artist.
+ * @param track The Current Track.
+ * @return The URL of the Artwork, empty without Artwork.
+ */
+QString artworkUrl(Multimedia::CurrentTrack const& track);
 
 } // namespace Shell

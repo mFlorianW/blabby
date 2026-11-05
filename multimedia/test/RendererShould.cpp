@@ -77,6 +77,7 @@ QString fullTrackMetaData()
                                "<dc:title>Harbour Lights</dc:title>"
                                "<dc:creator>Ferry Creator</dc:creator>"
                                "<upnp:artist>The Quiet Ferries</upnp:artist>"
+                               "<upnp:artist role=\"AlbumArtist\">Various Artists</upnp:artist>"
                                "<upnp:albumArtURI>http://192.168.0.3:8200/AlbumArt/1.jpg</upnp:albumArtURI>"));
 }
 
@@ -585,6 +586,7 @@ void RendererShould::give_the_current_track_reported_by_the_device_events()
     QCOMPARE(currentTrackChangedSpy.size(), 1);
     QCOMPARE(renderer.currentTrack().title, QStringLiteral("Harbour Lights"));
     QCOMPARE(renderer.currentTrack().artist, QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(renderer.currentTrack().albumArtist, QStringLiteral("Various Artists"));
     QCOMPARE(renderer.currentTrack().artworkUrl, QStringLiteral("http://192.168.0.3:8200/AlbumArt/1.jpg"));
     QCOMPARE(renderer.currentTrack().uri, QString{trackUri});
 }

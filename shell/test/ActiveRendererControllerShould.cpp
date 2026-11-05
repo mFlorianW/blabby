@@ -231,6 +231,27 @@ void ActiveRendererControllerShould::give_a_looked_up_artwork_url_for_a_current_
              QStringLiteral("image://artwork/?artist=The%20Quiet%20Ferries&album=Salt%20%26%20Spray"));
 }
 
+void ActiveRendererControllerShould::name_the_album_by_its_album_artist_in_the_looked_up_artwork_url()
+{
+    mRendererFactory->renderer(QStringLiteral("Kitchen"))
+        ->setCurrentTrack(
+            QStringLiteral("http://192.168.0.3/1.flac"),
+            QStringLiteral(R"(<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" )"
+                           R"(xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">)"
+                           R"(<item id="1" parentID="0"><dc:title>Harbour Lights</dc:title>)"
+                           R"(<upnp:artist>The Quiet Ferries</upnp:artist>)"
+                           R"(<upnp:artist role="AlbumArtist">Various Artists</upnp:artist>)"
+                           R"(<upnp:album>Salt &amp; Spray</upnp:album>)"
+                           R"(<res protocolInfo="http-get:*:audio/flac:*">http://192.168.0.3/1.flac</res>)"
+                           R"(</item></DIDL-Lite>)"));
+
+    activate(QStringLiteral("Kitchen"));
+
+    QCOMPARE(mController->property("trackArtist").toString(), QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(mController->property("artworkUrl").toString(),
+             QStringLiteral("image://artwork/?artist=Various%20Artists&album=Salt%20%26%20Spray"));
+}
+
 void ActiveRendererControllerShould::give_no_artwork_url_for_a_current_track_without_artwork_and_album()
 {
     mRendererFactory->renderer(QStringLiteral("Kitchen"))
