@@ -17,7 +17,8 @@ namespace Artwork
 /**
  * The @ref Artwork::MusicBrainzService searches the release group of an album on MusicBrainz and gives its front
  * cover from the Cover Art Archive. A match needs a score of at least 90, or 95 when the artist is unknown. The
- * MusicBrainz searches run one at a time and at most one per second, the newest lookup first.
+ * MusicBrainz searches run one at a time and at most one per second, the newest lookup first. When MusicBrainz is
+ * overloaded, the searches pause for a few seconds.
  */
 class MusicBrainzService final : public Service
 {
@@ -60,7 +61,7 @@ private:
     std::unique_ptr<HttpReply> mSearchReply;
     std::shared_ptr<Request> mSearchRequest;
     int mSearchMinimumScore = 0;
-    std::optional<Scheduler::TimePoint> mLastSearchAt;
+    std::optional<Scheduler::TimePoint> mNextSearchAt;
     std::list<CoverFetch> mCoverFetches;
 };
 

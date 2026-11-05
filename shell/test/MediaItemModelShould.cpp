@@ -279,6 +279,52 @@ void MediaItemModelShould::give_the_artwork_url_and_the_secondary_text_of_the_it
     QCOMPARE(miModel.data(miModel.index(1), secondaryTextRole).toString(), QString{});
 }
 
+void MediaItemModelShould::give_the_looked_up_artwork_url_of_an_item_without_artwork()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("albums"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Intro"))
+                            .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+                            .withAlbum(QStringLiteral("Salt & Spray"))
+                            .withAlbumArtist(QStringLiteral("Various Artists"))
+                            .build(),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Container)
+                            .withMainText(QStringLiteral("Low Tide Sessions"))
+                            .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+                            .withAlbum(QStringLiteral("Low Tide Sessions"))
+                            .build(),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Harbour Radio"))
+                            .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+                            .build(),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Outro"))
+                            .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+                            .withAlbum(QStringLiteral("Salt & Spray"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/salt.jpg"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("albums"));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+
+    // The Album Artist names the album, the artist only without an Album Artist.
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(),
+             QStringLiteral("image://artwork/?artist=Various%20Artists&album=Salt%20%26%20Spray"));
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(),
+             QStringLiteral("image://artwork/?artist=The%20Quiet%20Ferries&album=Low%20Tide%20Sessions"));
+    // Without an album there is nothing to look up, the view shows its placeholder.
+    QCOMPARE(miModel.data(miModel.index(2), artworkUrlRole).toString(), QString{});
+    // The Artwork of the Source wins over a lookup.
+    QCOMPARE(miModel.data(miModel.index(3), artworkUrlRole).toString(), QStringLiteral("http://192.168.0.3/salt.jpg"));
+}
+
 void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_source()
 {
     auto miModel = MediaItemModel{};

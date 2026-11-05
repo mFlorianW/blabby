@@ -47,6 +47,17 @@ std::optional<std::chrono::milliseconds> durationOf(UPnPAV::MediaServerObject co
 }
 
 /**
+ * Gives the album of an object. An album Container is the album itself, without an album it's named by its title.
+ */
+QString albumOf(UPnPAV::MediaServerObject const& obj)
+{
+    if (obj.album().isEmpty() and obj.typeClass().startsWith(QStringLiteral("object.container.album.musicAlbum"))) {
+        return obj.title();
+    }
+    return obj.album();
+}
+
+/**
  * Gives the Items of the objects that a Browse returned.
  */
 Multimedia::Items itemsOf(UPnPAV::BrowseResponse const& response)
@@ -64,7 +75,7 @@ Multimedia::Items itemsOf(UPnPAV::BrowseResponse const& response)
                                .withArtworkUrl(obj.albumArtUrl())
                                .withPath(obj.id())
                                .withPlayUrl(obj.playUrl())
-                               .withAlbum(obj.album())
+                               .withAlbum(albumOf(obj))
                                .withAlbumArtist(obj.albumArtist())
                                .withDuration(durationOf(obj))
                                .withSupportedTypes(obj.supportedProtocols())

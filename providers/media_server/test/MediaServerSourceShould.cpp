@@ -395,6 +395,38 @@ void SourceShould::map_the_album_and_the_duration_of_the_played_resource_to_the_
     QCOMPARE(item.duration(), std::optional{std::chrono::milliseconds{271250}});
 }
 
+void SourceShould::name_the_album_of_an_album_container_by_its_title_data()
+{
+    QTest::addColumn<QString>("element");
+    QTest::addColumn<QString>("typeClass");
+    QTest::addColumn<QString>("expectedAlbum");
+
+    auto const container = QStringLiteral("container");
+    QTest::newRow("album") << container << QStringLiteral("object.container.album.musicAlbum")
+                           << QStringLiteral("Object");
+    QTest::newRow("storage folder") << container << QStringLiteral("object.container.storageFolder") << QString{};
+    QTest::newRow("artist") << container << QStringLiteral("object.container.person.musicArtist") << QString{};
+    QTest::newRow("music track") << QStringLiteral("item") << QStringLiteral("object.item.audioItem.musicTrack")
+                                 << QString{};
+}
+
+void SourceShould::name_the_album_of_an_album_container_by_its_title()
+{
+    QFETCH(QString, element);
+    QFETCH(QString, typeClass);
+    QFETCH(QString, expectedAlbum);
+    auto mediaServer = createMediaServer();
+    auto mediaServerRaw = mediaServer.get();
+    mediaServer->soapCall->setRawMessage(
+        QString{UPnPAV::xmlResponse}.arg(didlWithOneObject(element, typeClass), "1", "1", "1"));
+    auto mediaServerSource = Source{std::move(mediaServer)};
+
+    Q_EMIT mediaServerRaw->soapCall->finished();
+
+    QCOMPARE(mediaServerSource.mediaItems().size(), 1);
+    QCOMPARE(mediaServerSource.mediaItems().at(0).album(), expectedAlbum);
+}
+
 void SourceShould::report_a_failed_browse_and_keep_the_items()
 {
     auto mediaServer = createMediaServer();

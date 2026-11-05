@@ -20,4 +20,10 @@ QString artworkUrl(QString const& suppliedUrl, QString const& artist, QString co
         .arg(QString::fromLatin1(QUrl::toPercentEncoding(artist)), QString::fromLatin1(QUrl::toPercentEncoding(album)));
 }
 
+QString artworkUrl(Multimedia::Item const& item)
+{
+    auto const& artist = item.albumArtist().isEmpty() ? item.secondaryText() : item.albumArtist();
+    return artworkUrl(item.artworkUrl(), artist, item.album());
+}
+
 } // namespace Shell

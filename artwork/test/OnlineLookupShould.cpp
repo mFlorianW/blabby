@@ -38,6 +38,8 @@ constexpr auto lowTideSearch =
     QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Low Tide Sessions")"};
 constexpr auto harbourSearch =
     QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Harbour Nights")"};
+constexpr auto saltSearch =
+    QLatin1StringView{R"(musicbrainz.org/ws/2/release-group/?query=releasegroup:"Salt & Spray")"};
 constexpr auto lowTideCover = QLatin1StringView{"coverartarchive.org/release-group/rg-low-tide/front-500"};
 constexpr auto harbourCover = QLatin1StringView{"coverartarchive.org/release-group/rg-harbour/front-500"};
 
@@ -162,6 +164,50 @@ void OnlineLookupShould::send_at_most_one_musicbrainz_request_per_second()
     QCOMPARE(mBackend->requests().size(), 4);
     QCOMPARE(lowTide->image().pixelColor(0, 0), QColor{Qt::red});
     QCOMPARE(harbour->image().pixelColor(0, 0), QColor{Qt::blue});
+}
+
+void OnlineLookupShould::search_the_newest_request_first()
+{
+    mBackend->setResponse(lowTideSearch, 200, releaseGroupSearch(QStringLiteral("rg-low-tide"), 10));
+    mBackend->setResponse(harbourSearch, 200, releaseGroupSearch(QStringLiteral("rg-harbour"), 10));
+    mBackend->setResponse(saltSearch, 200, releaseGroupSearch(QStringLiteral("rg-salt"), 10));
+    auto const lowTide =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto const harbour = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Harbour Nights"));
+    auto const salt = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Salt & Spray"));
+    auto lowTideSpy = QSignalSpy{lowTide.get(), &Request::finished};
+    QVERIFY(lowTideSpy.wait());
+
+    mScheduler->advance(1s);
+    QTRY_COMPARE(mBackend->requests().size(), 2);
+    mScheduler->advance(1s);
+    QTRY_COMPARE(mBackend->requests().size(), 3);
+
+    auto const urls = mBackend->requestedUrls();
+    QVERIFY(urls.at(0).contains(lowTideSearch));
+    QVERIFY(urls.at(1).contains(saltSearch));
+    QVERIFY(urls.at(2).contains(harbourSearch));
+}
+
+void OnlineLookupShould::pause_the_searches_when_musicbrainz_is_overloaded()
+{
+    mBackend->setResponse(lowTideSearch, 503);
+    mBackend->setResponse(harbourSearch, 200, releaseGroupSearch(QStringLiteral("rg-harbour"), 10));
+    auto const lowTide =
+        mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Low Tide Sessions"));
+    auto const harbour = mLookup->requestArtwork(QStringLiteral("The Quiet Ferries"), QStringLiteral("Harbour Nights"));
+    auto lowTideSpy = QSignalSpy{lowTide.get(), &Request::finished};
+    QVERIFY(lowTideSpy.wait());
+    QCOMPARE(lowTide->image().isNull(), true);
+
+    mScheduler->advance(4999ms);
+    QTest::qWait(10);
+    QCOMPARE(mBackend->requests().size(), 1);
+
+    mScheduler->advance(1ms);
+
+    QTRY_COMPARE(mBackend->requests().size(), 2);
+    QVERIFY(mBackend->requestedUrls().at(1).contains(harbourSearch));
 }
 
 void OnlineLookupShould::identify_itself_with_a_user_agent()

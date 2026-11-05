@@ -42,6 +42,7 @@ private Q_SLOTS:
     void only_hold_the_entries_without_an_active_renderer();
     void mark_the_next_entry_as_current_when_the_queue_advances();
     void give_the_album_and_the_duration_of_the_entries();
+    void give_the_looked_up_artwork_url_of_an_entry_without_artwork();
     void fall_back_to_the_file_name_as_title();
     void summarize_the_entry_count_and_the_total_duration_data();
     void summarize_the_entry_count_and_the_total_duration();

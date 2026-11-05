@@ -35,6 +35,8 @@ private Q_SLOTS:
     void deliver_no_artwork_for_a_release_group_without_a_front_cover();
     void deliver_no_artwork_without_internet_access();
     void send_at_most_one_musicbrainz_request_per_second();
+    void search_the_newest_request_first();
+    void pause_the_searches_when_musicbrainz_is_overloaded();
     void identify_itself_with_a_user_agent();
     void look_up_an_album_only_once();
     void deliver_the_artwork_to_all_requests_of_an_album();

@@ -176,6 +176,38 @@ void QueueModelShould::give_the_title_artist_and_artwork_of_the_entries_and_mark
     QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
 }
 
+void QueueModelShould::give_the_looked_up_artwork_url_of_an_entry_without_artwork()
+{
+    auto compilationSong = ItemBuilder{}
+                               .withItemType(ItemType::Playable)
+                               .withMainText(QStringLiteral("Intro"))
+                               .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+                               .withAlbum(QStringLiteral("Salt & Spray"))
+                               .withAlbumArtist(QStringLiteral("Various Artists"))
+                               .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/Intro.mp3"))
+                               .build();
+
+    auto songWithArtwork = ItemBuilder{}
+                               .withItemType(ItemType::Playable)
+                               .withMainText(QStringLiteral("Outro"))
+                               .withAlbum(QStringLiteral("Salt & Spray"))
+                               .withArtworkUrl(QStringLiteral("http://192.168.0.3/salt.jpg"))
+                               .withPlayUrl(QStringLiteral("http://192.168.0.3:8200/MediaItems/Outro.mp3"))
+                               .build();
+
+    mModel->replace(
+        {compilationSong, playable(QStringLiteral("Harbour"), QStringLiteral("The Quiet Ferries")), songWithArtwork},
+        0);
+
+    QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::ArtworkUrl).toString(),
+             QStringLiteral("image://artwork/?artist=Various%20Artists&album=Salt%20%26%20Spray"));
+    // Without an album there is nothing to look up, the view shows its placeholder.
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::ArtworkUrl).toString(), QString{});
+    // The Artwork of the Source wins over a lookup.
+    QCOMPARE(dataOf(*mModel, 2, QueueModel::DisplayRole::ArtworkUrl).toString(),
+             QStringLiteral("http://192.168.0.3/salt.jpg"));
+}
+
 void QueueModelShould::reset_when_the_queue_is_replaced()
 {
     auto tester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
