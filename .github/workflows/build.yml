@@ -7,6 +7,9 @@ name: Blabby CI
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSES/**'
 
 jobs:
   build:

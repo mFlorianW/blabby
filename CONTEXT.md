@@ -34,6 +34,14 @@ _Avoid_: File, track (as the general term)
 The location of an Item within its Source, whose format is defined by the Source.
 _Avoid_: URL, address
 
+**Album Artist**:
+The artist an album as a whole is credited to, such as "Various Artists" for a compilation, as opposed to the artist of a single Playable on it.
+_Avoid_: Band, performer
+
+**Artwork**:
+The image that represents an Item or the Current Track, normally its album cover. The Artwork the Source or Renderer supplies always wins; only when it supplies none does Blabby look up the album's Artwork on the internet. Without either, a placeholder is shown.
+_Avoid_: Thumbnail, cover, album art
+
 ### Playing media
 
 **Renderer**:
