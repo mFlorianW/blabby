@@ -71,6 +71,13 @@ target_link_libraries(blabby
     PRIVATE
         BlabbyShell::Object
 )
+
+qt_add_resources(blabby "blabby_icons"
+    PREFIX "/blabby"
+    FILES
+        icons/blabby.svg
+)
+
 ################################################################################
 # Install
 ################################################################################
