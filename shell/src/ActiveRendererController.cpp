@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "ActiveRendererController.hpp"
+#include "ArtworkUrl.hpp"
 #include "LoggingCategories.hpp"
 
 using namespace Multimedia;
@@ -55,7 +56,8 @@ QString ActiveRendererController::trackArtist() const noexcept
 
 QString ActiveRendererController::artworkUrl() const noexcept
 {
-    return currentTrack().artworkUrl;
+    auto const track = currentTrack();
+    return Shell::artworkUrl(track.artworkUrl, track.artist, track.album);
 }
 
 QString ActiveRendererController::trackAlbum() const noexcept

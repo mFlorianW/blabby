@@ -170,3 +170,19 @@ target_link_libraries(test_shell_mediasource_model
         Blabby::MultimediaTestHelper
 )
 add_test(test_shell_mediasource_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_mediasource_model)
+
+###############################################################################
+# Test ArtworkImageProvider
+###############################################################################
+add_executable(test_shell_artwork_image_provider)
+target_sources(test_shell_artwork_image_provider
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkImageProviderShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkImageProviderShould.hpp
+)
+target_link_libraries(test_shell_artwork_image_provider
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+)
+add_test(test_shell_artwork_image_provider ${EXECUTABLE_OUTPUT_PATH}/test_shell_artwork_image_provider)
