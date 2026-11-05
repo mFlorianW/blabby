@@ -18,6 +18,8 @@ namespace
 {
 
 constexpr auto minimumSearchInterval = 1s;
+constexpr auto overloadPause = 5s;
+constexpr auto serviceUnavailable = 503;
 constexpr auto minimumScore = 90;
 // A search by the album title alone matches more unrelated albums, so it must be more confident.
 constexpr auto minimumScoreWithoutArtist = 95;
@@ -97,8 +99,8 @@ void MusicBrainzService::searchNext()
     }
 
     auto const now = mScheduler.now();
-    if (mLastSearchAt.has_value() and now < mLastSearchAt.value() + minimumSearchInterval) {
-        mScheduler.wakeUpAt(mLastSearchAt.value() + minimumSearchInterval);
+    if (mNextSearchAt.has_value() and now < mNextSearchAt.value()) {
+        mScheduler.wakeUpAt(mNextSearchAt.value());
         return;
     }
 
@@ -108,7 +110,7 @@ void MusicBrainzService::searchNext()
 
     auto request = createRequest(searchUrl(search.artist, search.album));
     request.setRawHeader("Accept", "application/json");
-    mLastSearchAt = now;
+    mNextSearchAt = now + minimumSearchInterval;
     mSearchRequest = std::move(search.request);
     mSearchMinimumScore = search.artist.isEmpty() ? minimumScoreWithoutArtist : minimumScore;
     mSearchReply = mBackend.get(request);
@@ -123,7 +125,11 @@ void MusicBrainzService::onSearchFinished()
     auto request = std::move(mSearchRequest);
 
     auto const releaseGroupId = reply->status() == 200 ? bestMatch(reply->body(), mSearchMinimumScore) : QString{};
-    if (releaseGroupId.isEmpty()) {
+    if (reply->status() == serviceUnavailable) {
+        qCDebug(artwork) << "MusicBrainz is overloaded, pausing the searches";
+        mNextSearchAt = mScheduler.now() + overloadPause;
+        request->finish(QImage{});
+    } else if (releaseGroupId.isEmpty()) {
         qCDebug(artwork) << "MusicBrainz has no confident match, status" << reply->status();
         request->finish(QImage{});
     } else {
