@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "FolderArtwork.hpp"
 #include "Source.hpp"
 #include <QAbstractListModel>
 
@@ -75,9 +76,10 @@ public:
     Q_ENUM(DisplayRole)
 
     /**
-     * Inherited base class constructors
+     * Creates an instance of the @ref Shell::MediaItemModel without a Source.
+     * @param parent The parent object.
      */
-    using QAbstractListModel::QAbstractListModel;
+    explicit MediaItemModel(QObject* parent = nullptr);
 
     /**
      * Default destructor
@@ -294,8 +296,11 @@ private:
     void onLoadingMoreFailed() noexcept;
     void setLoadMoreFailed(bool failed) noexcept;
     QString parentContainerTitle() const noexcept;
+    void onFolderArtworkFound(QString const& path) noexcept;
 
     std::shared_ptr<Multimedia::Source> mMediaSrc;
+    // Asking for the Artwork of a folder browses it, also while the model gives its data.
+    mutable FolderArtwork mFolderArtwork;
     // The Containers opened from the root, the last one is the current Container.
     QList<OpenedContainer> mOpenedContainers;
     PendingNavigation mPendingNavigation{PendingNavigation::None};

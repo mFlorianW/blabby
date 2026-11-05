@@ -19,6 +19,18 @@ namespace
 {
 
 /**
+ * Gives a folder whose path is its title.
+ */
+Multimedia::Item folder(QString const& title)
+{
+    return Multimedia::ItemBuilder{}
+        .withItemType(Multimedia::ItemType::Container)
+        .withMainText(title)
+        .withPath(title)
+        .build();
+}
+
+/**
  * Gives the Items of the root Container of the TestSource that aren't loaded yet.
  */
 Multimedia::Items moreItems()
@@ -323,6 +335,193 @@ void MediaItemModelShould::give_the_looked_up_artwork_url_of_an_item_without_art
     QCOMPARE(miModel.data(miModel.index(2), artworkUrlRole).toString(), QString{});
     // The Artwork of the Source wins over a lookup.
     QCOMPARE(miModel.data(miModel.index(3), artworkUrlRole).toString(), QStringLiteral("http://192.168.0.3/salt.jpg"));
+}
+
+void MediaItemModelShould::give_a_folder_the_artwork_of_its_first_playable()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("folders"),
+                       {folder(QStringLiteral("The Wall")), folder(QStringLiteral("Animals"))});
+    mediaSrc->setItems(QStringLiteral("The Wall"),
+                       {folder(QStringLiteral("Bonus")),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("In the Flesh?"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/wall.jpg"))
+                            .build()});
+    mediaSrc->setItems(QStringLiteral("Animals"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Dogs"))
+                            .withSecondaryText(QStringLiteral("Pink Floyd"))
+                            .withAlbum(QStringLiteral("Animals"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("folders"));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+    auto dataChangedSpy = QSignalSpy{&miModel, &MediaItemModel::dataChanged};
+
+    // Unknown until the folder is browsed.
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(), QString{});
+
+    QTRY_COMPARE(dataChangedSpy.size(), 2);
+    QCOMPARE(dataChangedSpy.at(0).at(2).value<QList<int>>(), QList<int>{artworkUrlRole});
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QStringLiteral("http://192.168.0.3/wall.jpg"));
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(),
+             QStringLiteral("image://artwork/?artist=Pink%20Floyd&album=Animals"));
+}
+
+void MediaItemModelShould::keep_the_placeholder_of_a_folder_without_artwork_below_it_and_browse_it_once()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("folders"), {folder(QStringLiteral("Extras"))});
+    mediaSrc->setItems(QStringLiteral("Extras"), {folder(QStringLiteral("Scans"))});
+    mediaSrc->setItems(QStringLiteral("Scans"),
+                       {Multimedia::Item{Multimedia::ItemType::Container, QStringLiteral("Empty")}});
+    mediaSrc->navigateTo(QStringLiteral("folders"));
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+    QTest::qWait(20);
+    auto const browsedPageCount = mediaSrc->browsedPageCount();
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+    QTest::qWait(20);
+
+    QCOMPARE(mediaSrc->browsedPageCount(), browsedPageCount);
+}
+
+void MediaItemModelShould::give_a_folder_of_folders_the_artwork_of_a_random_subfolder()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("artists"), {folder(QStringLiteral("Pink Floyd"))});
+    mediaSrc->setItems(QStringLiteral("Pink Floyd"),
+                       {folder(QStringLiteral("The Wall")), folder(QStringLiteral("Animals"))});
+    mediaSrc->setItems(QStringLiteral("The Wall"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("In the Flesh?"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/wall.jpg"))
+                            .build()});
+    mediaSrc->setItems(QStringLiteral("Animals"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Dogs"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/animals.jpg"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("artists"));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+    auto dataChangedSpy = QSignalSpy{&miModel, &MediaItemModel::dataChanged};
+
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+
+    QTRY_COMPARE(dataChangedSpy.size(), 1);
+    auto const url = miModel.data(miModel.index(0), artworkUrlRole).toString();
+    QVERIFY2(url == QStringLiteral("http://192.168.0.3/wall.jpg") or
+                 url == QStringLiteral("http://192.168.0.3/animals.jpg"),
+             qPrintable(url));
+    // The folder and one of its subfolders.
+    QCOMPARE(mediaSrc->browsedPageCount(), 2);
+    // The chosen Artwork stays.
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), url);
+}
+
+void MediaItemModelShould::give_a_folder_of_folders_the_artwork_of_a_subfolder_that_has_its_own()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("artists"), {folder(QStringLiteral("Pink Floyd"))});
+    mediaSrc->setItems(QStringLiteral("Pink Floyd"),
+                       {folder(QStringLiteral("Extras")),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Container)
+                            .withMainText(QStringLiteral("The Wall"))
+                            .withPath(QStringLiteral("The Wall"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/wall.jpg"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("artists"));
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+
+    QTRY_COMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(),
+                 QStringLiteral("http://192.168.0.3/wall.jpg"));
+    QCOMPARE(mediaSrc->browsedPageCount(), 1);
+}
+
+void MediaItemModelShould::look_for_the_artwork_of_a_folder_at_most_three_folders_deep()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("folders"), {folder(QStringLiteral("1")), folder(QStringLiteral("deep 1"))});
+    // Three folders deep, the Artwork is found.
+    mediaSrc->setItems(QStringLiteral("1"), {folder(QStringLiteral("2"))});
+    mediaSrc->setItems(QStringLiteral("2"), {folder(QStringLiteral("3"))});
+    mediaSrc->setItems(QStringLiteral("3"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Song"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/song.jpg"))
+                            .build()});
+    // Four folders deep, it isn't.
+    mediaSrc->setItems(QStringLiteral("deep 1"), {folder(QStringLiteral("deep 2"))});
+    mediaSrc->setItems(QStringLiteral("deep 2"), {folder(QStringLiteral("deep 3"))});
+    mediaSrc->setItems(QStringLiteral("deep 3"), {folder(QStringLiteral("deep 4"))});
+    mediaSrc->setItems(QStringLiteral("deep 4"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Playable)
+                            .withMainText(QStringLiteral("Song"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/song.jpg"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("folders"));
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QString{});
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(), QString{});
+
+    QTRY_COMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(),
+                 QStringLiteral("http://192.168.0.3/song.jpg"));
+    QTest::qWait(20);
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(), QString{});
+    QCOMPARE(mediaSrc->browsedPageCount(), 6);
+}
+
+void MediaItemModelShould::not_browse_a_container_with_artwork_or_album()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QString(""), QString(""));
+    mediaSrc->setItems(QStringLiteral("albums"),
+                       {Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Container)
+                            .withMainText(QStringLiteral("The Wall"))
+                            .withPath(QStringLiteral("The Wall"))
+                            .withArtworkUrl(QStringLiteral("http://192.168.0.3/wall.jpg"))
+                            .build(),
+                        Multimedia::ItemBuilder{}
+                            .withItemType(Multimedia::ItemType::Container)
+                            .withMainText(QStringLiteral("Animals"))
+                            .withPath(QStringLiteral("Animals"))
+                            .withAlbum(QStringLiteral("Animals"))
+                            .build()});
+    mediaSrc->navigateTo(QStringLiteral("albums"));
+    miModel.setMediaSource(mediaSrc);
+    auto const artworkUrlRole = static_cast<int>(MediaItemModel::DisplayRole::MediaItemArtworkUrl);
+
+    QCOMPARE(miModel.data(miModel.index(0), artworkUrlRole).toString(), QStringLiteral("http://192.168.0.3/wall.jpg"));
+    QCOMPARE(miModel.data(miModel.index(1), artworkUrlRole).toString(),
+             QStringLiteral("image://artwork/?artist=&album=Animals"));
+    QTest::qWait(10);
+
+    QCOMPARE(mediaSrc->browsedPageCount(), 0);
 }
 
 void MediaItemModelShould::give_the_name_and_icon_url_for_the_active_media_source()

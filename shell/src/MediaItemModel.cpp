@@ -13,6 +13,12 @@
 namespace Shell
 {
 
+MediaItemModel::MediaItemModel(QObject* parent)
+    : QAbstractListModel{parent}
+{
+    connect(&mFolderArtwork, &FolderArtwork::artworkFound, this, &MediaItemModel::onFolderArtworkFound);
+}
+
 MediaItemModel::~MediaItemModel() = default;
 
 int MediaItemModel::rowCount(QModelIndex const& index) const noexcept
@@ -52,7 +58,12 @@ QVariant MediaItemModel::data(QModelIndex const& index, int role) const noexcept
     if (dispRole == DisplayRole::MediaItemTitle) {
         return item.mainText();
     } else if (dispRole == DisplayRole::MediaItemArtworkUrl) {
-        return artworkUrl(item);
+        auto url = artworkUrl(item);
+        if (url.isEmpty() and item.type() == Multimedia::ItemType::Container) {
+            // A folder carries no album, it shows the Artwork of its first Playable.
+            url = mFolderArtwork.artworkUrl(item.path());
+        }
+        return url;
     } else if (dispRole == DisplayRole::MediaItemType) {
         return static_cast<int>(item.type());
     } else if (dispRole == DisplayRole::MediaItemSecondaryText) {
@@ -89,6 +100,7 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
         auto const wasAtRoot = isAtRoot();
         beginResetModel();
         mMediaSrc = mediaSrc;
+        mFolderArtwork.setSource(mMediaSrc);
         mRowCount = mMediaSrc != nullptr ? static_cast<int>(mMediaSrc->mediaItems().size()) : 0;
         mOpenedContainers.clear();
         mPendingNavigation = PendingNavigation::None;
@@ -322,6 +334,19 @@ bool MediaItemModel::isAtRoot() const noexcept
 bool MediaItemModel::hasLoadMoreFailed() const noexcept
 {
     return mLoadMoreFailed;
+}
+
+void MediaItemModel::onFolderArtworkFound(QString const& path) noexcept
+{
+    if (mMediaSrc == nullptr) {
+        return;
+    }
+    auto const& items = mMediaSrc->mediaItems();
+    for (auto row = 0; row < mRowCount and row < items.size(); ++row) {
+        if (items.at(row).type() == Multimedia::ItemType::Container and items.at(row).path() == path) {
+            Q_EMIT dataChanged(index(row), index(row), {static_cast<int>(DisplayRole::MediaItemArtworkUrl)});
+        }
+    }
 }
 
 } // namespace Shell
