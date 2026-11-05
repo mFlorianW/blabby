@@ -6,6 +6,9 @@ name: Clazy
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSES/**'
 
 jobs:
   Clazy:

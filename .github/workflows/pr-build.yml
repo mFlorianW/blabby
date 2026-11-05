@@ -6,6 +6,9 @@ name: Build And Test
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSES/**'
 
 jobs:
   Generate_Build_Jobs:
