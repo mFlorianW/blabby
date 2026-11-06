@@ -33,6 +33,7 @@ var hierarchy =
     [ "UPnPAV::GetTransportInfoResponse", "classUPnPAV_1_1GetTransportInfoResponse.html", null ],
     [ "UPnPAV::GetTransportSettingsResponse", "classUPnPAV_1_1GetTransportSettingsResponse.html", null ],
     [ "UPnPAV::GetVolumeResponse", "classUPnPAV_1_1GetVolumeResponse.html", null ],
+    [ "Http::HeaderName", "classHttp_1_1HeaderName.html", null ],
     [ "UPnPAV::HttpEventBackendPrivate", "structUPnPAV_1_1HttpEventBackendPrivate.html", null ],
     [ "UPnPAV::HttpEventSubscriptionHandleDeleter", "classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html", null ],
     [ "UPnPAV::IconDescription", "classUPnPAV_1_1IconDescription.html", null ],

@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "Http", null, [
       [ "ClientConnection", "classHttp_1_1ClientConnection.html", "classHttp_1_1ClientConnection" ],
+      [ "HeaderName", "classHttp_1_1HeaderName.html", "classHttp_1_1HeaderName" ],
       [ "RequestDeserializer", "classHttp_1_1RequestDeserializer.html", "classHttp_1_1RequestDeserializer" ],
       [ "ResponseSerializer", "classHttp_1_1ResponseSerializer.html", "classHttp_1_1ResponseSerializer" ],
       [ "Server", "classHttp_1_1Server.html", "classHttp_1_1Server" ],

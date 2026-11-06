@@ -1,5 +1,9 @@
 var NAVTREEINDEX2 =
 {
+"classShell_1_1MediaRendererModel.html#ac9ccdebb5eef880dc2b37c3a6bc0732c":[7,0,3,6,13],
+"classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccb":[7,0,3,6,0],
+"classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba31aada1bda70b321b2ddbfda587ba8ee":[7,0,3,6,0,1],
+"classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba435ee8813bc7717bd97322706f6ee5f7":[7,0,3,6,0,4],
 "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987":[7,0,3,6,0,0],
 "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba4d3d769b812b6faa6b76e1a8abaece2d":[7,0,3,6,0,2],
 "classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbac0bd7654d5b278e65f21cf4e9153fdb4":[7,0,3,6,0,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX2 =
 "classUPnPAV_1_1HttpDescriptionFetcherBackend.html":[7,0,4,34],
 "classUPnPAV_1_1HttpEventBackend.html":[7,0,4,35],
 "classUPnPAV_1_1HttpEventBackend.html#a349aaf69b53459eb655e3f6a50c90e95":[7,0,4,35,4],
-"classUPnPAV_1_1HttpEventBackend.html#a4c1304fd1527f38c664afde535d06b4d":[7,0,4,35,1],
-"classUPnPAV_1_1HttpEventBackend.html#a95ac632c9640918722ec723ea16f050e":[7,0,4,35,2],
-"classUPnPAV_1_1HttpEventBackend.html#aaf4709a21bac81ad3983fb7ef07c77f2":[7,0,4,35,3],
-"classUPnPAV_1_1HttpEventBackend.html#adc5fe0bad9f90de2fddc2cd1f02a7e5d":[7,0,4,35,0],
-"classUPnPAV_1_1HttpEventServer.html":[7,0,4,37]
+"classUPnPAV_1_1HttpEventBackend.html#a4c1304fd1527f38c664afde535d06b4d":[7,0,4,35,1]
 };

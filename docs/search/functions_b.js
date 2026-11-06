@@ -15,7 +15,7 @@ var searchData=
   ['mediaserver_12',['MediaServer',['../classUPnPAV_1_1MediaServer.html#ae5c27def629180e557ab8d4ec73414dd',1,'UPnPAV::MediaServer']]],
   ['mediasourcechanged_13',['mediaSourceChanged',['../classShell_1_1MediaItemModel.html#a0b5fed5cd72f037bb198acc66dc7808e',1,'Shell::MediaItemModel']]],
   ['mediasourceiconurl_14',['mediaSourceIconUrl',['../classShell_1_1MediaItemModel.html#af66853f9bd3cb6c4b96b88ab8120576f',1,'Shell::MediaItemModel']]],
-  ['mediasourcemodel_15',['mediasourcemodel',['../classShell_1_1MediaSourceModel.html#a0751bf25d08bb9b5530ef7e44ec421b2',1,'Shell::MediaSourceModel::MediaSourceModel()'],['../classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71',1,'Shell::QmlSingletonRegistry::mediaSourceModel()']]],
+  ['mediasourcemodel_15',['mediasourcemodel',['../classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71',1,'Shell::QmlSingletonRegistry::mediaSourceModel()'],['../classShell_1_1MediaSourceModel.html#a0751bf25d08bb9b5530ef7e44ec421b2',1,'Shell::MediaSourceModel::MediaSourceModel()']]],
   ['mediasourcename_16',['mediaSourceName',['../classShell_1_1MediaItemModel.html#a8e2beacf12ac193cdb25f21865495e97',1,'Shell::MediaItemModel']]],
   ['method_17',['method',['../classHttp_1_1ServerRequest.html#ab4b9bd4da03d5a4147ea24f531cdeaff',1,'Http::ServerRequest']]],
   ['modelname_18',['modelname',['../classUPnPAV_1_1MediaDevice.html#af07f0b31266a1e510061529e75082521',1,'UPnPAV::MediaDevice::modelName()'],['../classMultimedia_1_1Renderer.html#a9d7e61bd230c173ff108672ee923d3b9',1,'Multimedia::Renderer::modelName()']]],

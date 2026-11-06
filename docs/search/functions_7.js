@@ -15,8 +15,9 @@ var searchData=
   ['hasnext_12',['hasnext',['../classMultimedia_1_1Queue.html#ad6fff437c415f363d2fc4ac01815a249',1,'Multimedia::Queue::hasNext()'],['../classShell_1_1QueueModel.html#a4fc01c62265791405b565c5d94bca9a3',1,'Shell::QueueModel::hasNext()']]],
   ['hasprevious_13',['hasprevious',['../classMultimedia_1_1Queue.html#a8b400400697498cc547bc036d2f18e31',1,'Multimedia::Queue::hasPrevious()'],['../classShell_1_1QueueModel.html#a18fd47963e10d2f211f0b0afc5725af4',1,'Shell::QueueModel::hasPrevious() const noexcept']]],
   ['hastotalduration_14',['hasTotalDuration',['../classShell_1_1QueueModel.html#aeeff9d9f6346628d85f0a7e0229b0e28',1,'Shell::QueueModel']]],
-  ['headers_15',['headers',['../classHttp_1_1ServerRequest.html#a8a5628d5575c567cab3542ddefdba7d4',1,'Http::ServerRequest::headers()'],['../classHttp_1_1ServerResponse.html#af1e1b9daeee482ddf78b13809d7427bd',1,'Http::ServerResponse::headers()']]],
-  ['hoveredchanged_16',['hoveredChanged',['../classShell_1_1AbstractInteractiveControl.html#a4c8eec131dafb3e4a1f515967dc852f6',1,'Shell::AbstractInteractiveControl']]],
-  ['httpeventbackend_17',['HttpEventBackend',['../classUPnPAV_1_1HttpEventBackend.html#adc5fe0bad9f90de2fddc2cd1f02a7e5d',1,'UPnPAV::HttpEventBackend']]],
-  ['httpeventsubscriptionhandle_18',['HttpEventSubscriptionHandle',['../classUPnPAV_1_1HttpEventSubscriptionHandle.html#aca61d041939a93caaf5cbf18f99fd8b8',1,'UPnPAV::HttpEventSubscriptionHandle']]]
+  ['headername_15',['headername',['../classHttp_1_1HeaderName.html#a602171fe4696e551af92c8c31eb2d049',1,'Http::HeaderName::HeaderName(QByteArray name) noexcept'],['../classHttp_1_1HeaderName.html#a0c241c97e664811db0a5f0a757ad5204',1,'Http::HeaderName::HeaderName(char const *name)']]],
+  ['headers_16',['headers',['../classHttp_1_1ServerRequest.html#a8a5628d5575c567cab3542ddefdba7d4',1,'Http::ServerRequest::headers()'],['../classHttp_1_1ServerResponse.html#af1e1b9daeee482ddf78b13809d7427bd',1,'Http::ServerResponse::headers()']]],
+  ['hoveredchanged_17',['hoveredChanged',['../classShell_1_1AbstractInteractiveControl.html#a4c8eec131dafb3e4a1f515967dc852f6',1,'Shell::AbstractInteractiveControl']]],
+  ['httpeventbackend_18',['HttpEventBackend',['../classUPnPAV_1_1HttpEventBackend.html#adc5fe0bad9f90de2fddc2cd1f02a7e5d',1,'UPnPAV::HttpEventBackend']]],
+  ['httpeventsubscriptionhandle_19',['HttpEventSubscriptionHandle',['../classUPnPAV_1_1HttpEventSubscriptionHandle.html#aca61d041939a93caaf5cbf18f99fd8b8',1,'UPnPAV::HttpEventSubscriptionHandle']]]
 ];

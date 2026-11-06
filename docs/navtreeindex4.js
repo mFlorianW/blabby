@@ -1,5 +1,9 @@
 var NAVTREEINDEX4 =
 {
+"classes.html":[7,1],
+"dir_05f22ef7a6c89777114df7a692b07171.html":[8,0,1,0,0],
+"dir_166a3787194b879e3dc17453137bdaab.html":[8,0,1,0],
+"dir_2ae5151fa588ed9c5791918229f0e788.html":[8,0,1],
 "dir_3085d55226f6dd1c561e28e03fbb4d88.html":[8,0,0,0,0],
 "dir_4fe41635bac63a7df7e3ff41ce3252f0.html":[8,0,3,0],
 "dir_5643d425f0a134bad96294677d5b2c87.html":[8,0,2,0],
@@ -93,9 +97,9 @@ var NAVTREEINDEX4 =
 "providers_2media__server_2src_2private_2LoggingCategories_8hpp_source.html":[8,0,2,0,0,0,0],
 "shell_2src_2Blabby_2Controls_2LoggingCategories_8hpp_source.html":[8,0,3,0,0,0,1],
 "shell_2src_2LoggingCategories_8hpp_source.html":[8,0,3,0,7],
-"structHttp_1_1ServerPrivate.html":[7,0,0,4],
-"structHttp_1_1ServerRequestData.html":[7,0,0,6],
-"structHttp_1_1ServerResponseData.html":[7,0,0,8],
+"structHttp_1_1ServerPrivate.html":[7,0,0,5],
+"structHttp_1_1ServerRequestData.html":[7,0,0,7],
+"structHttp_1_1ServerResponseData.html":[7,0,0,9],
 "structMultimedia_1_1CurrentTrack.html":[7,0,1,0],
 "structMultimedia_1_1CurrentTrack.html#a319031dbf72aa40eb0184d9482d23dc3":[7,0,1,0,7],
 "structMultimedia_1_1CurrentTrack.html#a3afa9bc461bb051197183988760746b1":[7,0,1,0,5],
