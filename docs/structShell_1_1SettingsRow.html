@@ -127,6 +127,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aaef327e881cbf1878b7922d3417737b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fe8a08e8e87b862201f5de4c79ab0c6" id="r_a1fe8a08e8e87b862201f5de4c79ab0c6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#a1fe8a08e8e87b862201f5de4c79ab0c6">value</a></td></tr>
 <tr class="separator:a1fe8a08e8e87b862201f5de4c79ab0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e709536401a2abea520bb2f5a45e12" id="r_a83e709536401a2abea520bb2f5a45e12"><td class="memItemLeft" align="right" valign="top">SettingsRowKind::Kind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#a83e709536401a2abea520bb2f5a45e12">kind</a> = SettingsRowKind::Info</td></tr>
+<tr class="separator:a83e709536401a2abea520bb2f5a45e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a197aa1c3699888d9ba0138f1f6b91058" id="r_a197aa1c3699888d9ba0138f1f6b91058"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#a197aa1c3699888d9ba0138f1f6b91058">key</a> = {}</td></tr>
+<tr class="separator:a197aa1c3699888d9ba0138f1f6b91058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59db51b7ddbdc6a4d8d6ab4393e8f51" id="r_ac59db51b7ddbdc6a4d8d6ab4393e8f51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#ac59db51b7ddbdc6a4d8d6ab4393e8f51">defaultChecked</a> = false</td></tr>
+<tr class="separator:ac59db51b7ddbdc6a4d8d6ab4393e8f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -137,6 +143,51 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a cl
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A row of a section on the Settings screen. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac59db51b7ddbdc6a4d8d6ab4393e8f51" name="ac59db51b7ddbdc6a4d8d6ab4393e8f51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac59db51b7ddbdc6a4d8d6ab4393e8f51">&#9670;&#160;</a></span>defaultChecked</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::SettingsRow::defaultChecked = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Whether the switch is on while the setting isn't stored. </p>
+
+</div>
+</div>
+<a id="a197aa1c3699888d9ba0138f1f6b91058" name="a197aa1c3699888d9ba0138f1f6b91058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a197aa1c3699888d9ba0138f1f6b91058">&#9670;&#160;</a></span>key</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Shell::SettingsRow::key = {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The key of the setting a switch turns on or off in the <a class="el" href="classShell_1_1SettingsStore.html">Shell::SettingsStore</a>, empty for an info row. </p>
+
+</div>
+</div>
+<a id="a83e709536401a2abea520bb2f5a45e12" name="a83e709536401a2abea520bb2f5a45e12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83e709536401a2abea520bb2f5a45e12">&#9670;&#160;</a></span>kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SettingsRowKind::Kind Shell::SettingsRow::kind = SettingsRowKind::Info</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The kind of the row. </p>
+
+</div>
+</div>
 <a id="aaef327e881cbf1878b7922d3417737b4" name="aaef327e881cbf1878b7922d3417737b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaef327e881cbf1878b7922d3417737b4">&#9670;&#160;</a></span>subtitle</h2>
 
@@ -178,7 +229,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a cl
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The value shown at the trailing edge of the row, e.g. "6.8.2". </p>
+<p>The value shown at the trailing edge of the row, e.g. "6.8.2", empty for a switch. </p>
 
 </div>
 </div>

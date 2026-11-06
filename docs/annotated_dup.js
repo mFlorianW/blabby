@@ -39,6 +39,9 @@ var annotated_dup =
       ] ]
     ] ],
     [ "Shell", null, [
+      [ "Objects", "namespaceShell_1_1Objects.html", [
+        [ "RendererForeign", "structShell_1_1Objects_1_1RendererForeign.html", null ]
+      ] ],
       [ "AbstractInteractiveControl", "classShell_1_1AbstractInteractiveControl.html", "classShell_1_1AbstractInteractiveControl" ],
       [ "ActiveRendererController", "classShell_1_1ActiveRendererController.html", "classShell_1_1ActiveRendererController" ],
       [ "ArtworkImageProvider", "classShell_1_1ArtworkImageProvider.html", "classShell_1_1ArtworkImageProvider" ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['year_0',['year',['../structMultimedia_1_1CurrentTrack.html#a319031dbf72aa40eb0184d9482d23dc3',1,'Multimedia::CurrentTrack']]]
+  ['value_0',['value',['../structShell_1_1SettingsRow.html#a1fe8a08e8e87b862201f5de4c79ab0c6',1,'Shell::SettingsRow']]]
 ];

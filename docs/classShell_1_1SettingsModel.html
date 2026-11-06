@@ -142,8 +142,8 @@ Signals</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6f7fb0047bca080a6fbfa28eb25b6080" id="r_a6f7fb0047bca080a6fbfa28eb25b6080"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a6f7fb0047bca080a6fbfa28eb25b6080">SettingsModel</a> (Multimedia::Providers providers, QString blabbyVersion)</td></tr>
-<tr class="separator:a6f7fb0047bca080a6fbfa28eb25b6080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53aa7c76c50d844df40d131868986bfe" id="r_a53aa7c76c50d844df40d131868986bfe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a53aa7c76c50d844df40d131868986bfe">SettingsModel</a> (Multimedia::Providers providers, QString blabbyVersion, std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt; settings)</td></tr>
+<tr class="separator:a53aa7c76c50d844df40d131868986bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb96ce36af8d812c025a33b9faf953ee" id="r_adb96ce36af8d812c025a33b9faf953ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#adb96ce36af8d812c025a33b9faf953ee">~SettingsModel</a> () override</td></tr>
 <tr class="separator:adb96ce36af8d812c025a33b9faf953ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27fbb6c26cc21f356dc1b50e66add3f6" id="r_a27fbb6c26cc21f356dc1b50e66add3f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a27fbb6c26cc21f356dc1b50e66add3f6">rowCount</a> (QModelIndex const &amp;parent=QModelIndex()) const noexcept override</td></tr>
@@ -158,6 +158,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4e8b65ed49ee36cbb51b71dc2225c71d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a172d6e8f41fca289fe0989b5b73f0b6f" id="r_a172d6e8f41fca289fe0989b5b73f0b6f"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a172d6e8f41fca289fe0989b5b73f0b6f">pickSection</a> (int index)</td></tr>
 <tr class="separator:a172d6e8f41fca289fe0989b5b73f0b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a514a41b6129f14dc3264034e748ffc6c" id="r_a514a41b6129f14dc3264034e748ffc6c"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a514a41b6129f14dc3264034e748ffc6c">setChecked</a> (int row, bool checked)</td></tr>
+<tr class="separator:a514a41b6129f14dc3264034e748ffc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -167,7 +169,7 @@ Properties</h2></td></tr>
 <tr class="separator:a670b5b527f0d7e456401fe86d75c9957"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The sections of the Settings screen, one model row per section, and the rows of the picked section. The first section is picked from the start. The last section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version. </p>
+<div class="textblock"><p>The sections of the Settings screen, one model row per section, and the rows of the picked section. The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. The last section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a1f39b6b6a4cbca9d159ec3ff4cf11b21" name="a1f39b6b6a4cbca9d159ec3ff4cf11b21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1f39b6b6a4cbca9d159ec3ff4cf11b21">&#9670;&#160;</a></span>DisplayRole</h2>
@@ -193,8 +195,8 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6f7fb0047bca080a6fbfa28eb25b6080" name="a6f7fb0047bca080a6fbfa28eb25b6080"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f7fb0047bca080a6fbfa28eb25b6080">&#9670;&#160;</a></span>SettingsModel()</h2>
+<a id="a53aa7c76c50d844df40d131868986bfe" name="a53aa7c76c50d844df40d131868986bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53aa7c76c50d844df40d131868986bfe">&#9670;&#160;</a></span>SettingsModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +211,13 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">QString&#160;</td>
-          <td class="paramname"><em>blabbyVersion</em>&#160;</td>
+          <td class="paramname"><em>blabbyVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt;&#160;</td>
+          <td class="paramname"><em>settings</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -222,6 +230,7 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">providers</td><td>The loaded Providers, they are already initialized. </td></tr>
     <tr><td class="paramname">blabbyVersion</td><td>The version of Blabby shown in About. </td></tr>
+    <tr><td class="paramname">settings</td><td>The store that keeps the values of the switches, a change is stored right away. </td></tr>
   </table>
   </dd>
 </dl>
@@ -444,6 +453,41 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Gives the rows of the picked section. </p><dl class="section note"><dt>Note</dt><dd>The caller doesn't take the ownership of the returned pointer. </dd></dl>
+
+</div>
+</div>
+<a id="a514a41b6129f14dc3264034e748ffc6c" name="a514a41b6129f14dc3264034e748ffc6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a514a41b6129f14dc3264034e748ffc6c">&#9670;&#160;</a></span>setChecked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::SettingsModel::setChecked </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>checked</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turns the switch in the row of the picked section on or off and stores the new value right away. A row that is no switch changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The index of the row in the picked section. </td></tr>
+    <tr><td class="paramname">checked</td><td>True to turn the switch on, false to turn it off. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

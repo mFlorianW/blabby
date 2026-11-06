@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_0',['value',['../structShell_1_1SettingsRow.html#a1fe8a08e8e87b862201f5de4c79ab0c6',1,'Shell::SettingsRow']]]
+  ['uri_0',['uri',['../structUPnPAV_1_1Resource.html#ac121c1c7baeedd84148c5a0b383034e8',1,'UPnPAV::Resource::uri'],['../structMultimedia_1_1CurrentTrack.html#ae8107b43103415e526b58aa92fd284ff',1,'Multimedia::CurrentTrack::uri']]]
 ];

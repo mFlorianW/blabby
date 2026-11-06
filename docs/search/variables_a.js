@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['samplefrequency_0',['sampleFrequency',['../structUPnPAV_1_1Resource.html#a6d8a53e936bfa61a3193d1a73fe974de',1,'UPnPAV::Resource']]],
-  ['searchwindow_1',['SearchWindow',['../classUPnPAV_1_1ServiceDiscovery.html#a9cc3253337b2ee4f916ada477ae25e99',1,'UPnPAV::ServiceDiscovery']]],
-  ['subtitle_2',['subtitle',['../structShell_1_1SettingsRow.html#aaef327e881cbf1878b7922d3417737b4',1,'Shell::SettingsRow']]]
+  ['rememberlastrenderer_0',['rememberLastRenderer',['../namespaceShell_1_1SettingsKey.html#afa305fc7597198e840521d9bce07f464',1,'Shell::SettingsKey']]],
+  ['rememberlastrendererdefault_1',['rememberLastRendererDefault',['../namespaceShell_1_1SettingsKey.html#a056a6ed7b48c7d68d9943af3e257cb42',1,'Shell::SettingsKey']]]
 ];

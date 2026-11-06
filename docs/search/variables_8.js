@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['protocolinfo_0',['protocolInfo',['../structUPnPAV_1_1Resource.html#a707345f2b9ff9483b311e4b68ff5b538',1,'UPnPAV::Resource']]]
+  ['name_0',['name',['../structMultimedia_1_1RememberedRenderer.html#a8455f6946e1715b6ed4dffd9bf85f84b',1,'Multimedia::RememberedRenderer']]]
 ];

@@ -144,6 +144,7 @@ var hierarchy =
       [ "Http::Server", "classHttp_1_1Server.html", null ]
     ] ],
     [ "Multimedia::RememberedRenderer", "structMultimedia_1_1RememberedRenderer.html", null ],
+    [ "Shell::Objects::RendererForeign", "structShell_1_1Objects_1_1RendererForeign.html", null ],
     [ "Multimedia::RendererStore", "classMultimedia_1_1RendererStore.html", [
       [ "Multimedia::JsonRendererStore", "classMultimedia_1_1JsonRendererStore.html", null ]
     ] ],

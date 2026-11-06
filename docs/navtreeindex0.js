@@ -56,6 +56,7 @@ var NAVTREEINDEX0 =
 "MediaServer_8hpp_source.html":[8,0,4,0,23],
 "MediaServer__p_8hpp_source.html":[8,0,4,0,0,15],
 "MediaSourceModel_8hpp_source.html":[8,0,3,0,10],
+"MultimediaTypes_8hpp_source.html":[8,0,3,0,0,1,0],
 "NavigationStack_8hpp_source.html":[8,0,1,0,0,1],
 "NetworkReachability_8hpp_source.html":[8,0,4,0,0,17],
 "ParsingError_8hpp_source.html":[8,0,4,0,0,18],
@@ -93,6 +94,7 @@ var NAVTREEINDEX0 =
 "ServiceProvider_8hpp_source.html":[8,0,4,0,33],
 "ServiceValidatorBase_8hpp_source.html":[8,0,4,0,0,27],
 "SettingsModel_8hpp_source.html":[8,0,3,0,13],
+"SettingsRowKind_8hpp_source.html":[8,0,3,0,0,2,0],
 "SettingsRowModel_8hpp_source.html":[8,0,3,0,14],
 "SettingsStore_8hpp_source.html":[8,0,3,0,15],
 "SoapBackend_8hpp_source.html":[8,0,4,0,35],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "classMultimedia_1_1Queue.html#ad9b377aa0566dcbc69659ad69a65a99d":[7,0,1,11,8],
 "classMultimedia_1_1Queue.html#ae34e6dd5fee6a714bfdde600651cff50":[7,0,1,11,21],
 "classMultimedia_1_1Queue.html#aee7297cba95eb942632ddbd1afd8a995":[7,0,1,11,15],
-"classMultimedia_1_1Queue.html#af5f2720207ea5021b643aff70b46aa2c":[7,0,1,11,40],
-"classMultimedia_1_1Queue.html#af839eeae9ca5490c3bbc15bc087e0d90":[7,0,1,11,16],
-"classMultimedia_1_1Queue.html#af96b911fd28ecf3837db898e2ee12a84":[7,0,1,11,35]
+"classMultimedia_1_1Queue.html#af5f2720207ea5021b643aff70b46aa2c":[7,0,1,11,40]
 };

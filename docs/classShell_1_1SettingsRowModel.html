@@ -127,16 +127,21 @@ Inheritance diagram for Shell::SettingsRowModel:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a3bea960d6ba35827a63dec5df0128fed" id="r_a3bea960d6ba35827a63dec5df0128fed"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a3bea960d6ba35827a63dec5df0128fed">DisplayRole</a> { <b>Title</b> = Qt::UserRole + 1
+<tr class="memitem:a3bea960d6ba35827a63dec5df0128fed" id="r_a3bea960d6ba35827a63dec5df0128fed"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a3bea960d6ba35827a63dec5df0128fed">DisplayRole</a> { <br />
+&#160;&#160;<b>Title</b> = Qt::UserRole + 1
 , <b>Subtitle</b>
 , <b>Value</b>
+, <b>Kind</b>
+, <br />
+&#160;&#160;<b>Checked</b>
+<br />
  }</td></tr>
 <tr class="separator:a3bea960d6ba35827a63dec5df0128fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab879914487d6fe1308c172f70acc8ad3" id="r_ab879914487d6fe1308c172f70acc8ad3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#ab879914487d6fe1308c172f70acc8ad3">SettingsRowModel</a> ()</td></tr>
-<tr class="separator:ab879914487d6fe1308c172f70acc8ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aded1a674e0a64580e4a2a6080871be" id="r_a8aded1a674e0a64580e4a2a6080871be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a8aded1a674e0a64580e4a2a6080871be">SettingsRowModel</a> (std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt; settings)</td></tr>
+<tr class="separator:a8aded1a674e0a64580e4a2a6080871be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24d30c6a58d0aac0acff2112044d2720" id="r_a24d30c6a58d0aac0acff2112044d2720"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a24d30c6a58d0aac0acff2112044d2720">~SettingsRowModel</a> () override</td></tr>
 <tr class="separator:a24d30c6a58d0aac0acff2112044d2720"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0be65a614a89a13a0f91a98b9426fb4a" id="r_a0be65a614a89a13a0f91a98b9426fb4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a0be65a614a89a13a0f91a98b9426fb4a">rowCount</a> (QModelIndex const &amp;parent=QModelIndex()) const noexcept override</td></tr>
@@ -147,6 +152,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a72bfe44eea699a21ebad92c622eba04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedfa5368142953a06e3e6103ae6a6292" id="r_aedfa5368142953a06e3e6103ae6a6292"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#aedfa5368142953a06e3e6103ae6a6292">setRows</a> (QList&lt; <a class="el" href="structShell_1_1SettingsRow.html">SettingsRow</a> &gt; rows)</td></tr>
 <tr class="separator:aedfa5368142953a06e3e6103ae6a6292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea9d7e8aa0c553f75d1e5ddce81b8471" id="r_aea9d7e8aa0c553f75d1e5ddce81b8471"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#aea9d7e8aa0c553f75d1e5ddce81b8471">setChecked</a> (int row, bool checked)</td></tr>
+<tr class="separator:aea9d7e8aa0c553f75d1e5ddce81b8471"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The rows of the section that is picked on the Settings screen, one model row per <a class="el" href="structShell_1_1SettingsRow.html">Shell::SettingsRow</a>. The <a class="el" href="classShell_1_1SettingsModel.html">Shell::SettingsModel</a> replaces the rows when another section is picked. </p>
@@ -175,8 +182,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab879914487d6fe1308c172f70acc8ad3" name="ab879914487d6fe1308c172f70acc8ad3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab879914487d6fe1308c172f70acc8ad3">&#9670;&#160;</a></span>SettingsRowModel()</h2>
+<a id="a8aded1a674e0a64580e4a2a6080871be" name="a8aded1a674e0a64580e4a2a6080871be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aded1a674e0a64580e4a2a6080871be">&#9670;&#160;</a></span>SettingsRowModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,17 +194,23 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Shell::SettingsRowModel::SettingsRowModel </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt;&#160;</td>
+          <td class="paramname"><em>settings</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Creates a model without rows. </p>
+<p>Creates a model without rows. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">settings</td><td>The store that keeps the values of the switches. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -315,6 +328,41 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Disable copy and move Gives the number of rows. </p>
+
+</div>
+</div>
+<a id="aea9d7e8aa0c553f75d1e5ddce81b8471" name="aea9d7e8aa0c553f75d1e5ddce81b8471"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea9d7e8aa0c553f75d1e5ddce81b8471">&#9670;&#160;</a></span>setChecked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::SettingsRowModel::setChecked </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>checked</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turns the switch of the row on or off and stores the new value. A row that is no switch changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The index of the row. </td></tr>
+    <tr><td class="paramname">checked</td><td>True to turn the switch on, false to turn it off. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
