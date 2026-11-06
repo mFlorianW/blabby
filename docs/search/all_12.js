@@ -27,7 +27,7 @@ var searchData=
   ['server_24',['server',['../classHttp_1_1Server.html',1,'Http::Server'],['../classHttp_1_1Server.html#a33f924dd1dc108df51e919feffbd6667',1,'Http::Server::Server()']]],
   ['serveraddress_25',['serverAddress',['../classUPnPAV_1_1HttpEventServer.html#a0cbb1ba4f993b3b3801f6001123bc90d',1,'UPnPAV::HttpEventServer']]],
   ['serverprivate_26',['ServerPrivate',['../structHttp_1_1ServerPrivate.html',1,'Http']]],
-  ['serverrequest_27',['serverrequest',['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()'],['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()'],['../classHttp_1_1ServerRequest.html',1,'Http::ServerRequest']]],
+  ['serverrequest_27',['serverrequest',['../classHttp_1_1ServerRequest.html#abdf717915cffd29158024350a9dd7031',1,'Http::ServerRequest::ServerRequest()'],['../classHttp_1_1RequestDeserializer.html#a9746d9d162ba6dadbfec65c8b81cd9f0',1,'Http::RequestDeserializer::serverRequest()'],['../classHttp_1_1ServerRequest.html',1,'Http::ServerRequest']]],
   ['serverrequestdata_28',['ServerRequestData',['../structHttp_1_1ServerRequestData.html',1,'Http']]],
   ['serverresponse_29',['serverresponse',['../classHttp_1_1ServerResponse.html#a8531856a3b512a6ad1fed60ddf21bd37',1,'Http::ServerResponse::ServerResponse()'],['../classHttp_1_1ServerResponse.html',1,'Http::ServerResponse']]],
   ['serverresponsedata_30',['ServerResponseData',['../structHttp_1_1ServerResponseData.html',1,'Http']]],
