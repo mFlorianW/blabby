@@ -52,6 +52,7 @@ private Q_SLOTS:
     void tell_whether_the_active_renderer_plays_the_current_entry();
     void append_a_playable_and_play_it();
     void only_append_a_playable_and_make_it_current_without_an_active_renderer();
+    void keep_the_unplayed_entries_ahead_of_a_playable_appended_and_played_while_shuffled();
     void tell_whether_previous_and_next_are_available();
     void notify_when_the_availability_of_previous_and_next_changed();
     void step_to_the_next_and_the_previous_entry();
@@ -80,6 +81,8 @@ private Q_SLOTS:
     void keep_an_idle_queue_idle_when_the_last_picked_renderer_becomes_active_by_itself();
     void cycle_the_repeat_from_off_to_all_to_one_and_back_to_off();
     void notify_about_a_changed_repeat_and_the_availability_of_next();
+    void toggle_shuffle_on_and_off();
+    void notify_about_a_changed_shuffle_and_the_availability_of_next();
 };
 
 } // namespace Shell

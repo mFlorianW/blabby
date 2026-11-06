@@ -28,12 +28,17 @@ private:
     void makeIdle(qsizetype currentIndex);
     std::shared_ptr<Renderer> createBathroom();
     void handOverToBathroom(bool seekSupported, QString const& duration, QString const& position);
+    void shuffleFive(qsizetype currentIndex);
+    QString currentTitle() const;
+    QStringList titlesOnNext();
 
     UPnPAV::Doubles::MediaRendererDouble* mDevice = nullptr;
     UPnPAV::Doubles::MediaRendererDouble* mBathroomDevice = nullptr;
     UPnPAV::ClockDouble* mClock = nullptr;
     std::shared_ptr<Renderer> mRenderer;
     std::unique_ptr<Queue> mQueue;
+    // The numbers the random source of the Queue gives in turn, 0 once they are used up.
+    QList<qsizetype> mRandomNumbers;
 
 private Q_SLOTS:
     void init();
@@ -133,6 +138,24 @@ private Q_SLOTS:
     void step_through_the_entries_on_previous_and_next_with_repeat_one();
     void not_take_the_position_of_the_finished_play_for_the_repeated_current_entry();
     void keep_repeat_when_the_queue_is_replaced_restored_or_handed_over();
+    void not_shuffle_at_start();
+    void notify_about_a_shuffle_change();
+    void keep_the_listed_order_and_the_playback_when_shuffle_is_turned_on();
+    void put_the_other_entries_in_a_random_play_order_after_the_current_entry();
+    void follow_the_play_order_on_next_and_previous_while_shuffled();
+    void advance_in_the_play_order_when_the_current_entry_finished_while_shuffled();
+    void become_idle_after_the_last_entry_of_the_play_order_finished();
+    void start_over_with_the_play_order_with_repeat_all_while_shuffled();
+    void continue_in_listed_order_after_the_current_entry_when_shuffle_is_turned_off();
+    void add_entries_randomly_among_the_unplayed_entries_while_shuffled();
+    void play_next_entries_right_after_the_current_entry_while_shuffled();
+    void shuffle_the_added_entries_of_an_empty_queue_after_its_new_current_entry();
+    void play_the_added_entries_after_the_played_entries_when_the_last_current_entry_was_removed();
+    void keep_the_unplayed_entries_ahead_of_a_played_entry_while_shuffled();
+    void keep_the_play_order_on_remove_and_move_while_shuffled();
+    void make_the_following_entry_of_the_play_order_current_on_remove_while_shuffled();
+    void turn_shuffle_off_when_the_queue_is_replaced();
+    void keep_shuffle_and_the_play_order_on_clear_restore_and_hand_over();
 };
 
 } // namespace Multimedia

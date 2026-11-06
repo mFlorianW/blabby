@@ -9,6 +9,7 @@
 #include "blabbymultimedia_export.h"
 #include <QObject>
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <optional>
 
@@ -23,7 +24,9 @@ namespace Multimedia
  * Current Entry (ADR 0003): the Renderer reports Stopped while its Current Track is the Current Entry, matched by URI,
  * and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on
  * the device, a stream without a duration, or the end of what another controller played.
- * How it advances depends on its Repeat, which belongs to the Queue and is never sent to the Renderer as a play mode.
+ * How it advances depends on its Repeat and its Shuffle, which belong to the Queue and are never sent to the Renderer
+ * as a play mode. While shuffled the Queue plays its entries in a random play order, the listed order of the entries
+ * never changes with it.
  */
 class BLABBYMULTIMEDIA_EXPORT Queue : public QObject
 {
@@ -66,6 +69,11 @@ public:
     Q_ENUM(Repeat)
 
     /**
+     * Gives a random number in the range [0, bound), bound is at least 1.
+     */
+    using RandomSource = std::function<qsizetype(qsizetype bound)>;
+
+    /**
      * What a Queue was at one moment, to give it back to @ref Multimedia::Queue::restore, e.g. to undo a remove.
      */
     struct Snapshot
@@ -75,12 +83,22 @@ public:
         std::chrono::milliseconds lastKnownPosition{0};
         Queue::State state = Queue::State::Idle;
         bool playsCurrentEntry = false;
+        /**
+         * The indices of the entries in the order they play, empty when the Queue wasn't shuffled.
+         */
+        QList<qsizetype> playOrder;
     };
 
     /**
-     * Creates an empty and Idle Queue without an Active Renderer.
+     * Creates an empty and Idle Queue without an Active Renderer that shuffles with the global random generator.
      */
     Queue();
+
+    /**
+     * Creates an empty and Idle Queue without an Active Renderer.
+     * @param randomSource The random source the Queue shuffles with.
+     */
+    explicit Queue(RandomSource randomSource);
 
     /**
      * Default destructor
@@ -162,9 +180,25 @@ public:
     void setRepeat(Queue::Repeat repeat) noexcept;
 
     /**
+     * Gives whether the Queue is shuffled.
+     * @return True while shuffled, false at start.
+     */
+    bool isShuffled() const noexcept;
+
+    /**
+     * Turns Shuffle on or off, the listed order of the entries and the playback stay.
+     * Turning it on keeps the Current Entry and puts all other entries in a random play order after it, previous,
+     * next and advancing follow the play order then. Turning it off continues in the listed order after the Current
+     * Entry. Shuffle is kept when the entries are cleared or restored and on a Hand Over, it's turned off when the
+     * entries are replaced.
+     * @param shuffled True to shuffle the Queue.
+     */
+    void setShuffled(bool shuffled) noexcept;
+
+    /**
      * Replaces the entries with the Playables and plays the start entry on the Active Renderer, the Queue is Running.
-     * Without an Active Renderer the start entry becomes the Current Entry and the Queue is Idle.
-     * An empty list of Playables empties the Queue, it's Idle then.
+     * Shuffle is turned off. Without an Active Renderer the start entry becomes the Current Entry and the Queue is
+     * Idle. An empty list of Playables empties the Queue, it's Idle then.
      * @param playables The Playables in the order they shall be played.
      * @param startIndex The index of the Playable that plays first.
      */
@@ -173,6 +207,8 @@ public:
     /**
      * Plays the entry at the index from its start on the Active Renderer, it becomes the Current Entry and the Queue is
      * Running. Without an Active Renderer the entry only becomes the Current Entry and the Queue is Idle.
+     * While shuffled the entry is moved in the play order right after the previous Current Entry, so the entries that
+     * weren't played yet stay ahead.
      * @param index The index of the entry to play.
      */
     void play(qsizetype index) noexcept;
@@ -180,14 +216,15 @@ public:
     /**
      * Appends the Playables at the end of the entries. The Current Entry and the Queue State stay, a Queue without a
      * Current Entry, e.g. an empty one, makes the first appended Playable its Current Entry and stays Idle.
+     * While shuffled each Playable is placed at a random position in the play order after the Current Entry.
      * @param playables The Playables in the order they shall be appended.
      */
     void append(Items const& playables) noexcept;
 
     /**
-     * Inserts the Playables right after the Current Entry, so they play next. The Current Entry and the Queue State
-     * stay. A Queue without a Current Entry, e.g. an empty one, appends them and makes the first one its Current
-     * Entry, it stays Idle.
+     * Inserts the Playables right after the Current Entry, so they play next, also while shuffled. The Current Entry
+     * and the Queue State stay. A Queue without a Current Entry, e.g. an empty one, appends them and makes the first
+     * one its Current Entry, it stays Idle.
      * @param playables The Playables in the order they shall be played.
      */
     void playNext(Items const& playables) noexcept;
@@ -246,8 +283,8 @@ public:
 
     /**
      * Restarts the Current Entry when it played for more than 3 seconds and plays the preceding entry from its start
-     * otherwise, the first entry is always restarted. The Queue is Running afterwards, also when it was Idle or
-     * another controller took over the Renderer.
+     * otherwise, the first entry is always restarted. While shuffled the preceding and the first entry are those of the
+     * play order. The Queue is Running afterwards, also when it was Idle or another controller took over the Renderer.
      * A Current Entry that the Active Renderer plays for the Queue is restarted by a seek to its start, it's loaded
      * again when the Renderer can't seek or doesn't play it.
      * Without an Active Renderer the entry only becomes the Current Entry and the Queue is Idle.
@@ -256,7 +293,8 @@ public:
 
     /**
      * Plays the entry after the Current Entry from its start, like @ref Multimedia::Queue::play, also with the Repeat
-     * One. On the last entry the first entry plays with the Repeat All, nothing happens otherwise.
+     * One. On the last entry the first entry plays with the Repeat All, nothing happens otherwise. While shuffled the
+     * following, the last and the first entry are those of the play order.
      */
     void next() noexcept;
 
@@ -275,9 +313,9 @@ public:
     /**
      * Removes the entry at the index, the other entries keep their order.
      * Removing an entry that isn't the Current Entry doesn't affect the playback.
-     * Removing the Current Entry makes the following entry the Current Entry, which plays from its start when the
-     * Queue is Running. Without a following entry the Queue is Idle without a Current Entry, and the Active Renderer
-     * is stopped when it is on the removed Current Entry.
+     * Removing the Current Entry makes the following entry, in the play order while shuffled, the Current Entry, which
+     * plays from its start when the Queue is Running. Without a following entry the Queue is Idle without a Current
+     * Entry, and the Active Renderer is stopped when it is on the removed Current Entry.
      * @param index The index of the entry to remove.
      */
     void remove(qsizetype index) noexcept;
@@ -303,7 +341,8 @@ public:
     Queue::Snapshot snapshot() const noexcept;
 
     /**
-     * Restores the entries, the Current Entry, its last known position and the Queue State of the snapshot.
+     * Restores the entries, the Current Entry, its last known position and the Queue State of the snapshot. Shuffle
+     * stays as it is, a shuffled Queue takes the play order of a shuffled snapshot and shuffles a snapshot that wasn't.
      * A Current Entry that the Active Renderer played for the Queue when the snapshot was taken and doesn't play
      * anymore, e.g. because it was removed, plays again from its start.
      * Without an Active Renderer the restored Queue is Idle.
@@ -386,6 +425,11 @@ Q_SIGNALS:
     void repeatChanged();
 
     /**
+     * This signal is emitted when Shuffle was turned on or off, next may have become available or unavailable with it.
+     */
+    void shuffledChanged();
+
+    /**
      * This signal is emitted when a collection of a Container started or ended.
      */
     void collectingChanged();
@@ -411,7 +455,12 @@ private:
      */
     struct Collection;
 
-    void insert(qsizetype index, Items const& playables) noexcept;
+    void insert(qsizetype index, Items const& playables, Placement placement) noexcept;
+    void reset(Items const& playables, qsizetype startIndex) noexcept;
+    void shuffleAll() noexcept;
+    void shuffleIn(QList<qsizetype> const& indices, qsizetype first) noexcept;
+    qsizetype playPosition() const noexcept;
+    void playAt(qsizetype index) noexcept;
     void place(Items const& playables, Placement placement) noexcept;
     void add(std::shared_ptr<Source> const& source, Item const& item, Placement placement) noexcept;
     void continueCollection() noexcept;
@@ -420,6 +469,7 @@ private:
     void endCollection() noexcept;
 
     std::optional<qsizetype> nextIndex() const noexcept;
+    std::optional<qsizetype> previousIndex() const noexcept;
     bool isInControl() const noexcept;
     bool isRendererOnCurrentEntry() const noexcept;
     void onRendererStateChanged() noexcept;
@@ -446,6 +496,10 @@ private:
     Queue::State mState = Queue::State::Idle;
     bool mPlaysCurrentEntry = false;
     Queue::Repeat mRepeat = Queue::Repeat::Off;
+    RandomSource mRandomSource;
+    bool mShuffled = false;
+    // The indices of the entries in the order they play while shuffled, empty otherwise.
+    QList<qsizetype> mPlayOrder;
     std::unique_ptr<Collection> mCollection;
     bool mHandOverPending = false;
     std::optional<std::chrono::milliseconds> mPendingSeek;

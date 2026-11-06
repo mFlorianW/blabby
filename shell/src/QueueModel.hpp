@@ -65,6 +65,11 @@ class QueueModel : public QAbstractListModel
     Q_PROPERTY(Multimedia::Queue::Repeat repeat READ repeat NOTIFY repeatChanged)
 
     /**
+     * True while the Queue is shuffled.
+     */
+    Q_PROPERTY(bool shuffled READ isShuffled NOTIFY shuffledChanged)
+
+    /**
      * True while the Playables of a Container are collected to play them next or add them to the Queue.
      */
     Q_PROPERTY(bool collecting READ isCollecting NOTIFY collectingChanged)
@@ -177,6 +182,19 @@ public:
      * @see Multimedia::Queue::setRepeat
      */
     Q_INVOKABLE void cycleRepeat() noexcept;
+
+    /**
+     * Gives whether the Queue is shuffled.
+     * @see Multimedia::Queue::isShuffled
+     * @return True while shuffled.
+     */
+    bool isShuffled() const noexcept;
+
+    /**
+     * Turns Shuffle on when it's off and off when it's on.
+     * @see Multimedia::Queue::setShuffled
+     */
+    Q_INVOKABLE void toggleShuffle() noexcept;
 
     /**
      * Gives whether the Playables of a Container are collected.
@@ -308,6 +326,11 @@ Q_SIGNALS:
      * This signal is emitted when the Repeat changed.
      */
     void repeatChanged();
+
+    /**
+     * This signal is emitted when Shuffle was turned on or off.
+     */
+    void shuffledChanged();
 
     /**
      * This signal is emitted when a collection of a Container started or ended.

@@ -89,6 +89,12 @@ Item {
         }
 
         SignalSpy {
+            id: toggleShuffleRequestedSpy
+            target: nowPlayingView
+            signalName: "toggleShuffleRequested"
+        }
+
+        SignalSpy {
             id: cycleRepeatRequestedSpy
             target: nowPlayingView
             signalName: "cycleRepeatRequested"
@@ -128,9 +134,11 @@ Item {
             nowPlayingView.hasPrevious = true;
             nowPlayingView.hasNext = true;
             nowPlayingView.repeat = Queue.Off;
+            nowPlayingView.shuffled = false;
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
             cycleRepeatRequestedSpy.clear();
+            toggleShuffleRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
         }
@@ -884,6 +892,51 @@ Item {
             nowPlayingViewTest.showTrack(Renderer.Playing);
             nowPlayingView.hasQueue = false;
             nowPlayingViewTest.compare(nowPlayingViewTest.child("repeatButton").visible, false);
+        }
+
+        function test_show_the_shuffle_state_data() {
+            return [
+                {
+                    tag: "off",
+                    shuffled: false
+                },
+                {
+                    tag: "on",
+                    shuffled: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Shuffle button before previous shows "shuffle" and is highlighted while Shuffle is on.
+         */
+        function test_show_the_shuffle_state(data) {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.shuffled = data.shuffled;
+            const button = nowPlayingViewTest.child("shuffleButton");
+            nowPlayingViewTest.compare(button.visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(button, "icon").source, "qrc:/qt/qml/Blabby/Shell/icons/material/shuffle.svg");
+            nowPlayingViewTest.compare(button.checked, data.shuffled);
+            const previousButton = nowPlayingViewTest.child("previousButton");
+            nowPlayingViewTest.verify(button.mapToItem(nowPlayingView, 0, 0).x < previousButton.mapToItem(nowPlayingView, 0, 0).x);
+        }
+
+        /**
+         * Tests that the Shuffle button asks to turn Shuffle on or off.
+         */
+        function test_ask_to_toggle_shuffle_with_the_shuffle_button() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingViewTest.mouseClick(nowPlayingViewTest.child("shuffleButton"));
+            nowPlayingViewTest.compare(toggleShuffleRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Shuffle button is hidden while the Queue is empty.
+         */
+        function test_hide_the_shuffle_button_while_the_queue_is_empty() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.hasQueue = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("shuffleButton").visible, false);
         }
     }
 }

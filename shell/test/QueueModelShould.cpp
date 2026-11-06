@@ -12,6 +12,7 @@
 #include <QAbstractItemModelTester>
 #include <QSignalSpy>
 #include <QTest>
+#include <algorithm>
 
 using namespace UPnPAV;
 using namespace UPnPAV::Doubles;
@@ -415,6 +416,28 @@ void QueueModelShould::only_append_a_playable_and_make_it_current_without_an_act
     QCOMPARE(mModel->rowCount(), 1);
     QCOMPARE(dataOf(*mModel, 0, QueueModel::DisplayRole::Current).toBool(), true);
     QCOMPARE(mModel->property("running").toBool(), false);
+}
+
+void QueueModelShould::keep_the_unplayed_entries_ahead_of_a_playable_appended_and_played_while_shuffled()
+{
+    mModel->replace(threeSongs(), 0);
+    mModel->toggleShuffle();
+
+    mModel->appendAndPlay(playable(QStringLiteral("Bonus")));
+    QCOMPARE(dataOf(*mModel, 3, QueueModel::DisplayRole::Current).toBool(), true);
+
+    // Whatever the random play order is, Harbour and Outro are still played after Bonus.
+    auto playedRows = QList<int>{};
+    while (mModel->property("hasNext").toBool()) {
+        mModel->next();
+        for (auto row = 0; row < mModel->rowCount(); ++row) {
+            if (dataOf(*mModel, row, QueueModel::DisplayRole::Current).toBool()) {
+                playedRows.append(row);
+            }
+        }
+    }
+    std::ranges::sort(playedRows);
+    QCOMPARE(playedRows, (QList<int>{1, 2}));
 }
 
 void QueueModelShould::tell_whether_previous_and_next_are_available()
@@ -846,6 +869,31 @@ void QueueModelShould::notify_about_a_changed_repeat_and_the_availability_of_nex
 
     QCOMPARE(repeatChangedSpy.size(), 1);
     QCOMPARE(stepAvailabilityChangedSpy.size(), 1);
+    QCOMPARE(mModel->property("hasNext").toBool(), true);
+}
+
+void QueueModelShould::toggle_shuffle_on_and_off()
+{
+    QCOMPARE(mModel->property("shuffled").toBool(), false);
+
+    mModel->toggleShuffle();
+    QCOMPARE(mModel->property("shuffled").toBool(), true);
+
+    mModel->toggleShuffle();
+    QCOMPARE(mModel->property("shuffled").toBool(), false);
+}
+
+void QueueModelShould::notify_about_a_changed_shuffle_and_the_availability_of_next()
+{
+    mModel->replace(threeSongs(), 2);
+    auto shuffledChangedSpy = QSignalSpy{mModel.get(), &QueueModel::shuffledChanged};
+    auto stepAvailabilityChangedSpy = QSignalSpy{mModel.get(), &QueueModel::stepAvailabilityChanged};
+
+    mModel->toggleShuffle();
+
+    QCOMPARE(shuffledChangedSpy.size(), 1);
+    QCOMPARE(stepAvailabilityChangedSpy.size(), 1);
+    // The other entries are played after the last listed entry while shuffled.
     QCOMPARE(mModel->property("hasNext").toBool(), true);
 }
 

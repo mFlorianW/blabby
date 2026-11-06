@@ -19,7 +19,8 @@ import "TimeFormat.js" as TimeFormat
  * stops a Renderer that can't pause, and resumes or plays; it shows a busy ring while the Renderer is transitioning.
  * Previous and next buttons next to it step through the Queue, they are disabled when unavailable and hidden while
  * the Queue is empty. A Repeat button after next cycles the Repeat of the Queue, it shows "repeat" or "repeat one", is
- * highlighted when the Repeat isn't Off and is hidden while the Queue is empty. A seek bar shows the elapsed and the total
+ * highlighted when the Repeat isn't Off and is hidden while the Queue is empty. A Shuffle button before previous turns
+ * Shuffle on and off, it's highlighted while on and hidden while the Queue is empty. A seek bar shows the elapsed and the total
  * time and seeks on release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
  * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
  * changes the Volume while dragging, a Mute button next to it mutes and unmutes and dims the slider while muted. The
@@ -160,6 +161,11 @@ Item {
     property int repeat: Queue.Off
 
     /**
+     * True while the Queue is shuffled.
+     */
+    property bool shuffled: false
+
+    /**
      * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
      */
     property real seekTarget: -1
@@ -210,6 +216,11 @@ Item {
      * This signal is emitted when the user asks for the next Repeat of the Queue: Off, All, One and Off again.
      */
     signal cycleRepeatRequested
+
+    /**
+     * This signal is emitted when the user asks to turn Shuffle on or off.
+     */
+    signal toggleShuffleRequested
 
     /**
      * This signal is emitted when the user asks to seek to the position in milliseconds.
@@ -493,6 +504,15 @@ Item {
                 id: transportControls
                 spacing: 12
 
+                IconButton {
+                    id: shuffleButton
+                    objectName: "shuffleButton"
+                    anchors.verticalCenter: transportControls.verticalCenter
+                    iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/shuffle.svg"
+                    checked: nowPlayingView.shuffled
+                    visible: nowPlayingView.hasQueue
+                    onClicked: nowPlayingView.toggleShuffleRequested()
+                }
                 StepButton {
                     id: previousButton
                     objectName: "previousButton"
