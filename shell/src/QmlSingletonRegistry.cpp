@@ -6,8 +6,8 @@
 
 #include "QmlSingletonRegistry.hpp"
 #include "BlabbyVersion.hpp"
-#include "JsonRendererStore.hpp"
 #include "IniSettingsStore.hpp"
+#include "JsonRendererStore.hpp"
 #include "LoadProviders.hpp"
 #include "ProviderDirs.hpp"
 #include <QStandardPaths>
