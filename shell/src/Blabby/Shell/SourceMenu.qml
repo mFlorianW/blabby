@@ -10,8 +10,9 @@ import Blabby.Theme
  * The menu to pick the Active Source that drops down under the Source pill, headed "Choose a Source" with a row per
  * Source that shows its icon in a round badge and its name, or a disabled "No Sources found" line without any. The row
  * of the Active Source is highlighted, its badge is drawn in the highlighted colours and it carries a checkmark.
- * Sources that appear or vanish while the menu is open show up in or vanish from it. The tap catcher, the panel, the
- * anchoring and opening and closing come from @ref MenuShell.
+ * Sources that appear or vanish while the menu is open show up in or vanish from it. The menu grows with its rows until
+ * it reaches 24 px above the bottom of the shell, then its rows scroll while the header stays in place. The tap
+ * catcher, the panel, the anchoring and opening and closing come from @ref MenuShell.
  */
 MenuShell {
     id: sourceMenu
@@ -38,9 +39,17 @@ MenuShell {
 
     panel.objectName: "sourceMenuPanel"
     panelWidth: 380
+    edgeMargin: 24
+
+    // A list scrolled the last time starts at its first row again.
+    onOpenedChanged: {
+        if (sourceMenu.opened) {
+            sourceList.positionViewAtBeginning();
+        }
+    }
 
     StyledText {
-        id: header
+        id: menuHeader
         objectName: "sourceMenuHeader"
         width: sourceMenu.contentWidth
         leftPadding: 16
@@ -71,9 +80,17 @@ MenuShell {
     ListView {
         id: sourceList
         objectName: "sourceList"
+
+        /**
+         * The height of all rows.
+         */
+        readonly property real rowsHeight: sourceList.count * sourceMenu.rowHeight
+
         width: sourceMenu.contentWidth
-        height: sourceList.count * sourceMenu.rowHeight
-        interactive: false
+        height: Math.min(sourceList.rowsHeight, Math.max(0, sourceMenu.maximumContentHeight - menuHeader.height))
+        interactive: sourceList.rowsHeight > sourceList.height
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
 
         delegate: AbstractInteractiveControl {
             id: sourceRow

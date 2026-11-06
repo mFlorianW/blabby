@@ -9,8 +9,8 @@ import Blabby.Theme
 /**
  * The shell of a menu that drops down under an item or opens upwards above it, aligned to its right edge. The children
  * of the shell are its content, laid out in a column on a rounded, shadowed panel with 8 px above and below.
- * The panel fits between the item and the edge of the shell it opens towards and keeps 8 px to that edge. The content
- * may take up to @ref maximumContentHeight, content beyond it is clipped.
+ * The panel fits between the item and the edge of the shell it opens towards and keeps @ref edgeMargin to that edge.
+ * The content may take up to @ref maximumContentHeight, content beyond it is clipped.
  * The shell fills the screen it belongs to: while it is open a transparent tap catcher covers the screen, also the item
  * the menu drops down under, a tap on it closes the menu and neither the tap, the hover nor the wheel reach anything
  * beneath. There is no scrim. The menu is closed at start and closes when it becomes invisible, e.g. when the screen
@@ -40,10 +40,14 @@ Item {
     readonly property alias contentWidth: contentColumn.width
 
     /**
-     * The space between the menu and the item it opens at, above and below the content and between the menu and the
-     * edge of the shell it opens towards.
+     * The space between the menu and the item it opens at and above and below the content.
      */
     readonly property real gap: 8
+
+    /**
+     * The space the menu keeps to the edge of the shell it opens towards.
+     */
+    property real edgeMargin: menuShell.gap
 
     /**
      * The item the menu opens at, aligned to its right edge.
@@ -81,8 +85,8 @@ Item {
      */
     readonly property real maximumContentHeight: {
         const space = menuShell.opensUpwards ? menuShell.anchorRect.y : menuShell.height - menuShell.anchorRect.y - menuShell.anchorRect.height;
-        // Between the anchor item and the panel, the edge and the panel, and above and below the content.
-        return Math.max(0, space - 4 * menuShell.gap);
+        // Between the anchor item and the panel, above and below the content, and between the panel and the edge.
+        return Math.max(0, space - 3 * menuShell.gap - menuShell.edgeMargin);
     }
 
     /**
