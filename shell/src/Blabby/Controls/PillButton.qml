@@ -10,7 +10,7 @@ import Blabby.Theme
  * A tonal pill in the header that shows a selection, e.g. the Active Source, with a leading icon and its text.
  * Clicking it lets the user change the selection. An opt-in trailing chevron hints that the pill opens a menu, it turns
  * by 180° while the pill is checked, e.g. while its menu is open. A checked pill is drawn in the highlighted container
- * colours.
+ * colours. Where space is short the pill can show only its icon, it's round then.
  */
 AbstractInteractiveControl {
     id: pillButton
@@ -24,6 +24,11 @@ AbstractInteractiveControl {
      * The URL of the leading SVG icon.
      */
     property url iconSource
+
+    /**
+     * True to show the text, true by default.
+     */
+    property bool showsText: true
 
     /**
      * True to show the trailing chevron, false by default.
@@ -43,7 +48,8 @@ AbstractInteractiveControl {
     implicitHeight: 56
     // Rounded up to whole pixels, the text may be fractionally wide: so the edges of the pill, and of a menu aligned to
     // them, stay on the pixel grid.
-    implicitWidth: Math.ceil(content.implicitWidth) + 16 + 16
+    // At least as wide as high, so a pill with only its icon is round.
+    implicitWidth: Math.max(pillButton.implicitHeight, Math.ceil(content.implicitWidth) + 16 + 16)
 
     Rectangle {
         id: background
@@ -83,6 +89,7 @@ AbstractInteractiveControl {
             text: pillButton.text
             color: pillButton.contentColor
             textStyle: Theme.fonts.labelLarge
+            visible: pillButton.showsText
         }
 
         Icon {

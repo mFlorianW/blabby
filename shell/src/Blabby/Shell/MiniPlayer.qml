@@ -24,6 +24,9 @@ import Blabby.Theme
  * A pill on the right shows the Active Renderer, or "Choose a Renderer" without one, and opens the @ref RendererMenu
  * upwards above it to pick the Active Renderer. The menu covers the item the mini player is laid out in, above its
  * other children, and closes when the mini player becomes invisible.
+ * Below the narrow breakpoint the row collapses: a Volume button, shown by the same rules and with the icon of the Mute
+ * button, replaces Mute and the Volume slider and opens a popup upwards above it that holds them; without Volume
+ * control it mutes and unmutes directly. The Repeat button is hidden and the pill shows only its icon.
  */
 Item {
     id: miniPlayer
@@ -130,10 +133,11 @@ Item {
     readonly property bool playing: miniPlayer.playbackState === Renderer.Playing
 
     /**
-     * True below the width breakpoint of narrow screens, e.g. 800×480, where the mini player hides what doesn't fit.
-     * The full row fits from the width the mini player has in a window of 1280 px.
+     * True below the width breakpoint of narrow screens, e.g. 800×480, where the mini player collapses what doesn't
+     * fit. The full row fits from the width the mini player has in a window of 1280 px, the breakpoint leaves room
+     * for a longer Renderer name in the pill.
      */
-    readonly property bool narrow: miniPlayer.width < 960
+    readonly property bool narrow: miniPlayer.width < 1088
 
     /**
      * True while the Current Track is shown, i.e. the Active Renderer has media.
@@ -328,14 +332,30 @@ Item {
         }
     }
 
-    Row {
-        id: volumeControls
-        objectName: "volumeControls"
+    // Holds Mute and the Volume slider in the row, unless they are in the Volume popup.
+    Item {
+        id: inlineVolumeSlot
         anchors.right: rendererPill.left
         anchors.verticalCenter: miniPlayer.verticalCenter
         anchors.rightMargin: 16
+        width: volumeControls.width
+        height: volumeControls.height
+    }
+
+    Row {
+        id: volumeControls
+        objectName: "volumeControls"
+
+        /**
+         * True when the Active Renderer offers Mute or Volume control.
+         */
+        readonly property bool offered: miniPlayer.hasActiveRenderer && (miniPlayer.canControlVolume || miniPlayer.canControlMute)
+
+        // The same controls move between the row and the Volume popup, so both follow the same rules.
+        parent: miniPlayer.narrow ? volumePopupSlot : inlineVolumeSlot
+        anchors.centerIn: parent
         spacing: 8
-        visible: miniPlayer.hasActiveRenderer && (miniPlayer.canControlVolume || miniPlayer.canControlMute)
+        visible: volumeControls.offered
 
         IconButton {
             id: muteButton
@@ -370,6 +390,26 @@ Item {
         }
     }
 
+    IconButton {
+        id: volumeButton
+        objectName: "volumeButton"
+        anchors.right: rendererPill.left
+        anchors.verticalCenter: miniPlayer.verticalCenter
+        anchors.rightMargin: 8
+        iconSource: muteButton.iconSource
+        checked: volumePopup.opened
+        visible: miniPlayer.narrow && volumeControls.offered
+        // While the popup is open its tap catcher covers the button, a tap on the button closes the popup then.
+        // A popup with only the Mute button would take a second tap to mute, so the button mutes itself then.
+        onClicked: {
+            if (miniPlayer.canControlVolume) {
+                volumePopup.open();
+            } else {
+                miniPlayer.muteRequested(!miniPlayer.muted);
+            }
+        }
+    }
+
     PillButton {
         id: rendererPill
         objectName: "rendererPill"
@@ -377,6 +417,7 @@ Item {
         anchors.verticalCenter: miniPlayer.verticalCenter
         anchors.rightMargin: 12
         text: miniPlayer.hasActiveRenderer ? miniPlayer.rendererName : qsTr("Choose a Renderer")
+        showsText: !miniPlayer.narrow
         iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
         checked: rendererMenu.opened
         // While the menu is open its tap catcher covers the pill, a tap on the pill closes the menu then.
@@ -399,5 +440,26 @@ Item {
         anchorItem: rendererPill
         opensUpwards: true
         onPicked: index => miniPlayer.rendererPicked(index)
+    }
+
+    MenuShell {
+        id: volumePopup
+        objectName: "volumePopup"
+        // Laid out like the Renderer menu, see there.
+        parent: miniPlayer.parent
+        anchors.fill: parent
+        z: 1
+        // The popup is only needed while the Volume button replaces the inline controls.
+        visible: miniPlayer.visible && miniPlayer.narrow
+        anchorItem: volumeButton
+        opensUpwards: true
+        panel.objectName: "volumePopupPanel"
+        panelWidth: volumeControls.width + 16 + 16
+
+        Item {
+            id: volumePopupSlot
+            width: volumePopup.contentWidth
+            height: 56
+        }
     }
 }

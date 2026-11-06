@@ -32,6 +32,7 @@ Item {
         function init() {
             pillButton.text = "NAS";
             pillButton.showsChevron = false;
+            pillButton.showsText = true;
             pillButton.checked = false;
             clickedSpy.clear();
         }
@@ -117,6 +118,16 @@ Item {
             const shortWidth = pillButton.width;
             pillButton.text = "A media server with a much longer name";
             pillButtonTest.tryVerify(() => pillButton.width > shortWidth);
+        }
+
+        /**
+         * Tests that the pill button shows only its icon in a round pill when it doesn't show its text.
+         */
+        function test_show_only_the_icon_in_a_round_pill_without_the_text() {
+            pillButton.showsText = false;
+            pillButtonTest.compare(pillButtonTest.child("label").visible, false);
+            pillButtonTest.compare(pillButtonTest.child("icon").visible, true);
+            pillButtonTest.tryCompare(pillButton, "width", pillButton.height);
         }
 
         /**
