@@ -15,8 +15,8 @@ import Blabby.Theme
  * The previous, Play/Pause and next buttons in the middle follow the rules of the Playing screen: Play/Pause pauses,
  * or stops a Renderer that can't pause, and resumes or plays, it shows a busy ring while the Renderer is transitioning;
  * previous and next are disabled when unavailable and hidden while the Queue is empty. Without media all of them are
- * disabled. A Repeat button after next looks and behaves like the one of the Playing screen, it's hidden below the
- * narrow breakpoint.
+ * disabled. A Shuffle button before previous and a Repeat button after next look and behave like those of the Playing
+ * screen, they are hidden below the narrow breakpoint.
  * Between the transport and the pill a Mute button mutes and unmutes and a Volume slider without a number changes the
  * Volume in the range of the Renderer while dragging, it's dimmed while muted. Each of them is hidden when the Active
  * Renderer doesn't offer it, both are hidden without an Active Renderer; without media they are kept, as on the Playing
@@ -128,6 +128,11 @@ Item {
     property int repeat: Queue.Off
 
     /**
+     * True while the Queue is shuffled.
+     */
+    property bool shuffled: false
+
+    /**
      * True while the Active Renderer is Playing.
      */
     readonly property bool playing: miniPlayer.playbackState === Renderer.Playing
@@ -169,6 +174,11 @@ Item {
      * This signal is emitted when the user asks for the next Repeat of the Queue: Off, All, One and Off again.
      */
     signal cycleRepeatRequested
+
+    /**
+     * This signal is emitted when the user asks to turn Shuffle on or off.
+     */
+    signal toggleShuffleRequested
 
     /**
      * This signal is emitted while the user changes the Volume.
@@ -255,6 +265,15 @@ Item {
         anchors.centerIn: miniPlayer
         spacing: 8
 
+        IconButton {
+            id: shuffleButton
+            objectName: "shuffleButton"
+            anchors.verticalCenter: transportControls.verticalCenter
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/shuffle.svg"
+            checked: miniPlayer.shuffled
+            visible: miniPlayer.hasQueue && !miniPlayer.narrow
+            onClicked: miniPlayer.toggleShuffleRequested()
+        }
         IconButton {
             id: previousButton
             objectName: "previousButton"

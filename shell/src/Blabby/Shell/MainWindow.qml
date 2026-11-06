@@ -113,6 +113,7 @@ Rectangle {
             hasPrevious: Singleton.queueModel.hasPrevious
             hasNext: Singleton.queueModel.hasNext
             repeat: Singleton.queueModel.repeat
+            shuffled: Singleton.queueModel.shuffled
             renderers: Singleton.mediaRendererModel
             onRendererPicked: index => shell.activateRenderer(index)
             onQueueRequested: rail.currentIndex = shell.queueDestination
@@ -121,6 +122,7 @@ Rectangle {
             onPreviousRequested: Singleton.queueModel.previous()
             onNextRequested: Singleton.queueModel.next()
             onCycleRepeatRequested: Singleton.queueModel.cycleRepeat()
+            onToggleShuffleRequested: Singleton.queueModel.toggleShuffle()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
             onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
             onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
@@ -244,6 +246,7 @@ Rectangle {
         hasPrevious: Singleton.queueModel.hasPrevious
         hasNext: Singleton.queueModel.hasNext
         repeat: Singleton.queueModel.repeat
+        shuffled: Singleton.queueModel.shuffled
         renderers: Singleton.mediaRendererModel
         // The user stays on the screen, a Renderer chosen here also ends choosing one on the Renderers screen.
         onRendererPicked: index => {
@@ -255,6 +258,7 @@ Rectangle {
         onPreviousRequested: Singleton.queueModel.previous()
         onNextRequested: Singleton.queueModel.next()
         onCycleRepeatRequested: Singleton.queueModel.cycleRepeat()
+        onToggleShuffleRequested: Singleton.queueModel.toggleShuffle()
         onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
         onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
     }

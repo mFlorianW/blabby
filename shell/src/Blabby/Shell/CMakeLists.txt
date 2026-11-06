@@ -47,6 +47,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/material/repeat.svg
         ../../icons/material/repeat_one.svg
         ../../icons/material/settings.svg
+        ../../icons/material/shuffle.svg
         ../../icons/material/skip_next.svg
         ../../icons/material/skip_previous.svg
         ../../icons/material/speaker.svg

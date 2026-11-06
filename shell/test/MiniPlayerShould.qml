@@ -66,6 +66,12 @@ Item {
         }
 
         SignalSpy {
+            id: toggleShuffleRequestedSpy
+            target: miniPlayer
+            signalName: "toggleShuffleRequested"
+        }
+
+        SignalSpy {
             id: cycleRepeatRequestedSpy
             target: miniPlayer
             signalName: "cycleRepeatRequested"
@@ -114,6 +120,7 @@ Item {
             miniPlayer.hasPrevious = true;
             miniPlayer.hasNext = true;
             miniPlayer.repeat = Queue.Off;
+            miniPlayer.shuffled = false;
             miniPlayer.volume = 42;
             miniPlayer.volumeMinimum = 0;
             miniPlayer.volumeMaximum = 60;
@@ -124,6 +131,7 @@ Item {
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
             cycleRepeatRequestedSpy.clear();
+            toggleShuffleRequestedSpy.clear();
             nowPlayingRequestedSpy.clear();
             rendererPickedSpy.clear();
             volumeRequestedSpy.clear();
@@ -1009,7 +1017,8 @@ Item {
             miniPlayerTest.compare(label.visible, !data.narrow);
             miniPlayerTest.compare(label.width, label.implicitWidth);
             miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, !data.narrow);
-            const names = data.narrow ? ["trackArea", "previousButton", "playPauseButton", "nextButton", "volumeButton", "rendererPill"] : ["trackArea", "previousButton", "playPauseButton", "nextButton", "repeatButton", "muteButton", "volumeSlider", "rendererPill"];
+            miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, !data.narrow);
+            const names = data.narrow ? ["trackArea", "previousButton", "playPauseButton", "nextButton", "volumeButton", "rendererPill"] : ["trackArea", "shuffleButton", "previousButton", "playPauseButton", "nextButton", "repeatButton", "muteButton", "volumeSlider", "rendererPill"];
             let previousRight = 0;
             for (const name of names) {
                 const item = miniPlayerTest.child(name);
@@ -1019,6 +1028,62 @@ Item {
                 previousRight = item.mapToItem(miniPlayer, item.width, 0).x;
             }
             miniPlayerTest.verify(previousRight <= miniPlayer.width, `${previousRight} <= ${miniPlayer.width}`);
+        }
+
+        function test_show_the_shuffle_state_data() {
+            return [
+                {
+                    tag: "off",
+                    shuffled: false
+                },
+                {
+                    tag: "on",
+                    shuffled: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Shuffle button before previous looks like the one of the Playing screen: "shuffle",
+         * highlighted while on.
+         */
+        function test_show_the_shuffle_state(data) {
+            miniPlayer.shuffled = data.shuffled;
+            miniPlayerTest.waitForLayout();
+            const button = miniPlayerTest.child("shuffleButton");
+            miniPlayerTest.compare(button.visible, true);
+            miniPlayerTest.compare(miniPlayerTest.findChild(button, "icon").source, "qrc:/qt/qml/Blabby/Shell/icons/material/shuffle.svg");
+            miniPlayerTest.compare(button.checked, data.shuffled);
+            const previousButton = miniPlayerTest.child("previousButton");
+            miniPlayerTest.verify(button.mapToItem(miniPlayer, 0, 0).x < previousButton.mapToItem(miniPlayer, 0, 0).x);
+            const trackArea = miniPlayerTest.child("trackArea");
+            miniPlayerTest.verify(trackArea.mapToItem(miniPlayer, trackArea.width, 0).x <= button.mapToItem(miniPlayer, 0, 0).x);
+        }
+
+        /**
+         * Tests that the Shuffle button asks to turn Shuffle on or off.
+         */
+        function test_ask_to_toggle_shuffle_with_the_shuffle_button() {
+            miniPlayerTest.mouseClick(miniPlayerTest.child("shuffleButton"));
+            miniPlayerTest.compare(toggleShuffleRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Shuffle button is hidden while the Queue is empty.
+         */
+        function test_hide_the_shuffle_button_while_the_queue_is_empty() {
+            miniPlayer.hasQueue = false;
+            miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, false);
+        }
+
+        /**
+         * Tests that the Shuffle button is hidden below the narrow breakpoint, like the Repeat button.
+         */
+        function test_hide_the_shuffle_button_on_a_narrow_screen() {
+            root.width = 672;
+            miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, false);
+            root.width = 1184;
+            miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, true);
         }
     }
 }

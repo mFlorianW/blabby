@@ -71,6 +71,11 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
         // Next is available on the last entry with the Repeat All only.
         Q_EMIT stepAvailabilityChanged();
     });
+    connect(&mQueue, &Queue::shuffledChanged, this, [this] {
+        Q_EMIT shuffledChanged();
+        // Next follows the play order while shuffled.
+        Q_EMIT stepAvailabilityChanged();
+    });
     connect(&mQueue, &Queue::collectionFailed, this, [this](Item const& container) {
         Q_EMIT collectionFailed(container.mainText());
     });
@@ -189,6 +194,16 @@ void QueueModel::cycleRepeat() noexcept
         mQueue.setRepeat(Queue::Repeat::Off);
         break;
     }
+}
+
+bool QueueModel::isShuffled() const noexcept
+{
+    return mQueue.isShuffled();
+}
+
+void QueueModel::toggleShuffle() noexcept
+{
+    mQueue.setShuffled(not mQueue.isShuffled());
 }
 
 bool QueueModel::isCollecting() const noexcept

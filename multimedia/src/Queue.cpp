@@ -4,7 +4,9 @@
 
 #include "Queue.hpp"
 #include "private/LoggingCategories.hpp"
+#include <QRandomGenerator>
 #include <QSet>
+#include <algorithm>
 
 namespace Multimedia
 {
@@ -50,7 +52,17 @@ struct Queue::Collection
     std::unique_ptr<PendingPage> mPage;
 };
 
-Queue::Queue() = default;
+Queue::Queue()
+    : Queue{[](qsizetype bound) {
+        return static_cast<qsizetype>(QRandomGenerator::global()->bounded(static_cast<quint64>(bound)));
+    }}
+{
+}
+
+Queue::Queue(RandomSource randomSource)
+    : mRandomSource{std::move(randomSource)}
+{
+}
 
 Queue::~Queue() = default;
 
@@ -153,6 +165,53 @@ void Queue::setRepeat(Queue::Repeat repeat) noexcept
     }
 }
 
+bool Queue::isShuffled() const noexcept
+{
+    return mShuffled;
+}
+
+void Queue::setShuffled(bool shuffled) noexcept
+{
+    if (mShuffled == shuffled) {
+        return;
+    }
+
+    mShuffled = shuffled;
+    if (mShuffled) {
+        shuffleAll();
+    } else {
+        mPlayOrder.clear();
+    }
+    Q_EMIT shuffledChanged();
+}
+
+void Queue::shuffleAll() noexcept
+{
+    mPlayOrder.clear();
+    auto others = QList<qsizetype>{};
+    for (auto index = qsizetype{0}; index < mEntries.size(); ++index) {
+        if (index == mCurrentIndex) {
+            mPlayOrder.append(index);
+        } else {
+            others.append(index);
+        }
+    }
+    shuffleIn(others, mPlayOrder.size());
+}
+
+void Queue::shuffleIn(QList<qsizetype> const& indices, qsizetype first) noexcept
+{
+    // Each entry goes to a random position among the entries that weren't played yet, from the first position on.
+    for (auto const index : indices) {
+        mPlayOrder.insert(first + mRandomSource(mPlayOrder.size() - first + 1), index);
+    }
+}
+
+qsizetype Queue::playPosition() const noexcept
+{
+    return mCurrentIndex.has_value() ? mPlayOrder.indexOf(*mCurrentIndex) : qsizetype{-1};
+}
+
 void Queue::replace(Items const& playables, qsizetype startIndex) noexcept
 {
     if (not playables.isEmpty() and (startIndex < 0 or startIndex >= playables.size())) {
@@ -161,11 +220,20 @@ void Queue::replace(Items const& playables, qsizetype startIndex) noexcept
         return;
     }
 
+    setShuffled(false);
+    reset(playables, startIndex);
+}
+
+void Queue::reset(Items const& playables, qsizetype startIndex) noexcept
+{
     auto const hadCurrentEntry = mCurrentIndex.has_value();
     Q_EMIT entriesAboutToBeReplaced();
     mEntries = playables;
     // The previous Current Entry is gone with the replaced entries, the new one is notified afterwards.
     mCurrentIndex.reset();
+    if (mShuffled) {
+        shuffleAll();
+    }
     Q_EMIT entriesReplaced();
 
     if (mEntries.isEmpty()) {
@@ -187,6 +255,16 @@ void Queue::play(qsizetype index) noexcept
         return;
     }
 
+    if (mShuffled and mCurrentIndex.has_value() and index != *mCurrentIndex) {
+        // The picked entry plays now, the entries that weren't played yet stay ahead of it.
+        mPlayOrder.removeOne(index);
+        mPlayOrder.insert(playPosition() + 1, index);
+    }
+    playAt(index);
+}
+
+void Queue::playAt(qsizetype index) noexcept
+{
     setCurrentIndex(index);
     startCurrentEntry();
 }
@@ -236,18 +314,18 @@ void Queue::previous() noexcept
         return;
     }
 
-    auto const currentIndex = *mCurrentIndex;
-    if (mLastKnownPosition > restartThreshold or currentIndex == 0) {
+    auto const index = previousIndex();
+    if (mLastKnownPosition > restartThreshold or not index.has_value()) {
         restartCurrentEntry();
     } else {
-        play(currentIndex - 1);
+        playAt(*index);
     }
 }
 
 void Queue::next() noexcept
 {
     if (auto const index = nextIndex(); index.has_value()) {
-        play(*index);
+        playAt(*index);
     }
 }
 
@@ -256,14 +334,27 @@ std::optional<qsizetype> Queue::nextIndex() const noexcept
     if (not mCurrentIndex.has_value()) {
         return std::nullopt;
     }
-    if (*mCurrentIndex + 1 < mEntries.size()) {
-        return *mCurrentIndex + 1;
+    auto const position = mShuffled ? playPosition() : *mCurrentIndex;
+    if (position + 1 < mEntries.size()) {
+        return mShuffled ? mPlayOrder.at(position + 1) : position + 1;
     }
     // The Queue starts over after its last entry.
     if (mRepeat == Repeat::All) {
-        return 0;
+        return mShuffled ? mPlayOrder.first() : 0;
     }
     return std::nullopt;
+}
+
+std::optional<qsizetype> Queue::previousIndex() const noexcept
+{
+    if (not mCurrentIndex.has_value()) {
+        return std::nullopt;
+    }
+    auto const position = mShuffled ? playPosition() : *mCurrentIndex;
+    if (position == 0) {
+        return std::nullopt;
+    }
+    return mShuffled ? mPlayOrder.at(position - 1) : position - 1;
 }
 
 void Queue::restartCurrentEntry() noexcept
@@ -279,21 +370,21 @@ void Queue::restartCurrentEntry() noexcept
         setLastKnownPosition(std::chrono::milliseconds{0});
         setState(State::Running);
     } else {
-        play(currentIndex);
+        playAt(currentIndex);
     }
 }
 
 void Queue::append(Items const& playables) noexcept
 {
-    insert(mEntries.size(), playables);
+    insert(mEntries.size(), playables, Placement::End);
 }
 
 void Queue::playNext(Items const& playables) noexcept
 {
-    insert(mCurrentIndex.has_value() ? *mCurrentIndex + 1 : mEntries.size(), playables);
+    insert(mCurrentIndex.has_value() ? *mCurrentIndex + 1 : mEntries.size(), playables, Placement::Next);
 }
 
-void Queue::insert(qsizetype index, Items const& playables) noexcept
+void Queue::insert(qsizetype index, Items const& playables, Placement placement) noexcept
 {
     if (playables.isEmpty()) {
         return;
@@ -304,6 +395,31 @@ void Queue::insert(qsizetype index, Items const& playables) noexcept
     mEntries = mEntries.first(index) + playables + mEntries.sliced(index);
     if (mCurrentIndex.has_value() and *mCurrentIndex >= index) {
         mCurrentIndex = *mCurrentIndex + playables.size();
+    }
+    if (mShuffled) {
+        for (auto& entryIndex : mPlayOrder) {
+            if (entryIndex >= index) {
+                entryIndex += playables.size();
+            }
+        }
+        auto inserted = QList<qsizetype>{};
+        for (auto entryIndex = index; entryIndex < index + playables.size(); ++entryIndex) {
+            inserted.append(entryIndex);
+        }
+        if (not hadCurrentEntry) {
+            // The first inserted Playable becomes the Current Entry after the entries that were already played, all
+            // others weren't played yet.
+            mPlayOrder.append(inserted.takeFirst());
+            shuffleIn(inserted, mPlayOrder.size());
+        } else if (placement == Placement::Next) {
+            // Play next means next, also while shuffled.
+            auto const position = playPosition();
+            for (auto offset = qsizetype{0}; offset < inserted.size(); ++offset) {
+                mPlayOrder.insert(position + 1 + offset, inserted.at(offset));
+            }
+        } else {
+            shuffleIn(inserted, playPosition() + 1);
+        }
     }
     Q_EMIT entriesInserted();
 
@@ -478,8 +594,21 @@ void Queue::remove(qsizetype index) noexcept
 
     auto const removesCurrentEntry = mCurrentIndex == index;
     auto const stopRenderer = removesCurrentEntry and isRendererOnCurrentEntry();
+    // The entry that follows the removed Current Entry, by its index after the remove.
+    auto following = removesCurrentEntry and index < mEntries.size() - 1 ? std::optional{index} : std::nullopt;
     Q_EMIT entryAboutToBeRemoved(index);
     mEntries.removeAt(index);
+    if (mShuffled) {
+        auto const position = mPlayOrder.indexOf(index);
+        mPlayOrder.removeAt(position);
+        for (auto& entryIndex : mPlayOrder) {
+            if (entryIndex > index) {
+                --entryIndex;
+            }
+        }
+        following = removesCurrentEntry and position < mPlayOrder.size() ? std::optional{mPlayOrder.at(position)}
+                                                                         : std::nullopt;
+    }
     if (removesCurrentEntry) {
         // The index must not point behind the entries meanwhile, the new Current Entry is notified afterwards.
         mCurrentIndex.reset();
@@ -492,8 +621,8 @@ void Queue::remove(qsizetype index) noexcept
         return;
     }
 
-    if (index < mEntries.size()) {
-        setCurrentIndex(index);
+    if (following.has_value()) {
+        setCurrentIndex(following);
         if (mState == State::Running) {
             startCurrentEntry();
         }
@@ -522,23 +651,28 @@ void Queue::move(qsizetype from, qsizetype to) noexcept
 
     Q_EMIT entryAboutToBeMoved(from, to);
     mEntries.move(from, to);
-    if (mCurrentIndex.has_value()) {
-        auto& current = *mCurrentIndex;
-        if (current == from) {
-            current = to;
-        } else if (from < current and to >= current) {
-            --current;
-        } else if (from > current and to <= current) {
-            ++current;
+    auto const remap = [from, to](qsizetype& entryIndex) {
+        if (entryIndex == from) {
+            entryIndex = to;
+        } else if (from < entryIndex and to >= entryIndex) {
+            --entryIndex;
+        } else if (from > entryIndex and to <= entryIndex) {
+            ++entryIndex;
         }
+    };
+    if (mCurrentIndex.has_value()) {
+        remap(*mCurrentIndex);
     }
+    // The play order stays, only the indices of its entries change.
+    std::ranges::for_each(mPlayOrder, remap);
     Q_EMIT entryMoved();
 }
 
 void Queue::clear() noexcept
 {
     auto const stopRenderer = isRendererOnCurrentEntry();
-    replace({}, 0);
+    // Shuffle is kept, unlike for a replace.
+    reset({}, 0);
     if (stopRenderer) {
         mRenderer->stop();
     }
@@ -552,6 +686,7 @@ Queue::Snapshot Queue::snapshot() const noexcept
         .lastKnownPosition = mLastKnownPosition,
         .state = mState,
         .playsCurrentEntry = mPlaysCurrentEntry,
+        .playOrder = mPlayOrder,
     };
 }
 
@@ -568,6 +703,13 @@ void Queue::restore(Queue::Snapshot const& snapshot) noexcept
     Q_EMIT entriesAboutToBeReplaced();
     mEntries = snapshot.entries;
     mCurrentIndex = snapshot.currentIndex;
+    if (mShuffled) {
+        if (snapshot.playOrder.size() == mEntries.size()) {
+            mPlayOrder = snapshot.playOrder;
+        } else {
+            shuffleAll();
+        }
+    }
     Q_EMIT entriesReplaced();
     Q_EMIT currentEntryChanged();
 

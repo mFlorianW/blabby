@@ -98,7 +98,11 @@ void QueueShould::init()
     auto clock = std::make_unique<ClockDouble>();
     mClock = clock.get();
     mRenderer = std::make_shared<Renderer>(std::move(device), std::move(clock));
-    mQueue = std::make_unique<Queue>();
+    mRandomNumbers.clear();
+    mQueue = std::make_unique<Queue>([this](qsizetype bound) {
+        auto const number = mRandomNumbers.isEmpty() ? qsizetype{0} : mRandomNumbers.takeFirst();
+        return std::min(number, bound - 1);
+    });
     mQueue->setActiveRenderer(mRenderer);
     Q_EMIT mDevice->protocolInfoCall()->finished();
 }
@@ -160,6 +164,33 @@ void QueueShould::handOverToBathroom(bool seekSupported, QString const& duration
     mBathroomDevice->setDeviceState(MediaDevice::State::Playing);
     mBathroomDevice->finishPositionInfoCall(
         positionInfoResponse(uriOf(QStringLiteral("Harbour")), QString{}, duration, position));
+}
+
+void QueueShould::shuffleFive(qsizetype currentIndex)
+{
+    mQueue->replace(
+        playables(
+            {QStringLiteral("1"), QStringLiteral("2"), QStringLiteral("3"), QStringLiteral("4"), QStringLiteral("5")}),
+        currentIndex);
+    // The random source gives 0 by default, each other entry is placed right after the Current Entry, i.e. the
+    // play order is the Current Entry followed by the other entries in reverse.
+    mQueue->setShuffled(true);
+}
+
+QString QueueShould::currentTitle() const
+{
+    auto const entry = mQueue->currentEntry();
+    return entry.has_value() ? entry->mainText() : QString{};
+}
+
+QStringList QueueShould::titlesOnNext()
+{
+    auto titles = QStringList{};
+    while (mQueue->hasNext()) {
+        mQueue->next();
+        titles.append(currentTitle());
+    }
+    return titles;
 }
 
 void QueueShould::be_empty_and_idle_at_start()
@@ -1591,6 +1622,263 @@ void QueueShould::keep_repeat_when_the_queue_is_replaced_restored_or_handed_over
 
     handOverToBathroom(true, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
     QCOMPARE(mQueue->repeat(), Queue::Repeat::One);
+}
+
+void QueueShould::not_shuffle_at_start()
+{
+    QCOMPARE(Queue{}.isShuffled(), false);
+}
+
+void QueueShould::notify_about_a_shuffle_change()
+{
+    auto shuffledChangedSpy = QSignalSpy{mQueue.get(), &Queue::shuffledChanged};
+
+    mQueue->setShuffled(true);
+    mQueue->setShuffled(true);
+
+    QCOMPARE(mQueue->isShuffled(), true);
+    QCOMPARE(shuffledChangedSpy.size(), 1);
+}
+
+void QueueShould::keep_the_listed_order_and_the_playback_when_shuffle_is_turned_on()
+{
+    mQueue->replace(album(), 1);
+    mDevice->reset();
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    mQueue->setShuffled(true);
+
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::put_the_other_entries_in_a_random_play_order_after_the_current_entry()
+{
+    mQueue->replace(playables({QStringLiteral("1"), QStringLiteral("2"), QStringLiteral("3"), QStringLiteral("4")}), 0);
+    // "2" is placed after "1", "3" after "2" and "4" right after "1".
+    mRandomNumbers = {0, 1, 0};
+
+    mQueue->setShuffled(true);
+
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("4"), QStringLiteral("2"), QStringLiteral("3")}));
+}
+
+void QueueShould::follow_the_play_order_on_next_and_previous_while_shuffled()
+{
+    shuffleFive(1);
+
+    QCOMPARE(mQueue->hasNext(), true);
+    mQueue->next();
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("5")));
+    mQueue->next();
+    QCOMPARE(currentTitle(), QStringLiteral("4"));
+
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("2"));
+    // The first entry of the play order is restarted.
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("2"));
+
+    QCOMPARE(titlesOnNext(),
+             (QStringList{QStringLiteral("5"), QStringLiteral("4"), QStringLiteral("3"), QStringLiteral("1")}));
+    QCOMPARE(mQueue->hasNext(), false);
+}
+
+void QueueShould::advance_in_the_play_order_when_the_current_entry_finished_while_shuffled()
+{
+    shuffleFive(1);
+
+    finishEntry(uriOf(QStringLiteral("2")));
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("5")));
+}
+
+void QueueShould::become_idle_after_the_last_entry_of_the_play_order_finished()
+{
+    shuffleFive(1);
+    titlesOnNext();
+    QCOMPARE(currentTitle(), QStringLiteral("1"));
+    mDevice->reset();
+
+    finishEntry(uriOf(QStringLiteral("1")));
+
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::start_over_with_the_play_order_with_repeat_all_while_shuffled()
+{
+    shuffleFive(1);
+    mQueue->setRepeat(Queue::Repeat::All);
+    mQueue->play(0);
+    QCOMPARE(mQueue->hasNext(), true);
+
+    // The picked "1" was moved right after "2", it ends the play order then: 2 1 5 4 3.
+    for (auto step = 0; step < 3; ++step) {
+        mQueue->next();
+    }
+    QCOMPARE(currentTitle(), QStringLiteral("3"));
+    finishEntry(uriOf(QStringLiteral("3")));
+    QCOMPARE(currentTitle(), QStringLiteral("2"));
+
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("2"));
+}
+
+void QueueShould::continue_in_listed_order_after_the_current_entry_when_shuffle_is_turned_off()
+{
+    shuffleFive(1);
+    mQueue->next();
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    mDevice->reset();
+
+    mQueue->setShuffled(false);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+    QCOMPARE(mQueue->hasNext(), false);
+
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("4"));
+}
+
+void QueueShould::add_entries_randomly_among_the_unplayed_entries_while_shuffled()
+{
+    shuffleFive(1);
+    mQueue->next();
+    // The play order is 2 5 4 3 1 with 5 current, "6" is placed right after it and "7" after "4".
+    mRandomNumbers = {0, 2};
+
+    mQueue->append(playables({QStringLiteral("6"), QStringLiteral("7")}));
+
+    QCOMPARE(mQueue->entries().last(2), playables({QStringLiteral("6"), QStringLiteral("7")}));
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    QCOMPARE(titlesOnNext(),
+             (QStringList{QStringLiteral("6"),
+                          QStringLiteral("4"),
+                          QStringLiteral("7"),
+                          QStringLiteral("3"),
+                          QStringLiteral("1")}));
+}
+
+void QueueShould::play_next_entries_right_after_the_current_entry_while_shuffled()
+{
+    shuffleFive(1);
+    mRandomNumbers = {3, 3};
+
+    mQueue->playNext(playables({QStringLiteral("6"), QStringLiteral("7")}));
+
+    QCOMPARE(mQueue->entries().sliced(2, 2), playables({QStringLiteral("6"), QStringLiteral("7")}));
+    QCOMPARE(titlesOnNext(),
+             (QStringList{QStringLiteral("6"),
+                          QStringLiteral("7"),
+                          QStringLiteral("5"),
+                          QStringLiteral("4"),
+                          QStringLiteral("3"),
+                          QStringLiteral("1")}));
+}
+
+void QueueShould::shuffle_the_added_entries_of_an_empty_queue_after_its_new_current_entry()
+{
+    mQueue->setShuffled(true);
+
+    mQueue->append(playables({QStringLiteral("1"), QStringLiteral("2"), QStringLiteral("3")}));
+
+    QCOMPARE(currentTitle(), QStringLiteral("1"));
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("3"), QStringLiteral("2")}));
+}
+
+void QueueShould::play_the_added_entries_after_the_played_entries_when_the_last_current_entry_was_removed()
+{
+    shuffleFive(1);
+    titlesOnNext();
+    // The last entry of the play order is removed, all other entries were played.
+    mQueue->remove(0);
+    QCOMPARE(mQueue->currentEntry().has_value(), false);
+
+    mQueue->append(playables({QStringLiteral("6"), QStringLiteral("7")}));
+
+    QCOMPARE(currentTitle(), QStringLiteral("6"));
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("7")}));
+}
+
+void QueueShould::keep_the_unplayed_entries_ahead_of_a_played_entry_while_shuffled()
+{
+    shuffleFive(1);
+
+    // "3" is picked, e.g. on the Queue screen, the entries 5 and 4 weren't played yet.
+    mQueue->play(2);
+
+    QCOMPARE(currentTitle(), QStringLiteral("3"));
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("5"), QStringLiteral("4"), QStringLiteral("1")}));
+    mQueue->play(1);
+    mQueue->previous();
+    QCOMPARE(currentTitle(), QStringLiteral("1"));
+}
+
+void QueueShould::keep_the_play_order_on_remove_and_move_while_shuffled()
+{
+    shuffleFive(1);
+
+    mQueue->remove(3);
+    mQueue->move(0, 3);
+
+    QCOMPARE(mQueue->entries(),
+             playables({QStringLiteral("2"), QStringLiteral("3"), QStringLiteral("5"), QStringLiteral("1")}));
+    QCOMPARE(currentTitle(), QStringLiteral("2"));
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("5"), QStringLiteral("3"), QStringLiteral("1")}));
+}
+
+void QueueShould::make_the_following_entry_of_the_play_order_current_on_remove_while_shuffled()
+{
+    shuffleFive(1);
+    mDevice->reset();
+
+    mQueue->remove(1);
+
+    QCOMPARE(currentTitle(), QStringLiteral("5"));
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("5")));
+
+    titlesOnNext();
+    QCOMPARE(currentTitle(), QStringLiteral("1"));
+    mQueue->remove(0);
+    QCOMPARE(mQueue->currentIndex(), std::nullopt);
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+}
+
+void QueueShould::turn_shuffle_off_when_the_queue_is_replaced()
+{
+    shuffleFive(1);
+    auto shuffledChangedSpy = QSignalSpy{mQueue.get(), &Queue::shuffledChanged};
+
+    mQueue->replace(album(), 0);
+
+    QCOMPARE(mQueue->isShuffled(), false);
+    QCOMPARE(shuffledChangedSpy.size(), 1);
+    QCOMPARE(titlesOnNext(), (QStringList{QStringLiteral("Harbour"), QStringLiteral("Outro")}));
+}
+
+void QueueShould::keep_shuffle_and_the_play_order_on_clear_restore_and_hand_over()
+{
+    shuffleFive(1);
+    auto const snapshot = mQueue->snapshot();
+    mRandomNumbers = {3, 3, 3, 3};
+
+    mQueue->clear();
+    QCOMPARE(mQueue->isShuffled(), true);
+
+    mQueue->restore(snapshot);
+    QCOMPARE(mQueue->isShuffled(), true);
+
+    handOverToBathroom(true, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+    QCOMPARE(mQueue->isShuffled(), true);
+    QCOMPARE(titlesOnNext(),
+             (QStringList{QStringLiteral("5"), QStringLiteral("4"), QStringLiteral("3"), QStringLiteral("1")}));
 }
 
 } // namespace Multimedia
