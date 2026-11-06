@@ -18,7 +18,8 @@ import "TimeFormat.js" as TimeFormat
  * Play/Pause button pauses, or
  * stops a Renderer that can't pause, and resumes or plays; it shows a busy ring while the Renderer is transitioning.
  * Previous and next buttons next to it step through the Queue, they are disabled when unavailable and hidden while
- * the Queue is empty. A seek bar shows the elapsed and the total
+ * the Queue is empty. A Repeat button after next cycles the Repeat of the Queue, it shows "repeat" or "repeat one", is
+ * highlighted when the Repeat isn't Off and is hidden while the Queue is empty. A seek bar shows the elapsed and the total
  * time and seeks on release or a tap, it only shows the position when the Renderer can't seek and only the elapsed time is shown for a
  * stream without a duration. A Volume row with a slider in the range of the Renderer and the number next to it
  * changes the Volume while dragging, a Mute button next to it mutes and unmutes and dims the slider while muted. The
@@ -154,6 +155,11 @@ Item {
     property bool hasNext: false
 
     /**
+     * The Repeat of the Queue, a value of Queue.Repeat.
+     */
+    property int repeat: Queue.Off
+
+    /**
      * The position a seek was requested to, -1 without. The seek bar stays there until the next position update.
      */
     property real seekTarget: -1
@@ -199,6 +205,11 @@ Item {
      * This signal is emitted when the user asks to play the next entry of the Queue.
      */
     signal nextRequested
+
+    /**
+     * This signal is emitted when the user asks for the next Repeat of the Queue: Off, All, One and Off again.
+     */
+    signal cycleRepeatRequested
 
     /**
      * This signal is emitted when the user asks to seek to the position in milliseconds.
@@ -553,6 +564,15 @@ Item {
                     visible: nowPlayingView.hasQueue
                     enabled: nowPlayingView.hasNext
                     onClicked: nowPlayingView.nextRequested()
+                }
+                IconButton {
+                    id: repeatButton
+                    objectName: "repeatButton"
+                    anchors.verticalCenter: transportControls.verticalCenter
+                    iconSource: nowPlayingView.repeat === Queue.One ? "qrc:/qt/qml/Blabby/Shell/icons/material/repeat_one.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg"
+                    checked: nowPlayingView.repeat !== Queue.Off
+                    visible: nowPlayingView.hasQueue
+                    onClicked: nowPlayingView.cycleRepeatRequested()
                 }
             }
 

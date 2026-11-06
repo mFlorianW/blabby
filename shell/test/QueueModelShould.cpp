@@ -822,6 +822,33 @@ void QueueModelShould::keep_an_idle_queue_idle_when_the_last_picked_renderer_bec
     QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
 }
 
+void QueueModelShould::cycle_the_repeat_from_off_to_all_to_one_and_back_to_off()
+{
+    QCOMPARE(mModel->property("repeat").value<Queue::Repeat>(), Queue::Repeat::Off);
+
+    mModel->cycleRepeat();
+    QCOMPARE(mModel->property("repeat").value<Queue::Repeat>(), Queue::Repeat::All);
+
+    mModel->cycleRepeat();
+    QCOMPARE(mModel->property("repeat").value<Queue::Repeat>(), Queue::Repeat::One);
+
+    mModel->cycleRepeat();
+    QCOMPARE(mModel->property("repeat").value<Queue::Repeat>(), Queue::Repeat::Off);
+}
+
+void QueueModelShould::notify_about_a_changed_repeat_and_the_availability_of_next()
+{
+    mModel->replace(threeSongs(), 2);
+    auto repeatChangedSpy = QSignalSpy{mModel.get(), &QueueModel::repeatChanged};
+    auto stepAvailabilityChangedSpy = QSignalSpy{mModel.get(), &QueueModel::stepAvailabilityChanged};
+
+    mModel->cycleRepeat();
+
+    QCOMPARE(repeatChangedSpy.size(), 1);
+    QCOMPARE(stepAvailabilityChangedSpy.size(), 1);
+    QCOMPARE(mModel->property("hasNext").toBool(), true);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::QueueModelShould)

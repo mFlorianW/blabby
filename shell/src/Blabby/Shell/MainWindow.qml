@@ -112,6 +112,7 @@ Rectangle {
             hasQueue: Singleton.queueModel.entryCount > 0
             hasPrevious: Singleton.queueModel.hasPrevious
             hasNext: Singleton.queueModel.hasNext
+            repeat: Singleton.queueModel.repeat
             renderers: Singleton.mediaRendererModel
             onRendererPicked: index => shell.activateRenderer(index)
             onQueueRequested: rail.currentIndex = shell.queueDestination
@@ -119,6 +120,7 @@ Rectangle {
             onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
             onPreviousRequested: Singleton.queueModel.previous()
             onNextRequested: Singleton.queueModel.next()
+            onCycleRepeatRequested: Singleton.queueModel.cycleRepeat()
             onSeekRequested: position => Singleton.activeRendererController.seek(position)
             onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
             onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
@@ -241,6 +243,7 @@ Rectangle {
         hasQueue: Singleton.queueModel.entryCount > 0
         hasPrevious: Singleton.queueModel.hasPrevious
         hasNext: Singleton.queueModel.hasNext
+        repeat: Singleton.queueModel.repeat
         renderers: Singleton.mediaRendererModel
         // The user stays on the screen, a Renderer chosen here also ends choosing one on the Renderers screen.
         onRendererPicked: index => {
@@ -251,6 +254,7 @@ Rectangle {
         onTogglePlaybackRequested: Singleton.queueModel.togglePlayback()
         onPreviousRequested: Singleton.queueModel.previous()
         onNextRequested: Singleton.queueModel.next()
+        onCycleRepeatRequested: Singleton.queueModel.cycleRepeat()
         onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
         onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
     }

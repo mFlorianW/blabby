@@ -31,6 +31,7 @@ Item {
         function init() {
             iconButton.variant = IconButton.Standard;
             iconButton.enabled = true;
+            iconButton.checked = false;
             clickedSpy.clear();
         }
 
@@ -105,6 +106,29 @@ Item {
             iconButton.variant = data.variant;
             iconButtonTest.verify(Qt.colorEqual(iconButtonTest.child("container").color, data.container));
             iconButtonTest.verify(Qt.colorEqual(iconButtonTest.child("icon").color, data.icon));
+        }
+
+        function test_highlight_when_checked_data() {
+            return [
+                {
+                    tag: "standard",
+                    variant: IconButton.Standard
+                },
+                {
+                    tag: "tonal",
+                    variant: IconButton.Tonal
+                }
+            ];
+        }
+
+        /**
+         * Tests that a checked icon button is highlighted in the primary container in both variants.
+         */
+        function test_highlight_when_checked(data) {
+            iconButton.variant = data.variant;
+            iconButton.checked = true;
+            iconButtonTest.verify(Qt.colorEqual(iconButtonTest.child("container").color, Theme.colors.primaryContainer));
+            iconButtonTest.verify(Qt.colorEqual(iconButtonTest.child("icon").color, Theme.colors.colorOnPrimaryContainer));
         }
     }
 }

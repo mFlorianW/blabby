@@ -88,6 +88,12 @@ Item {
             signalName: "nextRequested"
         }
 
+        SignalSpy {
+            id: cycleRepeatRequestedSpy
+            target: nowPlayingView
+            signalName: "cycleRepeatRequested"
+        }
+
         function init() {
             nowPlayingView.hasActiveRenderer = true;
             nowPlayingView.rendererName = "Kitchen";
@@ -121,8 +127,10 @@ Item {
             nowPlayingView.hasQueue = true;
             nowPlayingView.hasPrevious = true;
             nowPlayingView.hasNext = true;
+            nowPlayingView.repeat = Queue.Off;
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
+            cycleRepeatRequestedSpy.clear();
             // The actions of the header are laid out on the next polish, clicks before would miss them.
             nowPlayingViewTest.waitForItemPolished(nowPlayingViewTest.child("rendererPill").parent);
         }
@@ -821,6 +829,61 @@ Item {
             nowPlayingViewTest.compare(button.visible, true);
             nowPlayingViewTest.mouseClick(button);
             nowPlayingViewTest.compare(data.spy.count, 0);
+        }
+
+        function test_show_the_repeat_state_data() {
+            return [
+                {
+                    tag: "off",
+                    repeat: Queue.Off,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg",
+                    checked: false
+                },
+                {
+                    tag: "all",
+                    repeat: Queue.All,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg",
+                    checked: true
+                },
+                {
+                    tag: "one",
+                    repeat: Queue.One,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat_one.svg",
+                    checked: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Repeat button after next shows "repeat" or "repeat one" and is highlighted when not Off.
+         */
+        function test_show_the_repeat_state(data) {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.repeat = data.repeat;
+            const button = nowPlayingViewTest.child("repeatButton");
+            nowPlayingViewTest.compare(button.visible, true);
+            nowPlayingViewTest.compare(nowPlayingViewTest.findChild(button, "icon").source, data.icon);
+            nowPlayingViewTest.compare(button.checked, data.checked);
+            const nextButton = nowPlayingViewTest.child("nextButton");
+            nowPlayingViewTest.verify(button.mapToItem(nowPlayingView, 0, 0).x > nextButton.mapToItem(nowPlayingView, 0, 0).x);
+        }
+
+        /**
+         * Tests that the Repeat button asks for the next Repeat.
+         */
+        function test_ask_for_the_next_repeat_with_the_repeat_button() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingViewTest.mouseClick(nowPlayingViewTest.child("repeatButton"));
+            nowPlayingViewTest.compare(cycleRepeatRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Repeat button is hidden while the Queue is empty.
+         */
+        function test_hide_the_repeat_button_while_the_queue_is_empty() {
+            nowPlayingViewTest.showTrack(Renderer.Playing);
+            nowPlayingView.hasQueue = false;
+            nowPlayingViewTest.compare(nowPlayingViewTest.child("repeatButton").visible, false);
         }
     }
 }

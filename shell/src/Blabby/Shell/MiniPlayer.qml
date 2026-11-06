@@ -15,7 +15,8 @@ import Blabby.Theme
  * The previous, Play/Pause and next buttons in the middle follow the rules of the Playing screen: Play/Pause pauses,
  * or stops a Renderer that can't pause, and resumes or plays, it shows a busy ring while the Renderer is transitioning;
  * previous and next are disabled when unavailable and hidden while the Queue is empty. Without media all of them are
- * disabled.
+ * disabled. A Repeat button after next looks and behaves like the one of the Playing screen, it's hidden below the
+ * narrow breakpoint.
  * Between the transport and the pill a Mute button mutes and unmutes and a Volume slider without a number changes the
  * Volume in the range of the Renderer while dragging, it's dimmed while muted. Each of them is hidden when the Active
  * Renderer doesn't offer it, both are hidden without an Active Renderer; without media they are kept, as on the Playing
@@ -119,9 +120,20 @@ Item {
     property bool hasNext: false
 
     /**
+     * The Repeat of the Queue, a value of Queue.Repeat.
+     */
+    property int repeat: Queue.Off
+
+    /**
      * True while the Active Renderer is Playing.
      */
     readonly property bool playing: miniPlayer.playbackState === Renderer.Playing
+
+    /**
+     * True below the width breakpoint of narrow screens, e.g. 800×480, where the mini player hides what doesn't fit.
+     * The full row fits from the width the mini player has in a window of 1280 px.
+     */
+    readonly property bool narrow: miniPlayer.width < 960
 
     /**
      * True while the Current Track is shown, i.e. the Active Renderer has media.
@@ -148,6 +160,11 @@ Item {
      * This signal is emitted when the user asks to play the next entry of the Queue.
      */
     signal nextRequested
+
+    /**
+     * This signal is emitted when the user asks for the next Repeat of the Queue: Off, All, One and Off again.
+     */
+    signal cycleRepeatRequested
 
     /**
      * This signal is emitted while the user changes the Volume.
@@ -299,6 +316,15 @@ Item {
             visible: miniPlayer.hasQueue
             enabled: miniPlayer.showsTrack && miniPlayer.hasNext
             onClicked: miniPlayer.nextRequested()
+        }
+        IconButton {
+            id: repeatButton
+            objectName: "repeatButton"
+            anchors.verticalCenter: transportControls.verticalCenter
+            iconSource: miniPlayer.repeat === Queue.One ? "qrc:/qt/qml/Blabby/Shell/icons/material/repeat_one.svg" : "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg"
+            checked: miniPlayer.repeat !== Queue.Off
+            visible: miniPlayer.hasQueue && !miniPlayer.narrow
+            onClicked: miniPlayer.cycleRepeatRequested()
         }
     }
 

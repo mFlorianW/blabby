@@ -23,6 +23,7 @@ namespace Multimedia
  * Current Entry (ADR 0003): the Renderer reports Stopped while its Current Track is the Current Entry, matched by URI,
  * and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on
  * the device, a stream without a duration, or the end of what another controller played.
+ * How it advances depends on its Repeat, which belongs to the Queue and is never sent to the Renderer as a play mode.
  */
 class BLABBYMULTIMEDIA_EXPORT Queue : public QObject
 {
@@ -43,6 +44,26 @@ public:
         Running,
     };
     Q_ENUM(State)
+
+    /**
+     * How the Queue continues after its Current Entry finished. Repeat belongs to the Queue, not to a Renderer.
+     */
+    enum class Repeat
+    {
+        /**
+         * The Queue plays the following entry and becomes Idle after the last entry.
+         */
+        Off,
+        /**
+         * The Queue plays the following entry and starts over with the first entry after the last entry.
+         */
+        All,
+        /**
+         * The Queue plays the Current Entry again.
+         */
+        One,
+    };
+    Q_ENUM(Repeat)
 
     /**
      * What a Queue was at one moment, to give it back to @ref Multimedia::Queue::restore, e.g. to undo a remove.
@@ -128,6 +149,19 @@ public:
     bool playsCurrentEntry() const noexcept;
 
     /**
+     * Gives the Repeat of the Queue.
+     * @return The Repeat, Off at start.
+     */
+    Queue::Repeat repeat() const noexcept;
+
+    /**
+     * Sets how the Queue continues after its Current Entry finished. The Repeat is kept when the entries are replaced
+     * or restored and on a Hand Over.
+     * @param repeat The Repeat.
+     */
+    void setRepeat(Queue::Repeat repeat) noexcept;
+
+    /**
      * Replaces the entries with the Playables and plays the start entry on the Active Renderer, the Queue is Running.
      * Without an Active Renderer the start entry becomes the Current Entry and the Queue is Idle.
      * An empty list of Playables empties the Queue, it's Idle then.
@@ -206,7 +240,7 @@ public:
 
     /**
      * Gives whether there is an entry after the Current Entry.
-     * @return True when next does something, i.e. the Current Entry isn't the last entry.
+     * @return True when next does something, i.e. the Current Entry isn't the last entry or the Repeat is All.
      */
     bool hasNext() const noexcept;
 
@@ -221,8 +255,8 @@ public:
     void previous() noexcept;
 
     /**
-     * Plays the entry after the Current Entry from its start, like @ref Multimedia::Queue::play.
-     * Nothing happens on the last entry.
+     * Plays the entry after the Current Entry from its start, like @ref Multimedia::Queue::play, also with the Repeat
+     * One. On the last entry the first entry plays with the Repeat All, nothing happens otherwise.
      */
     void next() noexcept;
 
@@ -347,6 +381,11 @@ Q_SIGNALS:
     void playsCurrentEntryChanged();
 
     /**
+     * This signal is emitted when the Repeat changed, next may have become available or unavailable with it.
+     */
+    void repeatChanged();
+
+    /**
      * This signal is emitted when a collection of a Container started or ended.
      */
     void collectingChanged();
@@ -380,6 +419,7 @@ private:
     bool takePage() noexcept;
     void endCollection() noexcept;
 
+    std::optional<qsizetype> nextIndex() const noexcept;
     bool isInControl() const noexcept;
     bool isRendererOnCurrentEntry() const noexcept;
     void onRendererStateChanged() noexcept;
@@ -405,6 +445,7 @@ private:
     std::optional<std::chrono::milliseconds> mLastKnownDuration;
     Queue::State mState = Queue::State::Idle;
     bool mPlaysCurrentEntry = false;
+    Queue::Repeat mRepeat = Queue::Repeat::Off;
     std::unique_ptr<Collection> mCollection;
     bool mHandOverPending = false;
     std::optional<std::chrono::milliseconds> mPendingSeek;

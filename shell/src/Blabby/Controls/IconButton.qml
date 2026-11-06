@@ -10,7 +10,8 @@ import Blabby.Theme
 
 /**
  * A round button that only shows an icon, in the standard or the tonal variant.
- * A disabled icon button (enabled: false) is dimmed and emits no clicked signal.
+ * A disabled icon button (enabled: false) is dimmed and emits no clicked signal. A checked icon button is highlighted
+ * in the primary container in both variants, e.g. while the setting it toggles is on.
  */
 Item {
     id: iconButton
@@ -40,6 +41,11 @@ Item {
     property url iconSource
 
     /**
+     * True while the icon button is highlighted, false by default.
+     */
+    property bool checked: false
+
+    /**
      * The diameter of the round container, the touch target is at least 8 px larger.
      */
     property real containerSize: 40
@@ -47,7 +53,7 @@ Item {
     /**
      * The colour of the icon, depending on the variant.
      */
-    readonly property color contentColor: iconButton.variant === IconButton.Tonal ? Theme.colors.colorOnSecondaryContainer : Theme.colors.colorOnSurfaceVariant
+    readonly property color contentColor: iconButton.checked ? Theme.colors.colorOnPrimaryContainer : iconButton.variant === IconButton.Tonal ? Theme.colors.colorOnSecondaryContainer : Theme.colors.colorOnSurfaceVariant
 
     /**
      * This signal is emitted when the icon button is clicked.
@@ -66,7 +72,7 @@ Item {
         width: iconButton.containerSize
         height: iconButton.containerSize
         radius: container.width / 2
-        color: iconButton.variant === IconButton.Tonal ? Theme.colors.secondaryContainer : "transparent"
+        color: iconButton.checked ? Theme.colors.primaryContainer : iconButton.variant === IconButton.Tonal ? Theme.colors.secondaryContainer : "transparent"
     }
 
     Rectangle {
