@@ -34,7 +34,7 @@ AbstractInteractiveControl {
     readonly property color contentColor: railItem.active ? Theme.colors.colorOnSecondaryContainer : Theme.colors.colorOnSurfaceVariant
 
     implicitWidth: 80
-    implicitHeight: 56
+    implicitHeight: 64
 
     Rectangle {
         id: pill
@@ -43,6 +43,7 @@ AbstractInteractiveControl {
         height: 32
         radius: pill.height / 2
         anchors.top: railItem.top
+        anchors.topMargin: 6
         anchors.horizontalCenter: railItem.horizontalCenter
         color: Theme.colors.secondaryContainer
         visible: railItem.active
@@ -76,5 +77,6 @@ AbstractInteractiveControl {
         text: railItem.text
         color: railItem.active ? Theme.colors.colorOnSurface : Theme.colors.colorOnSurfaceVariant
         textStyle: Theme.fonts.labelMedium
+        font.weight: railItem.active ? Font.Bold : Theme.fonts.labelMedium.weight
     }
 }

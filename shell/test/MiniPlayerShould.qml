@@ -11,7 +11,7 @@ import Blabby.Theme
 Item {
     id: root
     // The window width of 1280 px minus the navigation rail.
-    width: 1200
+    width: 1184
     // High enough for the Renderer menu to open upwards above the mini player.
     height: 480
 

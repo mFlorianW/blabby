@@ -70,7 +70,8 @@ Rectangle {
             },
             {
                 "text": qsTr("Settings"),
-                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/settings.svg"
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/settings.svg",
+                "atBottom": true
             }
         ]
         onActivated: shell.returnDestination = -1

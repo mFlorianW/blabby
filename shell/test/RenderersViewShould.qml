@@ -11,7 +11,7 @@ import Blabby.Shell
 Item {
     id: root
     // The window width of 1280 px minus the navigation rail.
-    width: 1200
+    width: 1184
     height: 1280
 
     ListModel {
@@ -134,12 +134,12 @@ Item {
             return [
                 {
                     tag: "800px window",
-                    width: 720,
+                    width: 704,
                     columns: 2
                 },
                 {
                     tag: "1280px window",
-                    width: 1200,
+                    width: 1184,
                     columns: 3
                 }
             ];

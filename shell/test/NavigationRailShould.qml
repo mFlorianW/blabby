@@ -22,6 +22,11 @@ Item {
             {
                 "text": "Sources",
                 "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
+            },
+            {
+                "text": "Settings",
+                "iconSource": "qrc:/qt/qml/Blabby/Shell/icons/material/settings.svg",
+                "atBottom": true
             }
         ]
     }
@@ -60,6 +65,26 @@ Item {
             railTest.compare(railTest.findChild(rail, "railItem1").active, true);
             railTest.compare(activatedSpy.count, 1);
             railTest.compare(activatedSpy.signalArguments[0][0], 1);
+        }
+
+        /**
+         * Tests that an entry marked atBottom sits at the bottom edge of the rail, below the other entries.
+         */
+        function test_place_an_entry_marked_at_bottom_at_the_bottom_edge() {
+            const settings = railTest.findChild(rail, "railItem2");
+            const settingsBottom = settings.mapToItem(rail, 0, settings.height).y;
+            railTest.compare(settingsBottom, rail.height - 24);
+            const sources = railTest.findChild(rail, "railItem1");
+            railTest.verify(sources.mapToItem(rail, 0, sources.height).y < settings.mapToItem(rail, 0, 0).y - 12);
+        }
+
+        /**
+         * Tests that an entry marked atBottom keeps its index in the model.
+         */
+        function test_activate_an_entry_marked_at_bottom_by_its_model_index() {
+            railTest.mouseClick(railTest.findChild(rail, "railItem2"));
+            railTest.compare(rail.currentIndex, 2);
+            railTest.compare(activatedSpy.signalArguments[0][0], 2);
         }
     }
 }
