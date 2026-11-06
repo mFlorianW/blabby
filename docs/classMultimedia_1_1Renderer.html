@@ -1224,7 +1224,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Starts the playback of the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. First checks that both <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> and <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> are compatible Afterwards it calls the setAvTransportUri on the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. The signal <a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">Multimedia::Renderer::playbackFailed</a> with the error information is emitted on failure. </p>
+<p>Starts the playback of the passed <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>. First checks that both <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> and <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> are compatible Afterwards it calls the setAvTransportUri on the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. The signal <a class="el" href="classMultimedia_1_1Renderer.html#ad4fedace5a1c9aaec7f39c47bafd310b">Multimedia::Renderer::playbackFailed</a> with the error information is emitted on failure. A playback replaces the previous one, a failure of the previous one isn't emitted anymore. </p>
 
 </div>
 </div>

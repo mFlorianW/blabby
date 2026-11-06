@@ -8,13 +8,14 @@ var searchData=
   ['entriesreplaced_5',['entriesReplaced',['../classMultimedia_1_1Queue.html#a5504a50a7bba840c35661f1e52f38f6d',1,'Multimedia::Queue']]],
   ['entryabouttobemoved_6',['entryAboutToBeMoved',['../classMultimedia_1_1Queue.html#ae34e6dd5fee6a714bfdde600651cff50',1,'Multimedia::Queue']]],
   ['entryabouttoberemoved_7',['entryAboutToBeRemoved',['../classMultimedia_1_1Queue.html#a4e458479f92fd0907b752cb8c9dacd97',1,'Multimedia::Queue']]],
-  ['entrymoved_8',['entryMoved',['../classMultimedia_1_1Queue.html#a06b0befed8152189b183f54060f1c2dc',1,'Multimedia::Queue']]],
-  ['entryremoved_9',['entryRemoved',['../classMultimedia_1_1Queue.html#a894d81ea3fca5490f90b94fe574982bd',1,'Multimedia::Queue']]],
-  ['error_10',['error',['../classUPnPAV_1_1IServiceProvider.html#afe6c13ea37d40b443b0822f1b3ed9b0e',1,'UPnPAV::IServiceProvider']]],
-  ['errorcode_11',['errorCode',['../classUPnPAV_1_1PendingSoapCall.html#ab78b46f84f4bd3ca0c49c6d90ddd29e0',1,'UPnPAV::PendingSoapCall']]],
-  ['errordescription_12',['errorDescription',['../classUPnPAV_1_1PendingSoapCall.html#aa111fb4c497a99b6db275b08b1b247ea',1,'UPnPAV::PendingSoapCall']]],
-  ['errormessage_13',['errorMessage',['../classUPnPAV_1_1BaseValidator.html#acaf2f24b3fb4f26293d5ed31c2f9aa1d',1,'UPnPAV::BaseValidator']]],
-  ['eventbackend_14',['EventBackend',['../classUPnPAV_1_1EventBackend.html#a1f0388be1e78f8e69602845c8f547212',1,'UPnPAV::EventBackend']]],
-  ['eventpropertyreader_15',['EventPropertyReader',['../classUPnPAV_1_1EventPropertyReader.html#abfb58f30299d4bf76d4a78b00052a9af',1,'UPnPAV::EventPropertyReader']]],
-  ['eventsubscriptionhandle_16',['EventSubscriptionHandle',['../classUPnPAV_1_1EventSubscriptionHandle.html#a204a1ba7492b7e080118c9ccd299c1a5',1,'UPnPAV::EventSubscriptionHandle']]]
+  ['entryfailed_8',['entryfailed',['../classShell_1_1QueueModel.html#a843aeef45dbdb08709d1cbc3dc9ae548',1,'Shell::QueueModel::entryFailed()'],['../classMultimedia_1_1Queue.html#a311cce477254711b014c0c7fff2828be',1,'Multimedia::Queue::entryFailed(Multimedia::Item const &amp;entry)']]],
+  ['entrymoved_9',['entryMoved',['../classMultimedia_1_1Queue.html#a06b0befed8152189b183f54060f1c2dc',1,'Multimedia::Queue']]],
+  ['entryremoved_10',['entryRemoved',['../classMultimedia_1_1Queue.html#a894d81ea3fca5490f90b94fe574982bd',1,'Multimedia::Queue']]],
+  ['error_11',['error',['../classUPnPAV_1_1IServiceProvider.html#afe6c13ea37d40b443b0822f1b3ed9b0e',1,'UPnPAV::IServiceProvider']]],
+  ['errorcode_12',['errorCode',['../classUPnPAV_1_1PendingSoapCall.html#ab78b46f84f4bd3ca0c49c6d90ddd29e0',1,'UPnPAV::PendingSoapCall']]],
+  ['errordescription_13',['errorDescription',['../classUPnPAV_1_1PendingSoapCall.html#aa111fb4c497a99b6db275b08b1b247ea',1,'UPnPAV::PendingSoapCall']]],
+  ['errormessage_14',['errorMessage',['../classUPnPAV_1_1BaseValidator.html#acaf2f24b3fb4f26293d5ed31c2f9aa1d',1,'UPnPAV::BaseValidator']]],
+  ['eventbackend_15',['EventBackend',['../classUPnPAV_1_1EventBackend.html#a1f0388be1e78f8e69602845c8f547212',1,'UPnPAV::EventBackend']]],
+  ['eventpropertyreader_16',['EventPropertyReader',['../classUPnPAV_1_1EventPropertyReader.html#abfb58f30299d4bf76d4a78b00052a9af',1,'UPnPAV::EventPropertyReader']]],
+  ['eventsubscriptionhandle_17',['EventSubscriptionHandle',['../classUPnPAV_1_1EventSubscriptionHandle.html#a204a1ba7492b7e080118c9ccd299c1a5',1,'UPnPAV::EventSubscriptionHandle']]]
 ];

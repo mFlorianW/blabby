@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"classUPnPAV_1_1GetPositionInfoResponse.html#aa7a22290cb0bbb28203377a733a7935c":[7,0,4,26,2],
+"classUPnPAV_1_1GetPositionInfoResponse.html#ab7227210e96dcdff465a7b2ed3ef40b5":[7,0,4,26,0],
+"classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813":[7,0,4,26,8],
+"classUPnPAV_1_1GetPositionInfoResponse.html#aee42af484388994725ea2f1af15189fe":[7,0,4,26,1],
 "classUPnPAV_1_1GetProtocolInfoResponse.html":[7,0,4,28],
 "classUPnPAV_1_1GetTransportInfoResponse.html":[7,0,4,29],
 "classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928f":[7,0,4,29,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "classUPnPAV_1_1ScpdStateVariableValidator.html":[7,0,4,70],
 "classUPnPAV_1_1ScpdStateVariableValidator.html#a8573a46ffd02ff09e63099e72fdccd7a":[7,0,4,70,1],
 "classUPnPAV_1_1ScpdStateVariableValidator.html#aef3b791a87f5e5e03d45e1c7bc1e4ad8":[7,0,4,70,0],
-"classUPnPAV_1_1ServiceControlPointDefinition.html":[7,0,4,71],
-"classUPnPAV_1_1ServiceControlPointDefinitionParser.html":[7,0,4,73],
-"classUPnPAV_1_1ServiceDescription.html":[7,0,4,74],
-"classUPnPAV_1_1ServiceDescriptionValidator.html":[7,0,4,76],
-"classUPnPAV_1_1ServiceDescriptionValidator.html#a3c1e10ee6ad07ad31443a824661fa408":[7,0,4,76,0]
+"classUPnPAV_1_1ServiceControlPointDefinition.html":[7,0,4,71]
 };

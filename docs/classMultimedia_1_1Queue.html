@@ -182,6 +182,10 @@ Signals</h2></td></tr>
 <tr class="separator:a4a132ec7057fd8a8cb08e8a9a8cd3d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accce701c4816b64b10410bc71ac1cc15" id="r_accce701c4816b64b10410bc71ac1cc15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#accce701c4816b64b10410bc71ac1cc15">collectionFailed</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;container)</td></tr>
 <tr class="separator:accce701c4816b64b10410bc71ac1cc15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a311cce477254711b014c0c7fff2828be" id="r_a311cce477254711b014c0c7fff2828be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a311cce477254711b014c0c7fff2828be">entryFailed</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;entry)</td></tr>
+<tr class="separator:a311cce477254711b014c0c7fff2828be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aede93bbca8763ea5b44043370ad5793b" id="r_aede93bbca8763ea5b44043370ad5793b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#aede93bbca8763ea5b44043370ad5793b">queueFailed</a> (QString const &amp;rendererName)</td></tr>
+<tr class="separator:aede93bbca8763ea5b44043370ad5793b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -256,7 +260,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is the ordered list of Playables that Blabby plays one after another on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. It belongs to Blabby, not to a <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, and lives in memory only.</p>
-<p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> sends one entry at a time to the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> and advances itself when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> finished the Current Entry (ADR 0003): the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> reports Stopped while its Current Track is the Current Entry, matched by URI, and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on the device, a stream without a duration, or the end of what another controller played. How it advances depends on its Repeat and its Shuffle, which belong to the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> and are never sent to the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> as a play mode. While shuffled the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> plays its entries in a random play order, the listed order of the entries never changes with it. </p>
+<p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> sends one entry at a time to the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> and advances itself when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> finished the Current Entry (ADR 0003): the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> reports Stopped while its Current Track is the Current Entry, matched by URI, and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on the device, a stream without a duration, or the end of what another controller played. How it advances depends on its Repeat and its Shuffle, which belong to the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> and are never sent to the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> as a play mode. While shuffled the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> plays its entries in a random play order, the listed order of the entries never changes with it. An entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> fails to play for the Running <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>, e.g. because it rejects the entry, is skipped: the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> tells so and plays the following entry, also with the Repeat One, the failed entry stays in the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>. After three failed entries in a row the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> tells that it failed and becomes Idle. The <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> playing the Current Entry and every playback the user starts count the failed entries from zero again. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="ac2610d4055a3b2ebfe8ce67d94cd571f" name="ac2610d4055a3b2ebfe8ce67d94cd571f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2610d4055a3b2ebfe8ce67d94cd571f">&#9670;&#160;</a></span>RandomSource</h2>
@@ -949,6 +953,38 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a311cce477254711b014c0c7fff2828be" name="a311cce477254711b014c0c7fff2828be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a311cce477254711b014c0c7fff2828be">&#9670;&#160;</a></span>entryFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Queue::entryFailed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;&#160;</td>
+          <td class="paramname"><em>entry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> failed to play an entry for the Running <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>, the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> plays the following entry, or becomes Idle without one. Not emitted for the failure that makes the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> fail, see <a class="el" href="classMultimedia_1_1Queue.html#aede93bbca8763ea5b44043370ad5793b">Multimedia::Queue::queueFailed</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entry</td><td>The entry that couldn't be played, it stays in the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a06b0befed8152189b183f54060f1c2dc" name="a06b0befed8152189b183f54060f1c2dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06b0befed8152189b183f54060f1c2dc">&#9670;&#160;</a></span>entryMoved</h2>
 
@@ -1409,6 +1445,38 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
 </table>
 </div><div class="memdoc">
 <p>Restarts the Current Entry when it played for more than 3 seconds and plays the preceding entry from its start otherwise, the first entry is always restarted. While shuffled the preceding and the first entry are those of the play order. The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running afterwards, also when it was Idle or another controller took over the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. A Current Entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> plays for the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is restarted by a seek to its start, it's loaded again when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> can't seek or doesn't play it. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the entry only becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p>
+
+</div>
+</div>
+<a id="aede93bbca8763ea5b44043370ad5793b" name="aede93bbca8763ea5b44043370ad5793b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aede93bbca8763ea5b44043370ad5793b">&#9670;&#160;</a></span>queueFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Queue::queueFailed </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>rendererName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> failed to play three entries in a row, the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rendererName</td><td>The name of the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
