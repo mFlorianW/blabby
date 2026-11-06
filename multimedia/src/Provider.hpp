@@ -9,6 +9,7 @@
 #include "Source.hpp"
 #include "blabbymultimedia_export.h"
 #include <QObject>
+#include <QVariant>
 
 namespace Multimedia
 {
@@ -33,6 +34,49 @@ struct BLABBYMULTIMEDIA_EXPORT ProviderVersion
     QString toString() const noexcept;
 
     BLABBYMULTIMEDIA_EXPORT friend auto operator<=>(ProviderVersion const&, ProviderVersion const&) = default;
+};
+
+/**
+ * A setting a Provider describes, the shell shows it on the Settings screen with its own controls, keeps its value and
+ * passes changes to the Provider.
+ */
+struct BLABBYMULTIMEDIA_EXPORT ProviderSetting
+{
+    /**
+     * The kind of a setting, it decides which control shows it.
+     */
+    enum class Kind
+    {
+        Switch, ///< A boolean value, shown as a switch.
+        Action, ///< A button without a value, a tap is passed to the Provider.
+    };
+
+    /**
+     * The stable key of the setting, the shell stores the value under it.
+     */
+    QString key;
+
+    /**
+     * The translated title of the setting.
+     */
+    QString title;
+
+    /**
+     * A translated short description shown below the title, empty when the setting has none.
+     */
+    QString subtitle;
+
+    /**
+     * The kind of the setting.
+     */
+    Kind kind = Kind::Switch;
+
+    /**
+     * The value of a switch while it isn't stored, unused for an action.
+     */
+    bool defaultValue = false;
+
+    BLABBYMULTIMEDIA_EXPORT friend bool operator==(ProviderSetting const&, ProviderSetting const&) = default;
 };
 
 /**
@@ -86,6 +130,50 @@ public:
      * @return A list with all media sources.
      */
     virtual MediaSources sources() const noexcept;
+
+    /**
+     * Gives the translated title the shell shows for the Provider, e.g. as the title of its Settings section.
+     *
+     * @note
+     * The default implementation returns an empty string, the shell shows @ref Provider::name() then.
+     *
+     * @return The translated title or an empty string.
+     */
+    virtual QString displayTitle() const noexcept;
+
+    /**
+     * Gives the settings of the Provider in the order the shell shows them.
+     * The Provider never reads or writes their values itself, the shell keeps them and passes them with
+     * @ref Provider::setSettingValue() and the taps on an action with @ref Provider::triggerAction().
+     *
+     * @note
+     * The default implementation returns an empty list, the Provider has no settings.
+     *
+     * @return The settings of the Provider.
+     */
+    virtual QList<ProviderSetting> settings() const noexcept;
+
+    /**
+     * Applies the value of a setting. The shell calls it at start for each switch with its stored value, or its default
+     * when none is stored, and whenever the user changes it.
+     *
+     * @note
+     * The default implementation does nothing.
+     *
+     * @param key The key of the setting.
+     * @param value The value of the setting.
+     */
+    virtual void setSettingValue(QString const& key, QVariant const& value) noexcept;
+
+    /**
+     * Performs the action setting the user tapped.
+     *
+     * @note
+     * The default implementation does nothing.
+     *
+     * @param key The key of the action setting.
+     */
+    virtual void triggerAction(QString const& key) noexcept;
 
 Q_SIGNALS:
     /**

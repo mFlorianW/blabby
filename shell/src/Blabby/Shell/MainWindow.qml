@@ -210,6 +210,7 @@ Rectangle {
             rows: Singleton.settingsModel.rows
             onSectionPicked: index => Singleton.settingsModel.pickSection(index)
             onSwitchToggled: (index, checked) => Singleton.settingsModel.setChecked(index, checked)
+            onActionTriggered: index => Singleton.settingsModel.triggerAction(index)
         }
     }
 

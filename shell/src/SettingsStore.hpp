@@ -32,7 +32,8 @@ constexpr auto lastRenderer = QLatin1StringView{"lastRenderer"};
 } // namespace SettingsKey
 
 /**
- * Keeps the shell's settings across restarts of Blabby.
+ * Keeps the shell's settings and the values of the Providers' settings across restarts of Blabby.
+ * The values of each Provider are kept apart from the shell's settings and from the other Providers' by its name().
  */
 class SettingsStore
 {
@@ -72,6 +73,25 @@ public:
      * @param key The key of the setting.
      */
     virtual void remove(QString const& key) = 0;
+
+    /**
+     * Gives the stored value of a setting of the Provider.
+     * @param provider The name() of the Provider.
+     * @param key The key of the setting.
+     * @param defaultValue The value that is given when the setting isn't stored.
+     * @return The stored value or the default value.
+     */
+    virtual QVariant providerValue(QString const& provider,
+                                   QString const& key,
+                                   QVariant const& defaultValue = {}) const = 0;
+
+    /**
+     * Stores the value of a setting of the Provider, it replaces the stored value.
+     * @param provider The name() of the Provider.
+     * @param key The key of the setting.
+     * @param value The value to store.
+     */
+    virtual void setProviderValue(QString const& provider, QString const& key, QVariant const& value) = 0;
 };
 
 } // namespace Shell

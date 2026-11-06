@@ -6,6 +6,7 @@
 
 #include "SettingsRowKind.hpp"
 #include "SettingsStore.hpp"
+#include <Provider.hpp>
 #include <QAbstractListModel>
 #include <memory>
 
@@ -37,7 +38,7 @@ struct SettingsRow
     SettingsRowKind::Kind kind = SettingsRowKind::Info;
 
     /**
-     * The key of the setting a switch turns on or off in the @ref Shell::SettingsStore, empty for an info row.
+     * The key of the setting a switch turns on or off or of the action, empty for an info row.
      */
     QString key = {};
 
@@ -45,6 +46,12 @@ struct SettingsRow
      * Whether the switch is on while the setting isn't stored.
      */
     bool defaultChecked = false;
+
+    /**
+     * The Provider that describes the setting, nullptr for a setting of the shell or an info row.
+     * Its switches are stored apart by its name() and their changes are passed to it.
+     */
+    std::shared_ptr<Multimedia::Provider> provider = {};
 
     friend bool operator==(SettingsRow const&, SettingsRow const&) = default;
 };
@@ -110,13 +117,22 @@ public:
     void setRows(QList<SettingsRow> rows);
 
     /**
-     * Turns the switch of the row on or off and stores the new value. A row that is no switch changes nothing.
+     * Turns the switch of the row on or off and stores the new value, the switch of a Provider passes it to the
+     * Provider as well. A row that is no switch changes nothing.
      * @param row The index of the row.
      * @param checked True to turn the switch on, false to turn it off.
      */
     void setChecked(int row, bool checked);
 
+    /**
+     * Passes the tap on the action of the row to its Provider. A row that is no action changes nothing.
+     * @param row The index of the row.
+     */
+    void triggerAction(int row);
+
 private:
+    QVariant storedValue(SettingsRow const& row) const;
+
     std::shared_ptr<SettingsStore> mSettings;
     QList<SettingsRow> mRows;
 };

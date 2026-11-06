@@ -30,8 +30,15 @@ private Q_SLOTS:
     void ignore_toggling_a_row_that_is_no_switch();
     void show_the_blabby_version_and_the_qt_version_in_about();
     void show_each_loaded_provider_with_its_version_in_about();
+    void show_the_display_title_of_a_provider_in_about();
     void ignore_picking_an_invalid_section();
     void ignore_picking_the_picked_section_again();
+    void pass_each_provider_its_stored_values_or_the_defaults_at_start();
+    void list_a_section_for_each_provider_with_settings_ordered_by_title_between_renderers_and_about();
+    void show_the_settings_of_a_provider_in_its_section();
+    void store_a_toggled_provider_switch_and_pass_it_to_the_provider();
+    void pass_a_tapped_action_to_the_provider();
+    void ignore_triggering_a_row_that_is_no_action();
 
 private:
     std::shared_ptr<InMemorySettingsStore> mSettings;

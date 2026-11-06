@@ -19,8 +19,30 @@ Item {
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg"
         }
         ListElement {
+            title: "Media servers"
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
+        }
+        ListElement {
             title: "About"
             iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/info.svg"
+        }
+    }
+
+    ListModel {
+        id: providerRows
+        ListElement {
+            title: "Discover automatically"
+            subtitle: "Search the network on start"
+            value: ""
+            kind: SettingsRowKind.Switch
+            checked: false
+        }
+        ListElement {
+            title: "Rescan network"
+            subtitle: "Search for media servers again"
+            value: ""
+            kind: SettingsRowKind.Action
+            checked: false
         }
     }
 
@@ -64,9 +86,9 @@ Item {
         id: settingsView
         anchors.fill: root
         sections: sections
-        rows: settingsView.currentSection === 0 ? rendererRows : aboutRows
+        rows: [rendererRows, providerRows, aboutRows][settingsView.currentSection]
         onSectionPicked: index => settingsView.currentSection = index
-        onSwitchToggled: (index, checked) => rendererRows.setProperty(index, "checked", checked)
+        onSwitchToggled: (index, checked) => settingsView.rows.setProperty(index, "checked", checked)
     }
 
     TestCase {
@@ -86,11 +108,19 @@ Item {
             signalName: "switchToggled"
         }
 
+        SignalSpy {
+            id: actionTriggeredSpy
+            target: settingsView
+            signalName: "actionTriggered"
+        }
+
         function init() {
-            settingsView.currentSection = 1;
+            settingsView.currentSection = 2;
             rendererRows.setProperty(0, "checked", true);
+            providerRows.setProperty(0, "checked", false);
             sectionPickedSpy.clear();
             switchToggledSpy.clear();
+            actionTriggeredSpy.clear();
         }
 
         /**
@@ -107,10 +137,13 @@ Item {
          */
         function test_list_the_sections_in_order() {
             const renderers = settingsViewTest.child("section0");
-            const about = settingsViewTest.child("section1");
+            const mediaServers = settingsViewTest.child("section1");
+            const about = settingsViewTest.child("section2");
             settingsViewTest.compare(renderers.title, "Renderers");
+            settingsViewTest.compare(mediaServers.title, "Media servers");
             settingsViewTest.compare(about.title, "About");
-            settingsViewTest.verify(renderers.mapToItem(settingsView, 0, 0).y < about.mapToItem(settingsView, 0, 0).y);
+            settingsViewTest.verify(renderers.mapToItem(settingsView, 0, 0).y < mediaServers.mapToItem(settingsView, 0, 0).y);
+            settingsViewTest.verify(mediaServers.mapToItem(settingsView, 0, 0).y < about.mapToItem(settingsView, 0, 0).y);
         }
 
         /**
@@ -118,7 +151,8 @@ Item {
          */
         function test_highlight_the_picked_section() {
             settingsViewTest.compare(settingsViewTest.child("section0").picked, false);
-            settingsViewTest.compare(settingsViewTest.child("section1").picked, true);
+            settingsViewTest.compare(settingsViewTest.child("section1").picked, false);
+            settingsViewTest.compare(settingsViewTest.child("section2").picked, true);
             settingsViewTest.compare(settingsViewTest.child("sectionTitle").text, "About");
         }
 
@@ -141,7 +175,7 @@ Item {
             settingsViewTest.compare(sectionPickedSpy.count, 1);
             settingsViewTest.compare(sectionPickedSpy.signalArguments[0][0], 0);
             settingsViewTest.compare(settingsViewTest.child("section0").picked, true);
-            settingsViewTest.compare(settingsViewTest.child("section1").picked, false);
+            settingsViewTest.compare(settingsViewTest.child("section2").picked, false);
             settingsViewTest.compare(settingsViewTest.child("sectionTitle").text, "Renderers");
         }
 
@@ -166,6 +200,7 @@ Item {
             const row = settingsViewTest.child("row0");
             settingsViewTest.compare(settingsViewTest.findChild(row, "valueText").visible, true);
             settingsViewTest.compare(settingsViewTest.findChild(row, "switchRow").visible, false);
+            settingsViewTest.compare(settingsViewTest.findChild(row, "actionRow").visible, false);
         }
 
         /**
@@ -198,6 +233,55 @@ Item {
             settingsViewTest.compare(switchToggledSpy.count, 2);
             settingsViewTest.compare(switchToggledSpy.signalArguments[1][1], true);
             settingsViewTest.compare(switchRow.checked, true);
+        }
+
+        /**
+         * Tests that a Provider section shows its switch and its action by kind, each with its title and subtitle.
+         */
+        function test_show_the_switch_and_the_action_of_a_provider_section() {
+            settingsView.currentSection = 1;
+            settingsViewTest.compare(settingsViewTest.child("rowList").count, 2);
+
+            const switchItem = settingsViewTest.child("row0");
+            const switchRow = settingsViewTest.findChild(switchItem, "switchRow");
+            settingsViewTest.compare(switchRow.visible, true);
+            settingsViewTest.compare(switchRow.title, "Discover automatically");
+            settingsViewTest.compare(switchRow.checked, false);
+            settingsViewTest.compare(settingsViewTest.findChild(switchItem, "actionRow").visible, false);
+
+            const actionItem = settingsViewTest.child("row1");
+            const actionRow = settingsViewTest.findChild(actionItem, "actionRow");
+            settingsViewTest.compare(actionRow.visible, true);
+            settingsViewTest.compare(settingsViewTest.findChild(actionRow, "title").text, "Rescan network");
+            settingsViewTest.compare(settingsViewTest.findChild(actionRow, "subtitle").text, "Search for media servers again");
+            settingsViewTest.compare(settingsViewTest.findChild(actionRow, "actionButton").visible, true);
+            settingsViewTest.compare(settingsViewTest.findChild(actionItem, "switchRow").visible, false);
+            settingsViewTest.compare(settingsViewTest.findChild(actionItem, "valueText").visible, false);
+        }
+
+        /**
+         * Tests that tapping the switch of a Provider section emits switchToggled with its row and the new value.
+         */
+        function test_toggle_the_switch_of_a_provider_section() {
+            settingsView.currentSection = 1;
+            const switchRow = settingsViewTest.findChild(settingsViewTest.child("row0"), "switchRow");
+            settingsViewTest.mouseClick(switchRow);
+            settingsViewTest.compare(switchToggledSpy.count, 1);
+            settingsViewTest.compare(switchToggledSpy.signalArguments[0][0], 0);
+            settingsViewTest.compare(switchToggledSpy.signalArguments[0][1], true);
+            settingsViewTest.compare(switchRow.checked, true);
+        }
+
+        /**
+         * Tests that tapping the button of an action emits actionTriggered with its row.
+         */
+        function test_emit_actionTriggered_when_the_action_button_is_tapped() {
+            settingsView.currentSection = 1;
+            const actionButton = settingsViewTest.findChild(settingsViewTest.child("row1"), "actionButton");
+            settingsViewTest.mouseClick(actionButton);
+            settingsViewTest.compare(actionTriggeredSpy.count, 1);
+            settingsViewTest.compare(actionTriggeredSpy.signalArguments[0][0], 1);
+            settingsViewTest.compare(switchToggledSpy.count, 0);
         }
     }
 }

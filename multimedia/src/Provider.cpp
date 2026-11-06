@@ -1,6 +1,6 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -40,6 +40,27 @@ bool Provider::init() noexcept
 MediaSources Provider::sources() const noexcept
 {
     return {};
+}
+
+QString Provider::displayTitle() const noexcept
+{
+    return {};
+}
+
+QList<ProviderSetting> Provider::settings() const noexcept
+{
+    return {};
+}
+
+void Provider::setSettingValue(QString const& key, QVariant const& value) noexcept
+{
+    Q_UNUSED(key)
+    Q_UNUSED(value)
+}
+
+void Provider::triggerAction(QString const& key) noexcept
+{
+    Q_UNUSED(key)
 }
 
 } // namespace Multimedia

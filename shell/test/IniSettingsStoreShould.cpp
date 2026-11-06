@@ -126,6 +126,34 @@ void IniSettingsStoreShould::create_the_missing_directory_on_a_change()
     QCOMPARE(IniSettingsStore{path}.value(switchKey, true).toBool(), false);
 }
 
+void IniSettingsStoreShould::keep_the_values_of_providers_apart_by_name()
+{
+    auto store = IniSettingsStore{storePath()};
+
+    store.setValue(switchKey, true);
+    store.setProviderValue(QStringLiteral("MediaServer"), switchKey, false);
+    store.setProviderValue(QStringLiteral("UsbStick"), textKey, QStringLiteral("sda1"));
+
+    QCOMPARE(store.value(switchKey), QVariant{true});
+    QCOMPARE(store.providerValue(QStringLiteral("MediaServer"), switchKey), QVariant{false});
+    QCOMPARE(store.providerValue(QStringLiteral("MediaServer"), textKey, QStringLiteral("none")),
+             QVariant{QStringLiteral("none")});
+    QCOMPARE(store.providerValue(QStringLiteral("UsbStick"), switchKey, true), QVariant{true});
+    QCOMPARE(store.providerValue(QStringLiteral("UsbStick"), textKey), QVariant{QStringLiteral("sda1")});
+}
+
+void IniSettingsStoreShould::give_the_stored_provider_values_after_a_restart()
+{
+    {
+        auto store = IniSettingsStore{storePath()};
+        store.setProviderValue(QStringLiteral("MediaServer"), switchKey, false);
+    }
+
+    auto store = IniSettingsStore{storePath()};
+
+    QCOMPARE(store.providerValue(QStringLiteral("MediaServer"), switchKey, true).toBool(), false);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::IniSettingsStoreShould)

@@ -46,8 +46,21 @@ public:
      */
     void remove(QString const& key) override;
 
+    /**
+     * @copydoc Shell::SettingsStore::providerValue
+     */
+    QVariant providerValue(QString const& provider,
+                           QString const& key,
+                           QVariant const& defaultValue = {}) const override;
+
+    /**
+     * @copydoc Shell::SettingsStore::setProviderValue
+     */
+    void setProviderValue(QString const& provider, QString const& key, QVariant const& value) override;
+
 private:
     QVariantMap mSettings;
+    QHash<QString, QVariantMap> mProviderSettings;
 };
 
 } // namespace Shell

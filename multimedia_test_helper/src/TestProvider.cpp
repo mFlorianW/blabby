@@ -54,4 +54,44 @@ void TestProvider::setInitFails(bool initFails) noexcept
     mInitFails = initFails;
 }
 
+QString TestProvider::displayTitle() const noexcept
+{
+    return mDisplayTitle;
+}
+
+QList<Multimedia::ProviderSetting> TestProvider::settings() const noexcept
+{
+    return mSettings;
+}
+
+void TestProvider::setSettingValue(QString const& key, QVariant const& value) noexcept
+{
+    mPassedValues.append({key, value});
+}
+
+void TestProvider::triggerAction(QString const& key) noexcept
+{
+    mTriggeredActions.append(key);
+}
+
+void TestProvider::setDisplayTitle(QString displayTitle) noexcept
+{
+    mDisplayTitle = std::move(displayTitle);
+}
+
+void TestProvider::setSettings(QList<Multimedia::ProviderSetting> settings) noexcept
+{
+    mSettings = std::move(settings);
+}
+
+QList<std::pair<QString, QVariant>> const& TestProvider::passedValues() const noexcept
+{
+    return mPassedValues;
+}
+
+QStringList const& TestProvider::triggeredActions() const noexcept
+{
+    return mTriggeredActions;
+}
+
 } // namespace Multimedia::TestHelper

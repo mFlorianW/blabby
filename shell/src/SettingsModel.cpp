@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "SettingsModel.hpp"
+#include <algorithm>
 
 namespace Shell
 {
@@ -10,7 +11,7 @@ namespace Shell
 SettingsModel::SettingsModel(Multimedia::Providers providers,
                              QString blabbyVersion,
                              std::shared_ptr<SettingsStore> settings)
-    : mRows{std::move(settings)}
+    : mRows{settings}
 {
     mSections.append(
         Section{.title = tr("Renderers"),
@@ -24,6 +25,26 @@ SettingsModel::SettingsModel(Multimedia::Providers providers,
                                 .defaultChecked = SettingsKey::rememberLastRendererDefault},
                 }});
 
+    auto providerSections = QList<Section>{};
+    for (auto const& provider : std::as_const(providers)) {
+        auto section = providerSection(provider);
+        // The Provider gets the values of its switches at start, the stored ones or else the defaults.
+        for (auto const& row : std::as_const(section.rows)) {
+            if (row.kind == SettingsRowKind::Switch) {
+                provider->setSettingValue(
+                    row.key,
+                    settings->providerValue(provider->name(), row.key, row.defaultChecked).toBool());
+            }
+        }
+        if (not section.rows.isEmpty()) {
+            providerSections.append(std::move(section));
+        }
+    }
+    std::ranges::sort(providerSections, [](Section const& left, Section const& right) {
+        return QString::localeAwareCompare(left.title, right.title) < 0;
+    });
+    mSections.append(providerSections);
+
     auto about =
         Section{.title = tr("About"),
                 .iconSource = QUrl{QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/material/info.svg")},
@@ -32,7 +53,7 @@ SettingsModel::SettingsModel(Multimedia::Providers providers,
                     SettingsRow{.title = tr("Qt version"), .subtitle = {}, .value = QString::fromLatin1(qVersion())},
                 }};
     for (auto const& provider : std::as_const(providers)) {
-        about.rows.append(SettingsRow{.title = provider->name(),
+        about.rows.append(SettingsRow{.title = providerTitle(*provider),
                                       .subtitle = tr("Provider"),
                                       .value = provider->version().toString()});
     }
@@ -42,6 +63,31 @@ SettingsModel::SettingsModel(Multimedia::Providers providers,
 }
 
 SettingsModel::~SettingsModel() = default;
+
+SettingsModel::Section SettingsModel::providerSection(std::shared_ptr<Multimedia::Provider> const& provider)
+{
+    auto section = Section{.title = providerTitle(*provider),
+                           .iconSource = QUrl{QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg")},
+                           .rows = {}};
+    auto const settings = provider->settings();
+    for (auto const& setting : settings) {
+        auto const isSwitch = setting.kind == Multimedia::ProviderSetting::Kind::Switch;
+        section.rows.append(SettingsRow{.title = setting.title,
+                                        .subtitle = setting.subtitle,
+                                        .value = {},
+                                        .kind = isSwitch ? SettingsRowKind::Switch : SettingsRowKind::Action,
+                                        .key = setting.key,
+                                        .defaultChecked = isSwitch and setting.defaultValue,
+                                        .provider = provider});
+    }
+    return section;
+}
+
+QString SettingsModel::providerTitle(Multimedia::Provider const& provider)
+{
+    auto title = provider.displayTitle();
+    return title.isEmpty() ? provider.name() : title;
+}
 
 int SettingsModel::rowCount(QModelIndex const& parent) const noexcept
 {
@@ -100,6 +146,11 @@ void SettingsModel::pickSection(int index)
 void SettingsModel::setChecked(int row, bool checked)
 {
     mRows.setChecked(row, checked);
+}
+
+void SettingsModel::triggerAction(int row)
+{
+    mRows.triggerAction(row);
 }
 
 } // namespace Shell
