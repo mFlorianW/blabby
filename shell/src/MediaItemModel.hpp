@@ -47,6 +47,12 @@ class MediaItemModel : public QAbstractListModel
     Q_PROPERTY(QString containerTitle READ containerTitle NOTIFY containerChanged)
 
     /**
+     * This property holds the title of the parent of the current Container, the name of the Active Source when the
+     * parent is the root Container, and empty at the root Container.
+     */
+    Q_PROPERTY(QString parentContainerTitle READ parentContainerTitle NOTIFY containerChanged)
+
+    /**
      * This property is true while the current Container is the root Container of the Active Source.
      */
     Q_PROPERTY(bool atRoot READ isAtRoot NOTIFY containerChanged)
