@@ -35,6 +35,9 @@ jobs:
     env:
       CC: gcc-15
       CXX: g++-15
+      SCCACHE_GHA_ENABLED: "true"
+      CMAKE_C_COMPILER_LAUNCHER: sccache
+      CMAKE_CXX_COMPILER_LAUNCHER: sccache
     needs: [Generate_Build_Jobs]
     strategy:
       fail-fast: false
@@ -48,11 +51,13 @@ jobs:
         cache: 'true'
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install -y doxygen
+        sudo apt update && sudo apt install -y doxygen ninja-build
     - name: Checkout
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
+    - name: Set up sccache
+      uses: mozilla-actions/sccache-action@v0.0.11
     - name: Build and Install nodejs-llhttp
       uses: ./.github/actions/llhttp-build
     - name: Build
@@ -62,10 +67,13 @@ jobs:
         echo "###############################################################"
         git checkout ${{ matrix.commits }}
         cmake --preset github-ci-debug -DENABLE_WARNING_AS_ERROR=ON
-        cmake --build --preset github-ci-debug -- -j$(nproc)
+        cmake --build --preset github-ci-debug
         echo "###############################################################"
         echo "# Finished Build Commit ${{ matrix.commits }}"
         echo "###############################################################"
+    - name: sccache statistics
+      if: always()
+      run: sccache --show-stats
     - name: Test
       id: tests
       run: |
