@@ -132,6 +132,7 @@ Item {
             miniPlayer.visible = true;
             root.width = 1184;
             miniPlayerTest.child("rendererMenu").close();
+            miniPlayerTest.child("volumePopup").close();
             miniPlayerTest.waitForLayout();
         }
 
@@ -755,6 +756,254 @@ Item {
             root.width = 1184;
             miniPlayerTest.compare(miniPlayer.narrow, false);
             miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, true);
+        }
+
+        /**
+         * Narrows the mini player below the breakpoint, to the width it has in a window of 800 px, and opens the
+         * Volume popup with the Volume button.
+         */
+        function openVolumePopup() {
+            root.width = 672;
+            const button = miniPlayerTest.child("volumeButton");
+            miniPlayerTest.compare(button.visible, true);
+            miniPlayerTest.mouseClick(button);
+            const popup = miniPlayerTest.child("volumePopup");
+            miniPlayerTest.compare(popup.opened, true);
+            miniPlayerTest.waitForItemPolished(miniPlayerTest.child("volumeControls"));
+            return popup;
+        }
+
+        /**
+         * Tests that below the breakpoint the Mute button and the Volume slider are replaced by a Volume button, and
+         * are shown inline again above the breakpoint.
+         */
+        function test_replace_mute_and_the_volume_with_a_volume_button_on_a_narrow_screen() {
+            root.width = 672;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeButton").visible, true);
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumePopup").opened, false);
+            root.width = 1184;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, true);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
+        }
+
+        function test_show_the_mute_state_on_the_volume_button_data() {
+            return [
+                {
+                    tag: "not muted",
+                    muted: false,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/volume_up.svg"
+                },
+                {
+                    tag: "muted",
+                    muted: true,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg"
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Volume button shows "volume up" or, while muted, "volume off" like the Mute button.
+         */
+        function test_show_the_mute_state_on_the_volume_button(data) {
+            root.width = 672;
+            miniPlayer.muted = data.muted;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeButton").iconSource, Qt.url(data.icon));
+        }
+
+        /**
+         * Tests that the Volume button opens a popup upwards 8 px above it, aligned to its right edge, holding the Mute
+         * button and the Volume slider, and looks checked meanwhile.
+         */
+        function test_open_a_popup_with_mute_and_the_volume_with_the_volume_button() {
+            const popup = miniPlayerTest.openVolumePopup();
+            const button = miniPlayerTest.child("volumeButton");
+            miniPlayerTest.compare(button.checked, true);
+            miniPlayerTest.compare(popup.opensUpwards, true);
+            const panel = miniPlayerTest.findChild(popup, "volumePopupPanel");
+            miniPlayerTest.verify(panel);
+            miniPlayerTest.compare(panel.visible, true);
+            const buttonTopRight = button.mapToItem(root, button.width, 0);
+            const panelBottomRight = panel.mapToItem(root, panel.width, panel.height);
+            miniPlayerTest.compare(panelBottomRight.x, buttonTopRight.x);
+            miniPlayerTest.compare(panelBottomRight.y, buttonTopRight.y - 8);
+            const muteButton = miniPlayerTest.child("muteButton");
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.compare(muteButton.visible, true);
+            miniPlayerTest.compare(slider.visible, true);
+            miniPlayerTest.compare(slider.width, 160);
+            const panelLeft = panel.mapToItem(root, 0, 0).x;
+            const muteLeft = muteButton.mapToItem(root, 0, 0).x;
+            const sliderRight = slider.mapToItem(root, slider.width, 0).x;
+            miniPlayerTest.verify(panelLeft < muteLeft, `${panelLeft} < ${muteLeft}`);
+            miniPlayerTest.verify(muteLeft < slider.mapToItem(root, 0, 0).x);
+            miniPlayerTest.verify(sliderRight < panelBottomRight.x, `${sliderRight} < ${panelBottomRight.x}`);
+            miniPlayerTest.compare(volumeRequestedSpy.count, 0);
+            miniPlayerTest.compare(muteRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Volume changes while dragging the slider in the Volume popup.
+         */
+        function test_change_the_volume_while_dragging_in_the_volume_popup() {
+            miniPlayerTest.openVolumePopup();
+            const slider = miniPlayerTest.child("volumeSlider");
+            miniPlayerTest.mousePress(slider, slider.width / 4, slider.height / 2);
+            miniPlayerTest.mouseMove(slider, slider.width / 2, slider.height / 2);
+            miniPlayerTest.verify(volumeRequestedSpy.count > 0);
+            miniPlayerTest.compare(volumeRequestedSpy.signalArguments[volumeRequestedSpy.count - 1][0], 30);
+            miniPlayerTest.mouseRelease(slider, slider.width / 2, slider.height / 2);
+            miniPlayerTest.compare(miniPlayerTest.child("volumePopup").opened, true);
+        }
+
+        /**
+         * Tests that the Mute button in the Volume popup asks to mute and the slider is dimmed while muted.
+         */
+        function test_toggle_the_mute_in_the_volume_popup() {
+            miniPlayerTest.openVolumePopup();
+            miniPlayerTest.mouseClick(miniPlayerTest.child("muteButton"));
+            miniPlayerTest.compare(muteRequestedSpy.count, 1);
+            miniPlayerTest.compare(muteRequestedSpy.signalArguments[0][0], true);
+            miniPlayer.muted = true;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").opacity, Theme.disabledOpacity);
+            miniPlayerTest.compare(miniPlayerTest.child("volumePopup").opened, true);
+        }
+
+        /**
+         * Tests that the Volume popup holds only the controls the Renderer offers.
+         */
+        function test_hold_only_the_controls_that_the_renderer_offers_in_the_volume_popup() {
+            miniPlayer.canControlVolume = false;
+            miniPlayerTest.openVolumePopup();
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, true);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
+            miniPlayerTest.child("volumePopup").close();
+            miniPlayer.canControlVolume = true;
+            miniPlayer.canControlMute = false;
+            miniPlayerTest.openVolumePopup();
+            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
+        }
+
+        function test_hide_the_volume_button_without_mute_and_volume_data() {
+            return [
+                {
+                    tag: "without an Active Renderer",
+                    hasActiveRenderer: false,
+                    canControl: true
+                },
+                {
+                    tag: "without Mute and Volume control",
+                    hasActiveRenderer: true,
+                    canControl: false
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Volume button is hidden when there is nothing to control, like the inline controls.
+         */
+        function test_hide_the_volume_button_without_mute_and_volume(data) {
+            root.width = 672;
+            miniPlayer.hasActiveRenderer = data.hasActiveRenderer;
+            miniPlayer.canControlVolume = data.canControl;
+            miniPlayer.canControlMute = data.canControl;
+            miniPlayerTest.compare(miniPlayerTest.child("volumeButton").visible, false);
+        }
+
+        /**
+         * Tests that a tap elsewhere closes the Volume popup without reaching anything beneath.
+         */
+        function test_close_the_volume_popup_with_a_tap_elsewhere() {
+            const popup = miniPlayerTest.openVolumePopup();
+            miniPlayerTest.mouseClick(root, 50, 50);
+            miniPlayerTest.compare(popup.opened, false);
+            miniPlayerTest.compare(beneathClickedSpy.count, 0);
+            miniPlayerTest.compare(miniPlayerTest.child("volumeButton").checked, false);
+        }
+
+        /**
+         * Tests that the Volume popup closes when the mini player becomes invisible or wide enough for the inline
+         * controls.
+         */
+        function test_close_the_volume_popup_when_it_is_not_needed_anymore() {
+            const popup = miniPlayerTest.openVolumePopup();
+            miniPlayer.visible = false;
+            miniPlayerTest.compare(popup.opened, false);
+            miniPlayer.visible = true;
+            miniPlayerTest.openVolumePopup();
+            root.width = 1184;
+            miniPlayerTest.compare(popup.opened, false);
+            miniPlayerTest.compare(miniPlayerTest.findChild(popup, "volumePopupPanel").visible, false);
+        }
+
+        /**
+         * Tests that below the breakpoint the Renderer pill shows only its icon, as a round button, and still opens the
+         * Renderer menu.
+         */
+        function test_show_only_the_icon_of_the_renderer_pill_on_a_narrow_screen() {
+            root.width = 672;
+            const pill = miniPlayerTest.child("rendererPill");
+            miniPlayerTest.compare(miniPlayerTest.findChild(pill, "label").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.findChild(pill, "icon").visible, true);
+            miniPlayerTest.tryCompare(pill, "width", pill.height);
+            const menu = miniPlayerTest.openRendererMenu();
+            miniPlayerTest.compare(menu.count, 2);
+            root.width = 1184;
+            miniPlayerTest.compare(miniPlayerTest.findChild(pill, "label").visible, true);
+        }
+
+        function test_fit_the_row_without_overlaps_data() {
+            return [
+                {
+                    tag: "1280×720",
+                    width: 1152,
+                    narrow: false
+                },
+                {
+                    tag: "at the breakpoint",
+                    width: 1088,
+                    narrow: false
+                },
+                {
+                    tag: "just below the breakpoint",
+                    width: 1087,
+                    narrow: true
+                },
+                {
+                    tag: "800×480",
+                    width: 672,
+                    narrow: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the visible controls of the mini player follow each other from left to right without overlapping,
+         * the Renderer pill not elided, at the width the mini player has in a window of 1280 px and 800 px.
+         */
+        function test_fit_the_row_without_overlaps(data) {
+            root.width = data.width;
+            miniPlayer.rendererName = "Living Room";
+            miniPlayerTest.waitForLayout();
+            miniPlayerTest.compare(miniPlayer.narrow, data.narrow);
+            const pill = miniPlayerTest.child("rendererPill");
+            const label = miniPlayerTest.findChild(pill, "label");
+            miniPlayerTest.compare(label.visible, !data.narrow);
+            miniPlayerTest.compare(label.width, label.implicitWidth);
+            miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, !data.narrow);
+            const names = data.narrow ? ["trackArea", "previousButton", "playPauseButton", "nextButton", "volumeButton", "rendererPill"] : ["trackArea", "previousButton", "playPauseButton", "nextButton", "repeatButton", "muteButton", "volumeSlider", "rendererPill"];
+            let previousRight = 0;
+            for (const name of names) {
+                const item = miniPlayerTest.child(name);
+                miniPlayerTest.compare(item.visible, true, name);
+                const left = item.mapToItem(miniPlayer, 0, 0).x;
+                miniPlayerTest.verify(left >= previousRight, `${name}: ${left} >= ${previousRight}`);
+                previousRight = item.mapToItem(miniPlayer, item.width, 0).x;
+            }
+            miniPlayerTest.verify(previousRight <= miniPlayer.width, `${previousRight} <= ${miniPlayer.width}`);
         }
     }
 }
