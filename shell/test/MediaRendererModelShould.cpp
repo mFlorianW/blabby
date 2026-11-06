@@ -702,6 +702,21 @@ void MediaRendererModelShould::not_activate_the_last_picked_renderer_while_remem
     QCOMPARE(mModel->activeRenderer(), nullptr);
 }
 
+void MediaRendererModelShould::keep_the_active_renderer_active_when_remembering_is_turned_off()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+
+    mSettings->setValue(SettingsKey::rememberLastRenderer, false);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+
+    QCOMPARE_NE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(mModel->activeRenderer()->name(), QStringLiteral("Kitchen"));
+    QCOMPARE(activeRendererChangedSpy.size(), 0);
+    QCOMPARE(lastPickedRenderer(), QVariant{kitchenUsn});
+}
+
 void MediaRendererModelShould::not_activate_a_forgotten_renderer()
 {
     Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);

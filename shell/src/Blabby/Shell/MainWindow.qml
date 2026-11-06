@@ -208,6 +208,7 @@ Rectangle {
             currentSection: Singleton.settingsModel.currentSection
             rows: Singleton.settingsModel.rows
             onSectionPicked: index => Singleton.settingsModel.pickSection(index)
+            onSwitchToggled: (index, checked) => Singleton.settingsModel.setChecked(index, checked)
         }
     }
 

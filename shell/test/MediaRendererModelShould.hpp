@@ -82,6 +82,7 @@ private Q_SLOTS:
     void keep_the_last_picked_renderer_when_it_goes_offline_and_becomes_active_by_itself();
     void keep_the_picked_renderer_active_when_the_previous_pick_comes_back_online();
     void not_activate_the_last_picked_renderer_while_remembering_is_off();
+    void keep_the_active_renderer_active_when_remembering_is_turned_off();
     void not_activate_a_forgotten_renderer();
 };
 

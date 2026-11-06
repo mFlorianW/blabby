@@ -26,6 +26,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         Slider.qml
         StatusLabel.qml
         StyledText.qml
+        SwitchRow.qml
         Toast.qml
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractInteractiveControl.cpp

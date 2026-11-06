@@ -25,21 +25,38 @@ Item {
     }
 
     ListModel {
+        id: rendererRows
+        ListElement {
+            title: "Remember last Renderer"
+            subtitle: "Make the Renderer you last picked active again when it is Online"
+            value: ""
+            kind: SettingsRowKind.Switch
+            checked: true
+        }
+    }
+
+    ListModel {
         id: aboutRows
         ListElement {
             title: "Blabby version"
             subtitle: ""
             value: "0.1.0"
+            kind: SettingsRowKind.Info
+            checked: false
         }
         ListElement {
             title: "Qt version"
             subtitle: ""
             value: "6.5.3"
+            kind: SettingsRowKind.Info
+            checked: false
         }
         ListElement {
             title: "MediaServerProvider"
             subtitle: "Provider"
             value: "0.2.0"
+            kind: SettingsRowKind.Info
+            checked: false
         }
     }
 
@@ -47,8 +64,9 @@ Item {
         id: settingsView
         anchors.fill: root
         sections: sections
-        rows: aboutRows
+        rows: settingsView.currentSection === 0 ? rendererRows : aboutRows
         onSectionPicked: index => settingsView.currentSection = index
+        onSwitchToggled: (index, checked) => rendererRows.setProperty(index, "checked", checked)
     }
 
     TestCase {
@@ -62,9 +80,17 @@ Item {
             signalName: "sectionPicked"
         }
 
+        SignalSpy {
+            id: switchToggledSpy
+            target: settingsView
+            signalName: "switchToggled"
+        }
+
         function init() {
             settingsView.currentSection = 1;
+            rendererRows.setProperty(0, "checked", true);
             sectionPickedSpy.clear();
+            switchToggledSpy.clear();
         }
 
         /**
@@ -131,6 +157,47 @@ Item {
                 settingsViewTest.compare(row.subtitle, subtitle);
                 settingsViewTest.compare(row.value, value);
             });
+        }
+
+        /**
+         * Tests that the About rows show their value and no switch.
+         */
+        function test_show_no_switch_in_the_about_rows() {
+            const row = settingsViewTest.child("row0");
+            settingsViewTest.compare(settingsViewTest.findChild(row, "valueText").visible, true);
+            settingsViewTest.compare(settingsViewTest.findChild(row, "switchRow").visible, false);
+        }
+
+        /**
+         * Tests that the Renderers section shows the "Remember last Renderer" switch with its value.
+         */
+        function test_show_the_remember_last_renderer_switch_in_the_renderers_section() {
+            settingsView.currentSection = 0;
+            settingsViewTest.compare(settingsViewTest.child("rowList").count, 1);
+            const switchRow = settingsViewTest.findChild(settingsViewTest.child("row0"), "switchRow");
+            settingsViewTest.verify(switchRow);
+            settingsViewTest.compare(switchRow.visible, true);
+            settingsViewTest.compare(switchRow.title, "Remember last Renderer");
+            settingsViewTest.compare(switchRow.subtitle, "Make the Renderer you last picked active again when it is Online");
+            settingsViewTest.compare(switchRow.checked, true);
+            settingsViewTest.compare(settingsViewTest.findChild(settingsViewTest.child("row0"), "valueText").visible, false);
+        }
+
+        /**
+         * Tests that tapping the switch emits switchToggled with its row and the new value, and shows the stored value.
+         */
+        function test_toggle_the_tapped_switch() {
+            settingsView.currentSection = 0;
+            const switchRow = settingsViewTest.findChild(settingsViewTest.child("row0"), "switchRow");
+            settingsViewTest.mouseClick(switchRow);
+            settingsViewTest.compare(switchToggledSpy.count, 1);
+            settingsViewTest.compare(switchToggledSpy.signalArguments[0][0], 0);
+            settingsViewTest.compare(switchToggledSpy.signalArguments[0][1], false);
+            settingsViewTest.compare(switchRow.checked, false);
+            settingsViewTest.mouseClick(switchRow);
+            settingsViewTest.compare(switchToggledSpy.count, 2);
+            settingsViewTest.compare(switchToggledSpy.signalArguments[1][1], true);
+            settingsViewTest.compare(switchRow.checked, true);
         }
     }
 }

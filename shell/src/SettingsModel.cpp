@@ -7,8 +7,23 @@
 namespace Shell
 {
 
-SettingsModel::SettingsModel(Multimedia::Providers providers, QString blabbyVersion)
+SettingsModel::SettingsModel(Multimedia::Providers providers,
+                             QString blabbyVersion,
+                             std::shared_ptr<SettingsStore> settings)
+    : mRows{std::move(settings)}
 {
+    mSections.append(
+        Section{.title = tr("Renderers"),
+                .iconSource = QUrl{QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/material/speaker.svg")},
+                .rows = {
+                    SettingsRow{.title = tr("Remember last Renderer"),
+                                .subtitle = tr("Make the Renderer you last picked active again when it is Online"),
+                                .value = {},
+                                .kind = SettingsRowKind::Switch,
+                                .key = SettingsKey::rememberLastRenderer,
+                                .defaultChecked = SettingsKey::rememberLastRendererDefault},
+                }});
+
     auto about =
         Section{.title = tr("About"),
                 .iconSource = QUrl{QStringLiteral("qrc:/qt/qml/Blabby/Shell/icons/material/info.svg")},
@@ -80,6 +95,11 @@ void SettingsModel::pickSection(int index)
     mCurrentSection = index;
     mRows.setRows(mSections.at(mCurrentSection).rows);
     Q_EMIT currentSectionChanged();
+}
+
+void SettingsModel::setChecked(int row, bool checked)
+{
+    mRows.setChecked(row, checked);
 }
 
 } // namespace Shell

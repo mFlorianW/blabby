@@ -6,6 +6,7 @@
 
 #include "ProviderLoader.hpp"
 #include "SettingsRowModel.hpp"
+#include "SettingsStore.hpp"
 #include <QAbstractListModel>
 #include <QUrl>
 
@@ -14,8 +15,8 @@ namespace Shell
 
 /**
  * The sections of the Settings screen, one model row per section, and the rows of the picked section.
- * The first section is picked from the start. The last section is About, it shows the Blabby version, the Qt version
- * and every loaded Provider with its version.
+ * The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. The last
+ * section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version.
  */
 class SettingsModel : public QAbstractListModel
 {
@@ -46,8 +47,9 @@ public:
      * Creates the sections for the passed Providers.
      * @param providers The loaded Providers, they are already initialized.
      * @param blabbyVersion The version of Blabby shown in About.
+     * @param settings The store that keeps the values of the switches, a change is stored right away.
      */
-    SettingsModel(Multimedia::Providers providers, QString blabbyVersion);
+    SettingsModel(Multimedia::Providers providers, QString blabbyVersion, std::shared_ptr<SettingsStore> settings);
 
     /**
      * Default destructor
@@ -91,6 +93,14 @@ public:
      * @param index The index of the section to pick.
      */
     Q_INVOKABLE void pickSection(int index);
+
+    /**
+     * Turns the switch in the row of the picked section on or off and stores the new value right away.
+     * A row that is no switch changes nothing.
+     * @param row The index of the row in the picked section.
+     * @param checked True to turn the switch on, false to turn it off.
+     */
+    Q_INVOKABLE void setChecked(int row, bool checked);
 
 Q_SIGNALS:
     /**

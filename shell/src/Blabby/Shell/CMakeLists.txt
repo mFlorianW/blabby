@@ -20,6 +20,8 @@ qt_add_qml_module(${PROJECT_NAME}
         SettingsView.qml
         SourceMenu.qml
         TimeFormat.js
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsRowKind.hpp
     RESOURCES
         ../../icons/24x24/play_arrow.svg
         ../../icons/24x24/close.svg
@@ -52,3 +54,13 @@ qt_add_qml_module(${PROJECT_NAME}
 )
 add_library(BlabbyShell::Qml ALIAS ${PROJECT_NAME})
 add_library(BlabbyShell::QmlPlugin ALIAS ${PROJECT_NAME}plugin)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        Qt6::Qml
+)

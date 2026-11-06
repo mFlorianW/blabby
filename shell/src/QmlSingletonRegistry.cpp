@@ -38,11 +38,12 @@ Multimedia::Providers loadInstalledProviders()
 
 QmlSingletonRegistry::QmlSingletonRegistry()
     : mProviders{loadInstalledProviders()}
+    , mSettingsStore{createSettingsStore()}
     , mSourceModel{mProviders}
-    , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore()), createSettingsStore()}
+    , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore()), mSettingsStore}
     , mActiveRendererController{mRendererModel}
     , mQueueModel{mRendererModel}
-    , mSettingsModel{mProviders, QString::fromLatin1(blabbyVersion)}
+    , mSettingsModel{mProviders, QString::fromLatin1(blabbyVersion), mSettingsStore}
 {
     // The Library shows the Items of the Active Source.
     connect(&mSourceModel, &MediaSourceModel::activeMediaSourceChanged, &mItemModel, [this] {
