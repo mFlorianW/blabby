@@ -145,8 +145,19 @@ Build</h1>
 <li>debug-clang</li>
 <li>github-ci-debug</li>
 <li>release</li>
+<li>debug-sccache</li>
+<li>debug-clang-sccache</li>
+<li>release-sccache</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<p>The "-sccache" presets match their base preset but cache the compiler output with <a href="https://github.com/mozilla/sccache">sccache</a>, which must be installed. They build into their own directories (build-sccache, build-clang-sccache, build-release-sccache).</p>
+<p>The workflow presets run the configure and build steps in one command:</p>
+<ul>
+<li>debug: configures and builds the "debug" preset</li>
+<li>release: configures and builds the "release" preset</li>
+<li>debug-sccache, release-sccache: the same with the "-sccache" presets</li>
+</ul>
+<div class="fragment"><div class="line">cmake --workflow --preset debug</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
 Pre-commit</h2>
 <p>Blabby has some pre-commit hooks for handling the licenses and formatting The pre-commits can enabled by the CMake option with "ENABLE_PRECOMMIT=ON" or just use the "debug" preset. The pre-commits feature needs a Python and pip environment. The pip environment is only needed for the automatically install of the pre-commit Python module.</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
