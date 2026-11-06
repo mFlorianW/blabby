@@ -74,6 +74,7 @@ Item {
             anchor.y = 40;
             tallMenu.close();
             tallMenu.opensUpwards = false;
+            tallMenu.edgeMargin = 8;
             menu.opensUpwards = false;
             menu.visible = true;
             menu.close();
@@ -162,6 +163,20 @@ Item {
             tallMenu.opensUpwards = true;
             menuShellTest.compare(tallMenu.panel.mapToItem(root, 0, 0).y, 8);
             menuShellTest.compare(tallContent.parent.parent.clip, true);
+        }
+
+        /**
+         * Tests that the panel of content higher than the space ends the edge margin before the edge.
+         */
+        function test_cap_the_panel_the_edge_margin_before_the_edge() {
+            tallMenu.edgeMargin = 24;
+            tallMenu.open();
+            menuShellTest.compare(tallMenu.maximumContentHeight, 480 - 80 - 3 * 8 - 24);
+            const panelBottom = tallMenu.panel.mapToItem(root, 0, tallMenu.panel.height).y;
+            menuShellTest.compare(panelBottom, root.height - 24);
+            anchor.y = 400;
+            tallMenu.opensUpwards = true;
+            menuShellTest.compare(tallMenu.panel.mapToItem(root, 0, 0).y, 24);
         }
 
         /**

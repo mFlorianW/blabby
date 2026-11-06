@@ -145,6 +145,7 @@ Item {
         }
 
         function init() {
+            root.height = 640;
             libraryView.sources = sources;
             libraryView.items = items;
             libraryView.hasActiveSource = true;
@@ -226,6 +227,43 @@ Item {
             const item = libraryViewTest.findChild(libraryViewTest.child("itemMenu"), objectName);
             libraryViewTest.verify(item, objectName);
             return item;
+        }
+
+        /**
+         * Appends Sources to the Sources until there are count of them.
+         */
+        function fillSourcesUpTo(count) {
+            for (let i = sources.count; i < count; ++i) {
+                sources.append({
+                    mediaSourceName: "Source " + i,
+                    mediaSourceIconUrl: "",
+                    active: false
+                });
+            }
+        }
+
+        /**
+         * Gives the test data of a short and a tall Library view, with the height of the view as viewHeight.
+         */
+        function shortAndTallViews() {
+            return [
+                {
+                    tag: "short view",
+                    viewHeight: 480
+                },
+                {
+                    tag: "tall view",
+                    viewHeight: 1080
+                }
+            ];
+        }
+
+        /**
+         * Gives the bottom of the panel of the Source menu in the coordinates of the Library view.
+         */
+        function menuPanelBottom() {
+            const panel = libraryViewTest.menuChild("sourceMenuPanel");
+            return panel.mapToItem(libraryView, 0, panel.height).y;
         }
 
         /**
@@ -569,6 +607,82 @@ Item {
             libraryView.visible = true;
             libraryViewTest.compare(menu.opened, false);
             libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuPanel").visible, false);
+        }
+
+        function test_grow_the_source_menu_with_its_rows_while_they_fit_data() {
+            return libraryViewTest.shortAndTallViews();
+        }
+
+        /**
+         * Tests that the Source menu is as high as its rows while they fit above the limit 24 px above the bottom of
+         * the Library view, and its rows don't scroll.
+         */
+        function test_grow_the_source_menu_with_its_rows_while_they_fit(data) {
+            root.height = data.viewHeight;
+            libraryViewTest.openMenu();
+            const list = libraryViewTest.menuChild("sourceList");
+            libraryViewTest.compare(list.height, 2 * 64);
+            libraryViewTest.compare(list.interactive, false);
+            libraryViewTest.verify(libraryViewTest.menuPanelBottom() < libraryView.height - 24);
+        }
+
+        function test_stop_the_source_menu_24_px_above_the_bottom_and_scroll_its_rows_data() {
+            return libraryViewTest.shortAndTallViews();
+        }
+
+        /**
+         * Tests that the Source menu with more rows than fit stops 24 px above the bottom of the Library view,
+         * whatever its height, and its rows scroll while the header stays in place.
+         */
+        function test_stop_the_source_menu_24_px_above_the_bottom_and_scroll_its_rows(data) {
+            root.height = data.viewHeight;
+            libraryViewTest.fillSourcesUpTo(30);
+            libraryViewTest.openMenu();
+            libraryViewTest.compare(libraryViewTest.menuPanelBottom(), libraryView.height - 24);
+            const list = libraryViewTest.menuChild("sourceList");
+            libraryViewTest.verify(list.height < 30 * 64, list.height);
+            libraryViewTest.compare(list.interactive, true);
+            libraryViewTest.compare(list.clip, true);
+            const header = libraryViewTest.menuChild("sourceMenuHeader");
+            const headerY = header.mapToItem(libraryView, 0, 0).y;
+            list.positionViewAtEnd();
+            libraryViewTest.compare(list.atYEnd, true);
+            libraryViewTest.verify(list.contentY > 0);
+            libraryViewTest.compare(header.mapToItem(libraryView, 0, 0).y, headerY);
+            const headerBottomInList = header.mapToItem(list, 0, header.height).y;
+            libraryViewTest.verify(headerBottomInList <= 0, headerBottomInList);
+        }
+
+        /**
+         * Tests that the Source menu fits more rows in a taller Library view, so the limit follows the height of the
+         * view and not a fixed number of rows.
+         */
+        function test_fit_more_source_rows_in_a_taller_library_view() {
+            libraryViewTest.fillSourcesUpTo(30);
+            root.height = 480;
+            libraryViewTest.openMenu();
+            const list = libraryViewTest.menuChild("sourceList");
+            const shortListHeight = list.height;
+            root.height = 1080;
+            libraryViewTest.compare(list.height, shortListHeight + 600);
+            // The content of the menu is laid out anew on the next polish.
+            libraryViewTest.waitForRendering(libraryView);
+            libraryViewTest.compare(libraryViewTest.menuPanelBottom(), libraryView.height - 24);
+        }
+
+        /**
+         * Tests that a Source menu scrolled the last time starts at its first row when it opens again.
+         */
+        function test_start_the_source_menu_at_the_first_row_when_opened_again() {
+            root.height = 480;
+            libraryViewTest.fillSourcesUpTo(30);
+            const menu = libraryViewTest.openMenu();
+            const list = libraryViewTest.menuChild("sourceList");
+            list.positionViewAtEnd();
+            libraryViewTest.verify(list.contentY > 0);
+            menu.close();
+            libraryViewTest.openMenu();
+            libraryViewTest.compare(list.contentY, 0);
         }
 
         /**
