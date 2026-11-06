@@ -264,6 +264,7 @@ public:
      * First checks that both @ref Multimedia::Renderer and @ref Multimedia::Item are compatible
      * Afterwards it calls the setAvTransportUri on the Renderer.
      * The signal @ref Multimedia::Renderer::playbackFailed with the error information is emitted on failure.
+     * A playback replaces the previous one, a failure of the previous one isn't emitted anymore.
      */
     void playback(Item const& item) noexcept;
 

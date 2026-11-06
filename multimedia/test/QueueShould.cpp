@@ -2036,6 +2036,22 @@ void QueueShould::ignore_a_failure_of_a_previous_active_renderer()
     QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
 }
 
+void QueueShould::ignore_a_failed_play_call_of_an_entry_that_is_no_longer_played()
+{
+    mQueue->replace(album(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    // The Play call of the entry is still on the way when the user plays another one.
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+    mQueue->next();
+
+    mDevice->playCall()->setErrorState(true);
+    Q_EMIT mDevice->playCall()->finished();
+    QCoreApplication::processEvents();
+
+    QCOMPARE(entryFailedSpy.size(), 0);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::QueueShould)

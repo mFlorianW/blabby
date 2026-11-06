@@ -166,6 +166,7 @@ private Q_SLOTS:
     void count_the_failed_entries_again_when_the_queue_is_played();
     void ignore_a_failure_of_an_entry_that_is_no_longer_played();
     void ignore_a_failure_of_a_previous_active_renderer();
+    void ignore_a_failed_play_call_of_an_entry_that_is_no_longer_played();
 };
 
 } // namespace Multimedia

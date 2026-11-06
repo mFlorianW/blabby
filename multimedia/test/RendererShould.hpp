@@ -30,6 +30,7 @@ private Q_SLOTS:
     void not_call_avtransporturi_with_unsupported_items();
     void signal_playback_failed_on_avtransporturi_call_failed();
     void signal_playback_failed_on_playcall_failed();
+    void not_signal_a_failed_playcall_of_a_replaced_playback();
     void map_upnp_devices_states_to_renderer_device_states_data();
     void map_upnp_devices_states_to_renderer_device_states();
     void stop_request_the_playback();
