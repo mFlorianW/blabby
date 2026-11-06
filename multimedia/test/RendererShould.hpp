@@ -25,6 +25,7 @@ private Q_SLOTS:
     void signal_that_initialization_successful_finished();
     void signal_that_initialization_unsuccessful_finished();
     void call_avtransport_uri_on_playback_request();
+    void send_the_metadata_of_the_item_on_playback_request();
     void call_play_on_successful_avtransporturi_request();
     void not_call_avtransporturi_with_unsupported_items();
     void signal_playback_failed_on_avtransporturi_call_failed();

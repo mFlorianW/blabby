@@ -490,7 +490,6 @@ private Q_SLOTS:
     void onPlayCallFinished() noexcept;
 
 private:
-    bool isPlayableItem(Item const& item) const noexcept;
     void setState(UPnPAV::MediaRenderer::State state) noexcept;
     void updateVolume(quint32 volume) noexcept;
     void connectDevice() noexcept;
@@ -510,7 +509,7 @@ private:
     void setPosition(std::chrono::milliseconds position) noexcept;
     void setDuration(std::optional<std::chrono::milliseconds> duration) noexcept;
     std::unique_ptr<UPnPAV::PendingSoapCall> watchPlaybackControl(std::unique_ptr<UPnPAV::PendingSoapCall> call,
-                                                           Renderer::Action action) noexcept;
+                                                                  Renderer::Action action) noexcept;
 
 private:
     RememberedRenderer mRemembered;

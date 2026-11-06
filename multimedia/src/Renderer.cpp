@@ -17,6 +17,7 @@
 #include <QTime>
 #include <QUrl>
 #include <QVariant>
+#include <QXmlStreamWriter>
 #include <algorithm>
 
 using namespace UPnPAV;
@@ -161,6 +162,68 @@ CurrentTrack currentTrackOf(QString const& uri, QString metaData, QString const&
     }
     track.uri = uri;
     return track;
+}
+
+/**
+ * Gives the duration in the form of res@duration, e.g. 1:02:03.000.
+ */
+QString didlDurationOf(std::chrono::milliseconds duration)
+{
+    auto const milliseconds = duration.count();
+    return QStringLiteral("%1:%2:%3.%4")
+        .arg(milliseconds / 3'600'000)
+        .arg((milliseconds / 60'000) % 60, 2, 10, QLatin1Char{'0'})
+        .arg((milliseconds / 1000) % 60, 2, 10, QLatin1Char{'0'})
+        .arg(milliseconds % 1000, 3, 10, QLatin1Char{'0'});
+}
+
+/**
+ * Gives the DIDL-Lite metadata of a Playable for SetAVTransportURI. A renderer reports it back as the metadata of the
+ * Current Track, without it the Current Track has no artist, album or artwork.
+ */
+QString didlOf(Item const& item, Protocol const& protocol)
+{
+    auto didl = QString{};
+    auto writer = QXmlStreamWriter{&didl};
+    writer.writeStartElement(QStringLiteral("DIDL-Lite"));
+    writer.writeDefaultNamespace(QStringLiteral("urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"));
+    writer.writeNamespace(QStringLiteral("http://purl.org/dc/elements/1.1/"), QStringLiteral("dc"));
+    writer.writeNamespace(QStringLiteral("urn:schemas-upnp-org:metadata-1-0/upnp/"), QStringLiteral("upnp"));
+    writer.writeStartElement(QStringLiteral("item"));
+    writer.writeAttribute(QStringLiteral("id"), QStringLiteral("0"));
+    writer.writeAttribute(QStringLiteral("parentID"), QStringLiteral("-1"));
+    writer.writeAttribute(QStringLiteral("restricted"), QStringLiteral("1"));
+    writer.writeTextElement(QStringLiteral("dc:title"), item.mainText());
+    writer.writeTextElement(QStringLiteral("upnp:class"), QStringLiteral("object.item.audioItem.musicTrack"));
+    if (not item.secondaryText().isEmpty()) {
+        writer.writeTextElement(QStringLiteral("dc:creator"), item.secondaryText());
+        writer.writeTextElement(QStringLiteral("upnp:artist"), item.secondaryText());
+    }
+    if (not item.albumArtist().isEmpty()) {
+        writer.writeStartElement(QStringLiteral("upnp:artist"));
+        writer.writeAttribute(QStringLiteral("role"), QStringLiteral("AlbumArtist"));
+        writer.writeCharacters(item.albumArtist());
+        writer.writeEndElement();
+    }
+    if (not item.album().isEmpty()) {
+        writer.writeTextElement(QStringLiteral("upnp:album"), item.album());
+    }
+    if (not item.artworkUrl().isEmpty()) {
+        writer.writeTextElement(QStringLiteral("upnp:albumArtURI"), item.artworkUrl());
+    }
+    writer.writeStartElement(QStringLiteral("res"));
+    writer.writeAttribute(
+        QStringLiteral("protocolInfo"),
+        QStringList{protocol.protocol, protocol.network, protocol.contentFormat, protocol.additionalInfo}.join(
+            QLatin1Char{':'}));
+    if (item.duration().has_value()) {
+        writer.writeAttribute(QStringLiteral("duration"), didlDurationOf(item.duration().value()));
+    }
+    writer.writeCharacters(item.playUrl());
+    writer.writeEndElement(/*res*/);
+    writer.writeEndElement(/*item*/);
+    writer.writeEndElement(/*DIDL-Lite*/);
+    return didl;
 }
 } // namespace
 
@@ -411,12 +474,13 @@ void Renderer::playback(Item const& item) noexcept
         return;
     }
 
-    if (not isPlayableItem(item)) {
+    auto const protocol = std::ranges::find_first_of(item.supportedTypes(), mProtocols);
+    if (protocol == item.supportedTypes().cend()) {
         Q_EMIT playbackFailed(QString("Unsupported item passed. Now fitting protocol found."));
         return;
     }
 
-    auto uriCall = mRenderer->setAvTransportUri(quint32{0}, item.playUrl());
+    auto uriCall = mRenderer->setAvTransportUri(quint32{0}, item.playUrl(), didlOf(item, *protocol));
     if (uriCall.has_value()) {
         mSetAvTransportUriCall = goOfflineWhenUnreachable(std::move(uriCall.value()));
         connect(mSetAvTransportUriCall.get(),
@@ -424,19 +488,6 @@ void Renderer::playback(Item const& item) noexcept
                 this,
                 &Renderer::onSetAvTransportUriFinished);
     }
-}
-
-bool Renderer::isPlayableItem(Item const& item) const noexcept
-{
-    for (auto const& protocol : mProtocols) {
-        for (auto const& itemProto : item.supportedTypes()) {
-            if (itemProto == protocol) {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 void Renderer::onSetAvTransportUriFinished() noexcept
