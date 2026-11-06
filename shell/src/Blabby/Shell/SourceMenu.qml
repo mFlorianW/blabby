@@ -8,9 +8,10 @@ import Blabby.Theme
 
 /**
  * The menu to pick the Active Source that drops down under the Source pill, headed "Choose a Source" with a row per
- * Source that shows its icon in a round badge and its name. The row of the Active Source is highlighted, its badge is
- * drawn in the highlighted colours and it carries a checkmark. Sources that appear or vanish while the menu is open show
- * up in or vanish from it. The tap catcher, the panel, the anchoring and opening and closing come from @ref MenuShell.
+ * Source that shows its icon in a round badge and its name, or a disabled "No Sources found" line without any. The row
+ * of the Active Source is highlighted, its badge is drawn in the highlighted colours and it carries a checkmark.
+ * Sources that appear or vanish while the menu is open show up in or vanish from it. The tap catcher, the panel, the
+ * anchoring and opening and closing come from @ref MenuShell.
  */
 MenuShell {
     id: sourceMenu
@@ -49,6 +50,22 @@ MenuShell {
         text: qsTr("Choose a Source")
         color: Theme.colors.colorOnSurfaceVariant
         textStyle: Theme.fonts.labelMedium
+    }
+
+    // Without Sources the menu says so, so that tapping the pill never feels broken.
+    StyledText {
+        id: noSourcesLine
+        objectName: "noSourcesLine"
+        width: sourceMenu.contentWidth
+        height: sourceMenu.rowHeight
+        leftPadding: 16
+        rightPadding: 16
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("No Sources found")
+        color: Theme.colors.colorOnSurface
+        textStyle: Theme.fonts.bodyLarge
+        opacity: Theme.disabledOpacity
+        visible: sourceList.count === 0
     }
 
     ListView {
