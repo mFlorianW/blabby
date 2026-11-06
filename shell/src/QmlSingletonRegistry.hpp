@@ -138,6 +138,8 @@ protected:
 
 private:
     Multimedia::Providers mProviders;
+    // Shared by the remember behaviour and the Settings screen, so that a toggled switch takes effect right away.
+    std::shared_ptr<SettingsStore> mSettingsStore;
     MediaSourceModel mSourceModel;
     MediaItemModel mItemModel;
     MediaRendererModel mRendererModel;

@@ -56,6 +56,9 @@ target_link_libraries(${PROJECT_NAME}
         Blabby::UPnPAV
 )
 
+# The shell declares the QML types of the library as foreign types, which needs their metatypes.
+qt_extract_metatypes(${PROJECT_NAME})
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}

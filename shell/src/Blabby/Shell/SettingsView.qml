@@ -9,7 +9,7 @@ import Blabby.Theme
 /**
  * The screen to configure Blabby.
  * It lists the sections on the left and shows the rows of the picked section on the right, the picked section is
- * highlighted.
+ * highlighted. A row shows a value or, for a switch, a @ref SwitchRow.
  */
 Item {
     id: settingsView
@@ -25,7 +25,8 @@ Item {
     property int currentSection: 0
 
     /**
-     * The rows of the picked section, a model with the roles "title", "subtitle" and "value".
+     * The rows of the picked section, a model with the roles "title", "subtitle", "value", "kind", a value of
+     * SettingsRowKind, and "checked".
      */
     property alias rows: rowList.model
 
@@ -33,6 +34,11 @@ Item {
      * This signal is emitted when the user taps the section at index.
      */
     signal sectionPicked(int index)
+
+    /**
+     * This signal is emitted when the user taps the switch of the row at index, checked is the value the user asks for.
+     */
+    signal switchToggled(int index, bool checked)
 
     ScreenHeader {
         id: header
@@ -163,13 +169,27 @@ Item {
                 required property string title
                 required property string subtitle
                 required property string value
+                required property int kind
+                required property bool checked
 
                 objectName: "row" + row.index
                 width: rowList.width
                 height: 72
 
+                SwitchRow {
+                    id: switchRow
+                    objectName: "switchRow"
+                    anchors.fill: row
+                    visible: row.kind === SettingsRowKind.Switch
+                    title: row.title
+                    subtitle: row.subtitle
+                    checked: row.checked
+                    onToggled: checked => settingsView.switchToggled(row.index, checked)
+                }
+
                 Column {
                     id: texts
+                    visible: row.kind === SettingsRowKind.Info
                     anchors.left: row.left
                     anchors.leftMargin: 12
                     anchors.right: valueText.left
@@ -196,6 +216,8 @@ Item {
 
                 StyledText {
                     id: valueText
+                    objectName: "valueText"
+                    visible: row.kind === SettingsRowKind.Info
                     anchors.right: row.right
                     anchors.rightMargin: 12
                     anchors.verticalCenter: row.verticalCenter

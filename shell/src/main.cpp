@@ -5,9 +5,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "ArtworkImageProvider.hpp"
-#include "Item.hpp"
 #include "QmlSingletonRegistry.hpp"
-#include "Renderer.hpp"
 #include <QGuiApplication>
 #include <QIcon>
 #include <QLoggingCategory>
@@ -24,17 +22,6 @@ void registerQmlTypes()
                                                    0,
                                                    "Singleton",
                                                    &QmlSingletonRegistry::createQmlRegistry);
-    qmlRegisterUncreatableType<Multimedia::Renderer>("Blabby.Objects",
-                                                     1,
-                                                     0,
-                                                     "Renderer",
-                                                     "Renderers are provided by the MediaRendererModel");
-    qmlRegisterUncreatableMetaObject(Multimedia::staticMetaObject,
-                                     "Blabby.Objects",
-                                     1,
-                                     0,
-                                     "ItemType",
-                                     "ItemType is an enum of the Items in the MediaItemModel");
 }
 
 } // namespace Shell

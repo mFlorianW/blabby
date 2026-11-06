@@ -37,6 +37,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RenderersViewShould.qml
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SettingsViewShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_SettingsViewShould.qml COPYONLY)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SwitchRowShould.qml
+    ${CMAKE_CURRENT_BINARY_DIR}/tst_SwitchRowShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PillButtonShould.qml
     ${CMAKE_CURRENT_BINARY_DIR}/tst_PillButtonShould.qml COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibraryViewShould.qml
@@ -68,7 +70,6 @@ add_executable(test_shell_qmltests)
 target_sources(test_shell_qmltests
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/QmlTests.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/QmlTestsSetup.hpp
 )
 target_link_libraries(test_shell_qmltests
     PRIVATE
@@ -220,6 +221,8 @@ target_sources(test_shell_settings_model
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModelShould.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModelShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.hpp
 )
 target_link_libraries(test_shell_settings_model
     PRIVATE

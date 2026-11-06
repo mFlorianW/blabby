@@ -4,11 +4,13 @@
 
 #pragma once
 
+#include "SettingsRowKind.hpp"
+#include "SettingsStore.hpp"
 #include <QAbstractListModel>
+#include <memory>
 
 namespace Shell
 {
-
 /**
  * A row of a section on the Settings screen.
  */
@@ -25,9 +27,24 @@ struct SettingsRow
     QString subtitle;
 
     /**
-     * The value shown at the trailing edge of the row, e.g. "6.8.2".
+     * The value shown at the trailing edge of the row, e.g. "6.8.2", empty for a switch.
      */
     QString value;
+
+    /**
+     * The kind of the row.
+     */
+    SettingsRowKind::Kind kind = SettingsRowKind::Info;
+
+    /**
+     * The key of the setting a switch turns on or off in the @ref Shell::SettingsStore, empty for an info row.
+     */
+    QString key = {};
+
+    /**
+     * Whether the switch is on while the setting isn't stored.
+     */
+    bool defaultChecked = false;
 
     friend bool operator==(SettingsRow const&, SettingsRow const&) = default;
 };
@@ -49,13 +66,16 @@ public:
         Title = Qt::UserRole + 1,
         Subtitle,
         Value,
+        Kind,
+        Checked,
     };
     Q_ENUM(DisplayRole)
 
     /**
      * Creates a model without rows.
+     * @param settings The store that keeps the values of the switches.
      */
-    SettingsRowModel();
+    explicit SettingsRowModel(std::shared_ptr<SettingsStore> settings);
 
     /**
      * Default destructor
@@ -89,7 +109,15 @@ public:
      */
     void setRows(QList<SettingsRow> rows);
 
+    /**
+     * Turns the switch of the row on or off and stores the new value. A row that is no switch changes nothing.
+     * @param row The index of the row.
+     * @param checked True to turn the switch on, false to turn it off.
+     */
+    void setChecked(int row, bool checked);
+
 private:
+    std::shared_ptr<SettingsStore> mSettings;
     QList<SettingsRow> mRows;
 };
 
