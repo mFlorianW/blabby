@@ -7,6 +7,7 @@
 #include "QmlSingletonRegistry.hpp"
 #include "BlabbyVersion.hpp"
 #include "JsonRendererStore.hpp"
+#include "IniSettingsStore.hpp"
 #include "LoadProviders.hpp"
 #include "ProviderDirs.hpp"
 #include <QStandardPaths>
@@ -22,6 +23,12 @@ std::shared_ptr<Multimedia::RendererStore> createRendererStore()
     return std::make_shared<Multimedia::JsonRendererStore>(dataDir + QStringLiteral("/renderers.json"));
 }
 
+std::shared_ptr<SettingsStore> createSettingsStore()
+{
+    auto const dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    return std::make_shared<IniSettingsStore>(dataDir + QStringLiteral("/settings.ini"));
+}
+
 Multimedia::Providers loadInstalledProviders()
 {
     auto loader = Multimedia::ProviderLoader{};
@@ -32,7 +39,7 @@ Multimedia::Providers loadInstalledProviders()
 QmlSingletonRegistry::QmlSingletonRegistry()
     : mProviders{loadInstalledProviders()}
     , mSourceModel{mProviders}
-    , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore())}
+    , mRendererModel{std::make_unique<Multimedia::RendererProvider>(createRendererStore()), createSettingsStore()}
     , mActiveRendererController{mRendererModel}
     , mQueueModel{mRendererModel}
     , mSettingsModel{mProviders, QString::fromLatin1(blabbyVersion)}

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "InMemoryRendererStore.hpp"
+#include "InMemorySettingsStore.hpp"
 #include "MediaRendererDoubleFactory.hpp"
 #include "MediaRendererModel.hpp"
 #include "ServiceProviderDouble.hpp"
@@ -30,8 +31,10 @@ private:
     QString name(int row) const;
     bool isActive(int row) const;
     Multimedia::Renderer::Availability availability(int row) const;
+    QVariant lastPickedRenderer() const;
 
     std::shared_ptr<Multimedia::TestHelper::InMemoryRendererStore> mStore;
+    std::shared_ptr<InMemorySettingsStore> mSettings;
     UPnPAV::Doubles::ServiceProviderDouble* mServiceProvider = nullptr;
     UPnPAV::Doubles::MediaRendererDoubleFactory* mRendererFactory = nullptr;
     std::unique_ptr<MediaRendererModel> mModel = nullptr;
@@ -70,6 +73,16 @@ private Q_SLOTS:
     void ignore_forgetting_an_online_renderer();
     void ignore_forgetting_an_invalid_index();
     void remember_a_forgotten_renderer_again_when_it_is_discovered_again();
+    void remember_the_renderer_the_user_picked();
+    void replace_the_last_picked_renderer_with_the_next_pick();
+    void not_remember_a_pick_of_an_offline_renderer();
+    void activate_the_last_picked_renderer_when_it_comes_online_after_a_restart();
+    void activate_the_last_picked_renderer_when_it_is_discovered_for_the_first_time();
+    void activate_the_last_picked_renderer_again_when_it_comes_back_online();
+    void keep_the_last_picked_renderer_when_it_goes_offline_and_becomes_active_by_itself();
+    void keep_the_picked_renderer_active_when_the_previous_pick_comes_back_online();
+    void not_activate_the_last_picked_renderer_while_remembering_is_off();
+    void not_activate_a_forgotten_renderer();
 };
 
 } // namespace Shell

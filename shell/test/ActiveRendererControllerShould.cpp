@@ -5,6 +5,7 @@
 #include "ActiveRendererControllerShould.hpp"
 #include "Descriptions.hpp"
 #include "InMemoryRendererStore.hpp"
+#include "InMemorySettingsStore.hpp"
 #include "PositionInfoResponse.hpp"
 #include "RendererProvider.hpp"
 #include <QSignalSpy>
@@ -42,7 +43,7 @@ void ActiveRendererControllerShould::init()
     auto rProvider = std::make_unique<RendererProvider>(std::make_shared<TestHelper::InMemoryRendererStore>(),
                                                         std::move(sProvider),
                                                         std::move(rendererFactory));
-    mModel = std::make_unique<MediaRendererModel>(std::move(rProvider));
+    mModel = std::make_unique<MediaRendererModel>(std::move(rProvider), std::make_shared<InMemorySettingsStore>());
     mController = std::make_unique<ActiveRendererController>(*mModel);
 
     Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);

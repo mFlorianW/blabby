@@ -77,6 +77,7 @@ private Q_SLOTS:
     void ignore_toggling_while_a_call_is_pending_or_transitioning();
     void hand_over_a_running_queue_to_the_new_active_renderer();
     void stop_running_when_the_active_renderer_goes_offline();
+    void keep_an_idle_queue_idle_when_the_last_picked_renderer_becomes_active_by_itself();
 };
 
 } // namespace Shell

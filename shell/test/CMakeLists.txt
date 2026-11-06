@@ -85,6 +85,8 @@ target_sources(test_shell_active_renderer_controller
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererControllerShould.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ActiveRendererControllerShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.hpp
 )
 target_link_libraries(test_shell_active_renderer_controller
     PRIVATE
@@ -103,6 +105,8 @@ target_sources(test_shell_mediarenderer_model
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModelShould.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaRendererModelShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.hpp
 )
 target_link_libraries(test_shell_mediarenderer_model
     PRIVATE
@@ -121,6 +125,8 @@ target_sources(test_shell_queue_model
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/QueueModelShould.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QueueModelShould.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InMemorySettingsStore.hpp
 )
 target_link_libraries(test_shell_queue_model
     PRIVATE
@@ -222,3 +228,19 @@ target_link_libraries(test_shell_settings_model
         Blabby::MultimediaTestHelper
 )
 add_test(test_shell_settings_model ${EXECUTABLE_OUTPUT_PATH}/test_shell_settings_model)
+
+###############################################################################
+# Test IniSettingsStore
+###############################################################################
+add_executable(test_shell_ini_settings_store)
+target_sources(test_shell_ini_settings_store
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/IniSettingsStoreShould.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IniSettingsStoreShould.hpp
+)
+target_link_libraries(test_shell_ini_settings_store
+    PRIVATE
+        Qt6::Test
+        BlabbyShell::Object
+)
+add_test(test_shell_ini_settings_store ${EXECUTABLE_OUTPUT_PATH}/test_shell_ini_settings_store)

@@ -27,10 +27,13 @@ bool isOrderedBefore(Renderer const& lhs, Renderer const& rhs)
 }
 } // namespace
 
-MediaRendererModel::MediaRendererModel(std::unique_ptr<RendererProvider> provider)
+MediaRendererModel::MediaRendererModel(std::unique_ptr<RendererProvider> provider,
+                                       std::shared_ptr<SettingsStore> settings)
     : mProvider{std::move(provider)}
+    , mSettings{std::move(settings)}
 {
     Q_ASSERT(mProvider != nullptr);
+    Q_ASSERT(mSettings != nullptr);
 
     for (auto const& renderer : mProvider->renderers()) {
         addRenderer(renderer);
@@ -116,14 +119,9 @@ void MediaRendererModel::activateRenderer(QModelIndex const& index)
         return;
     }
 
-    auto const previousIndex = indexOf(mActiveRenderer.get());
-    mActiveRenderer = renderer;
-    qCDebug(shell) << "Activate renderer for index" << index.row() << ".";
-    Q_EMIT activeRendererChanged();
-    if (previousIndex.isValid()) {
-        Q_EMIT dataChanged(previousIndex, previousIndex, {static_cast<int>(DisplayRole::Active)});
-    }
-    Q_EMIT dataChanged(index, index, {static_cast<int>(DisplayRole::Active)});
+    // Only a pick by the user is stored, a Renderer that becomes active by itself is the last pick already.
+    mSettings->setValue(SettingsKey::lastRenderer, renderer->identity());
+    setActiveRenderer(renderer);
 }
 
 void MediaRendererModel::forgetRenderer(QModelIndex const& index)
@@ -140,6 +138,9 @@ void MediaRendererModel::forgetRenderer(QModelIndex const& index)
     }
 
     qCDebug(shell) << "Forget renderer" << renderer->name() << ".";
+    if (renderer->identity() == mSettings->value(SettingsKey::lastRenderer).toString()) {
+        mSettings->remove(SettingsKey::lastRenderer);
+    }
     disconnect(renderer.get(), nullptr, this, nullptr);
     beginRemoveRows(QModelIndex{}, index.row(), index.row());
     mRenderers.removeAt(index.row());
@@ -188,6 +189,8 @@ void MediaRendererModel::addRenderer(std::shared_ptr<Renderer> const& renderer)
     connect(rendererPtr, &Renderer::detailsChanged, this, [this, rendererPtr]() {
         onRendererChanged(rendererPtr);
     });
+
+    activateLastPickedRenderer();
 }
 
 void MediaRendererModel::onDiscoveryFinished()
@@ -233,8 +236,9 @@ void MediaRendererModel::onRendererChanged(Multimedia::Renderer const* renderer)
                         static_cast<int>(DisplayRole::Availability)});
 
     if (mActiveRenderer.get() == renderer and renderer->availability() == Renderer::Availability::Offline) {
-        clearActiveRenderer();
+        setActiveRenderer(nullptr);
     }
+    activateLastPickedRenderer();
 }
 
 int MediaRendererModel::sortedRow(Multimedia::Renderer const* renderer) const noexcept
@@ -247,14 +251,43 @@ int MediaRendererModel::sortedRow(Multimedia::Renderer const* renderer) const no
     return static_cast<int>(row);
 }
 
-void MediaRendererModel::clearActiveRenderer()
+void MediaRendererModel::setActiveRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer)
 {
     auto const previousIndex = indexOf(mActiveRenderer.get());
-    mActiveRenderer = nullptr;
-    qCDebug(shell) << "Clear the Active Renderer.";
+    auto const newIndex = indexOf(renderer.get());
+    mActiveRenderer = renderer;
+    if (renderer != nullptr) {
+        qCDebug(shell) << "Activate renderer" << renderer->name() << ".";
+    } else {
+        qCDebug(shell) << "Clear the Active Renderer.";
+    }
     Q_EMIT activeRendererChanged();
     if (previousIndex.isValid()) {
         Q_EMIT dataChanged(previousIndex, previousIndex, {static_cast<int>(DisplayRole::Active)});
+    }
+    if (newIndex.isValid()) {
+        Q_EMIT dataChanged(newIndex, newIndex, {static_cast<int>(DisplayRole::Active)});
+    }
+}
+
+void MediaRendererModel::activateLastPickedRenderer()
+{
+    if (mActiveRenderer != nullptr or
+        not mSettings->value(SettingsKey::rememberLastRenderer, SettingsKey::rememberLastRendererDefault).toBool()) {
+        return;
+    }
+
+    auto const identity = mSettings->value(SettingsKey::lastRenderer).toString();
+    if (identity.isEmpty()) {
+        return;
+    }
+
+    auto const iter = std::find_if(mRenderers.cbegin(), mRenderers.cend(), [&identity](auto const& renderer) {
+        return renderer->identity() == identity and renderer->availability() == Renderer::Availability::Online;
+    });
+    if (iter != mRenderers.cend()) {
+        qCDebug(shell) << "The Renderer the user last picked" << (*iter)->name() << "is Online.";
+        setActiveRenderer(*iter);
     }
 }
 
