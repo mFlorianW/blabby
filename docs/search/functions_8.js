@@ -15,7 +15,7 @@ var searchData=
   ['isbusy_12',['isBusy',['../classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14',1,'Shell::MediaItemModel']]],
   ['iscollecting_13',['iscollecting',['../classMultimedia_1_1Queue.html#a7e15e8b48cdfdd661500678154afd8c1',1,'Multimedia::Queue::isCollecting()'],['../classShell_1_1QueueModel.html#aa8accae76f9554950469f7e461d6f8f4',1,'Shell::QueueModel::isCollecting() const noexcept']]],
   ['iscurrententryplaying_14',['isCurrentEntryPlaying',['../classShell_1_1QueueModel.html#ad16227b4e0749d948a0da56380a74b1e',1,'Shell::QueueModel']]],
-  ['isdeviceunreachable_15',['isdeviceunreachable',['../classUPnPAV_1_1HttpSoapCall.html#ad75c6769e5035834f53c620dd70398c4',1,'UPnPAV::HttpSoapCall::isDeviceUnreachable()'],['../classUPnPAV_1_1SoapCall.html#abb09725931078a0b88b361cf2d54ab00',1,'UPnPAV::SoapCall::isDeviceUnreachable()']]],
+  ['isdeviceunreachable_15',['isdeviceunreachable',['../classUPnPAV_1_1SoapCall.html#abb09725931078a0b88b361cf2d54ab00',1,'UPnPAV::SoapCall::isDeviceUnreachable()'],['../classUPnPAV_1_1HttpSoapCall.html#ad75c6769e5035834f53c620dd70398c4',1,'UPnPAV::HttpSoapCall::isDeviceUnreachable()']]],
   ['isfinished_16',['isFinished',['../classMultimedia_1_1PendingPage.html#a9642ffbae42b3cab2823cac272d105ff',1,'Multimedia::PendingPage']]],
   ['ishovered_17',['isHovered',['../classShell_1_1AbstractInteractiveControl.html#a0ab3d15374cb61a51b739432f2341b85',1,'Shell::AbstractInteractiveControl']]],
   ['ismuted_18',['ismuted',['../classMultimedia_1_1Renderer.html#ac40b81039386fdb44640ffdf190112f1',1,'Multimedia::Renderer::isMuted()'],['../classShell_1_1ActiveRendererController.html#aec6aa08dc62b7fc88d4b78c0c6ba078c',1,'Shell::ActiveRendererController::isMuted()']]],
@@ -24,10 +24,11 @@ var searchData=
   ['ispressed_21',['isPressed',['../classShell_1_1AbstractInteractiveControl.html#abf482a71f7d809737fc4608bd7b81ae6',1,'Shell::AbstractInteractiveControl']]],
   ['isrunning_22',['isRunning',['../classShell_1_1QueueModel.html#a61712de890f21d26e4ec05aaf518d39d',1,'Shell::QueueModel']]],
   ['isscanning_23',['isScanning',['../classShell_1_1MediaRendererModel.html#a7599c2072e511adb123efc8edb4dccaa',1,'Shell::MediaRendererModel']]],
-  ['issubscribed_24',['isSubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#aba13d4335df5c939a026bd05a8c737fd',1,'UPnPAV::EventSubscriptionHandle']]],
-  ['istotaldurationpartial_25',['isTotalDurationPartial',['../classShell_1_1QueueModel.html#af4e7a1c2bb78fde1d9680d5f235b4d36',1,'Shell::QueueModel']]],
-  ['istransitioning_26',['istransitioning',['../classMultimedia_1_1Renderer.html#ad3795c0d1dc966ea4b04a543bc329e63',1,'Multimedia::Renderer::isTransitioning()'],['../classShell_1_1ActiveRendererController.html#a6e3355b9bdc3f424313a63ca1ac5f305',1,'Shell::ActiveRendererController::isTransitioning()']]],
-  ['isvalid_27',['isValid',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa7fc94ed1c205533f1c845d234549de1',1,'UPnPAV::MediaServerObjectBuilder']]],
-  ['item_28',['item',['../classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3',1,'Multimedia::Item::Item()'],['../classMultimedia_1_1Item.html#aa5eef23d14dc06f0b610600a981a7d4f',1,'Multimedia::Item::Item(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString artworkUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))']]],
-  ['items_29',['items',['../classMultimedia_1_1PendingPage.html#acd9a8e3bdbae13fe7863efccdafc78d1',1,'Multimedia::PendingPage']]]
+  ['isshuffled_24',['isshuffled',['../classMultimedia_1_1Queue.html#ac8e366b27a07cef68b0c700182b22c19',1,'Multimedia::Queue::isShuffled()'],['../classShell_1_1QueueModel.html#a75b78f46c9dbe6cbc0d00b6894db8cc7',1,'Shell::QueueModel::isShuffled()']]],
+  ['issubscribed_25',['isSubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#aba13d4335df5c939a026bd05a8c737fd',1,'UPnPAV::EventSubscriptionHandle']]],
+  ['istotaldurationpartial_26',['isTotalDurationPartial',['../classShell_1_1QueueModel.html#af4e7a1c2bb78fde1d9680d5f235b4d36',1,'Shell::QueueModel']]],
+  ['istransitioning_27',['istransitioning',['../classMultimedia_1_1Renderer.html#ad3795c0d1dc966ea4b04a543bc329e63',1,'Multimedia::Renderer::isTransitioning()'],['../classShell_1_1ActiveRendererController.html#a6e3355b9bdc3f424313a63ca1ac5f305',1,'Shell::ActiveRendererController::isTransitioning()']]],
+  ['isvalid_28',['isValid',['../classUPnPAV_1_1MediaServerObjectBuilder.html#aa7fc94ed1c205533f1c845d234549de1',1,'UPnPAV::MediaServerObjectBuilder']]],
+  ['item_29',['item',['../classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3',1,'Multimedia::Item::Item()'],['../classMultimedia_1_1Item.html#aa5eef23d14dc06f0b610600a981a7d4f',1,'Multimedia::Item::Item(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString artworkUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))']]],
+  ['items_30',['items',['../classMultimedia_1_1PendingPage.html#acd9a8e3bdbae13fe7863efccdafc78d1',1,'Multimedia::PendingPage']]]
 ];

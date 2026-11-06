@@ -27,6 +27,7 @@ var classShell_1_1QueueModel =
     [ "isCollecting", "classShell_1_1QueueModel.html#aa8accae76f9554950469f7e461d6f8f4", null ],
     [ "isCurrentEntryPlaying", "classShell_1_1QueueModel.html#ad16227b4e0749d948a0da56380a74b1e", null ],
     [ "isRunning", "classShell_1_1QueueModel.html#a61712de890f21d26e4ec05aaf518d39d", null ],
+    [ "isShuffled", "classShell_1_1QueueModel.html#a75b78f46c9dbe6cbc0d00b6894db8cc7", null ],
     [ "isTotalDurationPartial", "classShell_1_1QueueModel.html#af4e7a1c2bb78fde1d9680d5f235b4d36", null ],
     [ "move", "classShell_1_1QueueModel.html#a193fac75211094880288d583601c31a2", null ],
     [ "next", "classShell_1_1QueueModel.html#a6704aeeaca531a9bba78c652a0d4524a", null ],
@@ -40,9 +41,11 @@ var classShell_1_1QueueModel =
     [ "roleNames", "classShell_1_1QueueModel.html#ab7fb3825369927d904f87edfe5f92dcc", null ],
     [ "rowCount", "classShell_1_1QueueModel.html#a366e0bdf2afd90477ef032c3729ef042", null ],
     [ "runningChanged", "classShell_1_1QueueModel.html#a81b980e2781b6f2357844b49ee4f2b2e", null ],
+    [ "shuffledChanged", "classShell_1_1QueueModel.html#a68aa9744a8fc1e54f4eb7761ed4c62ef", null ],
     [ "stepAvailabilityChanged", "classShell_1_1QueueModel.html#a883f0465ea7501199f4ad1a064ed846f", null ],
     [ "summaryChanged", "classShell_1_1QueueModel.html#ab2d1a31f083bc1840e8b7565511e1a7a", null ],
     [ "togglePlayback", "classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013", null ],
+    [ "toggleShuffle", "classShell_1_1QueueModel.html#a453483f47f027ea467058aa52bb906ac", null ],
     [ "totalDuration", "classShell_1_1QueueModel.html#a6b94d641df2e8ef23cd4c58318a4a5e6", null ],
     [ "undo", "classShell_1_1QueueModel.html#aba9aaa32e7eebc802e86b451c15f9af9", null ],
     [ "collectedContainerTitle", "classShell_1_1QueueModel.html#a1bfe53a2ce9ac3eb7b70fba0a53af187", null ],
@@ -54,6 +57,7 @@ var classShell_1_1QueueModel =
     [ "hasTotalDuration", "classShell_1_1QueueModel.html#a943136479e070cac147053a90c8def76", null ],
     [ "repeat", "classShell_1_1QueueModel.html#abf78a03da5197fbdd15a8f5f90dfa35f", null ],
     [ "running", "classShell_1_1QueueModel.html#ad0ff57cf4a5019f64d83b7f88bd7b4d5", null ],
+    [ "shuffled", "classShell_1_1QueueModel.html#acefcf0de6950d75b55ced60cd269a16c", null ],
     [ "totalDuration", "classShell_1_1QueueModel.html#af4a0d6886c014a063f98bd496198bd38", null ],
     [ "totalDurationPartial", "classShell_1_1QueueModel.html#af9c8d41d55ef661e77abefd48d704735", null ]
 ];

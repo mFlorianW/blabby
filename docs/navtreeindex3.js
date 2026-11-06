@@ -1,5 +1,14 @@
 var NAVTREEINDEX3 =
 {
+"classUPnPAV_1_1GetProtocolInfoResponse.html":[7,0,4,28],
+"classUPnPAV_1_1GetTransportInfoResponse.html":[7,0,4,29],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928f":[7,0,4,29,0],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa299187349499c3b55704737fbc4e2d59":[7,0,4,29,0,2],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa2c9f21d58b1c917addccafb9bedf4f2e":[7,0,4,29,0,1],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa69a4b7185e3fbc9bfc0878876d7416cf":[7,0,4,29,0,5],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fab5f2bfdedd1f53433d8f0f3aad3aebc5":[7,0,4,29,0,6],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac23e2b09ebe6bf4cb5e2a9abe85c0be2":[7,0,4,29,0,0],
+"classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac5564d2e8b8e0ae08bf4363f2b947166":[7,0,4,29,0,4],
 "classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fac9dbb2b7c84159b632d71e512eba8428":[7,0,4,29,0,3],
 "classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9":[7,0,4,29,3],
 "classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241":[7,0,4,29,4],
@@ -240,14 +249,5 @@ var NAVTREEINDEX3 =
 "classUPnPAV_1_1ServiceControlPointDefinitionParser.html":[7,0,4,73],
 "classUPnPAV_1_1ServiceDescription.html":[7,0,4,74],
 "classUPnPAV_1_1ServiceDescriptionValidator.html":[7,0,4,76],
-"classUPnPAV_1_1ServiceDescriptionValidator.html#a3c1e10ee6ad07ad31443a824661fa408":[7,0,4,76,0],
-"classUPnPAV_1_1ServiceDescriptionValidator.html#ae3570e88f10654904e677283746e3f26":[7,0,4,76,1],
-"classUPnPAV_1_1ServiceDiscovery.html":[7,0,4,77],
-"classUPnPAV_1_1ServiceDiscoveryBackend.html":[7,0,4,78],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html":[7,0,4,79],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540":[7,0,4,79,4],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html#a4423f276bc8f634bfa62f3a9fad672c9":[7,0,4,79,3],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html#ab25bbb14c067557fc99a300c184099ac":[7,0,4,79,1],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html#acd7dad4a405d53108b692b6cdf321119":[7,0,4,79,5],
-"classUPnPAV_1_1ServiceDiscoveryPackage.html#af68352b867789960eb7697eece4171d6":[7,0,4,79,2]
+"classUPnPAV_1_1ServiceDescriptionValidator.html#a3c1e10ee6ad07ad31443a824661fa408":[7,0,4,76,0]
 };

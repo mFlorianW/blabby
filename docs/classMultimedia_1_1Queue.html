@@ -145,6 +145,8 @@ Public Types</h2></td></tr>
 , <a class="el" href="classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575ba06c2cea18679d64399783748fa367bdd">One</a>
  }</td></tr>
 <tr class="separator:ad58cc0084dac2a23086a32978b1f575b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2610d4055a3b2ebfe8ce67d94cd571f" id="r_ac2610d4055a3b2ebfe8ce67d94cd571f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#ac2610d4055a3b2ebfe8ce67d94cd571f">RandomSource</a> = std::function&lt; qsizetype(qsizetype bound)&gt;</td></tr>
+<tr class="separator:ac2610d4055a3b2ebfe8ce67d94cd571f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
@@ -174,6 +176,8 @@ Signals</h2></td></tr>
 <tr class="separator:a9ae3c822b67d7abe8f84364ed2d4f823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b64145cd19e50ed002e705694fe442c" id="r_a8b64145cd19e50ed002e705694fe442c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a8b64145cd19e50ed002e705694fe442c">repeatChanged</a> ()</td></tr>
 <tr class="separator:a8b64145cd19e50ed002e705694fe442c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e819704dcf04e6dad2ba20b2f9fcc7" id="r_a08e819704dcf04e6dad2ba20b2f9fcc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a08e819704dcf04e6dad2ba20b2f9fcc7">shuffledChanged</a> ()</td></tr>
+<tr class="separator:a08e819704dcf04e6dad2ba20b2f9fcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a132ec7057fd8a8cb08e8a9a8cd3d59" id="r_a4a132ec7057fd8a8cb08e8a9a8cd3d59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a4a132ec7057fd8a8cb08e8a9a8cd3d59">collectingChanged</a> ()</td></tr>
 <tr class="separator:a4a132ec7057fd8a8cb08e8a9a8cd3d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accce701c4816b64b10410bc71ac1cc15" id="r_accce701c4816b64b10410bc71ac1cc15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#accce701c4816b64b10410bc71ac1cc15">collectionFailed</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;container)</td></tr>
@@ -183,6 +187,8 @@ Signals</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa90f1968f18d1925bd4393dc04bbf295" id="r_aa90f1968f18d1925bd4393dc04bbf295"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#aa90f1968f18d1925bd4393dc04bbf295">Queue</a> ()</td></tr>
 <tr class="separator:aa90f1968f18d1925bd4393dc04bbf295"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9cdf306aa7caddf7add384c8a4ed769" id="r_ad9cdf306aa7caddf7add384c8a4ed769"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#ad9cdf306aa7caddf7add384c8a4ed769">Queue</a> (<a class="el" href="classMultimedia_1_1Queue.html#ac2610d4055a3b2ebfe8ce67d94cd571f">RandomSource</a> randomSource)</td></tr>
+<tr class="separator:ad9cdf306aa7caddf7add384c8a4ed769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7228c85f8e315f903204ec5726d60e2e" id="r_a7228c85f8e315f903204ec5726d60e2e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a7228c85f8e315f903204ec5726d60e2e">~Queue</a> () override</td></tr>
 <tr class="separator:a7228c85f8e315f903204ec5726d60e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82c7ce250456a91c396daf2e66fec16b" id="r_a82c7ce250456a91c396daf2e66fec16b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a82c7ce250456a91c396daf2e66fec16b">setActiveRenderer</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> &gt; renderer) noexcept</td></tr>
@@ -205,6 +211,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aefcb0c380745b31b5f091c9c6cbe3bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75fe2fa247121a3c4c239df0c43f0371" id="r_a75fe2fa247121a3c4c239df0c43f0371"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a75fe2fa247121a3c4c239df0c43f0371">setRepeat</a> (<a class="el" href="classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575b">Queue::Repeat</a> <a class="el" href="classMultimedia_1_1Queue.html#aefcb0c380745b31b5f091c9c6cbe3bed">repeat</a>) noexcept</td></tr>
 <tr class="separator:a75fe2fa247121a3c4c239df0c43f0371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8e366b27a07cef68b0c700182b22c19" id="r_ac8e366b27a07cef68b0c700182b22c19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#ac8e366b27a07cef68b0c700182b22c19">isShuffled</a> () const noexcept</td></tr>
+<tr class="separator:ac8e366b27a07cef68b0c700182b22c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0aaeb95b006792c4e5eea041fccc962" id="r_aa0aaeb95b006792c4e5eea041fccc962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#aa0aaeb95b006792c4e5eea041fccc962">setShuffled</a> (bool shuffled) noexcept</td></tr>
+<tr class="separator:aa0aaeb95b006792c4e5eea041fccc962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1721ce55b5a8b1a1a6d5a6533be7" id="r_a0ddf1721ce55b5a8b1a1a6d5a6533be7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#a0ddf1721ce55b5a8b1a1a6d5a6533be7">replace</a> (Items const &amp;playables, qsizetype startIndex) noexcept</td></tr>
 <tr class="separator:a0ddf1721ce55b5a8b1a1a6d5a6533be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3c080fa99e7d7423521e44583377cb8" id="r_ab3c080fa99e7d7423521e44583377cb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Queue.html#ab3c080fa99e7d7423521e44583377cb8">play</a> (qsizetype index) noexcept</td></tr>
@@ -246,8 +256,24 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is the ordered list of Playables that Blabby plays one after another on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. It belongs to Blabby, not to a <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, and lives in memory only.</p>
-<p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> sends one entry at a time to the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> and advances itself when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> finished the Current Entry (ADR 0003): the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> reports Stopped while its Current Track is the Current Entry, matched by URI, and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on the device, a stream without a duration, or the end of what another controller played. How it advances depends on its Repeat, which belongs to the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> and is never sent to the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> as a play mode. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<p>The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> sends one entry at a time to the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> and advances itself when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> finished the Current Entry (ADR 0003): the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> reports Stopped while its Current Track is the Current Entry, matched by URI, and the last known position was within 3 seconds of the duration. Any other Stopped doesn't advance, e.g. a stop on the device, a stream without a duration, or the end of what another controller played. How it advances depends on its Repeat and its Shuffle, which belong to the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> and are never sent to the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> as a play mode. While shuffled the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> plays its entries in a random play order, the listed order of the entries never changes with it. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ac2610d4055a3b2ebfe8ce67d94cd571f" name="ac2610d4055a3b2ebfe8ce67d94cd571f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2610d4055a3b2ebfe8ce67d94cd571f">&#9670;&#160;</a></span>RandomSource</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classMultimedia_1_1Queue.html#ac2610d4055a3b2ebfe8ce67d94cd571f">Multimedia::Queue::RandomSource</a> =  std::function&lt;qsizetype(qsizetype bound)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gives a random number in the range [0, bound), bound is at least 1. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="ad58cc0084dac2a23086a32978b1f575b" name="ad58cc0084dac2a23086a32978b1f575b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad58cc0084dac2a23086a32978b1f575b">&#9670;&#160;</a></span>Repeat</h2>
 
@@ -310,7 +336,25 @@ Public Member Functions</h2></td></tr>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa90f1968f18d1925bd4393dc04bbf295" name="aa90f1968f18d1925bd4393dc04bbf295"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa90f1968f18d1925bd4393dc04bbf295">&#9670;&#160;</a></span>Queue()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa90f1968f18d1925bd4393dc04bbf295">&#9670;&#160;</a></span>Queue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Multimedia::Queue::Queue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates an empty and Idle <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> that shuffles with the global random generator. </p>
+
+</div>
+</div>
+<a id="ad9cdf306aa7caddf7add384c8a4ed769" name="ad9cdf306aa7caddf7add384c8a4ed769"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9cdf306aa7caddf7add384c8a4ed769">&#9670;&#160;</a></span>Queue() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -321,17 +365,23 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Multimedia::Queue::Queue </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1Queue.html#ac2610d4055a3b2ebfe8ce67d94cd571f">RandomSource</a>&#160;</td>
+          <td class="paramname"><em>randomSource</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Creates an empty and Idle <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. </p>
+<p>Creates an empty and Idle <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">randomSource</td><td>The random source the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> shuffles with. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -411,7 +461,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Appends the Playables at the end of the entries. The Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State stay, a <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without a Current Entry, e.g. an empty one, makes the first appended Playable its Current Entry and stays Idle. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Appends the Playables at the end of the entries. The Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State stay, a <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without a Current Entry, e.g. an empty one, makes the first appended Playable its Current Entry and stays Idle. While shuffled each Playable is placed at a random position in the play order after the Current Entry. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">playables</td><td>The Playables in the order they shall be appended. </td></tr>
   </table>
@@ -1029,6 +1079,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac8e366b27a07cef68b0c700182b22c19" name="ac8e366b27a07cef68b0c700182b22c19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8e366b27a07cef68b0c700182b22c19">&#9670;&#160;</a></span>isShuffled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Queue::isShuffled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is shuffled. </p><dl class="section return"><dt>Returns</dt><dd>True while shuffled, false at start. </dd></dl>
+
+</div>
+</div>
 <a id="abf6acae79b768b1964483e485c140e41" name="abf6acae79b768b1964483e485c140e41"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf6acae79b768b1964483e485c140e41">&#9670;&#160;</a></span>lastKnownPosition()</h2>
 
@@ -1146,7 +1222,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Plays the entry after the Current Entry from its start, like <a class="el" href="classMultimedia_1_1Queue.html#ab3c080fa99e7d7423521e44583377cb8">Multimedia::Queue::play</a>, also with the Repeat One. On the last entry the first entry plays with the Repeat All, nothing happens otherwise. </p>
+<p>Plays the entry after the Current Entry from its start, like <a class="el" href="classMultimedia_1_1Queue.html#ab3c080fa99e7d7423521e44583377cb8">Multimedia::Queue::play</a>, also with the Repeat One. On the last entry the first entry plays with the Repeat All, nothing happens otherwise. While shuffled the following, the last and the first entry are those of the play order. </p>
 
 </div>
 </div>
@@ -1173,7 +1249,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Plays the entry at the index from its start on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, it becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the entry only becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Plays the entry at the index from its start on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, it becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the entry only becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. While shuffled the entry is moved in the play order right after the previous Current Entry, so the entries that weren't played yet stay ahead. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>The index of the entry to play. </td></tr>
   </table>
@@ -1205,7 +1281,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Inserts the Playables right after the Current Entry, so they play next. The Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State stay. A <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without a Current Entry, e.g. an empty one, appends them and makes the first one its Current Entry, it stays Idle. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Inserts the Playables right after the Current Entry, so they play next, also while shuffled. The Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State stay. A <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> without a Current Entry, e.g. an empty one, appends them and makes the first one its Current Entry, it stays Idle. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">playables</td><td>The Playables in the order they shall be played. </td></tr>
   </table>
@@ -1332,7 +1408,7 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Restarts the Current Entry when it played for more than 3 seconds and plays the preceding entry from its start otherwise, the first entry is always restarted. The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running afterwards, also when it was Idle or another controller took over the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. A Current Entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> plays for the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is restarted by a seek to its start, it's loaded again when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> can't seek or doesn't play it. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the entry only becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p>
+<p>Restarts the Current Entry when it played for more than 3 seconds and plays the preceding entry from its start otherwise, the first entry is always restarted. While shuffled the preceding and the first entry are those of the play order. The <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running afterwards, also when it was Idle or another controller took over the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. A Current Entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> plays for the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is restarted by a seek to its start, it's loaded again when the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> can't seek or doesn't play it. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the entry only becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p>
 
 </div>
 </div>
@@ -1359,7 +1435,7 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Removes the entry at the index, the other entries keep their order. Removing an entry that isn't the Current Entry doesn't affect the playback. Removing the Current Entry makes the following entry the Current Entry, which plays from its start when the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Without a following entry the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle without a Current Entry, and the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> is stopped when it is on the removed Current Entry. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Removes the entry at the index, the other entries keep their order. Removing an entry that isn't the Current Entry doesn't affect the playback. Removing the Current Entry makes the following entry, in the play order while shuffled, the Current Entry, which plays from its start when the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Without a following entry the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle without a Current Entry, and the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> is stopped when it is on the removed Current Entry. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>The index of the entry to remove. </td></tr>
   </table>
@@ -1453,7 +1529,7 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Replaces the entries with the Playables and plays the start entry on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the start entry becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. An empty list of Playables empties the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>, it's Idle then. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Replaces the entries with the Playables and plays the start entry on the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>, the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Running. Shuffle is turned off. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the start entry becomes the Current Entry and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. An empty list of Playables empties the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>, it's Idle then. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">playables</td><td>The Playables in the order they shall be played. </td></tr>
     <tr><td class="paramname">startIndex</td><td>The index of the Playable that plays first. </td></tr>
@@ -1486,7 +1562,7 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Restores the entries, the Current Entry, its last known position and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State of the snapshot. A Current Entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> played for the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> when the snapshot was taken and doesn't play anymore, e.g. because it was removed, plays again from its start. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the restored <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Restores the entries, the Current Entry, its last known position and the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> State of the snapshot. Shuffle stays as it is, a shuffled <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> takes the play order of a shuffled snapshot and shuffles a snapshot that wasn't. A Current Entry that the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> played for the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> when the snapshot was taken and doesn't play anymore, e.g. because it was removed, plays again from its start. Without an Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> the restored <a class="el" href="classMultimedia_1_1Queue.html">Queue</a> is Idle. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">snapshot</td><td>The snapshot to restore. </td></tr>
   </table>
@@ -1556,6 +1632,64 @@ const&amp;)</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa0aaeb95b006792c4e5eea041fccc962" name="aa0aaeb95b006792c4e5eea041fccc962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0aaeb95b006792c4e5eea041fccc962">&#9670;&#160;</a></span>setShuffled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Queue::setShuffled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>shuffled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Turns Shuffle on or off, the listed order of the entries and the playback stay. Turning it on keeps the Current Entry and puts all other entries in a random play order after it, previous, next and advancing follow the play order then. Turning it off continues in the listed order after the Current Entry. Shuffle is kept when the entries are cleared or restored and on a Hand Over, it's turned off when the entries are replaced. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shuffled</td><td>True to shuffle the <a class="el" href="classMultimedia_1_1Queue.html">Queue</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a08e819704dcf04e6dad2ba20b2f9fcc7" name="a08e819704dcf04e6dad2ba20b2f9fcc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08e819704dcf04e6dad2ba20b2f9fcc7">&#9670;&#160;</a></span>shuffledChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Queue::shuffledChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when Shuffle was turned on or off, next may have become available or unavailable with it. </p>
 
 </div>
 </div>

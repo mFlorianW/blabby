@@ -1,7 +1,8 @@
 var classMultimedia_1_1Queue =
 [
     [ "Collection", "structMultimedia_1_1Queue_1_1Collection.html", "structMultimedia_1_1Queue_1_1Collection" ],
-    [ "Snapshot", "structMultimedia_1_1Queue_1_1Snapshot.html", null ],
+    [ "Snapshot", "structMultimedia_1_1Queue_1_1Snapshot.html", "structMultimedia_1_1Queue_1_1Snapshot" ],
+    [ "RandomSource", "classMultimedia_1_1Queue.html#ac2610d4055a3b2ebfe8ce67d94cd571f", null ],
     [ "Repeat", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575b", [
       [ "Off", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575bad15305d7a4e34e02489c74a5ef542f36", null ],
       [ "All", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575bab1c94ca2fbc3e78fc30069c8d0f01680", null ],
@@ -12,6 +13,7 @@ var classMultimedia_1_1Queue =
       [ "Running", "classMultimedia_1_1Queue.html#a2704d36e295bf6916c9e6702cc8c8e0ba5bda814c4aedb126839228f1a3d92f09", null ]
     ] ],
     [ "Queue", "classMultimedia_1_1Queue.html#aa90f1968f18d1925bd4393dc04bbf295", null ],
+    [ "Queue", "classMultimedia_1_1Queue.html#ad9cdf306aa7caddf7add384c8a4ed769", null ],
     [ "~Queue", "classMultimedia_1_1Queue.html#a7228c85f8e315f903204ec5726d60e2e", null ],
     [ "activeRenderer", "classMultimedia_1_1Queue.html#ac7b50f048d332fade4b15064d74891c4", null ],
     [ "append", "classMultimedia_1_1Queue.html#a8a00a09e61357cb75cb35368ab59562f", null ],
@@ -36,6 +38,7 @@ var classMultimedia_1_1Queue =
     [ "hasNext", "classMultimedia_1_1Queue.html#ad6fff437c415f363d2fc4ac01815a249", null ],
     [ "hasPrevious", "classMultimedia_1_1Queue.html#a8b400400697498cc547bc036d2f18e31", null ],
     [ "isCollecting", "classMultimedia_1_1Queue.html#a7e15e8b48cdfdd661500678154afd8c1", null ],
+    [ "isShuffled", "classMultimedia_1_1Queue.html#ac8e366b27a07cef68b0c700182b22c19", null ],
     [ "lastKnownPosition", "classMultimedia_1_1Queue.html#abf6acae79b768b1964483e485c140e41", null ],
     [ "lastKnownPositionChanged", "classMultimedia_1_1Queue.html#a2cc8d8fcc188f3b06f9e582a7c53d791", null ],
     [ "move", "classMultimedia_1_1Queue.html#aa726ecb37e8ac590eb465d0daf5eb5c6", null ],
@@ -53,6 +56,8 @@ var classMultimedia_1_1Queue =
     [ "restore", "classMultimedia_1_1Queue.html#af5f2720207ea5021b643aff70b46aa2c", null ],
     [ "setActiveRenderer", "classMultimedia_1_1Queue.html#a82c7ce250456a91c396daf2e66fec16b", null ],
     [ "setRepeat", "classMultimedia_1_1Queue.html#a75fe2fa247121a3c4c239df0c43f0371", null ],
+    [ "setShuffled", "classMultimedia_1_1Queue.html#aa0aaeb95b006792c4e5eea041fccc962", null ],
+    [ "shuffledChanged", "classMultimedia_1_1Queue.html#a08e819704dcf04e6dad2ba20b2f9fcc7", null ],
     [ "snapshot", "classMultimedia_1_1Queue.html#a81c9ab68936837f470439adee98ec27a", null ],
     [ "state", "classMultimedia_1_1Queue.html#a208c9d1b61b69bb7ff60950fca3cd825", null ],
     [ "stateChanged", "classMultimedia_1_1Queue.html#a081f520cec262baa9fec0bb2e483c6c3", null ],
