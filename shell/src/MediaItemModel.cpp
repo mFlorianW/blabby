@@ -115,8 +115,10 @@ void MediaItemModel::setMediaSource(std::shared_ptr<Multimedia::Source> const& m
                     &MediaItemModel::onNavigationFinished);
             connect(mMediaSrc.get(), &Multimedia::Source::navigationFailed, this, &MediaItemModel::onNavigationFailed);
             connect(mMediaSrc.get(), &Multimedia::Source::moreItemsLoaded, this, &MediaItemModel::onMoreItemsLoaded);
-            connect(
-                mMediaSrc.get(), &Multimedia::Source::loadingMoreFailed, this, &MediaItemModel::onLoadingMoreFailed);
+            connect(mMediaSrc.get(),
+                    &Multimedia::Source::loadingMoreFailed,
+                    this,
+                    &MediaItemModel::onLoadingMoreFailed);
         }
         setLoadMoreFailed(false);
         Q_EMIT mediaSourceChanged();
@@ -150,8 +152,9 @@ void MediaItemModel::activateMediaItem(qsizetype idx, qsizetype scrollPosition) 
     if (item.type() == Multimedia::ItemType::Container) {
         // Copy the path, the Source may replace its Items while navigating.
         auto const path = item.path();
-        startNavigation(PendingNavigation::Open,
-                        {.mTitle = item.mainText(), .mParentItemCount = mRowCount, .mParentScrollPosition = scrollPosition});
+        startNavigation(
+            PendingNavigation::Open,
+            {.mTitle = item.mainText(), .mParentItemCount = mRowCount, .mParentScrollPosition = scrollPosition});
         mMediaSrc->navigateTo(path);
         return;
     }
@@ -244,7 +247,8 @@ void MediaItemModel::onNavigationFinished() noexcept
         Q_EMIT containerChanged();
         Q_EMIT busyChanged();
         // The Container may have shrunk meanwhile, the closest valid position is its last Item.
-        Q_EMIT scrollPositionRestoreRequested(std::max(qsizetype{0}, std::min(scrollPosition, qsizetype{mRowCount} - 1)));
+        Q_EMIT scrollPositionRestoreRequested(
+            std::max(qsizetype{0}, std::min(scrollPosition, qsizetype{mRowCount} - 1)));
     }
 }
 
@@ -322,8 +326,12 @@ QString MediaItemModel::containerTitle() const noexcept
 
 QString MediaItemModel::parentContainerTitle() const noexcept
 {
+    if (isAtRoot()) {
+        return {};
+    }
     // The root Container has no title of its own, it's named after the Source.
-    return mOpenedContainers.size() > 1 ? mOpenedContainers.at(mOpenedContainers.size() - 2).mTitle : mMediaSrc->sourceName();
+    return mOpenedContainers.size() > 1 ? mOpenedContainers.at(mOpenedContainers.size() - 2).mTitle
+                                        : mMediaSrc->sourceName();
 }
 
 bool MediaItemModel::isAtRoot() const noexcept

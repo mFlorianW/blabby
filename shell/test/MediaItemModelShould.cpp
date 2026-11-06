@@ -623,6 +623,25 @@ void MediaItemModelShould::give_the_title_of_the_current_container()
     QCOMPARE(miModel.property("containerTitle").toString(), QStringLiteral("Container2"));
 }
 
+void MediaItemModelShould::give_the_title_of_the_parent_container()
+{
+    auto miModel = MediaItemModel{};
+    auto mediaSrc = std::make_shared<Multimedia::TestHelper::TestSource>(QStringLiteral("Source"), QString(""));
+    auto mTester = QAbstractItemModelTester(&miModel, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    miModel.setMediaSource(mediaSrc);
+    QCOMPARE(miModel.property("parentContainerTitle").toString(), QString{});
+
+    // The root Container is named after the Source.
+    miModel.activateMediaItem(2);
+    QCOMPARE(miModel.property("parentContainerTitle").toString(), QStringLiteral("Source"));
+
+    miModel.activateMediaItem(2);
+    QCOMPARE(miModel.property("parentContainerTitle").toString(), QStringLiteral("Container1"));
+
+    miModel.navigateBack();
+    QCOMPARE(miModel.property("parentContainerTitle").toString(), QStringLiteral("Source"));
+}
+
 void MediaItemModelShould::return_to_the_parent_container_title_when_navigating_back()
 {
     auto miModel = MediaItemModel{};

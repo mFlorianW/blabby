@@ -153,6 +153,7 @@ Item {
             libraryView.busy = false;
             libraryView.atRoot = true;
             libraryView.containerTitle = "";
+            libraryView.parentContainerTitle = "";
             libraryView.loadMoreFailed = false;
             libraryView.collecting = false;
             libraryView.collectedContainerTitle = "";
@@ -832,49 +833,70 @@ Item {
         }
 
         /**
-         * Tests that the root Container shows neither the back button nor a Container title.
+         * Tests that the navigation row at the root Container shows the Active Source below "Library" beside a disabled
+         * back button.
          */
-        function test_show_neither_back_button_nor_title_at_the_root() {
-            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
-            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
-        }
-
-        /**
-         * Tests that below the root the back button and the title of the current Container are shown.
-         */
-        function test_show_back_button_and_title_below_the_root() {
-            libraryView.atRoot = false;
-            libraryView.containerTitle = "Albums";
+        function test_show_the_active_source_and_a_disabled_back_button_at_the_root() {
+            libraryViewTest.compare(libraryViewTest.child("navigationRow").visible, true);
             const backButton = libraryViewTest.child("backButton");
             libraryViewTest.compare(backButton.visible, true);
-            libraryViewTest.verify(backButton.width >= 44);
-            libraryViewTest.verify(backButton.height >= 44);
-            const title = libraryViewTest.child("containerTitle");
-            libraryViewTest.compare(title.visible, true);
-            libraryViewTest.compare(title.text, "Albums");
+            libraryViewTest.compare(backButton.enabled, false);
+            libraryViewTest.compare(libraryViewTest.child("parentContainerTitle").text, "Library");
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").text, "NAS");
         }
 
         /**
-         * Tests that neither the back button nor a title is shown without an Active Source.
+         * Tests that below the root the navigation row shows the title of the current Container below the title of its
+         * parent beside an enabled back button of the size of the design.
          */
-        function test_show_neither_back_button_nor_title_without_an_active_source() {
+        function test_show_the_container_and_its_parent_and_an_enabled_back_button_below_the_root() {
+            libraryView.atRoot = false;
+            libraryView.containerTitle = "Low Tide Sessions";
+            libraryView.parentContainerTitle = "Albums";
+            const backButton = libraryViewTest.child("backButton");
+            libraryViewTest.compare(backButton.enabled, true);
+            libraryViewTest.compare(libraryViewTest.findChild(backButton, "container").width, 56);
+            libraryViewTest.compare(libraryViewTest.child("parentContainerTitle").text, "Albums");
+            libraryViewTest.compare(libraryViewTest.child("containerTitle").text, "Low Tide Sessions");
+        }
+
+        /**
+         * Tests that the navigation row starts 20 px below the header and the grid 20 px below the navigation row.
+         */
+        function test_place_the_navigation_row_between_the_header_and_the_grid() {
+            const navigationRow = libraryViewTest.child("navigationRow");
+            const header = libraryViewTest.child("header");
+            const grid = libraryViewTest.child("itemGrid");
+            libraryViewTest.compare(navigationRow.height, 64);
+            libraryViewTest.compare(navigationRow.y, header.y + header.height + 20);
+            libraryViewTest.compare(grid.y, navigationRow.y + navigationRow.height + 20);
+        }
+
+        /**
+         * Tests that the navigation row isn't shown without an Active Source.
+         */
+        function test_not_show_the_navigation_row_without_an_active_source() {
             libraryView.atRoot = false;
             libraryView.containerTitle = "Albums";
             libraryView.hasActiveSource = false;
-            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
-            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("navigationRow").visible, false);
         }
 
         /**
-         * Tests that tapping the back button emits backRequested.
+         * Tests that tapping the back button emits backRequested below the root.
          */
         function test_emit_backRequested_when_the_back_button_is_tapped() {
             libraryView.atRoot = false;
-            const backButton = libraryViewTest.child("backButton");
-            // The header lays out the back button beside the Source pill on the next polish.
-            libraryViewTest.verify(libraryViewTest.waitForPolish(backButton.parent));
-            libraryViewTest.mouseClick(backButton);
+            libraryViewTest.mouseClick(libraryViewTest.child("backButton"));
             libraryViewTest.compare(backRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that tapping the disabled back button at the root emits no backRequested.
+         */
+        function test_not_emit_backRequested_at_the_root() {
+            libraryViewTest.mouseClick(libraryViewTest.child("backButton"));
+            libraryViewTest.compare(backRequestedSpy.count, 0);
         }
 
         /**
@@ -967,8 +989,7 @@ Item {
             libraryViewTest.compare(emptyState.title, data.title);
             libraryViewTest.compare(libraryViewTest.child("itemGrid").visible, false);
             libraryViewTest.compare(libraryViewTest.child("sourcePill").text, "Choose a Source");
-            libraryViewTest.compare(libraryViewTest.child("backButton").visible, false);
-            libraryViewTest.compare(libraryViewTest.child("containerTitle").visible, false);
+            libraryViewTest.compare(libraryViewTest.child("navigationRow").visible, false);
         }
 
         /**

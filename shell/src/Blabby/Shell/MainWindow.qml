@@ -133,6 +133,7 @@ Rectangle {
             busy: Singleton.mediaItemModel.busy
             atRoot: Singleton.mediaItemModel.atRoot
             containerTitle: Singleton.mediaItemModel.containerTitle
+            parentContainerTitle: Singleton.mediaItemModel.parentContainerTitle
             loadMoreFailed: Singleton.mediaItemModel.loadMoreFailed
             collecting: Singleton.queueModel.collecting
             collectedContainerTitle: Singleton.queueModel.collectedContainerTitle
