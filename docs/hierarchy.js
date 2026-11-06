@@ -54,6 +54,7 @@ var hierarchy =
     [ "Multimedia::NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
     [ "UPnPAV::Protocol", "structUPnPAV_1_1Protocol.html", null ],
     [ "Multimedia::ProviderLoader", "classMultimedia_1_1ProviderLoader.html", null ],
+    [ "Multimedia::ProviderSetting", "structMultimedia_1_1ProviderSetting.html", null ],
     [ "Multimedia::ProviderVersion", "structMultimedia_1_1ProviderVersion.html", null ],
     [ "QAbstractListModel", null, [
       [ "Shell::MediaItemModel", "classShell_1_1MediaItemModel.html", null ],

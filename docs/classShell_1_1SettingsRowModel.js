@@ -13,5 +13,6 @@ var classShell_1_1SettingsRowModel =
     [ "roleNames", "classShell_1_1SettingsRowModel.html#ad7ec4648051d4f424400cf96ad7be892", null ],
     [ "rowCount", "classShell_1_1SettingsRowModel.html#a0be65a614a89a13a0f91a98b9426fb4a", null ],
     [ "setChecked", "classShell_1_1SettingsRowModel.html#aea9d7e8aa0c553f75d1e5ddce81b8471", null ],
-    [ "setRows", "classShell_1_1SettingsRowModel.html#aedfa5368142953a06e3e6103ae6a6292", null ]
+    [ "setRows", "classShell_1_1SettingsRowModel.html#aedfa5368142953a06e3e6103ae6a6292", null ],
+    [ "triggerAction", "classShell_1_1SettingsRowModel.html#a892e33b7d058e56ce57d454a965c0bff", null ]
 ];

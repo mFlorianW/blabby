@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['title_0',['title',['../structShell_1_1SettingsRow.html#a619c1a5799f593d9ac84c9b921812625',1,'Shell::SettingsRow::title'],['../structMultimedia_1_1CurrentTrack.html#a3afa9bc461bb051197183988760746b1',1,'Multimedia::CurrentTrack::title']]],
-  ['toggleplayback_1',['toggleplayback',['../classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013',1,'Shell::QueueModel::togglePlayback()'],['../classMultimedia_1_1Queue.html#a1d49a6428694df58ec5de5667db0732c',1,'Multimedia::Queue::togglePlayback()']]],
+  ['title_0',['title',['../structMultimedia_1_1CurrentTrack.html#a3afa9bc461bb051197183988760746b1',1,'Multimedia::CurrentTrack::title'],['../structMultimedia_1_1ProviderSetting.html#a3c901b7f11a43aba62db5f9407b83b6a',1,'Multimedia::ProviderSetting::title'],['../structShell_1_1SettingsRow.html#a619c1a5799f593d9ac84c9b921812625',1,'Shell::SettingsRow::title']]],
+  ['toggleplayback_1',['toggleplayback',['../classMultimedia_1_1Queue.html#a1d49a6428694df58ec5de5667db0732c',1,'Multimedia::Queue::togglePlayback()'],['../classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013',1,'Shell::QueueModel::togglePlayback()']]],
   ['tostring_2',['toString',['../structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5',1,'Multimedia::ProviderVersion']]],
   ['totalduration_3',['totalduration',['../classShell_1_1QueueModel.html#af4a0d6886c014a063f98bd496198bd38',1,'Shell::QueueModel::totalDuration'],['../classShell_1_1QueueModel.html#a6b94d641df2e8ef23cd4c58318a4a5e6',1,'Shell::QueueModel::totalDuration() const noexcept']]],
   ['totaldurationpartial_4',['totalDurationPartial',['../classShell_1_1QueueModel.html#af9c8d41d55ef661e77abefd48d704735',1,'Shell::QueueModel']]],
@@ -12,11 +12,11 @@ var searchData=
   ['trackduration_9',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#a00b2833402c89200cd85cdec49be9039',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackformat_10',['trackformat',['../classShell_1_1ActiveRendererController.html#aa794c095c21b3246621aebad6bf4d252',1,'Shell::ActiveRendererController::trackFormat'],['../classShell_1_1ActiveRendererController.html#a2adad806a9b0e5e99455940229aac070',1,'Shell::ActiveRendererController::trackFormat() const noexcept']]],
   ['trackmetadata_11',['trackMetaData',['../classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854',1,'UPnPAV::GetPositionInfoResponse']]],
-  ['tracktitle_12',['tracktitle',['../classShell_1_1ActiveRendererController.html#a5ae64ccac2f9a7288f370f86768fe7dd',1,'Shell::ActiveRendererController::trackTitle() const noexcept'],['../classShell_1_1ActiveRendererController.html#ad6cb5f68cb644129f9e740418f386af3',1,'Shell::ActiveRendererController::trackTitle']]],
+  ['tracktitle_12',['tracktitle',['../classShell_1_1ActiveRendererController.html#ad6cb5f68cb644129f9e740418f386af3',1,'Shell::ActiveRendererController::trackTitle'],['../classShell_1_1ActiveRendererController.html#a5ae64ccac2f9a7288f370f86768fe7dd',1,'Shell::ActiveRendererController::trackTitle() const noexcept']]],
   ['trackuri_13',['trackUri',['../classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813',1,'UPnPAV::GetPositionInfoResponse']]],
   ['trackyear_14',['trackyear',['../classShell_1_1ActiveRendererController.html#a59bdc0acdd2daed15d967d1c0c6013fa',1,'Shell::ActiveRendererController::trackYear'],['../classShell_1_1ActiveRendererController.html#a3975a292a43bb01f7162b672dd86ae61',1,'Shell::ActiveRendererController::trackYear() const noexcept']]],
   ['transitioning_15',['transitioning',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa69a4b7185e3fbc9bfc0878876d7416cf',1,'UPnPAV::GetTransportInfoResponse::Transitioning'],['../classShell_1_1ActiveRendererController.html#a1517c340da36d5dbb7ae48dda3a578ee',1,'Shell::ActiveRendererController::transitioning']]],
-  ['transitioningchanged_16',['transitioningchanged',['../classShell_1_1ActiveRendererController.html#a6af3e05bcba2919533e0695215ab6ce2',1,'Shell::ActiveRendererController::transitioningChanged()'],['../classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570',1,'Multimedia::Renderer::transitioningChanged()']]],
+  ['transitioningchanged_16',['transitioningchanged',['../classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570',1,'Multimedia::Renderer::transitioningChanged()'],['../classShell_1_1ActiveRendererController.html#a6af3e05bcba2919533e0695215ab6ce2',1,'Shell::ActiveRendererController::transitioningChanged()']]],
   ['transitionnotavailable_17',['TransitionNotAvailable',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ada0ca75087e9019b7701dc0debac0536',1,'UPnPAV::PendingSoapCall']]],
   ['transportinfo_18',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
   ['transportislocked_19',['TransportIsLocked',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032acf9b2bc2d3b1cce8d4a1be6fac365cce',1,'UPnPAV::PendingSoapCall']]],
@@ -24,5 +24,6 @@ var searchData=
   ['transportsettings_21',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
   ['transportstate_22',['TransportState',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928f',1,'UPnPAV::GetTransportInfoResponse']]],
   ['transportstatus_23',['TransportStatus',['../classUPnPAV_1_1GetTransportInfoResponse.html#a7b2fb378b9b84322f4c43b5757a28ec7',1,'UPnPAV::GetTransportInfoResponse']]],
-  ['type_24',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
+  ['triggeraction_24',['triggeraction',['../classMultimedia_1_1Provider.html#a843de0d8f3d24d0124c696beb238d8bf',1,'Multimedia::Provider::triggerAction()'],['../classShell_1_1SettingsModel.html#a22f5f818f2c659dd49cfba3e2125b67f',1,'Shell::SettingsModel::triggerAction()'],['../classShell_1_1SettingsRowModel.html#a892e33b7d058e56ce57d454a965c0bff',1,'Shell::SettingsRowModel::triggerAction()']]],
+  ['type_25',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];

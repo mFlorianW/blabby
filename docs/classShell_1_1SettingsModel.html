@@ -160,6 +160,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a172d6e8f41fca289fe0989b5b73f0b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a514a41b6129f14dc3264034e748ffc6c" id="r_a514a41b6129f14dc3264034e748ffc6c"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a514a41b6129f14dc3264034e748ffc6c">setChecked</a> (int row, bool checked)</td></tr>
 <tr class="separator:a514a41b6129f14dc3264034e748ffc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22f5f818f2c659dd49cfba3e2125b67f" id="r_a22f5f818f2c659dd49cfba3e2125b67f"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsModel.html#a22f5f818f2c659dd49cfba3e2125b67f">triggerAction</a> (int row)</td></tr>
+<tr class="separator:a22f5f818f2c659dd49cfba3e2125b67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -169,7 +171,7 @@ Properties</h2></td></tr>
 <tr class="separator:a670b5b527f0d7e456401fe86d75c9957"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The sections of the Settings screen, one model row per section, and the rows of the picked section. The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. The last section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version. </p>
+<div class="textblock"><p>The sections of the Settings screen, one model row per section, and the rows of the picked section. The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. It is followed by one section for each Provider that describes at least one setting, ordered by title. The last section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version. At start each Provider gets the values of its switches, the stored ones or else the defaults. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a1f39b6b6a4cbca9d159ec3ff4cf11b21" name="a1f39b6b6a4cbca9d159ec3ff4cf11b21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1f39b6b6a4cbca9d159ec3ff4cf11b21">&#9670;&#160;</a></span>DisplayRole</h2>
@@ -485,6 +487,30 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">row</td><td>The index of the row in the picked section. </td></tr>
     <tr><td class="paramname">checked</td><td>True to turn the switch on, false to turn it off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a22f5f818f2c659dd49cfba3e2125b67f" name="a22f5f818f2c659dd49cfba3e2125b67f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22f5f818f2c659dd49cfba3e2125b67f">&#9670;&#160;</a></span>triggerAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::SettingsModel::triggerAction </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Passes the tap on the action in the row of the picked section to its Provider. A row that is no action changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The index of the row in the picked section. </td></tr>
   </table>
   </dd>
 </dl>

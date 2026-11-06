@@ -154,6 +154,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aedfa5368142953a06e3e6103ae6a6292"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea9d7e8aa0c553f75d1e5ddce81b8471" id="r_aea9d7e8aa0c553f75d1e5ddce81b8471"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#aea9d7e8aa0c553f75d1e5ddce81b8471">setChecked</a> (int row, bool checked)</td></tr>
 <tr class="separator:aea9d7e8aa0c553f75d1e5ddce81b8471"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892e33b7d058e56ce57d454a965c0bff" id="r_a892e33b7d058e56ce57d454a965c0bff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1SettingsRowModel.html#a892e33b7d058e56ce57d454a965c0bff">triggerAction</a> (int row)</td></tr>
+<tr class="separator:a892e33b7d058e56ce57d454a965c0bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The rows of the section that is picked on the Settings screen, one model row per <a class="el" href="structShell_1_1SettingsRow.html">Shell::SettingsRow</a>. The <a class="el" href="classShell_1_1SettingsModel.html">Shell::SettingsModel</a> replaces the rows when another section is picked. </p>
@@ -356,7 +358,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Turns the switch of the row on or off and stores the new value. A row that is no switch changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Turns the switch of the row on or off and stores the new value, the switch of a Provider passes it to the Provider as well. A row that is no switch changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">row</td><td>The index of the row. </td></tr>
     <tr><td class="paramname">checked</td><td>True to turn the switch on, false to turn it off. </td></tr>
@@ -384,6 +386,30 @@ Public Member Functions</h2></td></tr>
 <p>Replaces the rows of the model. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rows</td><td>The rows of the picked section. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a892e33b7d058e56ce57d454a965c0bff" name="a892e33b7d058e56ce57d454a965c0bff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892e33b7d058e56ce57d454a965c0bff">&#9670;&#160;</a></span>triggerAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::SettingsRowModel::triggerAction </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Passes the tap on the action of the row to its Provider. A row that is no action changes nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The index of the row. </td></tr>
   </table>
   </dd>
 </dl>

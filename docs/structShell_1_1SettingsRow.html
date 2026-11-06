@@ -133,6 +133,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a197aa1c3699888d9ba0138f1f6b91058"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac59db51b7ddbdc6a4d8d6ab4393e8f51" id="r_ac59db51b7ddbdc6a4d8d6ab4393e8f51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#ac59db51b7ddbdc6a4d8d6ab4393e8f51">defaultChecked</a> = false</td></tr>
 <tr class="separator:ac59db51b7ddbdc6a4d8d6ab4393e8f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f58fa8064e8524d5277f172b14fe17" id="r_a89f58fa8064e8524d5277f172b14fe17"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Provider.html">Multimedia::Provider</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structShell_1_1SettingsRow.html#a89f58fa8064e8524d5277f172b14fe17">provider</a> = {}</td></tr>
+<tr class="separator:a89f58fa8064e8524d5277f172b14fe17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -169,7 +171,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a cl
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The key of the setting a switch turns on or off in the <a class="el" href="classShell_1_1SettingsStore.html">Shell::SettingsStore</a>, empty for an info row. </p>
+<p>The key of the setting a switch turns on or off or of the action, empty for an info row. </p>
 
 </div>
 </div>
@@ -185,6 +187,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a cl
       </table>
 </div><div class="memdoc">
 <p>The kind of the row. </p>
+
+</div>
+</div>
+<a id="a89f58fa8064e8524d5277f172b14fe17" name="a89f58fa8064e8524d5277f172b14fe17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89f58fa8064e8524d5277f172b14fe17">&#9670;&#160;</a></span>provider</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classMultimedia_1_1Provider.html">Multimedia::Provider</a>&gt; Shell::SettingsRow::provider = {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The Provider that describes the setting, nullptr for a setting of the shell or an info row. Its switches are stored apart by its name() and their changes are passed to it. </p>
 
 </div>
 </div>

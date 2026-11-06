@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['playmode_0',['PlayMode',['../classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35',1,'UPnPAV::GetTransportSettingsResponse']]]
+  ['kind_0',['Kind',['../structMultimedia_1_1ProviderSetting.html#a8bd56cf228b39147924a9b178b18d246',1,'Multimedia::ProviderSetting']]]
 ];

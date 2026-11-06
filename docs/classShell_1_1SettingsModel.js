@@ -14,6 +14,7 @@ var classShell_1_1SettingsModel =
     [ "rowCount", "classShell_1_1SettingsModel.html#a27fbb6c26cc21f356dc1b50e66add3f6", null ],
     [ "rows", "classShell_1_1SettingsModel.html#a4e8b65ed49ee36cbb51b71dc2225c71d", null ],
     [ "setChecked", "classShell_1_1SettingsModel.html#a514a41b6129f14dc3264034e748ffc6c", null ],
+    [ "triggerAction", "classShell_1_1SettingsModel.html#a22f5f818f2c659dd49cfba3e2125b67f", null ],
     [ "currentSection", "classShell_1_1SettingsModel.html#a6cb5e7580cfd4edfb7c0576845b67f20", null ],
     [ "rows", "classShell_1_1SettingsModel.html#a670b5b527f0d7e456401fe86d75c9957", null ]
 ];

@@ -1,5 +1,15 @@
 var NAVTREEINDEX3 =
 {
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35":[7,0,4,31,0],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35a1a89c381ac68d4475e17c2d456a59684":[7,0,4,31,0,5],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35a1cad35d4b3b9f624f82dbf237daaf188":[7,0,4,31,0,6],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35a64663f4646781c9c0110838b905daa23":[7,0,4,31,0,4],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35a960b44c579bc2f6818d2daaf9e4c16f0":[7,0,4,31,0,0],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35ae8b4b40ec3622e371789b790caabc083":[7,0,4,31,0,1],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35aefe5af6851a1e9c54500b3f4be0c240b":[7,0,4,31,0,3],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35afa185d54520f892531dfd883f0122923":[7,0,4,31,0,2],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#ae4f18f704fad9fb106ab4d92f6862f21":[7,0,4,31,3],
+"classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724":[7,0,4,31,2],
 "classUPnPAV_1_1GetVolumeResponse.html":[7,0,4,33],
 "classUPnPAV_1_1GetVolumeResponse.html#abdf8a904a06ddd92bc891a3b2ef6de18":[7,0,4,33,1],
 "classUPnPAV_1_1GetVolumeResponse.html#aebffca15ec138112a4de8cd957ef6350":[7,0,4,33,0],
@@ -239,15 +249,5 @@ var NAVTREEINDEX3 =
 "classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53":[7,0,4,81,0],
 "classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a1a52f7063c6860a05787ef3933e2207b":[7,0,4,81,0,2],
 "classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a4985bf5e6c9e78e999cc63318277a9a4":[7,0,4,81,0,0],
-"classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a5af9b8499a004a05b28f20c70ce2f248":[7,0,4,81,0,1],
-"classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53af9c6deebbd445826a04f9e5617178010":[7,0,4,81,0,3],
-"classUPnPAV_1_1ServiceProviderFactory.html":[7,0,4,82],
-"classUPnPAV_1_1ServiceValidatorBase.html":[7,0,4,83],
-"classUPnPAV_1_1ServiceValidatorBase.html#a291716b3498777b96dc64014979208e3":[7,0,4,83,0],
-"classUPnPAV_1_1SoapBackend.html":[7,0,4,84],
-"classUPnPAV_1_1SoapCall.html":[7,0,4,85],
-"classUPnPAV_1_1SoapCall.html#a04f346fe4592db4c3955c99142a42e10":[7,0,4,85,4],
-"classUPnPAV_1_1SoapCall.html#a4c6e5130abfaf6962231f82f9bfee62e":[7,0,4,85,0],
-"classUPnPAV_1_1SoapCall.html#a7c639b5bcf16440cafab6404153f5f3a":[7,0,4,85,5],
-"classUPnPAV_1_1SoapCall.html#a9e9f864dd44dbbfd5838f004d8b8805d":[7,0,4,85,1]
+"classUPnPAV_1_1ServiceProviderError.html#a36d629148aa404069b13c8804f9aba53a5af9b8499a004a05b28f20c70ce2f248":[7,0,4,81,0,1]
 };

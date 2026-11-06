@@ -23,6 +23,7 @@ var annotated_dup =
       [ "PendingPage", "classMultimedia_1_1PendingPage.html", "classMultimedia_1_1PendingPage" ],
       [ "Provider", "classMultimedia_1_1Provider.html", "classMultimedia_1_1Provider" ],
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
+      [ "ProviderSetting", "structMultimedia_1_1ProviderSetting.html", "structMultimedia_1_1ProviderSetting" ],
       [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ],
       [ "Queue", "classMultimedia_1_1Queue.html", "classMultimedia_1_1Queue" ],
       [ "RememberedRenderer", "structMultimedia_1_1RememberedRenderer.html", "structMultimedia_1_1RememberedRenderer" ],
