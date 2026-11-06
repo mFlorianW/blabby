@@ -95,6 +95,7 @@ qt_add_resources(blabby "blabby_icons"
 ################################################################################
 # Install
 ################################################################################
+blabby_set_install_rpath(blabby)
 install(TARGETS blabby
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT BlabbyUPnPAV_Runtime)

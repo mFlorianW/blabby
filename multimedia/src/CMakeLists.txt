@@ -86,6 +86,7 @@ write_basic_package_version_file(
 ################################################################################
 # Install
 ################################################################################
+blabby_set_install_rpath(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT BlabbyMultimedia_Runtime
