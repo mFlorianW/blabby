@@ -9,7 +9,7 @@ import Blabby.Shell
 Item {
     id: root
     // The window size of 1280 x 720 px minus the navigation rail.
-    width: 1200
+    width: 1184
     height: 720
 
     ListModel {

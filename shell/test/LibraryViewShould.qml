@@ -12,7 +12,7 @@ import Blabby.Theme
 Item {
     id: root
     // The window width of 1280 px minus the navigation rail.
-    width: 1200
+    width: 1184
     height: 640
 
     ListModel {
