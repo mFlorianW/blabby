@@ -2,6 +2,11 @@ var classMultimedia_1_1Queue =
 [
     [ "Collection", "structMultimedia_1_1Queue_1_1Collection.html", "structMultimedia_1_1Queue_1_1Collection" ],
     [ "Snapshot", "structMultimedia_1_1Queue_1_1Snapshot.html", null ],
+    [ "Repeat", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575b", [
+      [ "Off", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575bad15305d7a4e34e02489c74a5ef542f36", null ],
+      [ "All", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575bab1c94ca2fbc3e78fc30069c8d0f01680", null ],
+      [ "One", "classMultimedia_1_1Queue.html#ad58cc0084dac2a23086a32978b1f575ba06c2cea18679d64399783748fa367bdd", null ]
+    ] ],
     [ "State", "classMultimedia_1_1Queue.html#a2704d36e295bf6916c9e6702cc8c8e0b", [
       [ "Idle", "classMultimedia_1_1Queue.html#a2704d36e295bf6916c9e6702cc8c8e0bae599161956d626eda4cb0a5ffb85271c", null ],
       [ "Running", "classMultimedia_1_1Queue.html#a2704d36e295bf6916c9e6702cc8c8e0ba5bda814c4aedb126839228f1a3d92f09", null ]
@@ -42,9 +47,12 @@ var classMultimedia_1_1Queue =
     [ "playsCurrentEntryChanged", "classMultimedia_1_1Queue.html#a9ae3c822b67d7abe8f84364ed2d4f823", null ],
     [ "previous", "classMultimedia_1_1Queue.html#a286b3df47a39430f41b974ffdd958893", null ],
     [ "remove", "classMultimedia_1_1Queue.html#ace34c8af77a2337d482a42965ac639c0", null ],
+    [ "repeat", "classMultimedia_1_1Queue.html#aefcb0c380745b31b5f091c9c6cbe3bed", null ],
+    [ "repeatChanged", "classMultimedia_1_1Queue.html#a8b64145cd19e50ed002e705694fe442c", null ],
     [ "replace", "classMultimedia_1_1Queue.html#a0ddf1721ce55b5a8b1a1a6d5a6533be7", null ],
     [ "restore", "classMultimedia_1_1Queue.html#af5f2720207ea5021b643aff70b46aa2c", null ],
     [ "setActiveRenderer", "classMultimedia_1_1Queue.html#a82c7ce250456a91c396daf2e66fec16b", null ],
+    [ "setRepeat", "classMultimedia_1_1Queue.html#a75fe2fa247121a3c4c239df0c43f0371", null ],
     [ "snapshot", "classMultimedia_1_1Queue.html#a81c9ab68936837f470439adee98ec27a", null ],
     [ "state", "classMultimedia_1_1Queue.html#a208c9d1b61b69bb7ff60950fca3cd825", null ],
     [ "stateChanged", "classMultimedia_1_1Queue.html#a081f520cec262baa9fec0bb2e483c6c3", null ],

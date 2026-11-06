@@ -18,7 +18,7 @@ var searchData=
   ['collectedcontainer_15',['collectedContainer',['../classMultimedia_1_1Queue.html#a5444caa99f7603c4494e0d5a08fd6ab3',1,'Multimedia::Queue']]],
   ['collectedcontainertitle_16',['collectedContainerTitle',['../classShell_1_1QueueModel.html#af1c93c4da341773156a3934d17498ef8',1,'Shell::QueueModel']]],
   ['collectingchanged_17',['collectingchanged',['../classMultimedia_1_1Queue.html#a4a132ec7057fd8a8cb08e8a9a8cd3d59',1,'Multimedia::Queue::collectingChanged()'],['../classShell_1_1QueueModel.html#a6cb29b4fc50e45c7c3365cdae7ecf42c',1,'Shell::QueueModel::collectingChanged()']]],
-  ['collectionfailed_18',['collectionfailed',['../classMultimedia_1_1Queue.html#accce701c4816b64b10410bc71ac1cc15',1,'Multimedia::Queue::collectionFailed()'],['../classShell_1_1QueueModel.html#a961518c7d3fb75157ee36f965538b618',1,'Shell::QueueModel::collectionFailed()']]],
+  ['collectionfailed_18',['collectionfailed',['../classShell_1_1QueueModel.html#a961518c7d3fb75157ee36f965538b618',1,'Shell::QueueModel::collectionFailed()'],['../classMultimedia_1_1Queue.html#accce701c4816b64b10410bc71ac1cc15',1,'Multimedia::Queue::collectionFailed()']]],
   ['containerchanged_19',['containerChanged',['../classShell_1_1MediaItemModel.html#a9dc56d116aea4047cc079203692b5fdb',1,'Shell::MediaItemModel']]],
   ['containeropenfailed_20',['containerOpenFailed',['../classShell_1_1MediaItemModel.html#a2fa46b0566829d95e2243e7bcec1adc2',1,'Shell::MediaItemModel']]],
   ['containertitle_21',['containerTitle',['../classShell_1_1MediaItemModel.html#a46b3b9f5ec0161d723a6fac6aebee936',1,'Shell::MediaItemModel']]],
@@ -43,5 +43,6 @@ var searchData=
   ['currenttransportstate_40',['currentTransportState',['../classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9',1,'UPnPAV::GetTransportInfoResponse']]],
   ['currenttransportstatus_41',['currentTransportStatus',['../classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241',1,'UPnPAV::GetTransportInfoResponse']]],
   ['currenturi_42',['currentUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#ad16ebf0130c1cc500fcb654ab3c6e168',1,'UPnPAV::GetMediaInfoResponse']]],
-  ['currenturimetadata_43',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a5c1e8065f66d448e12578c9dd2f97a4c',1,'UPnPAV::GetMediaInfoResponse']]]
+  ['currenturimetadata_43',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a5c1e8065f66d448e12578c9dd2f97a4c',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['cyclerepeat_44',['cycleRepeat',['../classShell_1_1QueueModel.html#a73e72995a94e2b2f051a8ef5f1fb8a62',1,'Shell::QueueModel']]]
 ];

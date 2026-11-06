@@ -144,6 +144,7 @@ var hierarchy =
     [ "QTcpServer", null, [
       [ "Http::Server", "classHttp_1_1Server.html", null ]
     ] ],
+    [ "Shell::Objects::QueueForeign", "structShell_1_1Objects_1_1QueueForeign.html", null ],
     [ "Multimedia::RememberedRenderer", "structMultimedia_1_1RememberedRenderer.html", null ],
     [ "Shell::Objects::RendererForeign", "structShell_1_1Objects_1_1RendererForeign.html", null ],
     [ "Multimedia::RendererStore", "classMultimedia_1_1RendererStore.html", [

@@ -53,5 +53,6 @@ var searchData=
   ['currenttransportstate_50',['currentTransportState',['../classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9',1,'UPnPAV::GetTransportInfoResponse']]],
   ['currenttransportstatus_51',['currentTransportStatus',['../classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241',1,'UPnPAV::GetTransportInfoResponse']]],
   ['currenturi_52',['currentUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#ad16ebf0130c1cc500fcb654ab3c6e168',1,'UPnPAV::GetMediaInfoResponse']]],
-  ['currenturimetadata_53',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a5c1e8065f66d448e12578c9dd2f97a4c',1,'UPnPAV::GetMediaInfoResponse']]]
+  ['currenturimetadata_53',['currentUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a5c1e8065f66d448e12578c9dd2f97a4c',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['cyclerepeat_54',['cycleRepeat',['../classShell_1_1QueueModel.html#a73e72995a94e2b2f051a8ef5f1fb8a62',1,'Shell::QueueModel']]]
 ];
