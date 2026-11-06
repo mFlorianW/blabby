@@ -156,7 +156,7 @@
         {
             "name": "debug",
             "displayName": "Debug workflow",
-            "description": "Configures, builds and tests the debug preset",
+            "description": "Configures and builds the debug preset",
             "steps": [
                 {
                     "type": "configure",
@@ -165,10 +165,6 @@
                 {
                     "type": "build",
                     "name": "debug"
-                },
-                {
-                    "type": "test",
-                    "name": "test"
                 }
             ]
         },
@@ -190,7 +186,7 @@
         {
             "name": "debug-sccache",
             "displayName": "Debug workflow with sccache",
-            "description": "Configures, builds and tests the debug-sccache preset",
+            "description": "Configures and builds the debug-sccache preset",
             "steps": [
                 {
                     "type": "configure",
@@ -199,10 +195,6 @@
                 {
                     "type": "build",
                     "name": "debug-sccache"
-                },
-                {
-                    "type": "test",
-                    "name": "test-sccache"
                 }
             ]
         },

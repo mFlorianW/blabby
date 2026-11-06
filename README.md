@@ -52,9 +52,9 @@ The "-sccache" presets match their base preset but cache the compiler output wit
 which must be installed.
 They build into their own directories (build-sccache, build-clang-sccache, build-release-sccache).
 
-The workflow presets run the configure, build and test steps in one command:
+The workflow presets run the configure and build steps in one command:
 
-- debug: configures, builds and tests the "debug" preset
+- debug: configures and builds the "debug" preset
 - release: configures and builds the "release" preset
 - debug-sccache, release-sccache: the same with the "-sccache" presets
 
