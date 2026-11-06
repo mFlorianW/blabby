@@ -20,10 +20,12 @@ Item {
         ListElement {
             mediaSourceName: "NAS"
             mediaSourceIconUrl: "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
+            active: true
         }
         ListElement {
             mediaSourceName: "Living Room PC"
             mediaSourceIconUrl: "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
+            active: false
         }
     }
 
@@ -162,6 +164,8 @@ Item {
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
+            sources.setProperty(0, "active", true);
+            sources.setProperty(1, "active", false);
             sourcePickedSpy.clear();
             itemActivatedSpy.clear();
             backRequestedSpy.clear();
@@ -368,7 +372,8 @@ Item {
         function test_show_the_generic_icon_for_a_source_without_an_icon() {
             sources.append({
                 "mediaSourceName": "USB Stick",
-                "mediaSourceIconUrl": ""
+                "mediaSourceIconUrl": "",
+                "active": false
             });
             libraryViewTest.openMenu();
             libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceBadge2") !== null);
@@ -382,7 +387,8 @@ Item {
             libraryViewTest.openMenu();
             sources.append({
                 "mediaSourceName": "Kitchen Tablet",
-                "mediaSourceIconUrl": ""
+                "mediaSourceIconUrl": "",
+                "active": false
             });
             libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceName2") !== null);
             libraryViewTest.compare(libraryViewTest.menuChild("sourceName2").text, "Kitchen Tablet");
@@ -402,6 +408,62 @@ Item {
             libraryViewTest.compare(sourcePickedSpy.signalArguments[0][0], 1);
             libraryViewTest.compare(menu.opened, false);
             libraryViewTest.compare(libraryViewTest.child("sourcePill").checked, false);
+        }
+
+        /**
+         * Compares whether the Source row at index carries the mark of the Active Source, the highlight, the badge in the
+         * highlighted colours and the checkmark, with marked.
+         */
+        function compareSourceMark(index, marked) {
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceRowBackground" + index).visible, marked);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceBadge" + index).highlighted, marked);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceCheckmark" + index).visible, marked);
+        }
+
+        /**
+         * Tests that only the row of the Active Source is highlighted, has its badge in the highlighted colours and
+         * shows a checkmark.
+         */
+        function test_mark_only_the_active_source_in_the_source_menu() {
+            libraryViewTest.openMenu();
+            libraryViewTest.compareSourceMark(0, true);
+            libraryViewTest.compareSourceMark(1, false);
+            const checkmark = libraryViewTest.menuChild("sourceCheckmark0");
+            libraryViewTest.compare(checkmark.source, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/check.svg"));
+            libraryViewTest.verify(Qt.colorEqual(libraryViewTest.menuChild("sourceRowBackground0").color, Theme.colors.secondaryContainer));
+        }
+
+        /**
+         * Tests that no row is marked without an Active Source.
+         */
+        function test_mark_no_source_without_an_active_source() {
+            sources.setProperty(0, "active", false);
+            libraryView.hasActiveSource = false;
+            libraryView.activeSourceName = "";
+            libraryViewTest.openMenu();
+            libraryViewTest.compareSourceMark(0, false);
+            libraryViewTest.compareSourceMark(1, false);
+        }
+
+        /**
+         * Tests that the mark moves to the new Active Source when it changes while the menu is open.
+         */
+        function test_move_the_mark_when_the_active_source_changes_while_open() {
+            libraryViewTest.openMenu();
+            sources.setProperty(0, "active", false);
+            sources.setProperty(1, "active", true);
+            libraryViewTest.compareSourceMark(0, false);
+            libraryViewTest.compareSourceMark(1, true);
+        }
+
+        /**
+         * Tests that tapping the row of the Active Source only closes the menu, so the current Container is kept.
+         */
+        function test_only_close_the_source_menu_when_the_active_source_is_picked() {
+            const menu = libraryViewTest.openMenu();
+            libraryViewTest.mouseClick(libraryViewTest.menuChild("sourceRow0"));
+            libraryViewTest.compare(menu.opened, false);
+            libraryViewTest.compare(sourcePickedSpy.count, 0);
         }
 
         /**

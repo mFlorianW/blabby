@@ -24,6 +24,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ../../icons/24x24/play_arrow.svg
         ../../icons/24x24/close.svg
         ../../icons/material/arrow_back.svg
+        ../../icons/material/check.svg
         ../../icons/material/delete.svg
         ../../icons/material/dns.svg
         ../../icons/material/drag_handle.svg

@@ -35,7 +35,8 @@ QHash<int, QByteArray> MediaSourceModel::roleNames() const noexcept
     static auto roleNames = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceName), QByteArray{"mediaSourceName"}),
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceIocnUrl),
-                       QByteArray{"mediaSourceIconUrl"})};
+                       QByteArray{"mediaSourceIconUrl"}),
+        std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::Active), QByteArray{"active"})};
     return roleNames;
 }
 
@@ -53,6 +54,8 @@ QVariant MediaSourceModel::data(QModelIndex const& index, int role) const noexce
         return item->sourceName();
     } else if (dispRole == DisplayRole::MediaSourceIocnUrl) {
         return item->iconUrl();
+    } else if (dispRole == DisplayRole::Active) {
+        return item == mActiveSource;
     }
 
     return {};
@@ -70,8 +73,14 @@ void MediaSourceModel::activateMediaSource(qsizetype idx)
         return;
     }
 
+    auto const previousIdx = static_cast<int>(mSources.indexOf(mActiveSource));
     mActiveSource = source;
     Q_EMIT activeMediaSourceChanged();
+    auto const activeRole = QList<int>{static_cast<int>(DisplayRole::Active)};
+    if (previousIdx >= 0) {
+        Q_EMIT dataChanged(index(previousIdx), index(previousIdx), activeRole);
+    }
+    Q_EMIT dataChanged(index(static_cast<int>(idx)), index(static_cast<int>(idx)), activeRole);
 }
 
 std::shared_ptr<Multimedia::Source> MediaSourceModel::activeMediaSource()

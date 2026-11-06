@@ -24,6 +24,7 @@ Item {
 
         function init() {
             badge.emphasis = false;
+            badge.highlighted = false;
             badge.width = badge.implicitWidth;
             badge.height = badge.implicitHeight;
         }
@@ -60,6 +61,16 @@ Item {
             badge.emphasis = true;
             badgeTest.verify(Qt.colorEqual(badge.color, Theme.colors.primary));
             badgeTest.verify(Qt.colorEqual(icon.color, Theme.colors.colorOnPrimary));
+        }
+
+        /**
+         * Tests that a highlighted badge is drawn in the highlighted container colours.
+         */
+        function test_draw_the_highlighted_badge_in_the_highlighted_container_colours() {
+            const icon = badgeTest.findChild(badge, "icon");
+            badge.highlighted = true;
+            badgeTest.verify(Qt.colorEqual(badge.color, Theme.colors.primaryContainer));
+            badgeTest.verify(Qt.colorEqual(icon.color, Theme.colors.colorOnPrimaryContainer));
         }
     }
 }
