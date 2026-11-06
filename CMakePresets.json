@@ -93,5 +93,41 @@
             "name": "github-test",
             "configurePreset": "github-ci-debug"
         }
+    ],
+    "workflowPresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug workflow",
+            "description": "Configures, builds and tests the debug preset",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "debug"
+                },
+                {
+                    "type": "build",
+                    "name": "debug"
+                },
+                {
+                    "type": "test",
+                    "name": "test"
+                }
+            ]
+        },
+        {
+            "name": "release",
+            "displayName": "Release workflow",
+            "description": "Configures and builds the release preset",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "release"
+                },
+                {
+                    "type": "build",
+                    "name": "release"
+                }
+            ]
+        }
     ]
 }

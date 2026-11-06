@@ -45,6 +45,15 @@ The following CMakePresets are defined:
 - github-ci-debug
 - release
 
+The workflow presets run the configure, build and test steps in one command:
+
+- debug: configures, builds and tests the "debug" preset
+- release: configures and builds the "release" preset
+
+```sh
+cmake --workflow --preset debug
+```
+
 ## Pre-commit
 Blabby has some pre-commit hooks for handling the licenses and formatting
 The pre-commits can enabled by the CMake option with "ENABLE_PRECOMMIT=ON" or just use the "debug" preset.
