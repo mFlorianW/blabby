@@ -13,6 +13,12 @@ on:
 jobs:
   Clang-Tidy:
     runs-on: ubuntu-26.04
+    env:
+      CC: gcc-15
+      CXX: g++-15
+      SCCACHE_GHA_ENABLED: "true"
+      CMAKE_C_COMPILER_LAUNCHER: sccache
+      CMAKE_CXX_COMPILER_LAUNCHER: sccache
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -21,17 +27,22 @@ jobs:
         cache: 'true'
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install clang-tidy doxygen
+        sudo apt update && sudo apt install clang-tidy doxygen ninja-build
     - name: Checkout
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
+    - name: Set up sccache
+      uses: mozilla-actions/sccache-action@v0.0.11
     - name: Build and Install nodejs-llhttp
       uses: ./.github/actions/llhttp-build
     - name: Generate Compile Commands and Build
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug --target all -- -j$(nproc)
+        cmake --build --preset github-ci-debug --target all
+    - name: sccache statistics
+      if: always()
+      run: sccache --show-stats
     - name: Static Code Analysis
       run: |
         files=$(git diff  --diff-filter=ACMR --name-status --dirstat=files origin/${{ github.base_ref }}..origin/${{ github.head_ref }} | awk -F'\t' '{ if(NF==3){ print $3; }else{print $2; }}'| grep -E "(.*)\.(h|cpp|hpp)$") || true

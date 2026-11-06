@@ -17,6 +17,9 @@ jobs:
     env:
       CC: gcc-15
       CXX: g++-15
+      SCCACHE_GHA_ENABLED: "true"
+      CMAKE_C_COMPILER_LAUNCHER: sccache
+      CMAKE_CXX_COMPILER_LAUNCHER: sccache
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -25,15 +28,20 @@ jobs:
         cache: 'true'
     - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt install -y doxygen
+        sudo apt update && sudo apt install -y doxygen ninja-build
     - name: checkout
       uses: actions/checkout@v4
+    - name: Set up sccache
+      uses: mozilla-actions/sccache-action@v0.0.11
     - name: Build and Install nodejs-llhttp
       uses: ./.github/actions/llhttp-build
     - name: build and test
       run: |
         cmake --preset github-ci-debug
-        cmake --build --preset github-ci-debug -- -j$(nproc)
+        cmake --build --preset github-ci-debug
         ctest --preset github-test --output-on-failure
       env:
         QT_QPA_PLATFORM: offscreen
+    - name: sccache statistics
+      if: always()
+      run: sccache --show-stats

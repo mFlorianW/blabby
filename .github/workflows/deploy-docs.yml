@@ -12,6 +12,9 @@ permissions:
 jobs:
   deploy-docs:
     runs-on: ubuntu-26.04
+    env:
+      CC: gcc-15
+      CXX: g++-15
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -19,7 +22,7 @@ jobs:
         version: '6.5.*'
         cache: 'true'
     - name: Install Packages
-      run: sudo apt-get update && sudo apt-get install graphviz
+      run: sudo apt-get update && sudo apt-get install graphviz ninja-build
     - name: Download and Install Doxygen
       run: |
         wget https://www.doxygen.nl/files/doxygen-1.9.8.linux.bin.tar.gz

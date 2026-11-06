@@ -26,4 +26,5 @@ runs:
           cmake -B build -S llhttp-release-${{ inputs.version }} -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=ON \
           -DCMAKE_INSTALL_PREFIX=/usr
-          sudo cmake --build build --target install
+          cmake --build build
+          sudo cmake --install build

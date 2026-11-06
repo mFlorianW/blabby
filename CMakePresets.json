@@ -40,8 +40,8 @@
         {
             "name": "github-ci-debug",
             "displayName": "Github CI configure preset",
-            "description": "Sets Make generator, build and install directory",
-            "generator": "Unix Makefiles",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
             "binaryDir": "${sourceDir}/build-${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
