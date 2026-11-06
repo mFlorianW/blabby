@@ -161,6 +161,7 @@ Item {
             libraryViewTest.child("toast").hide();
             // A toast of the previous test fades out.
             libraryViewTest.tryCompare(libraryViewTest.child("toast"), "visible", false);
+            noSources.clear();
             if (sources.count > 2) {
                 sources.remove(2, sources.count - 2);
             }
@@ -397,6 +398,57 @@ Item {
             libraryViewTest.compare(libraryViewTest.menuChild("sourceName2").text, "Kitchen Tablet");
             sources.remove(2);
             libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceName2") === null);
+        }
+
+        /**
+         * Tests that the Source menu shows its header and a disabled "No Sources found" line without Sources, and that
+         * a tap on the line neither closes the menu nor picks anything.
+         */
+        function test_show_no_sources_found_in_the_source_menu_without_sources() {
+            libraryView.sources = noSources;
+            libraryView.hasActiveSource = false;
+            libraryView.activeSourceName = "";
+            const menu = libraryViewTest.openMenu();
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuHeader").text, "Choose a Source");
+            const line = libraryViewTest.menuChild("noSourcesLine");
+            libraryViewTest.verify(line);
+            libraryViewTest.compare(line.visible, true);
+            libraryViewTest.compare(line.text, "No Sources found");
+            libraryViewTest.compare(line.opacity, Theme.disabledOpacity);
+            libraryViewTest.mouseClick(line);
+            libraryViewTest.compare(menu.opened, true);
+            libraryViewTest.compare(sourcePickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that the Source menu doesn't show the "No Sources found" line with Sources.
+         */
+        function test_not_show_no_sources_found_in_the_source_menu_with_sources() {
+            libraryViewTest.openMenu();
+            libraryViewTest.compare(libraryViewTest.menuChild("noSourcesLine").visible, false);
+        }
+
+        /**
+         * Tests that the "No Sources found" line is replaced by the row of a Source that appears while the menu is
+         * open, and comes back when the last Source disappears.
+         */
+        function test_replace_no_sources_found_by_sources_appearing_or_disappearing_while_open() {
+            libraryView.sources = noSources;
+            libraryView.hasActiveSource = false;
+            libraryView.activeSourceName = "";
+            libraryViewTest.openMenu();
+            const line = libraryViewTest.menuChild("noSourcesLine");
+            noSources.append({
+                "mediaSourceName": "Kitchen Tablet",
+                "mediaSourceIconUrl": "",
+                "active": false
+            });
+            libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceRow0") !== null);
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceName0").text, "Kitchen Tablet");
+            libraryViewTest.tryCompare(line, "visible", false);
+            noSources.remove(0);
+            libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceRow0") === null);
+            libraryViewTest.tryCompare(line, "visible", true);
         }
 
         /**
