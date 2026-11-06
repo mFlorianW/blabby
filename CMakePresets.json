@@ -64,6 +64,48 @@
             "environment": {
                 "BUILD_DIR": "build-release"
             }
+        },
+        {
+            "name": "debug-sccache",
+            "inherits": "debug",
+            "displayName": "GCC debug configure preset with sccache",
+            "description": "Caches the compiler output with sccache",
+            "binaryDir": "${sourceDir}/build-sccache",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
+            },
+            "environment": {
+                "BUILD_DIR": "build-sccache"
+            }
+        },
+        {
+            "name": "debug-clang-sccache",
+            "inherits": "debug-clang",
+            "displayName": "Clang debug configure preset with sccache",
+            "description": "Caches the compiler output with sccache",
+            "binaryDir": "${sourceDir}/build-clang-sccache",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
+            },
+            "environment": {
+                "BUILD_DIR": "build-clang-sccache"
+            }
+        },
+        {
+            "name": "release-sccache",
+            "inherits": "release",
+            "displayName": "Release configure preset with sccache",
+            "description": "Caches the compiler output with sccache",
+            "binaryDir": "${sourceDir}/build-release-sccache",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
+            },
+            "environment": {
+                "BUILD_DIR": "build-release-sccache"
+            }
         }
     ],
     "buildPresets": [
@@ -82,6 +124,18 @@
         {
             "name": "release",
             "configurePreset": "release"
+        },
+        {
+            "name": "debug-sccache",
+            "configurePreset": "debug-sccache"
+        },
+        {
+            "name": "debug-clang-sccache",
+            "configurePreset": "debug-clang-sccache"
+        },
+        {
+            "name": "release-sccache",
+            "configurePreset": "release-sccache"
         }
     ],
     "testPresets": [
@@ -92,6 +146,10 @@
         {
             "name": "github-test",
             "configurePreset": "github-ci-debug"
+        },
+        {
+            "name": "test-sccache",
+            "configurePreset": "debug-sccache"
         }
     ],
     "workflowPresets": [
@@ -126,6 +184,40 @@
                 {
                     "type": "build",
                     "name": "release"
+                }
+            ]
+        },
+        {
+            "name": "debug-sccache",
+            "displayName": "Debug workflow with sccache",
+            "description": "Configures, builds and tests the debug-sccache preset",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "debug-sccache"
+                },
+                {
+                    "type": "build",
+                    "name": "debug-sccache"
+                },
+                {
+                    "type": "test",
+                    "name": "test-sccache"
+                }
+            ]
+        },
+        {
+            "name": "release-sccache",
+            "displayName": "Release workflow with sccache",
+            "description": "Configures and builds the release-sccache preset",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "release-sccache"
+                },
+                {
+                    "type": "build",
+                    "name": "release-sccache"
                 }
             ]
         }

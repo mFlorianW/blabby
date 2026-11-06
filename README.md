@@ -44,11 +44,19 @@ The following CMakePresets are defined:
 - debug-clang
 - github-ci-debug
 - release
+- debug-sccache
+- debug-clang-sccache
+- release-sccache
+
+The "-sccache" presets match their base preset but cache the compiler output with [sccache](https://github.com/mozilla/sccache),
+which must be installed.
+They build into their own directories (build-sccache, build-clang-sccache, build-release-sccache).
 
 The workflow presets run the configure, build and test steps in one command:
 
 - debug: configures, builds and tests the "debug" preset
 - release: configures and builds the "release" preset
+- debug-sccache, release-sccache: the same with the "-sccache" presets
 
 ```sh
 cmake --workflow --preset debug
