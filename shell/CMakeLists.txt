@@ -24,16 +24,6 @@ include(CompilerSettings)
 ###############################################################################
 set(DEFAULT_PROVIDER_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/blabby/plugins)
 
-###############################################################################
-# Runtime path
-###############################################################################
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-# the RPATH to be used when installing, but only if it's not a system directory
-list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
-if("${isSystemDir}" STREQUAL "-1")
-    SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}")
-endif("${isSystemDir}" STREQUAL "-1")
-
 ################################################################################
 # Dependencies
 ################################################################################

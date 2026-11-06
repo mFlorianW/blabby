@@ -15,6 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(PreCommit)
+include(InstallRpath)
 
 ################################################################################
 # Options

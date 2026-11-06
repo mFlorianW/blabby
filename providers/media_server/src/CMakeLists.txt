@@ -41,6 +41,7 @@ qt_add_resources(${PROJECT_NAME} "mediaserverprovider"
 ################################################################################
 # Install
 ################################################################################
+blabby_set_install_rpath(${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR}/blabby/plugins)
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/blabby/plugins
     COMPONENT BlabbyUPnPAV_Runtime
