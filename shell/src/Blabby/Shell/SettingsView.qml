@@ -9,7 +9,7 @@ import Blabby.Theme
 /**
  * The screen to configure Blabby.
  * It lists the sections on the left and shows the rows of the picked section on the right, the picked section is
- * highlighted. A row shows a value or, for a switch, a @ref SwitchRow.
+ * highlighted. A row shows a value, a @ref SwitchRow for a switch, or a button for an action of a Provider.
  */
 Item {
     id: settingsView
@@ -39,6 +39,11 @@ Item {
      * This signal is emitted when the user taps the switch of the row at index, checked is the value the user asks for.
      */
     signal switchToggled(int index, bool checked)
+
+    /**
+     * This signal is emitted when the user taps the button of the action in the row at index.
+     */
+    signal actionTriggered(int index)
 
     ScreenHeader {
         id: header
@@ -185,6 +190,51 @@ Item {
                     subtitle: row.subtitle
                     checked: row.checked
                     onToggled: checked => settingsView.switchToggled(row.index, checked)
+                }
+
+                Item {
+                    id: actionRow
+                    objectName: "actionRow"
+                    anchors.fill: row
+                    visible: row.kind === SettingsRowKind.Action
+
+                    Column {
+                        id: actionTexts
+                        anchors.left: actionRow.left
+                        anchors.leftMargin: 12
+                        anchors.right: actionButton.left
+                        anchors.rightMargin: 16
+                        anchors.verticalCenter: actionRow.verticalCenter
+
+                        StyledText {
+                            objectName: "title"
+                            width: actionTexts.width
+                            text: row.title
+                            color: Theme.colors.colorOnSurface
+                            textStyle: Theme.fonts.bodyLarge
+                        }
+
+                        StyledText {
+                            objectName: "subtitle"
+                            width: actionTexts.width
+                            text: row.subtitle
+                            color: Theme.colors.colorOnSurfaceVariant
+                            textStyle: Theme.fonts.bodyMedium
+                            visible: row.subtitle !== ""
+                        }
+                    }
+
+                    Button {
+                        id: actionButton
+                        objectName: "actionButton"
+                        anchors.right: actionRow.right
+                        anchors.rightMargin: 12
+                        anchors.verticalCenter: actionRow.verticalCenter
+                        // Taller than the default button to be a large enough touch target.
+                        height: 48
+                        text: row.title
+                        onClicked: settingsView.actionTriggered(row.index)
+                    }
                 }
 
                 Column {

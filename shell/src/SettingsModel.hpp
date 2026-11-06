@@ -15,8 +15,10 @@ namespace Shell
 
 /**
  * The sections of the Settings screen, one model row per section, and the rows of the picked section.
- * The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. The last
- * section is About, it shows the Blabby version, the Qt version and every loaded Provider with its version.
+ * The first section is Renderers, it is picked from the start and has the "Remember last Renderer" switch. It is
+ * followed by one section for each Provider that describes at least one setting, ordered by title. The last section is
+ * About, it shows the Blabby version, the Qt version and every loaded Provider with its version.
+ * At start each Provider gets the values of its switches, the stored ones or else the defaults.
  */
 class SettingsModel : public QAbstractListModel
 {
@@ -102,6 +104,13 @@ public:
      */
     Q_INVOKABLE void setChecked(int row, bool checked);
 
+    /**
+     * Passes the tap on the action in the row of the picked section to its Provider.
+     * A row that is no action changes nothing.
+     * @param row The index of the row in the picked section.
+     */
+    Q_INVOKABLE void triggerAction(int row);
+
 Q_SIGNALS:
     /**
      * This signal is emitted when another section is picked.
@@ -115,6 +124,9 @@ private:
         QUrl iconSource;
         QList<SettingsRow> rows;
     };
+
+    static Section providerSection(std::shared_ptr<Multimedia::Provider> const& provider);
+    static QString providerTitle(Multimedia::Provider const& provider);
 
     QList<Section> mSections;
     int mCurrentSection = 0;

@@ -34,6 +34,8 @@ private Q_SLOTS:
     void give_the_defaults_when_the_file_is_missing();
     void give_the_defaults_when_the_file_is_corrupt();
     void create_the_missing_directory_on_a_change();
+    void keep_the_values_of_providers_apart_by_name();
+    void give_the_stored_provider_values_after_a_restart();
 };
 
 } // namespace Shell

@@ -7,6 +7,14 @@
 namespace Shell
 {
 
+QVariant SettingsRowModel::storedValue(SettingsRow const& row) const
+{
+    if (row.provider != nullptr) {
+        return mSettings->providerValue(row.provider->name(), row.key, row.defaultChecked);
+    }
+    return mSettings->value(row.key, row.defaultChecked);
+}
+
 SettingsRowModel::SettingsRowModel(std::shared_ptr<SettingsStore> settings)
     : mSettings{std::move(settings)}
 {
@@ -51,7 +59,7 @@ QVariant SettingsRowModel::data(QModelIndex const& index, int role) const noexce
     case DisplayRole::Kind:
         return QVariant::fromValue(row.kind);
     case DisplayRole::Checked:
-        return row.kind == SettingsRowKind::Switch and mSettings->value(row.key, row.defaultChecked).toBool();
+        return row.kind == SettingsRowKind::Switch and storedValue(row).toBool();
     }
     return {};
 }
@@ -69,9 +77,25 @@ void SettingsRowModel::setChecked(int row, bool checked)
         return;
     }
 
-    mSettings->setValue(mRows.at(row).key, checked);
+    auto const& changedRow = mRows.at(row);
+    if (changedRow.provider != nullptr) {
+        mSettings->setProviderValue(changedRow.provider->name(), changedRow.key, checked);
+        changedRow.provider->setSettingValue(changedRow.key, checked);
+    } else {
+        mSettings->setValue(changedRow.key, checked);
+    }
     auto const changedIndex = index(row);
     Q_EMIT dataChanged(changedIndex, changedIndex, {static_cast<int>(DisplayRole::Checked)});
+}
+
+void SettingsRowModel::triggerAction(int row)
+{
+    if (row < 0 or row >= mRows.size() or mRows.at(row).kind != SettingsRowKind::Action) {
+        return;
+    }
+
+    auto const& tappedRow = mRows.at(row);
+    tappedRow.provider->triggerAction(tappedRow.key);
 }
 
 } // namespace Shell
