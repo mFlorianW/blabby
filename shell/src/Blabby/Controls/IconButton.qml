@@ -40,6 +40,11 @@ Item {
     property url iconSource
 
     /**
+     * The diameter of the round container, the touch target is at least 8 px larger.
+     */
+    property real containerSize: 40
+
+    /**
      * The colour of the icon, depending on the variant.
      */
     readonly property color contentColor: iconButton.variant === IconButton.Tonal ? Theme.colors.colorOnSecondaryContainer : Theme.colors.colorOnSurfaceVariant
@@ -50,16 +55,16 @@ Item {
     signal clicked
 
     // The touch target is bigger than the visible container.
-    implicitWidth: 48
-    implicitHeight: 48
+    implicitWidth: iconButton.containerSize + 8
+    implicitHeight: iconButton.containerSize + 8
     opacity: iconButton.enabled ? 1 : Theme.disabledOpacity
 
     Rectangle {
         id: container
         objectName: "container"
         anchors.centerIn: iconButton
-        width: 40
-        height: 40
+        width: iconButton.containerSize
+        height: iconButton.containerSize
         radius: container.width / 2
         color: iconButton.variant === IconButton.Tonal ? Theme.colors.secondaryContainer : "transparent"
     }

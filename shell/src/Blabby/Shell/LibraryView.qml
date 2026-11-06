@@ -12,9 +12,10 @@ import Blabby.Theme
  * The Items of the current Container are shown as tiles in a grid that reflows to the available width.
  * A Source pill in the header shows the Active Source, or "Choose a Source" without one, and opens and closes the
  * Source menu below it.
- * Below the root Container a back button next to the Source pill leads to the parent Container and the title of the
- * current Container is shown above the grid. While a Container opens a busy indicator replaces the grid, when it can't
- * be opened the current Container stays and a toast tells so.
+ * A navigation row below the header shows where the user is: a back button that leads to the parent Container, disabled
+ * at the root Container, beside the title of the current Container and, above it, the title of its parent. At the root
+ * Container the row shows the name of the Active Source below "Library". While a Container opens a busy indicator
+ * replaces the grid, when it can't be opened the current Container stays and a toast tells so.
  * When loading more Items of a large Container fails, a row at the end of the grid offers to retry it.
  * Activating an Item tells the scroll position of the grid, which can be restored when returning to the Container.
  * The more button of a tile opens a menu to play the Item next or add it to the end of the Queue. While the Playables of a
@@ -58,9 +59,14 @@ Item {
     property bool atRoot: true
 
     /**
-     * The title of the current Container, shown above the grid below the root Container.
+     * The title of the current Container, shown in the navigation row below the root Container.
      */
     property string containerTitle
+
+    /**
+     * The title of the parent of the current Container, shown above the title of the current Container.
+     */
+    property string parentContainerTitle
 
     /**
      * True when loading more Items of the current Container failed, a row at the end of the grid offers to retry it.
@@ -93,9 +99,9 @@ Item {
     readonly property bool containerEmpty: libraryView.hasActiveSource && !libraryView.busy && grid.count === 0
 
     /**
-     * The edge below which the grid and the empty state start, below the Container title when it is shown.
+     * The edge below which the grid and the empty state start, below the navigation row when it is shown.
      */
-    readonly property var contentTop: containerTitleText.visible ? containerTitleText.bottom : header.bottom
+    readonly property var contentTop: navigationRow.visible ? navigationRow.bottom : header.bottom
 
     /**
      * This signal is emitted when the user picks the Source at index in the Source menu that isn't the Active Source.
@@ -183,21 +189,13 @@ Item {
 
     ScreenHeader {
         id: header
+        objectName: "header"
         anchors.top: libraryView.top
         anchors.left: libraryView.left
         anchors.right: libraryView.right
         anchors.margins: 24
         title: qsTr("Library")
         subtitle: qsTr("Browse the media on your network")
-
-        IconButton {
-            id: backButton
-            objectName: "backButton"
-            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/arrow_back.svg"
-            anchors.verticalCenter: sourcePill.verticalCenter
-            visible: libraryView.belowRoot
-            onClicked: libraryView.backRequested()
-        }
 
         PillButton {
             id: sourcePill
@@ -211,17 +209,55 @@ Item {
         }
     }
 
-    StyledText {
-        id: containerTitleText
-        objectName: "containerTitle"
+    Item {
+        id: navigationRow
+        objectName: "navigationRow"
         anchors.top: header.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 20
         anchors.left: header.left
         anchors.right: header.right
-        text: libraryView.containerTitle
-        color: Theme.colors.colorOnSurface
-        textStyle: Theme.fonts.titleLarge
-        visible: libraryView.belowRoot
+        height: 64
+        visible: libraryView.hasActiveSource
+
+        IconButton {
+            id: backButton
+            objectName: "backButton"
+            anchors.left: navigationRow.left
+            // The touch target reaches 4 px beyond the container, so the container lines up with the header.
+            anchors.leftMargin: -4
+            anchors.verticalCenter: navigationRow.verticalCenter
+            variant: IconButton.Tonal
+            containerSize: 56
+            iconSource: "qrc:/qt/qml/Blabby/Shell/icons/material/arrow_back.svg"
+            enabled: libraryView.belowRoot
+            onClicked: libraryView.backRequested()
+        }
+
+        Column {
+            anchors.left: backButton.right
+            anchors.leftMargin: 12
+            anchors.right: navigationRow.right
+            anchors.verticalCenter: navigationRow.verticalCenter
+
+            StyledText {
+                objectName: "parentContainerTitle"
+                width: parent.width
+                text: libraryView.atRoot ? qsTr("Library") : libraryView.parentContainerTitle
+                color: Theme.colors.colorOnSurfaceVariant
+                textStyle: Theme.fonts.labelMedium
+                elide: Text.ElideRight
+            }
+
+            StyledText {
+                id: containerTitleText
+                objectName: "containerTitle"
+                width: parent.width
+                text: libraryView.atRoot ? libraryView.activeSourceName : libraryView.containerTitle
+                color: Theme.colors.colorOnSurface
+                textStyle: Theme.fonts.titleLarge
+                elide: Text.ElideRight
+            }
+        }
     }
 
     EmptyState {
@@ -254,7 +290,7 @@ Item {
         readonly property real tileWidth: grid.cellWidth - libraryView.tileSpacing
 
         anchors.top: libraryView.contentTop
-        anchors.topMargin: 24
+        anchors.topMargin: 20
         anchors.bottom: libraryView.bottom
         anchors.left: header.left
         // The cells include the spacing on their right side, so the grid extends by one spacing.
