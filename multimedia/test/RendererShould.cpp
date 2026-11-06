@@ -6,6 +6,7 @@
 #include "Descriptions.hpp"
 #include "EventBackendDouble.hpp"
 #include "Item.hpp"
+#include "MediaServerObject.hpp"
 #include "MuteResponse.hpp"
 #include "PositionInfoResponse.hpp"
 #include "Renderer.hpp"
@@ -149,12 +150,46 @@ void RendererShould::call_avtransport_uri_on_playback_request()
     Q_EMIT mUpnpRendererRaw->protocolInfoCall()->finished();
     renderer.playback(createPlayableMediaItem());
 
-    auto const expData = AvTransportUriData{.instanceId = quint32{0},
-                                            .uri = QStringLiteral("http://127.0.0.1/1234.mp3"),
-                                            .uriMetaData = QString("")};
     QCOMPARE(mUpnpRendererRaw->isSetAvTransportUriCalled(), true);
-    QCOMPARE(mUpnpRendererRaw->avTransportUriData(), expData);
+    QCOMPARE(mUpnpRendererRaw->avTransportUriData().instanceId, quint32{0});
+    QCOMPARE(mUpnpRendererRaw->avTransportUriData().uri, QStringLiteral("http://127.0.0.1/1234.mp3"));
 };
+
+void RendererShould::send_the_metadata_of_the_item_on_playback_request()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    renderer.initialize();
+    Q_EMIT mUpnpRendererRaw->protocolInfoCall()->finished();
+    auto const item =
+        ItemBuilder{}
+            .withItemType(ItemType::Playable)
+            .withMainText(QStringLiteral("Harbour Lights & Fog"))
+            .withSecondaryText(QStringLiteral("The Quiet Ferries"))
+            .withAlbum(QStringLiteral("Night Crossings"))
+            .withAlbumArtist(QStringLiteral("Various Artists"))
+            .withArtworkUrl(QStringLiteral("http://127.0.0.1/cover.jpg"))
+            .withPlayUrl(QStringLiteral("http://127.0.0.1/1234.mp3"))
+            .withDuration(std::chrono::milliseconds{3'723'000})
+            .withSupportedTypes({Protocol::create(QStringLiteral("http-get:*:audio/mpeg:*")).value_or(Protocol{})})
+            .build();
+
+    renderer.playback(item);
+
+    auto metaData = mUpnpRendererRaw->avTransportUriData().uriMetaData;
+    auto const objects = MediaServerObject::createFromDidl(metaData);
+    QCOMPARE(objects.size(), 1);
+    auto const& object = objects.first();
+    QCOMPARE(object.title(), QStringLiteral("Harbour Lights & Fog"));
+    QCOMPARE(object.artist(), QStringLiteral("The Quiet Ferries"));
+    QCOMPARE(object.album(), QStringLiteral("Night Crossings"));
+    QCOMPARE(object.albumArtist(), QStringLiteral("Various Artists"));
+    QCOMPARE(object.albumArtUrl(), QStringLiteral("http://127.0.0.1/cover.jpg"));
+    QCOMPARE(object.typeClass(), QStringLiteral("object.item.audioItem.musicTrack"));
+    QCOMPARE(object.playUrl(), QStringLiteral("http://127.0.0.1/1234.mp3"));
+    QCOMPARE(object.resources().size(), 1);
+    QCOMPARE(object.resources().first().protocolInfo, QStringLiteral("http-get:*:audio/mpeg:*"));
+    QCOMPARE(object.resources().first().duration, std::chrono::milliseconds{3'723'000});
+}
 
 void RendererShould::call_play_on_successful_avtransporturi_request()
 {
@@ -632,8 +667,7 @@ void RendererShould::fall_back_for_missing_current_track_details_data()
     QTest::addColumn<QString>("expectedTitle");
     QTest::addColumn<QString>("expectedArtist");
 
-    QTest::newRow("no title") << trackUri
-                              << didl("<dc:title></dc:title><upnp:artist>The Quiet Ferries</upnp:artist>")
+    QTest::newRow("no title") << trackUri << didl("<dc:title></dc:title><upnp:artist>The Quiet Ferries</upnp:artist>")
                               << "Harbour Lights" << "";
     QTest::newRow("no artist") << trackUri << didl("<dc:title>Tide</dc:title><dc:creator>Ferry Creator</dc:creator>")
                                << "Tide" << "Ferry Creator";
