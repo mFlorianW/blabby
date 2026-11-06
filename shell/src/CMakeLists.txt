@@ -27,6 +27,8 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/ArtworkUrl.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FolderArtwork.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FolderArtwork.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IniSettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IniSettingsStore.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoadProviders.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LoadProviders.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MediaSourceModel.cpp
@@ -45,6 +47,8 @@ target_sources(${PROJECT_NAME}Object
         ${CMAKE_CURRENT_SOURCE_DIR}/SettingsModel.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SettingsRowModel.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SettingsRowModel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsStore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SettingsStore.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}Object

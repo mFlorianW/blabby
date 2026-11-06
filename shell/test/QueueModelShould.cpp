@@ -5,6 +5,7 @@
 #include "QueueModelShould.hpp"
 #include "Descriptions.hpp"
 #include "InMemoryRendererStore.hpp"
+#include "InMemorySettingsStore.hpp"
 #include "PositionInfoResponse.hpp"
 #include "RendererProvider.hpp"
 #include "TestSource.hpp"
@@ -109,7 +110,8 @@ void QueueModelShould::init()
     auto rProvider = std::make_unique<RendererProvider>(std::make_shared<TestHelper::InMemoryRendererStore>(),
                                                         std::move(sProvider),
                                                         std::move(rendererFactory));
-    mRendererModel = std::make_unique<MediaRendererModel>(std::move(rProvider));
+    mRendererModel =
+        std::make_unique<MediaRendererModel>(std::move(rProvider), std::make_shared<InMemorySettingsStore>());
     mModel = std::make_unique<QueueModel>(*mRendererModel);
 
     Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
@@ -801,6 +803,22 @@ void QueueModelShould::stop_running_when_the_active_renderer_goes_offline()
     Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
 
     QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
+}
+
+void QueueModelShould::keep_an_idle_queue_idle_when_the_last_picked_renderer_becomes_active_by_itself()
+{
+    activate(QStringLiteral("Kitchen"));
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+    mModel->replace(album(), 1);
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE_NE(mRendererModel->activeRenderer(), nullptr);
+    QCOMPARE(mRendererModel->activeRenderer()->name(), QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->property("running").toBool(), false);
+    QCOMPARE(device(QStringLiteral("Kitchen"))->isSetAvTransportUriCalled(), false);
+    QCOMPARE(device(QStringLiteral("Kitchen"))->isPlayCalled(), false);
     QCOMPARE(dataOf(*mModel, 1, QueueModel::DisplayRole::Current).toBool(), true);
 }
 

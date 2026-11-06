@@ -8,6 +8,7 @@
 #pragma once
 
 #include "RendererProvider.hpp"
+#include "SettingsStore.hpp"
 #include <QAbstractListModel>
 
 namespace Shell
@@ -78,8 +79,9 @@ public:
      * Creates an instance of the @ref Shell::MediaRendererModel.
      * The model starts with the known @ref Multimedia::Renderer of the provider.
      * @param provider The provider to handle connected and diconnected @ref Multimedia::Renderer.
+     * @param settings The settings that keep the Renderer the user last picked and whether it's activated again.
      */
-    MediaRendererModel(std::unique_ptr<Multimedia::RendererProvider> provider);
+    MediaRendererModel(std::unique_ptr<Multimedia::RendererProvider> provider, std::shared_ptr<SettingsStore> settings);
 
     /**
      * Default destructor
@@ -164,10 +166,12 @@ private:
     void onRendererStateChanged(Multimedia::Renderer const* renderer);
     void onRendererChanged(Multimedia::Renderer const* renderer);
     int sortedRow(Multimedia::Renderer const* renderer) const noexcept;
-    void clearActiveRenderer();
+    void setActiveRenderer(std::shared_ptr<Multimedia::Renderer> const& renderer);
+    void activateLastPickedRenderer();
     QModelIndex indexOf(Multimedia::Renderer const* renderer) const noexcept;
 
     std::unique_ptr<Multimedia::RendererProvider> mProvider;
+    std::shared_ptr<SettingsStore> mSettings;
     QVector<std::shared_ptr<Multimedia::Renderer>> mRenderers;
     std::shared_ptr<Multimedia::Renderer> mActiveRenderer = nullptr;
     bool mScanning = false;

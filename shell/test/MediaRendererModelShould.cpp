@@ -57,6 +57,7 @@ MediaRendererModelShould::~MediaRendererModelShould() = default;
 void MediaRendererModelShould::init()
 {
     mStore = std::make_shared<TestHelper::InMemoryRendererStore>();
+    mSettings = std::make_shared<InMemorySettingsStore>();
     restart();
 }
 
@@ -80,7 +81,7 @@ void MediaRendererModelShould::restart()
     auto rendererFactory = std::make_unique<MediaRendererDoubleFactory>();
     mRendererFactory = rendererFactory.get();
     auto rProvider = std::make_unique<RendererProvider>(mStore, std::move(sProvider), std::move(rendererFactory));
-    mModel = std::make_unique<MediaRendererModel>(std::move(rProvider));
+    mModel = std::make_unique<MediaRendererModel>(std::move(rProvider), mSettings);
 }
 
 QStringList MediaRendererModelShould::rendererNames() const
@@ -575,6 +576,143 @@ void MediaRendererModelShould::remember_a_forgotten_renderer_again_when_it_is_di
     QCOMPARE(availability(0), Renderer::Availability::Online);
     QCOMPARE(mStore->load().size(), 1);
     QCOMPARE(mStore->load().at(0).name, QStringLiteral("Kitchen"));
+}
+
+QVariant MediaRendererModelShould::lastPickedRenderer() const
+{
+    return mSettings->value(SettingsKey::lastRenderer);
+}
+
+void MediaRendererModelShould::remember_the_renderer_the_user_picked()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    mModel->activateRenderer(mModel->index(0));
+
+    QCOMPARE(lastPickedRenderer(), QVariant{kitchenUsn});
+}
+
+void MediaRendererModelShould::replace_the_last_picked_renderer_with_the_next_pick()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+    mModel->activateRenderer(mModel->index(1));
+
+    mModel->activateRenderer(mModel->index(0));
+
+    QCOMPARE(lastPickedRenderer(), QVariant{bathroomUsn});
+}
+
+void MediaRendererModelShould::not_remember_a_pick_of_an_offline_renderer()
+{
+    mStore = std::make_shared<TestHelper::InMemoryRendererStore>(QList{rememberedKitchen()});
+    restart();
+
+    mModel->activateRenderer(mModel->index(0));
+
+    QCOMPARE(lastPickedRenderer(), QVariant{});
+}
+
+void MediaRendererModelShould::activate_the_last_picked_renderer_when_it_comes_online_after_a_restart()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+    mModel->activateRenderer(mModel->index(1));
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+    auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE_NE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(mModel->activeRenderer()->name(), QStringLiteral("Kitchen"));
+    QCOMPARE(activeRendererChangedSpy.size(), 1);
+    QCOMPARE(isActive(1), true);
+}
+
+void MediaRendererModelShould::activate_the_last_picked_renderer_when_it_is_discovered_for_the_first_time()
+{
+    mSettings->setValue(SettingsKey::lastRenderer, kitchenUsn);
+    restart();
+    auto modelTester = QAbstractItemModelTester{mModel.get(), QAbstractItemModelTester::FailureReportingMode::QtTest};
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE_NE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(mModel->activeRenderer()->name(), QStringLiteral("Kitchen"));
+    QCOMPARE(isActive(0), true);
+}
+
+void MediaRendererModelShould::activate_the_last_picked_renderer_again_when_it_comes_back_online()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE_NE(mModel->activeRenderer(), nullptr);
+    QCOMPARE(mModel->activeRenderer()->name(), QStringLiteral("Kitchen"));
+}
+
+void MediaRendererModelShould::keep_the_last_picked_renderer_when_it_goes_offline_and_becomes_active_by_itself()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+    QCOMPARE(lastPickedRenderer(), QVariant{kitchenUsn});
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(lastPickedRenderer(), QVariant{kitchenUsn});
+}
+
+void MediaRendererModelShould::keep_the_picked_renderer_active_when_the_previous_pick_comes_back_online()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    Q_EMIT mServiceProvider->serviceConnected(bathroomUsn);
+    mModel->activateRenderer(mModel->index(1));
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    auto activeRendererChangedSpy = QSignalSpy{mModel.get(), &MediaRendererModel::activeRendererChanged};
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(mModel->activeRenderer()->name(), QStringLiteral("Bathroom"));
+    QCOMPARE(activeRendererChangedSpy.size(), 0);
+    QCOMPARE(lastPickedRenderer(), QVariant{bathroomUsn});
+}
+
+void MediaRendererModelShould::not_activate_the_last_picked_renderer_while_remembering_is_off()
+{
+    mSettings->setValue(SettingsKey::rememberLastRenderer, false);
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+    restart();
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(mModel->activeRenderer(), nullptr);
+}
+
+void MediaRendererModelShould::not_activate_a_forgotten_renderer()
+{
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+    mModel->activateRenderer(mModel->index(0));
+    Q_EMIT mServiceProvider->serviceDisconnected(kitchenUsn);
+
+    mModel->forgetRenderer(mModel->index(0));
+    QCOMPARE(lastPickedRenderer(), QVariant{});
+    Q_EMIT mServiceProvider->serviceConnected(kitchenUsn);
+
+    QCOMPARE(mModel->activeRenderer(), nullptr);
 }
 
 } // namespace Shell
