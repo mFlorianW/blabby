@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -143,6 +143,19 @@ void ServerShould::give_a_request_with_the_headers()
     QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
     QCOMPARE(mHtppServer->serverRequest().headers().contains("Test"), true);
     QCOMPARE(mHtppServer->serverRequest().headers().value("Test"), QByteArray{"TestValue"});
+    reply->deleteLater();
+}
+
+void ServerShould::look_up_request_headers_case_insensitive()
+{
+    auto req = QNetworkRequest{};
+    req.setUrl(QUrl{"http://127.0.0.1:27018"});
+    req.setRawHeader(QByteArray{"SID"}, QByteArray{"uuid:12345"});
+    auto reply = mHttpClient.get(req);
+
+    QTRY_COMPARE_WITH_TIMEOUT(mHtppServer->handleRequestCalled(), true, timeout);
+    QCOMPARE(mHtppServer->serverRequest().headers().value("sid"), QByteArray{"uuid:12345"});
+    QCOMPARE(mHtppServer->serverRequest().headers().value("SID"), QByteArray{"uuid:12345"});
     reply->deleteLater();
 }
 

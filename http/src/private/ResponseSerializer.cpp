@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -32,7 +32,7 @@ void ResponseSerializer::serialize() noexcept
     auto const& headers = mResponse.headers();
     auto const& body = mResponse.body();
     for (auto header = headers.cbegin(); header != headers.cend(); ++header) {
-        response.append(header.key());
+        response.append(header.key().name());
         response.append(": ");
         response.append(header.value());
         response.append("\r\n");

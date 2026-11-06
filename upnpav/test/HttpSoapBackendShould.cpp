@@ -61,12 +61,8 @@ void HttpSoapBackendShould::send_the_soap_action_in_double_quotes()
     auto soapActions = QList<QByteArray>{};
     device.addRoute(QByteArrayLiteral("/control"),
                     [&soapActions](Http::ServerRequest const& request, Http::ServerResponse& response) {
-                        // Header names are case-insensitive.
-                        auto const& headers = request.headers();
-                        for (auto header = headers.cbegin(); header != headers.cend(); ++header) {
-                            if (header.key().compare("soapaction", Qt::CaseInsensitive) == 0) {
-                                soapActions.append(header.value());
-                            }
+                        if (request.headers().contains("SOAPACTION")) {
+                            soapActions.append(request.headers().value("SOAPACTION"));
                         }
                         response.setStatusCode(Http::Response::StatusCode::InternalServerError);
                         return true;
