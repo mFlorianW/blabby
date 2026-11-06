@@ -38,6 +38,10 @@ public:
     {
         MediaSourceName = Qt::UserRole + 1,
         MediaSourceIocnUrl,
+        /**
+         * True when the @ref Multimedia::Source is the Active Source.
+         */
+        Active,
     };
 
     /**
@@ -78,8 +82,9 @@ public:
     QVariant data(QModelIndex const& index, int role = Qt::DisplayRole) const noexcept override;
 
     /**
-     * Activates the @ref Multimedia::MediaSource under the passed indeunder the passed indexxand updates the @ref
-     * activeMediaSource property. If an invalid index or the index of the active MediaSource is passed nothing happens.
+     * Makes the @ref Multimedia::Source under the passed index the Active Source, updates the @ref activeMediaSource
+     * property and notifies a change of the @ref DisplayRole::Active role for the previous and the new Active Source.
+     * If an invalid index or the index of the Active Source is passed nothing happens.
      * @param idx The index of the MediaSource that shall be activated.
      */
     Q_INVOKABLE void activateMediaSource(qsizetype idx);

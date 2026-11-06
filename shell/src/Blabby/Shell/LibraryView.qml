@@ -27,7 +27,7 @@ Item {
     id: libraryView
 
     /**
-     * The Sources to pick from, a model with the roles "mediaSourceName" and "mediaSourceIconUrl".
+     * The Sources to pick from, a model with the roles "mediaSourceName", "mediaSourceIconUrl" and "active".
      */
     property alias sources: sourceMenu.model
 
@@ -98,7 +98,7 @@ Item {
     readonly property var contentTop: containerTitleText.visible ? containerTitleText.bottom : header.bottom
 
     /**
-     * This signal is emitted when the user picks the Source at index in the Source menu.
+     * This signal is emitted when the user picks the Source at index in the Source menu that isn't the Active Source.
      */
     signal sourcePicked(int index)
 

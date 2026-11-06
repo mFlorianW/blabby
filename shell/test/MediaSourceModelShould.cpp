@@ -13,9 +13,20 @@
 #include <QAbstractItemModelTester>
 #include <QSignalSpy>
 #include <QTest>
+#include <algorithm>
 
 namespace Shell
 {
+
+namespace
+{
+constexpr auto activeRole = static_cast<int>(MediaSourceModel::DisplayRole::Active);
+
+bool isActive(MediaSourceModel const& model, int row)
+{
+    return model.data(model.index(row), activeRole).toBool();
+}
+} // namespace
 
 MediaSourceModelShould::~MediaSourceModelShould() = default;
 
@@ -41,7 +52,8 @@ void MediaSourceModelShould::give_the_correct_role_names_for_the_ui()
     auto expRoleNames = QHash<int, QByteArray>{
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceName), QByteArray{"mediaSourceName"}),
         std::make_pair(static_cast<int>(MediaSourceModel::DisplayRole::MediaSourceIocnUrl),
-                       QByteArray{"mediaSourceIconUrl"})};
+                       QByteArray{"mediaSourceIconUrl"}),
+        std::make_pair(activeRole, QByteArray{"active"})};
 
     auto const roleNames = model.roleNames();
 
@@ -204,6 +216,70 @@ void MediaSourceModelShould::keep_the_active_media_source_when_another_media_sou
     QCOMPARE(activeChangedSpy.size(), 0);
     QCOMPARE(activeRemovedSpy.size(), 0);
     QCOMPARE(model.activeMediaSource(), loader.providers().at(0)->sources().at(0));
+}
+
+void MediaSourceModelShould::mark_no_row_as_active_without_an_active_media_source()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+
+    QCOMPARE(isActive(model, 0), false);
+    QCOMPARE(isActive(model, 1), false);
+}
+
+void MediaSourceModelShould::mark_only_the_row_of_the_active_media_source_as_active()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+
+    model.activateMediaSource(1);
+
+    QCOMPARE(isActive(model, 0), false);
+    QCOMPARE(isActive(model, 1), true);
+}
+
+void MediaSourceModelShould::notify_the_active_role_of_the_previous_and_the_new_active_row()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    model.activateMediaSource(0);
+    auto dataChangedSpy = QSignalSpy{&model, &MediaSourceModel::dataChanged};
+
+    model.activateMediaSource(1);
+
+    QCOMPARE(dataChangedSpy.size(), 2);
+    auto changedRows = QList<int>{};
+    for (auto const& args : std::as_const(dataChangedSpy)) {
+        auto const topLeft = args.at(0).value<QModelIndex>();
+        QCOMPARE(args.at(1).value<QModelIndex>(), topLeft);
+        QCOMPARE(args.at(2).value<QList<int>>(), QList<int>({activeRole}));
+        changedRows.append(topLeft.row());
+    }
+    std::sort(changedRows.begin(), changedRows.end());
+    QCOMPARE(changedRows, QList<int>({0, 1}));
+}
+
+void MediaSourceModelShould::keep_the_active_role_on_the_active_media_source_when_rows_are_removed_and_added()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+    auto mTester = QAbstractItemModelTester(&model, QAbstractItemModelTester::FailureReportingMode::QtTest);
+    auto* firstProvider = qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(0).get());
+    model.activateMediaSource(1);
+
+    firstProvider->removeLastSource();
+
+    QCOMPARE(model.rowCount(), 1);
+    QCOMPARE(isActive(model, 0), true);
+
+    firstProvider->createNewSource();
+
+    QCOMPARE(model.rowCount(), 2);
+    QCOMPARE(isActive(model, 0), true);
+    QCOMPARE(isActive(model, 1), false);
 }
 
 } // namespace Shell

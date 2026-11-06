@@ -8,14 +8,15 @@ import Blabby.Theme
 
 /**
  * The menu to pick the Active Source that drops down under the Source pill, headed "Choose a Source" with a row per
- * Source that shows its icon in a round badge and its name. Sources that appear or vanish while the menu is open show
+ * Source that shows its icon in a round badge and its name. The row of the Active Source is highlighted, its badge is
+ * drawn in the highlighted colours and it carries a checkmark. Sources that appear or vanish while the menu is open show
  * up in or vanish from it. The tap catcher, the panel, the anchoring and opening and closing come from @ref MenuShell.
  */
 MenuShell {
     id: sourceMenu
 
     /**
-     * The Sources to list, a model with the roles "mediaSourceName" and "mediaSourceIconUrl".
+     * The Sources to list, a model with the roles "mediaSourceName", "mediaSourceIconUrl" and "active".
      */
     property alias model: sourceList.model
 
@@ -25,7 +26,7 @@ MenuShell {
     readonly property alias count: sourceList.count
 
     /**
-     * This signal is emitted when the user picks the Source at index.
+     * This signal is emitted when the user picks the Source at index that isn't the Active Source.
      */
     signal picked(int index)
 
@@ -62,13 +63,24 @@ MenuShell {
             required property int index
             required property string mediaSourceName
             required property string mediaSourceIconUrl
+            required property bool active
 
             objectName: "sourceRow" + sourceRow.index
             width: sourceList.width
             height: sourceMenu.rowHeight
             onClicked: {
                 sourceMenu.close();
-                sourceMenu.picked(sourceRow.index);
+                if (!sourceRow.active) {
+                    sourceMenu.picked(sourceRow.index);
+                }
+            }
+
+            Rectangle {
+                id: rowBackground
+                objectName: "sourceRowBackground" + sourceRow.index
+                anchors.fill: sourceRow
+                color: Theme.colors.secondaryContainer
+                visible: sourceRow.active
             }
 
             Rectangle {
@@ -86,6 +98,8 @@ MenuShell {
                 anchors.verticalCenter: sourceRow.verticalCenter
                 width: 40
                 height: 40
+                highlighted: sourceRow.active
+                monochrome: sourceRow.mediaSourceIconUrl === ""
                 iconSource: sourceRow.mediaSourceIconUrl !== "" ? sourceRow.mediaSourceIconUrl : "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
             }
 
@@ -94,13 +108,26 @@ MenuShell {
                 objectName: "sourceName" + sourceRow.index
                 anchors.left: sourceBadge.right
                 anchors.leftMargin: 12
-                anchors.right: sourceRow.right
-                anchors.rightMargin: 16
+                anchors.right: checkmark.left
+                anchors.rightMargin: 12
                 anchors.verticalCenter: sourceRow.verticalCenter
                 text: sourceRow.mediaSourceName
                 color: Theme.colors.colorOnSurface
                 textStyle: Theme.fonts.bodyLarge
                 maximumLineCount: 1
+            }
+
+            Icon {
+                id: checkmark
+                objectName: "sourceCheckmark" + sourceRow.index
+                anchors.right: sourceRow.right
+                anchors.rightMargin: 16
+                anchors.verticalCenter: sourceRow.verticalCenter
+                width: 24
+                height: 24
+                source: "qrc:/qt/qml/Blabby/Shell/icons/material/check.svg"
+                color: Theme.colors.secondary
+                visible: sourceRow.active
             }
         }
     }
