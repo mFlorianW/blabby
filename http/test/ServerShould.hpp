@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -42,6 +42,11 @@ private Q_SLOTS:
      * Tests that the server correctly parse the request from the raw HTTP request.
      */
     void give_a_request_with_the_headers();
+
+    /**
+     * Tests that the request headers are looked up case-insensitive, as HTTP header names are case-insensitive.
+     */
+    void look_up_request_headers_case_insensitive();
 
     /**
      * Tests that the server correctly parse the URL from the raw HTTP request.
