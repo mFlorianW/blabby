@@ -41,5 +41,6 @@ var classShell_1_1MediaItemModel =
     [ "hasMediaSource", "classShell_1_1MediaItemModel.html#af896a88c19288c4a74756e253fdabc41", null ],
     [ "loadMoreFailed", "classShell_1_1MediaItemModel.html#a6e1a1841115c45d2c7c95646fcb5d360", null ],
     [ "mediaSourceIconUrl", "classShell_1_1MediaItemModel.html#a8a21ef0454342e6fbb28c8d6be695920", null ],
-    [ "mediaSourceName", "classShell_1_1MediaItemModel.html#aa5c1dad675569030e321ff321b67fcfe", null ]
+    [ "mediaSourceName", "classShell_1_1MediaItemModel.html#aa5c1dad675569030e321ff321b67fcfe", null ],
+    [ "parentContainerTitle", "classShell_1_1MediaItemModel.html#ac585fef78261e98f96b9bc9040a0570f", null ]
 ];

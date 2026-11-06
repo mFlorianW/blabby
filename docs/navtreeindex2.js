@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classShell_1_1MediaRendererModel.html#a95783d4ab96f012c824c87ae650b16f9":[7,0,3,7,12],
 "classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1":[7,0,3,7,2],
 "classShell_1_1MediaRendererModel.html#ac0ef1526c89582b1cbb7e5c1d40d6971":[7,0,3,7,6],
 "classShell_1_1MediaRendererModel.html#ac9ccdebb5eef880dc2b37c3a6bc0732c":[7,0,3,7,13],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35aefe5af6851a1e9c54500b3f4be0c240b":[7,0,4,31,0,3],
 "classUPnPAV_1_1GetTransportSettingsResponse.html#a473465185f4a0bcd4f19e32a0dc8fa35afa185d54520f892531dfd883f0122923":[7,0,4,31,0,2],
 "classUPnPAV_1_1GetTransportSettingsResponse.html#ae4f18f704fad9fb106ab4d92f6862f21":[7,0,4,31,3],
-"classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724":[7,0,4,31,2],
-"classUPnPAV_1_1GetVolumeResponse.html":[7,0,4,33]
+"classUPnPAV_1_1GetTransportSettingsResponse.html#aef8011e60b68f11bafdc198e6db90724":[7,0,4,31,2]
 };
