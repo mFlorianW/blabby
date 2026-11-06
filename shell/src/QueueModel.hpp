@@ -55,9 +55,14 @@ class QueueModel : public QAbstractListModel
     Q_PROPERTY(bool hasPrevious READ hasPrevious NOTIFY stepAvailabilityChanged)
 
     /**
-     * True when next does something, i.e. the Current Entry isn't the last entry.
+     * True when next does something, i.e. the Current Entry isn't the last entry or the Repeat is All.
      */
     Q_PROPERTY(bool hasNext READ hasNext NOTIFY stepAvailabilityChanged)
+
+    /**
+     * The Repeat of the Queue, a value of Queue.Repeat.
+     */
+    Q_PROPERTY(Multimedia::Queue::Repeat repeat READ repeat NOTIFY repeatChanged)
 
     /**
      * True while the Playables of a Container are collected to play them next or add them to the Queue.
@@ -159,6 +164,19 @@ public:
      * @return True when next does something.
      */
     bool hasNext() const noexcept;
+
+    /**
+     * Gives the Repeat of the Queue.
+     * @see Multimedia::Queue::repeat
+     * @return The Repeat.
+     */
+    Multimedia::Queue::Repeat repeat() const noexcept;
+
+    /**
+     * Sets the next Repeat of the Queue in the order Off, All, One and Off again.
+     * @see Multimedia::Queue::setRepeat
+     */
+    Q_INVOKABLE void cycleRepeat() noexcept;
 
     /**
      * Gives whether the Playables of a Container are collected.
@@ -285,6 +303,11 @@ Q_SIGNALS:
      * This signal is emitted when previous or next may have become available or unavailable.
      */
     void stepAvailabilityChanged();
+
+    /**
+     * This signal is emitted when the Repeat changed.
+     */
+    void repeatChanged();
 
     /**
      * This signal is emitted when a collection of a Container started or ended.

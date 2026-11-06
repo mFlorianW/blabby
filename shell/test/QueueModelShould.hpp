@@ -78,6 +78,8 @@ private Q_SLOTS:
     void hand_over_a_running_queue_to_the_new_active_renderer();
     void stop_running_when_the_active_renderer_goes_offline();
     void keep_an_idle_queue_idle_when_the_last_picked_renderer_becomes_active_by_itself();
+    void cycle_the_repeat_from_off_to_all_to_one_and_back_to_off();
+    void notify_about_a_changed_repeat_and_the_availability_of_next();
 };
 
 } // namespace Shell

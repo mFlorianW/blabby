@@ -125,6 +125,14 @@ private Q_SLOTS:
     void continue_the_current_entry_at_the_last_known_position_on_toggle_of_an_idle_queue();
     void resume_the_renderer_on_toggle_of_an_empty_queue();
     void ignore_toggling_while_a_playback_control_is_pending_or_transitioning();
+    void not_repeat_at_start();
+    void notify_about_a_repeat_change();
+    void play_the_first_entry_after_the_last_entry_finished_with_repeat_all();
+    void play_the_first_entry_on_next_from_the_last_entry_with_repeat_all();
+    void play_the_current_entry_again_when_it_finished_with_repeat_one();
+    void step_through_the_entries_on_previous_and_next_with_repeat_one();
+    void not_take_the_position_of_the_finished_play_for_the_repeated_current_entry();
+    void keep_repeat_when_the_queue_is_replaced_restored_or_handed_over();
 };
 
 } // namespace Multimedia

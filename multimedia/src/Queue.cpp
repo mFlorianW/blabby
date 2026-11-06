@@ -140,6 +140,19 @@ bool Queue::playsCurrentEntry() const noexcept
     return mPlaysCurrentEntry;
 }
 
+Queue::Repeat Queue::repeat() const noexcept
+{
+    return mRepeat;
+}
+
+void Queue::setRepeat(Queue::Repeat repeat) noexcept
+{
+    if (mRepeat != repeat) {
+        mRepeat = repeat;
+        Q_EMIT repeatChanged();
+    }
+}
+
 void Queue::replace(Items const& playables, qsizetype startIndex) noexcept
 {
     if (not playables.isEmpty() and (startIndex < 0 or startIndex >= playables.size())) {
@@ -214,7 +227,7 @@ bool Queue::hasPrevious() const noexcept
 
 bool Queue::hasNext() const noexcept
 {
-    return mCurrentIndex.has_value() and *mCurrentIndex + 1 < mEntries.size();
+    return nextIndex().has_value();
 }
 
 void Queue::previous() noexcept
@@ -233,9 +246,24 @@ void Queue::previous() noexcept
 
 void Queue::next() noexcept
 {
-    if (mCurrentIndex.has_value() and *mCurrentIndex + 1 < mEntries.size()) {
-        play(*mCurrentIndex + 1);
+    if (auto const index = nextIndex(); index.has_value()) {
+        play(*index);
     }
+}
+
+std::optional<qsizetype> Queue::nextIndex() const noexcept
+{
+    if (not mCurrentIndex.has_value()) {
+        return std::nullopt;
+    }
+    if (*mCurrentIndex + 1 < mEntries.size()) {
+        return *mCurrentIndex + 1;
+    }
+    // The Queue starts over after its last entry.
+    if (mRepeat == Repeat::All) {
+        return 0;
+    }
+    return std::nullopt;
 }
 
 void Queue::restartCurrentEntry() noexcept
@@ -598,13 +626,14 @@ void Queue::onRendererStateChanged() noexcept
         return;
     }
 
-    auto const nextIndex = *mCurrentIndex + 1;
-    if (nextIndex >= mEntries.size()) {
+    auto const index = mRepeat == Repeat::One ? mCurrentIndex : nextIndex();
+    if (not index.has_value()) {
         setState(State::Idle);
         return;
     }
 
-    setCurrentIndex(nextIndex);
+    // The Current Entry played again starts from its beginning, too.
+    setCurrentIndex(index);
     playCurrentEntry();
 }
 

@@ -66,6 +66,12 @@ Item {
         }
 
         SignalSpy {
+            id: cycleRepeatRequestedSpy
+            target: miniPlayer
+            signalName: "cycleRepeatRequested"
+        }
+
+        SignalSpy {
             id: nowPlayingRequestedSpy
             target: miniPlayer
             signalName: "nowPlayingRequested"
@@ -107,6 +113,7 @@ Item {
             miniPlayer.hasQueue = true;
             miniPlayer.hasPrevious = true;
             miniPlayer.hasNext = true;
+            miniPlayer.repeat = Queue.Off;
             miniPlayer.volume = 42;
             miniPlayer.volumeMinimum = 0;
             miniPlayer.volumeMaximum = 60;
@@ -116,12 +123,14 @@ Item {
             togglePlaybackRequestedSpy.clear();
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
+            cycleRepeatRequestedSpy.clear();
             nowPlayingRequestedSpy.clear();
             rendererPickedSpy.clear();
             volumeRequestedSpy.clear();
             muteRequestedSpy.clear();
             beneathClickedSpy.clear();
             miniPlayer.visible = true;
+            root.width = 1184;
             miniPlayerTest.child("rendererMenu").close();
             miniPlayerTest.waitForLayout();
         }
@@ -677,6 +686,75 @@ Item {
             miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
             miniPlayerTest.mouseClick(miniPlayerTest.child("muteButton"));
             miniPlayerTest.compare(muteRequestedSpy.count, 1);
+        }
+
+        function test_show_the_repeat_state_data() {
+            return [
+                {
+                    tag: "off",
+                    repeat: Queue.Off,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg",
+                    checked: false
+                },
+                {
+                    tag: "all",
+                    repeat: Queue.All,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat.svg",
+                    checked: true
+                },
+                {
+                    tag: "one",
+                    repeat: Queue.One,
+                    icon: "qrc:/qt/qml/Blabby/Shell/icons/material/repeat_one.svg",
+                    checked: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Repeat button after next looks like the one of the Playing screen: "repeat" or "repeat one",
+         * highlighted when not Off.
+         */
+        function test_show_the_repeat_state(data) {
+            miniPlayer.repeat = data.repeat;
+            miniPlayerTest.waitForLayout();
+            const button = miniPlayerTest.child("repeatButton");
+            miniPlayerTest.compare(button.visible, true);
+            miniPlayerTest.compare(miniPlayerTest.findChild(button, "icon").source, data.icon);
+            miniPlayerTest.compare(button.checked, data.checked);
+            const nextButton = miniPlayerTest.child("nextButton");
+            miniPlayerTest.verify(button.mapToItem(miniPlayer, 0, 0).x > nextButton.mapToItem(miniPlayer, 0, 0).x);
+            const volumeControls = miniPlayerTest.child("volumeControls");
+            miniPlayerTest.verify(button.mapToItem(miniPlayer, button.width, 0).x <= volumeControls.mapToItem(miniPlayer, 0, 0).x);
+        }
+
+        /**
+         * Tests that the Repeat button asks for the next Repeat.
+         */
+        function test_ask_for_the_next_repeat_with_the_repeat_button() {
+            miniPlayerTest.mouseClick(miniPlayerTest.child("repeatButton"));
+            miniPlayerTest.compare(cycleRepeatRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that the Repeat button is hidden while the Queue is empty.
+         */
+        function test_hide_the_repeat_button_while_the_queue_is_empty() {
+            miniPlayer.hasQueue = false;
+            miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, false);
+        }
+
+        /**
+         * Tests that the Repeat button is hidden below the narrow breakpoint, e.g. in a window of 800 px minus the
+         * navigation rail and the margins.
+         */
+        function test_hide_the_repeat_button_on_a_narrow_screen() {
+            root.width = 672;
+            miniPlayerTest.compare(miniPlayer.narrow, true);
+            miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, false);
+            root.width = 1184;
+            miniPlayerTest.compare(miniPlayer.narrow, false);
+            miniPlayerTest.compare(miniPlayerTest.child("repeatButton").visible, true);
         }
     }
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Item.hpp"
+#include "Queue.hpp"
 #include "Renderer.hpp"
 #include <QObject>
 #include <QtQml/qqml.h>
@@ -25,6 +26,17 @@ struct RendererForeign
     QML_FOREIGN(Multimedia::Renderer)
     QML_NAMED_ELEMENT(Renderer)
     QML_UNCREATABLE("Renderers are provided by the MediaRendererModel")
+};
+
+/**
+ * Makes @ref Multimedia::Queue known to QML as Queue, e.g. for Queue.All.
+ */
+struct QueueForeign
+{
+    Q_GADGET
+    QML_FOREIGN(Multimedia::Queue)
+    QML_NAMED_ELEMENT(Queue)
+    QML_UNCREATABLE("The Queue is provided by the QueueModel")
 };
 
 /**

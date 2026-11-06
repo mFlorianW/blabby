@@ -1488,6 +1488,111 @@ void QueueShould::ignore_toggling_while_a_playback_control_is_pending_or_transit
     QCOMPARE(mDevice->isPlayCalled(), false);
 }
 
+void QueueShould::not_repeat_at_start()
+{
+    QCOMPARE(Queue{}.repeat(), Queue::Repeat::Off);
+}
+
+void QueueShould::notify_about_a_repeat_change()
+{
+    auto repeatChangedSpy = QSignalSpy{mQueue.get(), &Queue::repeatChanged};
+
+    mQueue->setRepeat(Queue::Repeat::All);
+    mQueue->setRepeat(Queue::Repeat::All);
+
+    QCOMPARE(mQueue->repeat(), Queue::Repeat::All);
+    QCOMPARE(repeatChangedSpy.size(), 1);
+}
+
+void QueueShould::play_the_first_entry_after_the_last_entry_finished_with_repeat_all()
+{
+    mQueue->setRepeat(Queue::Repeat::All);
+    mQueue->replace(album(), 2);
+
+    finishEntry(uriOf(QStringLiteral("Outro")));
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Intro")));
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::play_the_first_entry_on_next_from_the_last_entry_with_repeat_all()
+{
+    mQueue->replace(album(), 2);
+    QCOMPARE(mQueue->hasNext(), false);
+
+    mQueue->setRepeat(Queue::Repeat::All);
+    QCOMPARE(mQueue->hasNext(), true);
+    mDevice->reset();
+    mQueue->next();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Intro")));
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::play_the_current_entry_again_when_it_finished_with_repeat_one()
+{
+    mQueue->setRepeat(Queue::Repeat::One);
+    mQueue->replace(album(), 1);
+    report(uriOf(QStringLiteral("Harbour")), QStringLiteral("0:03:00"), QStringLiteral("0:02:58"));
+    auto currentEntryChangedSpy = QSignalSpy{mQueue.get(), &Queue::currentEntryChanged};
+
+    finishEntry(uriOf(QStringLiteral("Harbour")));
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(currentEntryChangedSpy.size(), 0);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), true);
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::not_take_the_position_of_the_finished_play_for_the_repeated_current_entry()
+{
+    mQueue->setRepeat(Queue::Repeat::One);
+    mQueue->replace(album(), 1);
+    finishEntry(uriOf(QStringLiteral("Harbour")));
+    mDevice->reset();
+
+    // The device reports the repeated entry before a position of it was polled, the Renderer still has the old one.
+    mDevice->setDeviceState(MediaDevice::State::Playing);
+    mDevice->setDeviceState(MediaDevice::State::Stopped);
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->lastKnownPosition(), std::chrono::milliseconds{0});
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::step_through_the_entries_on_previous_and_next_with_repeat_one()
+{
+    mQueue->setRepeat(Queue::Repeat::One);
+    mQueue->replace(album(), 1);
+
+    mQueue->next();
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->hasNext(), false);
+
+    mQueue->previous();
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+}
+
+void QueueShould::keep_repeat_when_the_queue_is_replaced_restored_or_handed_over()
+{
+    mQueue->setRepeat(Queue::Repeat::One);
+    mQueue->replace(album(), 1);
+    auto const snapshot = mQueue->snapshot();
+
+    mQueue->replace(playables({QStringLiteral("Single")}), 0);
+    QCOMPARE(mQueue->repeat(), Queue::Repeat::One);
+
+    mQueue->restore(snapshot);
+    QCOMPARE(mQueue->repeat(), Queue::Repeat::One);
+
+    handOverToBathroom(true, QStringLiteral("0:03:00"), QStringLiteral("0:00:00"));
+    QCOMPARE(mQueue->repeat(), Queue::Repeat::One);
+}
+
 } // namespace Multimedia
 
 QTEST_MAIN(Multimedia::QueueShould)

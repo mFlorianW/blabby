@@ -66,6 +66,11 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
     connect(&mQueue, &Queue::stateChanged, this, &QueueModel::runningChanged);
     connect(&mQueue, &Queue::playsCurrentEntryChanged, this, &QueueModel::currentEntryPlayingChanged);
     connect(&mQueue, &Queue::collectingChanged, this, &QueueModel::collectingChanged);
+    connect(&mQueue, &Queue::repeatChanged, this, [this] {
+        Q_EMIT repeatChanged();
+        // Next is available on the last entry with the Repeat All only.
+        Q_EMIT stepAvailabilityChanged();
+    });
     connect(&mQueue, &Queue::collectionFailed, this, [this](Item const& container) {
         Q_EMIT collectionFailed(container.mainText());
     });
@@ -164,6 +169,26 @@ bool QueueModel::hasPrevious() const noexcept
 bool QueueModel::hasNext() const noexcept
 {
     return mQueue.hasNext();
+}
+
+Queue::Repeat QueueModel::repeat() const noexcept
+{
+    return mQueue.repeat();
+}
+
+void QueueModel::cycleRepeat() noexcept
+{
+    switch (mQueue.repeat()) {
+    case Queue::Repeat::Off:
+        mQueue.setRepeat(Queue::Repeat::All);
+        break;
+    case Queue::Repeat::All:
+        mQueue.setRepeat(Queue::Repeat::One);
+        break;
+    case Queue::Repeat::One:
+        mQueue.setRepeat(Queue::Repeat::Off);
+        break;
+    }
 }
 
 bool QueueModel::isCollecting() const noexcept
