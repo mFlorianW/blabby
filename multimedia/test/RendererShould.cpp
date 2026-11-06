@@ -258,6 +258,22 @@ void RendererShould::signal_playback_failed_on_playcall_failed()
     QCOMPARE(playbackFailedSpy.at(0).at(0).toString().isEmpty(), false);
 }
 
+void RendererShould::not_signal_a_failed_playcall_of_a_replaced_playback()
+{
+    auto renderer = Renderer{std::move(mUpnpRenderer)};
+    auto const playbackFailedSpy = QSignalSpy{&renderer, &Renderer::playbackFailed};
+    renderer.initialize();
+    Q_EMIT mUpnpRendererRaw->protocolInfoCall()->finished();
+    renderer.playback(createPlayableMediaItem());
+    Q_EMIT mUpnpRendererRaw->avTransportUriCall()->finished();
+
+    renderer.playback(createPlayableMediaItem());
+    mUpnpRendererRaw->playCall()->setErrorState(true);
+    Q_EMIT mUpnpRendererRaw->playCall()->finished();
+
+    QCOMPARE(playbackFailedSpy.size(), 0);
+}
+
 void RendererShould::map_upnp_devices_states_to_renderer_device_states_data()
 {
     QTest::addColumn<MediaDevice::State>("state");

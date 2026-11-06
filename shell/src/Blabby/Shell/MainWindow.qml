@@ -278,8 +278,19 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: Singleton.queueModel
+        function onEntryFailed(entryTitle: string) {
+            toast.show(qsTr("Couldn't play %1").arg(entryTitle));
+        }
+        function onQueueFailed(rendererName: string) {
+            toast.show(qsTr("Couldn't play the Queue on %1").arg(rendererName));
+        }
+    }
+
     /**
-     * Tells about failed control calls and the Active Renderer going Offline on every screen, above the mini player.
+     * Tells about failed control calls, entries of the Queue that couldn't be played and the Active Renderer going
+     * Offline on every screen, above the mini player.
      */
     Toast {
         id: toast

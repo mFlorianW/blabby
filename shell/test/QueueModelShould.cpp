@@ -705,6 +705,40 @@ void QueueModelShould::report_a_failed_collection_with_the_title_of_the_containe
     QCOMPARE(mModel->rowCount(), 0);
 }
 
+void QueueModelShould::report_a_failed_entry_with_its_title()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(album(), 0);
+    auto entryFailedSpy = QSignalSpy{mModel.get(), &QueueModel::entryFailed};
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+
+    kitchen->avTransportUriCall()->setErrorState(true);
+    Q_EMIT kitchen->avTransportUriCall()->finished();
+    QCoreApplication::processEvents();
+
+    QCOMPARE(entryFailedSpy.size(), 1);
+    QCOMPARE(entryFailedSpy.at(0).at(0).toString(), QStringLiteral("Intro"));
+}
+
+void QueueModelShould::report_a_failed_queue_with_the_name_of_the_renderer()
+{
+    activate(QStringLiteral("Kitchen"));
+    mModel->replace(threeSongs(), 0);
+    auto queueFailedSpy = QSignalSpy{mModel.get(), &QueueModel::queueFailed};
+    auto* const kitchen = device(QStringLiteral("Kitchen"));
+    kitchen->avTransportUriCall()->setErrorState(true);
+
+    // Each failed entry makes the Queue play the following one, which fails, too.
+    for (auto failure = 0; failure < 3; ++failure) {
+        Q_EMIT kitchen->avTransportUriCall()->finished();
+        QCoreApplication::processEvents();
+    }
+
+    QCOMPARE(queueFailedSpy.size(), 1);
+    QCOMPARE(queueFailedSpy.at(0).at(0).toString(), QStringLiteral("Kitchen"));
+    QCOMPARE(mModel->property("running").toBool(), false);
+}
+
 void QueueModelShould::not_undo_after_playables_were_added()
 {
     auto const source = createSource();

@@ -343,6 +343,19 @@ Q_SIGNALS:
      */
     void collectionFailed(QString const& containerTitle);
 
+    /**
+     * This signal is emitted when the Active Renderer couldn't play an entry, the Queue plays the following one or
+     * isn't running without one.
+     * @param entryTitle The title of the entry, it stays in the Queue.
+     */
+    void entryFailed(QString const& entryTitle);
+
+    /**
+     * This signal is emitted when the Active Renderer couldn't play three entries in a row, the Queue isn't running.
+     * @param rendererName The name of the Active Renderer.
+     */
+    void queueFailed(QString const& rendererName);
+
 private:
     void onCurrentEntryChanged() noexcept;
     void notifyCurrentChanged(std::optional<qsizetype> row) noexcept;

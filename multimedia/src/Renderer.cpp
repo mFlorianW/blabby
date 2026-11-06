@@ -469,6 +469,8 @@ void Renderer::initialize() noexcept
 
 void Renderer::playback(Item const& item) noexcept
 {
+    // The Play call of the previous playback may still be on the way, its failure isn't the one of this playback.
+    mPlayCall.reset();
     if (mRenderer == nullptr) {
         Q_EMIT playbackFailed(QStringLiteral("The Renderer is Offline."));
         return;

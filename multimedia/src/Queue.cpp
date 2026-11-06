@@ -22,6 +22,11 @@ constexpr auto endWindow = std::chrono::seconds{3};
  * Previous restarts a Current Entry that played for longer than this, it plays the preceding entry otherwise.
  */
 constexpr auto restartThreshold = std::chrono::seconds{3};
+
+/**
+ * The Queue fails after this many entries in a row the Renderer couldn't play.
+ */
+constexpr auto maxFailedEntries = qsizetype{3};
 } // namespace
 
 struct Queue::Collection
@@ -86,6 +91,8 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
     }
 
     mRenderer = std::move(renderer);
+    // A failure of a playback on the previous Renderer that is still on the way isn't taken for the new one.
+    ++mPlaybackId;
     cancelPendingHandOver();
     if (mRenderer == nullptr) {
         setState(State::Idle);
@@ -101,6 +108,7 @@ void Queue::setActiveRenderer(std::shared_ptr<Renderer> renderer) noexcept
     connect(mRenderer.get(), &Renderer::availabilityChanged, this, &Queue::onAvailabilityChanged);
     connect(mRenderer.get(), &Renderer::initializationFinished, this, &Queue::onInitializationFinished);
     connect(mRenderer.get(), &Renderer::initializationFailed, this, &Queue::onInitializationFailed);
+    connect(mRenderer.get(), &Renderer::playbackFailed, this, &Queue::onPlaybackFailed);
     // The protocols of the Renderer are needed to play, the position to tell when the Current Entry finished.
     mRenderer->initialize();
     mRenderer->setPositionTracked(true);
@@ -802,6 +810,47 @@ void Queue::onInitializationFailed() noexcept
     }
 }
 
+void Queue::onPlaybackFailed(QString const& errorMsg) noexcept
+{
+    // The Renderer tells inside a playback or while one of its calls finishes, the following entry is played
+    // afterwards. A failure of a playback that was replaced meanwhile, e.g. by the user, is dropped.
+    QMetaObject::invokeMethod(
+        this,
+        [this, errorMsg, playbackId = mPlaybackId] {
+            if (playbackId == mPlaybackId) {
+                skipFailedEntry(errorMsg);
+            }
+        },
+        Qt::QueuedConnection);
+}
+
+void Queue::skipFailedEntry(QString const& errorMsg) noexcept
+{
+    if (mState != State::Running or not mCurrentIndex.has_value()) {
+        return;
+    }
+
+    auto const failedEntry = mEntries.at(*mCurrentIndex);
+    qCWarning(mmQueue) << "Failed to play the entry" << failedEntry.mainText() << "Error:" << errorMsg;
+    // A seek to the last known position was meant for the failed playback.
+    cancelPendingHandOver();
+    ++mFailedEntryCount;
+    if (mFailedEntryCount >= maxFailedEntries) {
+        setState(State::Idle);
+        Q_EMIT queueFailed(mRenderer->name());
+        return;
+    }
+
+    // The failed entry won't play better on another try, also not with the Repeat One.
+    if (auto const index = nextIndex(); index.has_value()) {
+        setCurrentIndex(index);
+        playCurrentEntry();
+    } else {
+        setState(State::Idle);
+    }
+    Q_EMIT entryFailed(failedEntry);
+}
+
 void Queue::cancelPendingHandOver() noexcept
 {
     mHandOverPending = false;
@@ -831,6 +880,7 @@ void Queue::playCurrentEntry() noexcept
 {
     cancelPendingHandOver();
     if (mCurrentIndex.has_value()) {
+        ++mPlaybackId;
         mRenderer->playback(mEntries.at(*mCurrentIndex));
     }
 }
@@ -838,6 +888,8 @@ void Queue::playCurrentEntry() noexcept
 void Queue::loadCurrentEntryAtLastKnownPosition() noexcept
 {
     auto const position = mLastKnownPosition;
+    // A playback the user or a Hand Over started gets all tries again.
+    mFailedEntryCount = 0;
     playCurrentEntry();
     if (position > std::chrono::milliseconds{0}) {
         mPendingSeek = position;
@@ -847,6 +899,8 @@ void Queue::loadCurrentEntryAtLastKnownPosition() noexcept
 void Queue::startCurrentEntry() noexcept
 {
     if (mCurrentIndex.has_value() and mRenderer != nullptr) {
+        // A playback the user started gets all tries again.
+        mFailedEntryCount = 0;
         playCurrentEntry();
         setState(State::Running);
     } else {
@@ -859,6 +913,9 @@ void Queue::startCurrentEntry() noexcept
 void Queue::updatePlaysCurrentEntry() noexcept
 {
     auto const plays = mState == State::Running and isInControl() and mRenderer->state() == Renderer::State::Playing;
+    if (plays) {
+        mFailedEntryCount = 0;
+    }
     if (mPlaysCurrentEntry != plays) {
         mPlaysCurrentEntry = plays;
         Q_EMIT playsCurrentEntryChanged();

@@ -79,6 +79,10 @@ QueueModel::QueueModel(MediaRendererModel const& rendererModel)
     connect(&mQueue, &Queue::collectionFailed, this, [this](Item const& container) {
         Q_EMIT collectionFailed(container.mainText());
     });
+    connect(&mQueue, &Queue::entryFailed, this, [this](Item const& entry) {
+        Q_EMIT entryFailed(entry.mainText());
+    });
+    connect(&mQueue, &Queue::queueFailed, this, &QueueModel::queueFailed);
     mQueue.setActiveRenderer(mRendererModel.activeRenderer());
 }
 
