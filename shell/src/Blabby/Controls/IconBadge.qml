@@ -9,7 +9,8 @@ import Blabby.Theme
 /**
  * An icon inside a filled circle, e.g. to show the kind of a thing in a @ref Card.
  * An emphasised badge is filled with the primary colour, a highlighted badge, e.g. of the active row of a menu, with the
- * highlighted container colours. The icon takes half of the badge's width.
+ * highlighted container colours. The icon takes half of the badge's width. A monochrome icon is recoloured to the
+ * content colour of the badge, any other image, e.g. the icon a Source provides, is shown in its own colours.
  */
 Rectangle {
     id: badge
@@ -29,6 +30,11 @@ Rectangle {
      */
     property bool highlighted: false
 
+    /**
+     * True to recolour the icon to the content colour of the badge, false to show the image in its own colours.
+     */
+    property bool monochrome: true
+
     implicitWidth: 48
     implicitHeight: 48
     radius: badge.width / 2
@@ -42,5 +48,19 @@ Rectangle {
         height: icon.width
         source: badge.iconSource
         color: badge.emphasis ? Theme.colors.colorOnPrimary : badge.highlighted ? Theme.colors.colorOnPrimaryContainer : Theme.colors.colorOnSurfaceVariant
+        visible: badge.monochrome
+    }
+
+    Image {
+        id: image
+        objectName: "image"
+        anchors.centerIn: badge
+        width: icon.width
+        height: icon.height
+        source: badge.monochrome ? "" : badge.iconSource
+        sourceSize.width: image.width
+        sourceSize.height: image.height
+        fillMode: Image.PreserveAspectFit
+        visible: !badge.monochrome
     }
 }

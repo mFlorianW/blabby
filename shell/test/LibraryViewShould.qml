@@ -346,7 +346,7 @@ Item {
 
         /**
          * Tests that the Source menu has the "Choose a Source" header and a 64 px row per Source with its icon in a
-         * round 40 px badge and its name elided on one line.
+         * round 40 px badge, in its own colours, and its name elided on one line.
          */
         function test_list_every_source_in_the_source_menu() {
             libraryViewTest.openMenu();
@@ -359,6 +359,7 @@ Item {
             libraryViewTest.compare(badge.height, 40);
             libraryViewTest.compare(badge.radius, 20);
             libraryViewTest.compare(badge.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"));
+            libraryViewTest.compare(badge.monochrome, false);
             const name = libraryViewTest.menuChild("sourceName0");
             libraryViewTest.compare(name.text, "NAS");
             libraryViewTest.compare(name.elide, Text.ElideRight);
@@ -367,7 +368,8 @@ Item {
         }
 
         /**
-         * Tests that a Source without an icon shows the generic "dns" icon in its badge.
+         * Tests that a Source without an icon shows the generic "dns" icon in its badge, recoloured like the other
+         * icons, while the icon of a Source is shown in its own colours.
          */
         function test_show_the_generic_icon_for_a_source_without_an_icon() {
             sources.append({
@@ -378,6 +380,7 @@ Item {
             libraryViewTest.openMenu();
             libraryViewTest.tryVerify(() => libraryViewTest.menuChild("sourceBadge2") !== null);
             libraryViewTest.compare(libraryViewTest.menuChild("sourceBadge2").iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"));
+            libraryViewTest.compare(libraryViewTest.menuChild("sourceBadge2").monochrome, true);
         }
 
         /**

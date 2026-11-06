@@ -99,6 +99,7 @@ MenuShell {
                 width: 40
                 height: 40
                 highlighted: sourceRow.active
+                monochrome: sourceRow.mediaSourceIconUrl === ""
                 iconSource: sourceRow.mediaSourceIconUrl !== "" ? sourceRow.mediaSourceIconUrl : "qrc:/qt/qml/Blabby/Shell/icons/material/dns.svg"
             }
 

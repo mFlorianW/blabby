@@ -25,6 +25,7 @@ Item {
         function init() {
             badge.emphasis = false;
             badge.highlighted = false;
+            badge.monochrome = true;
             badge.width = badge.implicitWidth;
             badge.height = badge.implicitHeight;
         }
@@ -71,6 +72,23 @@ Item {
             badge.highlighted = true;
             badgeTest.verify(Qt.colorEqual(badge.color, Theme.colors.primaryContainer));
             badgeTest.verify(Qt.colorEqual(icon.color, Theme.colors.colorOnPrimaryContainer));
+        }
+
+        /**
+         * Tests that a badge that isn't monochrome shows the image in its own colours instead of the recoloured icon.
+         */
+        function test_show_the_image_in_its_own_colours_when_not_monochrome() {
+            const icon = badgeTest.findChild(badge, "icon");
+            const image = badgeTest.findChild(badge, "image");
+            badgeTest.verify(image);
+            badgeTest.compare(icon.visible, true);
+            badgeTest.compare(image.visible, false);
+            badge.monochrome = false;
+            badgeTest.compare(icon.visible, false);
+            badgeTest.compare(image.visible, true);
+            badgeTest.compare(image.source, badge.iconSource);
+            badgeTest.compare(image.width, icon.width);
+            badgeTest.compare(image.height, icon.height);
         }
     }
 }
