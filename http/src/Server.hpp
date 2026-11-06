@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
@@ -89,12 +89,11 @@ protected:
      */
     void onNewConnection() noexcept;
 
-private Q_SLOTS:
+private:
     void onRequestReceived(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
     void onRequestReceivedFailed(Http::ServerRequest const& request, Http::ClientConnection* connection) noexcept;
     void onResponseSent(Http::ClientConnection* connection);
 
-private:
     std::unique_ptr<ServerPrivate> d;
     std::unordered_map<QByteArray, RouteCallback> mRoutes;
 };

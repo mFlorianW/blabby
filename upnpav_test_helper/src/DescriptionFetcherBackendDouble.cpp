@@ -1,11 +1,12 @@
 // Copyright 2020 Florian Weßel <florianwessel@gmx.net>.
-// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel <florianwessel@gmx.net>
-// SPDX-FileCopyrightText: 2024 All contributors
+// SPDX-FileCopyrightText: 2021-2023 Florian Weßel <florianwessel@gmx.net>
+// SPDX-FileCopyrightText: 2024, 2026 All contributors
 //
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "DescriptionFetcherBackendDouble.hpp"
 
+#include <QDebug>
 #include <QFile>
 
 namespace UPnPAV
@@ -25,7 +26,10 @@ void DescriptionFetcherBackendDouble::fetchDescription(QUrl const& url)
     // The service provider requests the scpd, so we sent him.
     if (url.toString() == "http://127.0.0.1/test/serviceId1.xml") {
         auto file = QFile{":/xml/ServiceControlPointDefinition.xml"};
-        file.open(QIODevice::ReadOnly);
+        if (!file.open(QIODevice::ReadOnly)) {
+            qCritical() << "Failed to open" << file.fileName();
+            return;
+        }
         QString xml = file.readAll();
 
         Q_EMIT descriptionFetched(xml, QUrl("http://127.0.0.1/test/serviceId1.xml"));
@@ -35,7 +39,10 @@ void DescriptionFetcherBackendDouble::fetchDescription(QUrl const& url)
 void DescriptionFetcherBackendDouble::sendDeviceDescription(const QString xmlFile)
 {
     auto file = QFile{xmlFile};
-    file.open(QIODevice::ReadOnly);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qCritical() << "Failed to open" << file.fileName();
+        return;
+    }
     QString xml = file.readAll();
 
     Q_EMIT descriptionFetched(xml, QUrl{"http://127.0.0.1:8000/desc.xml"});
