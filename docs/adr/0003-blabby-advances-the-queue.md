@@ -19,4 +19,6 @@ Stopped while its Current Track is still the Current Entry and the last known po
 - The Queue only advances while Blabby runs and follows the Active Renderer.
 - Another controller stopping the Renderer mid-Playable does not advance the Queue: a stop on the device means stop.
 - A Playable without a duration, such as a stream, never finishes on its own; if it drops, the Queue stays on it.
+- A Playable the Renderer refuses to play, i.e. a failed SetAVTransportURI or Play call, is skipped as well. A Playable
+  the Renderer accepts but then fails to load just stops early, which isn't told apart from a stop on the device.
 - Pre-loading can be added later as an improvement for Renderers that support it.

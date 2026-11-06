@@ -69,6 +69,8 @@ private Q_SLOTS:
     void tell_while_a_container_is_collected();
     void cancel_the_collection_of_a_container();
     void report_a_failed_collection_with_the_title_of_the_container();
+    void report_a_failed_entry_with_its_title();
+    void report_a_failed_queue_with_the_name_of_the_renderer();
     void not_undo_after_playables_were_added();
     void pause_the_active_renderer_and_stop_running_on_toggle();
     void stop_the_active_renderer_that_cannot_pause_on_toggle();

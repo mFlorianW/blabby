@@ -75,6 +75,12 @@ Items playables(QStringList const& titles)
     return items;
 }
 
+Items fivePlayables()
+{
+    return playables(
+        {QStringLiteral("1"), QStringLiteral("2"), QStringLiteral("3"), QStringLiteral("4"), QStringLiteral("5")});
+}
+
 QString uriOf(QString const& title)
 {
     return playable(title).playUrl();
@@ -168,10 +174,7 @@ void QueueShould::handOverToBathroom(bool seekSupported, QString const& duration
 
 void QueueShould::shuffleFive(qsizetype currentIndex)
 {
-    mQueue->replace(
-        playables(
-            {QStringLiteral("1"), QStringLiteral("2"), QStringLiteral("3"), QStringLiteral("4"), QStringLiteral("5")}),
-        currentIndex);
+    mQueue->replace(fivePlayables(), currentIndex);
     // The random source gives 0 by default, each other entry is placed right after the Current Entry, i.e. the
     // play order is the Current Entry followed by the other entries in reverse.
     mQueue->setShuffled(true);
@@ -191,6 +194,15 @@ QStringList QueueShould::titlesOnNext()
         titles.append(currentTitle());
     }
     return titles;
+}
+
+void QueueShould::failPlayback()
+{
+    // The Queue handles the failure once the event loop runs, it may load the following entry then.
+    mDevice->avTransportUriCall()->setErrorState(true);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+    mDevice->reset();
+    QCoreApplication::processEvents();
 }
 
 void QueueShould::be_empty_and_idle_at_start()
@@ -1879,6 +1891,149 @@ void QueueShould::keep_shuffle_and_the_play_order_on_clear_restore_and_hand_over
     QCOMPARE(mQueue->isShuffled(), true);
     QCOMPARE(titlesOnNext(),
              (QStringList{QStringLiteral("5"), QStringLiteral("4"), QStringLiteral("3"), QStringLiteral("1")}));
+}
+
+void QueueShould::play_the_next_entry_when_the_current_entry_fails_data()
+{
+    QTest::addColumn<bool>("playCallFails");
+
+    QTest::newRow("rejected URI") << false;
+    QTest::newRow("failed play call") << true;
+}
+
+void QueueShould::play_the_next_entry_when_the_current_entry_fails()
+{
+    QFETCH(bool, playCallFails);
+    mQueue->replace(album(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+
+    if (playCallFails) {
+        Q_EMIT mDevice->avTransportUriCall()->finished();
+        mDevice->reset();
+        mDevice->playCall()->setErrorState(true);
+        Q_EMIT mDevice->playCall()->finished();
+        QCoreApplication::processEvents();
+    } else {
+        failPlayback();
+    }
+
+    QCOMPARE(entryFailedSpy.size(), 1);
+    QCOMPARE(entryFailedSpy.at(0).at(0).value<Item>(), playable(QStringLiteral("Intro")));
+    QCOMPARE(mQueue->entries(), album());
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+}
+
+void QueueShould::become_idle_when_the_last_entry_fails()
+{
+    mQueue->replace(album(), 2);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    auto queueFailedSpy = QSignalSpy{mQueue.get(), &Queue::queueFailed};
+
+    failPlayback();
+
+    QCOMPARE(entryFailedSpy.size(), 1);
+    QCOMPARE(queueFailedSpy.size(), 0);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::not_play_the_failed_entry_again_with_repeat_one()
+{
+    mQueue->setRepeat(Queue::Repeat::One);
+    mQueue->replace(album(), 0);
+
+    failPlayback();
+
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{1});
+    QCOMPARE(mDevice->avTransportUriData().uri, uriOf(QStringLiteral("Harbour")));
+}
+
+void QueueShould::become_idle_after_three_failed_entries_in_a_row()
+{
+    mQueue->replace(fivePlayables(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    auto queueFailedSpy = QSignalSpy{mQueue.get(), &Queue::queueFailed};
+
+    failPlayback();
+    failPlayback();
+    QCOMPARE(queueFailedSpy.size(), 0);
+    failPlayback();
+
+    // The third failure is told as a failure of the Queue only.
+    QCOMPARE(entryFailedSpy.size(), 2);
+    QCOMPARE(queueFailedSpy.size(), 1);
+    QCOMPARE(queueFailedSpy.at(0).at(0).toString(), QStringLiteral("Kitchen"));
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->state(), Queue::State::Idle);
+    QCOMPARE(mDevice->isSetAvTransportUriCalled(), false);
+}
+
+void QueueShould::count_the_failed_entries_again_after_a_successful_playback()
+{
+    mQueue->replace(fivePlayables(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    auto queueFailedSpy = QSignalSpy{mQueue.get(), &Queue::queueFailed};
+    failPlayback();
+    failPlayback();
+
+    mDevice->avTransportUriCall()->setErrorState(false);
+    // The Queue advances by itself, which doesn't count the failures from zero again.
+    finishEntry(uriOf(QStringLiteral("3")));
+    failPlayback();
+    failPlayback();
+
+    QCOMPARE(entryFailedSpy.size(), 4);
+    QCOMPARE(queueFailedSpy.size(), 0);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{4});
+}
+
+void QueueShould::count_the_failed_entries_again_when_the_queue_is_played()
+{
+    mQueue->replace(fivePlayables(), 0);
+    auto queueFailedSpy = QSignalSpy{mQueue.get(), &Queue::queueFailed};
+    failPlayback();
+    failPlayback();
+
+    mQueue->play(0);
+    failPlayback();
+    failPlayback();
+
+    QCOMPARE(queueFailedSpy.size(), 0);
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+}
+
+void QueueShould::ignore_a_failure_of_an_entry_that_is_no_longer_played()
+{
+    mQueue->replace(album(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    mDevice->avTransportUriCall()->setErrorState(true);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+    mDevice->avTransportUriCall()->setErrorState(false);
+
+    mQueue->play(2);
+    QCoreApplication::processEvents();
+
+    QCOMPARE(entryFailedSpy.size(), 0);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{2});
+    QCOMPARE(mQueue->state(), Queue::State::Running);
+}
+
+void QueueShould::ignore_a_failure_of_a_previous_active_renderer()
+{
+    mQueue->replace(album(), 0);
+    auto entryFailedSpy = QSignalSpy{mQueue.get(), &Queue::entryFailed};
+    mDevice->avTransportUriCall()->setErrorState(true);
+    Q_EMIT mDevice->avTransportUriCall()->finished();
+
+    mQueue->setActiveRenderer(createBathroom());
+    QCoreApplication::processEvents();
+
+    QCOMPARE(entryFailedSpy.size(), 0);
+    QCOMPARE(mQueue->currentIndex(), std::optional<qsizetype>{0});
 }
 
 } // namespace Multimedia

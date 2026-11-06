@@ -77,7 +77,7 @@ The Playable the Queue is on. Blabby remembers the last position it saw for it, 
 _Avoid_: Current track (for the Queue), queue position
 
 **Queue State**:
-Whether the Queue is Running or Idle, independent of the Active Renderer's Playback State. A Running Queue stays Running when another controller takes over the Renderer; it becomes Idle when it ends, is cleared, the user pauses or stops it in Blabby, or the Active Renderer goes Offline. Starting an Idle Queue continues its Current Entry at the last known position.
+Whether the Queue is Running or Idle, independent of the Active Renderer's Playback State. A Running Queue stays Running when another controller takes over the Renderer; it becomes Idle when it ends, is cleared, the user pauses or stops it in Blabby, the Active Renderer fails to play three entries in a row, or the Active Renderer goes Offline. Starting an Idle Queue continues its Current Entry at the last known position.
 _Avoid_: Playing (for the Queue), active
 
 **Hand Over**:

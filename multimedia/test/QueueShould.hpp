@@ -31,6 +31,7 @@ private:
     void shuffleFive(qsizetype currentIndex);
     QString currentTitle() const;
     QStringList titlesOnNext();
+    void failPlayback();
 
     UPnPAV::Doubles::MediaRendererDouble* mDevice = nullptr;
     UPnPAV::Doubles::MediaRendererDouble* mBathroomDevice = nullptr;
@@ -156,6 +157,15 @@ private Q_SLOTS:
     void make_the_following_entry_of_the_play_order_current_on_remove_while_shuffled();
     void turn_shuffle_off_when_the_queue_is_replaced();
     void keep_shuffle_and_the_play_order_on_clear_restore_and_hand_over();
+    void play_the_next_entry_when_the_current_entry_fails_data();
+    void play_the_next_entry_when_the_current_entry_fails();
+    void become_idle_when_the_last_entry_fails();
+    void not_play_the_failed_entry_again_with_repeat_one();
+    void become_idle_after_three_failed_entries_in_a_row();
+    void count_the_failed_entries_again_after_a_successful_playback();
+    void count_the_failed_entries_again_when_the_queue_is_played();
+    void ignore_a_failure_of_an_entry_that_is_no_longer_played();
+    void ignore_a_failure_of_a_previous_active_renderer();
 };
 
 } // namespace Multimedia

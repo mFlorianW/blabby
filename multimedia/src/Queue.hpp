@@ -27,6 +27,10 @@ namespace Multimedia
  * How it advances depends on its Repeat and its Shuffle, which belong to the Queue and are never sent to the Renderer
  * as a play mode. While shuffled the Queue plays its entries in a random play order, the listed order of the entries
  * never changes with it.
+ * An entry that the Active Renderer fails to play for the Running Queue, e.g. because it rejects the entry, is skipped:
+ * the Queue tells so and plays the following entry, also with the Repeat One, the failed entry stays in the Queue.
+ * After three failed entries in a row the Queue tells that it failed and becomes Idle. The Renderer playing the Current
+ * Entry and every playback the user starts count the failed entries from zero again.
  */
 class BLABBYMULTIMEDIA_EXPORT Queue : public QObject
 {
@@ -440,6 +444,20 @@ Q_SIGNALS:
      */
     void collectionFailed(Multimedia::Item const& container);
 
+    /**
+     * This signal is emitted when the Active Renderer failed to play an entry for the Running Queue, the Queue plays
+     * the following entry, or becomes Idle without one. Not emitted for the failure that makes the Queue fail, see
+     * @ref Multimedia::Queue::queueFailed.
+     * @param entry The entry that couldn't be played, it stays in the Queue.
+     */
+    void entryFailed(Multimedia::Item const& entry);
+
+    /**
+     * This signal is emitted when the Active Renderer failed to play three entries in a row, the Queue is Idle.
+     * @param rendererName The name of the Active Renderer.
+     */
+    void queueFailed(QString const& rendererName);
+
 private:
     /**
      * Where collected Playables are added.
@@ -477,6 +495,8 @@ private:
     void onAvailabilityChanged() noexcept;
     void onInitializationFinished() noexcept;
     void onInitializationFailed() noexcept;
+    void onPlaybackFailed(QString const& errorMsg) noexcept;
+    void skipFailedEntry(QString const& errorMsg) noexcept;
     void cancelPendingHandOver() noexcept;
     void seekToPendingPosition() noexcept;
     void playCurrentEntry() noexcept;
@@ -503,6 +523,10 @@ private:
     std::unique_ptr<Collection> mCollection;
     bool mHandOverPending = false;
     std::optional<std::chrono::milliseconds> mPendingSeek;
+    // Identifies the latest playback sent to the Active Renderer, a failure is only taken for it.
+    quint64 mPlaybackId = 0;
+    // The entries in a row the Renderer failed to play.
+    qsizetype mFailedEntryCount = 0;
 };
 
 } // namespace Multimedia
