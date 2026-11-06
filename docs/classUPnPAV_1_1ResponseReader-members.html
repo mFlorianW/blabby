@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -111,9 +115,11 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1ResponseReader.html',''
 
 <p>This is the complete list of members for <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ElementReadResult</b> enum name (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>read</b>() noexcept (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ReadResult</b> enum name (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html#abf7a176aed3a85115337014b944faf11">boolValueRead</a>(QString const &amp;tokenName, bool value, UPnPAV::ResponseReader::ElementReadResult result)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ElementReadResult</b> enum name (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>read</b>() noexcept (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ReadResult</b> enum name (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html#a3db4410a22ea56705819c86f13f9800c">readUnsignedInt16Value</a>(QString const &amp;tokenName, quint16 value, UPnPAV::ResponseReader::ElementReadResult result)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>response</b>() const noexcept (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ResponseReader</b>(QString xmlResponse, ServiceControlPointDefinition scpd, SCPDAction action) (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>signedIntValueRead</b>(QString const &amp;TokenName, qint32 value, UPnPAV::ResponseReader::ElementReadResult result) (defined in <a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a>)</td><td class="entry"><a class="el" href="classUPnPAV_1_1ResponseReader.html">UPnPAV::ResponseReader</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>

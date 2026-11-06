@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -130,6 +134,23 @@ Public Types</h2></td></tr>
 , <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258cae99180abf47a8b3a856e0bcb2656990a">Paused</a>
  }</td></tr>
 <tr class="separator:a8f31aa8c7ff1652f9b81e63baf4d258c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3725fae1adea71b5df0fcc5909bbba80" id="r_a3725fae1adea71b5df0fcc5909bbba80"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80">Availability</a> { <a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80a54f664c70c22054ea0d8d26fc3997ce7">Online</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80a8d9da4bc0e49a50e09ac9f7e56789d39">Offline</a>
+ }</td></tr>
+<tr class="separator:a3725fae1adea71b5df0fcc5909bbba80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4186bcdf35c4f8fb0f64980f436489f3" id="r_a4186bcdf35c4f8fb0f64980f436489f3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3">Action</a> { <br />
+&#160;&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3ade3c731be5633838089a07179d301d7b">Play</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3af1cefec9e2196c672a622347f1fbc325">Resume</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3a105b296a83f9c105355403f3332af50f">Pause</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3a11a755d598c0c417f9a36758c3da7481">Stop</a>
+, <br />
+&#160;&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3aed7ecb1dbb9be8c65f909819dac7aa54">Seek</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3a7c1df22ae9f1a545c4b4863f46ae482f">ChangeVolume</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3a00cd7be4cb21c59179316d7844a8cfc4">Mute</a>
+, <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3a454761c561b8a59823e80dff51fc49d1">Unmute</a>
+<br />
+ }</td></tr>
+<tr class="separator:a4186bcdf35c4f8fb0f64980f436489f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
@@ -141,31 +162,173 @@ Signals</h2></td></tr>
 <tr class="separator:ad4fedace5a1c9aaec7f39c47bafd310b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77a2b2d2a7a1f0a45b6eb3ed83b1eac8" id="r_a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">stateChanged</a> ()</td></tr>
 <tr class="separator:a77a2b2d2a7a1f0a45b6eb3ed83b1eac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83c0591063c781a476377aaa588c3bd9" id="r_a83c0591063c781a476377aaa588c3bd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a83c0591063c781a476377aaa588c3bd9">volumeChanged</a> ()</td></tr>
+<tr class="separator:a83c0591063c781a476377aaa588c3bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a921c5511f6a32e873f090a29adac1c20" id="r_a921c5511f6a32e873f090a29adac1c20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a921c5511f6a32e873f090a29adac1c20">muteChanged</a> ()</td></tr>
+<tr class="separator:a921c5511f6a32e873f090a29adac1c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af965c47a49f16bf635f15a0a7f01f03c" id="r_af965c47a49f16bf635f15a0a7f01f03c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#af965c47a49f16bf635f15a0a7f01f03c">availabilityChanged</a> ()</td></tr>
+<tr class="separator:af965c47a49f16bf635f15a0a7f01f03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab90725bd1d7eb125520a073238a99b3d" id="r_ab90725bd1d7eb125520a073238a99b3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ab90725bd1d7eb125520a073238a99b3d">detailsChanged</a> ()</td></tr>
+<tr class="separator:ab90725bd1d7eb125520a073238a99b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d465032e6673cc122588d8956e686d" id="r_a81d465032e6673cc122588d8956e686d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a81d465032e6673cc122588d8956e686d">currentTrackChanged</a> ()</td></tr>
+<tr class="separator:a81d465032e6673cc122588d8956e686d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6cb328bfa9b3a451dd8acfea5b86217" id="r_ad6cb328bfa9b3a451dd8acfea5b86217"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ad6cb328bfa9b3a451dd8acfea5b86217">positionChanged</a> ()</td></tr>
+<tr class="separator:ad6cb328bfa9b3a451dd8acfea5b86217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03b43c53fa07e8e30d7a9b62720fbe40" id="r_a03b43c53fa07e8e30d7a9b62720fbe40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a03b43c53fa07e8e30d7a9b62720fbe40">durationChanged</a> ()</td></tr>
+<tr class="separator:a03b43c53fa07e8e30d7a9b62720fbe40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168e235f7b605bd821cf855829895570" id="r_a168e235f7b605bd821cf855829895570"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570">transitioningChanged</a> ()</td></tr>
+<tr class="separator:a168e235f7b605bd821cf855829895570"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59ebd14f323a4435685455d0af9116c9" id="r_a59ebd14f323a4435685455d0af9116c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">controlFailed</a> (<a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3">Multimedia::Renderer::Action</a> action)</td></tr>
+<tr class="separator:a59ebd14f323a4435685455d0af9116c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a12dc28926d2b0045d8911fada2165f98" id="r_a12dc28926d2b0045d8911fada2165f98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a12dc28926d2b0045d8911fada2165f98">Renderer</a> (std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> &gt; mediaRenderer)</td></tr>
-<tr class="separator:a12dc28926d2b0045d8911fada2165f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a722fdf20bb346804d47a4660a5c305af" id="r_a722fdf20bb346804d47a4660a5c305af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a722fdf20bb346804d47a4660a5c305af">Renderer</a> (std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> &gt; mediaRenderer, std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1Clock.html">UPnPAV::Clock</a> &gt; clock=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1SteadyClock.html">UPnPAV::SteadyClock</a> &gt;())</td></tr>
+<tr class="separator:a722fdf20bb346804d47a4660a5c305af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8288a00d374ffcc659b4625cd4b4e6e9" id="r_a8288a00d374ffcc659b4625cd4b4e6e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a8288a00d374ffcc659b4625cd4b4e6e9">Renderer</a> (<a class="el" href="structMultimedia_1_1RememberedRenderer.html">RememberedRenderer</a> <a class="el" href="classMultimedia_1_1Renderer.html#ae24a87047fe6fb4badf4b9f3c209f1c8">remembered</a>, std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1Clock.html">UPnPAV::Clock</a> &gt; clock=std::make_unique&lt; <a class="el" href="classUPnPAV_1_1SteadyClock.html">UPnPAV::SteadyClock</a> &gt;())</td></tr>
+<tr class="separator:a8288a00d374ffcc659b4625cd4b4e6e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a808fe64beedb20ae4a04fe4e05395acb" id="r_a808fe64beedb20ae4a04fe4e05395acb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a808fe64beedb20ae4a04fe4e05395acb">~Renderer</a> () override</td></tr>
 <tr class="separator:a808fe64beedb20ae4a04fe4e05395acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6781b10b68d206d3dfbd14d127b7f11e" id="r_a6781b10b68d206d3dfbd14d127b7f11e"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a6781b10b68d206d3dfbd14d127b7f11e">name</a> () const noexcept</td></tr>
 <tr class="separator:a6781b10b68d206d3dfbd14d127b7f11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3054eb433278fac4a5cd233419ad3a5" id="r_ac3054eb433278fac4a5cd233419ad3a5"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ac3054eb433278fac4a5cd233419ad3a5">iconUrl</a> () const noexcept</td></tr>
 <tr class="separator:ac3054eb433278fac4a5cd233419ad3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33dcf497d72f15ec66c47c4cfc89eade" id="r_a33dcf497d72f15ec66c47c4cfc89eade"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a33dcf497d72f15ec66c47c4cfc89eade">identity</a> () const noexcept</td></tr>
+<tr class="separator:a33dcf497d72f15ec66c47c4cfc89eade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71252a30cf06f2fd2a9144ef416d6354" id="r_a71252a30cf06f2fd2a9144ef416d6354"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a71252a30cf06f2fd2a9144ef416d6354">manufacturer</a> () const noexcept</td></tr>
+<tr class="separator:a71252a30cf06f2fd2a9144ef416d6354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7e61bd230c173ff108672ee923d3b9" id="r_a9d7e61bd230c173ff108672ee923d3b9"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a9d7e61bd230c173ff108672ee923d3b9">modelName</a> () const noexcept</td></tr>
+<tr class="separator:a9d7e61bd230c173ff108672ee923d3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42da609d6b09c17a4fc4f568bfc0b403" id="r_a42da609d6b09c17a4fc4f568bfc0b403"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a42da609d6b09c17a4fc4f568bfc0b403">address</a> () const noexcept</td></tr>
+<tr class="separator:a42da609d6b09c17a4fc4f568bfc0b403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae24a87047fe6fb4badf4b9f3c209f1c8" id="r_ae24a87047fe6fb4badf4b9f3c209f1c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMultimedia_1_1RememberedRenderer.html">RememberedRenderer</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ae24a87047fe6fb4badf4b9f3c209f1c8">remembered</a> () const noexcept</td></tr>
+<tr class="separator:ae24a87047fe6fb4badf4b9f3c209f1c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fd1b8adb15560d3272ede2fda755f9" id="r_a55fd1b8adb15560d3272ede2fda755f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80">Renderer::Availability</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a55fd1b8adb15560d3272ede2fda755f9">availability</a> () const noexcept</td></tr>
+<tr class="separator:a55fd1b8adb15560d3272ede2fda755f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea4dc72844eea5c650c28a8094626b8" id="r_adea4dc72844eea5c650c28a8094626b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#adea4dc72844eea5c650c28a8094626b8">goOnline</a> (std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> &gt; mediaRenderer)</td></tr>
+<tr class="separator:adea4dc72844eea5c650c28a8094626b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75a769240df754db8ba46837fdbfc14d" id="r_a75a769240df754db8ba46837fdbfc14d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a75a769240df754db8ba46837fdbfc14d">goOffline</a> () noexcept</td></tr>
+<tr class="separator:a75a769240df754db8ba46837fdbfc14d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c64fe68ba1cc7b1ff2df1cd72f11c32" id="r_a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a1c64fe68ba1cc7b1ff2df1cd72f11c32">initialize</a> () noexcept</td></tr>
 <tr class="separator:a1c64fe68ba1cc7b1ff2df1cd72f11c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaca18abc3f13d5187fe897dac5a1c2d" id="r_aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#aeaca18abc3f13d5187fe897dac5a1c2d">playback</a> (<a class="el" href="classMultimedia_1_1Item.html">Item</a> const &amp;item) noexcept</td></tr>
 <tr class="separator:aeaca18abc3f13d5187fe897dac5a1c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81202aa757ab8b84c9358ad0f565e22b" id="r_a81202aa757ab8b84c9358ad0f565e22b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a81202aa757ab8b84c9358ad0f565e22b">stop</a> () noexcept</td></tr>
 <tr class="separator:a81202aa757ab8b84c9358ad0f565e22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1bdadf55fd61f7912ae1dae7d8cfe54" id="r_ac1bdadf55fd61f7912ae1dae7d8cfe54"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ac1bdadf55fd61f7912ae1dae7d8cfe54">canPause</a> () const noexcept</td></tr>
+<tr class="separator:ac1bdadf55fd61f7912ae1dae7d8cfe54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24cb54837ce022b1b1e406f57c3c0bc1" id="r_a24cb54837ce022b1b1e406f57c3c0bc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a24cb54837ce022b1b1e406f57c3c0bc1">resume</a> () noexcept</td></tr>
 <tr class="separator:a24cb54837ce022b1b1e406f57c3c0bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a689f928f85aa41f6b3ad7ec0eff966b9" id="r_a689f928f85aa41f6b3ad7ec0eff966b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a689f928f85aa41f6b3ad7ec0eff966b9">isPlaybackControlPending</a> () const noexcept</td></tr>
+<tr class="separator:a689f928f85aa41f6b3ad7ec0eff966b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3795c0d1dc966ea4b04a543bc329e63" id="r_ad3795c0d1dc966ea4b04a543bc329e63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ad3795c0d1dc966ea4b04a543bc329e63">isTransitioning</a> () const noexcept</td></tr>
+<tr class="separator:ad3795c0d1dc966ea4b04a543bc329e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02f55813b4b8f1f810ba2c07a1351223" id="r_a02f55813b4b8f1f810ba2c07a1351223"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Renderer::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a02f55813b4b8f1f810ba2c07a1351223">state</a> () const noexcept</td></tr>
 <tr class="separator:a02f55813b4b8f1f810ba2c07a1351223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b75250c0bb3e2fb357d8efaafb5800c" id="r_a0b75250c0bb3e2fb357d8efaafb5800c"><td class="memItemLeft" align="right" valign="top">quint32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a0b75250c0bb3e2fb357d8efaafb5800c">volume</a> () const noexcept</td></tr>
+<tr class="separator:a0b75250c0bb3e2fb357d8efaafb5800c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f113332cd4f25e6ddb39a868e7612e5" id="r_a9f113332cd4f25e6ddb39a868e7612e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a9f113332cd4f25e6ddb39a868e7612e5">setVolume</a> (quint32 <a class="el" href="classMultimedia_1_1Renderer.html#a0b75250c0bb3e2fb357d8efaafb5800c">volume</a>) noexcept</td></tr>
+<tr class="separator:a9f113332cd4f25e6ddb39a868e7612e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700d878213623c46525058f972153964" id="r_a700d878213623c46525058f972153964"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a700d878213623c46525058f972153964">canControlVolume</a> () const noexcept</td></tr>
+<tr class="separator:a700d878213623c46525058f972153964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5dd6b254163a154e3871f8bcc3d77bd" id="r_af5dd6b254163a154e3871f8bcc3d77bd"><td class="memItemLeft" align="right" valign="top">quint32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#af5dd6b254163a154e3871f8bcc3d77bd">volumeMinimum</a> () const noexcept</td></tr>
+<tr class="separator:af5dd6b254163a154e3871f8bcc3d77bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af97d2aad5662b2181506ec4d27335996" id="r_af97d2aad5662b2181506ec4d27335996"><td class="memItemLeft" align="right" valign="top">quint32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#af97d2aad5662b2181506ec4d27335996">volumeMaximum</a> () const noexcept</td></tr>
+<tr class="separator:af97d2aad5662b2181506ec4d27335996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac40b81039386fdb44640ffdf190112f1" id="r_ac40b81039386fdb44640ffdf190112f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ac40b81039386fdb44640ffdf190112f1">isMuted</a> () const noexcept</td></tr>
+<tr class="separator:ac40b81039386fdb44640ffdf190112f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d4baa04608bba376d9a675dc47146c" id="r_ab2d4baa04608bba376d9a675dc47146c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ab2d4baa04608bba376d9a675dc47146c">setMuted</a> (bool muted) noexcept</td></tr>
+<tr class="separator:ab2d4baa04608bba376d9a675dc47146c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1179bca5d9e321f8df5b93699ac5f29" id="r_ab1179bca5d9e321f8df5b93699ac5f29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ab1179bca5d9e321f8df5b93699ac5f29">canControlMute</a> () const noexcept</td></tr>
+<tr class="separator:ab1179bca5d9e321f8df5b93699ac5f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a032e9f25499b8ff05327b865b16b24c1" id="r_a032e9f25499b8ff05327b865b16b24c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMultimedia_1_1CurrentTrack.html">CurrentTrack</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a032e9f25499b8ff05327b865b16b24c1">currentTrack</a> () const noexcept</td></tr>
+<tr class="separator:a032e9f25499b8ff05327b865b16b24c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5557b104e3f65953d8dc149c1badf006" id="r_a5557b104e3f65953d8dc149c1badf006"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a5557b104e3f65953d8dc149c1badf006">setPositionTracked</a> (bool tracked) noexcept</td></tr>
+<tr class="separator:a5557b104e3f65953d8dc149c1badf006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f02fad1534b2cea174cba33bc3e1d93" id="r_a0f02fad1534b2cea174cba33bc3e1d93"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a0f02fad1534b2cea174cba33bc3e1d93">isPositionTracked</a> () const noexcept</td></tr>
+<tr class="separator:a0f02fad1534b2cea174cba33bc3e1d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae00acd8a58b48fd18cb8ee81dc80ba81" id="r_ae00acd8a58b48fd18cb8ee81dc80ba81"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ae00acd8a58b48fd18cb8ee81dc80ba81">position</a> () const noexcept</td></tr>
+<tr class="separator:ae00acd8a58b48fd18cb8ee81dc80ba81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a5f2f53e588c1f8eec65fdddcbfb47d" id="r_a4a5f2f53e588c1f8eec65fdddcbfb47d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::chrono::milliseconds &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a4a5f2f53e588c1f8eec65fdddcbfb47d">duration</a> () const noexcept</td></tr>
+<tr class="separator:a4a5f2f53e588c1f8eec65fdddcbfb47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53e1e2281c7843a57e7b5a76af9ef62c" id="r_a53e1e2281c7843a57e7b5a76af9ef62c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#a53e1e2281c7843a57e7b5a76af9ef62c">canSeek</a> () const noexcept</td></tr>
+<tr class="separator:a53e1e2281c7843a57e7b5a76af9ef62c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ce3780fab49b66a8343ab39ff652c0" id="r_ad4ce3780fab49b66a8343ab39ff652c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Renderer.html#ad4ce3780fab49b66a8343ab39ff652c0">seek</a> (std::chrono::milliseconds <a class="el" href="classMultimedia_1_1Renderer.html#ae00acd8a58b48fd18cb8ee81dc80ba81">position</a>) noexcept</td></tr>
+<tr class="separator:ad4ce3780fab49b66a8343ab39ff652c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A Mulitmedia::MediaRenderer represents a hardware device that can control and play Mulitmedia::MediaItem </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a4186bcdf35c4f8fb0f64980f436489f3" name="a4186bcdf35c4f8fb0f64980f436489f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4186bcdf35c4f8fb0f64980f436489f3">&#9670;&#160;</a></span>Action</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3">Multimedia::Renderer::Action</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The control calls of a <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> that can fail, see <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3ade3c731be5633838089a07179d301d7b" name="a4186bcdf35c4f8fb0f64980f436489f3ade3c731be5633838089a07179d301d7b"></a>Play&#160;</td><td class="fielddoc"><p>Playing a Stopped <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> from the start of the Current Track. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3af1cefec9e2196c672a622347f1fbc325" name="a4186bcdf35c4f8fb0f64980f436489f3af1cefec9e2196c672a622347f1fbc325"></a>Resume&#160;</td><td class="fielddoc"><p>Resuming a Paused <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> where it left off. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3a105b296a83f9c105355403f3332af50f" name="a4186bcdf35c4f8fb0f64980f436489f3a105b296a83f9c105355403f3332af50f"></a>Pause&#160;</td><td class="fielddoc"><p>Pausing a Playing <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3a11a755d598c0c417f9a36758c3da7481" name="a4186bcdf35c4f8fb0f64980f436489f3a11a755d598c0c417f9a36758c3da7481"></a>Stop&#160;</td><td class="fielddoc"><p>Stopping a Playing <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> that can't pause. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3aed7ecb1dbb9be8c65f909819dac7aa54" name="a4186bcdf35c4f8fb0f64980f436489f3aed7ecb1dbb9be8c65f909819dac7aa54"></a>Seek&#160;</td><td class="fielddoc"><p>Seeking in the Current Track. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3a7c1df22ae9f1a545c4b4863f46ae482f" name="a4186bcdf35c4f8fb0f64980f436489f3a7c1df22ae9f1a545c4b4863f46ae482f"></a>ChangeVolume&#160;</td><td class="fielddoc"><p>Changing the Volume. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3a00cd7be4cb21c59179316d7844a8cfc4" name="a4186bcdf35c4f8fb0f64980f436489f3a00cd7be4cb21c59179316d7844a8cfc4"></a>Mute&#160;</td><td class="fielddoc"><p>Muting. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4186bcdf35c4f8fb0f64980f436489f3a454761c561b8a59823e80dff51fc49d1" name="a4186bcdf35c4f8fb0f64980f436489f3a454761c561b8a59823e80dff51fc49d1"></a>Unmute&#160;</td><td class="fielddoc"><p>Unmuting. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3725fae1adea71b5df0fcc5909bbba80" name="a3725fae1adea71b5df0fcc5909bbba80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3725fae1adea71b5df0fcc5909bbba80">&#9670;&#160;</a></span>Availability</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80">Multimedia::Renderer::Availability</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Whether a <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is currently reachable on the network. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3725fae1adea71b5df0fcc5909bbba80a54f664c70c22054ea0d8d26fc3997ce7" name="a3725fae1adea71b5df0fcc5909bbba80a54f664c70c22054ea0d8d26fc3997ce7"></a>Online&#160;</td><td class="fielddoc"><p>The <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is reachable and can play. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3725fae1adea71b5df0fcc5909bbba80a8d9da4bc0e49a50e09ac9f7e56789d39" name="a3725fae1adea71b5df0fcc5909bbba80a8d9da4bc0e49a50e09ac9f7e56789d39"></a>Offline&#160;</td><td class="fielddoc"><p>The <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is not reachable, only its last known details are known. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a8f31aa8c7ff1652f9b81e63baf4d258c" name="a8f31aa8c7ff1652f9b81e63baf4d258c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f31aa8c7ff1652f9b81e63baf4d258c">&#9670;&#160;</a></span>State</h2>
 
@@ -200,8 +363,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a12dc28926d2b0045d8911fada2165f98" name="a12dc28926d2b0045d8911fada2165f98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12dc28926d2b0045d8911fada2165f98">&#9670;&#160;</a></span>Renderer()</h2>
+<a id="a722fdf20bb346804d47a4660a5c305af" name="a722fdf20bb346804d47a4660a5c305af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a722fdf20bb346804d47a4660a5c305af">&#9670;&#160;</a></span>Renderer() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,14 +373,68 @@ Public Member Functions</h2></td></tr>
           <td class="memname">Multimedia::Renderer::Renderer </td>
           <td>(</td>
           <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> &gt;&#160;</td>
-          <td class="paramname"><em>mediaRenderer</em></td><td>)</td>
+          <td class="paramname"><em>mediaRenderer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1Clock.html">UPnPAV::Clock</a> &gt;&#160;</td>
+          <td class="paramname"><em>clock</em> = <code>std::make_unique&lt;<a class="el" href="classUPnPAV_1_1SteadyClock.html">UPnPAV::SteadyClock</a>&gt;()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates an instance of the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Creates an Online instance of the <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mediaRenderer</td><td>The <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> that shall be controlled by this <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </td></tr>
+    <tr><td class="paramname">clock</td><td>The clock that drives the polling of the position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8288a00d374ffcc659b4625cd4b4e6e9" name="a8288a00d374ffcc659b4625cd4b4e6e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8288a00d374ffcc659b4625cd4b4e6e9">&#9670;&#160;</a></span>Renderer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Multimedia::Renderer::Renderer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMultimedia_1_1RememberedRenderer.html">RememberedRenderer</a>&#160;</td>
+          <td class="paramname"><em>remembered</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1Clock.html">UPnPAV::Clock</a> &gt;&#160;</td>
+          <td class="paramname"><em>clock</em> = <code>std::make_unique&lt;<a class="el" href="classUPnPAV_1_1SteadyClock.html">UPnPAV::SteadyClock</a>&gt;()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates an Offline instance of a remembered <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">remembered</td><td>The last known details of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </td></tr>
+    <tr><td class="paramname">clock</td><td>The clock that drives the polling of the position. </td></tr>
   </table>
   </dd>
 </dl>
@@ -251,6 +468,400 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a42da609d6b09c17a4fc4f568bfc0b403" name="a42da609d6b09c17a4fc4f568bfc0b403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42da609d6b09c17a4fc4f568bfc0b403">&#9670;&#160;</a></span>address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; Multimedia::Renderer::address </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the network address of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p><dl class="section return"><dt>Returns</dt><dd>The address or an empty string when the address is unknown. </dd></dl>
+
+</div>
+</div>
+<a id="a55fd1b8adb15560d3272ede2fda755f9" name="a55fd1b8adb15560d3272ede2fda755f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55fd1b8adb15560d3272ede2fda755f9">&#9670;&#160;</a></span>availability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80">Renderer::Availability</a> Multimedia::Renderer::availability </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the Availability of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p><dl class="section return"><dt>Returns</dt><dd>Online when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is reachable, otherwise Offline. </dd></dl>
+
+</div>
+</div>
+<a id="af965c47a49f16bf635f15a0a7f01f03c" name="af965c47a49f16bf635f15a0a7f01f03c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af965c47a49f16bf635f15a0a7f01f03c">&#9670;&#160;</a></span>availabilityChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::availabilityChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> goes Online or Offline. </p>
+
+</div>
+</div>
+<a id="ab1179bca5d9e321f8df5b93699ac5f29" name="ab1179bca5d9e321f8df5b93699ac5f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1179bca5d9e321f8df5b93699ac5f29">&#9670;&#160;</a></span>canControlMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::canControlMute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the Mute can be controlled. </p><dl class="section return"><dt>Returns</dt><dd>True when the device offers setting the Mute. </dd></dl>
+
+</div>
+</div>
+<a id="a700d878213623c46525058f972153964" name="a700d878213623c46525058f972153964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700d878213623c46525058f972153964">&#9670;&#160;</a></span>canControlVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::canControlVolume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the Volume can be controlled. </p><dl class="section return"><dt>Returns</dt><dd>True when the device offers setting the Volume. </dd></dl>
+
+</div>
+</div>
+<a id="ac1bdadf55fd61f7912ae1dae7d8cfe54" name="ac1bdadf55fd61f7912ae1dae7d8cfe54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1bdadf55fd61f7912ae1dae7d8cfe54">&#9670;&#160;</a></span>canPause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::canPause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can pause, otherwise <a class="el" href="classMultimedia_1_1Renderer.html#a81202aa757ab8b84c9358ad0f565e22b">Multimedia::Renderer::stop</a> stops it. </p><dl class="section return"><dt>Returns</dt><dd>True when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can pause. </dd></dl>
+
+</div>
+</div>
+<a id="a53e1e2281c7843a57e7b5a76af9ef62c" name="a53e1e2281c7843a57e7b5a76af9ef62c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53e1e2281c7843a57e7b5a76af9ef62c">&#9670;&#160;</a></span>canSeek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::canSeek </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can seek in the Current Track: its device allows seeking by relative time and the duration of the Current Track is known. </p><dl class="section return"><dt>Returns</dt><dd>True when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can seek. </dd></dl>
+
+</div>
+</div>
+<a id="a59ebd14f323a4435685455d0af9116c9" name="a59ebd14f323a4435685455d0af9116c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59ebd14f323a4435685455d0af9116c9">&#9670;&#160;</a></span>controlFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::controlFailed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3">Multimedia::Renderer::Action</a>&#160;</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when a control call failed. The reported state stays the real state of the device. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">action</td><td>The action of the failed call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a032e9f25499b8ff05327b865b16b24c1" name="a032e9f25499b8ff05327b865b16b24c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a032e9f25499b8ff05327b865b16b24c1">&#9670;&#160;</a></span>currentTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structMultimedia_1_1CurrentTrack.html">CurrentTrack</a> const  &amp; Multimedia::Renderer::currentTrack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the Current Track of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. The Current Track is taken from the events of the device right away and from its position info while the position is tracked. It's empty while Offline. </p><dl class="section return"><dt>Returns</dt><dd>The Current Track. </dd></dl>
+
+</div>
+</div>
+<a id="a81d465032e6673cc122588d8956e686d" name="a81d465032e6673cc122588d8956e686d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d465032e6673cc122588d8956e686d">&#9670;&#160;</a></span>currentTrackChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::currentTrackChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the Current Track changed. </p>
+
+</div>
+</div>
+<a id="ab90725bd1d7eb125520a073238a99b3d" name="ab90725bd1d7eb125520a073238a99b3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90725bd1d7eb125520a073238a99b3d">&#9670;&#160;</a></span>detailsChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::detailsChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the name, manufacturer, model name or address changed. </p>
+
+</div>
+</div>
+<a id="a4a5f2f53e588c1f8eec65fdddcbfb47d" name="a4a5f2f53e588c1f8eec65fdddcbfb47d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a5f2f53e588c1f8eec65fdddcbfb47d">&#9670;&#160;</a></span>duration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::chrono::milliseconds &gt; Multimedia::Renderer::duration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the duration of the Current Track, taken from the position info. </p><dl class="section return"><dt>Returns</dt><dd>The duration, unset when unknown, e.g. for a stream, or while Offline. </dd></dl>
+
+</div>
+</div>
+<a id="a03b43c53fa07e8e30d7a9b62720fbe40" name="a03b43c53fa07e8e30d7a9b62720fbe40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03b43c53fa07e8e30d7a9b62720fbe40">&#9670;&#160;</a></span>durationChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::durationChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the duration of the Current Track changed, and with it maybe whether the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> can seek. </p>
+
+</div>
+</div>
+<a id="a75a769240df754db8ba46837fdbfc14d" name="a75a769240df754db8ba46837fdbfc14d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75a769240df754db8ba46837fdbfc14d">&#9670;&#160;</a></span>goOffline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::goOffline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Makes the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> Offline, e.g. when it leaves the network. The <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> also goes Offline by itself when its device doesn't answer a call or its event subscription anymore, a device that answers with an error stays Online. The last known details are kept, the Playback State becomes No Media, the volume 0 and all requests are ignored until the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is Online again. The signal <a class="el" href="classMultimedia_1_1Renderer.html#af965c47a49f16bf635f15a0a7f01f03c">Multimedia::Renderer::availabilityChanged</a> is emitted when the Availability changed. </p>
+
+</div>
+</div>
+<a id="adea4dc72844eea5c650c28a8094626b8" name="adea4dc72844eea5c650c28a8094626b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea4dc72844eea5c650c28a8094626b8">&#9670;&#160;</a></span>goOnline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::goOnline </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> &gt;&#160;</td>
+          <td class="paramname"><em>mediaRenderer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Makes the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> Online with the passed device, e.g. when it's discovered again. The details are refreshed from the device, the device must have the identity of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. An initialized <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is initialized again for the new device. The signals <a class="el" href="classMultimedia_1_1Renderer.html#af965c47a49f16bf635f15a0a7f01f03c">Multimedia::Renderer::availabilityChanged</a> and <a class="el" href="classMultimedia_1_1Renderer.html#ab90725bd1d7eb125520a073238a99b3d">Multimedia::Renderer::detailsChanged</a> are emitted when the Availability or the details changed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mediaRenderer</td><td>The <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> that shall be controlled by this <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ac3054eb433278fac4a5cd233419ad3a5" name="ac3054eb433278fac4a5cd233419ad3a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3054eb433278fac4a5cd233419ad3a5">&#9670;&#160;</a></span>iconUrl()</h2>
 
@@ -274,6 +885,32 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Gives the icon of the Mulitmedia::Renderer </p><dl class="section return"><dt>Returns</dt><dd>The icon url of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a33dcf497d72f15ec66c47c4cfc89eade" name="a33dcf497d72f15ec66c47c4cfc89eade"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33dcf497d72f15ec66c47c4cfc89eade">&#9670;&#160;</a></span>identity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; Multimedia::Renderer::identity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the identity of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>, the unique device name (UDN) of the device. </p><dl class="section return"><dt>Returns</dt><dd>The identity of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </dd></dl>
 
 </div>
 </div>
@@ -353,6 +990,188 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Initializes the Mulitmedia::Renderer. During the initialization the fetches all informations like, supported protocols for working properly. Without calling the initialization the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> does nothingl. The signal Mulitmedia::Renderer::initializationFinished is emitted on success. The signal Mulitmedia::Renderer::initializationFailed is emitted with a the error Information. </p>
+
+</div>
+</div>
+<a id="ac40b81039386fdb44640ffdf190112f1" name="ac40b81039386fdb44640ffdf190112f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac40b81039386fdb44640ffdf190112f1">&#9670;&#160;</a></span>isMuted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::isMuted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the Mute of the "Master" channel, independent of the Volume. It's false while Offline. </p><dl class="section return"><dt>Returns</dt><dd>True while the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is muted. </dd></dl>
+
+</div>
+</div>
+<a id="a689f928f85aa41f6b3ad7ec0eff966b9" name="a689f928f85aa41f6b3ad7ec0eff966b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a689f928f85aa41f6b3ad7ec0eff966b9">&#9670;&#160;</a></span>isPlaybackControlPending()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::isPlaybackControlPending </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether a call of <a class="el" href="classMultimedia_1_1Renderer.html#a81202aa757ab8b84c9358ad0f565e22b">Multimedia::Renderer::stop</a> or <a class="el" href="classMultimedia_1_1Renderer.html#a24cb54837ce022b1b1e406f57c3c0bc1">Multimedia::Renderer::resume</a> is pending. </p><dl class="section return"><dt>Returns</dt><dd>True while such a call is pending. </dd></dl>
+
+</div>
+</div>
+<a id="a0f02fad1534b2cea174cba33bc3e1d93" name="a0f02fad1534b2cea174cba33bc3e1d93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f02fad1534b2cea174cba33bc3e1d93">&#9670;&#160;</a></span>isPositionTracked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::isPositionTracked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the position is tracked. </p><dl class="section return"><dt>Returns</dt><dd>True while the position is tracked. </dd></dl>
+
+</div>
+</div>
+<a id="ad3795c0d1dc966ea4b04a543bc329e63" name="ad3795c0d1dc966ea4b04a543bc329e63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3795c0d1dc966ea4b04a543bc329e63">&#9670;&#160;</a></span>isTransitioning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Renderer::isTransitioning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the device is transitioning, e.g. loading or buffering. Transitioning isn't a Playback State, the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> keeps its previous Playback State meanwhile. </p><dl class="section return"><dt>Returns</dt><dd>True while the device is transitioning. </dd></dl>
+
+</div>
+</div>
+<a id="a71252a30cf06f2fd2a9144ef416d6354" name="a71252a30cf06f2fd2a9144ef416d6354"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71252a30cf06f2fd2a9144ef416d6354">&#9670;&#160;</a></span>manufacturer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; Multimedia::Renderer::manufacturer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the manufacturer of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p><dl class="section return"><dt>Returns</dt><dd>The manufacturer or an empty string when the device doesn't name one. </dd></dl>
+
+</div>
+</div>
+<a id="a9d7e61bd230c173ff108672ee923d3b9" name="a9d7e61bd230c173ff108672ee923d3b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d7e61bd230c173ff108672ee923d3b9">&#9670;&#160;</a></span>modelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; Multimedia::Renderer::modelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the model name of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p><dl class="section return"><dt>Returns</dt><dd>The model name or an empty string when the device doesn't name one. </dd></dl>
+
+</div>
+</div>
+<a id="a921c5511f6a32e873f090a29adac1c20" name="a921c5511f6a32e873f090a29adac1c20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a921c5511f6a32e873f090a29adac1c20">&#9670;&#160;</a></span>muteChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::muteChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the Mute of the "Master" channel changed. </p>
 
 </div>
 </div>
@@ -436,6 +1255,84 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae00acd8a58b48fd18cb8ee81dc80ba81" name="ae00acd8a58b48fd18cb8ee81dc80ba81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae00acd8a58b48fd18cb8ee81dc80ba81">&#9670;&#160;</a></span>position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds Multimedia::Renderer::position </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the position in the Current Track, taken from the position info. It's 0 while Offline. </p><dl class="section return"><dt>Returns</dt><dd>The position in the Current Track. </dd></dl>
+
+</div>
+</div>
+<a id="ad6cb328bfa9b3a451dd8acfea5b86217" name="ad6cb328bfa9b3a451dd8acfea5b86217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6cb328bfa9b3a451dd8acfea5b86217">&#9670;&#160;</a></span>positionChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::positionChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the position in the Current Track changed. </p>
+
+</div>
+</div>
+<a id="ae24a87047fe6fb4badf4b9f3c209f1c8" name="ae24a87047fe6fb4badf4b9f3c209f1c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae24a87047fe6fb4badf4b9f3c209f1c8">&#9670;&#160;</a></span>remembered()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structMultimedia_1_1RememberedRenderer.html">RememberedRenderer</a> const  &amp; Multimedia::Renderer::remembered </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the details of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> that are remembered across restarts. </p><dl class="section return"><dt>Returns</dt><dd>The identity and the last known name, manufacturer, model name and address. </dd></dl>
+
+</div>
+</div>
 <a id="a24cb54837ce022b1b1e406f57c3c0bc1" name="a24cb54837ce022b1b1e406f57c3c0bc1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a24cb54837ce022b1b1e406f57c3c0bc1">&#9670;&#160;</a></span>resume()</h2>
 
@@ -458,7 +1355,135 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Resumes the playback when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> has the state Mulitmedia::Renderer::State::Stopped or Mulitmedia::Renderer::State::Paused. If the device is in the stopped state the playback starts all over again and for the pause state the track resumes at the pause state. In all other cases the function does nothing. </p>
+<p>Resumes the playback when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> has the state Mulitmedia::Renderer::State::Stopped or Mulitmedia::Renderer::State::Paused. If the device is in the stopped state the playback starts all over again and for the pause state the track resumes at the pause state. In all other cases the function does nothing. On failure the signal <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a> is emitted with the action Play or Resume. </p>
+
+</div>
+</div>
+<a id="ad4ce3780fab49b66a8343ab39ff652c0" name="ad4ce3780fab49b66a8343ab39ff652c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ce3780fab49b66a8343ab39ff652c0">&#9670;&#160;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::seek </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>position</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Seeks to the position in the Current Track by relative time. While the position is tracked the position info is requested right away after the seek finished, a position info requested before or while the seek is in flight is ignored. On failure the signal <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a> is emitted with the action Seek. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>The position to seek to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab2d4baa04608bba376d9a675dc47146c" name="ab2d4baa04608bba376d9a675dc47146c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2d4baa04608bba376d9a675dc47146c">&#9670;&#160;</a></span>setMuted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::setMuted </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>muted</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Mutes or unmutes the "Master" channel. The result is propagated by the UPnPAV event system. On failure the signal <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a> is emitted with the action Mute or Unmute. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">muted</td><td>True mutes, false unmutes. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5557b104e3f65953d8dc149c1badf006" name="a5557b104e3f65953d8dc149c1badf006"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5557b104e3f65953d8dc149c1badf006">&#9670;&#160;</a></span>setPositionTracked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::setPositionTracked </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>tracked</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Switches the tracking of the position on or off, e.g. for the Active <a class="el" href="classMultimedia_1_1Renderer.html">Renderer</a> only. While tracked and Playing, the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> requests its position info every second, a request is skipped while the previous one is pending. While tracked it also requests it right away after every Playback State change, when it goes Online and when the tracking is switched on. Nothing is requested otherwise. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tracked</td><td>True switches the tracking on, false switches it off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9f113332cd4f25e6ddb39a868e7612e5" name="a9f113332cd4f25e6ddb39a868e7612e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f113332cd4f25e6ddb39a868e7612e5">&#9670;&#160;</a></span>setVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::setVolume </td>
+          <td>(</td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>volume</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the volume for "Master" channel in UPnPAV renderer. The result of volume is automatically propagated by the UPnPAV event system. At most one request is in flight, when it finishes the newest requested volume is sent if it differs. On failure the signal <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a> is emitted with the action ChangeVolume. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">volume</td><td>The volume for the "Master" channel. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -537,7 +1562,137 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Stops or pause the current playback. Pause is the preferred way to stop the playback but not every device support this feature. So the pause is called when the device supports it in all other cases stop is called. If the playback is not active nothing happens. On success the signal <a class="el" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">Multimedia::Renderer::stateChanged</a> is emitted. The new state then should be be stopped or paused. </p>
+<p>Stops or pause the current playback. Pause is the preferred way to stop the playback but not every device support this feature. So the pause is called when the device supports it in all other cases stop is called. If the playback is not active nothing happens. On success the signal <a class="el" href="classMultimedia_1_1Renderer.html#a77a2b2d2a7a1f0a45b6eb3ed83b1eac8">Multimedia::Renderer::stateChanged</a> is emitted. The new state then should be be stopped or paused. On failure the signal <a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer::controlFailed</a> is emitted with the action Pause or Stop. </p>
+
+</div>
+</div>
+<a id="a168e235f7b605bd821cf855829895570" name="a168e235f7b605bd821cf855829895570"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a168e235f7b605bd821cf855829895570">&#9670;&#160;</a></span>transitioningChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::transitioningChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the device starts or stops transitioning. </p>
+
+</div>
+</div>
+<a id="a0b75250c0bb3e2fb357d8efaafb5800c" name="a0b75250c0bb3e2fb357d8efaafb5800c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b75250c0bb3e2fb357d8efaafb5800c">&#9670;&#160;</a></span>volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">quint32 Multimedia::Renderer::volume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The master volume of the active instance id. </dd></dl>
+
+</div>
+</div>
+<a id="a83c0591063c781a476377aaa588c3bd9" name="a83c0591063c781a476377aaa588c3bd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83c0591063c781a476377aaa588c3bd9">&#9670;&#160;</a></span>volumeChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Renderer::volumeChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This singal is emitted when the "Master" volume of the renderer for the current active intance id is changed. </p>
+
+</div>
+</div>
+<a id="af97d2aad5662b2181506ec4d27335996" name="af97d2aad5662b2181506ec4d27335996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af97d2aad5662b2181506ec4d27335996">&#9670;&#160;</a></span>volumeMaximum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">quint32 Multimedia::Renderer::volumeMaximum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The highest Volume of the device. </dd></dl>
+
+</div>
+</div>
+<a id="af5dd6b254163a154e3871f8bcc3d77bd" name="af5dd6b254163a154e3871f8bcc3d77bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5dd6b254163a154e3871f8bcc3d77bd">&#9670;&#160;</a></span>volumeMinimum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">quint32 Multimedia::Renderer::volumeMinimum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The lowest Volume of the device. </dd></dl>
 
 </div>
 </div>

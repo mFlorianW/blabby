@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -138,6 +142,20 @@ QVector&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">Protocol</a> &gt;
 <tr class="separator:a73f333f7cea63994c955e4c4686ff3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad48028438344a36ac1f5565e3aaea551" id="r_ad48028438344a36ac1f5565e3aaea551"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#ad48028438344a36ac1f5565e3aaea551">playUrl</a> () const noexcept</td></tr>
 <tr class="separator:ad48028438344a36ac1f5565e3aaea551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a556e75663ab0a6c9134b79f2cf41995e" id="r_a556e75663ab0a6c9134b79f2cf41995e"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a556e75663ab0a6c9134b79f2cf41995e">albumArtUrl</a> () const noexcept</td></tr>
+<tr class="separator:a556e75663ab0a6c9134b79f2cf41995e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a436df9f429e5e89c9852957e08955f89" id="r_a436df9f429e5e89c9852957e08955f89"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a436df9f429e5e89c9852957e08955f89">artist</a> () const noexcept</td></tr>
+<tr class="separator:a436df9f429e5e89c9852957e08955f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c3545c3e4a772571dfe025740394165" id="r_a6c3545c3e4a772571dfe025740394165"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a6c3545c3e4a772571dfe025740394165">creator</a> () const noexcept</td></tr>
+<tr class="separator:a6c3545c3e4a772571dfe025740394165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a547502d7a7d4d2319a775f365e57a901" id="r_a547502d7a7d4d2319a775f365e57a901"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a547502d7a7d4d2319a775f365e57a901">albumArtist</a> () const noexcept</td></tr>
+<tr class="separator:a547502d7a7d4d2319a775f365e57a901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0511453369b5b3a89c523480d6381d" id="r_a7d0511453369b5b3a89c523480d6381d"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a7d0511453369b5b3a89c523480d6381d">album</a> () const noexcept</td></tr>
+<tr class="separator:a7d0511453369b5b3a89c523480d6381d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a631be15b2526258cc2d7c6aa862c8adb" id="r_a631be15b2526258cc2d7c6aa862c8adb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a631be15b2526258cc2d7c6aa862c8adb">date</a> () const noexcept</td></tr>
+<tr class="separator:a631be15b2526258cc2d7c6aa862c8adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2296746bdceedf9916741f85ee7d05ec" id="r_a2296746bdceedf9916741f85ee7d05ec"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structUPnPAV_1_1Resource.html">Resource</a> &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaServerObject.html#a2296746bdceedf9916741f85ee7d05ec">resources</a> () const noexcept</td></tr>
+<tr class="separator:a2296746bdceedf9916741f85ee7d05ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -146,16 +164,117 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a0b505d5e21d7f101c6e2151cdae0fb31" id="r_a0b505d5e21d7f101c6e2151cdae0fb31"><td class="memItemLeft" align="right" valign="top"><a id="a0b505d5e21d7f101c6e2151cdae0fb31" name="a0b505d5e21d7f101c6e2151cdae0fb31"></a>
-BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;lhs, <a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;rhs) noexcept</td></tr>
-<tr class="separator:a0b505d5e21d7f101c6e2151cdae0fb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a76078c0805929cd42bffea746907a1" id="r_a1a76078c0805929cd42bffea746907a1"><td class="memItemLeft" align="right" valign="top"><a id="a1a76078c0805929cd42bffea746907a1" name="a1a76078c0805929cd42bffea746907a1"></a>
-BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;lhs, <a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;rhs) noexcept</td></tr>
-<tr class="separator:a1a76078c0805929cd42bffea746907a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd176653281ce9296154b529bc61b659" id="r_abd176653281ce9296154b529bc61b659"><td class="memItemLeft" align="right" valign="top"><a id="abd176653281ce9296154b529bc61b659" name="abd176653281ce9296154b529bc61b659"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;lhs, <a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> const &amp;rhs)=default</td></tr>
+<tr class="separator:abd176653281ce9296154b529bc61b659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classUPnPAV_1_1MediaServerObject.html">MediaServerObject</a> is an item provided by <a class="el" href="classUPnPAV_1_1MediaServer.html">UPnPAV::MediaServer</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7d0511453369b5b3a89c523480d6381d" name="a7d0511453369b5b3a89c523480d6381d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d0511453369b5b3a89c523480d6381d">&#9670;&#160;</a></span>album()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::album </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The album of the object, empty when unknown. </dd></dl>
+
+</div>
+</div>
+<a id="a547502d7a7d4d2319a775f365e57a901" name="a547502d7a7d4d2319a775f365e57a901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a547502d7a7d4d2319a775f365e57a901">&#9670;&#160;</a></span>albumArtist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::albumArtist </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the Album Artist of the object (upnp:artist with the role AlbumArtist). </p><dl class="section return"><dt>Returns</dt><dd>The Album Artist or an empty string when the object has none. </dd></dl>
+
+</div>
+</div>
+<a id="a556e75663ab0a6c9134b79f2cf41995e" name="a556e75663ab0a6c9134b79f2cf41995e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556e75663ab0a6c9134b79f2cf41995e">&#9670;&#160;</a></span>albumArtUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::albumArtUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the URL of the album art of the object (upnp:albumArtURI), the first one when there are several. </p><dl class="section return"><dt>Returns</dt><dd>The album art URL or an empty string when the object has none. </dd></dl>
+
+</div>
+</div>
+<a id="a436df9f429e5e89c9852957e08955f89" name="a436df9f429e5e89c9852957e08955f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a436df9f429e5e89c9852957e08955f89">&#9670;&#160;</a></span>artist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::artist </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the artist of the object (upnp:artist). An artist without a role is preferred over one with a role, e.g. the AlbumArtist. </p><dl class="section return"><dt>Returns</dt><dd>The artist or an empty string when the object has none. </dd></dl>
+
+</div>
+</div>
 <a id="af7c3892c80fbea0318c38c6ab1959dd1" name="af7c3892c80fbea0318c38c6ab1959dd1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7c3892c80fbea0318c38c6ab1959dd1">&#9670;&#160;</a></span>createFromDidl()</h2>
 
@@ -189,6 +308,58 @@ BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="botto
 
 </div>
 </div>
+<a id="a6c3545c3e4a772571dfe025740394165" name="a6c3545c3e4a772571dfe025740394165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c3545c3e4a772571dfe025740394165">&#9670;&#160;</a></span>creator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::creator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the creator of the object (dc:creator). </p><dl class="section return"><dt>Returns</dt><dd>The creator or an empty string when the object has none. </dd></dl>
+
+</div>
+</div>
+<a id="a631be15b2526258cc2d7c6aa862c8adb" name="a631be15b2526258cc2d7c6aa862c8adb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a631be15b2526258cc2d7c6aa862c8adb">&#9670;&#160;</a></span>date()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString UPnPAV::MediaServerObject::date </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The date of the object as given by the server, e.g. 2024-03-01, empty when unknown. </dd></dl>
+
+</div>
+</div>
 <a id="ad48028438344a36ac1f5565e3aaea551" name="ad48028438344a36ac1f5565e3aaea551"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad48028438344a36ac1f5565e3aaea551">&#9670;&#160;</a></span>playUrl()</h2>
 
@@ -212,6 +383,32 @@ BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="botto
 </table>
 </div><div class="memdoc">
 <p>Gives the URL for playing the underlying object in <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> return The URL for playing the underlying object. </p>
+
+</div>
+</div>
+<a id="a2296746bdceedf9916741f85ee7d05ec" name="a2296746bdceedf9916741f85ee7d05ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2296746bdceedf9916741f85ee7d05ec">&#9670;&#160;</a></span>resources()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt; <a class="el" href="structUPnPAV_1_1Resource.html">Resource</a> &gt; const  &amp; UPnPAV::MediaServerObject::resources </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The resources of the object in the order of the DIDL. </dd></dl>
 
 </div>
 </div>

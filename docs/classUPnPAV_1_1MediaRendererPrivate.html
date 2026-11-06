@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -121,6 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb3b1aab0ceaa222556f10e79e39efa0" id="r_aeb3b1aab0ceaa222556f10e79e39efa0"><td class="memItemLeft" align="right" valign="top"><a id="aeb3b1aab0ceaa222556f10e79e39efa0" name="aeb3b1aab0ceaa222556f10e79e39efa0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setMasterVolume</b> (QString rawVolume) noexcept</td></tr>
 <tr class="separator:aeb3b1aab0ceaa222556f10e79e39efa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb395d0c81d6b4f4a5026acdecac2d8" id="r_a0eb395d0c81d6b4f4a5026acdecac2d8"><td class="memItemLeft" align="right" valign="top"><a id="a0eb395d0c81d6b4f4a5026acdecac2d8" name="a0eb395d0c81d6b4f4a5026acdecac2d8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMasterMute</b> (QString const &amp;rawMute) noexcept</td></tr>
+<tr class="separator:a0eb395d0c81d6b4f4a5026acdecac2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -148,6 +155,9 @@ std::shared_ptr&lt; <a class="el" href="classUPnPAV_1_1EventSubscriptionHandle.h
 <tr class="memitem:a7fa28e0c01f300f0d85a8635ceb7f4d9" id="r_a7fa28e0c01f300f0d85a8635ceb7f4d9"><td class="memItemLeft" align="right" valign="top"><a id="a7fa28e0c01f300f0d85a8635ceb7f4d9" name="a7fa28e0c01f300f0d85a8635ceb7f4d9"></a>
 quint32&#160;</td><td class="memItemRight" valign="bottom"><b>mMasterVolume</b> = 0U</td></tr>
 <tr class="separator:a7fa28e0c01f300f0d85a8635ceb7f4d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c35f4e9b234ab40a2668e5c37c7530b" id="r_a9c35f4e9b234ab40a2668e5c37c7530b"><td class="memItemLeft" align="right" valign="top"><a id="a9c35f4e9b234ab40a2668e5c37c7530b" name="a9c35f4e9b234ab40a2668e5c37c7530b"></a>
+std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mMasterMute</b></td></tr>
+<tr class="separator:a9c35f4e9b234ab40a2668e5c37c7530b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/blabby/blabby/upnpav/src/private/<a class="el" href="MediaRendererPrivate_8hpp_source.html">MediaRendererPrivate.hpp</a></li>

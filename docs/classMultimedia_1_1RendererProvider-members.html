@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -112,10 +116,13 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1RendererProvider.ht
 <p>This is the complete list of members for <a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#af22b4a1c29aa4d9077e64f4106960dba">discover</a>()</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#a285cd603787be3f5471d7ed693b40de0">discoveryFinished</a>()</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#acb93a5e873617b0c9f6eb511976c92ac">forget</a>(std::shared_ptr&lt; Renderer &gt; const &amp;renderer) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#ab57dbafe0c55df18ac8ce912f9e6ff60">rendererConnected</a>(std::shared_ptr&lt; Multimedia::Renderer &gt; const &amp;renderer)</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#ad189bafa8ab21fa1c960db5c6d674704">rendererDisconnected</a>(std::shared_ptr&lt; Multimedia::Renderer &gt; const &amp;renderer)</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#aca3b33d65fc10080217e879827880708">RendererProvider</a>(std::unique_ptr&lt; UPnPAV::IServiceProvider &gt; serviceProider=UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString(&quot;&quot;)), UPnPAV::MediaRendererFactory mrendererFab=UPnPAV::MediaRendererFactory{})</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b">~RendererProvider</a>() override</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#acdddfc305e08f123cbb80a4fa4ada2fd">RendererProvider</a>(std::shared_ptr&lt; RendererStore &gt; store, std::unique_ptr&lt; UPnPAV::IServiceProvider &gt; serviceProvider=UPnPAV::ServiceProviderFactory{}.createServiceProvider(QString(&quot;&quot;)), std::unique_ptr&lt; UPnPAV::MediaRendererFactory &gt; rendererFab=std::make_unique&lt; UPnPAV::MediaRendererFactory &gt;())</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#a446eb4a82df4837890fb0d473f05475b">renderers</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b">~RendererProvider</a>() override</td><td class="entry"><a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

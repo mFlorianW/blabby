@@ -5,6 +5,6 @@ var classUPnPAV_1_1MediaServer =
       [ "DirectChildren", "classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43a64da760d29654778508a8114c4c25db3", null ]
     ] ],
     [ "MediaServer", "classUPnPAV_1_1MediaServer.html#ae5c27def629180e557ab8d4ec73414dd", null ],
-    [ "browse", "classUPnPAV_1_1MediaServer.html#a8414cf0fed1b7f81857eabbc677ea3b4", null ],
+    [ "browse", "classUPnPAV_1_1MediaServer.html#a383bb2555617f22ade189e529970fcd4", null ],
     [ "getSortCapabilities", "classUPnPAV_1_1MediaServer.html#a86c5084ae2735d435dbe4d2234e1884a", null ]
 ];

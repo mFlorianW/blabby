@@ -12,15 +12,22 @@ var annotated_dup =
       [ "ServerResponseData", "structHttp_1_1ServerResponseData.html", null ]
     ] ],
     [ "Multimedia", null, [
+      [ "CurrentTrack", "structMultimedia_1_1CurrentTrack.html", "structMultimedia_1_1CurrentTrack" ],
       [ "Item", "classMultimedia_1_1Item.html", "classMultimedia_1_1Item" ],
       [ "ItemBuilder", "classMultimedia_1_1ItemBuilder.html", "classMultimedia_1_1ItemBuilder" ],
       [ "ItemData", "structMultimedia_1_1ItemData.html", null ],
+      [ "ItemValues", "structMultimedia_1_1ItemValues.html", null ],
+      [ "JsonRendererStore", "classMultimedia_1_1JsonRendererStore.html", "classMultimedia_1_1JsonRendererStore" ],
       [ "NavigationStack", "classMultimedia_1_1NavigationStack.html", null ],
+      [ "PendingPage", "classMultimedia_1_1PendingPage.html", "classMultimedia_1_1PendingPage" ],
       [ "Provider", "classMultimedia_1_1Provider.html", "classMultimedia_1_1Provider" ],
       [ "ProviderLoader", "classMultimedia_1_1ProviderLoader.html", "classMultimedia_1_1ProviderLoader" ],
       [ "ProviderVersion", "structMultimedia_1_1ProviderVersion.html", "structMultimedia_1_1ProviderVersion" ],
+      [ "Queue", "classMultimedia_1_1Queue.html", "classMultimedia_1_1Queue" ],
+      [ "RememberedRenderer", "structMultimedia_1_1RememberedRenderer.html", "structMultimedia_1_1RememberedRenderer" ],
       [ "Renderer", "classMultimedia_1_1Renderer.html", "classMultimedia_1_1Renderer" ],
       [ "RendererProvider", "classMultimedia_1_1RendererProvider.html", "classMultimedia_1_1RendererProvider" ],
+      [ "RendererStore", "classMultimedia_1_1RendererStore.html", "classMultimedia_1_1RendererStore" ],
       [ "Source", "classMultimedia_1_1Source.html", "classMultimedia_1_1Source" ],
       [ "SourcePrivate", "structMultimedia_1_1SourcePrivate.html", null ]
     ] ],
@@ -31,24 +38,27 @@ var annotated_dup =
       ] ]
     ] ],
     [ "Shell", null, [
-      [ "AbstractClock", "classShell_1_1AbstractClock.html", "classShell_1_1AbstractClock" ],
-      [ "AbstractDialog", "classShell_1_1AbstractDialog.html", "classShell_1_1AbstractDialog" ],
-      [ "AbstractHeader", "classShell_1_1AbstractHeader.html", "classShell_1_1AbstractHeader" ],
-      [ "AbstractIconButton", "classShell_1_1AbstractIconButton.html", "classShell_1_1AbstractIconButton" ],
       [ "AbstractInteractiveControl", "classShell_1_1AbstractInteractiveControl.html", "classShell_1_1AbstractInteractiveControl" ],
-      [ "AbstractListEntry", "classShell_1_1AbstractListEntry.html", "classShell_1_1AbstractListEntry" ],
-      [ "AbstractSwitch", "classShell_1_1AbstractSwitch.html", "classShell_1_1AbstractSwitch" ],
+      [ "ActiveRendererController", "classShell_1_1ActiveRendererController.html", "classShell_1_1ActiveRendererController" ],
+      [ "ArtworkImageProvider", "classShell_1_1ArtworkImageProvider.html", "classShell_1_1ArtworkImageProvider" ],
+      [ "FolderArtwork", "classShell_1_1FolderArtwork.html", "classShell_1_1FolderArtwork" ],
+      [ "IniSettingsStore", "classShell_1_1IniSettingsStore.html", "classShell_1_1IniSettingsStore" ],
       [ "MediaItemModel", "classShell_1_1MediaItemModel.html", "classShell_1_1MediaItemModel" ],
-      [ "MediaPlayer", "classShell_1_1MediaPlayer.html", "classShell_1_1MediaPlayer" ],
       [ "MediaRendererModel", "classShell_1_1MediaRendererModel.html", "classShell_1_1MediaRendererModel" ],
       [ "MediaSourceModel", "classShell_1_1MediaSourceModel.html", "classShell_1_1MediaSourceModel" ],
-      [ "QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", "classShell_1_1QmlSingletonRegistry" ]
+      [ "QmlSingletonRegistry", "classShell_1_1QmlSingletonRegistry.html", "classShell_1_1QmlSingletonRegistry" ],
+      [ "QueueModel", "classShell_1_1QueueModel.html", "classShell_1_1QueueModel" ],
+      [ "SettingsModel", "classShell_1_1SettingsModel.html", "classShell_1_1SettingsModel" ],
+      [ "SettingsRow", "structShell_1_1SettingsRow.html", "structShell_1_1SettingsRow" ],
+      [ "SettingsRowModel", "classShell_1_1SettingsRowModel.html", "classShell_1_1SettingsRowModel" ],
+      [ "SettingsStore", "classShell_1_1SettingsStore.html", "classShell_1_1SettingsStore" ]
     ] ],
     [ "UPnPAV", null, [
       [ "Argument", "structUPnPAV_1_1Argument.html", null ],
       [ "AvTransportServiceValidator", "classUPnPAV_1_1AvTransportServiceValidator.html", null ],
       [ "BaseValidator", "classUPnPAV_1_1BaseValidator.html", "classUPnPAV_1_1BaseValidator" ],
       [ "BrowseResponse", "classUPnPAV_1_1BrowseResponse.html", null ],
+      [ "Clock", "classUPnPAV_1_1Clock.html", "classUPnPAV_1_1Clock" ],
       [ "ConnectionInfo", "structUPnPAV_1_1ConnectionInfo.html", null ],
       [ "ConnectionManagerServiceValidator", "classUPnPAV_1_1ConnectionManagerServiceValidator.html", null ],
       [ "ContentDirectoryServiceValidator", "classUPnPAV_1_1ContentDirectoryServiceValidator.html", null ],
@@ -69,6 +79,7 @@ var annotated_dup =
       [ "GetDeviceCapabilitiesResponseData", "structUPnPAV_1_1GetDeviceCapabilitiesResponseData.html", null ],
       [ "GetMediaInfoResponse", "classUPnPAV_1_1GetMediaInfoResponse.html", "classUPnPAV_1_1GetMediaInfoResponse" ],
       [ "GetMediaInfoResponseData", "structUPnPAV_1_1GetMediaInfoResponseData.html", null ],
+      [ "GetMuteResponse", "classUPnPAV_1_1GetMuteResponse.html", "classUPnPAV_1_1GetMuteResponse" ],
       [ "GetPositionInfoResponse", "classUPnPAV_1_1GetPositionInfoResponse.html", "classUPnPAV_1_1GetPositionInfoResponse" ],
       [ "GetPositionInfoResponseData", "structUPnPAV_1_1GetPositionInfoResponseData.html", null ],
       [ "GetProtocolInfoResponse", "classUPnPAV_1_1GetProtocolInfoResponse.html", null ],
@@ -104,7 +115,8 @@ var annotated_dup =
       [ "PendingSoapCall", "classUPnPAV_1_1PendingSoapCall.html", "classUPnPAV_1_1PendingSoapCall" ],
       [ "Protocol", "structUPnPAV_1_1Protocol.html", null ],
       [ "RenderingControlServiceValidator", "classUPnPAV_1_1RenderingControlServiceValidator.html", null ],
-      [ "ResponseReader", "classUPnPAV_1_1ResponseReader.html", null ],
+      [ "Resource", "structUPnPAV_1_1Resource.html", "structUPnPAV_1_1Resource" ],
+      [ "ResponseReader", "classUPnPAV_1_1ResponseReader.html", "classUPnPAV_1_1ResponseReader" ],
       [ "SCPDAction", "classUPnPAV_1_1SCPDAction.html", null ],
       [ "SCPDActionData", "structUPnPAV_1_1SCPDActionData.html", null ],
       [ "ScpdActionListValidator", "classUPnPAV_1_1ScpdActionListValidator.html", "classUPnPAV_1_1ScpdActionListValidator" ],
@@ -129,7 +141,9 @@ var annotated_dup =
       [ "SoapBackend", "classUPnPAV_1_1SoapBackend.html", null ],
       [ "SoapCall", "classUPnPAV_1_1SoapCall.html", "classUPnPAV_1_1SoapCall" ],
       [ "SoapMessageGenerator", "classUPnPAV_1_1SoapMessageGenerator.html", null ],
-      [ "UdpServiceDiscoveryBackend", "classUPnPAV_1_1UdpServiceDiscoveryBackend.html", null ]
+      [ "SteadyClock", "classUPnPAV_1_1SteadyClock.html", "classUPnPAV_1_1SteadyClock" ],
+      [ "UdpServiceDiscoveryBackend", "classUPnPAV_1_1UdpServiceDiscoveryBackend.html", null ],
+      [ "VolumeRange", "structUPnPAV_1_1VolumeRange.html", "structUPnPAV_1_1VolumeRange" ]
     ] ],
     [ "ParsingError", "classParsingError.html", "classParsingError" ]
 ];

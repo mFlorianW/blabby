@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -111,7 +115,7 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1NavigationStack.htm
 
 <p>This is the complete list of members for <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>navigateBack</b>() (defined in <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>)</td><td class="entry"><a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>navigateBack</b>(qsizetype minimumItemCount) (defined in <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>)</td><td class="entry"><a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>navigateForward</b>() (defined in <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>)</td><td class="entry"><a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>NavigationStack</b>(Source &amp;source) (defined in <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>)</td><td class="entry"><a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>path</b>() (defined in <a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a>)</td><td class="entry"><a class="el" href="classMultimedia_1_1NavigationStack.html">Multimedia::NavigationStack</a></td><td class="entry"></td></tr>

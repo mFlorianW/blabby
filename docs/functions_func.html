@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -110,18 +114,36 @@ $(document).ready(function(){initNavTree('functions_func.html',''); initResizabl
 <h3><a id="index_a" name="index_a"></a>- a -</h3><ul>
 <li>absCount()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#aee42af484388994725ea2f1af15189fe">UPnPAV::GetPositionInfoResponse</a></li>
 <li>absTime()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#aa7a22290cb0bbb28203377a733a7935c">UPnPAV::GetPositionInfoResponse</a></li>
-<li>AbstractClock()&#160;:&#160;<a class="el" href="classShell_1_1AbstractClock.html#a9398fd9d64d59a71a53405f9aa3d8494">Shell::AbstractClock</a></li>
-<li>AbstractInteractiveControl()&#160;:&#160;<a class="el" href="classShell_1_1AbstractIconButton.html#a99caa13d5abe3292bf0a935a3ccb2a37">Shell::AbstractIconButton</a>, <a class="el" href="classShell_1_1AbstractInteractiveControl.html#a99caa13d5abe3292bf0a935a3ccb2a37">Shell::AbstractInteractiveControl</a>, <a class="el" href="classShell_1_1AbstractListEntry.html#a99caa13d5abe3292bf0a935a3ccb2a37">Shell::AbstractListEntry</a>, <a class="el" href="classShell_1_1AbstractSwitch.html#a99caa13d5abe3292bf0a935a3ccb2a37">Shell::AbstractSwitch</a></li>
+<li>AbstractInteractiveControl()&#160;:&#160;<a class="el" href="classShell_1_1AbstractInteractiveControl.html#a99caa13d5abe3292bf0a935a3ccb2a37">Shell::AbstractInteractiveControl</a></li>
 <li>action()&#160;:&#160;<a class="el" href="classUPnPAV_1_1SoapCall.html#a4c6e5130abfaf6962231f82f9bfee62e">UPnPAV::SoapCall</a></li>
-<li>activateMediaItem()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a32ebbe3abf4ae4fede04b0b79f1eb159">Shell::MediaItemModel</a></li>
+<li>activateMediaItem()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#ad41ca7c2027bba56e14c022d65030342">Shell::MediaItemModel</a></li>
 <li>activateMediaSource()&#160;:&#160;<a class="el" href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">Shell::MediaSourceModel</a></li>
 <li>activateRenderer()&#160;:&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#a7a14290a7f475ea264cdc9fb1927bc4f">Shell::MediaRendererModel</a></li>
 <li>activeMediaSource()&#160;:&#160;<a class="el" href="classShell_1_1MediaSourceModel.html#af3008da4e4e3cbcca26e9737d59bed63">Shell::MediaSourceModel</a></li>
 <li>activeMediaSourceChanged()&#160;:&#160;<a class="el" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">Shell::MediaSourceModel</a></li>
-<li>activeRenderer()&#160;:&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#a107372237f31cb44ec30ae5162012cde">Shell::MediaRendererModel</a></li>
-<li>activeRendererChanged()&#160;:&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#afe3283e5585fbb6d48ecdf8615aeeb28">Shell::MediaRendererModel</a></li>
+<li>activeMediaSourceDisappeared()&#160;:&#160;<a class="el" href="classShell_1_1MediaSourceModel.html#a26fe7c6011ab39ecd17710884bff34dd">Shell::MediaSourceModel</a></li>
+<li>activeRenderer()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#ac7b50f048d332fade4b15064d74891c4">Multimedia::Queue</a>, <a class="el" href="classShell_1_1MediaRendererModel.html#a107372237f31cb44ec30ae5162012cde">Shell::MediaRendererModel</a></li>
+<li>activeRendererChanged()&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#ac960d47aeb98c87cb47d07cebe71fcd4">Shell::ActiveRendererController</a>, <a class="el" href="classShell_1_1MediaRendererModel.html#afe3283e5585fbb6d48ecdf8615aeeb28">Shell::MediaRendererModel</a></li>
+<li>ActiveRendererController()&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a4812da7778cd79879aabf75135fa0b6a">Shell::ActiveRendererController</a></li>
+<li>activeRendererController()&#160;:&#160;<a class="el" href="classShell_1_1QmlSingletonRegistry.html#a02931d0a3efd1ee516366e807a2fa636">Shell::QmlSingletonRegistry</a></li>
+<li>activeRendererWentOffline()&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a58d7a2b2cbcaef3f9558390f1ad1efa3">Shell::ActiveRendererController</a></li>
+<li>addMediaItemToQueue()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a49a23243132453e93de9b4d03cfe4548">Shell::MediaItemModel</a></li>
+<li>address()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a42da609d6b09c17a4fc4f568bfc0b403">Multimedia::Renderer</a>, <a class="el" href="classUPnPAV_1_1DeviceDescription.html#a7b38c24ba42ddc8f20205d3064efb24e">UPnPAV::DeviceDescription</a>, <a class="el" href="classUPnPAV_1_1MediaDevice.html#af179a119d17a9a089ac6f09225a8d812">UPnPAV::MediaDevice</a></li>
 <li>addRoute()&#160;:&#160;<a class="el" href="classHttp_1_1Server.html#acdf0067948b2a1523424a686ceae23db">Http::Server</a></li>
+<li>addToQueue()&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#a6b6407a91417c50315e9f5c80d5d462c">Shell::QueueModel</a></li>
+<li>addToQueueRequested()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#afe54c527303e34f6eeb6bdbc850088b5">Shell::MediaItemModel</a></li>
+<li>album()&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#a77b1b337bea88890092da941d5797700">Multimedia::Item</a>, <a class="el" href="classUPnPAV_1_1MediaServerObject.html#a7d0511453369b5b3a89c523480d6381d">UPnPAV::MediaServerObject</a></li>
+<li>albumArtist()&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#a7226699248be3f3f4f518ae809782a79">Multimedia::Item</a>, <a class="el" href="classUPnPAV_1_1MediaServerObject.html#a547502d7a7d4d2319a775f365e57a901">UPnPAV::MediaServerObject</a></li>
+<li>albumArtUrl()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaServerObject.html#a556e75663ab0a6c9134b79f2cf41995e">UPnPAV::MediaServerObject</a></li>
+<li>append()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a90b82deaf8d6c50899708bbbed51cf23">Multimedia::Queue</a></li>
+<li>appendAndPlay()&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#a3e7e8b7857b85babf56c05a388950383">Shell::QueueModel</a></li>
 <li>appendRequestData()&#160;:&#160;<a class="el" href="classHttp_1_1RequestDeserializer.html#a9d55e9b90f9d4e87359cc6e4cee74321">Http::RequestDeserializer</a></li>
+<li>artist()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaServerObject.html#a436df9f429e5e89c9852957e08955f89">UPnPAV::MediaServerObject</a></li>
+<li>artworkFound()&#160;:&#160;<a class="el" href="classShell_1_1FolderArtwork.html#a72ec0dd12af611a0c318e69d9127075f">Shell::FolderArtwork</a></li>
+<li>ArtworkImageProvider()&#160;:&#160;<a class="el" href="classShell_1_1ArtworkImageProvider.html#a544a635d1774a46097fdb96ac48e031b">Shell::ArtworkImageProvider</a></li>
+<li>artworkUrl()&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#af6f81057aeb55347aca372ed2e871e86">Multimedia::Item</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#afe9d3d92d473726e7702a563fbea5c58">Shell::ActiveRendererController</a>, <a class="el" href="classShell_1_1FolderArtwork.html#ab364fbadc514ec56297e44c8877ae87d">Shell::FolderArtwork</a></li>
+<li>availability()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a55fd1b8adb15560d3272ede2fda755f9">Multimedia::Renderer</a></li>
+<li>availabilityChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#af965c47a49f16bf635f15a0a7f01f03c">Multimedia::Renderer</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

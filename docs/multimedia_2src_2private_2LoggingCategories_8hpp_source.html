@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -114,8 +118,8 @@ $(document).ready(function(){initNavTree('multimedia_2src_2private_2LoggingCateg
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021-2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
@@ -124,6 +128,7 @@ $(document).ready(function(){initNavTree('multimedia_2src_2private_2LoggingCateg
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>Q_DECLARE_LOGGING_CATEGORY(mmProvider)</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>Q_DECLARE_LOGGING_CATEGORY(mmRenderer)</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>Q_DECLARE_LOGGING_CATEGORY(mmQueue)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

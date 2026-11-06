@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -108,17 +112,23 @@ $(document).ready(function(){initNavTree('functions_t.html',''); initResizable()
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a id="index_t" name="index_t"></a>- t -</h3><ul>
-<li>text()&#160;:&#160;<a class="el" href="classShell_1_1AbstractHeader.html#a5d0df8dff9c6454574d994691e7350e9">Shell::AbstractHeader</a></li>
-<li>textChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractHeader.html#adccb19abfc369ac6fe023de8fb8a59b6">Shell::AbstractHeader</a></li>
-<li>title&#160;:&#160;<a class="el" href="classShell_1_1AbstractDialog.html#ae3d9195ae715bfd8701f09b462d43ecc">Shell::AbstractDialog</a>, <a class="el" href="classShell_1_1AbstractListEntry.html#a935f3838e17d5f6ccc4526a110606763">Shell::AbstractListEntry</a></li>
-<li>titleChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractDialog.html#ad025f3d01f6ce7d33300d1231e573fb2">Shell::AbstractDialog</a>, <a class="el" href="classShell_1_1AbstractListEntry.html#ae27d2b2f454468ee1d333fa107ce7323">Shell::AbstractListEntry</a></li>
+<li>title&#160;:&#160;<a class="el" href="structMultimedia_1_1CurrentTrack.html#a3afa9bc461bb051197183988760746b1">Multimedia::CurrentTrack</a>, <a class="el" href="structShell_1_1SettingsRow.html#a619c1a5799f593d9ac84c9b921812625">Shell::SettingsRow</a></li>
+<li>togglePlayback()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a1d49a6428694df58ec5de5667db0732c">Multimedia::Queue</a>, <a class="el" href="classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013">Shell::QueueModel</a></li>
 <li>toString()&#160;:&#160;<a class="el" href="structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5">Multimedia::ProviderVersion</a></li>
+<li>totalDuration&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#af4a0d6886c014a063f98bd496198bd38">Shell::QueueModel</a></li>
+<li>totalDurationPartial&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#af9c8d41d55ef661e77abefd48d704735">Shell::QueueModel</a></li>
+<li>totalItemCount()&#160;:&#160;<a class="el" href="classMultimedia_1_1PendingPage.html#a51656a37c0f4d237aced4fe4d1fabcf9">Multimedia::PendingPage</a>, <a class="el" href="classMultimedia_1_1Source.html#af6a2276ed089b468fe1770410a0cc598">Multimedia::Source</a></li>
 <li>track()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#a6d78f18c0a66dcfb63e5bc54610480dc">UPnPAV::GetPositionInfoResponse</a></li>
+<li>trackAlbum&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a23855734759f08863f62dc26ff03d3ec">Shell::ActiveRendererController</a></li>
+<li>trackArtist&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a2bcc5a73239bdc99553d1b7c110fd5e5">Shell::ActiveRendererController</a></li>
 <li>trackDuration()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#a00b2833402c89200cd85cdec49be9039">UPnPAV::GetPositionInfoResponse</a></li>
+<li>trackFormat()&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a2adad806a9b0e5e99455940229aac070">Shell::ActiveRendererController</a></li>
 <li>trackMetaData()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854">UPnPAV::GetPositionInfoResponse</a></li>
+<li>trackTitle&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#ad6cb5f68cb644129f9e740418f386af3">Shell::ActiveRendererController</a></li>
 <li>trackUri()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813">UPnPAV::GetPositionInfoResponse</a></li>
-<li>trailingElement&#160;:&#160;<a class="el" href="classShell_1_1AbstractListEntry.html#aef6303ccd4d4c3b0b1321c58fd3ffaed">Shell::AbstractListEntry</a></li>
-<li>trailingElementChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractListEntry.html#a9c0df8d1ea51d7cebeaa6010f439bd99">Shell::AbstractListEntry</a></li>
+<li>trackYear&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a59bdc0acdd2daed15d967d1c0c6013fa">Shell::ActiveRendererController</a></li>
+<li>transitioning&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a1517c340da36d5dbb7ae48dda3a578ee">Shell::ActiveRendererController</a></li>
+<li>transitioningChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a6af3e05bcba2919533e0695215ab6ce2">Shell::ActiveRendererController</a></li>
 <li>TransitionNotAvailable&#160;:&#160;<a class="el" href="classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ada0ca75087e9019b7701dc0debac0536">UPnPAV::PendingSoapCall</a></li>
 <li>transportInfo()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c">UPnPAV::MediaDevice</a></li>
 <li>TransportIsLocked&#160;:&#160;<a class="el" href="classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032acf9b2bc2d3b1cce8d4a1be6fac365cce">UPnPAV::PendingSoapCall</a></li>

@@ -1,6 +1,21 @@
 var searchData=
 [
-  ['unsubscribe_0',['unsubscribe',['../classUPnPAV_1_1EventSubscriptionHandle.html#aaa3d95d5a686d91e1dd560dabce24b7a',1,'UPnPAV::EventSubscriptionHandle::unsubscribe()'],['../classUPnPAV_1_1HttpEventSubscriptionHandle.html#a5256eab101df84e11ab7ebe39b3a9f53',1,'UPnPAV::HttpEventSubscriptionHandle::unsubscribe()']]],
-  ['unsubscribed_1',['unsubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#a777a848ceb8d4ef8e4f15b1d62bdcf8e',1,'UPnPAV::EventSubscriptionHandle']]],
-  ['url_2',['url',['../classHttp_1_1ServerRequest.html#a9ec09ad3e75598f29704f877a0b56c8b',1,'Http::ServerRequest']]]
+  ['toggleplayback_0',['toggleplayback',['../classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013',1,'Shell::QueueModel::togglePlayback()'],['../classMultimedia_1_1Queue.html#a1d49a6428694df58ec5de5667db0732c',1,'Multimedia::Queue::togglePlayback()']]],
+  ['tostring_1',['toString',['../structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5',1,'Multimedia::ProviderVersion']]],
+  ['totalduration_2',['totalDuration',['../classShell_1_1QueueModel.html#a6b94d641df2e8ef23cd4c58318a4a5e6',1,'Shell::QueueModel']]],
+  ['totalitemcount_3',['totalitemcount',['../classMultimedia_1_1PendingPage.html#a51656a37c0f4d237aced4fe4d1fabcf9',1,'Multimedia::PendingPage::totalItemCount()'],['../classMultimedia_1_1Source.html#af6a2276ed089b468fe1770410a0cc598',1,'Multimedia::Source::totalItemCount()']]],
+  ['track_4',['track',['../classUPnPAV_1_1GetPositionInfoResponse.html#a6d78f18c0a66dcfb63e5bc54610480dc',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackalbum_5',['trackAlbum',['../classShell_1_1ActiveRendererController.html#aa0d1c0be406a1b17dc76a629a8d8d627',1,'Shell::ActiveRendererController']]],
+  ['trackartist_6',['trackArtist',['../classShell_1_1ActiveRendererController.html#af8041ffbc691c0e2fefcc98b8de12854',1,'Shell::ActiveRendererController']]],
+  ['trackduration_7',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#a00b2833402c89200cd85cdec49be9039',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackformat_8',['trackFormat',['../classShell_1_1ActiveRendererController.html#a2adad806a9b0e5e99455940229aac070',1,'Shell::ActiveRendererController']]],
+  ['trackmetadata_9',['trackMetaData',['../classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['tracktitle_10',['trackTitle',['../classShell_1_1ActiveRendererController.html#a5ae64ccac2f9a7288f370f86768fe7dd',1,'Shell::ActiveRendererController']]],
+  ['trackuri_11',['trackUri',['../classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackyear_12',['trackYear',['../classShell_1_1ActiveRendererController.html#a3975a292a43bb01f7162b672dd86ae61',1,'Shell::ActiveRendererController']]],
+  ['transitioningchanged_13',['transitioningchanged',['../classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570',1,'Multimedia::Renderer::transitioningChanged()'],['../classShell_1_1ActiveRendererController.html#a6af3e05bcba2919533e0695215ab6ce2',1,'Shell::ActiveRendererController::transitioningChanged()']]],
+  ['transportinfo_14',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
+  ['transportplayspeed_15',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#a38ba6a9467c15fa6174d9e0d239eaff3',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['transportsettings_16',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
+  ['type_17',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];

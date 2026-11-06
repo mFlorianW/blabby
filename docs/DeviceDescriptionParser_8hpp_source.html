@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -114,8 +118,8 @@ $(document).ready(function(){initNavTree('DeviceDescriptionParser_8hpp_source.ht
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021-2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
@@ -197,13 +201,15 @@ $(document).ready(function(){initNavTree('DeviceDescriptionParser_8hpp_source.ht
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    QString m_baseUrl;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    QXmlStreamReader m_streamReader;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>};</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    QString m_address;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    QXmlStreamReader m_streamReader;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>};</div>
 </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>} <span class="comment">// namespace UPnPAV</span></div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#endif </span><span class="comment">// DESCRIPTIONREADER_H</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#endif </span><span class="comment">// DESCRIPTIONREADER_H</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1DeviceDescriptionParser_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescriptionParser.html">UPnPAV::DeviceDescriptionParser</a></div><div class="ttdef"><b>Definition</b> DeviceDescriptionParser.hpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

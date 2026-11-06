@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -126,20 +130,36 @@ Inheritance diagram for UPnPAV::MediaRenderer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:a0b7be269645d87179d4b6b106b759f24" id="r_a0b7be269645d87179d4b6b106b759f24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a0b7be269645d87179d4b6b106b759f24">masterVolumeChanged</a> (quint32 <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">volume</a>)</td></tr>
+<tr class="memitem:a0b7be269645d87179d4b6b106b759f24" id="r_a0b7be269645d87179d4b6b106b759f24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a0b7be269645d87179d4b6b106b759f24">masterVolumeChanged</a> (quint32 <a class="el" href="classUPnPAV_1_1MediaRenderer.html#a1d673390364264b4369d346f70488848">volume</a>)</td></tr>
 <tr class="separator:a0b7be269645d87179d4b6b106b759f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adac4faad20a41139ee9cd744ca42d95e" id="r_adac4faad20a41139ee9cd744ca42d95e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#adac4faad20a41139ee9cd744ca42d95e">masterMuteChanged</a> (bool <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ae2ee6b1ef74abee3218074e4108bc4bd">mute</a>)</td></tr>
+<tr class="separator:adac4faad20a41139ee9cd744ca42d95e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header signals_classUPnPAV_1_1MediaDevice"><td colspan="2" onclick="javascript:toggleInherit('signals_classUPnPAV_1_1MediaDevice')"><img src="closed.png" alt="-"/>&#160;Signals inherited from <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></td></tr>
 <tr class="memitem:abd77c7c26e6e10e96af5e674971c0163 inherit signals_classUPnPAV_1_1MediaDevice" id="r_abd77c7c26e6e10e96af5e674971c0163"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">stateChanged</a> ()</td></tr>
 <tr class="separator:abd77c7c26e6e10e96af5e674971c0163 inherit signals_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a277afe66a6b2912781874a898e4eb508 inherit signals_classUPnPAV_1_1MediaDevice" id="r_a277afe66a6b2912781874a898e4eb508"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a277afe66a6b2912781874a898e4eb508">currentTrackChanged</a> ()</td></tr>
+<tr class="separator:a277afe66a6b2912781874a898e4eb508 inherit signals_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61d38f0f690a44ca05badd2e9265bfc6 inherit signals_classUPnPAV_1_1MediaDevice" id="r_a61d38f0f690a44ca05badd2e9265bfc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a61d38f0f690a44ca05badd2e9265bfc6">unreachable</a> ()</td></tr>
+<tr class="separator:a61d38f0f690a44ca05badd2e9265bfc6 inherit signals_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8d7c89abc381b1c77e6878d534fb41f1" id="r_a8d7c89abc381b1c77e6878d534fb41f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a8d7c89abc381b1c77e6878d534fb41f1">MediaRenderer</a> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> desc, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1SoapBackend.html">SoapBackend</a> &gt; msgTransmitter, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1EventBackend.html">EventBackend</a> &gt; eventBackend)</td></tr>
 <tr class="separator:a8d7c89abc381b1c77e6878d534fb41f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01134621ee2b6b8d250e4392eb0a17d" id="r_ad01134621ee2b6b8d250e4392eb0a17d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">volume</a> (quint32 instanceId, QString const &amp;channel) const noexcept</td></tr>
-<tr class="separator:ad01134621ee2b6b8d250e4392eb0a17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5eccffd9e9a443a2f21022e625360e3" id="r_ab5eccffd9e9a443a2f21022e625360e3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3">setVolume</a> (quint32 instanceId, QString const &amp;channel, quint32 <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">volume</a>) noexcept</td></tr>
+<tr class="memitem:a1d673390364264b4369d346f70488848" id="r_a1d673390364264b4369d346f70488848"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a1d673390364264b4369d346f70488848">volume</a> (quint32 instanceId, QString const &amp;channel) noexcept</td></tr>
+<tr class="separator:a1d673390364264b4369d346f70488848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5eccffd9e9a443a2f21022e625360e3" id="r_ab5eccffd9e9a443a2f21022e625360e3"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3">setVolume</a> (quint32 instanceId, QString const &amp;channel, quint32 <a class="el" href="classUPnPAV_1_1MediaRenderer.html#a1d673390364264b4369d346f70488848">volume</a>) noexcept</td></tr>
 <tr class="separator:ab5eccffd9e9a443a2f21022e625360e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a313935771c2cb92555af1634275588d4" id="r_a313935771c2cb92555af1634275588d4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structUPnPAV_1_1VolumeRange.html">VolumeRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a313935771c2cb92555af1634275588d4">volumeRange</a> () const noexcept</td></tr>
+<tr class="separator:a313935771c2cb92555af1634275588d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8504ddc3c2471133fdf866a152c0a5c1" id="r_a8504ddc3c2471133fdf866a152c0a5c1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a8504ddc3c2471133fdf866a152c0a5c1">canSetVolume</a> () const noexcept</td></tr>
+<tr class="separator:a8504ddc3c2471133fdf866a152c0a5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2ee6b1ef74abee3218074e4108bc4bd" id="r_ae2ee6b1ef74abee3218074e4108bc4bd"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#ae2ee6b1ef74abee3218074e4108bc4bd">mute</a> (quint32 instanceId, QString const &amp;channel) noexcept</td></tr>
+<tr class="separator:ae2ee6b1ef74abee3218074e4108bc4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2919ddcb0c6ca047a3b433a6857e82ac" id="r_a2919ddcb0c6ca047a3b433a6857e82ac"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a2919ddcb0c6ca047a3b433a6857e82ac">setMute</a> (quint32 instanceId, QString const &amp;channel, bool <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ae2ee6b1ef74abee3218074e4108bc4bd">mute</a>) noexcept</td></tr>
+<tr class="separator:a2919ddcb0c6ca047a3b433a6857e82ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147bc35a11aef35c3bd3c3469d3f3787" id="r_a147bc35a11aef35c3bd3c3469d3f3787"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRenderer.html#a147bc35a11aef35c3bd3c3469d3f3787">canSetMute</a> () const noexcept</td></tr>
+<tr class="separator:a147bc35a11aef35c3bd3c3469d3f3787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classUPnPAV_1_1MediaDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classUPnPAV_1_1MediaDevice')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a></td></tr>
 <tr class="memitem:a5d45f0b56d0167c4e6508972455dda46 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a5d45f0b56d0167c4e6508972455dda46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a5d45f0b56d0167c4e6508972455dda46">~MediaDevice</a> () override</td></tr>
 <tr class="separator:a5d45f0b56d0167c4e6508972455dda46 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,8 +167,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1dd0f8deb9fc6fcd9811e323ded55f5c inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61da8db08c3b3d379fb52d35471eb28a inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a61da8db08c3b3d379fb52d35471eb28a"><td class="memItemLeft" align="right" valign="top">virtual QUrl const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a61da8db08c3b3d379fb52d35471eb28a">iconUrl</a> () const noexcept</td></tr>
 <tr class="separator:a61da8db08c3b3d379fb52d35471eb28a inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3585c76e2d8e8fef56b8a73b5553f9b9 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a3585c76e2d8e8fef56b8a73b5553f9b9"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a3585c76e2d8e8fef56b8a73b5553f9b9">udn</a> () const noexcept</td></tr>
+<tr class="separator:a3585c76e2d8e8fef56b8a73b5553f9b9 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4558f68c713b6b8393ed7d883afd41b9 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a4558f68c713b6b8393ed7d883afd41b9"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a4558f68c713b6b8393ed7d883afd41b9">manufacturer</a> () const noexcept</td></tr>
+<tr class="separator:a4558f68c713b6b8393ed7d883afd41b9 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af07f0b31266a1e510061529e75082521 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_af07f0b31266a1e510061529e75082521"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af07f0b31266a1e510061529e75082521">modelName</a> () const noexcept</td></tr>
+<tr class="separator:af07f0b31266a1e510061529e75082521 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af179a119d17a9a089ac6f09225a8d812 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_af179a119d17a9a089ac6f09225a8d812"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af179a119d17a9a089ac6f09225a8d812">address</a> () const noexcept</td></tr>
+<tr class="separator:af179a119d17a9a089ac6f09225a8d812 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b161f1405d49c3f6e0a62f383ee3a85 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a6b161f1405d49c3f6e0a62f383ee3a85"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a6b161f1405d49c3f6e0a62f383ee3a85">baseUrl</a> () const noexcept</td></tr>
+<tr class="separator:a6b161f1405d49c3f6e0a62f383ee3a85 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ea37234b42a641654e2a169e439f131 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a9ea37234b42a641654e2a169e439f131"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a9ea37234b42a641654e2a169e439f131">state</a> () const noexcept</td></tr>
 <tr class="separator:a9ea37234b42a641654e2a169e439f131 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26976dffd17f0dc93cbb0cf4db5081af inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a26976dffd17f0dc93cbb0cf4db5081af"><td class="memItemLeft" align="right" valign="top">virtual QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a26976dffd17f0dc93cbb0cf4db5081af">currentTrackUri</a> () const noexcept</td></tr>
+<tr class="separator:a26976dffd17f0dc93cbb0cf4db5081af inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c259778331d05ba247b586b6257cee inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_ae6c259778331d05ba247b586b6257cee"><td class="memItemLeft" align="right" valign="top">virtual QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ae6c259778331d05ba247b586b6257cee">currentTrackMetaData</a> () const noexcept</td></tr>
+<tr class="separator:ae6c259778331d05ba247b586b6257cee inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70d9122ec8dd0b43e0c0459a4761f694 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_a70d9122ec8dd0b43e0c0459a4761f694"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694">protocolInfo</a> () noexcept</td></tr>
 <tr class="separator:a70d9122ec8dd0b43e0c0459a4761f694 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af666bf6c8a0b6c30745684ee30c05a83 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_af666bf6c8a0b6c30745684ee30c05a83"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83">currentConnectionIds</a> () noexcept</td></tr>
@@ -181,6 +215,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a27cf1f7a611584a02f2b88627c78c408 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4926f7dca9658bae32f244aae98e965 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_ae4926f7dca9658bae32f244aae98e965"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965">pause</a> (quint32 instanceId=0) noexcept</td></tr>
 <tr class="separator:ae4926f7dca9658bae32f244aae98e965 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfdeb64616aeb2d07957db12c50538e inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_afdfdeb64616aeb2d07957db12c50538e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#afdfdeb64616aeb2d07957db12c50538e">canPause</a> () const noexcept</td></tr>
+<tr class="separator:afdfdeb64616aeb2d07957db12c50538e inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76a81d059df399b23d53f4b5fa2eb82 inherit pub_methods_classUPnPAV_1_1MediaDevice" id="r_ad76a81d059df399b23d53f4b5fa2eb82"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ad76a81d059df399b23d53f4b5fa2eb82">canSeek</a> (<a class="el" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a> mode) const noexcept</td></tr>
+<tr class="separator:ad76a81d059df399b23d53f4b5fa2eb82 inherit pub_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -214,6 +252,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ac39a1ad231b7f28fd8a04df218266365 inherit pro_methods_classUPnPAV_1_1MediaDevice" id="r_ac39a1ad231b7f28fd8a04df218266365"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>MediaDevice</b> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1SoapBackend.html">SoapBackend</a> &gt; soapBackend, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1EventBackend.html">EventBackend</a> &gt; eventBackend)</td></tr>
 <tr class="separator:ac39a1ad231b7f28fd8a04df218266365 inherit pro_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3e2f12f175843976619e12cb0cdb2dc inherit pro_methods_classUPnPAV_1_1MediaDevice" id="r_aa3e2f12f175843976619e12cb0cdb2dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#aa3e2f12f175843976619e12cb0cdb2dc">reportUnreachablePublisher</a> (<a class="el" href="classUPnPAV_1_1EventSubscriptionHandle.html">EventSubscriptionHandle</a> const &amp;events) noexcept</td></tr>
+<tr class="separator:aa3e2f12f175843976619e12cb0cdb2dc inherit pro_methods_classUPnPAV_1_1MediaDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> is facade for UPnPAV <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> device. </p>
@@ -267,6 +307,85 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a147bc35a11aef35c3bd3c3469d3f3787" name="a147bc35a11aef35c3bd3c3469d3f3787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a147bc35a11aef35c3bd3c3469d3f3787">&#9670;&#160;</a></span>canSetMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UPnPAV::MediaRenderer::canSetMute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the rendering control service offers SetMute. </p><dl class="section return"><dt>Returns</dt><dd>True when <a class="el" href="classUPnPAV_1_1MediaRenderer.html#a2919ddcb0c6ca047a3b433a6857e82ac">UPnPAV::MediaRenderer::setMute</a> can be called, otherwise false. </dd></dl>
+
+</div>
+</div>
+<a id="a8504ddc3c2471133fdf866a152c0a5c1" name="a8504ddc3c2471133fdf866a152c0a5c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8504ddc3c2471133fdf866a152c0a5c1">&#9670;&#160;</a></span>canSetVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UPnPAV::MediaRenderer::canSetVolume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the rendering control service offers SetVolume. </p><dl class="section return"><dt>Returns</dt><dd>True when <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ab5eccffd9e9a443a2f21022e625360e3">UPnPAV::MediaRenderer::setVolume</a> can be called, otherwise false. </dd></dl>
+
+</div>
+</div>
+<a id="adac4faad20a41139ee9cd744ca42d95e" name="adac4faad20a41139ee9cd744ca42d95e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adac4faad20a41139ee9cd744ca42d95e">&#9670;&#160;</a></span>masterMuteChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::MediaRenderer::masterMuteChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mute</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the Mute of the master channel is changed. </p>
+
+</div>
+</div>
 <a id="a0b7be269645d87179d4b6b106b759f24" name="a0b7be269645d87179d4b6b106b759f24"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0b7be269645d87179d4b6b106b759f24">&#9670;&#160;</a></span>masterVolumeChanged</h2>
 
@@ -291,6 +410,103 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This signal is emitted when the master volume is changed. </p>
+
+</div>
+</div>
+<a id="ae2ee6b1ef74abee3218074e4108bc4bd" name="ae2ee6b1ef74abee3218074e4108bc4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ee6b1ef74abee3218074e4108bc4bd">&#9670;&#160;</a></span>mute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt; UPnPAV::MediaRenderer::mute </td>
+          <td>(</td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>instanceId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>channel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calls the GetMute function on the rendering control service of the <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> This an optional function and not every <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> supports this function. If the function is not supported a std::nullopt is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instanceId</td><td>Identifies the virtual instance of the rendering control service to which the action applies. </td></tr>
+    <tr><td class="paramname">channel</td><td>The channel whose Mute is requested. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
+
+</div>
+</div>
+<a id="a2919ddcb0c6ca047a3b433a6857e82ac" name="a2919ddcb0c6ca047a3b433a6857e82ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2919ddcb0c6ca047a3b433a6857e82ac">&#9670;&#160;</a></span>setMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt; UPnPAV::MediaRenderer::setMute </td>
+          <td>(</td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>instanceId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mute</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calls the SetMute function on the rendering control service of the <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> This an optional function and not every <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> supports this function. If the function is not supported a std::nullopt is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instanceId</td><td>Identifies the virtual instance of the rendering control service to which the action applies. </td></tr>
+    <tr><td class="paramname">channel</td><td>The channel that shall be muted or unmuted. </td></tr>
+    <tr><td class="paramname">mute</td><td>True mutes the channel, false unmutes it. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
 
 </div>
 </div>
@@ -329,7 +545,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -346,8 +562,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ad01134621ee2b6b8d250e4392eb0a17d" name="ad01134621ee2b6b8d250e4392eb0a17d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad01134621ee2b6b8d250e4392eb0a17d">&#9670;&#160;</a></span>volume()</h2>
+<a id="a1d673390364264b4369d346f70488848" name="a1d673390364264b4369d346f70488848"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d673390364264b4369d346f70488848">&#9670;&#160;</a></span>volume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -370,12 +586,12 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -388,6 +604,32 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
+
+</div>
+</div>
+<a id="a313935771c2cb92555af1634275588d4" name="a313935771c2cb92555af1634275588d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a313935771c2cb92555af1634275588d4">&#9670;&#160;</a></span>volumeRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structUPnPAV_1_1VolumeRange.html">VolumeRange</a> UPnPAV::MediaRenderer::volumeRange </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the range of the Volume from the allowed value range of the Volume state variable of the rendering control service, 0 to 100 when the service defines no range. </p><dl class="section return"><dt>Returns</dt><dd>The range of the Volume. </dd></dl>
 
 </div>
 </div>

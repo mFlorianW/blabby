@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -108,14 +112,16 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a id="index_g" name="index_g"></a>- g -</h3><ul>
-<li>getCurrentTime()&#160;:&#160;<a class="el" href="classShell_1_1AbstractClock.html#a975beb844862fddf9cbc46cb8098f172">Shell::AbstractClock</a></li>
 <li>GetDeviceCapabilitiesResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetDeviceCapabilitiesResponse.html#a6a9a747ba73b5998ba1d7903edbdb932">UPnPAV::GetDeviceCapabilitiesResponse</a></li>
 <li>GetMediaInfoResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetMediaInfoResponse.html#a1d70fdb9786f8fa43b74d10b6f65ba3f">UPnPAV::GetMediaInfoResponse</a></li>
+<li>GetMuteResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetMuteResponse.html#aad7f5fdd4a6bdfcdc42ccc0578ef4ace">UPnPAV::GetMuteResponse</a></li>
 <li>GetPositionInfoResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetPositionInfoResponse.html#ab7227210e96dcdff465a7b2ed3ef40b5">UPnPAV::GetPositionInfoResponse</a></li>
 <li>getSortCapabilities()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaServer.html#a86c5084ae2735d435dbe4d2234e1884a">UPnPAV::MediaServer</a></li>
 <li>GetTransportInfoResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetTransportInfoResponse.html#a4bdcdff907b7074f9690957bd0e86e39">UPnPAV::GetTransportInfoResponse</a></li>
 <li>GetTransportSettingsResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetTransportSettingsResponse.html#a0790ffcc481c33413c2a3b047293b2c8">UPnPAV::GetTransportSettingsResponse</a></li>
 <li>GetVolumeResponse()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetVolumeResponse.html#aebffca15ec138112a4de8cd957ef6350">UPnPAV::GetVolumeResponse</a></li>
+<li>goOffline()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a75a769240df754db8ba46837fdbfc14d">Multimedia::Renderer</a></li>
+<li>goOnline()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#adea4dc72844eea5c650c28a8094626b8">Multimedia::Renderer</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

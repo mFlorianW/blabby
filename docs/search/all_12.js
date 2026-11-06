@@ -1,8 +1,28 @@
 var searchData=
 [
-  ['udpservicediscoverybackend_0',['UdpServiceDiscoveryBackend',['../classUPnPAV_1_1UdpServiceDiscoveryBackend.html',1,'UPnPAV']]],
-  ['unknown_1',['unknown',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ab97fe47b9976028f17357643799625d9',1,'UPnPAV::PendingSoapCall::Unknown'],['../classUPnPAV_1_1GetTransportInfoResponse.html#a7b2fb378b9b84322f4c43b5757a28ec7a88183b946cc5f0e8c96b2e66e1c74a7e',1,'UPnPAV::GetTransportInfoResponse::Unknown']]],
-  ['unsubscribe_2',['unsubscribe',['../classUPnPAV_1_1EventSubscriptionHandle.html#aaa3d95d5a686d91e1dd560dabce24b7a',1,'UPnPAV::EventSubscriptionHandle::unsubscribe()'],['../classUPnPAV_1_1HttpEventSubscriptionHandle.html#a5256eab101df84e11ab7ebe39b3a9f53',1,'UPnPAV::HttpEventSubscriptionHandle::unsubscribe()']]],
-  ['unsubscribed_3',['unsubscribed',['../classUPnPAV_1_1EventSubscriptionHandle.html#a777a848ceb8d4ef8e4f15b1d62bdcf8e',1,'UPnPAV::EventSubscriptionHandle']]],
-  ['url_4',['url',['../classHttp_1_1ServerRequest.html#a9ec09ad3e75598f29704f877a0b56c8b',1,'Http::ServerRequest']]]
+  ['title_0',['title',['../structShell_1_1SettingsRow.html#a619c1a5799f593d9ac84c9b921812625',1,'Shell::SettingsRow::title'],['../structMultimedia_1_1CurrentTrack.html#a3afa9bc461bb051197183988760746b1',1,'Multimedia::CurrentTrack::title']]],
+  ['toggleplayback_1',['toggleplayback',['../classShell_1_1QueueModel.html#a9219e281dbd46d49effa4436a1d78013',1,'Shell::QueueModel::togglePlayback()'],['../classMultimedia_1_1Queue.html#a1d49a6428694df58ec5de5667db0732c',1,'Multimedia::Queue::togglePlayback()']]],
+  ['tostring_2',['toString',['../structMultimedia_1_1ProviderVersion.html#a4a83b5284b8a2627b94270ec1dbd74a5',1,'Multimedia::ProviderVersion']]],
+  ['totalduration_3',['totalduration',['../classShell_1_1QueueModel.html#af4a0d6886c014a063f98bd496198bd38',1,'Shell::QueueModel::totalDuration'],['../classShell_1_1QueueModel.html#a6b94d641df2e8ef23cd4c58318a4a5e6',1,'Shell::QueueModel::totalDuration() const noexcept']]],
+  ['totaldurationpartial_4',['totalDurationPartial',['../classShell_1_1QueueModel.html#af9c8d41d55ef661e77abefd48d704735',1,'Shell::QueueModel']]],
+  ['totalitemcount_5',['totalitemcount',['../classMultimedia_1_1PendingPage.html#a51656a37c0f4d237aced4fe4d1fabcf9',1,'Multimedia::PendingPage::totalItemCount()'],['../classMultimedia_1_1Source.html#af6a2276ed089b468fe1770410a0cc598',1,'Multimedia::Source::totalItemCount()']]],
+  ['track_6',['track',['../classUPnPAV_1_1GetPositionInfoResponse.html#a6d78f18c0a66dcfb63e5bc54610480dc',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackalbum_7',['trackalbum',['../classShell_1_1ActiveRendererController.html#a23855734759f08863f62dc26ff03d3ec',1,'Shell::ActiveRendererController::trackAlbum'],['../classShell_1_1ActiveRendererController.html#aa0d1c0be406a1b17dc76a629a8d8d627',1,'Shell::ActiveRendererController::trackAlbum() const noexcept']]],
+  ['trackartist_8',['trackartist',['../classShell_1_1ActiveRendererController.html#a2bcc5a73239bdc99553d1b7c110fd5e5',1,'Shell::ActiveRendererController::trackArtist'],['../classShell_1_1ActiveRendererController.html#af8041ffbc691c0e2fefcc98b8de12854',1,'Shell::ActiveRendererController::trackArtist() const noexcept']]],
+  ['trackduration_9',['trackDuration',['../classUPnPAV_1_1GetPositionInfoResponse.html#a00b2833402c89200cd85cdec49be9039',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackformat_10',['trackformat',['../classShell_1_1ActiveRendererController.html#aa794c095c21b3246621aebad6bf4d252',1,'Shell::ActiveRendererController::trackFormat'],['../classShell_1_1ActiveRendererController.html#a2adad806a9b0e5e99455940229aac070',1,'Shell::ActiveRendererController::trackFormat() const noexcept']]],
+  ['trackmetadata_11',['trackMetaData',['../classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['tracktitle_12',['tracktitle',['../classShell_1_1ActiveRendererController.html#a5ae64ccac2f9a7288f370f86768fe7dd',1,'Shell::ActiveRendererController::trackTitle() const noexcept'],['../classShell_1_1ActiveRendererController.html#ad6cb5f68cb644129f9e740418f386af3',1,'Shell::ActiveRendererController::trackTitle']]],
+  ['trackuri_13',['trackUri',['../classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813',1,'UPnPAV::GetPositionInfoResponse']]],
+  ['trackyear_14',['trackyear',['../classShell_1_1ActiveRendererController.html#a59bdc0acdd2daed15d967d1c0c6013fa',1,'Shell::ActiveRendererController::trackYear'],['../classShell_1_1ActiveRendererController.html#a3975a292a43bb01f7162b672dd86ae61',1,'Shell::ActiveRendererController::trackYear() const noexcept']]],
+  ['transitioning_15',['transitioning',['../classShell_1_1ActiveRendererController.html#a1517c340da36d5dbb7ae48dda3a578ee',1,'Shell::ActiveRendererController::transitioning'],['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fa69a4b7185e3fbc9bfc0878876d7416cf',1,'UPnPAV::GetTransportInfoResponse::Transitioning']]],
+  ['transitioningchanged_16',['transitioningchanged',['../classShell_1_1ActiveRendererController.html#a6af3e05bcba2919533e0695215ab6ce2',1,'Shell::ActiveRendererController::transitioningChanged()'],['../classMultimedia_1_1Renderer.html#a168e235f7b605bd821cf855829895570',1,'Multimedia::Renderer::transitioningChanged()']]],
+  ['transitionnotavailable_17',['TransitionNotAvailable',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ada0ca75087e9019b7701dc0debac0536',1,'UPnPAV::PendingSoapCall']]],
+  ['transportinfo_18',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
+  ['transportislocked_19',['TransportIsLocked',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032acf9b2bc2d3b1cce8d4a1be6fac365cce',1,'UPnPAV::PendingSoapCall']]],
+  ['transportplayspeed_20',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#a38ba6a9467c15fa6174d9e0d239eaff3',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['transportsettings_21',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
+  ['transportstate_22',['TransportState',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928f',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['transportstatus_23',['TransportStatus',['../classUPnPAV_1_1GetTransportInfoResponse.html#a7b2fb378b9b84322f4c43b5757a28ec7',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['type_24',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];

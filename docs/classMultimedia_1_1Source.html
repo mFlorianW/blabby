@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -130,6 +134,12 @@ Inheritance diagram for Multimedia::Source:</div>
 Signals</h2></td></tr>
 <tr class="memitem:a097f1fd97693da316359eb6bf7e8f806" id="r_a097f1fd97693da316359eb6bf7e8f806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a097f1fd97693da316359eb6bf7e8f806">navigationFinished</a> (QString const &amp;path)</td></tr>
 <tr class="separator:a097f1fd97693da316359eb6bf7e8f806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a3e9044d043f6f58d7a5c9232d0cf1" id="r_a13a3e9044d043f6f58d7a5c9232d0cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a13a3e9044d043f6f58d7a5c9232d0cf1">navigationFailed</a> (QString const &amp;path)</td></tr>
+<tr class="separator:a13a3e9044d043f6f58d7a5c9232d0cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8299ffd0ead5c84548fb3216e0058e4a" id="r_a8299ffd0ead5c84548fb3216e0058e4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a8299ffd0ead5c84548fb3216e0058e4a">moreItemsLoaded</a> ()</td></tr>
+<tr class="separator:a8299ffd0ead5c84548fb3216e0058e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c00a7ddf4d9e4597226656421f7a502" id="r_a6c00a7ddf4d9e4597226656421f7a502"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">loadingMoreFailed</a> ()</td></tr>
+<tr class="separator:a6c00a7ddf4d9e4597226656421f7a502"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -141,19 +151,30 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab2ea350976dd9eb4d79562fdcc72318e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6332ca61cb9039d64a45e5b0087c57a" id="r_ae6332ca61cb9039d64a45e5b0087c57a"><td class="memItemLeft" align="right" valign="top">Items const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems</a> () const noexcept</td></tr>
 <tr class="separator:ae6332ca61cb9039d64a45e5b0087c57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3e867622ab9a9248406913c74e52f21" id="r_aa3e867622ab9a9248406913c74e52f21"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#aa3e867622ab9a9248406913c74e52f21">navigateTo</a> (QString const &amp;path) noexcept</td></tr>
-<tr class="separator:aa3e867622ab9a9248406913c74e52f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cfbe77795ca2b56f035cfcf4cb62e8e" id="r_a0cfbe77795ca2b56f035cfcf4cb62e8e"><td class="memItemLeft" align="right" valign="top"><a id="a0cfbe77795ca2b56f035cfcf4cb62e8e" name="a0cfbe77795ca2b56f035cfcf4cb62e8e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>navigateBack</b> () noexcept</td></tr>
-<tr class="separator:a0cfbe77795ca2b56f035cfcf4cb62e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a2276ed089b468fe1770410a0cc598" id="r_af6a2276ed089b468fe1770410a0cc598"><td class="memItemLeft" align="right" valign="top">qsizetype&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#af6a2276ed089b468fe1770410a0cc598">totalItemCount</a> () const noexcept</td></tr>
+<tr class="separator:af6a2276ed089b468fe1770410a0cc598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6931f91234149506c427e5c4bc2ee7da" id="r_a6931f91234149506c427e5c4bc2ee7da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a6931f91234149506c427e5c4bc2ee7da">canLoadMore</a> () const noexcept</td></tr>
+<tr class="separator:a6931f91234149506c427e5c4bc2ee7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ad98fb29cd5c30c6370f609b241037" id="r_af7ad98fb29cd5c30c6370f609b241037"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#af7ad98fb29cd5c30c6370f609b241037">navigateTo</a> (QString const &amp;path, qsizetype minimumItemCount=0) noexcept</td></tr>
+<tr class="separator:af7ad98fb29cd5c30c6370f609b241037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad85a9e4e58d7d631c947a9a325f0a127" id="r_ad85a9e4e58d7d631c947a9a325f0a127"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">loadMore</a> () noexcept</td></tr>
+<tr class="separator:ad85a9e4e58d7d631c947a9a325f0a127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a934b589b2d86c3589ee5031fe7497195" id="r_a934b589b2d86c3589ee5031fe7497195"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a934b589b2d86c3589ee5031fe7497195">navigateBack</a> (qsizetype minimumItemCount=0) noexcept</td></tr>
+<tr class="separator:a934b589b2d86c3589ee5031fe7497195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad766e5b1f390290f0a0043f89bed07e" id="r_aad766e5b1f390290f0a0043f89bed07e"><td class="memItemLeft" align="right" valign="top"><a id="aad766e5b1f390290f0a0043f89bed07e" name="aad766e5b1f390290f0a0043f89bed07e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>navigateForward</b> () noexcept</td></tr>
 <tr class="separator:aad766e5b1f390290f0a0043f89bed07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01688bdd0a1a7a5df140679cac5a410b" id="r_a01688bdd0a1a7a5df140679cac5a410b"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1PendingPage.html">PendingPage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a01688bdd0a1a7a5df140679cac5a410b">browsePage</a> (QString const &amp;path, qsizetype startIndex) noexcept</td></tr>
+<tr class="separator:a01688bdd0a1a7a5df140679cac5a410b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a37d03a794c584453523cdf271dfd4d15" id="r_a37d03a794c584453523cdf271dfd4d15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15">Source</a> (QString <a class="el" href="classMultimedia_1_1Source.html#afbb9eeef3718e7b60fd1b8539154433d">sourceName</a>, QString <a class="el" href="classMultimedia_1_1Source.html#ab2ea350976dd9eb4d79562fdcc72318e">iconUrl</a>=QString{&quot;&quot;})</td></tr>
 <tr class="separator:a37d03a794c584453523cdf271dfd4d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1618c44f6854266f25a4c6fb99650b12" id="r_a1618c44f6854266f25a4c6fb99650b12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a1618c44f6854266f25a4c6fb99650b12">setTotalItemCount</a> (qsizetype count) noexcept</td></tr>
+<tr class="separator:a1618c44f6854266f25a4c6fb99650b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74bec11bb562d63f1816e43ca66afe38" id="r_a74bec11bb562d63f1816e43ca66afe38"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a74bec11bb562d63f1816e43ca66afe38">navigate</a> (QString const &amp;path, qsizetype minimumItemCount) noexcept</td></tr>
+<tr class="separator:a74bec11bb562d63f1816e43ca66afe38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -161,7 +182,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a16dead55950c67e86fa9542b4c03dd5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class for every media source. Each MediaSource shall have a name, optional icon. A MediaSource is a navigatable source of media items. Concret subclasses must implement the navigateTo(QString) function. Subclasses that are not navigatable, all playable items are on the root layer. Those subclasses don't need to overwrite the default implemenation. </p>
+<div class="textblock"><p>Base class for every media source. Each MediaSource shall have a name, optional icon. A MediaSource is a navigatable source of media items. Concrete subclasses must implement the navigate(QString, qsizetype) function. Subclasses that are not navigatable, all playable items are on the root layer. Those subclasses don't need to overwrite the default implemenation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7588883a6f3c0e9b3ebcfbeea54b7dd1" name="a7588883a6f3c0e9b3ebcfbeea54b7dd1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7588883a6f3c0e9b3ebcfbeea54b7dd1">&#9670;&#160;</a></span>~Source()</h2>
@@ -227,6 +248,78 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a01688bdd0a1a7a5df140679cac5a410b" name="a01688bdd0a1a7a5df140679cac5a410b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01688bdd0a1a7a5df140679cac5a410b">&#9670;&#160;</a></span>browsePage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1PendingPage.html">PendingPage</a> &gt; Multimedia::Source::browsePage </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>startIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Requests the page of the Items of the Container at the path that starts at the index, independent of the navigation: the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> and the current Container stay. The <a class="el" href="classMultimedia_1_1Source.html">Source</a> decides how many Items a page holds, a page without Items ends the Container. A paged <a class="el" href="classMultimedia_1_1Source.html">Source</a> must implement it, the default implementation gives a finished page without Items. The page may already be finished when it's given. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the Container. </td></tr>
+    <tr><td class="paramname">startIndex</td><td>The index of the first <a class="el" href="classMultimedia_1_1Item.html">Item</a> of the page. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The page, it finishes later or is finished already. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a4958f039b465eb1ceaf0bc7dbe5d4ce1">Provider::MediaServer::Source</a>.</p>
+
+</div>
+</div>
+<a id="a6931f91234149506c427e5c4bc2ee7da" name="a6931f91234149506c427e5c4bc2ee7da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6931f91234149506c427e5c4bc2ee7da">&#9670;&#160;</a></span>canLoadMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Multimedia::Source::canLoadMore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true while the current Container holds Items that aren't loaded yet, see <a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">loadMore()</a>. </p>
+
+</div>
+</div>
 <a id="ab2ea350976dd9eb4d79562fdcc72318e" name="ab2ea350976dd9eb4d79562fdcc72318e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2ea350976dd9eb4d79562fdcc72318e">&#9670;&#160;</a></span>iconUrl()</h2>
 
@@ -250,6 +343,60 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Gives the URL for media source icon. This can be a QRC path, FileSystem path or network adress to an Image. If the source doesn't have an image a empty string is shall be returned. </p><dl class="section return"><dt>Returns</dt><dd>The URL to the icon, or empty string when the source has no icon. </dd></dl>
+
+</div>
+</div>
+<a id="a6c00a7ddf4d9e4597226656421f7a502" name="a6c00a7ddf4d9e4597226656421f7a502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c00a7ddf4d9e4597226656421f7a502">&#9670;&#160;</a></span>loadingMoreFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::loadingMoreFailed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when loading the next page of the current Container failed, the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> are unchanged. </p>
+
+</div>
+</div>
+<a id="ad85a9e4e58d7d631c947a9a325f0a127" name="ad85a9e4e58d7d631c947a9a325f0a127"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad85a9e4e58d7d631c947a9a325f0a127">&#9670;&#160;</a></span>loadMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::loadMore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Loads the next page of Items of the current Container and appends them to the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a>. This <a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">loadMore()</a> must only be implemented when the <a class="el" href="classMultimedia_1_1Source.html">Source</a> is paged, the default implementation does nothing. The <a class="el" href="classMultimedia_1_1Source.html">Source</a> shall emit the <a class="el" href="classMultimedia_1_1Source.html#a8299ffd0ead5c84548fb3216e0058e4a">moreItemsLoaded()</a> signal when the page is loaded. If it fails to load the page the <a class="el" href="classMultimedia_1_1Source.html">Source</a> shall emit the <a class="el" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">loadingMoreFailed()</a> signal instead, and keep its <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> unchanged. </p>
+
+<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a70e4db2fbee6c3bf4b483f325f7cb217">Provider::MediaServer::Source</a>.</p>
 
 </div>
 </div>
@@ -279,8 +426,111 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa3e867622ab9a9248406913c74e52f21" name="aa3e867622ab9a9248406913c74e52f21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3e867622ab9a9248406913c74e52f21">&#9670;&#160;</a></span>navigateTo()</h2>
+<a id="a8299ffd0ead5c84548fb3216e0058e4a" name="a8299ffd0ead5c84548fb3216e0058e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8299ffd0ead5c84548fb3216e0058e4a">&#9670;&#160;</a></span>moreItemsLoaded</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::moreItemsLoaded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the next page of the current Container is loaded and its Items are appended. </p>
+
+</div>
+</div>
+<a id="a74bec11bb562d63f1816e43ca66afe38" name="a74bec11bb562d63f1816e43ca66afe38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74bec11bb562d63f1816e43ca66afe38">&#9670;&#160;</a></span>navigate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::navigate </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>minimumItemCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The source shall navigate to the given path, after a successful navigation the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> must be updated. A paged <a class="el" href="classMultimedia_1_1Source.html">Source</a> loads the first page of the Container, or more pages until at least the minimum number of Items is loaded or the Container has no more Items, see <a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">loadMore()</a>. This navigate(QString, qsizetype) must only be implemented when the source is navigable. The default implementation does nothing. The source shall emit the navigationFinished(QString) signal when the navigation finished successfully. If it fails to navigate to the given path the source shall emit the navigationFailed(QString) signal instead, and keep its <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> unchanged. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The target path to navigate to. </td></tr>
+    <tr><td class="paramname">minimumItemCount</td><td>How many Items shall be loaded at least. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a62a1c5933a21aff745c58d60ee462435">Provider::MediaServer::Source</a>.</p>
+
+</div>
+</div>
+<a id="a934b589b2d86c3589ee5031fe7497195" name="a934b589b2d86c3589ee5031fe7497195"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a934b589b2d86c3589ee5031fe7497195">&#9670;&#160;</a></span>navigateBack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::navigateBack </td>
+          <td>(</td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>minimumItemCount</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Navigates back to the previous path in the navigation history. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minimumItemCount</td><td>How many Items shall be loaded at least, a paged <a class="el" href="classMultimedia_1_1Source.html">Source</a> loads the first page otherwise. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af7ad98fb29cd5c30c6370f609b241037" name="af7ad98fb29cd5c30c6370f609b241037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ad98fb29cd5c30c6370f609b241037">&#9670;&#160;</a></span>navigateTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,24 +542,65 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void Multimedia::Source::navigateTo </td>
           <td>(</td>
           <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>minimumItemCount</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Navigates to the given path, see navigate(QString, qsizetype). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The target path to navigate to. </td></tr>
+    <tr><td class="paramname">minimumItemCount</td><td>How many Items shall be loaded at least, a paged <a class="el" href="classMultimedia_1_1Source.html">Source</a> loads the first page otherwise. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a13a3e9044d043f6f58d7a5c9232d0cf1" name="a13a3e9044d043f6f58d7a5c9232d0cf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13a3e9044d043f6f58d7a5c9232d0cf1">&#9670;&#160;</a></span>navigationFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::navigationFailed </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>The source shall navigate to the given path after succesful navigation the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> must be updated. If it fails to navigate to the given path nothing shall happen. This navigateTo(QString) must only be implemented when the source navigatable. The default implementation does nothing. The source shall emit the navigationFinished(QString) singal when the navigation is succesful finished. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This signal is emitted when the navigation failed, the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> are unchanged. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The target path to navigate to. </td></tr>
+    <tr><td class="paramname">path</td><td>The target path of the navigation. </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Reimplemented in <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#ab83edf561b68ad326bf4b5661891ebd1">Provider::MediaServer::Source</a>.</p>
 
 </div>
 </div>
@@ -345,6 +636,33 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1618c44f6854266f25a4c6fb99650b12" name="a1618c44f6854266f25a4c6fb99650b12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1618c44f6854266f25a4c6fb99650b12">&#9670;&#160;</a></span>setTotalItemCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Multimedia::Source::setTotalItemCount </td>
+          <td>(</td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>count</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the total number of Items in the current Container, as reported by a paged <a class="el" href="classMultimedia_1_1Source.html">Source</a>. </p>
+
+</div>
+</div>
 <a id="afbb9eeef3718e7b60fd1b8539154433d" name="afbb9eeef3718e7b60fd1b8539154433d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afbb9eeef3718e7b60fd1b8539154433d">&#9670;&#160;</a></span>sourceName()</h2>
 
@@ -368,6 +686,32 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Disable copy and move Gives the name of the source as human readable version. </p><dl class="section return"><dt>Returns</dt><dd>The name of the source. </dd></dl>
+
+</div>
+</div>
+<a id="af6a2276ed089b468fe1770410a0cc598" name="af6a2276ed089b468fe1770410a0cc598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6a2276ed089b468fe1770410a0cc598">&#9670;&#160;</a></span>totalItemCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qsizetype Multimedia::Source::totalItemCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the total number of Items in the current Container, as last reported by the <a class="el" href="classMultimedia_1_1Source.html">Source</a>. It is never less than the number of loaded <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a>. </p>
 
 </div>
 </div>

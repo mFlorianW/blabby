@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['browseflag_0',['BrowseFlag',['../classUPnPAV_1_1MediaServer.html#a66c0bddd952f8d41a6520bfbc47c1b43',1,'UPnPAV::MediaServer']]]
+  ['action_0',['Action',['../classMultimedia_1_1Renderer.html#a4186bcdf35c4f8fb0f64980f436489f3',1,'Multimedia::Renderer']]],
+  ['availability_1',['Availability',['../classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80',1,'Multimedia::Renderer']]]
 ];

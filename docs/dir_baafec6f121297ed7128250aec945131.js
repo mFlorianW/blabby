@@ -2,6 +2,7 @@ var dir_baafec6f121297ed7128250aec945131 =
 [
     [ "private", "dir_71536ca68254924bc0296813f8800c30.html", "dir_71536ca68254924bc0296813f8800c30" ],
     [ "BrowseResponse.hpp", "BrowseResponse_8hpp_source.html", null ],
+    [ "Clock.hpp", "Clock_8hpp_source.html", null ],
     [ "DescriptionFetcherBackend.hpp", "DescriptionFetcherBackend_8hpp_source.html", null ],
     [ "DeviceDescription.hpp", "DeviceDescription_8hpp_source.html", null ],
     [ "EventBackend.hpp", "EventBackend_8hpp_source.html", null ],
@@ -9,6 +10,7 @@ var dir_baafec6f121297ed7128250aec945131 =
     [ "GetCurrentConnectionInfoResponse.hpp", "GetCurrentConnectionInfoResponse_8hpp_source.html", null ],
     [ "GetDeviceCapabilitiesResponse.hpp", "GetDeviceCapabilitiesResponse_8hpp_source.html", null ],
     [ "GetMediaInfoResponse.hpp", "GetMediaInfoResponse_8hpp_source.html", null ],
+    [ "GetMuteResponse.hpp", "GetMuteResponse_8hpp_source.html", null ],
     [ "GetPositionInfoResponse.hpp", "GetPositionInfoResponse_8hpp_source.html", null ],
     [ "GetProtocolInfoResponse.hpp", "GetProtocolInfoResponse_8hpp_source.html", null ],
     [ "GetTransportInfoResponse.hpp", "GetTransportInfoResponse_8hpp_source.html", null ],

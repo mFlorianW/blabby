@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -114,8 +118,8 @@ $(document).ready(function(){initNavTree('MediaSourceModel_8hpp_source.html','')
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021-2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: GPL-2.0-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
@@ -142,51 +146,55 @@ $(document).ready(function(){initNavTree('MediaSourceModel_8hpp_source.html','')
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    {</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        MediaSourceName = Qt::UserRole + 1,</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        MediaSourceIocnUrl,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    };</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <a class="code hl_enumvalue" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d">Active</a>,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    };</div>
 </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <a class="code hl_class" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a>(std::unique_ptr&lt;Multimedia::ProviderLoader&gt; providerLoader);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">   52</a></span>    <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">~MediaSourceModel</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a>)</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a819f49e325a550ceb45ffa020bd02b3b">rowCount</a>(QModelIndex <span class="keyword">const</span>&amp; parent = QModelIndex()) const noexcept override;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    QHash&lt;<span class="keywordtype">int</span>, QByteArray&gt; <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b">roleNames</a>() const noexcept override;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    QVariant <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a7bd6b8c16b57eec97decb7c1eb743bd8">data</a>(QModelIndex const&amp; index, <span class="keywordtype">int</span> role = Qt::<a class="code hl_enumeration" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b">DisplayRole</a>) const noexcept override;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">activateMediaSource</a>(qsizetype idx);</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#af3008da4e4e3cbcca26e9737d59bed63">   92</a></span>    std::shared_ptr&lt;Multimedia::Source&gt; <a class="code hl_property" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a>();</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">   98</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">activeMediaSourceChanged</a>();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>private Q_SLOTS:</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">void</span> onSourceAdded(std::shared_ptr&lt;Multimedia::Source&gt; const&amp; source) noexcept;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">void</span> onSourceRemoved(std::shared_ptr&lt;Multimedia::Source&gt; const&amp; source) noexcept;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>private:</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    std::unique_ptr&lt;Multimedia::ProviderLoader&gt; mProviderLoader;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    Multimedia::Providers mProviders;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    Multimedia::MediaSources mSources;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    std::shared_ptr&lt;Multimedia::Source&gt; mActiveSource{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>};</div>
-</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a>(Multimedia::Providers providers);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">   56</a></span>    <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">~MediaSourceModel</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a>)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a819f49e325a550ceb45ffa020bd02b3b">rowCount</a>(QModelIndex <span class="keyword">const</span>&amp; parent = QModelIndex()) const noexcept override;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    QHash&lt;<span class="keywordtype">int</span>, QByteArray&gt; <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b">roleNames</a>() const noexcept override;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    QVariant <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#a7bd6b8c16b57eec97decb7c1eb743bd8">data</a>(QModelIndex const&amp; index, <span class="keywordtype">int</span> role = Qt::<a class="code hl_enumeration" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b">DisplayRole</a>) const noexcept override;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">activateMediaSource</a>(qsizetype idx);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#af3008da4e4e3cbcca26e9737d59bed63">   97</a></span>    std::shared_ptr&lt;Multimedia::Source&gt; <a class="code hl_property" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">  103</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">activeMediaSourceChanged</a>();</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classShell_1_1MediaSourceModel.html#a26fe7c6011ab39ecd17710884bff34dd">  109</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classShell_1_1MediaSourceModel.html#a26fe7c6011ab39ecd17710884bff34dd">activeMediaSourceDisappeared</a>(QString const&amp; sourceName);</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>} <span class="comment">// namespace Shell</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>private Q_SLOTS:</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordtype">void</span> onSourceAdded(std::shared_ptr&lt;Multimedia::Source&gt; const&amp; source) noexcept;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">void</span> onSourceRemoved(std::shared_ptr&lt;Multimedia::Source&gt; const&amp; source) noexcept;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>private:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    Multimedia::Providers mProviders;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    Multimedia::MediaSources mSources;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    std::shared_ptr&lt;Multimedia::Source&gt; mActiveSource{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>};</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>} <span class="comment">// namespace Shell</span></div>
 <div class="ttc" id="aclassShell_1_1MediaSourceModel_html"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html">Shell::MediaSourceModel</a></div><div class="ttdef"><b>Definition</b> MediaSourceModel.hpp:22</div></div>
-<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a5adba29cc13ed125d518c4704b3a748b"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b">Shell::MediaSourceModel::roleNames</a></div><div class="ttdeci">QHash&lt; int, QByteArray &gt; roleNames() const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:42</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a26fe7c6011ab39ecd17710884bff34dd"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a26fe7c6011ab39ecd17710884bff34dd">Shell::MediaSourceModel::activeMediaSourceDisappeared</a></div><div class="ttdeci">void activeMediaSourceDisappeared(QString const &amp;sourceName)</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a5adba29cc13ed125d518c4704b3a748b"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a5adba29cc13ed125d518c4704b3a748b">Shell::MediaSourceModel::roleNames</a></div><div class="ttdeci">QHash&lt; int, QByteArray &gt; roleNames() const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:33</div></div>
 <div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a5ed8262766b9b67dfd728588292065a5"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">Shell::MediaSourceModel::activeMediaSource</a></div><div class="ttdeci">std::shared_ptr&lt; Multimedia::Source &gt; activeMediaSource</div><div class="ttdef"><b>Definition</b> MediaSourceModel.hpp:31</div></div>
 <div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a609f09db58fb5a305011e4014abe70e1"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">Shell::MediaSourceModel::~MediaSourceModel</a></div><div class="ttdeci">~MediaSourceModel() override</div></div>
 <div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a76564a2801c44ec3062c6a08a118784b"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b">Shell::MediaSourceModel::DisplayRole</a></div><div class="ttdeci">DisplayRole</div><div class="ttdef"><b>Definition</b> MediaSourceModel.hpp:38</div></div>
-<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a7bd6b8c16b57eec97decb7c1eb743bd8"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a7bd6b8c16b57eec97decb7c1eb743bd8">Shell::MediaSourceModel::data</a></div><div class="ttdeci">QVariant data(QModelIndex const &amp;index, int role=Qt::DisplayRole) const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:51</div></div>
-<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a819f49e325a550ceb45ffa020bd02b3b"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a819f49e325a550ceb45ffa020bd02b3b">Shell::MediaSourceModel::rowCount</a></div><div class="ttdeci">int rowCount(QModelIndex const &amp;parent=QModelIndex()) const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:36</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d">Shell::MediaSourceModel::DisplayRole::Active</a></div><div class="ttdeci">@ Active</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a7bd6b8c16b57eec97decb7c1eb743bd8"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a7bd6b8c16b57eec97decb7c1eb743bd8">Shell::MediaSourceModel::data</a></div><div class="ttdeci">QVariant data(QModelIndex const &amp;index, int role=Qt::DisplayRole) const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:43</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a819f49e325a550ceb45ffa020bd02b3b"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a819f49e325a550ceb45ffa020bd02b3b">Shell::MediaSourceModel::rowCount</a></div><div class="ttdeci">int rowCount(QModelIndex const &amp;parent=QModelIndex()) const noexcept override</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:27</div></div>
 <div class="ttc" id="aclassShell_1_1MediaSourceModel_html_a916c9a1f77c5a80a0723e73c2452cb5a"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">Shell::MediaSourceModel::activeMediaSourceChanged</a></div><div class="ttdeci">void activeMediaSourceChanged()</div></div>
-<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_ad10f835c56381114a2c019715c0a3661"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">Shell::MediaSourceModel::activateMediaSource</a></div><div class="ttdeci">Q_INVOKABLE void activateMediaSource(qsizetype idx)</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:70</div></div>
+<div class="ttc" id="aclassShell_1_1MediaSourceModel_html_ad10f835c56381114a2c019715c0a3661"><div class="ttname"><a href="classShell_1_1MediaSourceModel.html#ad10f835c56381114a2c019715c0a3661">Shell::MediaSourceModel::activateMediaSource</a></div><div class="ttdeci">Q_INVOKABLE void activateMediaSource(qsizetype idx)</div><div class="ttdef"><b>Definition</b> MediaSourceModel.cpp:64</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

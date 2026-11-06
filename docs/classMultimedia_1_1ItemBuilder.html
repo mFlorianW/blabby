@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -122,12 +126,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5f6c9398f0dcc243dfa01690592438fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67d345249bc06eb6f1570535e97e8fc7" id="r_a67d345249bc06eb6f1570535e97e8fc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a67d345249bc06eb6f1570535e97e8fc7">withSecondaryText</a> (QString const &amp;text) noexcept</td></tr>
 <tr class="separator:a67d345249bc06eb6f1570535e97e8fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e43f0a777bc8a9de65df3de8de3496b" id="r_a9e43f0a777bc8a9de65df3de8de3496b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a9e43f0a777bc8a9de65df3de8de3496b">withIconUrl</a> (QString const &amp;iconUrl) noexcept</td></tr>
-<tr class="separator:a9e43f0a777bc8a9de65df3de8de3496b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb3475748fdffaf71dd8fbf780df79a" id="r_adcb3475748fdffaf71dd8fbf780df79a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#adcb3475748fdffaf71dd8fbf780df79a">withArtworkUrl</a> (QString const &amp;artworkUrl) noexcept</td></tr>
+<tr class="separator:adcb3475748fdffaf71dd8fbf780df79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d626754a1b993f78ffaf3fb81bcd68c" id="r_a5d626754a1b993f78ffaf3fb81bcd68c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a5d626754a1b993f78ffaf3fb81bcd68c">withPath</a> (QString const &amp;path) noexcept</td></tr>
 <tr class="separator:a5d626754a1b993f78ffaf3fb81bcd68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31401309f6ec45656d9ad5371dafd879" id="r_a31401309f6ec45656d9ad5371dafd879"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a31401309f6ec45656d9ad5371dafd879">withPlayUrl</a> (QString const &amp;playUrl) noexcept</td></tr>
 <tr class="separator:a31401309f6ec45656d9ad5371dafd879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ab79c9df4bcab53a90266066fbbd8ab" id="r_a7ab79c9df4bcab53a90266066fbbd8ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a7ab79c9df4bcab53a90266066fbbd8ab">withAlbum</a> (QString const &amp;album) noexcept</td></tr>
+<tr class="separator:a7ab79c9df4bcab53a90266066fbbd8ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc28e662c64d34b45da64cc53e2ddb13" id="r_adc28e662c64d34b45da64cc53e2ddb13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#adc28e662c64d34b45da64cc53e2ddb13">withAlbumArtist</a> (QString const &amp;albumArtist) noexcept</td></tr>
+<tr class="separator:adc28e662c64d34b45da64cc53e2ddb13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55905519a11492e6c5a59263fed61286" id="r_a55905519a11492e6c5a59263fed61286"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a55905519a11492e6c5a59263fed61286">withDuration</a> (std::optional&lt; std::chrono::milliseconds &gt; duration) noexcept</td></tr>
+<tr class="separator:a55905519a11492e6c5a59263fed61286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9fbe9df088ceb9fc7ce5d0bcf45c411" id="r_ab9fbe9df088ceb9fc7ce5d0bcf45c411"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#ab9fbe9df088ceb9fc7ce5d0bcf45c411">withSupportedTypes</a> (QVector&lt; <a class="el" href="structUPnPAV_1_1Protocol.html">UPnPAV::Protocol</a> &gt; const &amp;supportedTypes)</td></tr>
 <tr class="separator:ab9fbe9df088ceb9fc7ce5d0bcf45c411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2903b5c57881dc6629637607e3ac1d25" id="r_a2903b5c57881dc6629637607e3ac1d25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMultimedia_1_1Item.html">Item</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a2903b5c57881dc6629637607e3ac1d25">build</a> () noexcept</td></tr>
@@ -162,8 +172,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9e43f0a777bc8a9de65df3de8de3496b" name="a9e43f0a777bc8a9de65df3de8de3496b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e43f0a777bc8a9de65df3de8de3496b">&#9670;&#160;</a></span>withIconUrl()</h2>
+<a id="a7ab79c9df4bcab53a90266066fbbd8ab" name="a7ab79c9df4bcab53a90266066fbbd8ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ab79c9df4bcab53a90266066fbbd8ab">&#9670;&#160;</a></span>withAlbum()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,10 +182,10 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp; Multimedia::ItemBuilder::withIconUrl </td>
+          <td class="memname"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp; Multimedia::ItemBuilder::withAlbum </td>
           <td>(</td>
           <td class="paramtype">QString const &amp;&#160;</td>
-          <td class="paramname"><em>iconUrl</em></td><td>)</td>
+          <td class="paramname"><em>album</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -185,9 +195,108 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets the icon URL of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Sets the album of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">iconUrl</td><td>The icon URL of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </td></tr>
+    <tr><td class="paramname">album</td><td>The album of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a> for chaining. </dd></dl>
+
+</div>
+</div>
+<a id="adc28e662c64d34b45da64cc53e2ddb13" name="adc28e662c64d34b45da64cc53e2ddb13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc28e662c64d34b45da64cc53e2ddb13">&#9670;&#160;</a></span>withAlbumArtist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp; Multimedia::ItemBuilder::withAlbumArtist </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>albumArtist</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the Album Artist of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">albumArtist</td><td>The Album Artist of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a> for chaining. </dd></dl>
+
+</div>
+</div>
+<a id="adcb3475748fdffaf71dd8fbf780df79a" name="adcb3475748fdffaf71dd8fbf780df79a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb3475748fdffaf71dd8fbf780df79a">&#9670;&#160;</a></span>withArtworkUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp; Multimedia::ItemBuilder::withArtworkUrl </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>artworkUrl</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the artwork URL of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">artworkUrl</td><td>The artwork URL of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the <a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a> for chaining. </dd></dl>
+
+</div>
+</div>
+<a id="a55905519a11492e6c5a59263fed61286" name="a55905519a11492e6c5a59263fed61286"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55905519a11492e6c5a59263fed61286">&#9670;&#160;</a></span>withDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMultimedia_1_1ItemBuilder.html">ItemBuilder</a> &amp; Multimedia::ItemBuilder::withDuration </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; std::chrono::milliseconds &gt;&#160;</td>
+          <td class="paramname"><em>duration</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the playing time of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">duration</td><td>The duration of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>, unset when unknown. </td></tr>
   </table>
   </dd>
 </dl>

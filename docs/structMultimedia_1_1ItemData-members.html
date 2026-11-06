@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -112,14 +116,17 @@ $(document).ready(function(){initNavTree('structMultimedia_1_1ItemData.html','')
 <p>This is the complete list of members for <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>, including all inherited members.</p>
 <table class="directory">
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ItemData</b>()=default (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ItemData</b>(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString iconUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;)) (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mIconUrl</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mMainText</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mPath</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mPlayUrl</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mSecondaryText</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mSupportedTypes</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mType</b> (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ItemData</b>(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString artworkUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;)) (defined in <a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemData.html">Multimedia::ItemData</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mAlbum</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mAlbumArtist</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mArtworkUrl</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mDuration</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mMainText</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mPath</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mPlayUrl</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mSecondaryText</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mSupportedTypes</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mType</b> (defined in <a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a>)</td><td class="entry"><a class="el" href="structMultimedia_1_1ItemValues.html">Multimedia::ItemValues</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

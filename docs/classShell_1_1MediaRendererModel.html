@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -125,9 +129,16 @@ Inheritance diagram for Shell::MediaRendererModel:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:acc68d20a68aebfba366fbce20b5cbccb" id="r_acc68d20a68aebfba366fbce20b5cbccb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccb">DisplayRole</a> { <b>MediaRendererTitle</b> = Qt::UserRole + 1
-, <b>MediaRendererIconUrl</b>
-, <b>MediaRendererActive</b>
+<tr class="memitem:acc68d20a68aebfba366fbce20b5cbccb" id="r_acc68d20a68aebfba366fbce20b5cbccb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccb">DisplayRole</a> { <br />
+&#160;&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987">Name</a> = Qt::UserRole + 1
+, <a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba31aada1bda70b321b2ddbfda587ba8ee">PlaybackState</a>
+, <a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba4d3d769b812b6faa6b76e1a8abaece2d">Active</a>
+, <a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbac0bd7654d5b278e65f21cf4e9153fdb4">Manufacturer</a>
+, <br />
+&#160;&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba435ee8813bc7717bd97322706f6ee5f7">ModelName</a>
+, <a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbadd7bf230fde8d4836917806aff6a6b27">Address</a>
+, <a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccbafaeaec9eda6bc4c8cb6e1a9156a858be">Availability</a>
+<br />
  }</td></tr>
 <tr class="separator:acc68d20a68aebfba366fbce20b5cbccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -135,11 +146,13 @@ Public Types</h2></td></tr>
 Signals</h2></td></tr>
 <tr class="memitem:afe3283e5585fbb6d48ecdf8615aeeb28" id="r_afe3283e5585fbb6d48ecdf8615aeeb28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#afe3283e5585fbb6d48ecdf8615aeeb28">activeRendererChanged</a> ()</td></tr>
 <tr class="separator:afe3283e5585fbb6d48ecdf8615aeeb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95783d4ab96f012c824c87ae650b16f9" id="r_a95783d4ab96f012c824c87ae650b16f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a95783d4ab96f012c824c87ae650b16f9">scanningChanged</a> ()</td></tr>
+<tr class="separator:a95783d4ab96f012c824c87ae650b16f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3993d67f3e0dfd9de860853ddc216784" id="r_a3993d67f3e0dfd9de860853ddc216784"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a3993d67f3e0dfd9de860853ddc216784">MediaRendererModel</a> (std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a> &gt; provider)</td></tr>
-<tr class="separator:a3993d67f3e0dfd9de860853ddc216784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d6c6d0f078c124140a77534ae00152a" id="r_a1d6c6d0f078c124140a77534ae00152a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a1d6c6d0f078c124140a77534ae00152a">MediaRendererModel</a> (std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a> &gt; provider, std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt; settings)</td></tr>
+<tr class="separator:a1d6c6d0f078c124140a77534ae00152a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abeab4719a74a487e2b6169340a9865e1" id="r_abeab4719a74a487e2b6169340a9865e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1">~MediaRendererModel</a> () override</td></tr>
 <tr class="separator:abeab4719a74a487e2b6169340a9865e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad54151ff324444346aab0b8960f2ae3b" id="r_ad54151ff324444346aab0b8960f2ae3b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#ad54151ff324444346aab0b8960f2ae3b">rowCount</a> (QModelIndex const &amp;parent=QModelIndex{}) const noexcept override</td></tr>
@@ -152,14 +165,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a107372237f31cb44ec30ae5162012cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a14290a7f475ea264cdc9fb1927bc4f" id="r_a7a14290a7f475ea264cdc9fb1927bc4f"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a7a14290a7f475ea264cdc9fb1927bc4f">activateRenderer</a> (QModelIndex const &amp;index)</td></tr>
 <tr class="separator:a7a14290a7f475ea264cdc9fb1927bc4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad56cf66f8ef043f60c6d34cf31f0305f" id="r_ad56cf66f8ef043f60c6d34cf31f0305f"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#ad56cf66f8ef043f60c6d34cf31f0305f">forgetRenderer</a> (QModelIndex const &amp;index)</td></tr>
+<tr class="separator:ad56cf66f8ef043f60c6d34cf31f0305f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7599c2072e511adb123efc8edb4dccaa" id="r_a7599c2072e511adb123efc8edb4dccaa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a7599c2072e511adb123efc8edb4dccaa">isScanning</a> () const noexcept</td></tr>
+<tr class="separator:a7599c2072e511adb123efc8edb4dccaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834dfd410e16cd4e6146a276fef6e019" id="r_a834dfd410e16cd4e6146a276fef6e019"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#a834dfd410e16cd4e6146a276fef6e019">rescan</a> ()</td></tr>
+<tr class="separator:a834dfd410e16cd4e6146a276fef6e019"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:ac9ccdebb5eef880dc2b37c3a6bc0732c" id="r_ac9ccdebb5eef880dc2b37c3a6bc0732c"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#ac9ccdebb5eef880dc2b37c3a6bc0732c">activeRenderer</a></td></tr>
 <tr class="separator:ac9ccdebb5eef880dc2b37c3a6bc0732c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af79d1c3c5810d51f53c96d36a1f00dd4" id="r_af79d1c3c5810d51f53c96d36a1f00dd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaRendererModel.html#af79d1c3c5810d51f53c96d36a1f00dd4">scanning</a></td></tr>
+<tr class="separator:af79d1c3c5810d51f53c96d36a1f00dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This model provides a list based access to all discovered UPnPAV MediaRenderers on the network. </p>
+<div class="textblock"><p>This model provides a list based access to all known <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>, Online and Offline. The Online <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> come before the Offline ones, each ordered alphabetically by name. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="acc68d20a68aebfba366fbce20b5cbccb" name="acc68d20a68aebfba366fbce20b5cbccb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc68d20a68aebfba366fbce20b5cbccb">&#9670;&#160;</a></span>DisplayRole</h2>
@@ -181,12 +202,28 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>DisplayRole definitions for the UI </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987" name="acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987"></a>Name&#160;</td><td class="fielddoc"><p>The name of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccba31aada1bda70b321b2ddbfda587ba8ee" name="acc68d20a68aebfba366fbce20b5cbccba31aada1bda70b321b2ddbfda587ba8ee"></a>PlaybackState&#160;</td><td class="fielddoc"><p>The Playback State of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> as integer value of <a class="el" href="classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258c">Multimedia::Renderer::State</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccba4d3d769b812b6faa6b76e1a8abaece2d" name="acc68d20a68aebfba366fbce20b5cbccba4d3d769b812b6faa6b76e1a8abaece2d"></a>Active&#160;</td><td class="fielddoc"><p>True when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is the Active Renderer. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccbac0bd7654d5b278e65f21cf4e9153fdb4" name="acc68d20a68aebfba366fbce20b5cbccbac0bd7654d5b278e65f21cf4e9153fdb4"></a>Manufacturer&#160;</td><td class="fielddoc"><p>The manufacturer of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>, empty when the device doesn't name one. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccba435ee8813bc7717bd97322706f6ee5f7" name="acc68d20a68aebfba366fbce20b5cbccba435ee8813bc7717bd97322706f6ee5f7"></a>ModelName&#160;</td><td class="fielddoc"><p>The model name of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>, empty when the device doesn't name one. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccbadd7bf230fde8d4836917806aff6a6b27" name="acc68d20a68aebfba366fbce20b5cbccbadd7bf230fde8d4836917806aff6a6b27"></a>Address&#160;</td><td class="fielddoc"><p>The network address of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>, empty when it is unknown. The last known address for an Offline <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acc68d20a68aebfba366fbce20b5cbccbafaeaec9eda6bc4c8cb6e1a9156a858be" name="acc68d20a68aebfba366fbce20b5cbccbafaeaec9eda6bc4c8cb6e1a9156a858be"></a>Availability&#160;</td><td class="fielddoc"><p>The Availability of the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> as integer value of <a class="el" href="classMultimedia_1_1Renderer.html#a3725fae1adea71b5df0fcc5909bbba80">Multimedia::Renderer::Availability</a>. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3993d67f3e0dfd9de860853ddc216784" name="a3993d67f3e0dfd9de860853ddc216784"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3993d67f3e0dfd9de860853ddc216784">&#9670;&#160;</a></span>MediaRendererModel()</h2>
+<a id="a1d6c6d0f078c124140a77534ae00152a" name="a1d6c6d0f078c124140a77534ae00152a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d6c6d0f078c124140a77534ae00152a">&#9670;&#160;</a></span>MediaRendererModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,14 +232,25 @@ Properties</h2></td></tr>
           <td class="memname">Shell::MediaRendererModel::MediaRendererModel </td>
           <td>(</td>
           <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1RendererProvider.html">Multimedia::RendererProvider</a> &gt;&#160;</td>
-          <td class="paramname"><em>provider</em></td><td>)</td>
+          <td class="paramname"><em>provider</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classShell_1_1SettingsStore.html">SettingsStore</a> &gt;&#160;</td>
+          <td class="paramname"><em>settings</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates an instance of the <a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Creates an instance of the <a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a>. The model starts with the known <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> of the provider. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">provider</td><td>The provider to handle connected and diconnected <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a>. </td></tr>
+    <tr><td class="paramname">settings</td><td>The settings that keep the Renderer the user last picked and whether it's activated again. </td></tr>
   </table>
   </dd>
 </dl>
@@ -251,7 +299,7 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Marks the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> under the passed QModelIndex as active. Active means in this case that the renderer is used for playback. If the index is invalid or not <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> was found for that index nothing happens. </p>
+<p>Makes the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> under the passed QModelIndex the Active Renderer. Active means in this case that the renderer is used for playback. The playback of the previous Active Renderer is not touched. If the index is invalid, the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is Offline or already active nothing happens. </p>
 
 </div>
 </div>
@@ -303,7 +351,7 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This signal is emitted when the active <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is changed with Multimedia::activeRendererChanged. </p>
+<p>This signal is emitted when the Active Renderer is changed or cleared. </p>
 
 </div>
 </div>
@@ -348,6 +396,69 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A QVariant with the stored data or empty QVariant for an invalid index or role parameter. </dd></dl>
+
+</div>
+</div>
+<a id="ad56cf66f8ef043f60c6d34cf31f0305f" name="ad56cf66f8ef043f60c6d34cf31f0305f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad56cf66f8ef043f60c6d34cf31f0305f">&#9670;&#160;</a></span>forgetRenderer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaRendererModel::forgetRenderer </td>
+          <td>(</td>
+          <td class="paramtype">QModelIndex const &amp;&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Forgets the Offline <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> under the passed QModelIndex, it's removed from the remembered Renderers and from the model. When it's discovered again it's listed as a newly seen Renderer. If the index is invalid or the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is Online nothing happens. </p>
+
+</div>
+</div>
+<a id="a7599c2072e511adb123efc8edb4dccaa" name="a7599c2072e511adb123efc8edb4dccaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7599c2072e511adb123efc8edb4dccaa">&#9670;&#160;</a></span>isScanning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaRendererModel::isScanning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true while a discovery of <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is running. </p>
+
+</div>
+</div>
+<a id="a834dfd410e16cd4e6146a276fef6e019" name="a834dfd410e16cd4e6146a276fef6e019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a834dfd410e16cd4e6146a276fef6e019">&#9670;&#160;</a></span>rescan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaRendererModel::rescan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Starts a new discovery of <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> on the network. Nothing happens while a discovery is already running. </p>
 
 </div>
 </div>
@@ -404,6 +515,32 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="a95783d4ab96f012c824c87ae650b16f9" name="a95783d4ab96f012c824c87ae650b16f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95783d4ab96f012c824c87ae650b16f9">&#9670;&#160;</a></span>scanningChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaRendererModel::scanningChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when a discovery starts or ends. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Property Documentation</h2>
 <a id="ac9ccdebb5eef880dc2b37c3a6bc0732c" name="ac9ccdebb5eef880dc2b37c3a6bc0732c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac9ccdebb5eef880dc2b37c3a6bc0732c">&#9670;&#160;</a></span>activeRenderer</h2>
@@ -424,7 +561,30 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This property holds the active <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> for playback. The active <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is set via the <a class="el" href="classShell_1_1MediaRendererModel.html#a7a14290a7f475ea264cdc9fb1927bc4f">MediaRendererModel::activateRenderer</a> </p>
+<p>This property holds the Active Renderer, the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> that is used for playback. The Active Renderer is set via the <a class="el" href="classShell_1_1MediaRendererModel.html#a7a14290a7f475ea264cdc9fb1927bc4f">MediaRendererModel::activateRenderer</a> and is nullptr until a <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> is activated or when the Active Renderer goes Offline. </p>
+
+</div>
+</div>
+<a id="af79d1c3c5810d51f53c96d36a1f00dd4" name="af79d1c3c5810d51f53c96d36a1f00dd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af79d1c3c5810d51f53c96d36a1f00dd4">&#9670;&#160;</a></span>scanning</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaRendererModel::scanning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property is true while a discovery of <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> on the network is running. A discovery is started on creation and by <a class="el" href="classShell_1_1MediaRendererModel.html#a834dfd410e16cd4e6146a276fef6e019">MediaRendererModel::rescan</a> and ends when the <a class="el" href="classMultimedia_1_1Renderer.html">Multimedia::Renderer</a> on the network had the time to answer it. </p>
 
 </div>
 </div>

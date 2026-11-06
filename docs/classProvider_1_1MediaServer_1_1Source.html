@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -108,6 +112,7 @@ $(document).ready(function(){initNavTree('classProvider_1_1MediaServer_1_1Source
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classProvider_1_1MediaServer_1_1Source-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Provider::MediaServer::Source Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div></div>
 </div><!--header-->
@@ -128,8 +133,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa71f5778c88be647b0ed5d142013d1ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac05eb4ac70f31f8b24d4f05a4bcff9f0" id="r_ac05eb4ac70f31f8b24d4f05a4bcff9f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">~Source</a> () override</td></tr>
 <tr class="separator:ac05eb4ac70f31f8b24d4f05a4bcff9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab83edf561b68ad326bf4b5661891ebd1" id="r_ab83edf561b68ad326bf4b5661891ebd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServer_1_1Source.html#ab83edf561b68ad326bf4b5661891ebd1">navigateTo</a> (QString const &amp;path) noexcept override</td></tr>
-<tr class="separator:ab83edf561b68ad326bf4b5661891ebd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e4db2fbee6c3bf4b483f325f7cb217" id="r_a70e4db2fbee6c3bf4b483f325f7cb217"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a70e4db2fbee6c3bf4b483f325f7cb217">loadMore</a> () noexcept override</td></tr>
+<tr class="separator:a70e4db2fbee6c3bf4b483f325f7cb217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4958f039b465eb1ceaf0bc7dbe5d4ce1" id="r_a4958f039b465eb1ceaf0bc7dbe5d4ce1"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1PendingPage.html">Multimedia::PendingPage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a4958f039b465eb1ceaf0bc7dbe5d4ce1">browsePage</a> (QString const &amp;path, qsizetype startIndex) noexcept override</td></tr>
+<tr class="separator:a4958f039b465eb1ceaf0bc7dbe5d4ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classMultimedia_1_1Source"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classMultimedia_1_1Source')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a></td></tr>
 <tr class="memitem:a7588883a6f3c0e9b3ebcfbeea54b7dd1 inherit pub_methods_classMultimedia_1_1Source" id="r_a7588883a6f3c0e9b3ebcfbeea54b7dd1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">~Source</a> () override</td></tr>
 <tr class="separator:a7588883a6f3c0e9b3ebcfbeea54b7dd1 inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,21 +146,39 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab2ea350976dd9eb4d79562fdcc72318e inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6332ca61cb9039d64a45e5b0087c57a inherit pub_methods_classMultimedia_1_1Source" id="r_ae6332ca61cb9039d64a45e5b0087c57a"><td class="memItemLeft" align="right" valign="top">Items const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems</a> () const noexcept</td></tr>
 <tr class="separator:ae6332ca61cb9039d64a45e5b0087c57a inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cfbe77795ca2b56f035cfcf4cb62e8e inherit pub_methods_classMultimedia_1_1Source" id="r_a0cfbe77795ca2b56f035cfcf4cb62e8e"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>navigateBack</b> () noexcept</td></tr>
-<tr class="separator:a0cfbe77795ca2b56f035cfcf4cb62e8e inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a2276ed089b468fe1770410a0cc598 inherit pub_methods_classMultimedia_1_1Source" id="r_af6a2276ed089b468fe1770410a0cc598"><td class="memItemLeft" align="right" valign="top">qsizetype&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#af6a2276ed089b468fe1770410a0cc598">totalItemCount</a> () const noexcept</td></tr>
+<tr class="separator:af6a2276ed089b468fe1770410a0cc598 inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6931f91234149506c427e5c4bc2ee7da inherit pub_methods_classMultimedia_1_1Source" id="r_a6931f91234149506c427e5c4bc2ee7da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a6931f91234149506c427e5c4bc2ee7da">canLoadMore</a> () const noexcept</td></tr>
+<tr class="separator:a6931f91234149506c427e5c4bc2ee7da inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ad98fb29cd5c30c6370f609b241037 inherit pub_methods_classMultimedia_1_1Source" id="r_af7ad98fb29cd5c30c6370f609b241037"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#af7ad98fb29cd5c30c6370f609b241037">navigateTo</a> (QString const &amp;path, qsizetype minimumItemCount=0) noexcept</td></tr>
+<tr class="separator:af7ad98fb29cd5c30c6370f609b241037 inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a934b589b2d86c3589ee5031fe7497195 inherit pub_methods_classMultimedia_1_1Source" id="r_a934b589b2d86c3589ee5031fe7497195"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a934b589b2d86c3589ee5031fe7497195">navigateBack</a> (qsizetype minimumItemCount=0) noexcept</td></tr>
+<tr class="separator:a934b589b2d86c3589ee5031fe7497195 inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad766e5b1f390290f0a0043f89bed07e inherit pub_methods_classMultimedia_1_1Source" id="r_aad766e5b1f390290f0a0043f89bed07e"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>navigateForward</b> () noexcept</td></tr>
 <tr class="separator:aad766e5b1f390290f0a0043f89bed07e inherit pub_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a62a1c5933a21aff745c58d60ee462435" id="r_a62a1c5933a21aff745c58d60ee462435"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a62a1c5933a21aff745c58d60ee462435">navigate</a> (QString const &amp;path, qsizetype minimumItemCount) noexcept override</td></tr>
+<tr class="separator:a62a1c5933a21aff745c58d60ee462435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classMultimedia_1_1Source"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classMultimedia_1_1Source')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a></td></tr>
+<tr class="memitem:a37d03a794c584453523cdf271dfd4d15 inherit pro_methods_classMultimedia_1_1Source" id="r_a37d03a794c584453523cdf271dfd4d15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15">Source</a> (QString <a class="el" href="classMultimedia_1_1Source.html#afbb9eeef3718e7b60fd1b8539154433d">sourceName</a>, QString <a class="el" href="classMultimedia_1_1Source.html#ab2ea350976dd9eb4d79562fdcc72318e">iconUrl</a>=QString{&quot;&quot;})</td></tr>
+<tr class="separator:a37d03a794c584453523cdf271dfd4d15 inherit pro_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1618c44f6854266f25a4c6fb99650b12 inherit pro_methods_classMultimedia_1_1Source" id="r_a1618c44f6854266f25a4c6fb99650b12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a1618c44f6854266f25a4c6fb99650b12">setTotalItemCount</a> (qsizetype count) noexcept</td></tr>
+<tr class="separator:a1618c44f6854266f25a4c6fb99650b12 inherit pro_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header signals_classMultimedia_1_1Source"><td colspan="2" onclick="javascript:toggleInherit('signals_classMultimedia_1_1Source')"><img src="closed.png" alt="-"/>&#160;Signals inherited from <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a></td></tr>
 <tr class="memitem:a097f1fd97693da316359eb6bf7e8f806 inherit signals_classMultimedia_1_1Source" id="r_a097f1fd97693da316359eb6bf7e8f806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a097f1fd97693da316359eb6bf7e8f806">navigationFinished</a> (QString const &amp;path)</td></tr>
 <tr class="separator:a097f1fd97693da316359eb6bf7e8f806 inherit signals_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classMultimedia_1_1Source"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classMultimedia_1_1Source')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a></td></tr>
-<tr class="memitem:a37d03a794c584453523cdf271dfd4d15 inherit pro_methods_classMultimedia_1_1Source" id="r_a37d03a794c584453523cdf271dfd4d15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a37d03a794c584453523cdf271dfd4d15">Source</a> (QString <a class="el" href="classMultimedia_1_1Source.html#afbb9eeef3718e7b60fd1b8539154433d">sourceName</a>, QString <a class="el" href="classMultimedia_1_1Source.html#ab2ea350976dd9eb4d79562fdcc72318e">iconUrl</a>=QString{&quot;&quot;})</td></tr>
-<tr class="separator:a37d03a794c584453523cdf271dfd4d15 inherit pro_methods_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a3e9044d043f6f58d7a5c9232d0cf1 inherit signals_classMultimedia_1_1Source" id="r_a13a3e9044d043f6f58d7a5c9232d0cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a13a3e9044d043f6f58d7a5c9232d0cf1">navigationFailed</a> (QString const &amp;path)</td></tr>
+<tr class="separator:a13a3e9044d043f6f58d7a5c9232d0cf1 inherit signals_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8299ffd0ead5c84548fb3216e0058e4a inherit signals_classMultimedia_1_1Source" id="r_a8299ffd0ead5c84548fb3216e0058e4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a8299ffd0ead5c84548fb3216e0058e4a">moreItemsLoaded</a> ()</td></tr>
+<tr class="separator:a8299ffd0ead5c84548fb3216e0058e4a inherit signals_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c00a7ddf4d9e4597226656421f7a502 inherit signals_classMultimedia_1_1Source" id="r_a6c00a7ddf4d9e4597226656421f7a502"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">loadingMoreFailed</a> ()</td></tr>
+<tr class="separator:a6c00a7ddf4d9e4597226656421f7a502 inherit signals_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classMultimedia_1_1Source"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classMultimedia_1_1Source')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a></td></tr>
 <tr class="memitem:a16dead55950c67e86fa9542b4c03dd5f inherit pro_attribs_classMultimedia_1_1Source" id="r_a16dead55950c67e86fa9542b4c03dd5f"><td class="memItemLeft" align="right" valign="top">Items&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">mMediaItems</a></td></tr>
 <tr class="separator:a16dead55950c67e86fa9542b4c03dd5f inherit pro_attribs_classMultimedia_1_1Source"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,8 +230,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab83edf561b68ad326bf4b5661891ebd1" name="ab83edf561b68ad326bf4b5661891ebd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab83edf561b68ad326bf4b5661891ebd1">&#9670;&#160;</a></span>navigateTo()</h2>
+<a id="a4958f039b465eb1ceaf0bc7dbe5d4ce1" name="a4958f039b465eb1ceaf0bc7dbe5d4ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4958f039b465eb1ceaf0bc7dbe5d4ce1">&#9670;&#160;</a></span>browsePage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,10 +240,57 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Provider::MediaServer::Source::navigateTo </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1PendingPage.html">Multimedia::PendingPage</a> &gt; Provider::MediaServer::Source::browsePage </td>
           <td>(</td>
           <td class="paramtype">QString const &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>startIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p></p>
+<p>Requests the page of the Items of the Container at the path that starts at the index, independent of the navigation: the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> and the current Container stay. The <a class="el" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> decides how many Items a page holds, a page without Items ends the Container. A paged <a class="el" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> must implement it, the default implementation gives a finished page without Items. The page may already be finished when it's given. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the Container. </td></tr>
+    <tr><td class="paramname">startIndex</td><td>The index of the first Item of the page. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The page, it finishes later or is finished already.   </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classMultimedia_1_1Source.html#a01688bdd0a1a7a5df140679cac5a410b">Multimedia::Source</a>.</p>
+
+</div>
+</div>
+<a id="a70e4db2fbee6c3bf4b483f325f7cb217" name="a70e4db2fbee6c3bf4b483f325f7cb217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70e4db2fbee6c3bf4b483f325f7cb217">&#9670;&#160;</a></span>loadMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Provider::MediaServer::Source::loadMore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -229,8 +301,49 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Disable copy or move</p>
+<p>Loads the next page of Items of the current Container and appends them to the <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a>. This <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a70e4db2fbee6c3bf4b483f325f7cb217">loadMore()</a> must only be implemented when the <a class="el" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> is paged, the default implementation does nothing. The <a class="el" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> shall emit the <a class="el" href="classMultimedia_1_1Source.html#a8299ffd0ead5c84548fb3216e0058e4a">moreItemsLoaded()</a> signal when the page is loaded. If it fails to load the page the <a class="el" href="classProvider_1_1MediaServer_1_1Source.html">Source</a> shall emit the <a class="el" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">loadingMoreFailed()</a> signal instead, and keep its <a class="el" href="classMultimedia_1_1Source.html#ae6332ca61cb9039d64a45e5b0087c57a">mediaItems()</a> unchanged.   </p>
 
-<p>Reimplemented from <a class="el" href="classMultimedia_1_1Source.html#aa3e867622ab9a9248406913c74e52f21">Multimedia::Source</a>.</p>
+<p>Reimplemented from <a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">Multimedia::Source</a>.</p>
+
+</div>
+</div>
+<a id="a62a1c5933a21aff745c58d60ee462435" name="a62a1c5933a21aff745c58d60ee462435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62a1c5933a21aff745c58d60ee462435">&#9670;&#160;</a></span>navigate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Provider::MediaServer::Source::navigate </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>minimumItemCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p></p>
+
+<p>Reimplemented from <a class="el" href="classMultimedia_1_1Source.html#a74bec11bb562d63f1816e43ca66afe38">Multimedia::Source</a>.</p>
 
 </div>
 </div>

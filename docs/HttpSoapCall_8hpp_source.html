@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -114,8 +118,8 @@ $(document).ready(function(){initNavTree('HttpSoapCall_8hpp_source.html',''); in
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021-2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
@@ -141,16 +145,18 @@ $(document).ready(function(){initNavTree('HttpSoapCall_8hpp_source.html',''); in
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">bool</span> hasFinishedSuccesful() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    QString rawMessage() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">bool</span> isDeviceUnreachable() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    QSharedPointer&lt;QNetworkReply&gt; m_reply;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>};</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    QString rawMessage() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    QSharedPointer&lt;QNetworkReply&gt; m_reply;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>};</div>
 </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>} <span class="comment">// namespace UPnPAV</span></div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif </span><span class="comment">// HTTPSOAPCALL_H</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif </span><span class="comment">// HTTPSOAPCALL_H</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1HttpSoapCall_html"><div class="ttname"><a href="classUPnPAV_1_1HttpSoapCall.html">UPnPAV::HttpSoapCall</a></div><div class="ttdef"><b>Definition</b> HttpSoapCall.hpp:21</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1SCPDAction_html"><div class="ttname"><a href="classUPnPAV_1_1SCPDAction.html">UPnPAV::SCPDAction</a></div><div class="ttdef"><b>Definition</b> SCPDAction.hpp:21</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceControlPointDefinition_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceControlPointDefinition.html">UPnPAV::ServiceControlPointDefinition</a></div><div class="ttdef"><b>Definition</b> ServiceControlPointDefinition.hpp:20</div></div>

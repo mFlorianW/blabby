@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -106,6 +110,7 @@ $(document).ready(function(){initNavTree('classShell_1_1MediaItemModel.html','')
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -125,20 +130,38 @@ Inheritance diagram for Shell::MediaItemModel:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:acad0982c93824eddc05856e455878d58" id="r_acad0982c93824eddc05856e455878d58"><td class="memItemLeft" align="right" valign="top"><a id="acad0982c93824eddc05856e455878d58" name="acad0982c93824eddc05856e455878d58"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DisplayRole</b> { <b>MediaItemTitle</b> = Qt::UserRole + 1
-, <b>MediaItemIconUrl</b>
+<tr class="memitem:acad0982c93824eddc05856e455878d58" id="r_acad0982c93824eddc05856e455878d58"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#acad0982c93824eddc05856e455878d58">DisplayRole</a> { <b>MediaItemTitle</b> = Qt::UserRole + 1
+, <a class="el" href="classShell_1_1MediaItemModel.html#acad0982c93824eddc05856e455878d58a6f74633e5f690fbf929478c00248c6f2">MediaItemArtworkUrl</a>
+, <a class="el" href="classShell_1_1MediaItemModel.html#acad0982c93824eddc05856e455878d58a74df5d555f16f71be210e38f0198c769">MediaItemType</a>
+, <a class="el" href="classShell_1_1MediaItemModel.html#acad0982c93824eddc05856e455878d58ae85ab923aba0b959dc305f767a9a17b1">MediaItemSecondaryText</a>
  }</td></tr>
 <tr class="separator:acad0982c93824eddc05856e455878d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:a4953963f0b77629138338f3b5c7c1277" id="r_a4953963f0b77629138338f3b5c7c1277"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a4953963f0b77629138338f3b5c7c1277">playRequest</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;mediaItem)</td></tr>
-<tr class="separator:a4953963f0b77629138338f3b5c7c1277"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b5fed5cd72f037bb198acc66dc7808e" id="r_a0b5fed5cd72f037bb198acc66dc7808e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a0b5fed5cd72f037bb198acc66dc7808e">mediaSourceChanged</a> ()</td></tr>
 <tr class="separator:a0b5fed5cd72f037bb198acc66dc7808e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e53013a75980a975724b39ee32765cf" id="r_a5e53013a75980a975724b39ee32765cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a5e53013a75980a975724b39ee32765cf">busyChanged</a> ()</td></tr>
+<tr class="separator:a5e53013a75980a975724b39ee32765cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dc56d116aea4047cc079203692b5fdb" id="r_a9dc56d116aea4047cc079203692b5fdb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a9dc56d116aea4047cc079203692b5fdb">containerChanged</a> ()</td></tr>
+<tr class="separator:a9dc56d116aea4047cc079203692b5fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8722d6bb95ff9e8e73d3ec36952bd04d" id="r_a8722d6bb95ff9e8e73d3ec36952bd04d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a8722d6bb95ff9e8e73d3ec36952bd04d">loadMoreFailedChanged</a> ()</td></tr>
+<tr class="separator:a8722d6bb95ff9e8e73d3ec36952bd04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fa46b0566829d95e2243e7bcec1adc2" id="r_a2fa46b0566829d95e2243e7bcec1adc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a2fa46b0566829d95e2243e7bcec1adc2">containerOpenFailed</a> (QString const &amp;<a class="el" href="classShell_1_1MediaItemModel.html#a29cc0e7a52f22c7c13d0fdf058b01e07">containerTitle</a>)</td></tr>
+<tr class="separator:a2fa46b0566829d95e2243e7bcec1adc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa015564e53169babd3e2830685079d85" id="r_aa015564e53169babd3e2830685079d85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#aa015564e53169babd3e2830685079d85">playRequested</a> (<a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;playable)</td></tr>
+<tr class="separator:aa015564e53169babd3e2830685079d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae860cfe3da887ddd193e930faa38a543" id="r_ae860cfe3da887ddd193e930faa38a543"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#ae860cfe3da887ddd193e930faa38a543">playNextRequested</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;source, <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;item)</td></tr>
+<tr class="separator:ae860cfe3da887ddd193e930faa38a543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe54c527303e34f6eeb6bdbc850088b5" id="r_afe54c527303e34f6eeb6bdbc850088b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#afe54c527303e34f6eeb6bdbc850088b5">addToQueueRequested</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;source, <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;item)</td></tr>
+<tr class="separator:afe54c527303e34f6eeb6bdbc850088b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca884b0fe82405ce3d5da03f4a8617cf" id="r_aca884b0fe82405ce3d5da03f4a8617cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#aca884b0fe82405ce3d5da03f4a8617cf">scrollPositionRestoreRequested</a> (qsizetype scrollPosition)</td></tr>
+<tr class="separator:aca884b0fe82405ce3d5da03f4a8617cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a9eb3304766c02c9f7f5a19398c782248" id="r_a9eb3304766c02c9f7f5a19398c782248"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a9eb3304766c02c9f7f5a19398c782248">MediaItemModel</a> (QObject *parent=nullptr)</td></tr>
+<tr class="separator:a9eb3304766c02c9f7f5a19398c782248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a303614ac9d3afa3a6c8d1bcf761d3c32" id="r_a303614ac9d3afa3a6c8d1bcf761d3c32"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a303614ac9d3afa3a6c8d1bcf761d3c32">~MediaItemModel</a> () override</td></tr>
 <tr class="separator:a303614ac9d3afa3a6c8d1bcf761d3c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5d642c6e6569814aabcf5b92e3a1c9f" id="r_aa5d642c6e6569814aabcf5b92e3a1c9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#aa5d642c6e6569814aabcf5b92e3a1c9f">rowCount</a> (QModelIndex const &amp;index) const noexcept override</td></tr>
@@ -147,18 +170,36 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abcb01b7393213ae5ecd0900f12003646"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab37f634e4f519c449c17e105571a80bd" id="r_ab37f634e4f519c449c17e105571a80bd"><td class="memItemLeft" align="right" valign="top">QVariant&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#ab37f634e4f519c449c17e105571a80bd">data</a> (QModelIndex const &amp;index, int role) const noexcept override</td></tr>
 <tr class="separator:ab37f634e4f519c449c17e105571a80bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c126a5727546c8d33f8518d820889b6" id="r_a1c126a5727546c8d33f8518d820889b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a1c126a5727546c8d33f8518d820889b6">canFetchMore</a> (QModelIndex const &amp;parent) const noexcept override</td></tr>
+<tr class="separator:a1c126a5727546c8d33f8518d820889b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c8e8a55f3d8be3d64d8b18db4eb7863" id="r_a4c8e8a55f3d8be3d64d8b18db4eb7863"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a4c8e8a55f3d8be3d64d8b18db4eb7863">fetchMore</a> (QModelIndex const &amp;parent) noexcept override</td></tr>
+<tr class="separator:a4c8e8a55f3d8be3d64d8b18db4eb7863"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1a46b088c72e0f789e8582f52b0a6fc" id="r_ae1a46b088c72e0f789e8582f52b0a6fc"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#ae1a46b088c72e0f789e8582f52b0a6fc">setMediaSource</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;mediaSrc)</td></tr>
 <tr class="separator:ae1a46b088c72e0f789e8582f52b0a6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32ebbe3abf4ae4fede04b0b79f1eb159" id="r_a32ebbe3abf4ae4fede04b0b79f1eb159"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a32ebbe3abf4ae4fede04b0b79f1eb159">activateMediaItem</a> (qsizetype idx) noexcept</td></tr>
-<tr class="separator:a32ebbe3abf4ae4fede04b0b79f1eb159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a781472df8e4aae2d97dc4f0d97fa0e2b" id="r_a781472df8e4aae2d97dc4f0d97fa0e2b"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a781472df8e4aae2d97dc4f0d97fa0e2b">navigateBack</a> () const noexcept</td></tr>
-<tr class="separator:a781472df8e4aae2d97dc4f0d97fa0e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6483b2ac96d140b5f549adf13c051980" id="r_a6483b2ac96d140b5f549adf13c051980"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a6483b2ac96d140b5f549adf13c051980">navigateForward</a> () const noexcept</td></tr>
-<tr class="separator:a6483b2ac96d140b5f549adf13c051980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad41ca7c2027bba56e14c022d65030342" id="r_ad41ca7c2027bba56e14c022d65030342"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#ad41ca7c2027bba56e14c022d65030342">activateMediaItem</a> (qsizetype idx, qsizetype scrollPosition=0) noexcept</td></tr>
+<tr class="separator:ad41ca7c2027bba56e14c022d65030342"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6b7503a77c658d2276e65b4ede57f8" id="r_a3c6b7503a77c658d2276e65b4ede57f8"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a3c6b7503a77c658d2276e65b4ede57f8">playMediaItemNext</a> (qsizetype idx) noexcept</td></tr>
+<tr class="separator:a3c6b7503a77c658d2276e65b4ede57f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49a23243132453e93de9b4d03cfe4548" id="r_a49a23243132453e93de9b4d03cfe4548"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a49a23243132453e93de9b4d03cfe4548">addMediaItemToQueue</a> (qsizetype idx) noexcept</td></tr>
+<tr class="separator:a49a23243132453e93de9b4d03cfe4548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ffad0022ba1c5b5aa6469d5ea5b21b" id="r_a90ffad0022ba1c5b5aa6469d5ea5b21b"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a90ffad0022ba1c5b5aa6469d5ea5b21b">navigateBack</a> () noexcept</td></tr>
+<tr class="separator:a90ffad0022ba1c5b5aa6469d5ea5b21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985cbab20c34671e817164d6a9762983" id="r_a985cbab20c34671e817164d6a9762983"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a985cbab20c34671e817164d6a9762983">retryLoadMore</a> () noexcept</td></tr>
+<tr class="separator:a985cbab20c34671e817164d6a9762983"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e2beacf12ac193cdb25f21865495e97" id="r_a8e2beacf12ac193cdb25f21865495e97"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a8e2beacf12ac193cdb25f21865495e97">mediaSourceName</a> () const noexcept</td></tr>
 <tr class="separator:a8e2beacf12ac193cdb25f21865495e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af66853f9bd3cb6c4b96b88ab8120576f" id="r_af66853f9bd3cb6c4b96b88ab8120576f"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#af66853f9bd3cb6c4b96b88ab8120576f">mediaSourceIconUrl</a> () const noexcept</td></tr>
 <tr class="separator:af66853f9bd3cb6c4b96b88ab8120576f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca1f5f9baaabbea152c91edd9e6e00d1" id="r_aca1f5f9baaabbea152c91edd9e6e00d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#aca1f5f9baaabbea152c91edd9e6e00d1">hasMediaSource</a> () const noexcept</td></tr>
+<tr class="separator:aca1f5f9baaabbea152c91edd9e6e00d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a219a8487f3630c3332b463f869746c14" id="r_a219a8487f3630c3332b463f869746c14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14">isBusy</a> () const noexcept</td></tr>
+<tr class="separator:a219a8487f3630c3332b463f869746c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b3b9f5ec0161d723a6fac6aebee936" id="r_a46b3b9f5ec0161d723a6fac6aebee936"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a46b3b9f5ec0161d723a6fac6aebee936">containerTitle</a> () const noexcept</td></tr>
+<tr class="separator:a46b3b9f5ec0161d723a6fac6aebee936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eabcf94dc1a6727288c05e38a6623c2" id="r_a2eabcf94dc1a6727288c05e38a6623c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a2eabcf94dc1a6727288c05e38a6623c2">isAtRoot</a> () const noexcept</td></tr>
+<tr class="separator:a2eabcf94dc1a6727288c05e38a6623c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4372ea10c6f392cf6d31c8c0463fedd1" id="r_a4372ea10c6f392cf6d31c8c0463fedd1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a4372ea10c6f392cf6d31c8c0463fedd1">hasLoadMoreFailed</a> () const noexcept</td></tr>
+<tr class="separator:a4372ea10c6f392cf6d31c8c0463fedd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -166,10 +207,83 @@ Properties</h2></td></tr>
 <tr class="separator:aa5c1dad675569030e321ff321b67fcfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a21ef0454342e6fbb28c8d6be695920" id="r_a8a21ef0454342e6fbb28c8d6be695920"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a8a21ef0454342e6fbb28c8d6be695920">mediaSourceIconUrl</a></td></tr>
 <tr class="separator:a8a21ef0454342e6fbb28c8d6be695920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af896a88c19288c4a74756e253fdabc41" id="r_af896a88c19288c4a74756e253fdabc41"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#af896a88c19288c4a74756e253fdabc41">hasMediaSource</a></td></tr>
+<tr class="separator:af896a88c19288c4a74756e253fdabc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49c5fb4e37e71aa3bcef13364a936d0a" id="r_a49c5fb4e37e71aa3bcef13364a936d0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a49c5fb4e37e71aa3bcef13364a936d0a">busy</a></td></tr>
+<tr class="separator:a49c5fb4e37e71aa3bcef13364a936d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29cc0e7a52f22c7c13d0fdf058b01e07" id="r_a29cc0e7a52f22c7c13d0fdf058b01e07"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a29cc0e7a52f22c7c13d0fdf058b01e07">containerTitle</a></td></tr>
+<tr class="separator:a29cc0e7a52f22c7c13d0fdf058b01e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1abb47db5a37a11f8b2e374949d31b0" id="r_ae1abb47db5a37a11f8b2e374949d31b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#ae1abb47db5a37a11f8b2e374949d31b0">atRoot</a></td></tr>
+<tr class="separator:ae1abb47db5a37a11f8b2e374949d31b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e1a1841115c45d2c7c95646fcb5d360" id="r_a6e1a1841115c45d2c7c95646fcb5d360"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaItemModel.html#a6e1a1841115c45d2c7c95646fcb5d360">loadMoreFailed</a></td></tr>
+<tr class="separator:a6e1a1841115c45d2c7c95646fcb5d360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> provides access to the item of a media source and make it possible to navigate them. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<div class="textblock"><p>The <a class="el" href="classShell_1_1MediaItemModel.html">MediaItemModel</a> provides access to the item of a media source and make it possible to navigate them. The Items of a large Container are fetched page by page through Qt's fetch more, see <a class="el" href="classShell_1_1MediaItemModel.html#a1c126a5727546c8d33f8518d820889b6">canFetchMore()</a>. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="acad0982c93824eddc05856e455878d58" name="acad0982c93824eddc05856e455878d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad0982c93824eddc05856e455878d58">&#9670;&#160;</a></span>DisplayRole</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classShell_1_1MediaItemModel.html#acad0982c93824eddc05856e455878d58">Shell::MediaItemModel::DisplayRole</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acad0982c93824eddc05856e455878d58a6f74633e5f690fbf929478c00248c6f2" name="acad0982c93824eddc05856e455878d58a6f74633e5f690fbf929478c00248c6f2"></a>MediaItemArtworkUrl&#160;</td><td class="fielddoc"><p>The URL of the artwork of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>, e.g. the album art, empty when it has none. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acad0982c93824eddc05856e455878d58a74df5d555f16f71be210e38f0198c769" name="acad0982c93824eddc05856e455878d58a74df5d555f16f71be210e38f0198c769"></a>MediaItemType&#160;</td><td class="fielddoc"><p>The type of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> as integer value of Multimedia::ItemType. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acad0982c93824eddc05856e455878d58ae85ab923aba0b959dc305f767a9a17b1" name="acad0982c93824eddc05856e455878d58ae85ab923aba0b959dc305f767a9a17b1"></a>MediaItemSecondaryText&#160;</td><td class="fielddoc"><p>The secondary text of the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>, e.g. the artist, empty when it has none. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9eb3304766c02c9f7f5a19398c782248" name="a9eb3304766c02c9f7f5a19398c782248"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eb3304766c02c9f7f5a19398c782248">&#9670;&#160;</a></span>MediaItemModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Shell::MediaItemModel::MediaItemModel </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates an instance of the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> without a Source. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a303614ac9d3afa3a6c8d1bcf761d3c32" name="a303614ac9d3afa3a6c8d1bcf761d3c32"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a303614ac9d3afa3a6c8d1bcf761d3c32">&#9670;&#160;</a></span>~MediaItemModel()</h2>
 
@@ -197,8 +311,8 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a32ebbe3abf4ae4fede04b0b79f1eb159" name="a32ebbe3abf4ae4fede04b0b79f1eb159"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32ebbe3abf4ae4fede04b0b79f1eb159">&#9670;&#160;</a></span>activateMediaItem()</h2>
+<a id="ad41ca7c2027bba56e14c022d65030342" name="ad41ca7c2027bba56e14c022d65030342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad41ca7c2027bba56e14c022d65030342">&#9670;&#160;</a></span>activateMediaItem()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,6 +322,49 @@ Properties</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">void Shell::MediaItemModel::activateMediaItem </td>
+          <td>(</td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>scrollPosition</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Activates the Multimedia::MediaItem under the passed index. Activating a Container opens it. Activating a Playable requests to play it, see <a class="el" href="classShell_1_1MediaItemModel.html#aa015564e53169babd3e2830685079d85">playRequested</a>. Any activation while <a class="el" href="classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14">isBusy()</a> does nothing. Opening a Container remembers how many Items the current Container has loaded and its scroll position, both are restored when navigating back to it. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The index of the Multimedia::MediaItem that shall be activated. </td></tr>
+    <tr><td class="paramname">scrollPosition</td><td>The index of the first Item the view shows of the current Container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a49a23243132453e93de9b4d03cfe4548" name="a49a23243132453e93de9b4d03cfe4548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a23243132453e93de9b4d03cfe4548">&#9670;&#160;</a></span>addMediaItemToQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::addMediaItemToQueue </td>
           <td>(</td>
           <td class="paramtype">qsizetype&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
@@ -220,12 +377,197 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Activates the Multimedia::MediaItem under the passed index. If the Multimedia::MediaItem is a container item then the container will be opened. For a playable item the signal <a class="el" href="classShell_1_1MediaItemModel.html#a4953963f0b77629138338f3b5c7c1277">playRequest</a> will be emitted. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Requests to add the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> under the passed index to the end of the Queue, see <a class="el" href="classShell_1_1MediaItemModel.html#afe54c527303e34f6eeb6bdbc850088b5">addToQueueRequested</a>. Does nothing while <a class="el" href="classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14">isBusy()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">idx</td><td>The index of the Multimedia::MediaItem that shall be activated. </td></tr>
+    <tr><td class="paramname">idx</td><td>The index of the Playable or the Container to add to the Queue. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="afe54c527303e34f6eeb6bdbc850088b5" name="afe54c527303e34f6eeb6bdbc850088b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe54c527303e34f6eeb6bdbc850088b5">&#9670;&#160;</a></span>addToQueueRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::addToQueueRequested </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;&#160;</td>
+          <td class="paramname"><em>item</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when a Playable or a Container shall be added to the end of the Queue. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>The Source of the Item, to collect the Playables of a Container. </td></tr>
+    <tr><td class="paramname">item</td><td>The Playable or the Container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5e53013a75980a975724b39ee32765cf" name="a5e53013a75980a975724b39ee32765cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e53013a75980a975724b39ee32765cf">&#9670;&#160;</a></span>busyChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::busyChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the busy state changes. </p>
+
+</div>
+</div>
+<a id="a1c126a5727546c8d33f8518d820889b6" name="a1c126a5727546c8d33f8518d820889b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c126a5727546c8d33f8518d820889b6">&#9670;&#160;</a></span>canFetchMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::canFetchMore </td>
+          <td>(</td>
+          <td class="paramtype">QModelIndex const &amp;&#160;</td>
+          <td class="paramname"><em>parent</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true when the current Container holds Items that aren't fetched yet and can be fetched now. It is false while a Container opens, while more Items are fetched and after fetching more failed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Only the invalid root index has Items. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9dc56d116aea4047cc079203692b5fdb" name="a9dc56d116aea4047cc079203692b5fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dc56d116aea4047cc079203692b5fdb">&#9670;&#160;</a></span>containerChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::containerChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the current Container changes to another level, i.e. its title or the root flag. </p>
+
+</div>
+</div>
+<a id="a2fa46b0566829d95e2243e7bcec1adc2" name="a2fa46b0566829d95e2243e7bcec1adc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fa46b0566829d95e2243e7bcec1adc2">&#9670;&#160;</a></span>containerOpenFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::containerOpenFailed </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>containerTitle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when opening a Container, or returning to the parent Container, failed. The model stays on the current Container with its Items. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">containerTitle</td><td>The title of the Container that couldn't be opened, the name of the Multimedia::MediaSource for its root Container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a46b3b9f5ec0161d723a6fac6aebee936" name="a46b3b9f5ec0161d723a6fac6aebee936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46b3b9f5ec0161d723a6fac6aebee936">&#9670;&#160;</a></span>containerTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Shell::MediaItemModel::containerTitle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the title of the current Container, an empty string at the root Container. </p>
 
 </div>
 </div>
@@ -270,6 +612,168 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A QVariant with the stored data or empty QVariant for an invalid index or role parameter. </dd></dl>
+
+</div>
+</div>
+<a id="a4c8e8a55f3d8be3d64d8b18db4eb7863" name="a4c8e8a55f3d8be3d64d8b18db4eb7863"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c8e8a55f3d8be3d64d8b18db4eb7863">&#9670;&#160;</a></span>fetchMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::fetchMore </td>
+          <td>(</td>
+          <td class="paramtype">QModelIndex const &amp;&#160;</td>
+          <td class="paramname"><em>parent</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Fetches the next page of Items of the current Container, when <a class="el" href="classShell_1_1MediaItemModel.html#a1c126a5727546c8d33f8518d820889b6">canFetchMore()</a> allows it. The Items are appended when they arrive, when that fails <a class="el" href="classShell_1_1MediaItemModel.html#a4372ea10c6f392cf6d31c8c0463fedd1">hasLoadMoreFailed()</a> becomes true. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Only the invalid root index has Items. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4372ea10c6f392cf6d31c8c0463fedd1" name="a4372ea10c6f392cf6d31c8c0463fedd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4372ea10c6f392cf6d31c8c0463fedd1">&#9670;&#160;</a></span>hasLoadMoreFailed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::hasLoadMoreFailed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true when fetching more Items of the current Container failed. </p>
+
+</div>
+</div>
+<a id="aca1f5f9baaabbea152c91edd9e6e00d1" name="aca1f5f9baaabbea152c91edd9e6e00d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca1f5f9baaabbea152c91edd9e6e00d1">&#9670;&#160;</a></span>hasMediaSource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::hasMediaSource </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true while a Multimedia::MediaSource is set. </p>
+
+</div>
+</div>
+<a id="a2eabcf94dc1a6727288c05e38a6623c2" name="a2eabcf94dc1a6727288c05e38a6623c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eabcf94dc1a6727288c05e38a6623c2">&#9670;&#160;</a></span>isAtRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::isAtRoot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true while the current Container is the root Container. </p>
+
+</div>
+</div>
+<a id="a219a8487f3630c3332b463f869746c14" name="a219a8487f3630c3332b463f869746c14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a219a8487f3630c3332b463f869746c14">&#9670;&#160;</a></span>isBusy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::isBusy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives true while a Container is opening. </p>
+
+</div>
+</div>
+<a id="a8722d6bb95ff9e8e73d3ec36952bd04d" name="a8722d6bb95ff9e8e73d3ec36952bd04d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8722d6bb95ff9e8e73d3ec36952bd04d">&#9670;&#160;</a></span>loadMoreFailedChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::loadMoreFailedChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when fetching more Items fails, or the failure is cleared. </p>
 
 </div>
 </div>
@@ -351,8 +855,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a781472df8e4aae2d97dc4f0d97fa0e2b" name="a781472df8e4aae2d97dc4f0d97fa0e2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a781472df8e4aae2d97dc4f0d97fa0e2b">&#9670;&#160;</a></span>navigateBack()</h2>
+<a id="a90ffad0022ba1c5b5aa6469d5ea5b21b" name="a90ffad0022ba1c5b5aa6469d5ea5b21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90ffad0022ba1c5b5aa6469d5ea5b21b">&#9670;&#160;</a></span>navigateBack()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -364,7 +868,7 @@ Properties</h2></td></tr>
           <td class="memname">void Shell::MediaItemModel::navigateBack </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -373,12 +877,12 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Navigates the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> to the previous layer if possible. </p>
+<p>Navigates the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> back to the parent Container. The parent Container is loaded again up to the number of Items it had loaded, then its scroll position is restored, see <a class="el" href="classShell_1_1MediaItemModel.html#aca884b0fe82405ce3d5da03f4a8617cf">scrollPositionRestoreRequested()</a>. Does nothing at the root Container or while <a class="el" href="classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14">isBusy()</a>. </p>
 
 </div>
 </div>
-<a id="a6483b2ac96d140b5f549adf13c051980" name="a6483b2ac96d140b5f549adf13c051980"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6483b2ac96d140b5f549adf13c051980">&#9670;&#160;</a></span>navigateForward()</h2>
+<a id="a3c6b7503a77c658d2276e65b4ede57f8" name="a3c6b7503a77c658d2276e65b4ede57f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c6b7503a77c658d2276e65b4ede57f8">&#9670;&#160;</a></span>playMediaItemNext()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -387,10 +891,11 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Shell::MediaItemModel::navigateForward </td>
+          <td class="memname">void Shell::MediaItemModel::playMediaItemNext </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -399,12 +904,17 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Navigates the <a class="el" href="classShell_1_1MediaItemModel.html">Shell::MediaItemModel</a> to the last visited layer if possible. </p>
+<p>Requests to play the <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> under the passed index next, see <a class="el" href="classShell_1_1MediaItemModel.html#ae860cfe3da887ddd193e930faa38a543">playNextRequested</a>. Does nothing while <a class="el" href="classShell_1_1MediaItemModel.html#a219a8487f3630c3332b463f869746c14">isBusy()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The index of the Playable or the Container to play next. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a4953963f0b77629138338f3b5c7c1277" name="a4953963f0b77629138338f3b5c7c1277"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4953963f0b77629138338f3b5c7c1277">&#9670;&#160;</a></span>playRequest</h2>
+<a id="ae860cfe3da887ddd193e930faa38a543" name="ae860cfe3da887ddd193e930faa38a543"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae860cfe3da887ddd193e930faa38a543">&#9670;&#160;</a></span>playNextRequested</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -413,10 +923,53 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Shell::MediaItemModel::playRequest </td>
+          <td class="memname">void Shell::MediaItemModel::playNextRequested </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;&#160;</td>
+          <td class="paramname"><em>item</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when a Playable or a Container shall be played next through the Queue. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>The Source of the Item, to collect the Playables of a Container. </td></tr>
+    <tr><td class="paramname">item</td><td>The Playable or the Container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa015564e53169babd3e2830685079d85" name="aa015564e53169babd3e2830685079d85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa015564e53169babd3e2830685079d85">&#9670;&#160;</a></span>playRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::playRequested </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a> const &amp;&#160;</td>
-          <td class="paramname"><em>mediaItem</em></td><td>)</td>
+          <td class="paramname"><em>playable</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -426,7 +979,38 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This signal is emitted when a playabale MediaItem is activated. </p>
+<p>This signal is emitted when a Playable is activated, to play it through the Queue. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">playable</td><td>The activated Playable. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a985cbab20c34671e817164d6a9762983" name="a985cbab20c34671e817164d6a9762983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a985cbab20c34671e817164d6a9762983">&#9670;&#160;</a></span>retryLoadMore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::retryLoadMore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Fetches the next page of Items again after fetching it failed. Does nothing when it didn't fail. </p>
 
 </div>
 </div>
@@ -483,6 +1067,38 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="aca884b0fe82405ce3d5da03f4a8617cf" name="aca884b0fe82405ce3d5da03f4a8617cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca884b0fe82405ce3d5da03f4a8617cf">&#9670;&#160;</a></span>scrollPositionRestoreRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaItemModel::scrollPositionRestoreRequested </td>
+          <td>(</td>
+          <td class="paramtype">qsizetype&#160;</td>
+          <td class="paramname"><em>scrollPosition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted after navigating back, when the Items of the parent Container are shown again. The view shall scroll back to the position it had when the Container was opened. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scrollPosition</td><td>The index of the first Item to show, clamped to the last Item when the Container shrank. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae1a46b088c72e0f789e8582f52b0a6fc" name="ae1a46b088c72e0f789e8582f52b0a6fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1a46b088c72e0f789e8582f52b0a6fc">&#9670;&#160;</a></span>setMediaSource()</h2>
 
@@ -508,6 +1124,121 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="ae1abb47db5a37a11f8b2e374949d31b0" name="ae1abb47db5a37a11f8b2e374949d31b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1abb47db5a37a11f8b2e374949d31b0">&#9670;&#160;</a></span>atRoot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::atRoot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property is true while the current Container is the root Container of the Active Source. </p>
+
+</div>
+</div>
+<a id="a49c5fb4e37e71aa3bcef13364a936d0a" name="a49c5fb4e37e71aa3bcef13364a936d0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49c5fb4e37e71aa3bcef13364a936d0a">&#9670;&#160;</a></span>busy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::busy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property is true while a Container is opening, until its Items arrive or opening it fails. Activations and navigating back are ignored meanwhile. </p>
+
+</div>
+</div>
+<a id="a29cc0e7a52f22c7c13d0fdf058b01e07" name="a29cc0e7a52f22c7c13d0fdf058b01e07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29cc0e7a52f22c7c13d0fdf058b01e07">&#9670;&#160;</a></span>containerTitle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Shell::MediaItemModel::containerTitle</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property holds the title of the current Container, empty at the root Container. </p>
+
+</div>
+</div>
+<a id="af896a88c19288c4a74756e253fdabc41" name="af896a88c19288c4a74756e253fdabc41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af896a88c19288c4a74756e253fdabc41">&#9670;&#160;</a></span>hasMediaSource</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::hasMediaSource</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property is true while a Multimedia::MediaSource is set, i.e. there is an Active Source. </p>
+
+</div>
+</div>
+<a id="a6e1a1841115c45d2c7c95646fcb5d360" name="a6e1a1841115c45d2c7c95646fcb5d360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e1a1841115c45d2c7c95646fcb5d360">&#9670;&#160;</a></span>loadMoreFailed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Shell::MediaItemModel::loadMoreFailed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This property is true when fetching more Items of the current Container failed, the fetched Items stay. No more Items are fetched until <a class="el" href="classShell_1_1MediaItemModel.html#a985cbab20c34671e817164d6a9762983">retryLoadMore()</a> is called or another Container is opened. </p>
+
+</div>
+</div>
 <a id="a8a21ef0454342e6fbb28c8d6be695920" name="a8a21ef0454342e6fbb28c8d6be695920"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a21ef0454342e6fbb28c8d6be695920">&#9670;&#160;</a></span>mediaSourceIconUrl</h2>
 

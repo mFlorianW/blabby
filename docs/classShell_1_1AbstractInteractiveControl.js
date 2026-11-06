@@ -4,6 +4,8 @@ var classShell_1_1AbstractInteractiveControl =
     [ "~AbstractInteractiveControl", "classShell_1_1AbstractInteractiveControl.html#a8a8845cc6ba1f079763525b1402f2944", null ],
     [ "clicked", "classShell_1_1AbstractInteractiveControl.html#ab1b065de223d83a36931228850eacb55", null ],
     [ "controlStateChanged", "classShell_1_1AbstractInteractiveControl.html#a2811ff099e954cf276596759a0ba28b4", null ],
+    [ "handleMove", "classShell_1_1AbstractInteractiveControl.html#a74d04e1adadb7abb2183827f83eb9530", null ],
+    [ "handleRelease", "classShell_1_1AbstractInteractiveControl.html#a3147091533a103165ab827e2d086989d", null ],
     [ "hoveredChanged", "classShell_1_1AbstractInteractiveControl.html#a4c8eec131dafb3e4a1f515967dc852f6", null ],
     [ "isHovered", "classShell_1_1AbstractInteractiveControl.html#a0ab3d15374cb61a51b739432f2341b85", null ],
     [ "isPressed", "classShell_1_1AbstractInteractiveControl.html#abf482a71f7d809737fc4608bd7b81ae6", null ],

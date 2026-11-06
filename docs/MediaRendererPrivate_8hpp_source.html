@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -113,7 +117,7 @@ $(document).ready(function(){initNavTree('MediaRendererPrivate_8hpp_source.html'
   <div class="headertitle"><div class="title">MediaRendererPrivate.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">//</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
@@ -155,21 +159,33 @@ $(document).ready(function(){initNavTree('MediaRendererPrivate_8hpp_source.html'
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a>&amp; mMediaRenderer;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> mDeviceDescription;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> mRenderingControlService;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> mRenderingControlSCPD;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    QSharedPointer&lt;SoapBackend&gt; mSoapMessageTransmitter;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    QSharedPointer&lt;EventBackend&gt; mEventBackend;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::shared_ptr&lt;EventSubscriptionHandle&gt; mRenderControlEvents;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    quint32 mMasterVolume = 0U;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> setMasterMute(QString <span class="keyword">const</span>&amp; rawMute) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keyword">auto</span> <span class="keyword">const</span> value = QStringView{rawMute}.trimmed();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keyword">auto</span> <span class="keyword">const</span> mute = value == u<span class="stringliteral">&quot;1&quot;</span> or value.compare(u<span class="stringliteral">&quot;true&quot;</span>, Qt::CaseInsensitive) == 0 or</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                          value.compare(u<span class="stringliteral">&quot;yes&quot;</span>, Qt::CaseInsensitive) == 0;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">if</span> (mMasterMute != mute) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            mMasterMute = mute;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            Q_EMIT mMediaRenderer.masterMuteChanged(mute);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_class" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a>&amp; mMediaRenderer;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> mDeviceDescription;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> mRenderingControlService;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_class" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> mRenderingControlSCPD;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    QSharedPointer&lt;SoapBackend&gt; mSoapMessageTransmitter;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    QSharedPointer&lt;EventBackend&gt; mEventBackend;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    std::shared_ptr&lt;EventSubscriptionHandle&gt; mRenderControlEvents;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    quint32 mMasterVolume = 0U;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::optional&lt;bool&gt; mMasterMute;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>} <span class="comment">// namespace UPnPAV</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>} <span class="comment">// namespace UPnPAV</span></div>
 <div class="ttc" id="aclassUPnPAV_1_1DeviceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1DeviceDescription.html">UPnPAV::DeviceDescription</a></div><div class="ttdef"><b>Definition</b> DeviceDescription.hpp:23</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRendererPrivate_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRendererPrivate.html">UPnPAV::MediaRendererPrivate</a></div><div class="ttdef"><b>Definition</b> MediaRendererPrivate.hpp:15</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1MediaRenderer_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:20</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1MediaRenderer_html"><div class="ttname"><a href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a></div><div class="ttdef"><b>Definition</b> MediaRenderer.hpp:38</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1MediaRenderer_html_a0b7be269645d87179d4b6b106b759f24"><div class="ttname"><a href="classUPnPAV_1_1MediaRenderer.html#a0b7be269645d87179d4b6b106b759f24">UPnPAV::MediaRenderer::masterVolumeChanged</a></div><div class="ttdeci">void masterVolumeChanged(quint32 volume)</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceControlPointDefinition_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceControlPointDefinition.html">UPnPAV::ServiceControlPointDefinition</a></div><div class="ttdef"><b>Definition</b> ServiceControlPointDefinition.hpp:20</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1ServiceDescription_html"><div class="ttname"><a href="classUPnPAV_1_1ServiceDescription.html">UPnPAV::ServiceDescription</a></div><div class="ttdef"><b>Definition</b> ServiceDescription.hpp:19</div></div>

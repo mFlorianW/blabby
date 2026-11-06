@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -130,6 +134,8 @@ Signals</h2></td></tr>
 <tr class="separator:ab67b87b9eccb91a7458adacf628642b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dfd1af63c37e5371d1e7fa312028815" id="r_a6dfd1af63c37e5371d1e7fa312028815"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a6dfd1af63c37e5371d1e7fa312028815">serviceDisconnected</a> (QString const &amp;uniqueServiceName)</td></tr>
 <tr class="separator:a6dfd1af63c37e5371d1e7fa312028815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7196fbad4e9320f7ae8c0bc1d5048823" id="r_a7196fbad4e9320f7ae8c0bc1d5048823"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a7196fbad4e9320f7ae8c0bc1d5048823">searchFinished</a> ()</td></tr>
+<tr class="separator:a7196fbad4e9320f7ae8c0bc1d5048823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe6c13ea37d40b443b0822f1b3ed9b0e" id="r_afe6c13ea37d40b443b0822f1b3ed9b0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#afe6c13ea37d40b443b0822f1b3ed9b0e">error</a> (<a class="el" href="classUPnPAV_1_1ServiceProviderError.html">UPnPAV::ServiceProviderError</a> const &amp;errorObject)</td></tr>
 <tr class="separator:afe6c13ea37d40b443b0822f1b3ed9b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -143,6 +149,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aaf437ce857bacbd336f65ad94ea29220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a306d8469f57ef73018177a1f0cefb390" id="r_a306d8469f57ef73018177a1f0cefb390"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a306d8469f57ef73018177a1f0cefb390">rootDeviceDescription</a> (QString const &amp;usn) const noexcept=0</td></tr>
 <tr class="separator:a306d8469f57ef73018177a1f0cefb390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b67f35c787be1bd031a4dfd5b24490d" id="r_a0b67f35c787be1bd031a4dfd5b24490d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a0b67f35c787be1bd031a4dfd5b24490d">disconnectService</a> (QString const &amp;usn) noexcept=0</td></tr>
+<tr class="separator:a0b67f35c787be1bd031a4dfd5b24490d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classUPnPAV_1_1IServiceProvider.html">IServiceProvider</a> defines the interface for a UPnP service provider. </p>
@@ -174,6 +182,40 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0b67f35c787be1bd031a4dfd5b24490d" name="a0b67f35c787be1bd031a4dfd5b24490d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b67f35c787be1bd031a4dfd5b24490d">&#9670;&#160;</a></span>disconnectService()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void UPnPAV::IServiceProvider::disconnectService </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>usn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Disconnects a known service as if its announcement expired, e.g. when it doesn't answer anymore. The <a class="el" href="classUPnPAV_1_1IServiceProvider.html#a6dfd1af63c37e5371d1e7fa312028815">IServiceProvider::serviceDisconnected</a> signal is emitted and the next announcement of the service connects it again. Unknown services are ignored. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">usn</td><td>The unique service name of the service. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classUPnPAV_1_1ServiceProvider.html#a2c975565af1946f50165eebae2701a14">UPnPAV::ServiceProvider</a>.</p>
+
+</div>
+</div>
 <a id="afe6c13ea37d40b443b0822f1b3ed9b0e" name="afe6c13ea37d40b443b0822f1b3ed9b0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afe6c13ea37d40b443b0822f1b3ed9b0e">&#9670;&#160;</a></span>error</h2>
 
@@ -239,6 +281,32 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> The device description. </dd></dl>
 
 <p>Implemented in <a class="el" href="classUPnPAV_1_1ServiceProvider.html#ad8484335b162ef6919bf0cbd43a89fe0">UPnPAV::ServiceProvider</a>.</p>
+
+</div>
+</div>
+<a id="a7196fbad4e9320f7ae8c0bc1d5048823" name="a7196fbad4e9320f7ae8c0bc1d5048823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7196fbad4e9320f7ae8c0bc1d5048823">&#9670;&#160;</a></span>searchFinished</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::IServiceProvider::searchFinished </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the devices on the network had the time to answer a search, that is when the MX window of the search request is over. </p>
 
 </div>
 </div>
@@ -362,7 +430,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Starts a search. </p>
+<p>Starts a search. The end of the search is reported with the <a class="el" href="classUPnPAV_1_1IServiceProvider.html#a7196fbad4e9320f7ae8c0bc1d5048823">IServiceProvider::searchFinished</a> signal. </p>
 
 <p>Implemented in <a class="el" href="classUPnPAV_1_1ServiceProvider.html#a18dd562446267fac8f5bdf65e1b60ba7">UPnPAV::ServiceProvider</a>.</p>
 

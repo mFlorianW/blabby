@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -111,11 +115,13 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1Item.html',''); ini
 
 <p>This is the complete list of members for <a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a8fcb2edb33fc30de47effd00a7952639">iconUrl</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3">Item</a>()</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a5d4069639b26817c58fa444c60fed76d">Item</a>(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString iconUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a940dc2ca2d7732b9823176eeaab1f4e0">mainText</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#ae56f26be214c5bc092da082f7f3aa299">operator!=</a></td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a77b1b337bea88890092da941d5797700">album</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a7226699248be3f3f4f518ae809782a79">albumArtist</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#af6f81057aeb55347aca372ed2e871e86">artworkUrl</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#aba5a4da9419eadbba7825e686cc37629">duration</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a0f1d285aa2af97e24ab8d3d8f27eb4a3">Item</a>()</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#aa5eef23d14dc06f0b610600a981a7d4f">Item</a>(ItemType type, QString mainText, QString secondaryText=QString(&quot;&quot;), QString artworkUrl=QString(&quot;&quot;), QString path=QString(&quot;&quot;))</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a940dc2ca2d7732b9823176eeaab1f4e0">mainText</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a31ed57a078693968da68257e862a4607">operator==</a></td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#a774e0bfb14b10132254a7717bc6734d1">path</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1Item.html#ab4c6984f2c5028f8dd5d021241e8e2c4">playUrl</a>() const noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1Item.html">Multimedia::Item</a></td><td class="entry"></td></tr>

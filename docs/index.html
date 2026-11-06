@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,6 +113,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2blabby_2blabby_2README"></a></p>
+<p align="center"></p>
+<p>&lt;picture&gt; &lt;source media="(prefers-color-scheme: dark)" srcset="assets/Logo-dark.svg"&gt; <img src="assets/Logo.svg" alt="Blabby" style="pointer-events: none;" width="240" class="inline"/> &lt;/picture&gt; </p>
 <h1><a class="anchor" id="autotoc_md0"></a>
 General Notes</h1>
 <p>It's just a hobby project, I only work on this project in my spare time. The project started as a learning project to explore different development techniques and to experiment with new C++/Qt things. But the overall goal is to have a cool working software somewhere in the future.</p>
@@ -128,6 +134,9 @@ Implemented Features</h2>
 <li>Playback on UPnPAV MediaRenderer</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md3"></a>
+Runtime Requirements</h1>
+<p>Blabby uses the Roboto font, which is not bundled with the application. The font must be installed on the system, e.g. with the package <code>fonts-roboto</code> on Debian based distributions or <code>ttf-roboto</code> on Arch Linux.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Build</h1>
 <p>Blabby uses CMakePresets for building. The build presets have the same as the configure presets.</p>
 <p>The following CMakePresets are defined:</p>
@@ -137,10 +146,10 @@ Build</h1>
 <li>github-ci-debug</li>
 <li>release</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Pre-commit</h2>
 <p>Blabby has some pre-commit hooks for handling the licenses and formatting The pre-commits can enabled by the CMake option with "ENABLE_PRECOMMIT=ON" or just use the "debug" preset. The pre-commits feature needs a Python and pip environment. The pip environment is only needed for the automatically install of the pre-commit Python module.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Documentation</h1>
 <p>The detailed documentation of the Project can be found <a href="https://mflorianw.github.io/blabby">here</a> </p>
 </div></div><!-- PageDoc -->

@@ -1,11 +1,25 @@
 var searchData=
 [
-  ['ok_0',['Ok',['../classUPnPAV_1_1GetTransportInfoResponse.html#a7b2fb378b9b84322f4c43b5757a28ec7aa60852f204ed8028c1c58808b746d115',1,'UPnPAV::GetTransportInfoResponse']]],
-  ['onnewconnection_1',['onNewConnection',['../classHttp_1_1Server.html#a351749e639b2070b23758a82b4100938',1,'Http::Server']]],
-  ['operator_21_3d_2',['operator!=',['../classMultimedia_1_1Item.html#ae56f26be214c5bc092da082f7f3aa299',1,'Multimedia::Item']]],
-  ['operator_28_29_3',['operator()',['../classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html#a8f301e57221bfc3b1a945d2529976d2d',1,'UPnPAV::HttpEventSubscriptionHandleDeleter']]],
-  ['operator_3d_4',['operator=',['../classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f',1,'UPnPAV::MediaRendererFactory::operator=(MediaRendererFactory const &amp;other)=default'],['../classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24',1,'UPnPAV::MediaRendererFactory::operator=(MediaRendererFactory &amp;&amp;other)=default'],['../classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219',1,'UPnPAV::BaseValidator::operator=(BaseValidator const &amp;ohter)=default'],['../classUPnPAV_1_1BaseValidator.html#a0ee489038c9d0212d7acda4079388db7',1,'UPnPAV::BaseValidator::operator=(BaseValidator &amp;&amp;ohter) noexcept=default']]],
-  ['operator_3d_3d_5',['operator==',['../classMultimedia_1_1Item.html#a31ed57a078693968da68257e862a4607',1,'Multimedia::Item']]],
-  ['optionalactionnotimplemented_6',['OptionalActionNotImplemented',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a7f1492b0534a230356b1d6d71ffbd788',1,'UPnPAV::PendingSoapCall']]],
-  ['outofmemory_7',['OutOfMemory',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a65f3c0c79353cf4cd9eff11970c69074',1,'UPnPAV::PendingSoapCall']]]
+  ['name_0',['name',['../classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987',1,'Shell::MediaRendererModel::Name'],['../structMultimedia_1_1RememberedRenderer.html#a8455f6946e1715b6ed4dffd9bf85f84b',1,'Multimedia::RememberedRenderer::name'],['../classUPnPAV_1_1MediaDevice.html#a1dd0f8deb9fc6fcd9811e323ded55f5c',1,'UPnPAV::MediaDevice::name()'],['../classMultimedia_1_1Provider.html#aa2855fb8279e1f0f1294ce420347b7e5',1,'Multimedia::Provider::name()'],['../classMultimedia_1_1Renderer.html#a6781b10b68d206d3dfbd14d127b7f11e',1,'Multimedia::Renderer::name()']]],
+  ['navigate_1',['navigate',['../classMultimedia_1_1Source.html#a74bec11bb562d63f1816e43ca66afe38',1,'Multimedia::Source::navigate()'],['../classProvider_1_1MediaServer_1_1Source.html#a62a1c5933a21aff745c58d60ee462435',1,'Provider::MediaServer::Source::navigate()']]],
+  ['navigateback_2',['navigateback',['../classMultimedia_1_1Source.html#a934b589b2d86c3589ee5031fe7497195',1,'Multimedia::Source::navigateBack()'],['../classShell_1_1MediaItemModel.html#a90ffad0022ba1c5b5aa6469d5ea5b21b',1,'Shell::MediaItemModel::navigateBack()']]],
+  ['navigateto_3',['navigateTo',['../classMultimedia_1_1Source.html#af7ad98fb29cd5c30c6370f609b241037',1,'Multimedia::Source']]],
+  ['navigationfailed_4',['navigationFailed',['../classMultimedia_1_1Source.html#a13a3e9044d043f6f58d7a5c9232d0cf1',1,'Multimedia::Source']]],
+  ['navigationfinished_5',['navigationFinished',['../classMultimedia_1_1Source.html#a097f1fd97693da316359eb6bf7e8f806',1,'Multimedia::Source']]],
+  ['navigationstack_6',['NavigationStack',['../classMultimedia_1_1NavigationStack.html',1,'Multimedia']]],
+  ['next_7',['next',['../classShell_1_1QueueModel.html#a6704aeeaca531a9bba78c652a0d4524a',1,'Shell::QueueModel::next()'],['../classUPnPAV_1_1MediaDevice.html#aba9ddc7e1cab54f5aeb11813a33363a2',1,'UPnPAV::MediaDevice::next()'],['../classMultimedia_1_1Queue.html#a07c181a2998109b0ebdd1bb828d24bca',1,'Multimedia::Queue::next()']]],
+  ['nexturi_8',['nextUri',['../classUPnPAV_1_1GetMediaInfoResponse.html#a056400207ca8e13f7e7000ca882fd78b',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['nexturimetadata_9',['nextUriMetaData',['../classUPnPAV_1_1GetMediaInfoResponse.html#a9b60b8c561313a877457e821e3da03ef',1,'UPnPAV::GetMediaInfoResponse']]],
+  ['nocontents_10',['NoContents',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a9b062dae71015ab602c0d3fac8e01f42',1,'UPnPAV::PendingSoapCall']]],
+  ['nodnsserver_11',['NoDNSServer',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032aadf81ca9a940243fbaa3b02dee5ac9c8',1,'UPnPAV::PendingSoapCall']]],
+  ['noerror_12',['NoError',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032adbf99ef678641c48ceedf1141fa94c11',1,'UPnPAV::PendingSoapCall']]],
+  ['nomedia_13',['NoMedia',['../classMultimedia_1_1Renderer.html#a8f31aa8c7ff1652f9b81e63baf4d258ca7299794937a8fabd7db1d778989e24f1',1,'Multimedia::Renderer']]],
+  ['nomediapresent_14',['NoMediaPresent',['../classUPnPAV_1_1GetTransportInfoResponse.html#a11cdb95963cb2771e4986fe63d1d928fab5f2bfdedd1f53433d8f0f3aad3aebc5',1,'UPnPAV::GetTransportInfoResponse']]],
+  ['nosuchsession_15',['NoSuchSession',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032adb0ad3bb56a8ea47507c47d85a407d8e',1,'UPnPAV::PendingSoapCall']]],
+  ['notencrypted_16',['NotEncrypted',['../classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a0502e258cc2efb9f1a333c2fd2cb1363',1,'UPnPAV::PendingSoapCall']]],
+  ['notes_17',['General Notes',['../index.html#autotoc_md0',1,'']]],
+  ['notificationreceived_18',['notificationReceived',['../classUPnPAV_1_1EventBackend.html#a1e1032d12f788e5e6f9fc33a6d1cf46f',1,'UPnPAV::EventBackend']]],
+  ['notificationsubtype_19',['notificationSubType',['../classUPnPAV_1_1ServiceDiscoveryPackage.html#a339313309efe5ca7539fd82266643540',1,'UPnPAV::ServiceDiscoveryPackage']]],
+  ['now_20',['now',['../classUPnPAV_1_1Clock.html#a3c83edbb6db59eadb3f71e5e4c366a50',1,'UPnPAV::Clock::now()'],['../classUPnPAV_1_1SteadyClock.html#a8bad39969df2140c27d22f1e062b9eb4',1,'UPnPAV::SteadyClock::now()']]],
+  ['numberoftracks_21',['numberOfTracks',['../classUPnPAV_1_1GetMediaInfoResponse.html#ab5f1c362243ea3b1ca7dff332015c374',1,'UPnPAV::GetMediaInfoResponse']]]
 ];

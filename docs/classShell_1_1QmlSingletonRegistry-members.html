@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -111,17 +115,22 @@ $(document).ready(function(){initNavTree('classShell_1_1QmlSingletonRegistry.htm
 
 <p>This is the complete list of members for <a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a>, including all inherited members.</p>
 <table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a3d45bc3aba82c013113c08973f864780">activeRendererController</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a02931d0a3efd1ee516366e807a2fa636">activeRendererController</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5e97f04cd536983efaaefd0df1aeb751">createQmlRegistry</a>(QQmlEngine *engine, QJSEngine *scriptEngine)</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5873eed983d84fe56d894f5113dea813">mediaItemModel</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#afc21b2c6759c20f7428aae86c80c5ba1">mediaItemModel</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a4aa11e0b971bab2b7374a6997ce7c9b6">mediaPlayer</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#aff423de9a13390f1657e1bf5a8821b37">mediaPlayer</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#aeb0b7ac6599be332cf6d392998a48067">mediaRendererModel</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a7b2e5315618d6c52076af4c56333aab2">mediaRendererModel</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5582109cac914030cf071383f577fdb6">mediaSourceModel</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#ac3ea5d79bab801478fc4f98ddc88dd71">mediaSourceModel</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a541edce440ff37aa81f08075a33f44c3">QmlSingletonRegistry</a>()</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a">~QmlSingletonRegistry</a>() override</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a8d14d14eef71817994ae8a578e38ea09">providers</a>() const noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a541edce440ff37aa81f08075a33f44c3">QmlSingletonRegistry</a>()</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a8faaa0e531a1975e92c71a55cfe90662">queueModel</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5d82dacf1cd5214ccb19cb62fef183d8">queueModel</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#a32697d50db26f1d9cba6ac603159b173">settingsModel</a></td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#ab4adf01a5f7c25dc1e319dcf46739f03">settingsModel</a>() noexcept</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a">~QmlSingletonRegistry</a>() override</td><td class="entry"><a class="el" href="classShell_1_1QmlSingletonRegistry.html">Shell::QmlSingletonRegistry</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

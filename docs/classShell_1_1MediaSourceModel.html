@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -127,6 +131,7 @@ Inheritance diagram for Shell::MediaSourceModel:</div>
 Public Types</h2></td></tr>
 <tr class="memitem:a76564a2801c44ec3062c6a08a118784b" id="r_a76564a2801c44ec3062c6a08a118784b"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784b">DisplayRole</a> { <b>MediaSourceName</b> = Qt::UserRole + 1
 , <b>MediaSourceIocnUrl</b>
+, <a class="el" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d">Active</a>
  }</td></tr>
 <tr class="separator:a76564a2801c44ec3062c6a08a118784b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -134,11 +139,13 @@ Public Types</h2></td></tr>
 Signals</h2></td></tr>
 <tr class="memitem:a916c9a1f77c5a80a0723e73c2452cb5a" id="r_a916c9a1f77c5a80a0723e73c2452cb5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a916c9a1f77c5a80a0723e73c2452cb5a">activeMediaSourceChanged</a> ()</td></tr>
 <tr class="separator:a916c9a1f77c5a80a0723e73c2452cb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26fe7c6011ab39ecd17710884bff34dd" id="r_a26fe7c6011ab39ecd17710884bff34dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a26fe7c6011ab39ecd17710884bff34dd">activeMediaSourceDisappeared</a> (QString const &amp;sourceName)</td></tr>
+<tr class="separator:a26fe7c6011ab39ecd17710884bff34dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4bea1458dc97157560d06960e452ab6e" id="r_a4bea1458dc97157560d06960e452ab6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a4bea1458dc97157560d06960e452ab6e">MediaSourceModel</a> (std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1ProviderLoader.html">Multimedia::ProviderLoader</a> &gt; providerLoader)</td></tr>
-<tr class="separator:a4bea1458dc97157560d06960e452ab6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0751bf25d08bb9b5530ef7e44ec421b2" id="r_a0751bf25d08bb9b5530ef7e44ec421b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a0751bf25d08bb9b5530ef7e44ec421b2">MediaSourceModel</a> (Multimedia::Providers providers)</td></tr>
+<tr class="separator:a0751bf25d08bb9b5530ef7e44ec421b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609f09db58fb5a305011e4014abe70e1" id="r_a609f09db58fb5a305011e4014abe70e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">~MediaSourceModel</a> () override</td></tr>
 <tr class="separator:a609f09db58fb5a305011e4014abe70e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a819f49e325a550ceb45ffa020bd02b3b" id="r_a819f49e325a550ceb45ffa020bd02b3b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1MediaSourceModel.html#a819f49e325a550ceb45ffa020bd02b3b">rowCount</a> (QModelIndex const &amp;parent=QModelIndex()) const noexcept override</td></tr>
@@ -180,28 +187,40 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>The Display Roles for the UI to query the data. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d" name="a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d"></a>Active&#160;</td><td class="fielddoc"><p>True when the <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> is the Active Source. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a4bea1458dc97157560d06960e452ab6e" name="a4bea1458dc97157560d06960e452ab6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bea1458dc97157560d06960e452ab6e">&#9670;&#160;</a></span>MediaSourceModel()</h2>
+<a id="a0751bf25d08bb9b5530ef7e44ec421b2" name="a0751bf25d08bb9b5530ef7e44ec421b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0751bf25d08bb9b5530ef7e44ec421b2">&#9670;&#160;</a></span>MediaSourceModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Shell::MediaSourceModel::MediaSourceModel </td>
           <td>(</td>
-          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classMultimedia_1_1ProviderLoader.html">Multimedia::ProviderLoader</a> &gt;&#160;</td>
-          <td class="paramname"><em>providerLoader</em></td><td>)</td>
+          <td class="paramtype">Multimedia::Providers&#160;</td>
+          <td class="paramname"><em>providers</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Creates an instance of the ProviderModel </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Creates an instance of the <a class="el" href="classShell_1_1MediaSourceModel.html">MediaSourceModel</a> that holds the Sources of the passed Providers. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">providerLoader</td><td>The loader which is used to load the providers. </td></tr>
+    <tr><td class="paramname">providers</td><td>The loaded Providers, they are already initialized. </td></tr>
   </table>
   </dd>
 </dl>
@@ -250,7 +269,7 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Activates the Multimedia::MediaSource under the passed indeunder the passed indexxand updates the <a class="el" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a> property. If an invalid index is passed nothing happens. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Makes the <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> under the passed index the Active Source, updates the <a class="el" href="classShell_1_1MediaSourceModel.html#a5ed8262766b9b67dfd728588292065a5">activeMediaSource</a> property and notifies a change of the <a class="el" href="classShell_1_1MediaSourceModel.html#a76564a2801c44ec3062c6a08a118784ba4d3d769b812b6faa6b76e1a8abaece2d">DisplayRole::Active</a> role for the previous and the new Active Source. If an invalid index or the index of the Active Source is passed nothing happens. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">idx</td><td>The index of the MediaSource that shall be activated. </td></tr>
   </table>
@@ -300,6 +319,38 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>The signal is emitted when the active Multimedia::MediaSource changed. </p>
+
+</div>
+</div>
+<a id="a26fe7c6011ab39ecd17710884bff34dd" name="a26fe7c6011ab39ecd17710884bff34dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26fe7c6011ab39ecd17710884bff34dd">&#9670;&#160;</a></span>activeMediaSourceDisappeared</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::MediaSourceModel::activeMediaSourceDisappeared </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>sourceName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The signal is emitted when the Active Source disappeared and is no longer the Active Source. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceName</td><td>The name of the Source that disappeared. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

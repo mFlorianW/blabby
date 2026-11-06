@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,10 +113,9 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 
 <h3><a id="index_o" name="index_o"></a>- o -</h3><ul>
 <li>onNewConnection()&#160;:&#160;<a class="el" href="classHttp_1_1Server.html#a351749e639b2070b23758a82b4100938">Http::Server</a></li>
-<li>operator!=&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#ae56f26be214c5bc092da082f7f3aa299">Multimedia::Item</a></li>
 <li>operator()()&#160;:&#160;<a class="el" href="classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html#a8f301e57221bfc3b1a945d2529976d2d">UPnPAV::HttpEventSubscriptionHandleDeleter</a></li>
 <li>operator=()&#160;:&#160;<a class="el" href="classUPnPAV_1_1BaseValidator.html#a8573828ce920e310627e86ebaaedc219">UPnPAV::BaseValidator</a>, <a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#a2527a2f29d79a591ac8cdc57b570717f">UPnPAV::MediaRendererFactory</a></li>
-<li>operator==&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#a31ed57a078693968da68257e862a4607">Multimedia::Item</a></li>
+<li>operator==&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#a31ed57a078693968da68257e862a4607">Multimedia::Item</a>, <a class="el" href="structMultimedia_1_1RememberedRenderer.html#abdcff04ebf3463cdc838757aa86b2fbe">Multimedia::RememberedRenderer</a></li>
 <li>OptionalActionNotImplemented&#160;:&#160;<a class="el" href="classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a7f1492b0534a230356b1d6d71ffbd788">UPnPAV::PendingSoapCall</a></li>
 <li>OutOfMemory&#160;:&#160;<a class="el" href="classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a65f3c0c79353cf4cd9eff11970c69074">UPnPAV::PendingSoapCall</a></li>
 </ul>

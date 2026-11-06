@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -174,14 +178,14 @@ $(document).ready(function(){initNavTree('HttpEventSubscriptionHandle_8hpp_sourc
 </div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}; <span class="comment">// namespace UPnPAV</span></div>
-<div class="ttc" id="aclassUPnPAV_1_1EventSubscriptionHandle_html"><div class="ttname"><a href="classUPnPAV_1_1EventSubscriptionHandle.html">UPnPAV::EventSubscriptionHandle</a></div><div class="ttdef"><b>Definition</b> EventBackend.hpp:146</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1EventSubscriptionHandle_html"><div class="ttname"><a href="classUPnPAV_1_1EventSubscriptionHandle.html">UPnPAV::EventSubscriptionHandle</a></div><div class="ttdef"><b>Definition</b> EventBackend.hpp:152</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1HttpEventBackend_html"><div class="ttname"><a href="classUPnPAV_1_1HttpEventBackend.html">UPnPAV::HttpEventBackend</a></div><div class="ttdef"><b>Definition</b> HttpEventBackend.hpp:22</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandleDeleter_html"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html">UPnPAV::HttpEventSubscriptionHandleDeleter</a></div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.hpp:76</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandleDeleter_html_a8f301e57221bfc3b1a945d2529976d2d"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html#a8f301e57221bfc3b1a945d2529976d2d">UPnPAV::HttpEventSubscriptionHandleDeleter::operator()</a></div><div class="ttdeci">void operator()(HttpEventSubscriptionHandle *handle)</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:85</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandleDeleter_html_a8f301e57221bfc3b1a945d2529976d2d"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandleDeleter.html#a8f301e57221bfc3b1a945d2529976d2d">UPnPAV::HttpEventSubscriptionHandleDeleter::operator()</a></div><div class="ttdeci">void operator()(HttpEventSubscriptionHandle *handle)</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:134</div></div>
 <div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html">UPnPAV::HttpEventSubscriptionHandle</a></div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.hpp:23</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a2a853d86d4ae1c7070440d2ab7a1b076"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a2a853d86d4ae1c7070440d2ab7a1b076">UPnPAV::HttpEventSubscriptionHandle::~HttpEventSubscriptionHandle</a></div><div class="ttdeci">~HttpEventSubscriptionHandle() override</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:21</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a4a0860e49904cbb48eecf7aa2ceb7227"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a4a0860e49904cbb48eecf7aa2ceb7227">UPnPAV::HttpEventSubscriptionHandle::subscribe</a></div><div class="ttdeci">void subscribe(EventSubscriptionParameters const &amp;params) noexcept</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:28</div></div>
-<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a5256eab101df84e11ab7ebe39b3a9f53"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a5256eab101df84e11ab7ebe39b3a9f53">UPnPAV::HttpEventSubscriptionHandle::unsubscribe</a></div><div class="ttdeci">void unsubscribe(EventSubscriptionParameters const &amp;params) noexcept override</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:64</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a2a853d86d4ae1c7070440d2ab7a1b076"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a2a853d86d4ae1c7070440d2ab7a1b076">UPnPAV::HttpEventSubscriptionHandle::~HttpEventSubscriptionHandle</a></div><div class="ttdeci">~HttpEventSubscriptionHandle() override</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:43</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a4a0860e49904cbb48eecf7aa2ceb7227"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a4a0860e49904cbb48eecf7aa2ceb7227">UPnPAV::HttpEventSubscriptionHandle::subscribe</a></div><div class="ttdeci">void subscribe(EventSubscriptionParameters const &amp;params) noexcept</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:52</div></div>
+<div class="ttc" id="aclassUPnPAV_1_1HttpEventSubscriptionHandle_html_a5256eab101df84e11ab7ebe39b3a9f53"><div class="ttname"><a href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a5256eab101df84e11ab7ebe39b3a9f53">UPnPAV::HttpEventSubscriptionHandle::unsubscribe</a></div><div class="ttdeci">void unsubscribe(EventSubscriptionParameters const &amp;params) noexcept override</div><div class="ttdef"><b>Definition</b> HttpEventSubscriptionHandle.cpp:95</div></div>
 <div class="ttc" id="astructUPnPAV_1_1EventSubscriptionParameters_html"><div class="ttname"><a href="structUPnPAV_1_1EventSubscriptionParameters.html">UPnPAV::EventSubscriptionParameters</a></div><div class="ttdef"><b>Definition</b> EventBackend.hpp:27</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

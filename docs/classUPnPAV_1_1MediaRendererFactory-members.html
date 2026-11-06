@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -111,7 +115,7 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1MediaRendererFactory.ht
 
 <p>This is the complete list of members for <a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac35a974f0c4af56822eba0a7389db1f3">create</a>(DeviceDescription const &amp;desc)</td><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac35a974f0c4af56822eba0a7389db1f3">create</a>(DeviceDescription const &amp;desc)</td><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#a508786171070aaa1b032c6552ff17ee4">MediaRendererFactory</a>()=default</td><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac260bc8f65bead6c000b0e44d33ba391">MediaRendererFactory</a>(MediaRendererFactory const &amp;other)=default</td><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#a049712b45ff654a8d342baba1a9cb00d">MediaRendererFactory</a>(MediaRendererFactory &amp;&amp;other)=default</td><td class="entry"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">UPnPAV::MediaRendererFactory</a></td><td class="entry"></td></tr>

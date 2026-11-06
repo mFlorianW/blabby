@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['navigationstack_0',['NavigationStack',['../classMultimedia_1_1NavigationStack.html',1,'Multimedia']]]
+  ['lastchangereader_0',['LastChangeReader',['../classUPnPAV_1_1LastChangeReader.html',1,'UPnPAV']]],
+  ['level_1',['Level',['../structMultimedia_1_1Queue_1_1Collection_1_1Level.html',1,'Multimedia::Queue::Collection']]]
 ];

@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -120,13 +124,8 @@ $(document).ready(function(){initNavTree('classShell_1_1AbstractInteractiveContr
 Inheritance diagram for Shell::AbstractInteractiveControl:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classShell_1_1AbstractInteractiveControl.png" usemap="#Shell::AbstractInteractiveControl_map" alt=""/>
-  <map id="Shell::AbstractInteractiveControl_map" name="Shell::AbstractInteractiveControl_map">
-<area href="classShell_1_1AbstractIconButton.html" alt="Shell::AbstractIconButton" shape="rect" coords="0,112,193,136"/>
-<area href="classShell_1_1AbstractListEntry.html" alt="Shell::AbstractListEntry" shape="rect" coords="203,112,396,136"/>
-<area href="classShell_1_1AbstractSwitch.html" alt="Shell::AbstractSwitch" shape="rect" coords="406,112,599,136"/>
-  </map>
-</div></div>
+  <img src="classShell_1_1AbstractInteractiveControl.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
@@ -152,12 +151,22 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a3147091533a103165ab827e2d086989d" id="r_a3147091533a103165ab827e2d086989d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1AbstractInteractiveControl.html#a3147091533a103165ab827e2d086989d">handleRelease</a> (QPointF) noexcept</td></tr>
+<tr class="separator:a3147091533a103165ab827e2d086989d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74d04e1adadb7abb2183827f83eb9530" id="r_a74d04e1adadb7abb2183827f83eb9530"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShell_1_1AbstractInteractiveControl.html#a74d04e1adadb7abb2183827f83eb9530">handleMove</a> (QPointF) noexcept</td></tr>
+<tr class="separator:a74d04e1adadb7abb2183827f83eb9530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa33512ab7518297430674bbad448ead6" id="r_aa33512ab7518297430674bbad448ead6"><td class="memItemLeft" align="right" valign="top"><a id="aa33512ab7518297430674bbad448ead6" name="aa33512ab7518297430674bbad448ead6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseMoveEvent</b> (QMouseEvent *event) override</td></tr>
+<tr class="separator:aa33512ab7518297430674bbad448ead6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a092cafd0490e084a136042bd1a354fe2" id="r_a092cafd0490e084a136042bd1a354fe2"><td class="memItemLeft" align="right" valign="top"><a id="a092cafd0490e084a136042bd1a354fe2" name="a092cafd0490e084a136042bd1a354fe2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>mousePressEvent</b> (QMouseEvent *event) override</td></tr>
 <tr class="separator:a092cafd0490e084a136042bd1a354fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91a01167b8e647e14e3775650797ed67" id="r_a91a01167b8e647e14e3775650797ed67"><td class="memItemLeft" align="right" valign="top"><a id="a91a01167b8e647e14e3775650797ed67" name="a91a01167b8e647e14e3775650797ed67"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseReleaseEvent</b> (QMouseEvent *event) override</td></tr>
 <tr class="separator:a91a01167b8e647e14e3775650797ed67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace1241daff8f34c7b10e4513e11342c8" id="r_ace1241daff8f34c7b10e4513e11342c8"><td class="memItemLeft" align="right" valign="top"><a id="ace1241daff8f34c7b10e4513e11342c8" name="ace1241daff8f34c7b10e4513e11342c8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseUngrabEvent</b> () override</td></tr>
+<tr class="separator:ace1241daff8f34c7b10e4513e11342c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9d879a56f0033d9dc406bbe67dc0563" id="r_ab9d879a56f0033d9dc406bbe67dc0563"><td class="memItemLeft" align="right" valign="top"><a id="ab9d879a56f0033d9dc406bbe67dc0563" name="ab9d879a56f0033d9dc406bbe67dc0563"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hoverEnterEvent</b> (QHoverEvent *event) override</td></tr>
 <tr class="separator:ab9d879a56f0033d9dc406bbe67dc0563"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,6 +278,70 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>This signal is emitted when the <a class="el" href="classShell_1_1AbstractInteractiveControl.html">Shell::AbstractInteractiveControl</a> is changed. </p>
+
+</div>
+</div>
+<a id="a74d04e1adadb7abb2183827f83eb9530" name="a74d04e1adadb7abb2183827f83eb9530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74d04e1adadb7abb2183827f83eb9530">&#9670;&#160;</a></span>handleMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::AbstractInteractiveControl::handleMove </td>
+          <td>(</td>
+          <td class="paramtype">QPointF&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function is called when the mouse move event occurs. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td>coordinate of the mouse pointer when the event occurs. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3147091533a103165ab827e2d086989d" name="a3147091533a103165ab827e2d086989d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3147091533a103165ab827e2d086989d">&#9670;&#160;</a></span>handleRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::AbstractInteractiveControl::handleRelease </td>
+          <td>(</td>
+          <td class="paramtype">QPointF&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function is called when the mouse release event occurs. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td>coordinate of the mouse pointer when the event occurs. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -127,10 +131,10 @@ Inheritance diagram for Multimedia::Provider:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:a5090d72b28c7d0d16e07798940328dd7" id="r_a5090d72b28c7d0d16e07798940328dd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a5090d72b28c7d0d16e07798940328dd7">sourceAdded</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Source</a> &gt; const &amp;source)</td></tr>
-<tr class="separator:a5090d72b28c7d0d16e07798940328dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0eaaf80f6333d53808e13303148ec7aa" id="r_a0eaaf80f6333d53808e13303148ec7aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a0eaaf80f6333d53808e13303148ec7aa">sourceRemoved</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Source</a> &gt; const &amp;source)</td></tr>
-<tr class="separator:a0eaaf80f6333d53808e13303148ec7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81afa300fff456a649f3ce5d0da7f452" id="r_a81afa300fff456a649f3ce5d0da7f452"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#a81afa300fff456a649f3ce5d0da7f452">sourceAdded</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;source)</td></tr>
+<tr class="separator:a81afa300fff456a649f3ce5d0da7f452"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1c9fce637f9beccbdd6927066868e0c" id="r_af1c9fce637f9beccbdd6927066868e0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMultimedia_1_1Provider.html#af1c9fce637f9beccbdd6927066868e0c">sourceRemoved</a> (std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;source)</td></tr>
+<tr class="separator:af1c9fce637f9beccbdd6927066868e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -237,8 +241,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5090d72b28c7d0d16e07798940328dd7" name="a5090d72b28c7d0d16e07798940328dd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5090d72b28c7d0d16e07798940328dd7">&#9670;&#160;</a></span>sourceAdded</h2>
+<a id="a81afa300fff456a649f3ce5d0da7f452" name="a81afa300fff456a649f3ce5d0da7f452"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81afa300fff456a649f3ce5d0da7f452">&#9670;&#160;</a></span>sourceAdded</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +253,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void Multimedia::Provider::sourceAdded </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Source</a> &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;&#160;</td>
           <td class="paramname"><em>source</em></td><td>)</td>
           <td></td>
         </tr>
@@ -264,8 +268,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0eaaf80f6333d53808e13303148ec7aa" name="a0eaaf80f6333d53808e13303148ec7aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0eaaf80f6333d53808e13303148ec7aa">&#9670;&#160;</a></span>sourceRemoved</h2>
+<a id="af1c9fce637f9beccbdd6927066868e0c" name="af1c9fce637f9beccbdd6927066868e0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1c9fce637f9beccbdd6927066868e0c">&#9670;&#160;</a></span>sourceRemoved</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +280,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void Multimedia::Provider::sourceRemoved </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Source</a> &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMultimedia_1_1Source.html">Multimedia::Source</a> &gt; const &amp;&#160;</td>
           <td class="paramname"><em>source</em></td><td>)</td>
           <td></td>
         </tr>

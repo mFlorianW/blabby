@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,8 +113,13 @@ $(document).ready(function(){initNavTree('functions_func_v.html',''); initResiza
 
 <h3><a id="index_v" name="index_v"></a>- v -</h3><ul>
 <li>validate()&#160;:&#160;<a class="el" href="classUPnPAV_1_1BaseValidator.html#ac1b1f171e63f7b175cd6a0d0cf9c67e6">UPnPAV::BaseValidator</a>, <a class="el" href="classUPnPAV_1_1ScpdActionListValidator.html#a3c6cc3b1246711ae331abd940e96b6e5">UPnPAV::ScpdActionListValidator</a>, <a class="el" href="classUPnPAV_1_1ScpdStateVariableValidator.html#a8573a46ffd02ff09e63099e72fdccd7a">UPnPAV::ScpdStateVariableValidator</a>, <a class="el" href="classUPnPAV_1_1ServiceDescriptionValidator.html#ae3570e88f10654904e677283746e3f26">UPnPAV::ServiceDescriptionValidator</a>, <a class="el" href="classUPnPAV_1_1ServiceValidatorBase.html#a291716b3498777b96dc64014979208e3">UPnPAV::ServiceValidatorBase</a></li>
+<li>value()&#160;:&#160;<a class="el" href="classShell_1_1IniSettingsStore.html#ae58ef7d3683308765dce466a55793902">Shell::IniSettingsStore</a>, <a class="el" href="classShell_1_1SettingsStore.html#a7fb0b8be10c9046023b7915d20a089c0">Shell::SettingsStore</a></li>
 <li>version()&#160;:&#160;<a class="el" href="classMultimedia_1_1Provider.html#a51d0f53c4e52c834eb89d6c3c6cdf5f5">Multimedia::Provider</a></li>
-<li>volume()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetVolumeResponse.html#abdf8a904a06ddd92bc891a3b2ef6de18">UPnPAV::GetVolumeResponse</a>, <a class="el" href="classUPnPAV_1_1MediaRenderer.html#ad01134621ee2b6b8d250e4392eb0a17d">UPnPAV::MediaRenderer</a></li>
+<li>volume()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a0b75250c0bb3e2fb357d8efaafb5800c">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a4afdee9869cd854ca1978d0bd84f8f0f">Shell::ActiveRendererController</a>, <a class="el" href="classUPnPAV_1_1GetVolumeResponse.html#abdf8a904a06ddd92bc891a3b2ef6de18">UPnPAV::GetVolumeResponse</a>, <a class="el" href="classUPnPAV_1_1MediaRenderer.html#a1d673390364264b4369d346f70488848">UPnPAV::MediaRenderer</a></li>
+<li>volumeChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a83c0591063c781a476377aaa588c3bd9">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a601aa5cf5d841241bd37d071150ec392">Shell::ActiveRendererController</a></li>
+<li>volumeMaximum()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#af97d2aad5662b2181506ec4d27335996">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a24534c4e59cb641c59697137062bff32">Shell::ActiveRendererController</a></li>
+<li>volumeMinimum()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#af5dd6b254163a154e3871f8bcc3d77bd">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#aed032b834029c5e8b8b368aa81bb03bb">Shell::ActiveRendererController</a></li>
+<li>volumeRange()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaRenderer.html#a313935771c2cb92555af1634275588d4">UPnPAV::MediaRenderer</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

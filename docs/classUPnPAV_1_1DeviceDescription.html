@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -117,9 +121,9 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1DeviceDescription.html'
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7cc8e51ab2aa76f02e3715b2c0bb341f" id="r_a7cc8e51ab2aa76f02e3715b2c0bb341f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1DeviceDescription.html#a7cc8e51ab2aa76f02e3715b2c0bb341f">DeviceDescription</a> ()</td></tr>
 <tr class="separator:a7cc8e51ab2aa76f02e3715b2c0bb341f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfbc139dee2b513edb46e042efe6a83a" id="r_abfbc139dee2b513edb46e042efe6a83a"><td class="memItemLeft" align="right" valign="top"><a id="abfbc139dee2b513edb46e042efe6a83a" name="abfbc139dee2b513edb46e042efe6a83a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceDescription</b> (QString deviceType, QString friendlyName, QString manufacturer, QString modelName, QString udn, QVector&lt; <a class="el" href="classUPnPAV_1_1IconDescription.html">IconDescription</a> &gt; icons={}, QVector&lt; <a class="el" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> &gt; services={}, QVector&lt; <a class="el" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> &gt; scpds={})</td></tr>
-<tr class="separator:abfbc139dee2b513edb46e042efe6a83a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea6f177b4c18ca2c468f3dab1048e975" id="r_aea6f177b4c18ca2c468f3dab1048e975"><td class="memItemLeft" align="right" valign="top"><a id="aea6f177b4c18ca2c468f3dab1048e975" name="aea6f177b4c18ca2c468f3dab1048e975"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceDescription</b> (QString deviceType, QString friendlyName, QString manufacturer, QString modelName, QString udn, QVector&lt; <a class="el" href="classUPnPAV_1_1IconDescription.html">IconDescription</a> &gt; icons={}, QVector&lt; <a class="el" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> &gt; services={}, QVector&lt; <a class="el" href="classUPnPAV_1_1ServiceControlPointDefinition.html">ServiceControlPointDefinition</a> &gt; scpds={}, QString <a class="el" href="classUPnPAV_1_1DeviceDescription.html#a7b38c24ba42ddc8f20205d3064efb24e">address</a>={}, QString <a class="el" href="classUPnPAV_1_1DeviceDescription.html#a93b6883f2ab356516add9dc2a329014b">baseUrl</a>={})</td></tr>
+<tr class="separator:aea6f177b4c18ca2c468f3dab1048e975"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f6b2bafebaa155e6cb193d156e472f9" id="r_a7f6b2bafebaa155e6cb193d156e472f9"><td class="memItemLeft" align="right" valign="top"><a id="a7f6b2bafebaa155e6cb193d156e472f9" name="a7f6b2bafebaa155e6cb193d156e472f9"></a>
 QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>deviceType</b> () const noexcept</td></tr>
 <tr class="separator:a7f6b2bafebaa155e6cb193d156e472f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,6 +142,10 @@ QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>modelN
 <tr class="memitem:a903250d44c950b0b4a241d38ef2a4f6a" id="r_a903250d44c950b0b4a241d38ef2a4f6a"><td class="memItemLeft" align="right" valign="top"><a id="a903250d44c950b0b4a241d38ef2a4f6a" name="a903250d44c950b0b4a241d38ef2a4f6a"></a>
 QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>udn</b> () const noexcept</td></tr>
 <tr class="separator:a903250d44c950b0b4a241d38ef2a4f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b38c24ba42ddc8f20205d3064efb24e" id="r_a7b38c24ba42ddc8f20205d3064efb24e"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1DeviceDescription.html#a7b38c24ba42ddc8f20205d3064efb24e">address</a> () const noexcept</td></tr>
+<tr class="separator:a7b38c24ba42ddc8f20205d3064efb24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b6883f2ab356516add9dc2a329014b" id="r_a93b6883f2ab356516add9dc2a329014b"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1DeviceDescription.html#a93b6883f2ab356516add9dc2a329014b">baseUrl</a> () const noexcept</td></tr>
+<tr class="separator:a93b6883f2ab356516add9dc2a329014b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac41337dc728677b5f98b61d9898e60fe" id="r_ac41337dc728677b5f98b61d9898e60fe"><td class="memItemLeft" align="right" valign="top"><a id="ac41337dc728677b5f98b61d9898e60fe" name="ac41337dc728677b5f98b61d9898e60fe"></a>
 std::optional&lt; <a class="el" href="classUPnPAV_1_1ServiceDescription.html">ServiceDescription</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>service</b> (QString const &amp;serviceName) const noexcept</td></tr>
 <tr class="separator:ac41337dc728677b5f98b61d9898e60fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,6 +192,59 @@ BLABBYUPNPAV_EXPORT friend bool&#160;</td><td class="memItemRight" valign="botto
 </table>
 </div><div class="memdoc">
 <p>Construcsts an default <a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a>. All members are empty. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7b38c24ba42ddc8f20205d3064efb24e" name="a7b38c24ba42ddc8f20205d3064efb24e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b38c24ba42ddc8f20205d3064efb24e">&#9670;&#160;</a></span>address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::DeviceDescription::address </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the network address of the device, the host of the location the description was fetched from. The address is not part of the description document and therefore not considered by the comparison. </p><dl class="section return"><dt>Returns</dt><dd>The address of the device or an empty string when it is unknown. </dd></dl>
+
+</div>
+</div>
+<a id="a93b6883f2ab356516add9dc2a329014b" name="a93b6883f2ab356516add9dc2a329014b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b6883f2ab356516add9dc2a329014b">&#9670;&#160;</a></span>baseUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::DeviceDescription::baseUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the URL relative URLs of the device are relative to, its URLBase or the location of its description without the path, e.g. <a href="http://192.168.0.106:1400">http://192.168.0.106:1400</a>. The base URL is not considered by the comparison, like the address. </p><dl class="section return"><dt>Returns</dt><dd>The base URL of the device or an empty string when it is unknown. </dd></dl>
 
 </div>
 </div>

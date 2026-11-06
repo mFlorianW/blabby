@@ -29,16 +29,24 @@ var NAVTREE =
     [ "Blabby", "index.html#autotoc_md1", [
       [ "Implemented Features", "index.html#autotoc_md2", null ]
     ] ],
-    [ "Build", "index.html#autotoc_md3", [
-      [ "Pre-commit", "index.html#autotoc_md4", null ]
+    [ "Runtime Requirements", "index.html#autotoc_md3", null ],
+    [ "Build", "index.html#autotoc_md4", [
+      [ "Pre-commit", "index.html#autotoc_md5", null ]
     ] ],
-    [ "Documentation", "index.html#autotoc_md5", null ],
+    [ "Documentation", "index.html#autotoc_md6", null ],
     [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html", [
       [ "Architecture", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Architecture", [
         [ "Building Blocks", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#BuildingBlocks", null ],
         [ "Multimedia", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Multimedia", [
           [ "Provider", "md__2home_2runner_2work_2blabby_2blabby_2docs_2pages_2Architecture.html#Provider", null ]
         ] ]
+      ] ]
+    ] ],
+    [ "Namespaces", "namespaces.html", [
+      [ "Namespace List", "namespaces.html", null ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -64,10 +72,11 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AbstractClock_8hpp_source.html",
-"classShell_1_1AbstractIconButton.html#a1c684d94c5e8f83d1a724c103b15dde4af84f4acd0a1ee9a8e674fc1ddc3efabb",
-"classUPnPAV_1_1IServiceProvider.html#ae445d4485d2c44d480aa4ddb5a981799",
-"functions_u.html"
+"AbstractInteractiveControl_8hpp_source.html",
+"classMultimedia_1_1Renderer.html#a0b75250c0bb3e2fb357d8efaafb5800c",
+"classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccba49ee3087348e8d44e1feda1917443987",
+"classUPnPAV_1_1HttpEventServer.html#a0cbb1ba4f993b3b3801f6001123bc90d",
+"dir_3085d55226f6dd1c561e28e03fbb4d88.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

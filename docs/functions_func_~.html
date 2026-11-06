@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -108,13 +112,8 @@ $(document).ready(function(){initNavTree('functions_func_~.html',''); initResiza
 <div class="textblock">Here is a list of all documented functions with links to the class documentation for each member:</div>
 
 <h3><a id="index__7E" name="index__7E"></a>- ~ -</h3><ul>
-<li>~AbstractClock()&#160;:&#160;<a class="el" href="classShell_1_1AbstractClock.html#ab5869d0bfab016fe7697eeed99ea1632">Shell::AbstractClock</a></li>
-<li>~AbstractDialog()&#160;:&#160;<a class="el" href="classShell_1_1AbstractDialog.html#a8437ced53a8b0659060eaf95cac25f8d">Shell::AbstractDialog</a></li>
-<li>~AbstractHeader()&#160;:&#160;<a class="el" href="classShell_1_1AbstractHeader.html#a6dbe744c1322c3eee5a43c994497f804">Shell::AbstractHeader</a></li>
-<li>~AbstractIconButton()&#160;:&#160;<a class="el" href="classShell_1_1AbstractIconButton.html#a819b33e361dc69ed87d5c07c48dcfd74">Shell::AbstractIconButton</a></li>
 <li>~AbstractInteractiveControl()&#160;:&#160;<a class="el" href="classShell_1_1AbstractInteractiveControl.html#a8a8845cc6ba1f079763525b1402f2944">Shell::AbstractInteractiveControl</a></li>
-<li>~AbstractListEntry()&#160;:&#160;<a class="el" href="classShell_1_1AbstractListEntry.html#abfb861c59caf42dc2641d332b88d20ae">Shell::AbstractListEntry</a></li>
-<li>~AbstractSwitch()&#160;:&#160;<a class="el" href="classShell_1_1AbstractSwitch.html#ac192c6b2e2dc48826b57f19ce18a537b">Shell::AbstractSwitch</a></li>
+<li>~ActiveRendererController()&#160;:&#160;<a class="el" href="classShell_1_1ActiveRendererController.html#a04cbd0ce41f1c75f60eb6d86da47523d">Shell::ActiveRendererController</a></li>
 <li>~BaseValidator()&#160;:&#160;<a class="el" href="classUPnPAV_1_1BaseValidator.html#a1428711997186986b3177fd4e6b44951">UPnPAV::BaseValidator</a></li>
 <li>~ClientConnection()&#160;:&#160;<a class="el" href="classHttp_1_1ClientConnection.html#a28f37fe6548683d15e2c5d895bfef705">Http::ClientConnection</a></li>
 <li>~EventBackend()&#160;:&#160;<a class="el" href="classUPnPAV_1_1EventBackend.html#a4f9bad05d8487f1ace18b4fa843bc805">UPnPAV::EventBackend</a></li>
@@ -122,22 +121,30 @@ $(document).ready(function(){initNavTree('functions_func_~.html',''); initResiza
 <li>~HttpEventBackend()&#160;:&#160;<a class="el" href="classUPnPAV_1_1HttpEventBackend.html#a4c1304fd1527f38c664afde535d06b4d">UPnPAV::HttpEventBackend</a></li>
 <li>~HttpEventServer()&#160;:&#160;<a class="el" href="classUPnPAV_1_1HttpEventServer.html#a906fb387930ed36464ee05f84e2a52b4">UPnPAV::HttpEventServer</a></li>
 <li>~HttpEventSubscriptionHandle()&#160;:&#160;<a class="el" href="classUPnPAV_1_1HttpEventSubscriptionHandle.html#a2a853d86d4ae1c7070440d2ab7a1b076">UPnPAV::HttpEventSubscriptionHandle</a></li>
+<li>~IniSettingsStore()&#160;:&#160;<a class="el" href="classShell_1_1IniSettingsStore.html#a842e2cf427ccad6ea63cea4de1ebfc18">Shell::IniSettingsStore</a></li>
 <li>~IServiceProvider()&#160;:&#160;<a class="el" href="classUPnPAV_1_1IServiceProvider.html#ae445d4485d2c44d480aa4ddb5a981799">UPnPAV::IServiceProvider</a></li>
+<li>~JsonRendererStore()&#160;:&#160;<a class="el" href="classMultimedia_1_1JsonRendererStore.html#ac64cf1e034250fb2f60436fdc763a98b">Multimedia::JsonRendererStore</a></li>
 <li>~MediaDevice()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#a5d45f0b56d0167c4e6508972455dda46">UPnPAV::MediaDevice</a></li>
 <li>~MediaItemModel()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a303614ac9d3afa3a6c8d1bcf761d3c32">Shell::MediaItemModel</a></li>
-<li>~MediaPlayer()&#160;:&#160;<a class="el" href="classShell_1_1MediaPlayer.html#a6e9b7b4aa333b4568f1f66f74a304483">Shell::MediaPlayer</a></li>
 <li>~MediaRendererFactory()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#aebb1c07b6ea1de55282829a7fdf9365d">UPnPAV::MediaRendererFactory</a></li>
 <li>~MediaRendererModel()&#160;:&#160;<a class="el" href="classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1">Shell::MediaRendererModel</a></li>
 <li>~MediaSourceModel()&#160;:&#160;<a class="el" href="classShell_1_1MediaSourceModel.html#a609f09db58fb5a305011e4014abe70e1">Shell::MediaSourceModel</a></li>
+<li>~PendingPage()&#160;:&#160;<a class="el" href="classMultimedia_1_1PendingPage.html#a6aa35478481de709bf0e32d7adc3d24c">Multimedia::PendingPage</a></li>
 <li>~PendingSoapCall()&#160;:&#160;<a class="el" href="classUPnPAV_1_1PendingSoapCall.html#ada9bbd833a23a973b1217c0c0e51f432">UPnPAV::PendingSoapCall</a></li>
 <li>~Provider()&#160;:&#160;<a class="el" href="classMultimedia_1_1Provider.html#ad5d6c8246d67b8ac49a669386b4c0720">Multimedia::Provider</a>, <a class="el" href="classProvider_1_1MediaServer_1_1Provider.html#a685289bce2453904857eb505026811fb">Provider::MediaServer::Provider</a></li>
 <li>~ProviderLoader()&#160;:&#160;<a class="el" href="classMultimedia_1_1ProviderLoader.html#ac4a43f57293a652373c943eba210a514">Multimedia::ProviderLoader</a></li>
 <li>~QmlSingletonRegistry()&#160;:&#160;<a class="el" href="classShell_1_1QmlSingletonRegistry.html#ac91c47ce1d86d422093ee31a99e0f18a">Shell::QmlSingletonRegistry</a></li>
+<li>~Queue()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a7228c85f8e315f903204ec5726d60e2e">Multimedia::Queue</a></li>
+<li>~QueueModel()&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#a4527290e801a97e7a1ce10a9e54e13e8">Shell::QueueModel</a></li>
 <li>~Renderer()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a808fe64beedb20ae4a04fe4e05395acb">Multimedia::Renderer</a></li>
 <li>~RendererProvider()&#160;:&#160;<a class="el" href="classMultimedia_1_1RendererProvider.html#a096d84f7f4fcf205ec8c5bcd25c75d0b">Multimedia::RendererProvider</a></li>
+<li>~RendererStore()&#160;:&#160;<a class="el" href="classMultimedia_1_1RendererStore.html#a52f6fe0a598dd840ec3489b32f98ea3e">Multimedia::RendererStore</a></li>
 <li>~RequestDeserializer()&#160;:&#160;<a class="el" href="classHttp_1_1RequestDeserializer.html#a0595b8ecb679ec714efe7a121c9c68f1">Http::RequestDeserializer</a></li>
 <li>~ResponseSerializer()&#160;:&#160;<a class="el" href="classHttp_1_1ResponseSerializer.html#a2850c72f4d0c628718956334dacd497f">Http::ResponseSerializer</a></li>
 <li>~Server()&#160;:&#160;<a class="el" href="classHttp_1_1Server.html#ac29a9c308de935f0d8928548de501458">Http::Server</a></li>
+<li>~SettingsModel()&#160;:&#160;<a class="el" href="classShell_1_1SettingsModel.html#adb96ce36af8d812c025a33b9faf953ee">Shell::SettingsModel</a></li>
+<li>~SettingsRowModel()&#160;:&#160;<a class="el" href="classShell_1_1SettingsRowModel.html#a24d30c6a58d0aac0acff2112044d2720">Shell::SettingsRowModel</a></li>
+<li>~SettingsStore()&#160;:&#160;<a class="el" href="classShell_1_1SettingsStore.html#a1a7d09b32971c0506470025004c53f17">Shell::SettingsStore</a></li>
 <li>~Source()&#160;:&#160;<a class="el" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">Multimedia::Source</a>, <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#ac05eb4ac70f31f8b24d4f05a4bcff9f0">Provider::MediaServer::Source</a></li>
 </ul>
 </div><!-- contents -->

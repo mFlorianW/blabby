@@ -3,6 +3,7 @@ var classUPnPAV_1_1PendingSoapCall =
     [ "ErrorCode", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032", [
       [ "Unknown", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ab97fe47b9976028f17357643799625d9", null ],
       [ "NoError", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032adbf99ef678641c48ceedf1141fa94c11", null ],
+      [ "DeviceUnreachable", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a4d6d4a1ef0e712738a39f745fcee8d05", null ],
       [ "InvalidAction", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a3eb8a436386aa3abf6589b79023997af", null ],
       [ "InvalidArgs", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032a474da799d55ae7f722b28ed4d7423bb7", null ],
       [ "ActionFailed", "classUPnPAV_1_1PendingSoapCall.html#aae88becbf401f5ccf0c79d9998d32032ae5c945d01755c20e6c60ebcdf05b21c3", null ],

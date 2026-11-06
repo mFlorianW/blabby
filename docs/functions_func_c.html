@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,19 +113,45 @@ $(document).ready(function(){initNavTree('functions_func_c.html',''); initResiza
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>callbackHost()&#160;:&#160;<a class="el" href="classUPnPAV_1_1EventBackend.html#a04aad2274681339285e61b94bcb07906">UPnPAV::EventBackend</a>, <a class="el" href="classUPnPAV_1_1HttpEventBackend.html#a95ac632c9640918722ec723ea16f050e">UPnPAV::HttpEventBackend</a>, <a class="el" href="classUPnPAV_1_1HttpEventServer.html#a984ddf810870c8e48f9082c6942d135e">UPnPAV::HttpEventServer</a></li>
+<li>cancelCollection()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#ad9b377aa0566dcbc69659ad69a65a99d">Multimedia::Queue</a>, <a class="el" href="classShell_1_1QueueModel.html#ac45e3c0f892553f72561f7e4838e8bc6">Shell::QueueModel</a></li>
+<li>canControlMute()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#ab1179bca5d9e321f8df5b93699ac5f29">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#ad2d719d9bec9956938bbb1f3ef07242c">Shell::ActiveRendererController</a></li>
+<li>canControlVolume()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a700d878213623c46525058f972153964">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a7e7fecb089c2dde3d7d5738dfbcf9695">Shell::ActiveRendererController</a></li>
+<li>canFetchMore()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a1c126a5727546c8d33f8518d820889b6">Shell::MediaItemModel</a></li>
+<li>canLoadMore()&#160;:&#160;<a class="el" href="classMultimedia_1_1Source.html#a6931f91234149506c427e5c4bc2ee7da">Multimedia::Source</a></li>
+<li>canPause()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#ac1bdadf55fd61f7912ae1dae7d8cfe54">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#aa2982261ecc1c4a1ec820e3f06cbd6b4">Shell::ActiveRendererController</a>, <a class="el" href="classUPnPAV_1_1MediaDevice.html#afdfdeb64616aeb2d07957db12c50538e">UPnPAV::MediaDevice</a></li>
+<li>canSeek()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a53e1e2281c7843a57e7b5a76af9ef62c">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#ad73017db47f1adbde220c315611c29e8">Shell::ActiveRendererController</a>, <a class="el" href="classUPnPAV_1_1MediaDevice.html#ad76a81d059df399b23d53f4b5fa2eb82">UPnPAV::MediaDevice</a></li>
+<li>canSetMute()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaRenderer.html#a147bc35a11aef35c3bd3c3469d3f3787">UPnPAV::MediaRenderer</a></li>
+<li>canSetVolume()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaRenderer.html#a8504ddc3c2471133fdf866a152c0a5c1">UPnPAV::MediaRenderer</a></li>
+<li>clear()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a0db5dbb05a1ee09a598676fff9090433">Multimedia::Queue</a>, <a class="el" href="classShell_1_1QueueModel.html#a2061eda59d2855cf15c870e2faa40a14">Shell::QueueModel</a></li>
 <li>clicked()&#160;:&#160;<a class="el" href="classShell_1_1AbstractInteractiveControl.html#ab1b065de223d83a36931228850eacb55">Shell::AbstractInteractiveControl</a></li>
 <li>ClientConnection()&#160;:&#160;<a class="el" href="classHttp_1_1ClientConnection.html#a7f2213cd0f7762c19da8c66cbdfee08c">Http::ClientConnection</a></li>
 <li>clone()&#160;:&#160;<a class="el" href="classParsingError.html#ae26321b52fdd9e12bca5827b12aa68dc">ParsingError</a>, <a class="el" href="classUPnPAV_1_1PackageParseError.html#ac4f58ecbc639ae36694c923d9b205a0b">UPnPAV::PackageParseError</a></li>
 <li>close()&#160;:&#160;<a class="el" href="classHttp_1_1ClientConnection.html#a2c8420dc2e0a0129dd0dccd5604d1c98">Http::ClientConnection</a></li>
-<li>contentItem()&#160;:&#160;<a class="el" href="classShell_1_1AbstractDialog.html#a57cbd36b88eb05cf4a55fed9683416d4">Shell::AbstractDialog</a></li>
-<li>contentItemChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractDialog.html#a5b531589e4122d883f2d6ade5c99d566">Shell::AbstractDialog</a></li>
+<li>collectedContainer()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a5444caa99f7603c4494e0d5a08fd6ab3">Multimedia::Queue</a></li>
+<li>collectedContainerTitle()&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#af1c93c4da341773156a3934d17498ef8">Shell::QueueModel</a></li>
+<li>collectingChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a4a132ec7057fd8a8cb08e8a9a8cd3d59">Multimedia::Queue</a>, <a class="el" href="classShell_1_1QueueModel.html#a6cb29b4fc50e45c7c3365cdae7ecf42c">Shell::QueueModel</a></li>
+<li>collectionFailed()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#accce701c4816b64b10410bc71ac1cc15">Multimedia::Queue</a>, <a class="el" href="classShell_1_1QueueModel.html#a961518c7d3fb75157ee36f965538b618">Shell::QueueModel</a></li>
+<li>containerChanged()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a9dc56d116aea4047cc079203692b5fdb">Shell::MediaItemModel</a></li>
+<li>containerOpenFailed()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a2fa46b0566829d95e2243e7bcec1adc2">Shell::MediaItemModel</a></li>
+<li>containerTitle()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a46b3b9f5ec0161d723a6fac6aebee936">Shell::MediaItemModel</a></li>
+<li>controlFailed()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a59ebd14f323a4435685455d0af9116c9">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#ab60aebf6392a7860c87200993085110c">Shell::ActiveRendererController</a></li>
 <li>controlStateChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractInteractiveControl.html#a2811ff099e954cf276596759a0ba28b4">Shell::AbstractInteractiveControl</a></li>
 <li>create()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac35a974f0c4af56822eba0a7389db1f3">UPnPAV::MediaRendererFactory</a>, <a class="el" href="structUPnPAV_1_1Protocol.html#a0593f5c6ae4a284d02dd662f694c9ccf">UPnPAV::Protocol</a></li>
 <li>createFromDidl()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaServerObject.html#af7c3892c80fbea0318c38c6ab1959dd1">UPnPAV::MediaServerObject</a></li>
 <li>createQmlRegistry()&#160;:&#160;<a class="el" href="classShell_1_1QmlSingletonRegistry.html#a5e97f04cd536983efaaefd0df1aeb751">Shell::QmlSingletonRegistry</a></li>
+<li>creator()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaServerObject.html#a6c3545c3e4a772571dfe025740394165">UPnPAV::MediaServerObject</a></li>
 <li>currentConnectionIds()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83">UPnPAV::MediaDevice</a></li>
 <li>currentConnectionInfo()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#a0dc7d849bf444ca617367d812ada2a05">UPnPAV::MediaDevice</a></li>
-<li>currentTimeChanged()&#160;:&#160;<a class="el" href="classShell_1_1AbstractClock.html#a2820d3429b1dbdd4eec4752b041743b2">Shell::AbstractClock</a></li>
+<li>currentEntry()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#ac34718163153fe5348d0354c680a10d0">Multimedia::Queue</a></li>
+<li>currentEntryChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a39881257ff912c4aae41746cd4850b55">Multimedia::Queue</a></li>
+<li>currentEntryPlayingChanged()&#160;:&#160;<a class="el" href="classShell_1_1QueueModel.html#a4cc756f86d479ee6557cef153127d567">Shell::QueueModel</a></li>
+<li>currentIndex()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#aee7297cba95eb942632ddbd1afd8a995">Multimedia::Queue</a></li>
+<li>currentSection()&#160;:&#160;<a class="el" href="classShell_1_1SettingsModel.html#a14baca2c2bd0ae46ff7502ae7f8a787a">Shell::SettingsModel</a></li>
+<li>currentSectionChanged()&#160;:&#160;<a class="el" href="classShell_1_1SettingsModel.html#a4e449327928e64fe580bfb322f505eb9">Shell::SettingsModel</a></li>
+<li>currentTrack()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a032e9f25499b8ff05327b865b16b24c1">Multimedia::Renderer</a></li>
+<li>currentTrackChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Renderer.html#a81d465032e6673cc122588d8956e686d">Multimedia::Renderer</a>, <a class="el" href="classShell_1_1ActiveRendererController.html#a5d5c46bec1be9e695f6ac73ce8c19a7f">Shell::ActiveRendererController</a>, <a class="el" href="classUPnPAV_1_1MediaDevice.html#a277afe66a6b2912781874a898e4eb508">UPnPAV::MediaDevice</a></li>
+<li>currentTrackMetaData()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#ae6c259778331d05ba247b586b6257cee">UPnPAV::MediaDevice</a></li>
+<li>currentTrackUri()&#160;:&#160;<a class="el" href="classUPnPAV_1_1MediaDevice.html#a26976dffd17f0dc93cbb0cf4db5081af">UPnPAV::MediaDevice</a></li>
 <li>currentTransportState()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetTransportInfoResponse.html#a13f2422cdc1b023edb39b6781d2f77e9">UPnPAV::GetTransportInfoResponse</a></li>
 <li>currentTransportStatus()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetTransportInfoResponse.html#a1eccd698dfc19c55f81da5068101a241">UPnPAV::GetTransportInfoResponse</a></li>
 <li>currentUri()&#160;:&#160;<a class="el" href="classUPnPAV_1_1GetMediaInfoResponse.html#ad16ebf0130c1cc500fcb654ab3c6e168">UPnPAV::GetMediaInfoResponse</a></li>

@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -112,13 +116,16 @@ $(document).ready(function(){initNavTree('classMultimedia_1_1ItemBuilder.html','
 <p>This is the complete list of members for <a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a2903b5c57881dc6629637607e3ac1d25">build</a>() noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a9e43f0a777bc8a9de65df3de8de3496b">withIconUrl</a>(QString const &amp;iconUrl) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a055b79cd6cb33bdb3789b0c4320c3ef0">withItemType</a>(ItemType type) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a5f6c9398f0dcc243dfa01690592438fb">withMainText</a>(QString const &amp;text) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a5d626754a1b993f78ffaf3fb81bcd68c">withPath</a>(QString const &amp;path) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a31401309f6ec45656d9ad5371dafd879">withPlayUrl</a>(QString const &amp;playUrl) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a67d345249bc06eb6f1570535e97e8fc7">withSecondaryText</a>(QString const &amp;text) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#ab9fbe9df088ceb9fc7ce5d0bcf45c411">withSupportedTypes</a>(QVector&lt; UPnPAV::Protocol &gt; const &amp;supportedTypes)</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a7ab79c9df4bcab53a90266066fbbd8ab">withAlbum</a>(QString const &amp;album) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#adc28e662c64d34b45da64cc53e2ddb13">withAlbumArtist</a>(QString const &amp;albumArtist) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#adcb3475748fdffaf71dd8fbf780df79a">withArtworkUrl</a>(QString const &amp;artworkUrl) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a55905519a11492e6c5a59263fed61286">withDuration</a>(std::optional&lt; std::chrono::milliseconds &gt; duration) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a055b79cd6cb33bdb3789b0c4320c3ef0">withItemType</a>(ItemType type) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a5f6c9398f0dcc243dfa01690592438fb">withMainText</a>(QString const &amp;text) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a5d626754a1b993f78ffaf3fb81bcd68c">withPath</a>(QString const &amp;path) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a31401309f6ec45656d9ad5371dafd879">withPlayUrl</a>(QString const &amp;playUrl) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#a67d345249bc06eb6f1570535e97e8fc7">withSecondaryText</a>(QString const &amp;text) noexcept</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html#ab9fbe9df088ceb9fc7ce5d0bcf45c411">withSupportedTypes</a>(QVector&lt; UPnPAV::Protocol &gt; const &amp;supportedTypes)</td><td class="entry"><a class="el" href="classMultimedia_1_1ItemBuilder.html">Multimedia::ItemBuilder</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

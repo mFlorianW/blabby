@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -114,8 +118,8 @@ $(document).ready(function(){initNavTree('Source_8hpp_source.html',''); initResi
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright 2020 Florian Weßel &lt;florianwessel@gmx.net&gt;.</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021 - 2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024 All contributors</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-FileCopyrightText: 2021-2023 Florian Weßel &lt;florianwessel@gmx.net&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// SPDX-FileCopyrightText: 2024, 2026 All contributors</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// SPDX-License-Identifier: LGPL-2.1-or-later</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
@@ -126,52 +130,109 @@ $(document).ready(function(){initNavTree('Source_8hpp_source.html',''); initResi
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QStack&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QUrl&gt;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>Multimedia</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">using </span>Items = QVector&lt;Item&gt;;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">struct </span>SourcePrivate;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html">   36</a></span><span class="keyword">class </span>BLABBYMULTIMEDIA_EXPORT <a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a> : <span class="keyword">public</span> QObject</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>{</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    Q_OBJECT</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">   43</a></span>    <a class="code hl_function" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">~Source</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a>)</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    QString <span class="keyword">const</span>&amp; sourceName() const noexcept;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    QString const&amp; iconUrl() const noexcept;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    Items const&amp; mediaItems() const noexcept;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    virtual <span class="keywordtype">void</span> navigateTo(QString const&amp; path) noexcept;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">void</span> navigateBack() noexcept;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">void</span> navigateForward() noexcept;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a097f1fd97693da316359eb6bf7e8f806">   90</a></span>    <span class="keywordtype">void</span> navigationFinished(QString const&amp; path);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>protected:</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a>(QString sourceName, QString iconUrl = QString{<span class="stringliteral">&quot;&quot;</span>});</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">  102</a></span>    Items <a class="code hl_variable" href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">mMediaItems</a>;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    std::unique_ptr&lt;SourcePrivate&gt; d;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>};</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span>Multimedia</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">using </span>Items = QVector&lt;Item&gt;;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classMultimedia_1_1PendingPage.html">   29</a></span><span class="keyword">class </span>BLABBYMULTIMEDIA_EXPORT <a class="code hl_class" href="classMultimedia_1_1PendingPage.html">PendingPage</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    Q_OBJECT</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classMultimedia_1_1PendingPage.html#a2d7ebf0d322f808c478af2dc80df8cf1">   36</a></span>    <a class="code hl_function" href="classMultimedia_1_1PendingPage.html#a2d7ebf0d322f808c478af2dc80df8cf1">PendingPage</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classMultimedia_1_1PendingPage.html#a6aa35478481de709bf0e32d7adc3d24c">   41</a></span>    <a class="code hl_function" href="classMultimedia_1_1PendingPage.html#a6aa35478481de709bf0e32d7adc3d24c">~PendingPage</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classMultimedia_1_1PendingPage.html">PendingPage</a>)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">bool</span> isFinished() const noexcept;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">bool</span> hasFailed() const noexcept;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    Items const&amp; items() const noexcept;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    qsizetype totalItemCount() const noexcept;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">void</span> finish(Items items, qsizetype totalItemCount) noexcept;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">void</span> fail() noexcept;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classMultimedia_1_1PendingPage.html#ab2350d87545fad91748493843480b024">   88</a></span>    <span class="keywordtype">void</span> finished();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>private:</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    Items mItems;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    qsizetype mTotalItemCount{0};</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">bool</span> mFinished{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordtype">bool</span> mFailed{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>};</div>
 </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>} <span class="comment">// namespace Multimedia</span></div>
-<div class="ttc" id="aclassMultimedia_1_1Source_html"><div class="ttname"><a href="classMultimedia_1_1Source.html">Multimedia::Source</a></div><div class="ttdef"><b>Definition</b> Source.hpp:37</div></div>
-<div class="ttc" id="aclassMultimedia_1_1Source_html_a16dead55950c67e86fa9542b4c03dd5f"><div class="ttname"><a href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">Multimedia::Source::mMediaItems</a></div><div class="ttdeci">Items mMediaItems</div><div class="ttdef"><b>Definition</b> Source.hpp:102</div></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">struct </span>SourcePrivate;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="};">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html">  110</a></span><span class="keyword">class </span>BLABBYMULTIMEDIA_EXPORT <a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>{</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    Q_OBJECT</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">  117</a></span>    <a class="code hl_function" href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">~Source</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    Q_DISABLE_COPY_MOVE(<a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a>)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    QString <span class="keyword">const</span>&amp; sourceName() const noexcept;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    QString const&amp; iconUrl() const noexcept;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    Items const&amp; mediaItems() const noexcept;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    qsizetype totalItemCount() const noexcept;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordtype">bool</span> canLoadMore() const noexcept;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <span class="keywordtype">void</span> navigateTo(QString const&amp; path, qsizetype minimumItemCount = 0) noexcept;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    virtual <span class="keywordtype">void</span> loadMore() noexcept;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordtype">void</span> navigateBack(qsizetype minimumItemCount = 0) noexcept;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="keywordtype">void</span> navigateForward() noexcept;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    virtual std::unique_ptr&lt;<a class="code hl_class" href="classMultimedia_1_1PendingPage.html">PendingPage</a>&gt; browsePage(QString const&amp; path, qsizetype startIndex) noexcept;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a097f1fd97693da316359eb6bf7e8f806">  196</a></span>    <span class="keywordtype">void</span> navigationFinished(QString const&amp; path);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a13a3e9044d043f6f58d7a5c9232d0cf1">  202</a></span>    <span class="keywordtype">void</span> navigationFailed(QString const&amp; path);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a8299ffd0ead5c84548fb3216e0058e4a">  207</a></span>    <span class="keywordtype">void</span> moreItemsLoaded();</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">  213</a></span>    <span class="keywordtype">void</span> loadingMoreFailed();</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>protected:</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <a class="code hl_class" href="classMultimedia_1_1Source.html">Source</a>(QString sourceName, QString iconUrl = QString{<span class="stringliteral">&quot;&quot;</span>});</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordtype">void</span> setTotalItemCount(qsizetype count) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> navigate(QString <span class="keyword">const</span>&amp; path, qsizetype minimumItemCount) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">  244</a></span>    Items <a class="code hl_variable" href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">mMediaItems</a>;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    std::unique_ptr&lt;SourcePrivate&gt; d;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>};</div>
+</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>} <span class="comment">// namespace Multimedia</span></div>
+<div class="ttc" id="aclassMultimedia_1_1PendingPage_html"><div class="ttname"><a href="classMultimedia_1_1PendingPage.html">Multimedia::PendingPage</a></div><div class="ttdef"><b>Definition</b> Source.hpp:30</div></div>
+<div class="ttc" id="aclassMultimedia_1_1PendingPage_html_a2d7ebf0d322f808c478af2dc80df8cf1"><div class="ttname"><a href="classMultimedia_1_1PendingPage.html#a2d7ebf0d322f808c478af2dc80df8cf1">Multimedia::PendingPage::PendingPage</a></div><div class="ttdeci">PendingPage()</div></div>
+<div class="ttc" id="aclassMultimedia_1_1PendingPage_html_a6aa35478481de709bf0e32d7adc3d24c"><div class="ttname"><a href="classMultimedia_1_1PendingPage.html#a6aa35478481de709bf0e32d7adc3d24c">Multimedia::PendingPage::~PendingPage</a></div><div class="ttdeci">~PendingPage() override</div></div>
+<div class="ttc" id="aclassMultimedia_1_1Source_html"><div class="ttname"><a href="classMultimedia_1_1Source.html">Multimedia::Source</a></div><div class="ttdef"><b>Definition</b> Source.hpp:111</div></div>
+<div class="ttc" id="aclassMultimedia_1_1Source_html_a16dead55950c67e86fa9542b4c03dd5f"><div class="ttname"><a href="classMultimedia_1_1Source.html#a16dead55950c67e86fa9542b4c03dd5f">Multimedia::Source::mMediaItems</a></div><div class="ttdeci">Items mMediaItems</div><div class="ttdef"><b>Definition</b> Source.hpp:244</div></div>
 <div class="ttc" id="aclassMultimedia_1_1Source_html_a7588883a6f3c0e9b3ebcfbeea54b7dd1"><div class="ttname"><a href="classMultimedia_1_1Source.html#a7588883a6f3c0e9b3ebcfbeea54b7dd1">Multimedia::Source::~Source</a></div><div class="ttdeci">~Source() override</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

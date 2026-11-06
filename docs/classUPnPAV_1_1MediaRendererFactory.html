@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -128,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a049712b45ff654a8d342baba1a9cb00d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69917e1bd1808790c34fb023f0ec8c24" id="r_a69917e1bd1808790c34fb023f0ec8c24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#a69917e1bd1808790c34fb023f0ec8c24">operator=</a> (<a class="el" href="classUPnPAV_1_1MediaRendererFactory.html">MediaRendererFactory</a> &amp;&amp;other)=default</td></tr>
 <tr class="separator:a69917e1bd1808790c34fb023f0ec8c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac35a974f0c4af56822eba0a7389db1f3" id="r_ac35a974f0c4af56822eba0a7389db1f3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac35a974f0c4af56822eba0a7389db1f3">create</a> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> const &amp;desc)</td></tr>
+<tr class="memitem:ac35a974f0c4af56822eba0a7389db1f3" id="r_ac35a974f0c4af56822eba0a7389db1f3"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaRendererFactory.html#ac35a974f0c4af56822eba0a7389db1f3">create</a> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> const &amp;desc)</td></tr>
 <tr class="separator:ac35a974f0c4af56822eba0a7389db1f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -246,6 +250,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1MediaRenderer.html">MediaRenderer</a> &gt; UPnPAV::MediaRendererFactory::create </td>
@@ -255,6 +262,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Factory method that creates tries to create a <a class="el" href="classUPnPAV_1_1MediaRenderer.html">UPnPAV::MediaRenderer</a> instance. </p><dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">

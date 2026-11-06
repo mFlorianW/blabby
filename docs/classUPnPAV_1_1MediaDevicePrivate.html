@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -121,6 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a566175f1f588ff2bcf47db4f8dfe023e" id="r_a566175f1f588ff2bcf47db4f8dfe023e"><td class="memItemLeft" align="right" valign="top"><a id="a566175f1f588ff2bcf47db4f8dfe023e" name="a566175f1f588ff2bcf47db4f8dfe023e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setState</b> (<a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a> const state) noexcept</td></tr>
 <tr class="separator:a566175f1f588ff2bcf47db4f8dfe023e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b1d7b163dd651f7262149654be52a79" id="r_a7b1d7b163dd651f7262149654be52a79"><td class="memItemLeft" align="right" valign="top"><a id="a7b1d7b163dd651f7262149654be52a79" name="a7b1d7b163dd651f7262149654be52a79"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentTrack</b> (QString const &amp;uri, QString const &amp;metaData) noexcept</td></tr>
+<tr class="separator:a7b1d7b163dd651f7262149654be52a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -166,6 +173,12 @@ std::shared_ptr&lt; <a class="el" href="classUPnPAV_1_1EventSubscriptionHandle.h
 <tr class="memitem:af77139c3fc5d0d8b5e1e777476852f73" id="r_af77139c3fc5d0d8b5e1e777476852f73"><td class="memItemLeft" align="right" valign="top"><a id="af77139c3fc5d0d8b5e1e777476852f73" name="af77139c3fc5d0d8b5e1e777476852f73"></a>
 <a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mState</b> = MediaDevice::State::NoMediaPresent</td></tr>
 <tr class="separator:af77139c3fc5d0d8b5e1e777476852f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeddd7e0718b3ff2f6fd090e68c919081" id="r_aeddd7e0718b3ff2f6fd090e68c919081"><td class="memItemLeft" align="right" valign="top"><a id="aeddd7e0718b3ff2f6fd090e68c919081" name="aeddd7e0718b3ff2f6fd090e68c919081"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>mCurrentTrackUri</b></td></tr>
+<tr class="separator:aeddd7e0718b3ff2f6fd090e68c919081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c246d2a534efed542da76b764d3b7fe" id="r_a9c246d2a534efed542da76b764d3b7fe"><td class="memItemLeft" align="right" valign="top"><a id="a9c246d2a534efed542da76b764d3b7fe" name="a9c246d2a534efed542da76b764d3b7fe"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>mCurrentTrackMetaData</b></td></tr>
+<tr class="separator:a9c246d2a534efed542da76b764d3b7fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/blabby/blabby/upnpav/src/private/<a class="el" href="MediaDevicePrivate_8hpp_source.html">MediaDevicePrivate.hpp</a></li>

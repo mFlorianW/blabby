@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -133,6 +137,8 @@ Signals</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af8b4db226be751608b059963220b51e4" id="r_af8b4db226be751608b059963220b51e4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1SoapCall.html#af8b4db226be751608b059963220b51e4">hasFinishedSuccesful</a> () const noexcept=0</td></tr>
 <tr class="separator:af8b4db226be751608b059963220b51e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb09725931078a0b88b361cf2d54ab00" id="r_abb09725931078a0b88b361cf2d54ab00"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1SoapCall.html#abb09725931078a0b88b361cf2d54ab00">isDeviceUnreachable</a> () const noexcept=0</td></tr>
+<tr class="separator:abb09725931078a0b88b361cf2d54ab00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04f346fe4592db4c3955c99142a42e10" id="r_a04f346fe4592db4c3955c99142a42e10"><td class="memItemLeft" align="right" valign="top">virtual QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1SoapCall.html#a04f346fe4592db4c3955c99142a42e10">rawMessage</a> () const noexcept=0</td></tr>
 <tr class="separator:a04f346fe4592db4c3955c99142a42e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c6e5130abfaf6962231f82f9bfee62e" id="r_a4c6e5130abfaf6962231f82f9bfee62e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classUPnPAV_1_1SCPDAction.html">SCPDAction</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1SoapCall.html#a4c6e5130abfaf6962231f82f9bfee62e">action</a> () const noexcept</td></tr>
@@ -235,6 +241,36 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True call finished successful, otherwise false. </dd></dl>
 
 <p>Implemented in <a class="el" href="classUPnPAV_1_1HttpSoapCall.html#a0dc6297151b102ecb5d6ee36d54d44c5">UPnPAV::HttpSoapCall</a>.</p>
+
+</div>
+</div>
+<a id="abb09725931078a0b88b361cf2d54ab00" name="abb09725931078a0b88b361cf2d54ab00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb09725931078a0b88b361cf2d54ab00">&#9670;&#160;</a></span>isDeviceUnreachable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool UPnPAV::SoapCall::isDeviceUnreachable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Tells if the SOAP call failed because the device didn't answer, e.g. because it left the network. A device that answers with an error is reachable.</p>
+<dl class="section note"><dt>Note</dt><dd>The return value is only valid when finished signal was emitted.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True the device is unreachable, otherwise false. </dd></dl>
+
+<p>Implemented in <a class="el" href="classUPnPAV_1_1HttpSoapCall.html#ad75c6769e5035834f53c620dd70398c4">UPnPAV::HttpSoapCall</a>.</p>
 
 </div>
 </div>

@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -106,7 +110,6 @@ $(document).ready(function(){initNavTree('functions_rela.html',''); initResizabl
 
 <div class="contents">
 <div class="textblock">Here is a list of all documented related symbols with links to the class documentation for each member:</div><ul>
-<li>operator!=&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#ae56f26be214c5bc092da082f7f3aa299">Multimedia::Item</a></li>
 <li>operator==&#160;:&#160;<a class="el" href="classMultimedia_1_1Item.html#a31ed57a078693968da68257e862a4607">Multimedia::Item</a></li>
 </ul>
 </div><!-- contents -->

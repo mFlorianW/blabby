@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,7 +113,12 @@ $(document).ready(function(){initNavTree('functions_func_l.html',''); initResiza
 
 <h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
 <li>LastChangeReader()&#160;:&#160;<a class="el" href="classUPnPAV_1_1LastChangeReader.html#a8d18e2a172c1ee3c9d16427628ddf5ed">UPnPAV::LastChangeReader</a></li>
-<li>load()&#160;:&#160;<a class="el" href="classMultimedia_1_1ProviderLoader.html#a721a8d710bfcdccd04a2b47b4cc64123">Multimedia::ProviderLoader</a></li>
+<li>lastKnownPosition()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#abf6acae79b768b1964483e485c140e41">Multimedia::Queue</a></li>
+<li>lastKnownPositionChanged()&#160;:&#160;<a class="el" href="classMultimedia_1_1Queue.html#a2cc8d8fcc188f3b06f9e582a7c53d791">Multimedia::Queue</a></li>
+<li>load()&#160;:&#160;<a class="el" href="classMultimedia_1_1JsonRendererStore.html#a7f9bbb15b8173c1291c0936b63055415">Multimedia::JsonRendererStore</a>, <a class="el" href="classMultimedia_1_1ProviderLoader.html#a721a8d710bfcdccd04a2b47b4cc64123">Multimedia::ProviderLoader</a>, <a class="el" href="classMultimedia_1_1RendererStore.html#a454077b134d462ffca42b0a37370acb1">Multimedia::RendererStore</a></li>
+<li>loadingMoreFailed()&#160;:&#160;<a class="el" href="classMultimedia_1_1Source.html#a6c00a7ddf4d9e4597226656421f7a502">Multimedia::Source</a></li>
+<li>loadMore()&#160;:&#160;<a class="el" href="classMultimedia_1_1Source.html#ad85a9e4e58d7d631c947a9a325f0a127">Multimedia::Source</a>, <a class="el" href="classProvider_1_1MediaServer_1_1Source.html#a70e4db2fbee6c3bf4b483f325f7cb217">Provider::MediaServer::Source</a></li>
+<li>loadMoreFailedChanged()&#160;:&#160;<a class="el" href="classShell_1_1MediaItemModel.html#a8722d6bb95ff9e8e73d3ec36952bd04d">Shell::MediaItemModel</a></li>
 <li>locationUrl()&#160;:&#160;<a class="el" href="classUPnPAV_1_1ServiceDiscoveryPackage.html#af68352b867789960eb7697eece4171d6">UPnPAV::ServiceDiscoveryPackage</a></li>
 </ul>
 </div><!-- contents -->

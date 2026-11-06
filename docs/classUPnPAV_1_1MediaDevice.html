@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -159,6 +163,10 @@ Public Types</h2></td></tr>
 Signals</h2></td></tr>
 <tr class="memitem:abd77c7c26e6e10e96af5e674971c0163" id="r_abd77c7c26e6e10e96af5e674971c0163"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#abd77c7c26e6e10e96af5e674971c0163">stateChanged</a> ()</td></tr>
 <tr class="separator:abd77c7c26e6e10e96af5e674971c0163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a277afe66a6b2912781874a898e4eb508" id="r_a277afe66a6b2912781874a898e4eb508"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a277afe66a6b2912781874a898e4eb508">currentTrackChanged</a> ()</td></tr>
+<tr class="separator:a277afe66a6b2912781874a898e4eb508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61d38f0f690a44ca05badd2e9265bfc6" id="r_a61d38f0f690a44ca05badd2e9265bfc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a61d38f0f690a44ca05badd2e9265bfc6">unreachable</a> ()</td></tr>
+<tr class="separator:a61d38f0f690a44ca05badd2e9265bfc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -168,8 +176,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1dd0f8deb9fc6fcd9811e323ded55f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61da8db08c3b3d379fb52d35471eb28a" id="r_a61da8db08c3b3d379fb52d35471eb28a"><td class="memItemLeft" align="right" valign="top">virtual QUrl const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a61da8db08c3b3d379fb52d35471eb28a">iconUrl</a> () const noexcept</td></tr>
 <tr class="separator:a61da8db08c3b3d379fb52d35471eb28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3585c76e2d8e8fef56b8a73b5553f9b9" id="r_a3585c76e2d8e8fef56b8a73b5553f9b9"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a3585c76e2d8e8fef56b8a73b5553f9b9">udn</a> () const noexcept</td></tr>
+<tr class="separator:a3585c76e2d8e8fef56b8a73b5553f9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4558f68c713b6b8393ed7d883afd41b9" id="r_a4558f68c713b6b8393ed7d883afd41b9"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a4558f68c713b6b8393ed7d883afd41b9">manufacturer</a> () const noexcept</td></tr>
+<tr class="separator:a4558f68c713b6b8393ed7d883afd41b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af07f0b31266a1e510061529e75082521" id="r_af07f0b31266a1e510061529e75082521"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af07f0b31266a1e510061529e75082521">modelName</a> () const noexcept</td></tr>
+<tr class="separator:af07f0b31266a1e510061529e75082521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af179a119d17a9a089ac6f09225a8d812" id="r_af179a119d17a9a089ac6f09225a8d812"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af179a119d17a9a089ac6f09225a8d812">address</a> () const noexcept</td></tr>
+<tr class="separator:af179a119d17a9a089ac6f09225a8d812"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b161f1405d49c3f6e0a62f383ee3a85" id="r_a6b161f1405d49c3f6e0a62f383ee3a85"><td class="memItemLeft" align="right" valign="top">QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a6b161f1405d49c3f6e0a62f383ee3a85">baseUrl</a> () const noexcept</td></tr>
+<tr class="separator:a6b161f1405d49c3f6e0a62f383ee3a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ea37234b42a641654e2a169e439f131" id="r_a9ea37234b42a641654e2a169e439f131"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classUPnPAV_1_1MediaDevice.html#afcbf3d24ef2196d7428eae45a934439e">MediaDevice::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a9ea37234b42a641654e2a169e439f131">state</a> () const noexcept</td></tr>
 <tr class="separator:a9ea37234b42a641654e2a169e439f131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26976dffd17f0dc93cbb0cf4db5081af" id="r_a26976dffd17f0dc93cbb0cf4db5081af"><td class="memItemLeft" align="right" valign="top">virtual QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a26976dffd17f0dc93cbb0cf4db5081af">currentTrackUri</a> () const noexcept</td></tr>
+<tr class="separator:a26976dffd17f0dc93cbb0cf4db5081af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c259778331d05ba247b586b6257cee" id="r_ae6c259778331d05ba247b586b6257cee"><td class="memItemLeft" align="right" valign="top">virtual QString const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ae6c259778331d05ba247b586b6257cee">currentTrackMetaData</a> () const noexcept</td></tr>
+<tr class="separator:ae6c259778331d05ba247b586b6257cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70d9122ec8dd0b43e0c0459a4761f694" id="r_a70d9122ec8dd0b43e0c0459a4761f694"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#a70d9122ec8dd0b43e0c0459a4761f694">protocolInfo</a> () noexcept</td></tr>
 <tr class="separator:a70d9122ec8dd0b43e0c0459a4761f694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af666bf6c8a0b6c30745684ee30c05a83" id="r_af666bf6c8a0b6c30745684ee30c05a83"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#af666bf6c8a0b6c30745684ee30c05a83">currentConnectionIds</a> () noexcept</td></tr>
@@ -202,12 +224,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a27cf1f7a611584a02f2b88627c78c408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4926f7dca9658bae32f244aae98e965" id="r_ae4926f7dca9658bae32f244aae98e965"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; std::unique_ptr&lt; <a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965">pause</a> (quint32 instanceId=0) noexcept</td></tr>
 <tr class="separator:ae4926f7dca9658bae32f244aae98e965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfdeb64616aeb2d07957db12c50538e" id="r_afdfdeb64616aeb2d07957db12c50538e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#afdfdeb64616aeb2d07957db12c50538e">canPause</a> () const noexcept</td></tr>
+<tr class="separator:afdfdeb64616aeb2d07957db12c50538e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76a81d059df399b23d53f4b5fa2eb82" id="r_ad76a81d059df399b23d53f4b5fa2eb82"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#ad76a81d059df399b23d53f4b5fa2eb82">canSeek</a> (<a class="el" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a> mode) const noexcept</td></tr>
+<tr class="separator:ad76a81d059df399b23d53f4b5fa2eb82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ac39a1ad231b7f28fd8a04df218266365" id="r_ac39a1ad231b7f28fd8a04df218266365"><td class="memItemLeft" align="right" valign="top"><a id="ac39a1ad231b7f28fd8a04df218266365" name="ac39a1ad231b7f28fd8a04df218266365"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>MediaDevice</b> (<a class="el" href="classUPnPAV_1_1DeviceDescription.html">DeviceDescription</a> deviceDescription, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1SoapBackend.html">SoapBackend</a> &gt; soapBackend, QSharedPointer&lt; <a class="el" href="classUPnPAV_1_1EventBackend.html">EventBackend</a> &gt; eventBackend)</td></tr>
 <tr class="separator:ac39a1ad231b7f28fd8a04df218266365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3e2f12f175843976619e12cb0cdb2dc" id="r_aa3e2f12f175843976619e12cb0cdb2dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1MediaDevice.html#aa3e2f12f175843976619e12cb0cdb2dc">reportUnreachablePublisher</a> (<a class="el" href="classUPnPAV_1_1EventSubscriptionHandle.html">EventSubscriptionHandle</a> const &amp;events) noexcept</td></tr>
+<tr class="separator:aa3e2f12f175843976619e12cb0cdb2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This interface defines functions that every upnp media device should support. </p>
@@ -278,6 +306,118 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af179a119d17a9a089ac6f09225a8d812" name="af179a119d17a9a089ac6f09225a8d812"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af179a119d17a9a089ac6f09225a8d812">&#9670;&#160;</a></span>address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::address </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the network address of the device. The string can be empty when the address is unknown.</p>
+<dl class="section return"><dt>Returns</dt><dd>The network address of the device. </dd></dl>
+
+</div>
+</div>
+<a id="a6b161f1405d49c3f6e0a62f383ee3a85" name="a6b161f1405d49c3f6e0a62f383ee3a85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b161f1405d49c3f6e0a62f383ee3a85">&#9670;&#160;</a></span>baseUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::baseUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the URL relative URLs of the device are relative to, e.g. a relative album art URL of its Current Track. </p><dl class="section return"><dt>Returns</dt><dd>The base URL of the device or an empty string when it is unknown. </dd></dl>
+
+</div>
+</div>
+<a id="afdfdeb64616aeb2d07957db12c50538e" name="afdfdeb64616aeb2d07957db12c50538e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdfdeb64616aeb2d07957db12c50538e">&#9670;&#160;</a></span>canPause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UPnPAV::MediaDevice::canPause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the AVTransport service of the device offers the optional Pause function. </p><dl class="section return"><dt>Returns</dt><dd>True when <a class="el" href="classUPnPAV_1_1MediaDevice.html#ae4926f7dca9658bae32f244aae98e965">UPnPAV::MediaDevice::pause</a> can be called, otherwise false. </dd></dl>
+
+</div>
+</div>
+<a id="ad76a81d059df399b23d53f4b5fa2eb82" name="ad76a81d059df399b23d53f4b5fa2eb82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76a81d059df399b23d53f4b5fa2eb82">&#9670;&#160;</a></span>canSeek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UPnPAV::MediaDevice::canSeek </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classUPnPAV_1_1MediaDevice.html#aa4cfab37879a56986a53fb2a7b45ab4d">SeekMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives whether the AVTransport service of the device allows the seek mode, i.e. it is an allowed value of its A_ARG_TYPE_SeekMode state variable. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>The seek mode. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True when <a class="el" href="classUPnPAV_1_1MediaDevice.html#a2b67acb0ce070da86419cd935018138f">UPnPAV::MediaDevice::seek</a> can be called with the seek mode, otherwise false. </dd></dl>
+
+</div>
+</div>
 <a id="af666bf6c8a0b6c30745684ee30c05a83" name="af666bf6c8a0b6c30745684ee30c05a83"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af666bf6c8a0b6c30745684ee30c05a83">&#9670;&#160;</a></span>currentConnectionIds()</h2>
 
@@ -328,6 +468,84 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calls the GetCurrentConnectionInfo on the ConnectionManager of the UPnPAV device. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
+
+</div>
+</div>
+<a id="a277afe66a6b2912781874a898e4eb508" name="a277afe66a6b2912781874a898e4eb508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a277afe66a6b2912781874a898e4eb508">&#9670;&#160;</a></span>currentTrackChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::MediaDevice::currentTrackChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the URI or the metadata of the current track changed. </p>
+
+</div>
+</div>
+<a id="ae6c259778331d05ba247b586b6257cee" name="ae6c259778331d05ba247b586b6257cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6c259778331d05ba247b586b6257cee">&#9670;&#160;</a></span>currentTrackMetaData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::currentTrackMetaData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the DIDL-Lite metadata of the current track reported by the LastChange events of the AVTransport service. The metadata is empty until an event reported it, it's "NOT_IMPLEMENTED" when the device doesn't support it. </p><dl class="section return"><dt>Returns</dt><dd>The metadata of the current track. </dd></dl>
+
+</div>
+</div>
+<a id="a26976dffd17f0dc93cbb0cf4db5081af" name="a26976dffd17f0dc93cbb0cf4db5081af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26976dffd17f0dc93cbb0cf4db5081af">&#9670;&#160;</a></span>currentTrackUri()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::currentTrackUri </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the URI of the current track reported by the LastChange events of the AVTransport service. The URI is empty until an event reported it or when the device has no AVTransport service. </p><dl class="section return"><dt>Returns</dt><dd>The URI of the current track. </dd></dl>
 
 </div>
 </div>
@@ -418,6 +636,33 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a4558f68c713b6b8393ed7d883afd41b9" name="a4558f68c713b6b8393ed7d883afd41b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4558f68c713b6b8393ed7d883afd41b9">&#9670;&#160;</a></span>manufacturer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::manufacturer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the manufacturer of the device. The string can be empty when the device doesn't name one.</p>
+<dl class="section return"><dt>Returns</dt><dd>The manufacturer of the device. </dd></dl>
+
+</div>
+</div>
 <a id="a57633fba8cfb183410d0db44266c7171" name="a57633fba8cfb183410d0db44266c7171"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57633fba8cfb183410d0db44266c7171">&#9670;&#160;</a></span>mediaInfo()</h2>
 
@@ -449,6 +694,33 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The function can only be called if the device has an AVTransport service. Before calling the function check if the service exists with <a class="el" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">MediaDevice::hasAvTransportService</a>&gt; </dd></dl>
+
+</div>
+</div>
+<a id="af07f0b31266a1e510061529e75082521" name="af07f0b31266a1e510061529e75082521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af07f0b31266a1e510061529e75082521">&#9670;&#160;</a></span>modelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::modelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the model name of the device. The string can be empty when the device doesn't name one.</p>
+<dl class="section return"><dt>Returns</dt><dd>The model name of the device. </dd></dl>
 
 </div>
 </div>
@@ -675,6 +947,38 @@ The function can only be called if the device has an AVTransport service. Before
 </div><div class="memdoc">
 <p>Calls the GetProtocolInfo on the ConnectionManager Interface of the UPnPAV device.</p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error. </dd></dl>
+
+</div>
+</div>
+<a id="aa3e2f12f175843976619e12cb0cdb2dc" name="aa3e2f12f175843976619e12cb0cdb2dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3e2f12f175843976619e12cb0cdb2dc">&#9670;&#160;</a></span>reportUnreachablePublisher()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::MediaDevice::reportUnreachablePublisher </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classUPnPAV_1_1EventSubscriptionHandle.html">EventSubscriptionHandle</a> const &amp;&#160;</td>
+          <td class="paramname"><em>events</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Emits <a class="el" href="classUPnPAV_1_1MediaDevice.html#a61d38f0f690a44ca05badd2e9265bfc6">UPnPAV::MediaDevice::unreachable</a> when the publisher of the passed event subscription is unreachable. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">events</td><td>The event subscription of a service of the <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -935,6 +1239,59 @@ The function can only be called if the device has an AVTransport service. Before
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classUPnPAV_1_1PendingSoapCall.html">PendingSoapCall</a> with the result or an error.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The function can only be called if the device has an AVTransport service. Before calling the function check if the service exists with <a class="el" href="classUPnPAV_1_1MediaDevice.html#a83bef79169b27bbbd7875bf09fd12900">MediaDevice::hasAvTransportService</a>&gt; </dd></dl>
+
+</div>
+</div>
+<a id="a3585c76e2d8e8fef56b8a73b5553f9b9" name="a3585c76e2d8e8fef56b8a73b5553f9b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3585c76e2d8e8fef56b8a73b5553f9b9">&#9670;&#160;</a></span>udn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString const  &amp; UPnPAV::MediaDevice::udn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gives the unique device name (UDN) of the device.</p>
+<dl class="section return"><dt>Returns</dt><dd>The unique device name of the device. </dd></dl>
+
+</div>
+</div>
+<a id="a61d38f0f690a44ca05badd2e9265bfc6" name="a61d38f0f690a44ca05badd2e9265bfc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61d38f0f690a44ca05badd2e9265bfc6">&#9670;&#160;</a></span>unreachable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::MediaDevice::unreachable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when the <a class="el" href="classUPnPAV_1_1MediaDevice.html">UPnPAV::MediaDevice</a> doesn't answer anymore, e.g. because it left the network. A device that answers with an error is reachable. </p>
 
 </div>
 </div>

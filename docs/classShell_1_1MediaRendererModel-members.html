@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -117,10 +121,15 @@ $(document).ready(function(){initNavTree('classShell_1_1MediaRendererModel.html'
   <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#afe3283e5585fbb6d48ecdf8615aeeb28">activeRendererChanged</a>()</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#ac0ef1526c89582b1cbb7e5c1d40d6971">data</a>(QModelIndex const &amp;index, int role) const noexcept override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#acc68d20a68aebfba366fbce20b5cbccb">DisplayRole</a> enum name</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#a3993d67f3e0dfd9de860853ddc216784">MediaRendererModel</a>(std::unique_ptr&lt; Multimedia::RendererProvider &gt; provider)</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#af675f22b6e3beae01514379d59870b2b">roleNames</a>() const noexcept override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#ad54151ff324444346aab0b8960f2ae3b">rowCount</a>(QModelIndex const &amp;parent=QModelIndex{}) const noexcept override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1">~MediaRendererModel</a>() override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#ad56cf66f8ef043f60c6d34cf31f0305f">forgetRenderer</a>(QModelIndex const &amp;index)</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#a7599c2072e511adb123efc8edb4dccaa">isScanning</a>() const noexcept</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#a1d6c6d0f078c124140a77534ae00152a">MediaRendererModel</a>(std::unique_ptr&lt; Multimedia::RendererProvider &gt; provider, std::shared_ptr&lt; SettingsStore &gt; settings)</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#a834dfd410e16cd4e6146a276fef6e019">rescan</a>()</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#af675f22b6e3beae01514379d59870b2b">roleNames</a>() const noexcept override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#ad54151ff324444346aab0b8960f2ae3b">rowCount</a>(QModelIndex const &amp;parent=QModelIndex{}) const noexcept override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#af79d1c3c5810d51f53c96d36a1f00dd4">scanning</a></td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#a95783d4ab96f012c824c87ae650b16f9">scanningChanged</a>()</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"><span class="mlabel">signal</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html#abeab4719a74a487e2b6169340a9865e1">~MediaRendererModel</a>() override</td><td class="entry"><a class="el" href="classShell_1_1MediaRendererModel.html">Shell::MediaRendererModel</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -32,6 +32,10 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<style>
+  /* The logo is drawn for light backgrounds, turn it light (keeping its hues) in dark mode. */
+  html.dark-mode #projectlogo img { filter: invert(1) hue-rotate(180deg); }
+</style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -108,6 +112,7 @@ $(document).ready(function(){initNavTree('classUPnPAV_1_1ServiceDiscovery.html',
   <div class="summary">
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classUPnPAV_1_1ServiceDiscovery-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UPnPAV::ServiceDiscovery Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div></div>
 </div><!--header-->
@@ -133,7 +138,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37700a1c27bad6c51f9d42b1cf550f6e" id="r_a37700a1c27bad6c51f9d42b1cf550f6e"><td class="memItemLeft" align="right" valign="top"><a id="a37700a1c27bad6c51f9d42b1cf550f6e" name="a37700a1c27bad6c51f9d42b1cf550f6e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>sendSearchRequest</b> (QString const &amp;searchTarget)</td></tr>
 <tr class="separator:a37700a1c27bad6c51f9d42b1cf550f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a9cc3253337b2ee4f916ada477ae25e99" id="r_a9cc3253337b2ee4f916ada477ae25e99"><td class="memItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1ServiceDiscovery.html#a9cc3253337b2ee4f916ada477ae25e99">SearchWindow</a> = std::chrono::seconds{3}</td></tr>
+<tr class="separator:a9cc3253337b2ee4f916ada477ae25e99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9cc3253337b2ee4f916ada477ae25e99" name="a9cc3253337b2ee4f916ada477ae25e99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cc3253337b2ee4f916ada477ae25e99">&#9670;&#160;</a></span>SearchWindow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto UPnPAV::ServiceDiscovery::SearchWindow = std::chrono::seconds{3}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The MX value of a search request, the maximum time a device waits before it answers the search. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/blabby/blabby/upnpav/src/private/<a class="el" href="ServiceDiscovery_8hpp_source.html">ServiceDiscovery.hpp</a></li>
 <li>/home/runner/work/blabby/blabby/upnpav/src/private/<b>ServiceDiscovery.cpp</b></li>
