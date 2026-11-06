@@ -4,7 +4,6 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "QmlTestsSetup.hpp"
 #include <QtQuickTest/quicktest.h>
 
-QUICK_TEST_MAIN_WITH_SETUP(QmlTests, Shell::QmlTestsSetup)
+QUICK_TEST_MAIN(QmlTests)

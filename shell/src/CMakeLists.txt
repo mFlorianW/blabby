@@ -8,6 +8,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/BlabbyVersion.hpp.in ${CMAKE_CURRENT_
 # QML Modules
 ################################################################################
 add_subdirectory(Blabby/Shell)
+add_subdirectory(Blabby/Objects)
 add_subdirectory(Blabby/Controls)
 add_subdirectory(Blabby/Theme)
 
@@ -58,6 +59,8 @@ target_link_libraries(${PROJECT_NAME}Object
         Blabby::Artwork
         BlabbyShell::Qml
         BlabbyShell::QmlPlugin
+        BlabbyShell::Objects
+        BlabbyShell::ObjectsPlugin
         BlabbyShell::Controls
         BlabbyShell::ControlsPlugin
         BlabbyShell::Theme
