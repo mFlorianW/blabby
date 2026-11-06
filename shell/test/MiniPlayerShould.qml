@@ -872,19 +872,34 @@ Item {
         }
 
         /**
-         * Tests that the Volume popup holds only the controls the Renderer offers.
+         * Tests that the Volume popup holds only the slider when the Renderer offers no Mute control.
          */
-        function test_hold_only_the_controls_that_the_renderer_offers_in_the_volume_popup() {
-            miniPlayer.canControlVolume = false;
-            miniPlayerTest.openVolumePopup();
-            miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, true);
-            miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, false);
-            miniPlayerTest.child("volumePopup").close();
-            miniPlayer.canControlVolume = true;
+        function test_hold_only_the_volume_slider_in_the_volume_popup_without_mute_control() {
             miniPlayer.canControlMute = false;
             miniPlayerTest.openVolumePopup();
             miniPlayerTest.compare(miniPlayerTest.child("muteButton").visible, false);
             miniPlayerTest.compare(miniPlayerTest.child("volumeSlider").visible, true);
+        }
+
+        /**
+         * Tests that the Volume button mutes and unmutes directly without opening the popup when the Renderer offers
+         * Mute but no Volume control.
+         */
+        function test_toggle_the_mute_with_the_volume_button_without_volume_control() {
+            root.width = 672;
+            miniPlayer.canControlVolume = false;
+            const button = miniPlayerTest.child("volumeButton");
+            miniPlayerTest.compare(button.visible, true);
+            miniPlayerTest.mouseClick(button);
+            miniPlayerTest.compare(muteRequestedSpy.count, 1);
+            miniPlayerTest.compare(muteRequestedSpy.signalArguments[0][0], true);
+            miniPlayerTest.compare(miniPlayerTest.child("volumePopup").opened, false);
+            miniPlayer.muted = true;
+            miniPlayerTest.compare(button.iconSource, Qt.url("qrc:/qt/qml/Blabby/Shell/icons/material/volume_off.svg"));
+            miniPlayerTest.mouseClick(button);
+            miniPlayerTest.compare(muteRequestedSpy.count, 2);
+            miniPlayerTest.compare(muteRequestedSpy.signalArguments[1][0], false);
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 0);
         }
 
         function test_hide_the_volume_button_without_mute_and_volume_data() {

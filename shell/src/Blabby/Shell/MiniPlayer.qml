@@ -25,8 +25,8 @@ import Blabby.Theme
  * upwards above it to pick the Active Renderer. The menu covers the item the mini player is laid out in, above its
  * other children, and closes when the mini player becomes invisible.
  * Below the narrow breakpoint the row collapses: a Volume button, shown by the same rules and with the icon of the Mute
- * button, replaces Mute and the Volume slider and opens a popup upwards above it that holds them, the Repeat button is
- * hidden and the pill shows only its icon.
+ * button, replaces Mute and the Volume slider and opens a popup upwards above it that holds them; without Volume
+ * control it mutes and unmutes directly. The Repeat button is hidden and the pill shows only its icon.
  */
 Item {
     id: miniPlayer
@@ -400,7 +400,14 @@ Item {
         checked: volumePopup.opened
         visible: miniPlayer.narrow && volumeControls.offered
         // While the popup is open its tap catcher covers the button, a tap on the button closes the popup then.
-        onClicked: volumePopup.open()
+        // A popup with only the Mute button would take a second tap to mute, so the button mutes itself then.
+        onClicked: {
+            if (miniPlayer.canControlVolume) {
+                volumePopup.open();
+            } else {
+                miniPlayer.muteRequested(!miniPlayer.muted);
+            }
+        }
     }
 
     PillButton {
