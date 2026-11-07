@@ -80,6 +80,12 @@ struct BLABBYMULTIMEDIA_EXPORT ProviderSetting
 };
 
 /**
+ * The key of the action setting that Rescans a Provider. The shell triggers it on every Provider when the user asks
+ * for a Rescan in the Source menu, a Provider that can look for its Sources again describes an action with this key.
+ */
+inline constexpr auto rescanActionKey = QLatin1StringView{"rescanNetwork"};
+
+/**
  * Base class for every Provider plugin.
  * A derived class of this has to implement the @ref Provider::name() "init" function.
  * The @ref Proivder::name() "init" will be autommatically called by the ProviderLoader on application start.

@@ -13,11 +13,6 @@
 namespace Provider::MediaServer
 {
 
-namespace
-{
-constexpr auto rescanNetworkKey = QLatin1StringView{"rescanNetwork"};
-} // namespace
-
 Provider::Provider(std::unique_ptr<UPnPAV::IServiceProviderFactory> serviceProviderFab,
                    std::unique_ptr<UPnPAV::MediaServerFactory> mediaServerFab)
     : Multimedia::Provider{QStringLiteral("MediaServerProvider"),
@@ -66,7 +61,7 @@ QString Provider::displayTitle() const noexcept
 
 QList<Multimedia::ProviderSetting> Provider::settings() const noexcept
 {
-    return {Multimedia::ProviderSetting{.key = rescanNetworkKey,
+    return {Multimedia::ProviderSetting{.key = Multimedia::rescanActionKey,
                                         .title = tr("Rescan network"),
                                         .subtitle = tr("Search the network for media servers again"),
                                         .kind = Multimedia::ProviderSetting::Kind::Action}};
@@ -74,7 +69,7 @@ QList<Multimedia::ProviderSetting> Provider::settings() const noexcept
 
 void Provider::triggerAction(QString const& key) noexcept
 {
-    if (key == rescanNetworkKey) {
+    if (key == Multimedia::rescanActionKey) {
         rescan();
     }
 }

@@ -11,10 +11,14 @@
 namespace Shell
 {
 
-MediaSourceModel::MediaSourceModel(Multimedia::Providers providers)
+MediaSourceModel::MediaSourceModel(Multimedia::Providers providers, std::chrono::milliseconds scanDuration)
     : QAbstractListModel{}
     , mProviders{std::move(providers)}
 {
+    mScanTimer.setSingleShot(true);
+    mScanTimer.setInterval(scanDuration);
+    connect(&mScanTimer, &QTimer::timeout, this, &MediaSourceModel::scanningChanged);
+
     for (auto const& provider : std::as_const(mProviders)) {
         connect(provider.get(), &Multimedia::Provider::sourceAdded, this, &MediaSourceModel::onSourceAdded);
         connect(provider.get(), &Multimedia::Provider::sourceRemoved, this, &MediaSourceModel::onSourceRemoved);
@@ -86,6 +90,25 @@ void MediaSourceModel::activateMediaSource(qsizetype idx)
 std::shared_ptr<Multimedia::Source> MediaSourceModel::activeMediaSource()
 {
     return mActiveSource;
+}
+
+bool MediaSourceModel::isScanning() const noexcept
+{
+    return mScanTimer.isActive();
+}
+
+void MediaSourceModel::rescan()
+{
+    if (mScanTimer.isActive()) {
+        return;
+    }
+
+    qCDebug(shell) << "Rescan every Provider for Sources.";
+    mScanTimer.start();
+    Q_EMIT scanningChanged();
+    for (auto const& provider : std::as_const(mProviders)) {
+        provider->triggerAction(Multimedia::rescanActionKey);
+    }
 }
 
 void MediaSourceModel::onSourceAdded(std::shared_ptr<Multimedia::Source> const& source) noexcept

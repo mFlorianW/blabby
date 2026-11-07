@@ -9,6 +9,8 @@
 
 #include <ProviderLoader.hpp>
 #include <QAbstractListModel>
+#include <QTimer>
+#include <chrono>
 #include <memory>
 
 namespace Shell
@@ -30,6 +32,13 @@ class MediaSourceModel : public QAbstractListModel
     Q_PROPERTY(
         std::shared_ptr<Multimedia::Source> activeMediaSource READ activeMediaSource NOTIFY activeMediaSourceChanged)
 
+    /**
+     * This property is true for the scan duration after a Rescan started by @ref MediaSourceModel::rescan.
+     * The Providers don't report the end of a Rescan, the scan duration is the time a MediaServer on the network has
+     * to answer it.
+     */
+    Q_PROPERTY(bool scanning READ isScanning NOTIFY scanningChanged)
+
 public:
     /**
      * The Display Roles for the UI to query the data.
@@ -45,10 +54,17 @@ public:
     };
 
     /**
+     * The time @ref MediaSourceModel::scanning stays true after a Rescan, the time the search on the network takes.
+     */
+    static constexpr auto DefaultScanDuration = std::chrono::milliseconds{3000};
+
+    /**
      * Creates an instance of the MediaSourceModel that holds the Sources of the passed Providers.
      * @param providers The loaded Providers, they are already initialized.
+     * @param scanDuration The time @ref MediaSourceModel::scanning stays true after a Rescan.
      */
-    explicit MediaSourceModel(Multimedia::Providers providers);
+    explicit MediaSourceModel(Multimedia::Providers providers,
+                              std::chrono::milliseconds scanDuration = DefaultScanDuration);
 
     /**
      * Default destructor
@@ -96,6 +112,18 @@ public:
      */
     std::shared_ptr<Multimedia::Source> activeMediaSource();
 
+    /**
+     * Gives true for the scan duration after a Rescan.
+     * @return True while a Rescan is running.
+     */
+    bool isScanning() const noexcept;
+
+    /**
+     * Rescans every Provider by triggering its @ref Multimedia::rescanActionKey action, the Sources it finds or misses
+     * are reported as added or removed. Nothing happens while a Rescan is running.
+     */
+    Q_INVOKABLE void rescan();
+
 Q_SIGNALS:
     /**
      * The signal is emitted when the active @ref Multimedia::MediaSource changed.
@@ -108,6 +136,11 @@ Q_SIGNALS:
      */
     void activeMediaSourceDisappeared(QString const& sourceName);
 
+    /**
+     * The signal is emitted when the @ref MediaSourceModel::scanning property changed.
+     */
+    void scanningChanged();
+
 private Q_SLOTS:
     void onSourceAdded(std::shared_ptr<Multimedia::Source> const& source) noexcept;
     void onSourceRemoved(std::shared_ptr<Multimedia::Source> const& source) noexcept;
@@ -116,6 +149,7 @@ private:
     Multimedia::Providers mProviders;
     Multimedia::MediaSources mSources;
     std::shared_ptr<Multimedia::Source> mActiveSource{nullptr};
+    QTimer mScanTimer;
 };
 
 } // namespace Shell

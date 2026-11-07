@@ -282,6 +282,55 @@ void MediaSourceModelShould::keep_the_active_role_on_the_active_media_source_whe
     QCOMPARE(isActive(model, 1), false);
 }
 
+void MediaSourceModelShould::trigger_the_rescan_action_of_every_provider_on_rescan()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{2};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+
+    model.rescan();
+
+    for (auto const& provider : loader.providers()) {
+        auto* testProvider = qobject_cast<Multimedia::TestHelper::TestProvider*>(provider.get());
+        QCOMPARE(testProvider->triggeredActions(), QStringList{Multimedia::rescanActionKey});
+    }
+}
+
+void MediaSourceModelShould::not_scan_at_start()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+
+    QCOMPARE(model.isScanning(), false);
+}
+
+void MediaSourceModelShould::scan_for_the_scan_duration_after_a_rescan()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {}), std::chrono::milliseconds{50}};
+    auto scanningSpy = QSignalSpy{&model, &MediaSourceModel::scanningChanged};
+
+    model.rescan();
+
+    QCOMPARE(model.isScanning(), true);
+    QCOMPARE(scanningSpy.count(), 1);
+    QTRY_COMPARE(model.isScanning(), false);
+    QCOMPARE(scanningSpy.count(), 2);
+}
+
+void MediaSourceModelShould::ignore_a_rescan_while_scanning()
+{
+    auto loader = Multimedia::TestHelper::TestProviderLoader{};
+    auto model = MediaSourceModel{loadProviders(loader, {})};
+    auto* provider = qobject_cast<Multimedia::TestHelper::TestProvider*>(loader.providers().at(0).get());
+    auto scanningSpy = QSignalSpy{&model, &MediaSourceModel::scanningChanged};
+    model.rescan();
+
+    model.rescan();
+
+    QCOMPARE(provider->triggeredActions().size(), 1);
+    QCOMPARE(scanningSpy.count(), 1);
+}
+
 } // namespace Shell
 
 QTEST_MAIN(Shell::MediaSourceModelShould);

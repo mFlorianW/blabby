@@ -35,6 +35,10 @@ private Q_SLOTS:
     void mark_only_the_row_of_the_active_media_source_as_active();
     void notify_the_active_role_of_the_previous_and_the_new_active_row();
     void keep_the_active_role_on_the_active_media_source_when_rows_are_removed_and_added();
+    void trigger_the_rescan_action_of_every_provider_on_rescan();
+    void not_scan_at_start();
+    void scan_for_the_scan_duration_after_a_rescan();
+    void ignore_a_rescan_while_scanning();
 };
 
 } // namespace Shell

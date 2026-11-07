@@ -14,11 +14,6 @@
 namespace Provider::MediaServer
 {
 
-namespace
-{
-constexpr auto rescanNetworkKey = QLatin1StringView{"rescanNetwork"};
-} // namespace
-
 ProviderShould::~ProviderShould() = default;
 
 void ProviderShould::send_find_request_for_media_server_on_init()
@@ -85,7 +80,7 @@ void ProviderShould::describe_a_rescan_network_action_under_media_servers()
 
     QCOMPARE(prov.displayTitle(), QStringLiteral("Media servers"));
     QCOMPARE(settings.size(), 1);
-    QCOMPARE(settings.at(0).key, QString{rescanNetworkKey});
+    QCOMPARE(settings.at(0).key, QString{Multimedia::rescanActionKey});
     QCOMPARE(settings.at(0).title, QStringLiteral("Rescan network"));
     QCOMPARE(settings.at(0).kind, Multimedia::ProviderSetting::Kind::Action);
 }
@@ -97,7 +92,7 @@ void ProviderShould::search_the_network_again_on_rescan()
     auto prov = Provider{std::move(spFab), std::make_unique<UPnPAV::Doubles::MediaServerFactory>()};
     prov.init();
 
-    prov.triggerAction(rescanNetworkKey);
+    prov.triggerAction(Multimedia::rescanActionKey);
 
     QCOMPARE(spFabRaw->serviceProvider->searchCount(), 2);
 }
@@ -124,7 +119,7 @@ void ProviderShould::report_servers_found_by_a_rescan_as_added()
     prov.init();
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
 
-    prov.triggerAction(rescanNetworkKey);
+    prov.triggerAction(Multimedia::rescanActionKey);
     Q_EMIT spFabRaw->serviceProvider->serviceConnected(QStringLiteral("uuid:server-a"));
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
 
@@ -147,7 +142,7 @@ void ProviderShould::report_servers_missing_after_a_rescan_as_removed()
     auto const serverA = addedSpy.at(0).at(0).value<std::shared_ptr<Multimedia::Source>>();
     auto const serverB = addedSpy.at(1).at(0).value<std::shared_ptr<Multimedia::Source>>();
 
-    prov.triggerAction(rescanNetworkKey);
+    prov.triggerAction(Multimedia::rescanActionKey);
     Q_EMIT spFabRaw->serviceProvider->serviceSeen(QStringLiteral("uuid:server-a"));
     QCOMPARE(removedSpy.size(), 0);
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
@@ -168,7 +163,7 @@ void ProviderShould::remove_servers_only_at_the_end_of_a_rescan()
     Q_EMIT spFabRaw->serviceProvider->serviceConnected(QStringLiteral("uuid:server-a"));
 
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
-    prov.triggerAction(rescanNetworkKey);
+    prov.triggerAction(Multimedia::rescanActionKey);
     Q_EMIT spFabRaw->serviceProvider->serviceSeen(QStringLiteral("uuid:server-a"));
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
     Q_EMIT spFabRaw->serviceProvider->searchFinished();
