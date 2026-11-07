@@ -102,6 +102,12 @@ Item {
         }
 
         SignalSpy {
+            id: seekRequestedSpy
+            target: miniPlayer
+            signalName: "seekRequested"
+        }
+
+        SignalSpy {
             id: beneathClickedSpy
             target: beneath
             signalName: "clicked"
@@ -127,6 +133,11 @@ Item {
             miniPlayer.canControlVolume = true;
             miniPlayer.muted = false;
             miniPlayer.canControlMute = true;
+            miniPlayer.position = 102000;
+            miniPlayer.hasDuration = true;
+            miniPlayer.duration = 271000;
+            miniPlayer.canSeek = true;
+            miniPlayer.cancelSeek();
             togglePlaybackRequestedSpy.clear();
             previousRequestedSpy.clear();
             nextRequestedSpy.clear();
@@ -136,6 +147,7 @@ Item {
             rendererPickedSpy.clear();
             volumeRequestedSpy.clear();
             muteRequestedSpy.clear();
+            seekRequestedSpy.clear();
             beneathClickedSpy.clear();
             miniPlayer.visible = true;
             root.width = 1184;
@@ -1084,6 +1096,183 @@ Item {
             miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, false);
             root.width = 1184;
             miniPlayerTest.compare(miniPlayerTest.child("shuffleButton").visible, true);
+        }
+
+        /**
+         * Tests that the progress line along the bottom edge shows the position relative to the duration and follows
+         * position updates.
+         */
+        function test_show_the_position_on_the_progress_line() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const indicator = miniPlayerTest.child("progressIndicator");
+            miniPlayerTest.compare(line.visible, true);
+            miniPlayerTest.compare(track.height, 4);
+            const trackBottom = track.mapToItem(miniPlayer, 0, track.height).y;
+            miniPlayerTest.verify(trackBottom <= miniPlayer.height && trackBottom >= miniPlayer.height - 8, trackBottom);
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width * 102000 / 271000, 1);
+            miniPlayer.position = 135500;
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width / 2, 1);
+            miniPlayerTest.compare(miniPlayerTest.child("progressThumb").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("progressTimeLabel").visible, false);
+        }
+
+        /**
+         * Tests that the progress line has a touch area of about 24 px over the line.
+         */
+        function test_have_a_touch_area_of_about_24_px_over_the_progress_line() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            miniPlayerTest.compare(line.height, 24);
+            const trackCenter = track.mapToItem(line, 0, track.height / 2).y;
+            miniPlayerTest.verify(trackCenter > 0 && trackCenter < line.height, trackCenter);
+        }
+
+        /**
+         * Tests that a tap on the progress line seeks to that point and the line holds the target until the next
+         * position update.
+         */
+        function test_seek_with_a_tap_on_the_progress_line() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const indicator = miniPlayerTest.child("progressIndicator");
+            const point = track.mapToItem(line, track.width / 2, track.height / 2);
+            miniPlayerTest.mouseClick(line, point.x, point.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 1);
+            miniPlayerTest.fuzzyCompare(seekRequestedSpy.signalArguments[0][0], 135500, 1000);
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width / 2, 2);
+            miniPlayer.position = 140000;
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width * 140000 / 271000, 1);
+        }
+
+        /**
+         * Tests that dragging the progress line thickens it, shows a thumb and a time label with the target and seeks
+         * once on release; the line holds the target until the next position update.
+         */
+        function test_seek_once_on_release_of_the_progress_line() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const indicator = miniPlayerTest.child("progressIndicator");
+            const thumb = miniPlayerTest.child("progressThumb");
+            const label = miniPlayerTest.child("progressTimeLabel");
+            const start = track.mapToItem(line, track.width / 4, track.height / 2);
+            const end = track.mapToItem(line, track.width / 2, track.height / 2);
+            miniPlayerTest.mousePress(line, start.x, start.y);
+            miniPlayerTest.mouseMove(line, end.x, end.y);
+            miniPlayerTest.verify(track.height > 4, track.height);
+            miniPlayerTest.compare(thumb.visible, true);
+            miniPlayerTest.compare(label.visible, true);
+            miniPlayerTest.compare(miniPlayerTest.findChild(label, "progressTimeText").text, "2:15");
+            miniPlayerTest.verify(label.mapToItem(miniPlayer, 0, label.height).y <= track.mapToItem(miniPlayer, 0, 0).y);
+            // A position update while dragging doesn't move the line away from the finger.
+            miniPlayer.position = 103000;
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width / 2, 2);
+            miniPlayerTest.compare(seekRequestedSpy.count, 0);
+            miniPlayerTest.mouseRelease(line, end.x, end.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 1);
+            miniPlayerTest.fuzzyCompare(seekRequestedSpy.signalArguments[0][0], 135500, 1000);
+            miniPlayerTest.compare(track.height, 4);
+            miniPlayerTest.compare(thumb.visible, false);
+            miniPlayerTest.compare(label.visible, false);
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width / 2, 2);
+            miniPlayer.position = 136000;
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width * 136000 / 271000, 1);
+        }
+
+        /**
+         * Tests that a seek that failed shows the position again.
+         */
+        function test_show_the_position_again_when_the_seek_failed() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const indicator = miniPlayerTest.child("progressIndicator");
+            const point = track.mapToItem(line, track.width / 2, track.height / 2);
+            miniPlayerTest.mouseClick(line, point.x, point.y);
+            miniPlayer.handleControlFailed(Renderer.ChangeVolume);
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width / 2, 2);
+            miniPlayer.handleControlFailed(Renderer.Seek);
+            miniPlayerTest.fuzzyCompare(indicator.width, track.width * 102000 / 271000, 1);
+        }
+
+        /**
+         * Tests that the progress line only shows the position when the Renderer can't seek.
+         */
+        function test_not_react_to_touch_on_the_progress_line_without_seeking() {
+            miniPlayer.canSeek = false;
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const point = track.mapToItem(line, track.width / 2, track.height / 2);
+            miniPlayerTest.compare(line.visible, true);
+            miniPlayerTest.mousePress(line, point.x, point.y);
+            miniPlayerTest.compare(track.height, 4);
+            miniPlayerTest.compare(miniPlayerTest.child("progressThumb").visible, false);
+            miniPlayerTest.compare(miniPlayerTest.child("progressTimeLabel").visible, false);
+            miniPlayerTest.mouseRelease(line, point.x, point.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 0);
+        }
+
+        /**
+         * Tests that a tap on the progress line opens the Playing screen through the track area when the Renderer
+         * can't seek, while the line seeks when it can.
+         */
+        function test_leave_a_tap_on_the_progress_line_to_the_track_area_without_seeking() {
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            const point = track.mapToItem(line, 8, track.height / 2);
+            miniPlayerTest.mouseClick(line, point.x, point.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 1);
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 0);
+            miniPlayer.canSeek = false;
+            miniPlayerTest.mouseClick(line, point.x, point.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 1);
+            miniPlayerTest.compare(nowPlayingRequestedSpy.count, 1);
+        }
+
+        /**
+         * Tests that a Stopped Renderer shows the start on the progress line and can't seek, as on the Playing screen.
+         */
+        function test_show_the_start_on_the_progress_line_without_seeking_while_stopped() {
+            miniPlayer.playbackState = Renderer.Stopped;
+            const line = miniPlayerTest.child("progressLine");
+            const track = miniPlayerTest.child("progressTrack");
+            miniPlayerTest.compare(miniPlayerTest.child("progressIndicator").width, 0);
+            const point = track.mapToItem(line, track.width / 2, track.height / 2);
+            miniPlayerTest.mouseClick(line, point.x, point.y);
+            miniPlayerTest.compare(seekRequestedSpy.count, 0);
+        }
+
+        function test_hide_the_progress_line_data() {
+            return [
+                {
+                    tag: "without a duration",
+                    hasActiveRenderer: true,
+                    playbackState: Renderer.Playing,
+                    hasDuration: false
+                },
+                {
+                    tag: "without media",
+                    hasActiveRenderer: true,
+                    playbackState: Renderer.NoMedia,
+                    hasDuration: true
+                },
+                {
+                    tag: "without an Active Renderer",
+                    hasActiveRenderer: false,
+                    playbackState: Renderer.Playing,
+                    hasDuration: true
+                }
+            ];
+        }
+
+        /**
+         * Tests that the progress line is hidden for a stream without a duration, without media and without an Active
+         * Renderer.
+         */
+        function test_hide_the_progress_line(data) {
+            miniPlayer.hasActiveRenderer = data.hasActiveRenderer;
+            miniPlayer.playbackState = data.playbackState;
+            miniPlayer.hasDuration = data.hasDuration;
+            miniPlayerTest.compare(miniPlayerTest.child("progressLine").visible, false);
         }
     }
 }
