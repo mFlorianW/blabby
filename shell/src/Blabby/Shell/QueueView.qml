@@ -123,6 +123,11 @@ Item {
      */
     signal browseLibraryRequested
 
+    /**
+     * The height of a row that the rows are sized close to, so that the last visible row is cut off.
+     */
+    readonly property real preferredRowHeight: 60
+
     ScreenHeader {
         id: header
         objectName: "header"
@@ -197,7 +202,7 @@ Item {
 
             objectName: "entryRow" + entryRow.index
             width: entryList.width
-            height: 60
+            height: CutOffRows.rowHeight(entryList.height, queueView.preferredRowHeight, entryList.spacing)
             // The dragged row is drawn above the rows it passes.
             z: dragArea.pressed ? 1 : 0
             transform: [

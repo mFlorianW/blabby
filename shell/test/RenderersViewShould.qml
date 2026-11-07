@@ -127,6 +127,15 @@ Item {
         }
 
         /**
+         * Tests that the cards are sized so that the last visible row of cards is cut off by about a third.
+         */
+        function test_cut_off_the_last_visible_row_of_cards() {
+            const grid = renderersViewTest.child(renderersView, "rendererGrid");
+
+            renderersViewTest.fuzzyCompare(CutOffRows.shownFraction(grid.height, renderersViewTest.card(0).height, renderersView.cardSpacing), CutOffRows.cutOffShown, 0.001);
+        }
+
+        /**
          * The widths of the view with the expected number of columns.
          */
         function test_reflow_the_cards_to_the_available_width_data() {

@@ -47,9 +47,14 @@ Item {
     readonly property real minimumCardWidth: 300
 
     /**
-     * The height of a card, the implicit height of the RendererCard.
+     * The height of a card that the cards are sized close to, the implicit height of the RendererCard.
      */
-    readonly property real cardHeight: 100
+    readonly property real preferredCardHeight: 100
+
+    /**
+     * The height of a card, close to the preferred one so that the last visible row of cards is cut off.
+     */
+    readonly property real cardHeight: CutOffRows.rowHeight(grid.height, renderersView.preferredCardHeight, renderersView.cardSpacing)
 
     /**
      * The space between two cards.

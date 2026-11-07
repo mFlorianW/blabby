@@ -1,6 +1,10 @@
 ################################################################################
 # QML Module
 ################################################################################
+set_source_files_properties(CutOffRows.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+
 qt_add_qml_module(${PROJECT_NAME}Controls STATIC
     URI
         "Blabby.Controls"
@@ -11,6 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}Controls STATIC
         BusyIndicator.qml
         Button.qml
         Card.qml
+        CutOffRows.qml
         EmptyState.qml
         EqualizerGlyph.qml
         IconButton.qml
