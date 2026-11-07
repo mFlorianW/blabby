@@ -71,6 +71,14 @@ Q_SIGNALS:
     void serviceDisconnected(QString const& uniqueServiceName);
 
     /**
+     * This signal is emitted when a known service answers a search or announces itself again,
+     * that is when it is still on the network. A known service is one that answered or announced itself before,
+     * even when its description is still fetched.
+     * @param uniqueServiceName The service name which is seen.
+     */
+    void serviceSeen(QString const& uniqueServiceName);
+
+    /**
      * This signal is emitted when the devices on the network had the time to answer a search,
      * that is when the MX window of the search request is over.
      */
