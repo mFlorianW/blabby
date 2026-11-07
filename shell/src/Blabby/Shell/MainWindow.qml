@@ -236,6 +236,10 @@ Rectangle {
         artworkUrl: Singleton.activeRendererController.artworkUrl
         canPause: Singleton.activeRendererController.canPause
         transitioning: Singleton.activeRendererController.transitioning
+        position: Singleton.activeRendererController.position
+        hasDuration: Singleton.activeRendererController.hasDuration
+        duration: Singleton.activeRendererController.duration
+        canSeek: Singleton.activeRendererController.canSeek
         volume: Singleton.activeRendererController.volume
         volumeMinimum: Singleton.activeRendererController.volumeMinimum
         volumeMaximum: Singleton.activeRendererController.volumeMaximum
@@ -259,6 +263,7 @@ Rectangle {
         onNextRequested: Singleton.queueModel.next()
         onCycleRepeatRequested: Singleton.queueModel.cycleRepeat()
         onToggleShuffleRequested: Singleton.queueModel.toggleShuffle()
+        onSeekRequested: position => Singleton.activeRendererController.seek(position)
         onVolumeRequested: volume => Singleton.activeRendererController.setVolume(volume)
         onMuteRequested: muted => Singleton.activeRendererController.setMuted(muted)
     }
@@ -274,6 +279,7 @@ Rectangle {
         }
         function onControlFailed(rendererName: string, action: int) {
             nowPlayingView.handleControlFailed(action);
+            miniPlayer.handleControlFailed(action);
             toast.show(controlFailureMessage.message(rendererName, action));
         }
     }

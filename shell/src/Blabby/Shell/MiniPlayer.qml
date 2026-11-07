@@ -6,6 +6,7 @@ import QtQuick
 import Blabby.Controls
 import Blabby.Objects
 import Blabby.Theme
+import "TimeFormat.js" as TimeFormat
 
 /**
  * A bar at the bottom of the screens that shows and controls what the Active Renderer plays.
@@ -27,6 +28,11 @@ import Blabby.Theme
  * Below the narrow breakpoint the row collapses: a Volume button, shown by the same rules and with the icon of the Mute
  * button, replaces Mute and the Volume slider and opens a popup upwards above it that holds them; without Volume
  * control it mutes and unmutes directly. The Repeat button is hidden and the pill shows only its icon.
+ * A 4 px progress line along the bottom edge shows the position relative to the duration, the start while Stopped.
+ * Its touch area of 24 px over the line seeks on release or a tap like the seek bar of the Playing screen: while
+ * pressed the line thickens and shows a thumb and a time label with the target, after the seek it stays at the target
+ * until the next position update. It only shows the position when the Renderer can't seek or is Stopped and is hidden
+ * without media and for a stream without a duration.
  */
 Item {
     id: miniPlayer
@@ -76,6 +82,26 @@ Item {
      * True while the Active Renderer is transitioning, e.g. loading or buffering.
      */
     property bool transitioning: false
+
+    /**
+     * The position in the Current Track in milliseconds.
+     */
+    property real position: 0
+
+    /**
+     * True when the duration of the Current Track is known, it's unknown e.g. for a stream.
+     */
+    property bool hasDuration: false
+
+    /**
+     * The duration of the Current Track in milliseconds.
+     */
+    property real duration: 0
+
+    /**
+     * True when the Active Renderer can seek in the Current Track.
+     */
+    property bool canSeek: false
 
     /**
      * The Volume of the Active Renderer.
@@ -133,9 +159,19 @@ Item {
     property bool shuffled: false
 
     /**
+     * The position a seek was requested to, -1 without. The progress line stays there until the next position update.
+     */
+    property real seekTarget: -1
+
+    /**
      * True while the Active Renderer is Playing.
      */
     readonly property bool playing: miniPlayer.playbackState === Renderer.Playing
+
+    /**
+     * True while the Active Renderer is Stopped.
+     */
+    readonly property bool stopped: miniPlayer.playbackState === Renderer.Stopped
 
     /**
      * True below the width breakpoint of narrow screens, e.g. 800×480, where the mini player collapses what doesn't
@@ -181,6 +217,11 @@ Item {
     signal toggleShuffleRequested
 
     /**
+     * This signal is emitted when the user asks to seek to the position in milliseconds.
+     */
+    signal seekRequested(real position)
+
+    /**
      * This signal is emitted while the user changes the Volume.
      */
     signal volumeRequested(int volume)
@@ -195,6 +236,25 @@ Item {
      * Renderer.
      */
     signal rendererPicked(int index)
+
+    /**
+     * Shows the position again instead of the target of a requested seek, e.g. because the seek failed.
+     */
+    function cancelSeek() {
+        miniPlayer.seekTarget = -1;
+    }
+
+    onPositionChanged: miniPlayer.cancelSeek()
+
+    /**
+     * Takes back what the failed control call changed on the mini player, a failed seek shows the position again.
+     * @param action The action of the failed call, a value of Renderer.Action.
+     */
+    function handleControlFailed(action: int) {
+        if (action === Renderer.Seek) {
+            miniPlayer.cancelSeek();
+        }
+    }
 
     implicitHeight: 80
 
@@ -441,6 +501,117 @@ Item {
         checked: rendererMenu.opened
         // While the menu is open its tap catcher covers the pill, a tap on the pill closes the menu then.
         onClicked: rendererMenu.open()
+    }
+
+    Item {
+        id: progressLine
+        objectName: "progressLine"
+
+        /**
+         * True while the finger seeks on the line.
+         */
+        readonly property bool pressed: progressMouseArea.pressed
+
+        /**
+         * The position the line shows: the target under the finger while pressed, the requested seek until the next
+         * position update, otherwise the position.
+         */
+        readonly property real shownPosition: progressLine.pressed ? progressMouseArea.pressedPosition : miniPlayer.seekTarget >= 0 ? miniPlayer.seekTarget : miniPlayer.stopped ? 0 : miniPlayer.position
+
+        /**
+         * The shown position between 0 (start) and 1 (duration).
+         */
+        readonly property real progress: miniPlayer.duration > 0 ? Math.max(0, Math.min(1, progressLine.shownPosition / miniPlayer.duration)) : 0
+
+        /**
+         * The height of the line while not pressed.
+         */
+        readonly property real lineHeight: 4
+
+        // The line keeps clear of the rounded corners and sits on the bottom edge, the touch area is centred on it.
+        anchors.left: miniPlayer.left
+        anchors.right: miniPlayer.right
+        anchors.leftMargin: background.radius
+        anchors.rightMargin: background.radius
+        y: miniPlayer.height - progressLine.lineHeight / 2 - progressLine.height / 2
+        height: 24
+        visible: miniPlayer.showsTrack && miniPlayer.hasDuration
+
+        Rectangle {
+            id: progressTrack
+            objectName: "progressTrack"
+            anchors.left: progressLine.left
+            anchors.right: progressLine.right
+            // Thickens upwards, so the line stays on the bottom edge.
+            y: progressLine.height / 2 + progressLine.lineHeight / 2 - progressTrack.height
+            height: progressLine.pressed ? 2 * progressLine.lineHeight : progressLine.lineHeight
+            radius: progressTrack.height / 2
+            color: Theme.colors.secondaryContainer
+
+            Rectangle {
+                id: progressIndicator
+                objectName: "progressIndicator"
+                anchors.left: progressTrack.left
+                anchors.top: progressTrack.top
+                anchors.bottom: progressTrack.bottom
+                width: progressTrack.width * progressLine.progress
+                radius: progressTrack.radius
+                color: Theme.colors.primary
+            }
+        }
+
+        Rectangle {
+            id: progressThumb
+            objectName: "progressThumb"
+            x: progressIndicator.width - progressThumb.width / 2
+            anchors.verticalCenter: progressTrack.verticalCenter
+            width: 16
+            height: 16
+            radius: 8
+            color: Theme.colors.primary
+            visible: progressLine.pressed
+        }
+
+        Rectangle {
+            id: progressTimeLabel
+            objectName: "progressTimeLabel"
+            x: Math.max(0, Math.min(progressLine.width - progressTimeLabel.width, progressIndicator.width - progressTimeLabel.width / 2))
+            y: progressThumb.y - progressTimeLabel.height - 4
+            width: progressTimeText.implicitWidth + 16
+            height: 24
+            radius: 12
+            color: Theme.colors.colorOnSurface
+            visible: progressLine.pressed
+
+            StyledText {
+                id: progressTimeText
+                objectName: "progressTimeText"
+                anchors.centerIn: progressTimeLabel
+                text: TimeFormat.formatTime(progressMouseArea.pressedPosition)
+                color: Theme.colors.surface
+                textStyle: Theme.fonts.labelMedium
+            }
+        }
+
+        MouseArea {
+            id: progressMouseArea
+
+            property real pressedPosition: 0
+
+            function positionAt(x: real): real {
+                return Math.max(0, Math.min(1, x / progressLine.width)) * miniPlayer.duration;
+            }
+
+            anchors.fill: progressLine
+            enabled: miniPlayer.canSeek && !miniPlayer.stopped
+            preventStealing: true
+            onPressed: mouse => progressMouseArea.pressedPosition = progressMouseArea.positionAt(mouse.x)
+            onPositionChanged: mouse => progressMouseArea.pressedPosition = progressMouseArea.positionAt(mouse.x)
+            onReleased: {
+                miniPlayer.seekTarget = progressMouseArea.pressedPosition;
+                miniPlayer.seekRequested(progressMouseArea.pressedPosition);
+            }
+        }
     }
 
     RendererMenu {
