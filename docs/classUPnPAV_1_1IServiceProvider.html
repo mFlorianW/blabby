@@ -134,6 +134,8 @@ Signals</h2></td></tr>
 <tr class="separator:ab67b87b9eccb91a7458adacf628642b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dfd1af63c37e5371d1e7fa312028815" id="r_a6dfd1af63c37e5371d1e7fa312028815"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a6dfd1af63c37e5371d1e7fa312028815">serviceDisconnected</a> (QString const &amp;uniqueServiceName)</td></tr>
 <tr class="separator:a6dfd1af63c37e5371d1e7fa312028815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e6b2aa2b883d53caef785dd63d6c6dd" id="r_a8e6b2aa2b883d53caef785dd63d6c6dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a8e6b2aa2b883d53caef785dd63d6c6dd">serviceSeen</a> (QString const &amp;uniqueServiceName)</td></tr>
+<tr class="separator:a8e6b2aa2b883d53caef785dd63d6c6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7196fbad4e9320f7ae8c0bc1d5048823" id="r_a7196fbad4e9320f7ae8c0bc1d5048823"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#a7196fbad4e9320f7ae8c0bc1d5048823">searchFinished</a> ()</td></tr>
 <tr class="separator:a7196fbad4e9320f7ae8c0bc1d5048823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe6c13ea37d40b443b0822f1b3ed9b0e" id="r_afe6c13ea37d40b443b0822f1b3ed9b0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUPnPAV_1_1IServiceProvider.html#afe6c13ea37d40b443b0822f1b3ed9b0e">error</a> (<a class="el" href="classUPnPAV_1_1ServiceProviderError.html">UPnPAV::ServiceProviderError</a> const &amp;errorObject)</td></tr>
@@ -368,6 +370,38 @@ Public Member Functions</h2></td></tr>
 <p>This signal is emitted when a service is disconnected form the network. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uniqueServiceName</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8e6b2aa2b883d53caef785dd63d6c6dd" name="a8e6b2aa2b883d53caef785dd63d6c6dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e6b2aa2b883d53caef785dd63d6c6dd">&#9670;&#160;</a></span>serviceSeen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UPnPAV::IServiceProvider::serviceSeen </td>
+          <td>(</td>
+          <td class="paramtype">QString const &amp;&#160;</td>
+          <td class="paramname"><em>uniqueServiceName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This signal is emitted when a known service answers a search or announces itself again, that is when it is still on the network. A known service is one that answered or announced itself before, even when its description is still fetched. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uniqueServiceName</td><td>The service name which is seen. </td></tr>
   </table>
   </dd>
 </dl>

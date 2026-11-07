@@ -18,6 +18,6 @@ var searchData=
   ['transportinfo_15',['transportInfo',['../classUPnPAV_1_1MediaDevice.html#ae6ee3d6537bd96a689d7907a3beee10c',1,'UPnPAV::MediaDevice']]],
   ['transportplayspeed_16',['transportPlaySpeed',['../classUPnPAV_1_1GetTransportInfoResponse.html#a38ba6a9467c15fa6174d9e0d239eaff3',1,'UPnPAV::GetTransportInfoResponse']]],
   ['transportsettings_17',['transportSettings',['../classUPnPAV_1_1MediaDevice.html#a40a9641c3e1dccb5ced3fc9cb7687542',1,'UPnPAV::MediaDevice']]],
-  ['triggeraction_18',['triggeraction',['../classMultimedia_1_1Provider.html#a843de0d8f3d24d0124c696beb238d8bf',1,'Multimedia::Provider::triggerAction()'],['../classShell_1_1SettingsModel.html#a22f5f818f2c659dd49cfba3e2125b67f',1,'Shell::SettingsModel::triggerAction()'],['../classShell_1_1SettingsRowModel.html#a892e33b7d058e56ce57d454a965c0bff',1,'Shell::SettingsRowModel::triggerAction()']]],
+  ['triggeraction_18',['triggeraction',['../classMultimedia_1_1Provider.html#a843de0d8f3d24d0124c696beb238d8bf',1,'Multimedia::Provider::triggerAction()'],['../classProvider_1_1MediaServer_1_1Provider.html#ae12e1d36ce11e69f25ddc75486431fee',1,'Provider::MediaServer::Provider::triggerAction()'],['../classShell_1_1SettingsModel.html#a22f5f818f2c659dd49cfba3e2125b67f',1,'Shell::SettingsModel::triggerAction()'],['../classShell_1_1SettingsRowModel.html#a892e33b7d058e56ce57d454a965c0bff',1,'Shell::SettingsRowModel::triggerAction()']]],
   ['type_19',['type',['../classMultimedia_1_1Item.html#a770d7c14abe1b219f60ec69d286566d9',1,'Multimedia::Item']]]
 ];

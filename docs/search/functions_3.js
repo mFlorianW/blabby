@@ -9,7 +9,7 @@ var searchData=
   ['disconnectservice_6',['disconnectservice',['../classUPnPAV_1_1IServiceProvider.html#a0b67f35c787be1bd031a4dfd5b24490d',1,'UPnPAV::IServiceProvider::disconnectService()'],['../classUPnPAV_1_1ServiceProvider.html#a2c975565af1946f50165eebae2701a14',1,'UPnPAV::ServiceProvider::disconnectService()']]],
   ['discover_7',['discover',['../classMultimedia_1_1RendererProvider.html#af22b4a1c29aa4d9077e64f4106960dba',1,'Multimedia::RendererProvider']]],
   ['discoveryfinished_8',['discoveryFinished',['../classMultimedia_1_1RendererProvider.html#a285cd603787be3f5471d7ed693b40de0',1,'Multimedia::RendererProvider']]],
-  ['displaytitle_9',['displayTitle',['../classMultimedia_1_1Provider.html#a8688532fea09b6b6415c9fbb22cc4071',1,'Multimedia::Provider']]],
+  ['displaytitle_9',['displaytitle',['../classMultimedia_1_1Provider.html#a8688532fea09b6b6415c9fbb22cc4071',1,'Multimedia::Provider::displayTitle()'],['../classProvider_1_1MediaServer_1_1Provider.html#ae883d4792c77a5d65b1c218a8bf9a159',1,'Provider::MediaServer::Provider::displayTitle()']]],
   ['duration_10',['duration',['../classMultimedia_1_1Item.html#aba5a4da9419eadbba7825e686cc37629',1,'Multimedia::Item::duration()'],['../classMultimedia_1_1Renderer.html#a4a5f2f53e588c1f8eec65fdddcbfb47d',1,'Multimedia::Renderer::duration()'],['../classShell_1_1ActiveRendererController.html#a141c2a0ce7b17b04fbe8382fd4749de3',1,'Shell::ActiveRendererController::duration()']]],
   ['durationchanged_11',['durationchanged',['../classMultimedia_1_1Renderer.html#a03b43c53fa07e8e30d7a9b62720fbe40',1,'Multimedia::Renderer::durationChanged()'],['../classShell_1_1ActiveRendererController.html#a328708a24a6c2f7caf19c852f11abc84',1,'Shell::ActiveRendererController::durationChanged()']]]
 ];

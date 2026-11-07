@@ -1,5 +1,8 @@
 var NAVTREEINDEX3 =
 {
+"classUPnPAV_1_1GetPositionInfoResponse.html#a3af45f0bb84d30a0bdb92c4eda2d116e":[7,0,4,26,3],
+"classUPnPAV_1_1GetPositionInfoResponse.html#a6d78f18c0a66dcfb63e5bc54610480dc":[7,0,4,26,5],
+"classUPnPAV_1_1GetPositionInfoResponse.html#a9e7e6ecb78ff62b4a066219dab91c854":[7,0,4,26,7],
 "classUPnPAV_1_1GetPositionInfoResponse.html#aa7a22290cb0bbb28203377a733a7935c":[7,0,4,26,2],
 "classUPnPAV_1_1GetPositionInfoResponse.html#ab7227210e96dcdff465a7b2ed3ef40b5":[7,0,4,26,0],
 "classUPnPAV_1_1GetPositionInfoResponse.html#ab8e39fa550862af8adc6ea7d398a4813":[7,0,4,26,8],
@@ -65,8 +68,9 @@ var NAVTREEINDEX3 =
 "classUPnPAV_1_1IServiceProvider.html#a306d8469f57ef73018177a1f0cefb390":[7,0,4,44,3],
 "classUPnPAV_1_1IServiceProvider.html#a6dfd1af63c37e5371d1e7fa312028815":[7,0,4,44,6],
 "classUPnPAV_1_1IServiceProvider.html#a7196fbad4e9320f7ae8c0bc1d5048823":[7,0,4,44,4],
-"classUPnPAV_1_1IServiceProvider.html#a776e4f8c57e5a42f4552d32bce429b05":[7,0,4,44,7],
-"classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220":[7,0,4,44,8],
+"classUPnPAV_1_1IServiceProvider.html#a776e4f8c57e5a42f4552d32bce429b05":[7,0,4,44,8],
+"classUPnPAV_1_1IServiceProvider.html#a8e6b2aa2b883d53caef785dd63d6c6dd":[7,0,4,44,7],
+"classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220":[7,0,4,44,9],
 "classUPnPAV_1_1IServiceProvider.html#ab67b87b9eccb91a7458adacf628642b4":[7,0,4,44,5],
 "classUPnPAV_1_1IServiceProvider.html#ae445d4485d2c44d480aa4ddb5a981799":[7,0,4,44,0],
 "classUPnPAV_1_1IServiceProvider.html#afe6c13ea37d40b443b0822f1b3ed9b0e":[7,0,4,44,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "classUPnPAV_1_1SCPDStateVariable.html":[7,0,4,68],
 "classUPnPAV_1_1ScpdActionListValidator.html":[7,0,4,65],
 "classUPnPAV_1_1ScpdActionListValidator.html#a25d2a5497538d675f009b2ab8d1175a5":[7,0,4,65,0],
-"classUPnPAV_1_1ScpdActionListValidator.html#a3c6cc3b1246711ae331abd940e96b6e5":[7,0,4,65,1],
-"classUPnPAV_1_1ScpdStateVariableValidator.html":[7,0,4,70],
-"classUPnPAV_1_1ScpdStateVariableValidator.html#a8573a46ffd02ff09e63099e72fdccd7a":[7,0,4,70,1],
-"classUPnPAV_1_1ScpdStateVariableValidator.html#aef3b791a87f5e5e03d45e1c7bc1e4ad8":[7,0,4,70,0],
-"classUPnPAV_1_1ServiceControlPointDefinition.html":[7,0,4,71]
+"classUPnPAV_1_1ScpdActionListValidator.html#a3c6cc3b1246711ae331abd940e96b6e5":[7,0,4,65,1]
 };

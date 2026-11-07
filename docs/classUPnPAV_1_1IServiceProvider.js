@@ -7,6 +7,7 @@ var classUPnPAV_1_1IServiceProvider =
     [ "searchFinished", "classUPnPAV_1_1IServiceProvider.html#a7196fbad4e9320f7ae8c0bc1d5048823", null ],
     [ "serviceConnected", "classUPnPAV_1_1IServiceProvider.html#ab67b87b9eccb91a7458adacf628642b4", null ],
     [ "serviceDisconnected", "classUPnPAV_1_1IServiceProvider.html#a6dfd1af63c37e5371d1e7fa312028815", null ],
+    [ "serviceSeen", "classUPnPAV_1_1IServiceProvider.html#a8e6b2aa2b883d53caef785dd63d6c6dd", null ],
     [ "setSearchTarget", "classUPnPAV_1_1IServiceProvider.html#a776e4f8c57e5a42f4552d32bce429b05", null ],
     [ "startSearch", "classUPnPAV_1_1IServiceProvider.html#aaf437ce857bacbd336f65ad94ea29220", null ]
 ];
