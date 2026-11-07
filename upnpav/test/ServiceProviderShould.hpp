@@ -115,6 +115,11 @@ private Q_SLOTS:
     void not_report_an_unknown_device_as_disconnected();
 
     /**
+     * @test A known device that answers a search or is announced again shall be reported as seen.
+     */
+    void report_a_known_device_as_seen_when_it_answers_again();
+
+    /**
      * @test A max-age that can't be represented shall be treated as not valid.
      */
     void not_expire_devices_with_an_out_of_range_max_age();

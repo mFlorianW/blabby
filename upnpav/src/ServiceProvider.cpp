@@ -158,8 +158,9 @@ void ServiceProvider::handlePackage(ServiceDiscoveryPackage const& package)
 
     // We already know the device we can ignore the message.
     if (m_knownDevices.contains(package.deviceId())) {
-        qCDebug(upnpavService) << "Ignoring dicover package for device with search target" << m_searchTarget
-                               << "with unique device name" << package.deviceId() << "already known";
+        qCDebug(upnpavService) << "Device with search target" << m_searchTarget
+                               << "with unique device name" << package.deviceId() << "already known, it is seen again.";
+        Q_EMIT serviceSeen(package.deviceId());
         return;
     } else {
         qCDebug(upnpavService) << "Add device for search target" << m_searchTarget << "with unique name"

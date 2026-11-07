@@ -335,6 +335,22 @@ void ServiceProviderShould::not_report_an_unknown_device_as_disconnected()
     QCOMPARE(disconnectSpy.size(), 0);
 }
 
+void ServiceProviderShould::report_a_known_device_as_seen_when_it_answers_again()
+{
+    QSignalSpy seenSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceSeen};
+    auto searchResponse = createServiceDiscoveryReceiveMessage(searchResponseWithMaxAge1800);
+    searchResponse.setDestination(QHostAddress{QHostAddress::LocalHost}, 40000);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(searchResponse);
+    QCOMPARE(seenSpy.size(), 0);
+
+    m_providerFactory->serviceDiscoveryBackendDouble->sendResponseForMediaServerRequest(searchResponse);
+    m_providerFactory->serviceDiscoveryBackendDouble->sendNotifyMessage(
+        createServiceDiscoveryReceiveMessage(notifyMessageWithMaxAge1800));
+
+    QCOMPARE(seenSpy.size(), 2);
+    QCOMPARE(seenSpy.at(0).at(0).toString(), QStringLiteral("uuid:4d696e69-444c-164e-9d41-b827eb54e939"));
+}
+
 void ServiceProviderShould::not_expire_devices_with_an_out_of_range_max_age()
 {
     QSignalSpy disconnectSpy{m_mediaServerProvider.get(), &IServiceProvider::serviceDisconnected};
