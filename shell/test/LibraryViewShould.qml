@@ -145,6 +145,7 @@ Item {
         }
 
         function init() {
+            root.width = 1184;
             root.height = 640;
             libraryView.sources = sources;
             libraryView.items = items;
@@ -627,21 +628,25 @@ Item {
             libraryViewTest.verify(libraryViewTest.menuPanelBottom() < libraryView.height - 24);
         }
 
-        function test_stop_the_source_menu_24_px_above_the_bottom_and_scroll_its_rows_data() {
+        function test_stop_the_source_menu_above_the_bottom_and_scroll_its_rows_data() {
             return libraryViewTest.shortAndTallViews();
         }
 
         /**
-         * Tests that the Source menu with more rows than fit stops 24 px above the bottom of the Library view,
-         * whatever its height, and its rows scroll while the header stays in place.
+         * Tests that the Source menu with more rows than fit stops at most 24 px and less than a row more above the
+         * bottom of the Library view, whatever its height, so that its last visible row is cut off, and its rows scroll
+         * while the header stays in place.
          */
-        function test_stop_the_source_menu_24_px_above_the_bottom_and_scroll_its_rows(data) {
+        function test_stop_the_source_menu_above_the_bottom_and_scroll_its_rows(data) {
             root.height = data.viewHeight;
             libraryViewTest.fillSourcesUpTo(30);
             libraryViewTest.openMenu();
-            libraryViewTest.compare(libraryViewTest.menuPanelBottom(), libraryView.height - 24);
+            const menuPanelBottom = libraryViewTest.menuPanelBottom();
+            libraryViewTest.verify(menuPanelBottom <= libraryView.height - 24, menuPanelBottom);
+            libraryViewTest.verify(menuPanelBottom > libraryView.height - 24 - 64, menuPanelBottom);
             const list = libraryViewTest.menuChild("sourceList");
             libraryViewTest.verify(list.height < 30 * 64, list.height);
+            libraryViewTest.fuzzyCompare(CutOffRows.shownFraction(list.height, 64, 0), CutOffRows.cutOffShown, 0.001);
             libraryViewTest.compare(list.interactive, true);
             libraryViewTest.compare(list.clip, true);
             const header = libraryViewTest.menuChild("sourceMenuHeader");
@@ -665,10 +670,15 @@ Item {
             const list = libraryViewTest.menuChild("sourceList");
             const shortListHeight = list.height;
             root.height = 1080;
-            libraryViewTest.compare(list.height, shortListHeight + 600);
+            // The 600 px more fit whole rows, the last visible one stays cut off.
+            const growth = list.height - shortListHeight;
+            libraryViewTest.verify(growth > 600 - 64 && growth <= 600, growth);
+            libraryViewTest.fuzzyCompare(growth % 64, 0, 0.001);
             // The content of the menu is laid out anew on the next polish.
             libraryViewTest.waitForRendering(libraryView);
-            libraryViewTest.compare(libraryViewTest.menuPanelBottom(), libraryView.height - 24);
+            const menuPanelBottom = libraryViewTest.menuPanelBottom();
+            libraryViewTest.verify(menuPanelBottom <= libraryView.height - 24, menuPanelBottom);
+            libraryViewTest.verify(menuPanelBottom > libraryView.height - 24 - 64, menuPanelBottom);
         }
 
         /**
@@ -788,7 +798,7 @@ Item {
          */
         function test_fit_the_tile_with_the_secondary_text_into_its_cell() {
             const grid = libraryViewTest.child("itemGrid");
-            libraryViewTest.verify(libraryViewTest.tile(1).height <= grid.cellHeight - libraryView.rowSpacing);
+            libraryViewTest.verify(libraryViewTest.tile(1).height <= grid.cellHeight - grid.rowSpacing);
         }
 
         /**
@@ -803,15 +813,88 @@ Item {
         }
 
         /**
-         * Tests that the grid shows five columns at the 1280 px display and the tiles are large touch targets.
+         * Tests that the grid shows six columns at the 1280 x 720 px display, where five columns of the minimum tile
+         * width fit but six cut off the last visible row, and the tiles are large touch targets.
          */
-        function test_show_five_columns_at_the_1280_px_display() {
+        function test_show_six_columns_at_the_1280_x_720_px_display() {
+            // The window height of 720 px minus the mini player.
+            root.height = 616;
             libraryViewTest.waitForRendering(libraryView);
             const firstRowY = libraryViewTest.tile(0).mapToItem(libraryView, 0, 0).y;
             const tilesInFirstRow = [0, 1, 2, 3, 4, 5].filter(index => libraryViewTest.tile(index).mapToItem(libraryView, 0, 0).y === firstRowY);
-            libraryViewTest.compare(tilesInFirstRow.length, 5);
+            libraryViewTest.compare(tilesInFirstRow.length, 6);
             libraryViewTest.verify(libraryViewTest.tile(0).width >= 44);
             libraryViewTest.verify(libraryViewTest.tile(0).height >= 44);
+        }
+
+        /**
+         * The window sizes in which the last visible row of tiles can be cut off by about a third.
+         */
+        function test_cut_off_the_last_visible_row_of_tiles_data() {
+            // The window sizes minus the navigation rail and the mini player.
+            return [
+                {
+                    tag: "1280 x 720 px window",
+                    width: 1184,
+                    height: 616
+                },
+                {
+                    tag: "1920 x 1080 px window",
+                    width: 1824,
+                    height: 984
+                },
+                {
+                    tag: "1280 x 1080 px window",
+                    width: 1184,
+                    height: 984
+                }
+            ];
+        }
+
+        /**
+         * Tests that the number of columns and the row spacing are picked so that the last visible row of tiles is
+         * cut off by about a third, while the tiles stay square and not much narrower than the minimum tile width.
+         */
+        function test_cut_off_the_last_visible_row_of_tiles(data) {
+            root.width = data.width;
+            root.height = data.height;
+            const grid = libraryViewTest.child("itemGrid");
+            const tile = libraryViewTest.tile(0);
+            const shown = CutOffRows.shownFraction(grid.height, tile.height, grid.cellHeight - tile.height);
+            libraryViewTest.verify(Math.abs(shown - CutOffRows.cutOffShown) < 0.1, shown);
+            libraryViewTest.verify(tile.width >= libraryView.smallestTileWidthFraction * libraryView.minimumTileWidth, tile.width);
+            libraryViewTest.verify(grid.rowSpacing >= libraryView.smallestRowSpacing && grid.rowSpacing <= libraryView.largestRowSpacing, grid.rowSpacing);
+        }
+
+        /**
+         * The window sizes in which not even a whole row of tiles fits.
+         */
+        function test_keep_the_fitting_columns_when_no_whole_row_of_tiles_fits_data() {
+            // The window sizes minus the navigation rail and the mini player, and without the mini player.
+            return [
+                {
+                    tag: "800 x 480 px window",
+                    width: 704,
+                    height: 376
+                },
+                {
+                    tag: "800 x 480 px window without the mini player",
+                    width: 704,
+                    height: 400
+                }
+            ];
+        }
+
+        /**
+         * Tests that the grid keeps the columns that fit into its width and the preferred row spacing when not even a
+         * whole row of tiles fits, instead of growing the tiles so that only their tops show.
+         */
+        function test_keep_the_fitting_columns_when_no_whole_row_of_tiles_fits(data) {
+            root.width = data.width;
+            root.height = data.height;
+            const grid = libraryViewTest.child("itemGrid");
+            libraryViewTest.compare(grid.columns, 3);
+            libraryViewTest.compare(grid.rowSpacing, libraryView.rowSpacing);
         }
 
         /**

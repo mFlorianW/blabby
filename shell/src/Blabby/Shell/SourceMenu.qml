@@ -86,8 +86,14 @@ MenuShell {
          */
         readonly property real rowsHeight: sourceList.count * sourceMenu.rowHeight
 
+        /**
+         * The highest the list may be below the header.
+         */
+        readonly property real maximumHeight: Math.max(0, sourceMenu.maximumContentHeight - menuHeader.height)
+
         width: sourceMenu.contentWidth
-        height: Math.min(sourceList.rowsHeight, Math.max(0, sourceMenu.maximumContentHeight - menuHeader.height))
+        // Rows that don't fit are cut off, so that the last visible one shows there is more to scroll to.
+        height: CutOffRows.cappedHeight(sourceList.rowsHeight, sourceList.maximumHeight, sourceMenu.rowHeight)
         interactive: sourceList.rowsHeight > sourceList.height
         clip: true
         boundsBehavior: Flickable.StopAtBounds

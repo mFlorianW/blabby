@@ -112,6 +112,7 @@ Item {
         }
 
         function init() {
+            queueView.height = 640;
             queueView.hasActiveRenderer = true;
             queueView.currentEntryPlaying = true;
             queueView.entryCount = 3;
@@ -169,6 +170,36 @@ Item {
             queueViewTest.compare(queueViewTest.textOf(first, "duration"), "3:58");
             queueViewTest.compare(queueViewTest.findChild(first, "artwork").source.toString(), "http://art/1.jpg");
             queueViewTest.compare(queueViewTest.textOf(queueViewTest.row(2), "number"), "3");
+        }
+
+        /**
+         * The heights of the view to size the rows for.
+         */
+        function test_cut_off_the_last_visible_row_data() {
+            return [
+                {
+                    tag: "640px high",
+                    height: 640
+                },
+                {
+                    tag: "700px high",
+                    height: 700
+                },
+                {
+                    tag: "480px high",
+                    height: 480
+                }
+            ];
+        }
+
+        /**
+         * Tests that the rows are sized so that the last visible one is cut off by about a third.
+         */
+        function test_cut_off_the_last_visible_row(data) {
+            queueView.height = data.height;
+            const entryList = queueViewTest.findChild(queueView, "entryList");
+
+            queueViewTest.fuzzyCompare(CutOffRows.shownFraction(entryList.height, queueViewTest.row(0).height, entryList.spacing), CutOffRows.cutOffShown, 0.001);
         }
 
         /**

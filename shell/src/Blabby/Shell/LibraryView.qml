@@ -169,9 +169,15 @@ Item {
     }
 
     /**
-     * The smallest width of a tile, used to calculate the number of columns.
+     * The smallest width of a tile that the number of columns is calculated from. To cut off the last visible row of
+     * tiles a column more may make the tiles narrower, down to the fraction smallestTileWidthFraction of this width.
      */
     readonly property real minimumTileWidth: 200
+
+    /**
+     * The fraction of the minimumTileWidth that a tile may shrink to, so that the last visible row of tiles is cut off.
+     */
+    readonly property real smallestTileWidthFraction: 0.8
 
     /**
      * The horizontal space between two tiles.
@@ -179,9 +185,20 @@ Item {
     readonly property real tileSpacing: 16
 
     /**
-     * The vertical space between two rows of tiles.
+     * The preferred vertical space between two rows of tiles. To cut off the last visible row of tiles it may vary
+     * from smallestRowSpacing to largestRowSpacing.
      */
     readonly property real rowSpacing: 24
+
+    /**
+     * The smallest vertical space between two rows of tiles.
+     */
+    readonly property real smallestRowSpacing: 16
+
+    /**
+     * The largest vertical space between two rows of tiles.
+     */
+    readonly property real largestRowSpacing: 40
 
     // The Item of the open menu may be gone once the Library shows other Items.
     onBusyChanged: itemMenu.close()
@@ -280,14 +297,40 @@ Item {
         objectName: "itemGrid"
 
         /**
-         * The number of tile columns that fit into the width of the grid.
+         * The number of tile columns, the one that fits into the width of the grid or one less or more, whichever cuts
+         * off the last visible row of tiles closest to a third together with the row spacing. The tiles are square, so
+         * their height follows the number of columns. When no whole row of tiles fits, the fitting one.
          */
-        readonly property int columns: Math.max(1, Math.floor(grid.width / (libraryView.minimumTileWidth + libraryView.tileSpacing)))
+        readonly property int columns: {
+            const fitting = Math.max(1, Math.floor(grid.width / (libraryView.minimumTileWidth + libraryView.tileSpacing)));
+            const distanceToCutOff = candidateColumns => {
+                const tileHeight = grid.tileHeightFor(candidateColumns);
+                return CutOffRows.cutOffDistance(grid.height, tileHeight, grid.rowSpacingFor(tileHeight));
+            };
+            const smallestTileWidth = libraryView.smallestTileWidthFraction * libraryView.minimumTileWidth;
+            let best = fitting;
+            for (const candidate of [fitting - 1, fitting + 1]) {
+                if (candidate >= 1 && grid.tileWidthFor(candidate) >= smallestTileWidth && distanceToCutOff(candidate) < distanceToCutOff(best)) {
+                    best = candidate;
+                }
+            }
+            return best;
+        }
 
         /**
          * The width of a tile, the cell width without the spacing.
          */
-        readonly property real tileWidth: grid.cellWidth - libraryView.tileSpacing
+        readonly property real tileWidth: grid.tileWidthFor(grid.columns)
+
+        /**
+         * The height of a tile.
+         */
+        readonly property real tileHeight: grid.tileHeightFor(grid.columns)
+
+        /**
+         * The vertical space between two rows of tiles, the cell height without the tile.
+         */
+        readonly property real rowSpacing: grid.rowSpacingFor(grid.tileHeight)
 
         anchors.top: libraryView.contentTop
         anchors.topMargin: 20
@@ -298,10 +341,32 @@ Item {
         anchors.rightMargin: 24 - libraryView.tileSpacing
         clip: true
         cellWidth: grid.width / grid.columns
-        // Every cell leaves room for the secondary text, so the rows stay aligned.
-        cellHeight: grid.tileWidth + 8 + Theme.fonts.titleMedium.lineHeight + Theme.fonts.bodyMedium.lineHeight + libraryView.rowSpacing
+        cellHeight: grid.tileHeight + grid.rowSpacing
         boundsBehavior: Flickable.StopAtBounds
         visible: libraryView.hasActiveSource && !libraryView.busy && !libraryView.containerEmpty
+
+        /**
+         * Gives the height of a tile with the number of columns, its square artwork above the title and the secondary
+         * text. Every tile leaves room for the secondary text, so the rows stay aligned.
+         */
+        function tileHeightFor(columns: int): real {
+            return grid.tileWidthFor(columns) + 8 + Theme.fonts.titleMedium.lineHeight + Theme.fonts.bodyMedium.lineHeight;
+        }
+
+        /**
+         * Gives the width of a tile with the number of columns, the cell width without the spacing.
+         */
+        function tileWidthFor(columns: int): real {
+            return grid.width / columns - libraryView.tileSpacing;
+        }
+
+        /**
+         * Gives the row spacing closest to the preferred one that cuts off the last visible row of tiles with the
+         * height.
+         */
+        function rowSpacingFor(tileHeight: real): real {
+            return CutOffRows.spacing(grid.height, tileHeight, libraryView.rowSpacing, libraryView.smallestRowSpacing, libraryView.largestRowSpacing);
+        }
 
         /**
          * Gives the index of the first Item shown, the one in the top left cell.

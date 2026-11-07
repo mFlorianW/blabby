@@ -45,6 +45,16 @@ Item {
      */
     signal actionTriggered(int index)
 
+    /**
+     * The height of a section that the sections are sized close to, so that the last visible section is cut off.
+     */
+    readonly property real preferredSectionHeight: 72
+
+    /**
+     * The height of a row that the rows are sized close to, so that the last visible row is cut off.
+     */
+    readonly property real preferredRowHeight: 72
+
     ScreenHeader {
         id: header
         anchors.top: settingsView.top
@@ -86,7 +96,7 @@ Item {
 
             objectName: "section" + section.index
             width: sectionList.width
-            height: 72
+            height: CutOffRows.rowHeight(sectionList.height, settingsView.preferredSectionHeight, sectionList.spacing)
             onClicked: settingsView.sectionPicked(section.index)
 
             Rectangle {
@@ -179,7 +189,7 @@ Item {
 
                 objectName: "row" + row.index
                 width: rowList.width
-                height: 72
+                height: CutOffRows.rowHeight(rowList.height, settingsView.preferredRowHeight, rowList.spacing)
 
                 SwitchRow {
                     id: switchRow

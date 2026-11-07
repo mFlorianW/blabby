@@ -4,6 +4,7 @@
 
 import QtQuick
 import QtTest
+import Blabby.Controls
 import Blabby.Objects
 import Blabby.Shell
 import Blabby.Theme
@@ -309,6 +310,7 @@ Item {
             rendererMenuTest.verify(panelBottom <= root.height - 8, panelBottom);
             const list = rendererMenuTest.child("rendererList");
             rendererMenuTest.verify(list.height < 12 * 64);
+            rendererMenuTest.fuzzyCompare(CutOffRows.shownFraction(list.height, 64, 0), CutOffRows.cutOffShown, 0.001);
             rendererMenuTest.compare(list.interactive, true);
             rendererMenuTest.compare(list.clip, true);
             list.positionViewAtEnd();
@@ -345,6 +347,7 @@ Item {
             rendererMenuTest.compare(panel.mapToItem(root, 0, panel.height).y, anchor.y - 8);
             const list = rendererMenuTest.child("rendererList");
             rendererMenuTest.verify(list.height < 12 * 64);
+            rendererMenuTest.fuzzyCompare(CutOffRows.shownFraction(list.height, 64, 0), CutOffRows.cutOffShown, 0.001);
             rendererMenuTest.compare(list.interactive, true);
         }
     }

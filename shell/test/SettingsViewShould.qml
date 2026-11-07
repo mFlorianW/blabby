@@ -4,6 +4,7 @@
 
 import QtQuick
 import QtTest
+import Blabby.Controls
 import Blabby.Shell
 
 Item {
@@ -144,6 +145,34 @@ Item {
             settingsViewTest.compare(about.title, "About");
             settingsViewTest.verify(renderers.mapToItem(settingsView, 0, 0).y < mediaServers.mapToItem(settingsView, 0, 0).y);
             settingsViewTest.verify(mediaServers.mapToItem(settingsView, 0, 0).y < about.mapToItem(settingsView, 0, 0).y);
+        }
+
+        /**
+         * The lists with their first item.
+         */
+        function test_cut_off_the_last_visible_section_and_row_data() {
+            return [
+                {
+                    tag: "sections",
+                    list: "sectionList",
+                    item: "section0"
+                },
+                {
+                    tag: "rows",
+                    list: "rowList",
+                    item: "row0"
+                }
+            ];
+        }
+
+        /**
+         * Tests that the sections and the rows are sized so that the last visible one is cut off by about a third.
+         */
+        function test_cut_off_the_last_visible_section_and_row(data) {
+            const list = settingsViewTest.child(data.list);
+            const item = settingsViewTest.child(data.item);
+
+            settingsViewTest.fuzzyCompare(CutOffRows.shownFraction(list.height, item.height, list.spacing), CutOffRows.cutOffShown, 0.001);
         }
 
         /**
