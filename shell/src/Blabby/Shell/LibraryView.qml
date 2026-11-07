@@ -84,6 +84,11 @@ Item {
     property string collectedContainerTitle
 
     /**
+     * True while a Rescan is running, the "Rescan network" entry of the Source menu is busy meanwhile.
+     */
+    property bool scanning: false
+
+    /**
      * True when there is at least one Source to pick.
      */
     readonly property bool hasSources: sourceMenu.count > 0
@@ -107,6 +112,11 @@ Item {
      * This signal is emitted when the user picks the Source at index in the Source menu that isn't the Active Source.
      */
     signal sourcePicked(int index)
+
+    /**
+     * This signal is emitted when the user taps "Rescan network" in the Source menu to Rescan every Provider.
+     */
+    signal rescanRequested
 
     /**
      * This signal is emitted when the user taps the tile of the Item at index, to open a Container or to play a
@@ -473,6 +483,8 @@ Item {
         objectName: "sourceMenu"
         anchors.fill: libraryView
         anchorItem: sourcePill
+        scanning: libraryView.scanning
         onPicked: index => libraryView.sourcePicked(index)
+        onRescanRequested: libraryView.rescanRequested()
     }
 }

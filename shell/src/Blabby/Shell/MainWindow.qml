@@ -141,7 +141,9 @@ Rectangle {
             loadMoreFailed: Singleton.mediaItemModel.loadMoreFailed
             collecting: Singleton.queueModel.collecting
             collectedContainerTitle: Singleton.queueModel.collectedContainerTitle
+            scanning: Singleton.mediaSourceModel.scanning
             onSourcePicked: index => Singleton.mediaSourceModel.activateMediaSource(index)
+            onRescanRequested: Singleton.mediaSourceModel.rescan()
             onItemActivated: (index, scrollPosition) => Singleton.mediaItemModel.activateMediaItem(index, scrollPosition)
             onBackRequested: Singleton.mediaItemModel.navigateBack()
             onRetryRequested: Singleton.mediaItemModel.retryLoadMore()

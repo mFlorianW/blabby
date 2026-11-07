@@ -18,6 +18,10 @@ _Avoid_: Library, repository
 The one Source whose Items the user is currently browsing. At most one Source is active at a time; there is none until the user picks one, and none again when the Active Source disappears.
 _Avoid_: Current source, selected source, open source
 
+**Rescan**:
+Asking every Provider to look for its Sources again, e.g. to find a MediaServer switched on after Blabby started. Sources it finds appear, Sources that no longer answer disappear. Searching the network for Renderers again is not a Rescan of Sources, even though both are offered as "Rescan network".
+_Avoid_: Refresh, reload, discover (for Sources)
+
 **Item**:
 A single entry inside a Source, either a Container or a Playable.
 _Avoid_: Entry, element, track (for Containers)

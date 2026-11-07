@@ -109,6 +109,12 @@ Item {
         }
 
         SignalSpy {
+            id: rescanRequestedSpy
+            target: libraryView
+            signalName: "rescanRequested"
+        }
+
+        SignalSpy {
             id: itemActivatedSpy
             target: libraryView
             signalName: "itemActivated"
@@ -157,6 +163,7 @@ Item {
             libraryView.loadMoreFailed = false;
             libraryView.collecting = false;
             libraryView.collectedContainerTitle = "";
+            libraryView.scanning = false;
             libraryView.visible = true;
             libraryViewTest.child("sourceMenu").close();
             libraryViewTest.child("itemMenu").close();
@@ -170,6 +177,7 @@ Item {
             sources.setProperty(0, "active", true);
             sources.setProperty(1, "active", false);
             sourcePickedSpy.clear();
+            rescanRequestedSpy.clear();
             itemActivatedSpy.clear();
             backRequestedSpy.clear();
             retryRequestedSpy.clear();
@@ -610,6 +618,74 @@ Item {
             libraryViewTest.compare(libraryViewTest.menuChild("sourceMenuPanel").visible, false);
         }
 
+        function test_show_rescan_network_below_a_divider_at_the_bottom_of_the_source_menu_data() {
+            return [
+                {
+                    tag: "with Sources",
+                    withSources: true
+                },
+                {
+                    tag: "without Sources",
+                    withSources: false
+                }
+            ];
+        }
+
+        /**
+         * Tests that the Source menu ends with a "Rescan network" entry with the refresh icon below a divider in the
+         * outline variant colour, below the Sources or the "No Sources found" line.
+         */
+        function test_show_rescan_network_below_a_divider_at_the_bottom_of_the_source_menu(data) {
+            if (!data.withSources) {
+                libraryView.sources = noSources;
+            }
+            libraryViewTest.openMenu();
+            const above = libraryViewTest.menuChild(data.withSources ? "sourceList" : "noSourcesLine");
+            const divider = libraryViewTest.menuChild("rescanDivider");
+            const entry = libraryViewTest.menuChild("rescanEntry");
+            libraryViewTest.verify(divider);
+            libraryViewTest.verify(entry);
+            libraryViewTest.compare(divider.height, 1);
+            libraryViewTest.compare(divider.color, Theme.colors.outlineVariant);
+            libraryViewTest.compare(divider.mapToItem(libraryView, 0, 0).y, above.mapToItem(libraryView, 0, above.height).y + 8);
+            libraryViewTest.compare(entry.mapToItem(libraryView, 0, 0).y, divider.mapToItem(libraryView, 0, divider.height).y + 8);
+            libraryViewTest.compare(entry.height, 56);
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanLabel").text, "Rescan network");
+            const icon = libraryViewTest.menuChild("rescanIcon");
+            libraryViewTest.compare(icon.visible, true);
+            libraryViewTest.compare(icon.source, "qrc:/qt/qml/Blabby/Shell/icons/material/refresh.svg");
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanBusyIndicator").visible, false);
+        }
+
+        /**
+         * Tests that tapping "Rescan network" emits rescanRequested and keeps the Source menu open, so that the Sources
+         * the Rescan finds show up in it.
+         */
+        function test_emit_rescanRequested_and_keep_the_menu_open_when_rescan_network_is_tapped() {
+            const menu = libraryViewTest.openMenu();
+            libraryViewTest.mouseClick(libraryViewTest.menuChild("rescanEntry"));
+            libraryViewTest.compare(rescanRequestedSpy.count, 1);
+            libraryViewTest.compare(menu.opened, true);
+            libraryViewTest.compare(sourcePickedSpy.count, 0);
+        }
+
+        /**
+         * Tests that "Rescan network" shows a busy indicator in place of its icon while scanning and can't be tapped
+         * then.
+         */
+        function test_show_a_busy_indicator_on_rescan_network_while_scanning() {
+            const menu = libraryViewTest.openMenu();
+            libraryView.scanning = true;
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanBusyIndicator").visible, true);
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanBusyIndicator").running, true);
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanIcon").visible, false);
+            libraryViewTest.mouseClick(libraryViewTest.menuChild("rescanEntry"));
+            libraryViewTest.compare(rescanRequestedSpy.count, 0);
+            libraryViewTest.compare(menu.opened, true);
+            libraryView.scanning = false;
+            libraryViewTest.compare(libraryViewTest.menuChild("rescanIcon").visible, true);
+        }
+
         function test_grow_the_source_menu_with_its_rows_while_they_fit_data() {
             return libraryViewTest.shortAndTallViews();
         }
@@ -633,7 +709,7 @@ Item {
 
         /**
          * Tests that the Source menu with more rows than fit stops 24 px above the bottom of the Library view,
-         * whatever its height, and its rows scroll while the header stays in place.
+         * whatever its height, and its rows scroll while the header and the "Rescan network" entry stay in place.
          */
         function test_stop_the_source_menu_24_px_above_the_bottom_and_scroll_its_rows(data) {
             root.height = data.viewHeight;
@@ -652,6 +728,8 @@ Item {
             libraryViewTest.compare(header.mapToItem(libraryView, 0, 0).y, headerY);
             const headerBottomInList = header.mapToItem(list, 0, header.height).y;
             libraryViewTest.verify(headerBottomInList <= 0, headerBottomInList);
+            const entry = libraryViewTest.menuChild("rescanEntry");
+            libraryViewTest.compare(entry.mapToItem(libraryView, 0, entry.height).y, libraryViewTest.menuPanelBottom() - 8);
         }
 
         /**
